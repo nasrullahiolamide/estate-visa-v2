@@ -1,0 +1,9 @@
+:root {
+  --success-background-normal: var(--green-9);
+  --success-background-hover: var(--green-10);
+  --success-text-primary: var(--green-12);
+  --success-text-secondary: var(--green-11);
+  --success-surface-light: var(--green-3);
+  --success-surface-normal: var(--green-4);
+  --success-surface-dark: var(--green-5);
+}

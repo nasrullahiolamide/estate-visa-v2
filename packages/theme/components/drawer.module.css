@@ -1,0 +1,23 @@
+.root {
+  .title {
+    font-size: rem(18px);
+    font-weight: 500;
+  }
+
+  .header {
+    padding-inline: rem(32px);
+    padding-block: rem(20px);
+    border-bottom-width: rem(1px);
+  }
+
+  .body {
+    flex: 1;
+    padding-inline: 0;
+    --mb-padding: 0;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+}

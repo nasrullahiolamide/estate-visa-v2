@@ -1,0 +1,23 @@
+.root {
+  &[data-variant="admin-app-shell"] {
+    --nl-bg: transparent;
+    --nl-hover: var(--accent-9);
+    --nl-color: var(--accent-1);
+
+    padding-block: rem(12px);
+    border-radius: rem(6px);
+
+    color: var(--nl-color);
+    background-color: var(--nl-bg);
+
+    &:hover {
+      --nl-bg: var(--accent-9);
+      --nl-color: var(--white);
+    }
+
+    &[data-active="true"] {
+      --nl-bg: var(--accent-11);
+      --nl-color: var(--white);
+    }
+  }
+}

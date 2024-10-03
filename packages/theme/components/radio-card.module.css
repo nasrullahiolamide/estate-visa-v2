@@ -1,0 +1,24 @@
+.root {
+  &[data-variant="default"] {
+    position: relative;
+    padding: 16px;
+    transition: var(--grass-2) 150ms ease;
+
+    &[data-checked] {
+      border-color: var(--mantine-primary-color-filled);
+    }
+  }
+
+  .label {
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--primary-text-body);
+  }
+
+  .description {
+    margin-top: 8px;
+    color: var(--primary-text-subtle);
+    font-size: 14px;
+  }
+}
+

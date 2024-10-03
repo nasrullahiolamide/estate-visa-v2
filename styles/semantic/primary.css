@@ -1,0 +1,24 @@
+:root {
+  /* Button Colors */
+  --primary-button-normal: var(--accent-9);
+  --primary-button-hover: var(--accent-10);
+  --primary-button-surface: var(--white);
+
+  /* Border Colors */
+  --primary-border-light: var(--gray-4);
+  --primary-border-normal: var(--gray-7);
+  --primary-border-dark: var(--gray-8);
+
+  /* Background Colors */
+  --primary-background-white: var(--white);
+  --primary-background-subtle: var(--gray-1);
+  --primary-background-dark: var(--gray-2);
+
+  /* Text Colors */
+  --primary-text-normal: var(--gray-3);
+  --primary-text-hover: var(--gray-4);
+  --primary-text-active: var(--gray-5);
+  --primary-text-caption: var(--gray-7);
+  --primary-text-subtle: var(--gray-11);
+  --primary-text-body: var(--gray-12);
+}

@@ -1,0 +1,36 @@
+.root {
+  flex: 1;
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &[data-variant="utme-admin-app-shell"] {
+    .main {
+      .header {
+        background-color: var(--white);
+        border-color: #d7dad7;
+      }
+
+      .section {
+        background-color: #fcfdfc;
+      }
+    }
+  }
+
+  &[data-variant="utme-student-app-shell"] {
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      background-color: var(--white);
+      border-color: #d7dad7;
+    }
+
+    .section {
+      background-color: #eff1ef;
+    }
+  }
+}

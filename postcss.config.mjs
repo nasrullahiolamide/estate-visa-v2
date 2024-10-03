@@ -1,7 +1,11 @@
-/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
     tailwindcss: {},
+
+    // https://www.npmjs.com/package/postcss-preset-mantine
+    "postcss-preset-mantine": {
+      autoRem: true,
+    },
   },
 };
 

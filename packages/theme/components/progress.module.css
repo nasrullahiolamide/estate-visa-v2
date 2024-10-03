@@ -1,0 +1,9 @@
+.root {
+  --progress-section-color: var(--grass-9) !important;
+
+  &[data-variant="secondary"] {
+    color: var(--grass-9);
+    background: var(--primary-text-normal);
+  }
+}
+

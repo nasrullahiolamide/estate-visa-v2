@@ -1,0 +1,9 @@
+:root {
+  --error-background-normal: var(--red-9);
+  --error-background-hover: var(--red-10);
+  --error-text-primary: var(--red-12);
+  --error-text-secondary: var(--red-11);
+  --error-surface-light: var(--red-3);
+  --error-surface-normal: var(--red-4);
+  --error-surface-dark: var(--red-5);
+}

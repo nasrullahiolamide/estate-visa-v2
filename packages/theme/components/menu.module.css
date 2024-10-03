@@ -1,0 +1,14 @@
+.dropdown {
+  &[data-variant="action"] {
+    min-width: 150px;
+    border-color: var(--primary-border-light);
+
+    .divider {
+      border-color: var(--primary-border-light);
+    }
+
+    .arrow {
+      border-color: var(--primary-border-light);
+    }
+  }
+}

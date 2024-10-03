@@ -1,0 +1,8 @@
+.root {
+  &[data-type="border"] {
+    border-width: rem(1px);
+    background-color: var(--white);
+    border-radius: rem(16px);
+    overflow: auto;
+  }
+}

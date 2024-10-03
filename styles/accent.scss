@@ -1,0 +1,8 @@
+$accent: "blue";
+
+:root {
+  @for $i from 1 through 12 {
+    /* Variable Colors */
+    --accent-#{$i}: var(--#{$accent}-#{$i});
+  }
+}

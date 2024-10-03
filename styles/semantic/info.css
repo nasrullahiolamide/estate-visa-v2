@@ -1,0 +1,9 @@
+:root {
+  --info-background-normal: var(--blue-9);
+  --info-background-hover: var(--blue-10);
+  --info-text-primary: var(--blue-12);
+  --info-text-secondary: var(--blue-11);
+  --info-surface-light: var(--blue-3);
+  --info-surface-normal: var(--blue-4);
+  --info-surface-dark: var(--blue-5);
+}

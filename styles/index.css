@@ -1,0 +1,14 @@
+@import "semantic/index.css";
+@import "globals.css";
+
+:root {
+  --chart-background: #f2f4f7;
+
+  .recharts-legend-item-text {
+    color: var(--primary-text-subtle) !important;
+  }
+}
+
+* {
+  scroll-behavior: smooth;
+}

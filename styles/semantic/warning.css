@@ -1,0 +1,9 @@
+:root {
+  --warning-background-normal: var(--amber-9);
+  --warning-background-hover: var(--amber-10);
+  --warning-text-primary: var(--amber-12);
+  --warning-text-secondary: var(--amber-11);
+  --warning-surface-light: var(--amber-3);
+  --warning-surface-normal: var(--amber-4);
+  --warning-surface-dark: var(--amber-5);
+}

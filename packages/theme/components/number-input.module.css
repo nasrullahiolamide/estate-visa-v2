@@ -1,0 +1,21 @@
+.root {
+  &[data-variant="default"] {
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+  }
+
+  .input {
+    &[data-variant="outline"] {
+      &:not([data-error]) {
+        --input-bd: var(--primary-border-dark);
+        --input-bg: var(--primary-background-dark);
+        --input-color: var(--primary-text-subtle);
+      }
+
+      border-inline-width: 0;
+      border-block-start-width: 0;
+      border-radius: 0;
+    }
+  }
+}

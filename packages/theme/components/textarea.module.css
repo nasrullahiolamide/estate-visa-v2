@@ -1,0 +1,7 @@
+.root {
+  &[data-variant="default"] {
+    display: flex;
+    flex-direction: column;
+    gap: rem(6);
+  }
+}

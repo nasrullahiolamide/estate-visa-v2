@@ -1,0 +1,28 @@
+/* @see: https://play.tailwindcss.com/vQaOaahsgi */
+
+/* Font-weight styles */
+:root {
+  --text-extra-light: 200;
+  --text-light: 300;
+  --text-regular: 400;
+  --text-medium: 500;
+  --text-semi-bold: 600;
+  --text-bold: 700;
+}
+
+/* Font-size styles */
+:root {
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+  --text-5xl: 48px;
+  --text-6xl: 60px;
+  --text-7xl: 72px;
+  --text-8xl: 96px;
+  --text-9xl: 128px;
+}
