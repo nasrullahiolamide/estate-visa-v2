@@ -17,5 +17,9 @@
       border-block-start-width: 0;
       border-radius: 0;
     }
+
+    &[data-variant="default"] {
+      padding-block: 1.5rem;
+    }
   }
 }

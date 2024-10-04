@@ -59,7 +59,7 @@ export default function Page() {
         Sign in to your Estate Visa account
       </h2>
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
-        <Stack gap={30}>
+        <Stack gap={24}>
           <TextInput
             placeholder='user@example.com'
             label='Email address'
