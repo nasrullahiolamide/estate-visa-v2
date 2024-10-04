@@ -54,7 +54,7 @@ export default function Page() {
   }
 
   return (
-    <Stack gap={30} justify='stretch' flex={1}>
+    <Stack gap={24} justify='stretch' flex={1}>
       <h2 className='font-medium text-2xl text-center'>
         Sign in to your Estate Visa account
       </h2>

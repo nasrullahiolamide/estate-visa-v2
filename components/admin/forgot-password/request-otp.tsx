@@ -30,7 +30,7 @@ export function RequestOTP() {
   return (
     <Stack data-aos='fade-left'>
       <Stack gap={8} className='text-primary-text-body text-center'>
-        <h2 className='font-medium text-2xl'>Forget Password?</h2>
+        <h2 className='font-medium text-2xl'>Forgot Password?</h2>
         <p className='text-sm sm:text-base'>
           Enter your email address and we'll send you a link to reset your
           password.
