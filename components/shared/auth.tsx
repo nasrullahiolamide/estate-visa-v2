@@ -26,7 +26,6 @@ export function Auth({ children }: AuthProps) {
         backgroundImage: "url('/images/skyscrapers.png')",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundAttachment: "fixed",
       }}
     >
       {/* Overlay */}
