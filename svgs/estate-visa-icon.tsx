@@ -7,13 +7,13 @@ export function EstateVisaIcon({
 }: SVGProps<SVGSVGElement>) {
   return (
     <svg
-      width='120'
-      height='120'
+      width='100'
+      height='100'
       viewBox='0 0 120 120'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'
-      className={clsx("flex-shrink-0", className)}
+      className={clsx("flex-shrink-0 sm:w-[100px] sm:h-[100px]", className)}
       {...props}
     >
       <rect width='120' height='120' fill='url(#pattern0_430_4901)' />

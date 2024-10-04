@@ -82,6 +82,7 @@ export const components: MantineThemeComponents = {
   TextInput: TextInput.extend({
     defaultProps: {
       size: "lg",
+      fz: "md",
       variant: "default",
     },
     classNames: textInput,
@@ -137,6 +138,7 @@ export const components: MantineThemeComponents = {
   PasswordInput: TextInput.extend({
     defaultProps: {
       size: "lg",
+      fz: "md",
       type: "password",
       variant: "default",
     },
@@ -164,6 +166,7 @@ export const components: MantineThemeComponents = {
   Button: Button.extend({
     defaultProps: {
       size: "lg",
+      fz: "md",
       fw: 500,
     },
     classNames: button,

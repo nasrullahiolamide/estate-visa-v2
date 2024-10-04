@@ -49,7 +49,7 @@ export function Auth({ children }: AuthProps) {
           className='w-full rounded-3xl px-6 py-10 sm:px-10'
         >
           <Flex justify='center'>
-            <EstateVisaIcon />
+            <EstateVisaIcon className='sm:' />
           </Flex>
 
           <Stack flex={1} mt={15}>

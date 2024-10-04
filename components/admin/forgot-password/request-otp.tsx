@@ -31,13 +31,19 @@ export function RequestOTP() {
     <Stack data-aos='fade-left'>
       <Stack gap={8} className='text-primary-text-body text-center'>
         <h2 className='font-medium text-2xl sm:text-3xl'>Forget Password?</h2>
-        <p className='text-base'>
+        <p className='text-sm sm:text-base'>
           Enter your email address and we'll send you a link to reset your
           password.
         </p>
       </Stack>
 
-      <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
+      <Box
+        component={Form}
+        form={form}
+        onSubmit={handleSubmit}
+        w='100%'
+        mt={15}
+      >
         <Stack gap={32}>
           <TextInput
             label='Email address'
@@ -57,7 +63,7 @@ export function RequestOTP() {
       </Box>
 
       <Stack gap={8} className='text-primary-text-body text-center'>
-        <p className='text-base '>
+        <p className='sm:text-base text-sm'>
           Remember your password?{" "}
           <Link href={PAGES.LOGIN} className='text-accent-10'>
             Sign in

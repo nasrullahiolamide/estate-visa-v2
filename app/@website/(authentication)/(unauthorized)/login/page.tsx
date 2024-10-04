@@ -55,7 +55,7 @@ export default function Page() {
 
   return (
     <Stack gap={30} justify='stretch' flex={1}>
-      <h2 className='font-medium text-2xl text-center'>
+      <h2 className='font-medium text-xl sm:text-2xl text-center'>
         Sign in to your Estate Visa account
       </h2>
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
@@ -78,7 +78,12 @@ export default function Page() {
             label={
               <>
                 <span>Password</span>
-                <Text c='accent.6' component={Link} href='/forgot-password'>
+                <Text
+                  c='accent.6'
+                  component={Link}
+                  href='/forgot-password'
+                  fz='sm'
+                >
                   Forgot password?
                 </Text>
               </>
