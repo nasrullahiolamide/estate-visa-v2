@@ -44,7 +44,7 @@ export function RequestOTP() {
         w='100%'
         mt={15}
       >
-        <Stack gap={32}>
+        <Stack gap={25}>
           <TextInput
             label='Email address'
             type='email'
@@ -63,7 +63,7 @@ export function RequestOTP() {
       </Box>
 
       <Stack gap={8} className='text-primary-text-body text-center'>
-        <p className='text-base'>
+        <p className='text-sm sm:text-base'>
           Remember your password?{" "}
           <Link href={PAGES.LOGIN} className='text-accent-10'>
             Sign in
