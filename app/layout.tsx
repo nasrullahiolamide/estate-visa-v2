@@ -42,7 +42,7 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang='en'>
+    <html lang='en' style={{ opacity: 0 }}>
       <body>
         <main className={clsx("scrollbar-none")}>
           <Providers>
