@@ -30,8 +30,8 @@ export function RequestOTP() {
   return (
     <Stack data-aos='fade-left'>
       <Stack gap={8} className='text-primary-text-body text-center'>
-        <h2 className='font-medium text-2xl sm:text-3xl'>Forget Password?</h2>
-        <p className='text-sm sm:text-base'>
+        <h2 className='font-medium text-3xl'>Forget Password?</h2>
+        <p className='text-base'>
           Enter your email address and we'll send you a link to reset your
           password.
         </p>
@@ -63,7 +63,7 @@ export function RequestOTP() {
       </Box>
 
       <Stack gap={8} className='text-primary-text-body text-center'>
-        <p className='sm:text-base text-sm'>
+        <p className='text-base'>
           Remember your password?{" "}
           <Link href={PAGES.LOGIN} className='text-accent-10'>
             Sign in
