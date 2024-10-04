@@ -18,7 +18,7 @@ export function Auth({ children }: AuthProps) {
   }, []);
   return (
     <Flex
-      h='100svh'
+      h='100vh'
       pos='relative'
       align='center'
       justify='center'
