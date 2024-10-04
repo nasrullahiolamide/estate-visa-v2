@@ -1,3 +1,4 @@
+import { Auth } from "@/components/shared/auth";
 import { ReactNode } from "react";
 
 interface LayoutProps {
@@ -5,5 +6,5 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  return <div>{children}</div>;
+  return <Auth>{children}</Auth>;
 }

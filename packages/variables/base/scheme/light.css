@@ -3,19 +3,33 @@
   --white: #fff;
   --black: #1d1d1d;
 
-  /* Overlay Colors */
-  --overlay-1: #ffffff0c;
-  --overlay-2: #ffffff19;
-  --overlay-3: #ffffff26;
-  --overlay-4: #ffffff33;
-  --overlay-5: #ffffff3f;
-  --overlay-6: #ffffff4c;
-  --overlay-7: #ffffff59;
-  --overlay-8: #ffffff66;
-  --overlay-9: #ffffff72;
-  --overlay-10: #ffffff7f;
-  --overlay-11: #ffffff8c;
-  --overlay-12: #ffffff99;
+  /* Black Overlay Colors */
+  --overlay-black-1: #ffffff0c;
+  --overlay-black-2: #ffffff19;
+  --overlay-black-3: #ffffff26;
+  --overlay-black-4: #ffffff33;
+  --overlay-black-5: #ffffff3f;
+  --overlay-black-6: #ffffff4c;
+  --overlay-black-7: #ffffff59;
+  --overlay-black-8: #ffffff66;
+  --overlay-black-9: #ffffff72;
+  --overlay-black-10: #ffffff7f;
+  --overlay-black-11: #ffffff8c;
+  --overlay-black-12: #ffffff99;
+
+  /* Blue Overlay Colors */
+  --overlay-blue-1: #eef0ff0c;
+  --overlay-blue-2: #dadcf819;
+  --overlay-blue-3: #b2b7e926;
+  --overlay-blue-4: #888fdb33;
+  --overlay-blue-5: #656dcf3f;
+  --overlay-blue-6: #4e58c94c;
+  --overlay-blue-7: #424dc659;
+  --overlay-blue-8: #333eb066;
+  --overlay-blue-9: #2c379e72;
+  --overlay-blue-10: #212f8d7f;
+  --overlay-blue-11: #1a26738c;
+  --overlay-blue-12: #0d133999;
 
   /* Gray Colors */
   --gray-1: #f5f5f5;
