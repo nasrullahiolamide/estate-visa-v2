@@ -1,7 +1,10 @@
-export function Page() {
+import { Button, TextInput } from "@mantine/core";
+
+export default function Page() {
   return (
     <div>
-      <h1>Page</h1>
+      <h2 className='text-9xl'>Login</h2>
+      <Button>Login</Button>
     </div>
   );
 }

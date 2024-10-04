@@ -8,6 +8,7 @@ import "@mantine/dates/styles.layer.css";
 
 import "@/styles/accent.scss";
 import "@/styles/index.css";
+import "@/packages/variables/index.css";
 
 import { Providers } from "@/components/shared";
 import { getUserType } from "@/packages/actions";
@@ -37,7 +38,7 @@ export default async function RootLayout({
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
     [USER_TYPE.SUPER_ADMIN]: super_admin,
-    [USER_TYPE.GUEST]: admin,
+    [USER_TYPE.GUEST]: website,
   };
 
   return (

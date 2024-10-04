@@ -1,7 +1,9 @@
-export function Page() {
-  return (
-    <div>
-      <h1>Page</h1>
-    </div>
-  );
+import { ReactNode } from "react";
+
+interface TemplateProps {
+  children: ReactNode;
+}
+
+export default function Template({ children }: TemplateProps) {
+  return <div>{children}</div>;
 }

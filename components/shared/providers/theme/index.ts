@@ -1,13 +1,17 @@
 "use client";
 
 import { mantineTheme } from "@/packages/theme";
-import { mergeThemeOverrides } from "@mantine/core";
+import { DEFAULT_THEME, mergeThemeOverrides } from "@mantine/core";
 
 export const theme = mergeThemeOverrides(mantineTheme, {
   defaultRadius: "md",
   primaryShade: {
     light: 9,
     dark: 6,
+  },
+  fontFamily: `'DMSans', ${DEFAULT_THEME.fontFamily}`,
+  headings: {
+    fontFamily: "'DMSans', sans-serif",
   },
   lineHeights: {
     xs: "1.00",

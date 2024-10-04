@@ -10,13 +10,13 @@ interface MantineProviderProps {
 
 export function CustomMantineProvider({ children }: MantineProviderProps) {
   return (
-    <ThemeProvider defaultTheme='system' attribute='class'>
-      <ColorSchemeScript defaultColorScheme='auto' />
+    <ThemeProvider defaultTheme='light' attribute='class'>
+      <ColorSchemeScript defaultColorScheme='light' />
       {/*
         MantineProvider is a context provider that manages theme state
         and provides theme API to all components inside its subtree
       */}
-      <MantineProvider theme={theme} defaultColorScheme='auto'>
+      <MantineProvider theme={theme} defaultColorScheme='light'>
         <ModalsProvider>{children}</ModalsProvider>
       </MantineProvider>
     </ThemeProvider>

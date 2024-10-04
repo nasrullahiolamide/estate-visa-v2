@@ -7,6 +7,7 @@ import {
   colors,
   container,
   files,
+  fontFamily,
   // skeleton,
   animation,
   // gradient,
@@ -30,7 +31,7 @@ module.exports = {
     borderWidth,
     // textShadow,
     extend: {
-      // fontFamily,
+      fontFamily,
       keyframes,
       animation,
     },

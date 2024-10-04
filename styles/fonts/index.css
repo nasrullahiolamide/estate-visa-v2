@@ -1,0 +1,24 @@
+/**
+* This is a variable font
+* You can control variable axes as shown below:
+* font-variation-settings: wght 700.0;
+*
+* available axes:
+'wght' (range from 200.0 to 700.0
+*/
+@font-face {
+  font-family: "DMSans";
+  src: url("./DM_Sans/DMSans-VariableFont_opsz\,wght.ttf") format("truetype");
+  font-weight: 200 400 500 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DMSans";
+  src: url("./DM_Sans/DMSans-Italic-VariableFont_opsz\,wght.ttf")
+    format("truetype");
+  font-weight: 200 400 500 700;
+  font-display: swap;
+  font-style: italic;
+}

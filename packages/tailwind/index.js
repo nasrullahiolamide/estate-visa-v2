@@ -8,3 +8,4 @@ export { scrollbar } from "./scrollbar.js";
 export { screens } from "./screens.js";
 export { animation, keyframes } from "./keyframes.js";
 export { rotating } from "./rotating.js";
+export { fontFamily } from "./font-family.js";
