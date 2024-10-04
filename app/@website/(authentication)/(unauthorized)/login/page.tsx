@@ -78,7 +78,12 @@ export default function Page() {
             label={
               <>
                 <span>Password</span>
-                <Text c='accent.6' component={Link} href='/forgot-password'>
+                <Text
+                  c='accent.6'
+                  component={Link}
+                  href='/forgot-password'
+                  fz='sm'
+                >
                   Forgot password?
                 </Text>
               </>
