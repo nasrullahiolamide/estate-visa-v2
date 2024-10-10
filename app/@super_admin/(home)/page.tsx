@@ -1,7 +1,3 @@
-import { navigate } from "@/packages/actions";
-import { PAGES } from "@/packages/libraries";
-
 export default function Page() {
-  navigate(PAGES.OVERVIEW);
-  return null;
+  return <h1 className='text-3xl'>Doddlw</h1>;
 }

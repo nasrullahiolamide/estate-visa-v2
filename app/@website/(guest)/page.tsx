@@ -21,7 +21,6 @@ export default function Page() {
       <Box
         display='grid'
         className='lg:gap-20 md:gap-8 gap-6'
-        // maw={1440}
         w={"100%"}
         mx='auto'
       >
