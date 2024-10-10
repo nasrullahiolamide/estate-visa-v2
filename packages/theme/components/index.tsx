@@ -1,6 +1,7 @@
 import {
   Accordion,
   ActionIcon,
+  Anchor,
   AppShell,
   Button,
   Checkbox,
@@ -47,6 +48,7 @@ import tabs from "./tabs.module.css";
 import textInput from "./text-input.module.css";
 import textarea from "./textarea.module.css";
 import timeInput from "./time-input.module.css";
+import anchor from "./anchor.module.css";
 
 export const components: MantineThemeComponents = {
   InputWrapper: InputWrapper.extend({
@@ -230,5 +232,9 @@ export const components: MantineThemeComponents = {
 
   RadioCard: RadioCard.extend({
     classNames: radioCard,
+  }),
+
+  Anchor: Anchor.extend({
+    classNames: anchor,
   }),
 };

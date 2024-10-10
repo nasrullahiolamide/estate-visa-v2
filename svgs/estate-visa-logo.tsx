@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { SVGProps } from "react";
 
-export function EstateVisaIcon({
+export function EstateVisaLogo({
   className,
   ...props
 }: SVGProps<SVGSVGElement>) {
@@ -13,7 +13,7 @@ export function EstateVisaIcon({
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
       xmlnsXlink='http://www.w3.org/1999/xlink'
-      className={clsx("flex-shrink-0 sm:w-[100px] sm:h-[100px]", className)}
+      className={clsx("flex-shrink-0 ", className)}
       {...props}
     >
       <rect width='120' height='120' fill='url(#pattern0_430_4901)' />

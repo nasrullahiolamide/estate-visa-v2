@@ -1,6 +1,6 @@
 "use client";
 
-import { EstateVisaIcon } from "@/svgs/estate-visa-icon";
+import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
 import { Box, Flex, Stack, Text } from "@mantine/core";
 import { PropsWithChildren, useEffect } from "react";
 import AOS from "aos";
@@ -48,7 +48,7 @@ export function Auth({ children }: AuthProps) {
           className='w-full rounded-3xl px-5 py-10 sm:px-10'
         >
           <Flex justify='center'>
-            <EstateVisaIcon />
+            <EstateVisaLogo />
           </Flex>
 
           <Stack flex={1} mt={15}>

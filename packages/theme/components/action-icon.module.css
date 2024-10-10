@@ -1,10 +1,12 @@
 .root {
   &[data-variant="app-shell"] {
     --ai-bg: transparent;
+    --ai-color: var(--gray-9);
 
     &:hover {
-      --ai-hover: var(--accent-9);
-      --ai-hover-color: var(--white);
+      --ai-hover: var(--purple-3);
+      --ai-hover-color: var(--accent-7);
+      --ai-color: white;
     }
 
     &[data-active="true"] {

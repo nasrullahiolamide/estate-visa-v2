@@ -1,23 +1,56 @@
 .root {
   &[data-variant="admin-app-shell"] {
     --nl-bg: transparent;
-    --nl-hover: var(--accent-9);
-    --nl-color: var(--accent-1);
+    --nl-hover: var(--accent-1);
+    --nl-color: var(--gray-11);
+    --nl-wgt: 500;
+    --nl-size: rem(17px);
 
     padding-block: rem(12px);
-    border-radius: rem(6px);
+    padding-inline: rem(30px);
+
+    font-size: var(--nl-size);
 
     color: var(--nl-color);
     background-color: var(--nl-bg);
 
     &:hover {
-      --nl-bg: var(--accent-9);
-      --nl-color: var(--white);
+      --nl-bg: var(--purple-3);
+      --nl-color: var(--accent-7);
+
+      font-weight: var(--nl-wgt);
     }
 
     &[data-active="true"] {
-      --nl-bg: var(--accent-11);
-      --nl-color: var(--white);
+      --nl-bg: var(--purple-3);
+      --nl-color: var(--accent-7);
+    }
+  }
+
+  &[data-variant="admin-app-shell-mobile"] {
+    --nl-bg: transparent;
+    --nl-hover: var(--accent-1);
+    --nl-color: var(--gray-11);
+    --nl-wgt: 700;
+    --nl-size: rem(18px);
+
+    min-width: fit-content;
+    padding-block: rem(12px);
+    padding-inline: rem(30px);
+
+    font-size: var(--nl-size);
+    color: var(--nl-color);
+    background-color: var(--nl-bg);
+
+    &:hover {
+      --nl-color: var(--accent-7);
+    }
+
+    &[data-active="true"] {
+      --nl-bg: transparent;
+      --nl-color: var(--accent-7);
+
+      border-bottom: 2.2px solid var(--accent-7);
     }
   }
 }

@@ -15,6 +15,7 @@ export enum APP {
   EMAIL = "eMail",
   FULL_NAME = "fLNe",
   UNIQUE_LINK = "uniqL",
+  EXPANDED_NAVBAR = "edNav",
   USER_NAME = "uID",
 }
 
@@ -27,10 +28,24 @@ export enum USER_TYPE {
 }
 
 export enum PAGES {
+  DASHBOARD = "/",
+  PROFILE = "/profile",
   LOGIN = "/login",
   REGISTER = "/signup",
   VERIFY_EMAIL = "/verify-email",
   RESET_PASSWORD = "/reset-password",
+  OVERVIEW = "/overview",
+  SUB_ADMINS = "/sub-admins",
+  PROPERTY_OWNERS = "/property-owners",
+  OCCUPANTS = "/occupants",
+  SUB_OCCUPANTS = "/sub-occupants",
+  HOUSES = "/houses",
+  GATES = "/gates",
+  MESSAGES = "/messages",
+  MEETINGS = "/meetings",
+  SERVICE_REQUESTS = "/service-requests",
+  MARKET_PLACE = "/market-place",
+  ESTATES = "/estates",
 }
 
 export enum MODALS {}
