@@ -1,23 +1,15 @@
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
-import { Emblem, Picture } from "../interface";
+import { Picture } from "../interface";
 import { TickCircle } from "iconsax-react";
-import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export function HeroSection() {
   return (
-    <Flex
-      className='h-full md:min-h-[90vh] overflow-hidden'
-      gap={60}
-      w='100%'
-      mx='auto'
-      maw={MAX_SCREEN_WIDTH}
-    >
+    <Flex className='h-full md:min-h-[90vh] overflow-hidden' gap={60}>
       <Flex
-        direction='column'
-        align='flex-start'
-        justify='center'
         py={40}
         flex={1}
+        direction='column'
+        justify='center'
         className='lg:px-16 md:px-8 px-4'
       >
         <Stack gap={20} maw={700}>
@@ -40,6 +32,7 @@ export function HeroSection() {
             fz={{
               base: 36,
               sm: 50,
+              xl: 60,
             }}
           >
             Simplifying Estate Management for Owners and Residents.
@@ -63,7 +56,7 @@ export function HeroSection() {
       <Flex
         flex={{
           md: 0.4,
-          lg: 0.6,
+          lg: 0.7,
         }}
         className='hidden md:flex'
         pos='relative'
