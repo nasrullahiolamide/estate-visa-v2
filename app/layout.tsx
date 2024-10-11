@@ -44,10 +44,10 @@ export default async function RootLayout({
         <main className={clsx("scrollbar-none")}>
           <Providers>
             {children}
-            {/* {view[userType]} */}
+            {view[userType]}
             {/* {admin} */}
             {/* {super_admin} */}
-            {website}
+            {/* {website} */}
           </Providers>
         </main>
       </body>
