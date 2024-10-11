@@ -14,7 +14,7 @@ import {
 } from "@/svgs";
 
 export const adminLinks = [
-  { title: "Overview", href: PAGES.OVERVIEW, icon: DashboardIcon },
+  { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   { title: "Sub Admins", href: PAGES.SUB_ADMINS, icon: AdministratorIcon },
   {
     title: "Property Owners",
@@ -40,6 +40,6 @@ export const adminLinks = [
 ];
 
 export const superAdminLinks = [
-  { title: "Overview", href: PAGES.OVERVIEW, icon: DashboardIcon },
+  { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   { title: "Estates", href: PAGES.ESTATES, icon: EstateIcon },
 ];

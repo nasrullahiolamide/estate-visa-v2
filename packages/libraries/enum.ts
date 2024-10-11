@@ -34,7 +34,6 @@ export enum PAGES {
   REGISTER = "/signup",
   VERIFY_EMAIL = "/verify-email",
   RESET_PASSWORD = "/reset-password",
-  OVERVIEW = "/overview",
   SUB_ADMINS = "/sub-admins",
   PROPERTY_OWNERS = "/property-owners",
   OCCUPANTS = "/occupants",

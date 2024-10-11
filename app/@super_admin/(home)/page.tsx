@@ -1,13 +1,10 @@
-"use client";
+import { AppShellHeader } from "@/components/admin/shared/app-shell-header";
+import { Fragment } from "react";
 
-import { navigate } from "@/packages/actions";
-import { PAGES } from "@/packages/libraries";
-import { useLayoutEffect } from "react";
-
-export default function Page() {
-  useLayoutEffect(() => {
-    navigate(PAGES.OVERVIEW);
-  }, []);
-
-  return null;
+export default function Overview() {
+  return (
+    <Fragment>
+      <AppShellHeader title='Overview' />
+    </Fragment>
+  );
 }
