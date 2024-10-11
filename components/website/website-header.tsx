@@ -76,7 +76,7 @@ export function WebsiteHeader() {
 
   return (
     <Stack gap={0}>
-      <Flex justify='space-between' className='lg:px-16 md:px-8 px-6'>
+      <Flex justify='space-between' className='lg:px-16 md:px-8 px-4'>
         <Flex
           w='100%'
           maw={MAX_SCREEN_WIDTH}
@@ -85,6 +85,7 @@ export function WebsiteHeader() {
           py={10}
           align='center'
           className='justify-between'
+          mx='auto'
         >
           <Box component='figure'>
             <EstateVisaLogo width={75} height={75} />
@@ -105,10 +106,12 @@ export function WebsiteHeader() {
               justifySelf: "end",
             }}
           >
-            <Link href={PAGES.LOGIN} className='hidden sm:block'>
+            <Link href={PAGES.LOGIN}>
               <Button variant='outline'>Log in</Button>
             </Link>
-            <Button variant='primary'>Talk to us</Button>
+            <Button variant='primary' className='hidden sm:block'>
+              Talk to us
+            </Button>
           </Flex>
 
           <Popover
@@ -141,7 +144,7 @@ export function WebsiteHeader() {
               />
             </Popover.Target>
 
-            <Popover.Dropdown className='border rounded-lg shadow-2xl border-primary-border-light mt-4'>
+            <Popover.Dropdown className='border rounded-lg shadow-2xl border-primary-border-light mt-2'>
               <Stack gap={12} py={16} px={20}>
                 <NavList />
               </Stack>

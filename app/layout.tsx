@@ -45,9 +45,9 @@ export default async function RootLayout({
           <Providers>
             {children}
             {/* {view[userType]} */}
-            {/* {admin}*/}
-            {super_admin}
-            {/* {website} */}
+            {/* {admin} */}
+            {/* {super_admin} */}
+            {website}
           </Providers>
         </main>
       </body>

@@ -1,10 +1,11 @@
 "use client";
 
 import { WebsiteHeader } from "@/components/website/website-header";
-import { Box, Flex } from "@mantine/core";
+import { Box, Flex, Stack } from "@mantine/core";
 import { useEffect } from "react";
 
 import AOS from "aos";
+import { HeroSection } from "@/components/website";
 
 export default function Page() {
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function Page() {
   }, []);
 
   return (
-    <Flex>
+    <Stack gap={0}>
       <Box
         display='grid'
         className='lg:gap-20 md:gap-8 gap-6'
@@ -26,6 +27,7 @@ export default function Page() {
       >
         <WebsiteHeader />
       </Box>
-    </Flex>
+      <HeroSection />
+    </Stack>
   );
 }

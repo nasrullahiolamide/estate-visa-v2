@@ -1,3 +1,13 @@
+"use client";
+
+import { navigate } from "@/packages/actions";
+import { PAGES } from "@/packages/libraries";
+import { useLayoutEffect } from "react";
+
 export default function Page() {
-  return <h1 className='text-3xl'>Doddlw</h1>;
+  useLayoutEffect(() => {
+    navigate(PAGES.OVERVIEW);
+  }, []);
+
+  return null;
 }
