@@ -1,10 +1,10 @@
 "use client";
 
-import { SearchIcon } from "@/svgs";
-import { Button, Center, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { Search01Icon } from "hugeicons-react";
 import { Fragment } from "react";
+import { Button, TextInput } from "@mantine/core";
+import { useForm } from "@mantine/form";
+
+import { SearchIcon } from "@/svgs";
 
 export function SearchEstate() {
   const form = useForm({

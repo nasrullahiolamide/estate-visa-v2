@@ -31,6 +31,7 @@ export enum PAGES {
   DASHBOARD = "/",
   PROFILE = "/profile",
   LOGIN = "/login",
+  LOGOUT = "/logout",
   REGISTER = "/signup",
   VERIFY_EMAIL = "/verify-email",
   RESET_PASSWORD = "/reset-password",
@@ -47,4 +48,9 @@ export enum PAGES {
   ESTATES = "/estates",
 }
 
-export enum MODALS {}
+export enum MODALS {
+  // user
+  EDIT_PROFILE = "edit-profile",
+
+  CONFIRM_LOGOUT = "confirm-logout",
+}

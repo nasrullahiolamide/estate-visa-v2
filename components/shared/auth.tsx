@@ -1,7 +1,7 @@
 "use client";
 
 import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
-import { Box, Flex, Stack, Text } from "@mantine/core";
+import { Box, Flex, Stack } from "@mantine/core";
 import { PropsWithChildren, useEffect } from "react";
 import AOS from "aos";
 

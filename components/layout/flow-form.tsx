@@ -6,17 +6,17 @@ import { forwardRef, PropsWithChildren } from "react";
 
 type FlowFormProps<
   FormValues,
-  TransformValues extends _TransformValues<FormValues>,
+  TransformValues extends _TransformValues<FormValues>
 > = PropsWithChildren<
   FormProps<UseFormReturnType<FormValues, TransformValues>>
 >;
 
 export function FlowForm<
   FormValues,
-  TransformValues extends _TransformValues<FormValues>,
+  TransformValues extends _TransformValues<FormValues>
 >({ children, form, ...props }: FlowFormProps<FormValues, TransformValues>) {
   return (
-    <Box component={Form} form={form} w="100%" {...props}>
+    <Box component={Form} form={form} w='100%' {...props}>
       {children}
     </Box>
   );
@@ -30,9 +30,9 @@ export const FlowFormRoot = createPolymorphicComponent<
 >(
   forwardRef<HTMLFormElement, FlowFormRootProps>(
     ({ children, ...props }, ref) => (
-      <Box ref={ref} component="form" w="100%" {...props}>
+      <Box ref={ref} component='form' w='100%' {...props}>
         {children}
       </Box>
-    ),
-  ),
+    )
+  )
 );

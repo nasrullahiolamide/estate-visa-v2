@@ -6,14 +6,16 @@ import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell-button";
-import { superAdminLinks } from "@/components/admin/shared/navlinks";
+import { superAdminLinks } from "@/components/admin/shared/data/navlinks";
 import { EstateVisaLogo } from "@/svgs";
+import { useHeadroom } from "@mantine/hooks";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
 export default function Template({ children }: TemplateProps) {
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
+  const pinned = useHeadroom({ fixedAt: 120 });
 
   return (
     <AppShell

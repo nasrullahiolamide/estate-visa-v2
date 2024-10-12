@@ -6,7 +6,7 @@ import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell-button";
-import { adminLinks } from "@/components/admin/shared/navlinks";
+import { adminLinks } from "@/components/admin/shared/data/navlinks";
 import { EstateVisaLogo } from "@/svgs";
 
 type TemplateProps = React.PropsWithChildren<{}>;

@@ -1,22 +1,13 @@
 "use client";
 
-import {
-  AppShell,
-  Center,
-  Divider,
-  Flex,
-  NavLink,
-  Stack,
-  Box,
-} from "@mantine/core";
+import { AppShell, Center, Divider, Flex, NavLink, Stack } from "@mantine/core";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { Trail } from "./bread-crumbs";
 import { SearchEstate } from "./search-estate";
 import { AdminUser } from "./user-admin";
-import { adminLinks, superAdminLinks } from "./navlinks";
+import { adminLinks, superAdminLinks } from "./data/navlinks";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { USER_TYPE } from "@/packages/libraries";
@@ -25,25 +16,16 @@ import { EstateVisaLogo } from "@/svgs";
 interface AppShellHeaderProps {
   title: string;
   backHref?: string;
-  trail?: Trail[];
+  options?: JSX.Element;
 }
 
-export function AppShellHeader({ title, backHref }: AppShellHeaderProps) {
-  const user = USER_TYPE.ADMIN;
+export function AppShellHeader({ title, options }: AppShellHeaderProps) {
   const pathname = usePathname();
-
-  const navLinks =
-    user === USER_TYPE.ADMIN
-      ? adminLinks
-      : user === USER_TYPE.SUPER_ADMIN
-      ? superAdminLinks
-      : [];
-
-  const heading = (
-    <div className='~px-1/8 hidden lg:block py-[18px]'>
-      <h1 className='text-3xl text-primary-text-body font-bold'>{title}</h1>
-    </div>
-  );
+  const userType = USER_TYPE.SUPER_ADMIN;
+  const view: Record<PropertyKey, typeof adminLinks> = {
+    [USER_TYPE.ADMIN]: adminLinks,
+    [USER_TYPE.SUPER_ADMIN]: superAdminLinks,
+  };
 
   return (
     <AppShell.Section
@@ -51,7 +33,10 @@ export function AppShellHeader({ title, backHref }: AppShellHeaderProps) {
       top={0}
       component='header'
       bg='white'
-      className='z-50 border-l border-gray-2'
+      className='z-50 border-l border-gray-2 shadow-2xl shadow-gray-12'
+      style={{
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+      }}
     >
       <Stack
         maw={MAX_SCREEN_WIDTH}
@@ -87,14 +72,23 @@ export function AppShellHeader({ title, backHref }: AppShellHeaderProps) {
 
         <Divider className='border-gray-2' />
 
-        {heading}
+        <Flex
+          gap={36}
+          align='center'
+          justify='space-between'
+          className='~px-1/8 hidden lg:flex'
+          py={18}
+        >
+          <h1 className='text-3xl text-primary-text-body font-bold'>{title}</h1>
+          {options}
+        </Flex>
 
         <Flex
           align='center'
-          className='~px-1/8 overflow-scroll scrollbar-none'
+          className='lg:~px-1/8 overflow-scroll scrollbar-none shadow-red-3 shadow-2xl'
           hiddenFrom='lg'
         >
-          {navLinks.map((item, index) => {
+          {view[userType].map((item, index) => {
             const isActive = item.href === pathname;
 
             return (
@@ -114,21 +108,3 @@ export function AppShellHeader({ title, backHref }: AppShellHeaderProps) {
     </AppShell.Section>
   );
 }
-
-//  {
-//    backHref && (
-//      <ActionIcon
-//        left={-35}
-//        pos='absolute'
-//        component={Link}
-//        href={backHref}
-//        size={32}
-//        variant='app-shell'
-//        __vars={{
-//          "--ai-color": "var(--primary-text-body)",
-//        }}
-//      >
-//        <ArrowLeft size='20' />
-//      </ActionIcon>
-//    );
-//  }

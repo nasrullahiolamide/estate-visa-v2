@@ -8,11 +8,12 @@ import {
   container,
   files,
   fontFamily,
-  // skeleton,
+  skeleton,
   animation,
-  // gradient,
   keyframes,
   scrollbar,
+  typography,
+  gridset,
 } from "./packages/tailwind";
 
 /** @type {import('tailwindcss').Config} */
@@ -26,7 +27,7 @@ module.exports = {
     colors,
     fontSize,
     container,
-    // typography,
+    typography,
     boxShadow,
     borderWidth,
     // textShadow,
@@ -36,5 +37,5 @@ module.exports = {
       animation,
     },
   },
-  plugins: [fluid, scrollbar, prose],
+  plugins: [fluid, scrollbar, prose, gridset, skeleton],
 };

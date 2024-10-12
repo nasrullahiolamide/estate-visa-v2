@@ -9,3 +9,6 @@ export { screens } from "./screens.js";
 export { animation, keyframes } from "./keyframes.js";
 export { rotating } from "./rotating.js";
 export { fontFamily } from "./font-family.js";
+export { typography } from "./prose.js";
+export { skeleton } from "./skeleton.js";
+export { gridset } from "./grid-set.js";
