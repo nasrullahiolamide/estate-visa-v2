@@ -65,7 +65,7 @@ export default function Template({ children }: TemplateProps) {
       </AppShell.Navbar>
 
       <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
-        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
+        <Stack gap={0} flex={1} className='bg-primary-background-dark'>
           {children}
         </Stack>
       </AppShell.Main>

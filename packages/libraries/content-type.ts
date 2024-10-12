@@ -1,4 +1,4 @@
-import { ContentType, MIME_TYPE } from "@/builders/types/shared";
+import { MIME_TYPE, ContentType } from "@/builders/types/shared";
 
 export function getContentType(mime: MIME_TYPE): ContentType {
   const mime_types: Record<MIME_TYPE, ContentType> = {
@@ -22,6 +22,8 @@ export function getContentType(mime: MIME_TYPE): ContentType {
     "application/vnd.openxmlformats-officedocument.presentationml.presentation":
       "PPT",
     "application/vnd.microsoft.portable-executable": "File",
+    "application/x-rar": "Image",
+    "application/x-7z-compressed": "Image",
   };
 
   return mime_types[mime];

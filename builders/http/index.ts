@@ -1,11 +1,9 @@
-import { assessment } from "./assessment";
+import { account } from "./account";
 import { auth } from "./auth";
-import { roles } from "./roles";
 import { upload } from "./upload";
 
 export const http = {
-  assessment,
   auth,
-  roles,
   upload,
+  account,
 };

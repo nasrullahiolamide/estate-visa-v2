@@ -3,11 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
 
 import { builder } from "@/builders";
-import { Thumbnail } from "@/builders/types/shared";
 import { UploadData } from "@/builders/types/upload";
 import { pass } from "@/packages/libraries/pass";
 
 import { useOnUploadProgress } from "./use-on-upload-progress";
+import { Thumbnail } from "@/builders/types/shared";
 
 export type Upload = {
   data: UploadData;

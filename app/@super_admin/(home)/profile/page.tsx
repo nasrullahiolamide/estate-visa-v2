@@ -33,7 +33,6 @@ export default function Profile() {
       phone_number: "09038450563",
       password: "superadmin",
       confirm_password: "superadmin",
-      edit_profile: false,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,

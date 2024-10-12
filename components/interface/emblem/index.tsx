@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { Picture } from "../picture";
 import { Flex, FlexProps } from "@mantine/core";
 

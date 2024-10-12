@@ -1,5 +1,4 @@
 import { api } from "@/builders/axios";
-import { ProfileBadgeData } from "@/builders/types/account";
 import { ProfileData } from "@/builders/types/profile";
 
 const get = function () {
@@ -10,20 +9,17 @@ const get = function () {
     .then(({ data }) => data);
 };
 
-const change_password = function (data: {
-  password: string;
-  new_password: string;
-}) {
+const edit = function (data: { password: string; new_password: string }) {
   return api
     .post<{
       message: string;
-    }>("/account/change-password", data)
+    }>("/account/profile/edit", data)
     .then(({ data }) => data);
 };
 
 export const account = {
-  change_password,
   profile: {
     get,
+    edit,
   },
 };

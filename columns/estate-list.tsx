@@ -7,7 +7,7 @@ const columnHelper = createColumnHelper<Actionable<EstateListData>>();
 
 export const estateListColumns = [
   columnHelper.display({
-    id: "sequence",
+    id: "select",
     header: "S/N",
     cell: ({ row }) => row.index + 1,
   }),
@@ -38,9 +38,4 @@ export const estateListColumns = [
   }),
 ];
 
-export const columnOrdering = [
-  "sequence",
-  "name",
-  "thumbnail_id",
-  "description",
-];
+export const columnOrdering = ["select"];

@@ -10,8 +10,9 @@ import { AdminUser } from "./user-admin";
 import { adminLinks, superAdminLinks } from "./data/navlinks";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { USER_TYPE } from "@/packages/libraries";
+import { APP, USER_TYPE } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/svgs";
+import { getUserType } from "@/packages/actions";
 
 interface AppShellHeaderProps {
   title: string;
@@ -21,7 +22,7 @@ interface AppShellHeaderProps {
 
 export function AppShellHeader({ title, options }: AppShellHeaderProps) {
   const pathname = usePathname();
-  const userType = USER_TYPE.SUPER_ADMIN;
+  const userType = getUserType();
   const view: Record<PropertyKey, typeof adminLinks> = {
     [USER_TYPE.ADMIN]: adminLinks,
     [USER_TYPE.SUPER_ADMIN]: superAdminLinks,

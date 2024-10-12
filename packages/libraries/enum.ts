@@ -20,10 +20,10 @@ export enum APP {
 }
 
 export enum USER_TYPE {
-  SUPER_ADMIN = "EVISA User",
-  ADMIN = "Organization Admin",
-  STAFF = "Organization Staff",
-  GUEST = "EVISA Guest",
+  SUPER_ADMIN = "MDN User",
+  ADMIN = "Estate Admin",
+  STAFF = "Estate Staff",
+  GUEST = "MDN Guest",
   USER = "User",
 }
 
