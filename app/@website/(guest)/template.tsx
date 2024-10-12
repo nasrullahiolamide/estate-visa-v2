@@ -1,8 +1,7 @@
 import { getUserType } from "@/packages/actions";
 import { isGuest } from "@/packages/libraries";
 
-import { PropsWithChildren, useEffect } from "react";
-import AOS from "aos";
+import { PropsWithChildren } from "react";
 
 type LayoutProps = PropsWithChildren<{}>;
 

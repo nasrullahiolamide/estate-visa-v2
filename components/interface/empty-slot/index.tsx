@@ -11,7 +11,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 type EmptySlotProps = BoxProps & {
-  src?: "person-minus" | "house";
+  src?:
+    | "person-minus"
+    | "house"
+    | "gate"
+    | "no-talk"
+    | "question"
+    | "marketplace"
+    | "meeting";
   title: string;
 } & (
     | {

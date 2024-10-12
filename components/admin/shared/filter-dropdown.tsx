@@ -14,6 +14,8 @@ export function FilterDropdown({ data, ...props }: FilterDropdownProps) {
       <Menu.Target>
         <Button
           variant='outline'
+          fz='sm'
+          size='md'
           leftSection={<FilterIcon />}
           rightSection={<ArrowDown01Icon />}
         >

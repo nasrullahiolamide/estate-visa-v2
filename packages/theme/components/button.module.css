@@ -1,7 +1,6 @@
 .root {
   &[data-variant="gradient"] {
-    box-shadow:
-      0px -1px 0px 0px var(--accent-12, #203c25) inset,
+    box-shadow: 0px -1px 0px 0px var(--accent-12, #203c25) inset,
       0px 0px 0px 1px var(--accent-11, #2a7e3b),
       0px 1px 1px 0px var(--gray-5, #dfe2df) inset;
   }
@@ -12,5 +11,12 @@
     &:disabled {
       border-color: var(--mantine-color-gray-5);
     }
+  }
+
+  &[data-variant="admin-app-shell"] {
+    --button-height: var(--button-height-md);
+    --button-padding-x: var(--button-padding-x-md);
+    --button-fz: var(--mantine-font-size-md);
+    font-size: var(--mantine-font-size-sm);
   }
 }

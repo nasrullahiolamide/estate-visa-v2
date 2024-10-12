@@ -14,6 +14,7 @@ export function AdminUser() {
       children: <ConfirmLogout />,
       withCloseButton: false,
       modalId: MODALS.CONFIRM_LOGOUT,
+      w: 800,
     });
   }
   return (

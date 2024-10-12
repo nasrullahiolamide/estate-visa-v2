@@ -27,7 +27,7 @@ export default function Estates() {
     <Fragment>
       <AppShellHeader title='Estates' options={<Options />} />
 
-      <FlowContainer type='plain' >
+      <FlowContainer type='plain'>
         <FlowContentContainer>
           <FlowPaper>
             <EmptySlot
@@ -55,7 +55,9 @@ export default function Estates() {
 export function Options() {
   return (
     <Flex gap={14}>
-      <Button leftSection={<Add />}>Add New Estate</Button>
+      <Button fz='sm' size='md' leftSection={<Add />}>
+        Add New Estate
+      </Button>
       <FilterDropdown
         data={[
           { label: "A - Z", value: "a-z" },
@@ -71,7 +73,12 @@ export function Options() {
           },
         ]}
       />
-      <Button variant='outline' leftSection={<DownloadIcon />}>
+      <Button
+        fz='sm'
+        size='md'
+        variant='outline'
+        leftSection={<DownloadIcon />}
+      >
         Download Table
       </Button>
     </Flex>

@@ -3,7 +3,6 @@
 import { AppShell, Center, Divider, Flex, NavLink, Stack } from "@mantine/core";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { SearchEstate } from "./search-estate";
 import { AdminUser } from "./user-admin";
@@ -13,6 +12,7 @@ import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { APP, USER_TYPE } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/svgs";
 import { getUserType } from "@/packages/actions";
+import { usePathname } from "next/navigation";
 
 interface AppShellHeaderProps {
   title: string;
@@ -22,7 +22,7 @@ interface AppShellHeaderProps {
 
 export function AppShellHeader({ title, options }: AppShellHeaderProps) {
   const pathname = usePathname();
-  const userType = getUserType();
+  const userType = USER_TYPE.ADMIN;
   const view: Record<PropertyKey, typeof adminLinks> = {
     [USER_TYPE.ADMIN]: adminLinks,
     [USER_TYPE.SUPER_ADMIN]: superAdminLinks,
@@ -34,7 +34,7 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
       top={0}
       component='header'
       bg='white'
-      className='z-50 border-l border-gray-2 shadow-2xl shadow-gray-12'
+      className='z-50 border-l border-gray-2'
       style={{
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
       }}
@@ -74,13 +74,13 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
         <Divider className='border-gray-2' />
 
         <Flex
-          gap={36}
+          gap={15}
           align='center'
           justify='space-between'
           className='~px-1/8 hidden lg:flex'
           py={18}
         >
-          <h1 className='text-3xl text-primary-text-body font-bold'>{title}</h1>
+          <h1 className='text-2xl text-primary-text-body font-bold'>{title}</h1>
           {options}
         </Flex>
 

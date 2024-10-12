@@ -4,7 +4,7 @@ import { APP, USER_TYPE } from "../libraries";
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 
-export function getUserType() {
+export async function getUserType() {
   const encodedUserType = getCookie(APP.USER_TYPE, { cookies });
 
   // if (encodedUserType) {
