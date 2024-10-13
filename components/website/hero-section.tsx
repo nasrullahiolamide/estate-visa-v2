@@ -1,5 +1,5 @@
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
-import { Picture } from "../admin/interface";
+import { Picture } from "../shared/interface";
 import { TickCircle } from "iconsax-react";
 
 export function HeroSection() {

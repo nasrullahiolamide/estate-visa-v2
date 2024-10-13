@@ -12,7 +12,7 @@ import { FlowContentContainer } from "@/components/layout/flow-content-container
 import { FlowPaper } from "@/components/layout/flow-paper";
 import { FlowTable } from "@/components/layout/flow-table";
 
-import { EmptySlot } from "@/components/admin/interface";
+import { EmptySlot } from "@/components/shared/interface";
 import { estateListColumns } from "@/columns/estate-list";
 import { DownloadIcon } from "@/svgs";
 import { FlowFooter } from "@/components/layout/flow-footer";

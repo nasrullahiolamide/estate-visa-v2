@@ -5,7 +5,7 @@ import { PAGES, MODALS } from "@/packages/libraries";
 
 import { Button, Text, Stack, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { Emblem } from "@/components/admin/interface";
+import { Emblem } from "@/components/shared/interface";
 
 export function ConfirmLogout() {
   return (

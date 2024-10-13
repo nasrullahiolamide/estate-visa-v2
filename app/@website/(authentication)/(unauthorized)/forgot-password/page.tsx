@@ -11,8 +11,8 @@ import { object, ref, string } from "yup";
 import {
   FormProvider,
   useForm,
-} from "@/components/admin/forgot-password/password-reset-form-context";
-import { RequestOTP } from "@/components/admin/forgot-password/request-otp";
+} from "@/components/admin/user-management/forgot-password/password-reset-form-context";
+import { RequestOTP } from "@/components/admin/user-management/forgot-password/request-otp";
 // import { ResetPassword } from "@/components/admin/forgot-password/reset-password";
 
 const schema = object({

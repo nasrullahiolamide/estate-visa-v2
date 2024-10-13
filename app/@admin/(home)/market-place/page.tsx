@@ -11,7 +11,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
 import { FlowPaper } from "@/components/layout/flow-paper";
 
-import { EmptySlot } from "@/components/admin/interface";
+import { EmptySlot } from "@/components/shared/interface";
 import { FlowFooter } from "@/components/layout/flow-footer";
 import { FlowCurrentPage } from "@/components/layout/flow-current-page";
 import { FlowPagination } from "@/components/layout/flow-pagination";

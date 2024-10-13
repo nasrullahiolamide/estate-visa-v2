@@ -4,7 +4,7 @@ export function SuspenseOverlay() {
   return (
     <LoadingOverlay
       visible
-      opacity={0.8}
+      opacity={0.3}
       bg='accent.10'
       overlayProps={{
         bg: "accent.10",

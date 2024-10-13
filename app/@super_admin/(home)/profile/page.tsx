@@ -12,7 +12,7 @@ import { Fragment } from "react";
 import { object, string } from "yup";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell-header";
-import { ProfileImage } from "@/components/admin/profile/profile-image";
+import { ProfileImage } from "@/components/admin/shared/profile/profile-image";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { cast } from "@/packages/libraries";
 
