@@ -19,3 +19,4 @@ export { UserImage } from "./user-image";
 export { FilterIcon } from "./filter-icon";
 export { DownloadIcon } from "./download-icon";
 export { Mark } from "./mark";
+export { LaptopMockup } from "./laptop-mockup";

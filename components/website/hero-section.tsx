@@ -51,9 +51,7 @@ export function HeroSection() {
             while providing occupants with a smooth living experience.
           </Text>
 
-          <Button w='fit-content' component={Link} href={PAGES.TALK_TO_US}>
-            Talk to us
-          </Button>
+          <Button w='fit-content'>Talk to us</Button>
         </Stack>
       </Flex>
 

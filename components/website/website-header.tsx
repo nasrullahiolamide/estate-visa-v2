@@ -30,16 +30,12 @@ const links = [
     href: "#features",
   },
   {
+    title: "Testimonial",
+    href: "#testimonial",
+  },
+  {
     title: "Pricing",
     href: "#pricing",
-  },
-  {
-    title: "FAQ",
-    href: "#faq",
-  },
-  {
-    title: "Contact",
-    href: "#contact",
   },
 ];
 
