@@ -1,21 +1,10 @@
-"use client";
-
 import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
 import { Box, Flex, Stack } from "@mantine/core";
-import { PropsWithChildren, useEffect } from "react";
-import AOS from "aos";
+import { PropsWithChildren } from "react";
 
 type AuthProps = PropsWithChildren<{}>;
 
 export function Auth({ children }: AuthProps) {
-  useEffect(() => {
-    document.documentElement.style.opacity = "1";
-
-    AOS.init({
-      easing: "ease-in-out-sine",
-      once: true,
-    });
-  }, []);
   return (
     <Flex
       h='100vh'

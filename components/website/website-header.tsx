@@ -111,7 +111,9 @@ export function WebsiteHeader() {
             <Link href={PAGES.LOGIN}>
               <Button variant='outline'>Log in</Button>
             </Link>
-            <TalkToUs />
+            <Button variant='primary' className='hidden sm:block'>
+              Talk to us
+            </Button>
           </Flex>
 
           <Popover
@@ -159,11 +161,3 @@ export function WebsiteHeader() {
     </Stack>
   );
 }
-
-const TalkToUs = () => {
-  return (
-    <Button variant='primary' className='hidden sm:block'>
-      Talk to us
-    </Button>
-  );
-};

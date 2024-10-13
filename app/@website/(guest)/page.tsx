@@ -1,22 +1,10 @@
 "use client";
 
-import { WebsiteHeader } from "@/components/website/website-header";
 import { Box, Stack } from "@mantine/core";
-import { useEffect } from "react";
-
-import AOS from "aos";
+import { WebsiteHeader } from "@/components/website/website-header";
 import { HeroSection, Features, Services } from "@/components/website";
 
 export default function Page() {
-  useEffect(() => {
-    document.documentElement.style.opacity = "1";
-
-    AOS.init({
-      easing: "ease-in-out-sine",
-      once: true,
-    });
-  }, []);
-
   return (
     <Stack gap={0}>
       <Box

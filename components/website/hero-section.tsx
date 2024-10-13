@@ -1,6 +1,8 @@
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
 import { Picture } from "../shared/interface";
 import { TickCircle } from "iconsax-react";
+import Link from "next/link";
+import { PAGES } from "@/packages/libraries";
 
 export function HeroSection() {
   return (
@@ -49,7 +51,9 @@ export function HeroSection() {
             while providing occupants with a smooth living experience.
           </Text>
 
-          <Button w='fit-content'>Talk to us</Button>
+          <Button w='fit-content' component={Link} href={PAGES.TALK_TO_US}>
+            Talk to us
+          </Button>
         </Stack>
       </Flex>
 
