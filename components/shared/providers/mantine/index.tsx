@@ -7,7 +7,7 @@ import {
 } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import { DrawersProvider } from "@/components/interface";
+import { DrawersProvider } from "@/components/admin/interface";
 import { theme } from "../theme";
 
 interface MantineProviderProps {

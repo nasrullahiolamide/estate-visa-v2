@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { PropsWithChildren, ReactNode } from "react";
+import { PropsWithChildren, ReactNode, useEffect } from "react";
 import { Providers } from "@/components/shared";
 import { getUserType } from "@/packages/actions";
 import { USER_TYPE } from "@/packages/libraries";
@@ -45,9 +45,9 @@ export default async function RootLayout({
           <Providers>
             {children}
             {/* {view[userType]} */}
-            {admin}
+            {/* {admin} */}
             {/* {super_admin} */}
-            {/* {website} */}
+            {website}
           </Providers>
         </main>
       </body>

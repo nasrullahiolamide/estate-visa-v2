@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3004",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -44,6 +44,7 @@
     "react-dom": "^18",
     "recharts": "2",
     "sass": "^1.79.4",
+    "short-crypt": "^3.0.6",
     "yup": "^1.4.0"
   },
   "devDependencies": {

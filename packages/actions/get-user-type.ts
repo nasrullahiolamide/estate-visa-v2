@@ -11,5 +11,5 @@ export async function getUserType() {
   //   return encode(encodedUserType);
   // }
 
-  return USER_TYPE.SUPER_ADMIN;
+  return USER_TYPE.GUEST;
 }

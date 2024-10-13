@@ -18,61 +18,63 @@ import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
 import { PAGES } from "@/packages/libraries";
 
 import Link from "next/link";
+import { useEffect } from "react";
 
-export function NavList() {
+const links = [
+  {
+    title: "Home",
+    href: "/",
+  },
+  {
+    title: "Features",
+    href: "#features",
+  },
+  {
+    title: "Pricing",
+    href: "#pricing",
+  },
+  {
+    title: "FAQ",
+    href: "#faq",
+  },
+  {
+    title: "Contact",
+    href: "#contact",
+  },
+];
+
+export function NavList({ close }: { close?: () => void }) {
   return (
     <>
-      <Anchor
-        href='/'
-        variant='hover'
-        className='text-primary-text-body py-2'
-        fz={18}
-        fw={500}
-      >
-        Home
-      </Anchor>
-      <Anchor
-        href='#features'
-        variant='hover'
-        className='text-primary-text-body py-2'
-        fz={18}
-        fw={500}
-      >
-        Features
-      </Anchor>
-      <Anchor
-        href='#pricing'
-        variant='hover'
-        className='text-primary-text-body py-2'
-        fz={18}
-        fw={500}
-      >
-        Pricing
-      </Anchor>
-      <Anchor
-        href='#faq'
-        variant='hover'
-        className='text-primary-text-body py-2'
-        fz={18}
-        fw={500}
-      >
-        FAQ
-      </Anchor>
-      <Anchor
-        href='#contact'
-        variant='hover'
-        className='text-primary-text-body py-2'
-        fz={18}
-        fw={500}
-      >
-        Contact
-      </Anchor>
+      {links.map((link, index) => (
+        <Anchor
+          key={index}
+          href={link.href}
+          variant='hover'
+          className='text-primary-text-body py-2'
+          fz={18}
+          fw={500}
+          w='fit-content'
+          onClick={close}
+        >
+          {link.title}
+        </Anchor>
+      ))}
     </>
   );
 }
 
 export function WebsiteHeader() {
-  const [opened, { toggle }] = useDisclosure();
+  const [opened, { toggle, close }] = useDisclosure();
+
+  useEffect(() => {
+    const handleScroll = () => opened && close();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <Stack gap={0}>
@@ -88,7 +90,7 @@ export function WebsiteHeader() {
           mx='auto'
         >
           <Box component='figure'>
-            <EstateVisaLogo width={75} height={75} />
+            <EstateVisaLogo width={72} height={72} />
           </Box>
           <Flex
             gap={32}
@@ -109,9 +111,7 @@ export function WebsiteHeader() {
             <Link href={PAGES.LOGIN}>
               <Button variant='outline'>Log in</Button>
             </Link>
-            <Button variant='primary' className='hidden sm:block'>
-              Talk to us
-            </Button>
+            <TalkToUs />
           </Flex>
 
           <Popover
@@ -122,7 +122,7 @@ export function WebsiteHeader() {
             }}
             opened={opened}
             classNames={{
-              dropdown: "bg-white/70 mt-5",
+              dropdown: "bg-white/70 mt-2",
             }}
             styles={{
               dropdown: {
@@ -144,9 +144,12 @@ export function WebsiteHeader() {
               />
             </Popover.Target>
 
-            <Popover.Dropdown className='border rounded-lg shadow-2xl border-primary-border-light mt-2'>
+            <Popover.Dropdown
+              className='border rounded-lg shadow-2xl border-primary-border-light '
+              miw={300}
+            >
               <Stack gap={12} py={16} px={20}>
-                <NavList />
+                <NavList close={close} />
               </Stack>
             </Popover.Dropdown>
           </Popover>
@@ -156,3 +159,11 @@ export function WebsiteHeader() {
     </Stack>
   );
 }
+
+const TalkToUs = () => {
+  return (
+    <Button variant='primary' className='hidden sm:block'>
+      Talk to us
+    </Button>
+  );
+};
