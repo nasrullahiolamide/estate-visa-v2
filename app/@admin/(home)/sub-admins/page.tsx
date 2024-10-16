@@ -20,6 +20,7 @@ import { modals } from "@mantine/modals";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { MODALS } from "@/packages/libraries";
 import { CancelCircleIcon } from "@/svgs";
+import { handleSuccess } from "@/packages/notification";
 
 export default function SubAdmins() {
   const handleAddSubAdmin = () => {

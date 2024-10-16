@@ -91,7 +91,8 @@ export default function Page() {
     ) {
       console.log("Invalid email address");
       handleError({
-        message: "Invalid email address",
+        title: "Sub Admin Added",
+        message: "The sub admin has been added successfully",
       });
       return;
     }
