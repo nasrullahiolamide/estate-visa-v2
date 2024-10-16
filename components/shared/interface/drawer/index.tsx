@@ -1,3 +1,5 @@
+"use client";
+
 import { Drawer, DrawerProps } from "@mantine/core";
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 

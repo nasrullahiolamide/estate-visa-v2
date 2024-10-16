@@ -52,8 +52,7 @@ export enum PAGES {
 }
 
 export enum MODALS {
-  // user
+  ADD_SUB_ADMIN = "add-sub-admin",
   EDIT_PROFILE = "edit-profile",
-
   CONFIRM_LOGOUT = "confirm-logout",
 }

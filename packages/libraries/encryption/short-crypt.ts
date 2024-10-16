@@ -7,7 +7,7 @@ export type URI = {
   subject_id?: number;
 };
 
-const shortCrypt = new ShortCrypt("educratic");
+const shortCrypt = new ShortCrypt("esatevisa");
 
 export function encryptUri<T>(data: T = {} as T): string {
   const value = JSON.stringify(data);
@@ -16,7 +16,7 @@ export function encryptUri<T>(data: T = {} as T): string {
 
 export function decryptUri<T extends Record<PropertyKey, unknown>>(
   data?: string,
-  fallback: T = {} as T,
+  fallback: T = {} as T
 ): T {
   if (!data) return fallback;
   const uint8Array = shortCrypt.decryptURLComponent(data);

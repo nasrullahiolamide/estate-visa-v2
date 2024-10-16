@@ -4,15 +4,17 @@ import { AppShell, Center, Divider, Flex, NavLink, Stack } from "@mantine/core";
 
 import Link from "next/link";
 
-import { SearchEstate } from "./search-estate";
-import { AdminUser } from "./user-admin";
-import { adminLinks, superAdminLinks } from "./data/navlinks";
+import { SearchEstate } from "../search-estate";
+import { AdminUser } from "../user-admin";
+import { adminLinks, NavLinkType, superAdminLinks } from "../data/navlinks";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { APP, USER_TYPE } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/svgs";
 import { getUserType } from "@/packages/actions";
 import { usePathname } from "next/navigation";
+
+import { useEffect, useState } from "react";
 
 interface AppShellHeaderProps {
   title: string;
@@ -21,9 +23,18 @@ interface AppShellHeaderProps {
 }
 
 export function AppShellHeader({ title, options }: AppShellHeaderProps) {
+  const [links, setLinks] = useState<NavLinkType>([]);
+
+  useEffect(() => {
+    (async () => {
+      const userType = await getUserType();
+      setLinks(view[userType]);
+    })();
+  }, []);
+
   const pathname = usePathname();
-  const userType = USER_TYPE.ADMIN;
-  const view: Record<PropertyKey, typeof adminLinks> = {
+
+  const view: Record<PropertyKey, NavLinkType> = {
     [USER_TYPE.ADMIN]: adminLinks,
     [USER_TYPE.SUPER_ADMIN]: superAdminLinks,
   };
@@ -89,9 +100,8 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
           className='lg:~px-1/8 overflow-scroll scrollbar-none shadow-red-3 shadow-2xl'
           hiddenFrom='lg'
         >
-          {view[userType].map((item, index) => {
+          {links?.map((item, index) => {
             const isActive = item.href === pathname;
-
             return (
               <NavLink
                 key={index}

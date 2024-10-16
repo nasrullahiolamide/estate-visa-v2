@@ -16,7 +16,7 @@ export function AppShellMain({
     <Flex
       component='main'
       className={clsx(
-        "bg-primary-background-dark ~px-5/20",
+        "bg-primary-background-dark ~px-5/20 sm:~px-1/8",
         "overflow-auto scrollbar-none",
         {
           "py-5": layout === "full",

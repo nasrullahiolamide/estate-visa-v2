@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 
-import { PropsWithChildren, ReactNode, useEffect } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import { Providers } from "@/components/shared";
 import { getUserType } from "@/packages/actions";
-import { USER_TYPE } from "@/packages/libraries";
+import { isGuest, USER_TYPE } from "@/packages/libraries";
 
 import "@mantine/charts/styles.layer.css";
 import "@mantine/core/styles.layer.css";
 import "@mantine/dates/styles.layer.css";
+import "@mantine/notifications/styles.layer.css";
+import "@mantine/spotlight/styles.layer.css";
 
 import "@/styles/accent.scss";
 import "@/styles/index.css";
@@ -39,15 +41,12 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang='en' style={{ opacity: 0 }}>
+    <html lang='en'>
       <body>
         <main className={clsx("scrollbar-none")}>
           <Providers>
             {children}
-            {/* {view[userType]} */}
-            {/* {admin} */}
-            {/* {super_admin} */}
-            {website}
+            {view[userType]}
           </Providers>
         </main>
       </body>

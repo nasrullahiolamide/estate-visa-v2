@@ -1,8 +1,6 @@
+import { TickCircle } from "iconsax-react";
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
 import { Picture } from "../shared/interface";
-import { TickCircle } from "iconsax-react";
-import Link from "next/link";
-import { PAGES } from "@/packages/libraries";
 
 export function HeroSection() {
   return (

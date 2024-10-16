@@ -1,6 +1,5 @@
-import { getUserType } from "@/packages/actions";
+import { getUserType } from "@/packages/actions/";
 import { isGuest } from "@/packages/libraries";
-
 import { PropsWithChildren } from "react";
 
 type LayoutProps = PropsWithChildren<{}>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { PAGES } from "@/packages/libraries";
+import { handleLogout, PAGES } from "@/packages/libraries";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { navigate } from "@/packages/actions";
@@ -14,7 +14,7 @@ export default function Page() {
   // });
 
   useLayoutEffect(() => {
-    navigate(PAGES.LOGIN);
+    navigate(PAGES.DASHBOARD);
   }, []);
 
   return null;

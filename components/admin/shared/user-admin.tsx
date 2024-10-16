@@ -6,7 +6,7 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { ArrowDown01Icon } from "hugeicons-react";
 import { User, Setting2, LogoutCurve } from "iconsax-react";
 
-import { ConfirmLogout } from "./confirm-logout";
+import { ConfirmLogout } from "./modals/confirm-logout";
 
 export function AdminUser() {
   function handleLogout() {
@@ -14,7 +14,6 @@ export function AdminUser() {
       children: <ConfirmLogout />,
       withCloseButton: false,
       modalId: MODALS.CONFIRM_LOGOUT,
-      w: 800,
     });
   }
   return (

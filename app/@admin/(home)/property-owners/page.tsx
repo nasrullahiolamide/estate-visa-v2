@@ -4,8 +4,8 @@ import { Fragment } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
 
-import { AppShellHeader } from "@/components/admin/shared/app-shell-header";
-import { FilterDropdown } from "@/components/admin/shared/filter-dropdown";
+import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
 
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";

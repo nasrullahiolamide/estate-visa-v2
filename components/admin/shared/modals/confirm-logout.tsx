@@ -8,6 +8,11 @@ import { modals } from "@mantine/modals";
 import { Emblem } from "@/components/shared/interface";
 
 export function ConfirmLogout() {
+  const handleLogout = () => {
+    navigate(PAGES.LOGOUT);
+    modals.close(MODALS.CONFIRM_LOGOUT);
+  };
+
   return (
     <Fragment>
       <Stack py={10} className='sm:p-5'>
@@ -25,11 +30,7 @@ export function ConfirmLogout() {
           >
             Stay Logged In
           </Button>
-          <Button
-            flex={1}
-            color='red'
-            onClick={() => modals.close(MODALS.CONFIRM_LOGOUT)}
-          >
+          <Button flex={1} color='red' onClick={handleLogout}>
             Sign Out
           </Button>
         </Flex>

@@ -83,7 +83,7 @@ export const components: MantineThemeComponents = {
 
   TextInput: TextInput.extend({
     defaultProps: {
-      size: "md",
+      size: "sm",
       variant: "default",
     },
     classNames: textInput,
@@ -169,7 +169,7 @@ export const components: MantineThemeComponents = {
       fz: "md",
       fw: 500,
     },
-    
+
     classNames: button,
   }),
 

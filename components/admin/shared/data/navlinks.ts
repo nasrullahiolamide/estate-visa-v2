@@ -1,3 +1,4 @@
+import { ComponentType, SVGProps } from "react";
 import { PAGES } from "@/packages/libraries";
 import {
   AdministratorIcon,
@@ -12,6 +13,12 @@ import {
   UserFriendsIcon,
   UserGroupIcon,
 } from "@/svgs";
+
+export type NavLinkType = Array<{
+  title: string;
+  href: string;
+  icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+}>;
 
 export const adminLinks = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },

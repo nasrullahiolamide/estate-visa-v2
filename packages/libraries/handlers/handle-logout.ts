@@ -1,5 +1,5 @@
 import { deleteCookie } from "cookies-next";
-import { APP, TOKEN } from "./enum";
+import { APP, TOKEN } from "../enum";
 
 export function handleLogout() {
   const cookies = [

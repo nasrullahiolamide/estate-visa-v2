@@ -9,6 +9,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { DrawersProvider } from "@/components/shared/interface";
 import { theme } from "../theme";
+import { CancelCircleIcon } from "@/svgs";
 
 interface MantineProviderProps {
   children: ReactNode;
@@ -47,11 +48,15 @@ export function CustomMantineProvider({ children }: MantineProviderProps) {
           <ModalsProvider
             modalProps={{
               centered: true,
-              withCloseButton: false,
               classNames: {
-                title: "prose-lg/semi-bold text-primary-text-body",
-                overlay: "bg-black bg-opacity-50",
+                title: "prose-xl/medium text-primary-text-body",
+                overlay: "bg-black bg-opacity-45",
+                content: "p-2 sm:p-5 flex flex-col gap-5",
               },
+              closeButtonProps: {
+                icon: <CancelCircleIcon />,
+              },
+              size: "lg",
             }}
           >
             <DrawersProvider variant='app'>{children}</DrawersProvider>

@@ -20,3 +20,6 @@ export { FilterIcon } from "./filter-icon";
 export { DownloadIcon } from "./download-icon";
 export { Mark } from "./mark";
 export { LaptopMockup } from "./laptop-mockup";
+export { CancelCircleIcon } from "./cancel-circle-icon";
+
+export type { IconType } from "./type";
