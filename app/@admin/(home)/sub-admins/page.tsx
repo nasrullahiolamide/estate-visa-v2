@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment } from "react";
-import { Add } from "iconsax-react";
+import { Fragment, useEffect } from "react";
+import { Add, Menu } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
@@ -19,10 +19,20 @@ import { FlowPagination } from "@/components/layout/flow-pagination";
 import { modals } from "@mantine/modals";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { MODALS } from "@/packages/libraries";
-import { CancelCircleIcon } from "@/svgs";
-import { handleSuccess } from "@/packages/notification";
+
+import { useFlowState } from "@/components/layout/flow-context";
+import { useFlowPagination } from "@/components/layout/use-flow-pagination";
+
+import { subAdminListColumns } from "@/columns/sub-admin-list";
+import {
+  useFakeSubAdminList,
+  useFakeSubAdminListData,
+} from "@/builders/types/sub-admins";
+import { FlowTable } from "@/components/layout/flow-table";
 
 export default function SubAdmins() {
+  const subAdminsData = useFakeSubAdminList();
+
   const handleAddSubAdmin = () => {
     modals.open({
       title: "Add New Sub Admin",
@@ -31,6 +41,48 @@ export default function SubAdmins() {
     });
   };
 
+  const { page, search } = useFlowState();
+  const pagination = useFlowPagination();
+
+  // const { data: subAdmins, isPlaceholderData } = useQuery({
+  //   queryKey: builder.users.get.get({ user_type: USER_TYPE.ADMIN }),
+  //   queryFn: () =>
+  //     builder.use().users.get({
+  //       user_type: USER_TYPE.ADMIN,
+  //       page,
+  //       search,
+  //     }),
+  //   select({ total, current_page, last_page, data, page_size }) {
+  //     return {
+  //       total,
+  //       current_page,
+  //       last_page,
+  //       page_size,
+  //       data: data.map((list) => ({
+  //         ...list,
+  //         action: (
+  //           <FlowMenu>
+  //             <FlowMenuTarget />
+  //             <FlowMenuDropdown>
+  //               <Menu.Item>View Profile</Menu.Item>
+  //               <Menu.Item>Activate</Menu.Item>
+  //             </FlowMenuDropdown>
+  //           </FlowMenu>
+  //         ),
+  //       })),
+  //     };
+  //   },
+  // });
+
+  useEffect(() => {
+    if (false) return;
+
+    pagination.setPage(subAdminsData?.current_page);
+    pagination.setTotal(subAdminsData?.total);
+    pagination.setEntriesCount(subAdminsData?.data?.length);
+    pagination.setPageSize(subAdminsData?.page_size);
+  }, []);
+
   return (
     <Fragment>
       <AppShellHeader
@@ -38,24 +90,33 @@ export default function SubAdmins() {
         options={<Options addSubAdmin={handleAddSubAdmin} />}
       />
 
-      <FlowContainer type='plain'>
+      <FlowContainer type='plain' m={20} mx={15}>
         <FlowContentContainer>
           <FlowPaper>
-            <EmptySlot
-              title='There are no sub-admins here yet. Add one to get started!'
-              src='person-minus'
-              withButton
-              text='Add Sub-Admin'
-              btnProps={{
-                leftSection: <Add />,
-                onClick: handleAddSubAdmin,
-              }}
-            />
+            {subAdminsData?.data.length ? (
+              <FlowTable
+                data={subAdminsData?.data}
+                columns={subAdminListColumns}
+                initialLeftPinnedColumns={["full_name"]}
+                skeleton={false}
+              />
+            ) : (
+              <EmptySlot
+                title='There are no sub-admins here yet. Add one to get started!'
+                src='person-minus'
+                withButton
+                text='Add Sub-Admin'
+                btnProps={{
+                  leftSection: <Add />,
+                  onClick: handleAddSubAdmin,
+                }}
+              />
+            )}
           </FlowPaper>
 
-          <FlowFooter hidden={true}>
-            <FlowCurrentPage />
+          <FlowFooter hidden={false}>
             <FlowPagination />
+            <FlowCurrentPage />
           </FlowFooter>
         </FlowContentContainer>
       </FlowContainer>

@@ -1,4 +1,5 @@
 import {
+  Button,
   Flex,
   FlexProps,
   Pagination,
@@ -29,31 +30,36 @@ export function FlowPagination({
 
   return (
     <Flex
-      size="sm"
+      size='sm'
       component={Pagination.Root}
       total={numberOfPages}
-      align="center"
+      align='center'
       gap={10}
       {...rootProps}
+      className='prose-sm/medium text-primary-text-caption'
     >
-      <Pagination.Previous {...previousButtonProps} />
+      <Pagination.Previous {...previousButtonProps} content='P'>
+        Previous
+      </Pagination.Previous>
 
-      <Flex
+      {/* <Flex
         gap={1}
         fw={500}
-        className="text-primary-text-subtle"
+        className='text-primary-text-subtle'
         {...innerProps}
       >
-        <Text span className="text-primary-text-body" {...pageProps}>
+        <Text span className='text-primary-text-body' {...pageProps}>
           {page}
         </Text>
         <Text span>/</Text>
         <Text span {...limitProps}>
           {numberOfPages}
         </Text>
-      </Flex>
+      </Flex> */}
 
-      <Pagination.Next {...nextButtonProps} />
+      <Pagination.Items />
+
+      <Pagination.Next {...nextButtonProps}>Next</Pagination.Next>
     </Flex>
   );
 }

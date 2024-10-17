@@ -78,9 +78,9 @@ export function CustomTable<T>({
   });
 
   return (
-    <Flex w="100%">
-      <Table stickyHeader striped miw="min-content">
-        <Table.Thead className="bg-primary-text-normal whitespace-nowrap">
+    <Flex w='100%'>
+      <Table stickyHeader striped miw='min-content'>
+        <Table.Thead className='bg-primary-text-normal whitespace-nowrap'>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -89,14 +89,14 @@ export function CustomTable<T>({
                     fz={14}
                     fw={500}
                     lh={2}
-                    ta="start"
+                    ta='start'
                     key={header.id}
-                    className="text-primary-text-body"
+                    className='text-primary-text-body'
                     colSpan={header.colSpan}
                   >
                     {header.isPlaceholder ? null : (
                       <Flex
-                        align="center"
+                        align='center'
                         className={
                           header.column.getCanSort()
                             ? "cursor-pointer select-none"
@@ -120,14 +120,14 @@ export function CustomTable<T>({
 
                         {header.column.getCanSort() && (
                           <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
+                            width='16'
+                            height='16'
+                            viewBox='0 0 16 16'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
                             <path
-                              d="M8.39043 2.48804C8.19027 2.23784 7.80973 2.23784 7.60957 2.48804L4.64988 6.18765C4.38797 6.51503 4.62106 7 5.04031 7H10.9597C11.3789 7 11.612 6.51503 11.3501 6.18765L8.39043 2.48804Z"
+                              d='M8.39043 2.48804C8.19027 2.23784 7.80973 2.23784 7.60957 2.48804L4.64988 6.18765C4.38797 6.51503 4.62106 7 5.04031 7H10.9597C11.3789 7 11.612 6.51503 11.3501 6.18765L8.39043 2.48804Z'
                               fill={
                                 header.column.getIsSorted() === "asc"
                                   ? "var(--gray-12)"
@@ -135,7 +135,7 @@ export function CustomTable<T>({
                               }
                             />
                             <path
-                              d="M8.39043 13.512C8.19027 13.7622 7.80973 13.7622 7.60957 13.512L4.64988 9.81235C4.38797 9.48497 4.62106 9 5.04031 9H10.9597C11.3789 9 11.612 9.48497 11.3501 9.81235L8.39043 13.512Z"
+                              d='M8.39043 13.512C8.19027 13.7622 7.80973 13.7622 7.60957 13.512L4.64988 9.81235C4.38797 9.48497 4.62106 9 5.04031 9H10.9597C11.3789 9 11.612 9.48497 11.3501 9.81235L8.39043 13.512Z'
                               fill={
                                 header.column.getIsSorted() === "desc"
                                   ? "var(--gray-12)"
