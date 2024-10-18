@@ -62,11 +62,9 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
           blurDataURL={blurDataURL}
           unoptimized={unoptimized}
           overrideSrc={overrideSrc}
-          style={
-            {
-              // objectFit: "contain",
-            }
-          }
+          style={{
+            objectFit: "contain",
+          }}
         />
       </Box>
     );

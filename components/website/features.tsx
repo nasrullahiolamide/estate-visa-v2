@@ -1,5 +1,6 @@
 import { Mark } from "@/svgs";
 import { Flex, Text } from "@mantine/core";
+import { TickCircle } from "iconsax-react";
 
 const data = [
   "Access Request",
@@ -11,13 +12,13 @@ const data = [
 export function Features() {
   return (
     <Flex
-      className='border-t border-t-gray-4 py-8 lg:px-16 md:px-8 px-4 overflow-scroll w-full'
+      className='py-8 lg:px-16 md:px-8 px-4 overflow-scroll w-full'
       gap={20}
     >
       {data.map((item, index) => (
         <Flex
           key={index}
-          p={8}
+          px={8}
           gap={12}
           className='min-w-fit'
           align='center'
@@ -25,7 +26,8 @@ export function Features() {
           c='blue.6'
           flex={1}
         >
-          <Mark /> <Text className='prose-base sm:prose-lg'>{item}</Text>
+          <TickCircle size={16} />
+          <Text className='prose-base sm:prose-lg'>{item}</Text>
         </Flex>
       ))}
     </Flex>

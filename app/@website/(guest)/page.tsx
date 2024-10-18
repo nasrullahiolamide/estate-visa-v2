@@ -1,8 +1,13 @@
 "use client";
 
 import { Box, Stack } from "@mantine/core";
-import { WebsiteHeader } from "@/components/website/website-header";
-import { HeroSection, Features, Services } from "@/components/website";
+import {
+  HeroSection,
+  Services,
+  WebsiteHeader,
+  WebsiteFooter,
+  JoinUs,
+} from "@/components/website";
 
 export default function Page() {
   return (
@@ -16,8 +21,9 @@ export default function Page() {
         <WebsiteHeader />
       </Box>
       <HeroSection />
-      <Features />
       <Services />
+      <JoinUs />
+      <WebsiteFooter />
     </Stack>
   );
 }

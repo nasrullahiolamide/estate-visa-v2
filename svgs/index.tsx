@@ -27,4 +27,9 @@ export { EditIcon } from "./edit-icon";
 export { DeactivateIcon } from "./deactivate-icon";
 export { ActivateIcon } from "./activate-icon";
 export { TrashIcon } from "./trash-icon";
+export { InstagramIcon } from "./instagram-icon";
+export { FacebookIcon } from "./facebook-icon";
+export { XIcon } from "./x-icon";
+export { LinkedInIcon } from "./linkedin-icon";
+
 export type { IconType } from "./type";

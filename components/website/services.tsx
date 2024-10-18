@@ -1,4 +1,5 @@
 import { Title, Text, Stack, Box, Flex } from "@mantine/core";
+import { Tag } from "./tag";
 
 const details = [
   {
@@ -41,7 +42,13 @@ const details = [
 
 export function Services() {
   return (
-    <Stack bg='blue.8' className='lg:p-16 md:p-8 p-4' component='section'>
+    <Stack
+      bg='blue.8'
+      className='lg:p-16 md:p-8 p-4'
+      component='section'
+      id='features'
+    >
+      <Tag>FEATURES</Tag>
       <Flex
         component='section'
         direction='column'
@@ -50,9 +57,9 @@ export function Services() {
         justify='center'
         c='white'
         mx='auto'
-        mt={35}
+        mt={10}
         gap={20}
-        maw={600}
+        maw={1300}
       >
         <Title
           component='h2'
@@ -62,7 +69,8 @@ export function Services() {
           }}
           fw={500}
         >
-          Comprehensive Services for Effective Estate Management
+          Comprehensive Services for Effective
+          <br className='hidden lg:block' /> Estate Management
         </Title>
         <Text className='text-base'>
           Our platform empowers users to manage their properties while fostering

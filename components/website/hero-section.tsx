@@ -1,31 +1,23 @@
-import { TickCircle } from "iconsax-react";
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
 import { Picture } from "../shared/interface";
+import { Features } from "./features";
 
 export function HeroSection() {
   return (
-    <Flex className='h-full md:min-h-[90vh] overflow-hidden' gap={60}>
+    <Stack
+      py={40}
+      className='h-full w-full overflow-hidden'
+      justify='center'
+      maw={1300}
+      mx='auto'
+    >
       <Flex
-        py={40}
         flex={1}
         direction='column'
         justify='center'
-        className='lg:px-16 md:px-8 px-4'
+        className='lg:mx-16 md:mx-8 mx-4'
       >
-        <Stack gap={20} maw={700}>
-          <Flex
-            className='rounded-full w-fit'
-            py={8}
-            px={18}
-            align='center'
-            gap={4}
-            c='accent.10'
-            bg='purple.4'
-          >
-            <TickCircle size={16} />
-            <span className='text-xs'>Estate management made simple.</span>
-          </Flex>
-
+        <Stack align='center' ta='center' gap={24}>
           <Title
             order={2}
             fw={700}
@@ -35,7 +27,8 @@ export function HeroSection() {
               xl: 60,
             }}
           >
-            Simplifying Estate Management for Owners and Residents.
+            Simplifying Estate Management <br className='hidden lg:block' />
+            for Owners and Residents.
           </Title>
 
           <Text
@@ -43,50 +36,35 @@ export function HeroSection() {
               base: 16,
               sm: 18,
             }}
+            lh={1.5}
+            maw={800}
+            w='100%'
           >
             From property oversight to resident communication, our platform
             empowers estate owners and admins to manage operations seamlessly
             while providing occupants with a smooth living experience.
           </Text>
 
-          <Button w='fit-content'>Talk to us</Button>
+          <Button px={60}>Talk to us</Button>
+          <Features />
         </Stack>
       </Flex>
 
-      <Flex
-        flex={{
-          md: 0.4,
-          lg: 0.7,
-        }}
-        className='hidden md:flex'
-        pos='relative'
-        align='center'
-        justify='center'
-        style={{
-          backgroundImage: "url('/images/skyscrapers.png')",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <Box
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(57, 68, 188, 0.7)",
-            zIndex: 2,
-          }}
-        />
-        <Picture
-          maw={800}
-          width='120%'
-          pos='absolute'
-          right={0}
-          src='/images/mockup-dashboard.png'
-          className='z-10 hidden lg:block'
-        />
-      </Flex>
-    </Flex>
+      <Picture
+        mx='auto'
+        my={20}
+        width='100%'
+        mah={500}
+        src='/images/device-mockups.png'
+        className='hidden sm:block'
+      />
+      <Picture
+        my={20}
+        mx='auto'
+        width='90%'
+        src='/images/mockup-dashboard.png'
+        className='block sm:hidden'
+      />
+    </Stack>
   );
 }
