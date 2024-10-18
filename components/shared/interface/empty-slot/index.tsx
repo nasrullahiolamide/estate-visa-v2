@@ -28,7 +28,7 @@ type EmptySlotProps = BoxProps & {
     | {
         withButton?: false;
         text?: string;
-        btnProps: ButtonProps & { onClick?: () => void };
+        btnProps?: ButtonProps & { onClick?: () => void };
       }
   );
 

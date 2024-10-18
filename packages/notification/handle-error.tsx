@@ -3,31 +3,21 @@ import { AxiosError } from "axios";
 import { ReactNode } from "react";
 
 import { Branch } from "./branch";
+import { toast, ToastOptions } from "react-toastify";
 
-interface HandleErrorProps extends Omit<NotificationData, "message"> {
-  title?: ReactNode;
+interface HandleErrorProps extends Omit<ToastOptions, "message"> {
   message?: ReactNode;
 }
 
 export function handleError({
-  title = "Operation failed",
   message = null,
   ...props
 }: HandleErrorProps = {}) {
   return (error?: AxiosError) => {
     const data = error?.response?.data;
 
-    notifications.show({
-      color: "red.9",
-      autoClose: 10 * 1000,
-      styles: {
-        description: {
-          color: "var(--black)",
-        },
-      },
+    toast.error(message, {
       ...props,
-      message: message ?? <Branch data={data} />,
-      title,
     });
   };
 }

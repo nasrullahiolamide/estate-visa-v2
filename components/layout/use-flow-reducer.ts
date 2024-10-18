@@ -15,6 +15,7 @@ export enum FlowActionType {
   SET_PAGE = "SET_PAGE",
   SET_ROWS_PER_PAGE = "SET_ROWS_PER_PAGE",
   SET_ENTRIES_PER_PAGE = "SET_ENTRIES_PER_PAGE",
+  SET_ENTRIES_COUNT_ON_CURRENT_PAGE = "SET_ENTRIES_COUNT_ON_CURRENT_PAGE",
   SET_TOTAL_ENTRY_COUNT = "SET_TOTAL_ENTRY_COUNT",
   SET_SEARCH = "SET_SEARCH",
   SET_PAGE_SIZE = "SET_PAGE_SIZE",
@@ -24,6 +25,7 @@ export type FlowAction =
   | { type: FlowActionType.SET_PAGE; payload: number }
   | { type: FlowActionType.SET_ENTRIES_PER_PAGE; payload: number }
   | { type: FlowActionType.SET_TOTAL_ENTRY_COUNT; payload: number }
+  | { type: FlowActionType.SET_ENTRIES_COUNT_ON_CURRENT_PAGE; payload: number }
   | { type: FlowActionType.SET_SEARCH; payload: string }
   | { type: FlowActionType.SET_PAGE_SIZE; payload: number };
 
