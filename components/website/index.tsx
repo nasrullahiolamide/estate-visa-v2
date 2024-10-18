@@ -5,3 +5,4 @@ export { Services } from "./services";
 export { Features } from "./features";
 export { JoinUs } from "./join-us";
 export { PricingPlans } from "./pricing-plans";
+export { Procedures } from "./procedures";

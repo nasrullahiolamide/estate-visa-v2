@@ -8,6 +8,7 @@ import {
   WebsiteFooter,
   JoinUs,
   PricingPlans,
+  Procedures,
 } from "@/components/website";
 
 export default function Page() {
@@ -23,6 +24,7 @@ export default function Page() {
       </Box>
       <HeroSection />
       <Services />
+      <Procedures />
       <PricingPlans />
       <JoinUs />
       <WebsiteFooter />

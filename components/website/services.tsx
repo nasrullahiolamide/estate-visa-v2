@@ -62,14 +62,7 @@ export function Services() {
         gap={20}
         maw={MAX_SCREEN_WIDTH}
       >
-        <Title
-          component='h2'
-          fz={{
-            base: 30,
-            sm: 40,
-          }}
-          fw={500}
-        >
+        <Title component='h2' className='sm:prose-4xl/bold prose-2xl/bold'>
           Comprehensive Services for Effective
           <br className='hidden lg:block' /> Estate Management
         </Title>
