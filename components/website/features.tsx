@@ -12,7 +12,9 @@ const data = [
 export function Features() {
   return (
     <Flex
-      className='py-8 lg:px-16 md:px-8 px-4 overflow-scroll w-full'
+      className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full'
+      mx='auto'
+      justify='center'
       gap={20}
     >
       {data.map((item, index) => (
@@ -24,7 +26,6 @@ export function Features() {
           align='center'
           justify='center'
           c='blue.6'
-          flex={1}
         >
           <TickCircle size={16} />
           <Text className='prose-base sm:prose-lg'>{item}</Text>

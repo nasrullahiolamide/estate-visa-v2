@@ -58,16 +58,17 @@ export function PricingPlans() {
   return (
     <Stack
       py='xl'
+      gap={8}
       className='lg:p-16 md:p-8 p-4 gap-8'
       component='section'
       id='pricing'
     >
-      <Stack component='header' gap={12} ta='center'>
+      <Stack component='header' gap={18} ta='center'>
         <Tag>PRICING</Tag>
-        <Title order={2} className='sm:prose-4xl/bold prose-3xl/bold'>
+        <Title order={2} className='sm:prose-4xl/bold prose-2xl/bold'>
           Find the Plan that Fits Your Estate
         </Title>
-        <Text>
+        <Text className='prose-sm/regular sm:prose-lg/regular'>
           Choose a plan that best aligns with your estate's needs and unlock
           premium features designed to streamline your management processes.
         </Text>
@@ -75,7 +76,7 @@ export function PricingPlans() {
 
       <Box
         component='section'
-        className='grid gap-8 mt-8'
+        className='grid gap-8 mt-6'
         style={{
           gridTemplateColumns: "repeat(auto-fill,minmax(min(370px,100%),1fr))",
           gridAutoRows: "1fr",
