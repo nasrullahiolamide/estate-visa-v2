@@ -23,7 +23,7 @@ export type SubAdminListData = {
 export function useFakeSubAdminListData(_?: any, index?: number) {
   faker.seed(index);
 
-  const id = index ?? faker.number.int({ max: 10 });
+  const id = index ?? faker.number.int({ max: 100 });
 
   return {
     id,
@@ -40,16 +40,16 @@ export function useFakeSubAdminList(): EstateList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
-    { length: faker.number.int({ min: 3, max: 7 }) },
+    { length: faker.number.int({ min: 3, max: 100 }) },
     useFakeSubAdminListData
   );
 
   return {
     data,
-    page_size: faker.number.int({ min: 5, max: 10 }),
+    page_size: faker.number.int({ min: 5, max: 20 }),
     current_page: faker.number.int({ min: 1, max: 5 }),
     last_page: faker.number.int({ min: 1, max: 5 }),
-    total: faker.number.int({ min: 5, max: 10 }),
+    total: 20,
     next_page_url: faker.internet.url(),
     prev_page_url: faker.internet.url(),
   };

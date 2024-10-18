@@ -16,7 +16,7 @@ import { EmptySlot } from "@/components/shared/interface";
 import { estateListColumns } from "@/columns/estate-list";
 import { DownloadIcon } from "@/svgs";
 import { FlowFooter } from "@/components/layout/flow-footer";
-import { FlowCurrentPage } from "@/components/layout/flow-current-page";
+import { FlowEntriesPerPage } from "@/components/layout/flow-entries-per-page";
 import { FlowPagination } from "@/components/layout/flow-pagination";
 import { useFakeStaffList } from "@/builders/types/estate-list";
 
@@ -43,7 +43,7 @@ export default function Estates() {
           </FlowPaper>
 
           <FlowFooter hidden={true}>
-            <FlowCurrentPage />
+            <FlowEntriesPerPage />
             <FlowPagination />
           </FlowFooter>
         </FlowContentContainer>

@@ -129,7 +129,7 @@ export function FlowTable<T>({
 
 // Table Header Component
 const TableHeader = ({ headerGroup, skeleton }: any) => (
-  <Table.Tr key={headerGroup.id}>
+  <Table.Tr key={headerGroup.id} className='shadow-md'>
     {headerGroup.headers.map((header: any) => (
       <Table.Th
         pos='sticky'
@@ -139,8 +139,8 @@ const TableHeader = ({ headerGroup, skeleton }: any) => (
         key={header.id}
         className={clsx("text-primary-text-body p-6 bg-white", {
           skeleton,
-          "left-0 z-10": header.column.getIsPinned() === "left",
-          "right-0 z-10": header.column.getIsPinned() === "right",
+          // "left-0 z-10": header.column.getIsPinned() === "left",
+          // "right-0 z-10": header.column.getIsPinned() === "right",
         })}
         colSpan={header.colSpan}
       >
@@ -195,13 +195,16 @@ const SortIcon = ({ isSorted }: { isSorted: "asc" | "desc" | false }) => (
 
 // Table Row Component
 const TableRow = ({ row, skeleton }: any) => (
-  <Table.Tr key={row.id} className='hover:bg-blue-50 p-8 cursor-pointer'>
+  <Table.Tr
+    key={row.id}
+    className={clsx("hover:bg-blue-50 px-6 py-4 cursor-pointer")}
+  >
     {row.getVisibleCells().map((cell: any) => (
       <Table.Td
         fz={14}
         key={cell.id}
         pos='sticky'
-        className={clsx("p-6", {
+        className={clsx("px-6 py-4", {
           skeleton,
         })}
       >

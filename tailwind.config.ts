@@ -35,6 +35,7 @@ module.exports = {
       fontFamily,
       keyframes,
       animation,
+      boxShadow,
     },
   },
   plugins: [fluid, scrollbar, prose, gridset, skeleton],

@@ -15,7 +15,7 @@ import { FlowTable } from "@/components/layout/flow-table";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/svgs";
 import { FlowFooter } from "@/components/layout/flow-footer";
-import { FlowCurrentPage } from "@/components/layout/flow-current-page";
+import { FlowEntriesPerPage } from "@/components/layout/flow-entries-per-page";
 import { FlowPagination } from "@/components/layout/flow-pagination";
 
 export default async function Occupants() {
@@ -39,7 +39,7 @@ export default async function Occupants() {
           </FlowPaper>
 
           <FlowFooter hidden={true}>
-            <FlowCurrentPage />
+            <FlowEntriesPerPage />
             <FlowPagination />
           </FlowFooter>
         </FlowContentContainer>

@@ -30,36 +30,35 @@ type FormButtons = FormButtonsAttributes;
 //     };
 
 interface FormButtonsProps {
-  nextButton?: FormButtons;
-  backButton?: FormButtons;
+  leftButton: FormButtons;
+  rightButton: FormButtons;
   containerProps?: FlexProps;
   dividerProps?: DividerProps;
 }
 
 export function FormButtons({
-  backButton,
-  nextButton,
+  rightButton,
+  leftButton,
   containerProps,
 }: FormButtonsProps) {
-  const { children: nextLabel, ...nextProps } = { ...nextButton };
-  const { children: backLabel, ...backProps } = { ...backButton };
+  const { children: leftLabel, ...leftProps } = { ...leftButton };
+  const { children: rightLabel, ...rightProps } = { ...rightButton };
 
   return (
     <Box>
-      <Divider />
-      <Flex gap={20} px={32} py={20} wrap="wrap" {...containerProps}>
+      <Flex gap={20} px={32} py={20} wrap='wrap' {...containerProps}>
         <Button
-          type="button"
-          miw="fit-content"
           flex={1}
-          variant="default"
-          {...backProps}
+          type='button'
+          miw='fit-content'
+          variant='default'
+          {...leftProps}
         >
-          {backLabel}
+          {leftLabel}
         </Button>
 
-        <Button type="submit" miw="fit-content" flex={1} {...nextProps}>
-          {nextLabel}
+        <Button type='submit' miw='fit-content' flex={1} {...rightProps}>
+          {rightLabel}
         </Button>
       </Flex>
     </Box>

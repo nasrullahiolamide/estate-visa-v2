@@ -21,5 +21,10 @@ export { DownloadIcon } from "./download-icon";
 export { Mark } from "./mark";
 export { LaptopMockup } from "./laptop-mockup";
 export { CancelCircleIcon } from "./cancel-circle-icon";
-
+export { MoreIcon } from "./more-icon";
+export { EyeIcon } from "./eye-icon";
+export { EditIcon } from "./edit-icon";
+export { DeactivateIcon } from "./deactivate-icon";
+export { ActivateIcon } from "./activate-icon";
+export { TrashIcon } from "./trash-icon";
 export type { IconType } from "./type";

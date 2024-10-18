@@ -3,13 +3,14 @@ import type { Metadata } from "next";
 import { PropsWithChildren, ReactNode } from "react";
 import { Providers } from "@/components/shared";
 import { getUserType } from "@/packages/actions";
-import { isGuest, USER_TYPE } from "@/packages/libraries";
+import { USER_TYPE } from "@/packages/libraries";
 
 import "@mantine/charts/styles.layer.css";
 import "@mantine/core/styles.layer.css";
 import "@mantine/dates/styles.layer.css";
-import "@mantine/notifications/styles.layer.css";
 import "@mantine/spotlight/styles.layer.css";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import "@/styles/accent.scss";
 import "@/styles/index.css";

@@ -1,10 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Checkbox, Pill, Stack, Text } from "@mantine/core";
+import { Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
 import { Actionable } from "@/builders/types/table";
 import { SubAdminListData } from "@/builders/types/sub-admins";
 import dayjs from "dayjs";
 
-const columnHelper = createColumnHelper<SubAdminListData>();
+const columnHelper = createColumnHelper<Actionable<SubAdminListData>>();
 
 export const subAdminListColumns = [
   columnHelper.display({
@@ -47,10 +47,10 @@ export const subAdminListColumns = [
     cell: ({ getValue }) => {
       const value = getValue();
       return (
-        <Stack>
+        <Flex className='flex-row sm:flex-col' gap={25}>
           <Text fz={14}>{dayjs(value).format("DD/MM/YYYY")}</Text>
           <Text fz={14}>{dayjs(value).format("h:mm A")}</Text>
-        </Stack>
+        </Flex>
       );
     },
     enableSorting: false,
@@ -73,10 +73,11 @@ export const subAdminListColumns = [
       );
     },
   }),
-  //   columnHelper.accessor("action", {
-  //     header: "Actions",
-  //     cell: ({ renderValue }) => renderValue(),
-  //   }),
+  columnHelper.accessor("action", {
+    header: "Actions",
+    cell: ({ renderValue }) => renderValue(),
+    enableSorting: false,
+  }),
 ];
 
 export const columnOrdering = ["select"];

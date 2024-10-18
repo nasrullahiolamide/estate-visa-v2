@@ -1,78 +1,135 @@
 "use client";
 
 import { Fragment, useEffect } from "react";
-import { Add, Menu } from "iconsax-react";
-import { Button, Flex } from "@mantine/core";
-
+import { Add, Trash } from "iconsax-react";
+import { Button, Flex, Menu, Tooltip } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { MODALS } from "@/packages/libraries";
+import { subAdminListColumns } from "@/columns/sub-admin-list";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
-
-import { FlowContainer } from "@/components/layout/flow-container";
-import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { FlowPaper } from "@/components/layout/flow-paper";
-
-import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon } from "@/svgs";
-import { FlowFooter } from "@/components/layout/flow-footer";
-import { FlowCurrentPage } from "@/components/layout/flow-current-page";
-import { FlowPagination } from "@/components/layout/flow-pagination";
-import { modals } from "@mantine/modals";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
-import { MODALS } from "@/packages/libraries";
-
-import { useFlowState } from "@/components/layout/flow-context";
-import { useFlowPagination } from "@/components/layout/use-flow-pagination";
-
-import { subAdminListColumns } from "@/columns/sub-admin-list";
+import { EmptySlot } from "@/components/shared/interface";
+import { DeleteSubAdmin } from "@/components/admin/sub-admins/delete";
+import { ViewSubAdmins } from "@/components/admin/sub-admins/view-edit";
 import {
+  SubAdminListData,
   useFakeSubAdminList,
-  useFakeSubAdminListData,
 } from "@/builders/types/sub-admins";
-import { FlowTable } from "@/components/layout/flow-table";
+import {
+  DownloadIcon,
+  EditIcon,
+  EyeIcon,
+  ActivateIcon,
+  DeactivateIcon,
+  TrashIcon,
+} from "@/svgs";
+import {
+  FlowContainer,
+  FlowContentContainer,
+  FlowEntriesPerPage,
+  FlowFooter,
+  FlowMenu,
+  FlowMenuDropdown,
+  FlowMenuTarget,
+  FlowPagination,
+  FlowPaper,
+  FlowTable,
+  FlowFloatingButtons,
+  useFlowState,
+  useFlowPagination,
+} from "@/components/layout";
+
+const handleAddSubAdmin = () => {
+  modals.open({
+    title: "Add New Sub Admin",
+    children: <AddSubAdmins />,
+    modalId: MODALS.ADD_SUB_ADMIN,
+  });
+};
+
+const handleDelete = () => {
+  modals.open({
+    children: <DeleteSubAdmin />,
+    withCloseButton: false,
+    modalId: MODALS.DELETE_SUB_ADMIN,
+  });
+};
+
+const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
+  modals.open({
+    title: "Sub Admin Details",
+    modalId: MODALS.EDIT_SUB_ADMIN,
+    children: <ViewSubAdmins {...details} edit={edit} />,
+  });
+};
 
 export default function SubAdmins() {
   const subAdminsData = useFakeSubAdminList();
 
-  const handleAddSubAdmin = () => {
-    modals.open({
-      title: "Add New Sub Admin",
-      children: <AddSubAdmins />,
-      modalId: MODALS.ADD_SUB_ADMIN,
-    });
-  };
+  const dataToDisplay = subAdminsData?.data.map((list) => {
+    const isActive = list.status === "Active";
+
+    return {
+      ...list,
+      action: (
+        <>
+          <FlowMenu wrapperProps={{ className: "block sm:hidden" }}>
+            <FlowMenuTarget />
+            <FlowMenuDropdown>
+              <Menu.Item onClick={() => handleViewEdit(list)}>View</Menu.Item>
+              <Menu.Item onClick={() => handleViewEdit(list, true)}>
+                Edit
+              </Menu.Item>
+              <Menu.Item>{isActive ? "Disable" : "Activate"}</Menu.Item>
+              <Menu.Divider />
+              <Menu.Item
+                color='red'
+                leftSection={<Trash size={15} />}
+                onClick={handleDelete}
+              >
+                Delete
+              </Menu.Item>
+            </FlowMenuDropdown>
+          </FlowMenu>
+          <Flex className='hidden sm:flex' gap={8} align='center'>
+            <Tooltip label='View'>
+              <div onClick={() => handleViewEdit(list)}>
+                <EyeIcon />
+              </div>
+            </Tooltip>
+            <Tooltip label='Edit'>
+              <div onClick={() => handleViewEdit(list, true)}>
+                <EditIcon />
+              </div>
+            </Tooltip>
+            {isActive ? (
+              <Tooltip label='De-activate'>
+                <div>
+                  <DeactivateIcon />
+                </div>
+              </Tooltip>
+            ) : (
+              <Tooltip label='Activate'>
+                <div>
+                  <ActivateIcon />
+                </div>
+              </Tooltip>
+            )}
+
+            <Tooltip label='Delete'>
+              <div onClick={handleDelete}>
+                <TrashIcon />
+              </div>
+            </Tooltip>
+          </Flex>
+        </>
+      ),
+    };
+  });
 
   const { page, search } = useFlowState();
   const pagination = useFlowPagination();
-
-  // const { data: subAdmins, isPlaceholderData } = useQuery({
-  //   queryKey: builder.users.get.get({ user_type: USER_TYPE.ADMIN }),
-  //   queryFn: () =>
-  //     builder.use().users.get({
-  //       user_type: USER_TYPE.ADMIN,
-  //       page,
-  //       search,
-  //     }),
-  //   select({ total, current_page, last_page, data, page_size }) {
-  //     return {
-  //       total,
-  //       current_page,
-  //       last_page,
-  //       page_size,
-  //       data: data.map((list) => ({
-  //         ...list,
-  //         action: (
-  //           <FlowMenu>
-  //             <FlowMenuTarget />
-  //             <FlowMenuDropdown>
-  //               <Menu.Item>View Profile</Menu.Item>
-  //               <Menu.Item>Activate</Menu.Item>
-  //             </FlowMenuDropdown>
-  //           </FlowMenu>
-  //         ),
-  //       })),
-  //     };
-  //   },
-  // });
 
   useEffect(() => {
     if (false) return;
@@ -85,19 +142,19 @@ export default function SubAdmins() {
 
   return (
     <Fragment>
-      <AppShellHeader
-        title='Sub Admins'
-        options={<Options addSubAdmin={handleAddSubAdmin} />}
-      />
+      <AppShellHeader title='Sub Admins' options={<Options />} />
 
-      <FlowContainer type='plain' m={20} mx={15}>
-        <FlowContentContainer>
+      <FlowContainer type='plain' className='lg:~p-1/8'>
+        <FlowContentContainer
+          classNames={{
+            root: "rounded-none lg:rounded-2xl bg-white",
+          }}
+        >
           <FlowPaper>
             {subAdminsData?.data.length ? (
               <FlowTable
-                data={subAdminsData?.data}
+                data={dataToDisplay}
                 columns={subAdminListColumns}
-                initialLeftPinnedColumns={["full_name"]}
                 skeleton={false}
               />
             ) : (
@@ -116,22 +173,48 @@ export default function SubAdmins() {
 
           <FlowFooter hidden={false}>
             <FlowPagination />
-            <FlowCurrentPage />
+            <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
+
+        <FlowFloatingButtons
+          withPrimaryButon
+          withSecondaryButtons
+          hasFilterButton
+          filterData={[
+            { label: "Recently Added", value: "recent" },
+            { label: "Name(A-Z)", value: "a-z" },
+            { label: "Name(Z-A)", value: "z-a" },
+          ]}
+          primaryButton={{
+            icon: "add",
+            btnProps: {
+              onClick: handleAddSubAdmin,
+            },
+          }}
+          secondaryButtons={[
+            {
+              icon: "download",
+              btnProps: {
+                onClick: handleAddSubAdmin,
+              },
+            },
+          ]}
+        />
       </FlowContainer>
     </Fragment>
   );
 }
 
-interface OptionsProps {
-  addSubAdmin: () => void;
-}
-
-function Options({ addSubAdmin }: OptionsProps) {
+function Options() {
   return (
     <Flex gap={14}>
-      <Button fz='sm' size='md' leftSection={<Add />} onClick={addSubAdmin}>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<Add />}
+        onClick={handleAddSubAdmin}
+      >
         Add New Sub Admin
       </Button>
       <FilterDropdown
