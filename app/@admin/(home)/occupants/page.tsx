@@ -30,7 +30,6 @@ export default async function Occupants() {
               title='There are no occupants yet. Add one to get started!'
               src='person-minus'
               withButton
-              href=''
               text='Add New Occupant'
               btnProps={{
                 leftSection: <Add />,

@@ -29,7 +29,6 @@ export default function PropertyOwners() {
               title='No houses added yet. Start by adding a house to manage!'
               src='house'
               withButton
-              href=''
               text='Add New House'
               btnProps={{
                 leftSection: <Add />,

@@ -28,7 +28,6 @@ export default function PropertyOwners() {
               title='You have no rules in the market place yet, add a new rule to get started.'
               src='marketplace'
               withButton
-              href=''
               text='Add New Rule'
               btnProps={{
                 leftSection: <Add />,

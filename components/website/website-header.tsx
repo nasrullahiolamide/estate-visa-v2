@@ -19,6 +19,8 @@ import { PAGES } from "@/packages/libraries";
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 const links = [
   {
@@ -40,6 +42,7 @@ const links = [
 ];
 
 export function NavList({ close }: { close?: () => void }) {
+  const pathname = usePathname();
   return (
     <>
       {links.map((link, index) => (
@@ -47,7 +50,10 @@ export function NavList({ close }: { close?: () => void }) {
           key={index}
           href={link.href}
           variant='hover'
-          className='text-primary-text-body py-2'
+          className={clsx(
+            "text-primary-text-body py-2"
+            // pathname.includes(link.href) && "text-blue-8"
+          )}
           fz={18}
           fw={500}
           w='fit-content'

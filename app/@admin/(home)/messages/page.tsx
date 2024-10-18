@@ -30,7 +30,6 @@ export default function PropertyOwners() {
               title='You have no messages yet. Start a conversation to stay connected!'
               src='no-talk'
               withButton
-              href=''
               text='Wite a Message'
               btnProps={{
                 leftSection: <Add />,

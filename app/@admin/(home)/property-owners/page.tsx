@@ -30,7 +30,6 @@ export default function PropertyOwners() {
               title='There are no property owners here yet. Add an occupant to get started!'
               src='person-minus'
               withButton
-              href=''
               text='Add New Occupant'
               btnProps={{
                 leftSection: <Add />,

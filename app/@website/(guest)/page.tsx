@@ -7,6 +7,7 @@ import {
   WebsiteHeader,
   WebsiteFooter,
   JoinUs,
+  PricingPlans,
 } from "@/components/website";
 
 export default function Page() {
@@ -22,6 +23,7 @@ export default function Page() {
       </Box>
       <HeroSection />
       <Services />
+      <PricingPlans />
       <JoinUs />
       <WebsiteFooter />
     </Stack>

@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 
 import { builder } from "@/builders";
 import { UploadData } from "@/builders/types/upload";
-import { pass } from "@/packages/libraries/pass";
+import { pass } from "@/packages/libraries";
 
 import { useOnUploadProgress } from "./use-on-upload-progress";
 import { Thumbnail } from "@/builders/types/shared";

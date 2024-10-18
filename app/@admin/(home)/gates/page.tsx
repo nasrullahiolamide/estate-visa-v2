@@ -30,7 +30,6 @@ export default function Gates() {
               title='No gates have been added yet. Add a gate to begin managing access!'
               src='gate'
               withButton
-              href=''
               text='Add New Gate'
               btnProps={{
                 leftSection: <Add />,

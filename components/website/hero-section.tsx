@@ -1,6 +1,7 @@
 import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
 import { Picture } from "../shared/interface";
 import { Features } from "./features";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export function HeroSection() {
   return (
@@ -8,7 +9,7 @@ export function HeroSection() {
       py={40}
       className='h-full w-full overflow-hidden'
       justify='center'
-      maw={1300}
+      maw={MAX_SCREEN_WIDTH}
       mx='auto'
     >
       <Flex

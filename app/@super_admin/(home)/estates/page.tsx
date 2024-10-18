@@ -34,7 +34,6 @@ export default function Estates() {
               title='No estate added yet. Start by adding an estate to manage!'
               src='house'
               withButton
-              href=''
               text='Add Estate'
               btnProps={{
                 leftSection: <Add />,

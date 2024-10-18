@@ -1,5 +1,6 @@
 import { Title, Text, Stack, Box, Flex } from "@mantine/core";
 import { Tag } from "./tag";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 const details = [
   {
@@ -59,7 +60,7 @@ export function Services() {
         mx='auto'
         mt={10}
         gap={20}
-        maw={1300}
+        maw={MAX_SCREEN_WIDTH}
       >
         <Title
           component='h2'

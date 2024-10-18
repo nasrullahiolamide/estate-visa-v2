@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Divider, Flex, Text } from "@mantine/core";
+import { Divider, Flex, Stack, Text } from "@mantine/core";
 import clsx from "clsx";
 import { Copyright } from "iconsax-react";
 
@@ -12,11 +12,19 @@ import {
   LinkedInIcon,
   XIcon,
 } from "@/svgs";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export function WebsiteFooter() {
   return (
     <>
-      <footer className='mt-auto flex flex-col lg:p-16 md:p-8 py-12 px-5 lg:pb-10 text-sm sm:sticky bottom-0'>
+      <Stack
+        component='footer'
+        // maw={MAX_SCREEN_WIDTH}
+        // mx='auto'
+        mt='auto'
+        fz={14}
+        className='lg:p-16 md:p-8 py-12 px-5 lg:pb-10'
+      >
         <div
           className={clsx(
             "flex flex-wrap gap-12 sm:gap-8",
@@ -132,10 +140,7 @@ export function WebsiteFooter() {
             </Link>
           </Flex>
         </div>
-      </footer>
-      {/* <p className=" p-5  text-center">
-        Developed with ❤️ by MSSN UI IT and Media Committee 1445AH/2024
-      </p> */}
+      </Stack>
     </>
   );
 }
