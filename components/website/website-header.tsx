@@ -28,6 +28,10 @@ const links = [
     href: "/",
   },
   {
+    title: "How it works",
+    href: "#how-it-works",
+  },
+  {
     title: "Features",
     href: "#features",
   },

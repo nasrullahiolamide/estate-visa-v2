@@ -1,22 +1,15 @@
 "use client";
 
-import {
-  Flex,
-  Stack,
-  Group,
-  Text,
-  Avatar,
-  Divider,
-  Tabs,
-  Title,
-} from "@mantine/core";
+import { Stack, Tabs, Title } from "@mantine/core";
 import { useQueryState } from "nuqs";
 
-import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { FlowTabs } from "@/components/layout/flow-tabs";
-import { FlowTabsPanel } from "@/components/layout/flow-tabs-panel";
 import { notifications } from "../data/notifications";
 import { NotificationItem } from "./notification-item";
+import {
+  FlowContentContainer,
+  FlowTabs,
+  FlowTabsPanel,
+} from "@/components/layout";
 
 export function RecentActivities() {
   const [activity, setActivity] = useQueryState("activity", {
@@ -42,14 +35,17 @@ export function RecentActivities() {
         </Tabs.List>
 
         <FlowTabsPanel value='this-week' mih={300}>
-          <FlowContentContainer h={300} mt={16} className='overflow-scroll '>
+          <FlowContentContainer
+            mt={16}
+            className='lg:overflow-scroll h-full sm:h-[300px]'
+          >
             {notifications.map((notification, index) => (
               <NotificationItem {...notification} key={index} />
             ))}
           </FlowContentContainer>
         </FlowTabsPanel>
         <FlowTabsPanel value='last-week' mih={300}>
-          <FlowContentContainer h={300} mt={16} className='overflow-scroll '>
+          <FlowContentContainer h={300} mt={16} className='lg:overflow-scroll '>
             {notifications.map((notification, index) => (
               <NotificationItem {...notification} key={index} />
             ))}

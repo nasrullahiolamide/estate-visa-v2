@@ -25,7 +25,7 @@ export function SearchEstate() {
       />
 
       <Button variant='transparent' c='gray.10' hiddenFrom='sm'>
-        <SearchIcon height={24} width={24} />
+        <SearchIcon height={23} width={23} />
       </Button>
     </Fragment>
   );

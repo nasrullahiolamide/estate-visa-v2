@@ -30,10 +30,10 @@ export function AdminUser() {
       <Menu.Target>
         <Flex align='center' gap={8}>
           <Avatar
-            size={50}
             src='/images/avatar.png'
             alt='Mide Martins'
             radius='xl'
+            className='w-10 h-10 md:w-12 md:h-12'
           />
 
           <Flex gap={12} className='hidden sm:flex' align='center'>

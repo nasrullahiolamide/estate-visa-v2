@@ -60,13 +60,12 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
       >
         <Flex
           gap={36}
-          py={18}
           align='center'
           justify='space-between'
-          className='~px-1/8'
+          className='~px-5/20 sm:~px-1/8 py-3 md:py-5'
         >
           <Center hiddenFrom='lg'>
-            <EstateVisaLogo height={65} width={65} />
+            <EstateVisaLogo height={52} width={52} />
           </Center>
 
           <Flex
@@ -75,7 +74,7 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
               base: "flex-end",
               sm: "space-between",
             }}
-            gap={10}
+            gap={5}
           >
             <SearchEstate />
             <AdminUser />
@@ -105,6 +104,7 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
             return (
               <NavLink
                 key={index}
+                flex={1}
                 active={isActive}
                 variant='admin-app-shell-mobile'
                 component={Link}

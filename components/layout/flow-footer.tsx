@@ -12,7 +12,7 @@ export function FlowFooter({
   return (
     <Flex
       px={20}
-      py={30}
+      py={20}
       gap={15}
       wrap='wrap'
       hidden={!visible}
