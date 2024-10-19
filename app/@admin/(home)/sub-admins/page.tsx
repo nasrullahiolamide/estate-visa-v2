@@ -74,7 +74,7 @@ export default function SubAdmins() {
       ...list,
       action: (
         <>
-          <FlowMenu wrapperProps={{ className: "block sm:hidden" }}>
+          <FlowMenu wrapperProps={{ className: "block sm:hidden text-center" }}>
             <FlowMenuTarget />
             <FlowMenuDropdown>
               <Menu.Item onClick={() => handleViewEdit(list)}>View</Menu.Item>
@@ -155,6 +155,7 @@ export default function SubAdmins() {
               <FlowTable
                 data={dataToDisplay}
                 columns={subAdminListColumns}
+                initialLeftPinnedColumns={["full_name"]}
                 skeleton={false}
               />
             ) : (

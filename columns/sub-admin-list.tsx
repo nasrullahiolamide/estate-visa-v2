@@ -29,6 +29,7 @@ export const subAdminListColumns = [
   columnHelper.accessor("full_name", {
     header: "Full Name",
     enableSorting: false,
+    enablePinning: true,
   }),
   columnHelper.accessor("phone_number", {
     header: "Phone Number",

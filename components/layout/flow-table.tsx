@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Table } from "@mantine/core";
+import { Flex, Table, TableData } from "@mantine/core";
 import {
   ColumnDef,
   ColumnPinningState,
@@ -10,9 +10,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  type Row,
   type PaginationState,
   type SortingState,
   type VisibilityState,
+  type HeaderGroup,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
@@ -100,15 +102,15 @@ export function FlowTable<T>({
         striped
         // highlightOnHover
         // highlightOnHoverColor='var(--purple-2)'
-        stripedColor='#E3DBFF'
+        // stripedColor='#E3DBFF'
         miw='max-content'
         bg='white'
         className={clsx({
           "border-separate border-spacing-2": skeleton,
         })}
       >
-        <Table.Thead className='bg-primary-text-normal whitespace-nowrap'>
-          {table.getHeaderGroups().map((headerGroup) => (
+        <Table.Thead className='bg-primary-text-normal whitespace-nowrap z-10'>
+          {table.getHeaderGroups().map((headerGroup, i) => (
             <TableHeader
               key={headerGroup.id}
               headerGroup={headerGroup}
@@ -116,11 +118,19 @@ export function FlowTable<T>({
             />
           ))}
         </Table.Thead>
-
         <Table.Tbody>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id} row={row} skeleton={skeleton} />
-          ))}
+          {table.getRowModel().rows.map((row, i) => {
+            const color = i % 2 === 0 ? "bg-purple-4" : "bg-white";
+
+            return (
+              <TableRow
+                key={row.id}
+                row={row}
+                skeleton={skeleton}
+                bgColor={color}
+              />
+            );
+          })}
         </Table.Tbody>
       </Table>
     </>
@@ -128,20 +138,32 @@ export function FlowTable<T>({
 }
 
 // Table Header Component
-const TableHeader = ({ headerGroup, skeleton }: any) => (
-  <Table.Tr key={headerGroup.id} className='shadow-md'>
-    {headerGroup.headers.map((header: any) => (
+
+interface TableHeaderProps<T> {
+  headerGroup: HeaderGroup<T>;
+  skeleton: any;
+  bgColor?: string;
+}
+
+const TableHeader = <T,>({
+  headerGroup,
+  skeleton,
+  bgColor,
+}: TableHeaderProps<T>) => (
+  <Table.Tr key={headerGroup.id}>
+    {headerGroup.headers.map((header) => (
       <Table.Th
-        pos='sticky'
         lh={2}
         fw={600}
         ta='start'
         key={header.id}
-        className={clsx("text-primary-text-body p-6 bg-white", {
-          skeleton,
-          // "left-0 z-10": header.column.getIsPinned() === "left",
-          // "right-0 z-10": header.column.getIsPinned() === "right",
-        })}
+        className={clsx(
+          "text-primary-text-body pr-4 sm:px-6 py-4 sm:py-6 bg-white",
+          {
+            skeleton,
+            "sticky left-0 ": header.column.getIsPinned() === "left",
+          }
+        )}
         colSpan={header.colSpan}
       >
         {header.isPlaceholder ? null : (
@@ -173,6 +195,41 @@ const TableHeader = ({ headerGroup, skeleton }: any) => (
   </Table.Tr>
 );
 
+// Table Row Component
+
+interface TableRowProps<T> {
+  row: Row<T>;
+  skeleton: any;
+  bgColor: string;
+}
+const TableRow = <T,>({ row, skeleton, bgColor }: TableRowProps<T>) => {
+  return (
+    <Table.Tr
+      key={row.id}
+      className={clsx(
+        "hover:bg-blue-50 pr-4 sm:px-6 sm:py-4 cursor-pointer w-fit"
+      )}
+    >
+      {row.getVisibleCells().map((cell) => {
+        return (
+          <Table.Td
+            fz={14}
+            key={cell.id}
+            pos='sticky'
+            className={clsx("pr-4 sm:px-6 sm:py-4 w-fit", bgColor, {
+              skeleton,
+              "fixed z-[4] left-0 shadow-xl":
+                cell.column.getIsPinned() === "left",
+            })}
+          >
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </Table.Td>
+        );
+      })}
+    </Table.Tr>
+  );
+};
+
 // Sort Icon Component
 const SortIcon = ({ isSorted }: { isSorted: "asc" | "desc" | false }) => (
   <svg
@@ -191,25 +248,4 @@ const SortIcon = ({ isSorted }: { isSorted: "asc" | "desc" | false }) => (
       fill={isSorted === "desc" ? "var(--gray-12)" : "var(--gray-7)"}
     />
   </svg>
-);
-
-// Table Row Component
-const TableRow = ({ row, skeleton }: any) => (
-  <Table.Tr
-    key={row.id}
-    className={clsx("hover:bg-blue-50 px-6 py-4 cursor-pointer")}
-  >
-    {row.getVisibleCells().map((cell: any) => (
-      <Table.Td
-        fz={14}
-        key={cell.id}
-        pos='sticky'
-        className={clsx("px-6 py-4", {
-          skeleton,
-        })}
-      >
-        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-      </Table.Td>
-    ))}
-  </Table.Tr>
 );

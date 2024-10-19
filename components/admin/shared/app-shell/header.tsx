@@ -62,7 +62,7 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
           gap={36}
           align='center'
           justify='space-between'
-          className='~px-5/20 sm:~px-1/8 py-3 md:py-5'
+          className='~px-1/8 py-3 md:py-5'
         >
           <Center hiddenFrom='lg'>
             <EstateVisaLogo height={52} width={52} />
@@ -96,7 +96,9 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
 
         <Flex
           align='center'
-          className='lg:~px-1/8 overflow-scroll scrollbar-none shadow-red-3 shadow-2xl'
+          justify='space-between'
+          gap={12}
+          className='lg:~px-1/8 overflow-scroll scrollbar-none'
           hiddenFrom='lg'
         >
           {links?.map((item, index) => {
