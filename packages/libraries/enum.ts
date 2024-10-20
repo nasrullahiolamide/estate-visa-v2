@@ -51,9 +51,29 @@ export enum PAGES {
   ESTATES = "/estates",
 }
 
+export enum USER_ACTIONS {
+  CONFIRM = "confirm",
+  DELETE = "delete",
+  ADD = "add",
+  VIEW_EDIT = "view-edit",
+}
+
 export enum MODALS {
-  ADD_SUB_ADMIN = "add-sub-admin",
-  EDIT_SUB_ADMIN = "edit-sub-admin",
-  DELETE_SUB_ADMIN = "delete-sub-admin",
-  CONFIRM_LOGOUT = "confirm-logout",
+  //======== ADD =========
+  ADD_SUB_ADMIN = USER_ACTIONS.ADD + "-sub-admin",
+  ADD_NEW_OCCUPANTS = USER_ACTIONS.ADD + "-new-occupants",
+
+  //======== VIEW_EDIT =========
+  VIEW_EDIT_SUB_ADMIN = USER_ACTIONS.VIEW_EDIT + "-sub-admin",
+  VIEW_EDIT_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",
+
+  //======== DELETE =========
+  DELETE_SUB_ADMIN = USER_ACTIONS.DELETE + "-sub-admin",
+  DELETE_PROPERTY_OWNER = USER_ACTIONS.DELETE + "-property-owner",
+  DELETE_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",
+
+  //======== CONFIRM =========
+  CONFIRM_DELETE = USER_ACTIONS.CONFIRM + "-delete",
+  CONFIRM_LOGOUT = USER_ACTIONS.CONFIRM + "-logout",
+  CONFIRM_OCCUPANT = USER_ACTIONS.CONFIRM + "-occupant",
 }

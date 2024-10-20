@@ -20,7 +20,7 @@ enum IconType {
   DOWNLOAD = "download",
   ADD = "add",
 }
-type Icon = "filter" | "upload" | "download" | "add";
+type Icon = "upload" | "download" | "add";
 
 type Button = {
   icon: Icon;
@@ -109,13 +109,12 @@ export function FlowFloatingButtons({
     >
       <Stack justify='center' align='center'>
         {withSecondaryButtons &&
-          secondaryButtons.map(({ icon, btnProps }, index) => {
-            if (icon === IconType.FILTER) return null;
+          secondaryButtons.map(({ icon, btnProps }) => {
             return (
               <Button
                 radius='md'
-                w={45}
-                h={45}
+                w={50}
+                h={50}
                 p={0}
                 variant='outline'
                 bg='white'

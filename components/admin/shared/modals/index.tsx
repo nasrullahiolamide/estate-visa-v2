@@ -1,1 +1,2 @@
-export { ConfirmLogout } from "./confirm-logout";
+export { ConfirmLogout } from "./logout";
+export { ConfirmDelete } from "./delete";

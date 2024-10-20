@@ -26,3 +26,4 @@ export { FlowTabs } from "./flow-tabs";
 export { FlowTitle } from "./flow-title";
 export { useFlowPagination } from "./use-flow-pagination";
 export { FlowFloatingButtons } from "./flow-floating-buttons";
+export { FlowMenuItem } from "./flow-menu-item";

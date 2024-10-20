@@ -3,15 +3,16 @@
 import { Button, Image, Stack } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { handleError } from "@/packages/notification";
 
 export function ProfileImage() {
   const { preview, handleUpload } = useFileUpload({
     key: "profile-image",
-    // onError: () => {
-    //   handleError({
-    //     message: "Failed to upload thumbnail",
-    //   });
-    // },
+    onError: () => {
+      handleError({
+        message: "Failed to upload thumbnail",
+      });
+    },
     // onSuccess: ({ data }) => {
     //   form.clearFieldError("thumbnail_id");
     //   form.setFieldValue("thumbnail_id", data.id);
@@ -37,7 +38,7 @@ export function ProfileImage() {
       <Stack
         pos='relative'
         justify='center'
-        w={155}
+        w={100}
         className='cursor-pointer aspect-square'
       >
         <Image

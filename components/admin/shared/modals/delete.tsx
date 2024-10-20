@@ -6,17 +6,22 @@ import { Button, Text, Stack, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { Emblem } from "@/components/shared/interface";
 
-export function DeleteSubAdmin() {
+interface ConfirmDeleteProps {
+  title: string;
+}
+
+export function ConfirmDelete({ title }: ConfirmDeleteProps) {
   const handleDelete = () => {
-    modals.close(MODALS.DELETE_SUB_ADMIN);
+    console.log("Deleted", title);
+    modals.close(MODALS.CONFIRM_DELETE);
   };
 
   return (
     <Fragment>
       <Stack py={10} className='sm:p-5'>
         <Emblem image='/sprites/delete.gif' h={120} />
-        <Text ta='center' className='prose-2xl/regular'>
-          Are you sure you want to delete this Sub Admin?
+        <Text ta='center' className='prose-xl/regular sm:prose-2xl/regular'>
+          Are you sure you want to delete this {title.toLowerCase()}?
         </Text>
 
         <Flex justify='center' gap={15} mt={30}>

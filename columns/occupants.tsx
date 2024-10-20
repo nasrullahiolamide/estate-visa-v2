@@ -1,12 +1,11 @@
+import { Checkbox, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
 import { Actionable } from "@/builders/types/table";
-import { SubAdminListData } from "@/builders/types/sub-admins";
-import dayjs from "dayjs";
+import { OccupantsData } from "@/builders/types/occupants";
 
-const columnHelper = createColumnHelper<Actionable<SubAdminListData>>();
+const columnHelper = createColumnHelper<Actionable<OccupantsData>>();
 
-export const subAdminListColumns = [
+export const occupantsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
@@ -26,6 +25,10 @@ export const subAdminListColumns = [
     enableSorting: false,
   }),
 
+  columnHelper.accessor("house_no", {
+    header: "House No",
+    enableSorting: false,
+  }),
   columnHelper.accessor("full_name", {
     header: "Full Name",
     enableSorting: false,
@@ -42,18 +45,17 @@ export const subAdminListColumns = [
       );
     },
   }),
-  columnHelper.accessor("last_login", {
-    header: "Last Login",
+  columnHelper.accessor("sub_occupants", {
+    header: "No of Sub Occupants",
+    enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
       return (
-        <Flex className='flex-row sm:flex-col' gap={25}>
-          <Text fz={14}>{dayjs(value).format("DD/MM/YYYY")}</Text>
-          <Text fz={14}>{dayjs(value).format("h:mm A")}</Text>
-        </Flex>
+        <Text fz={14} ta='center'>
+          {value}
+        </Text>
       );
     },
-    enableSorting: false,
   }),
   columnHelper.accessor("status", {
     header: "Status",

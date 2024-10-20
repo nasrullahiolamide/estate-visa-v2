@@ -1,20 +1,17 @@
 "use client";
 
-import { AppShell, Center, Divider, Flex, NavLink, Stack } from "@mantine/core";
-
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { AppShell, Center, Divider, Flex, NavLink, Stack } from "@mantine/core";
 
 import { SearchEstate } from "../search-estate";
 import { AdminUser } from "../user-admin";
 import { adminLinks, NavLinkType, superAdminLinks } from "../data/navlinks";
-
-import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { APP, USER_TYPE } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/svgs";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { USER_TYPE } from "@/packages/libraries";
 import { getUserType } from "@/packages/actions";
 import { usePathname } from "next/navigation";
-
-import { useEffect, useState } from "react";
 
 interface AppShellHeaderProps {
   title: string;
@@ -62,10 +59,10 @@ export function AppShellHeader({ title, options }: AppShellHeaderProps) {
           gap={36}
           align='center'
           justify='space-between'
-          className='~px-1/8 py-3 md:py-5'
+          className='~px-1/8 py-2 md:py-5'
         >
           <Center hiddenFrom='lg'>
-            <EstateVisaLogo height={52} width={52} />
+            <EstateVisaLogo height={50} width={50} />
           </Center>
 
           <Flex

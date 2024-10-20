@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Table, TableData } from "@mantine/core";
+import { Flex, Table } from "@mantine/core";
 import {
   ColumnDef,
   ColumnPinningState,

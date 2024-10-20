@@ -1,4 +1,3 @@
-import { Mark } from "@/svgs";
 import { Flex, Text } from "@mantine/core";
 import { TickCircle } from "iconsax-react";
 
@@ -12,7 +11,7 @@ const data = [
 export function Features() {
   return (
     <Flex
-      className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full'
+      className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full lg:scrollbar-none'
       mx='auto'
       justify='center'
       gap={20}

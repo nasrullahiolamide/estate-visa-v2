@@ -16,17 +16,17 @@ export function ConfirmLogout() {
   return (
     <Fragment>
       <Stack py={10} className='sm:p-5'>
-        <Emblem image='/sprites/logout.gif' h={120} ml={50} />
-        <Text ta='center' className='prose-2xl/regular'>
+        <Emblem image='/sprites/logout.gif' h={110} ml={50} />
+        <Text ta='center' className='prose-xl/regular sm:prose-2xl/regular'>
           Are you sure you want to sign out of your account?
         </Text>
 
-        <Flex justify='center' gap={15} mt={30}>
+        <Flex justify='center' gap={15} mt={20} wrap='wrap'>
           <Button
-            flex={1}
             w='fit-content'
             variant='outline'
             onClick={() => modals.close(MODALS.CONFIRM_LOGOUT)}
+            className='sm:flex-1'
           >
             Stay Logged In
           </Button>

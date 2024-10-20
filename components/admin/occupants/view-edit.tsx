@@ -1,34 +1,31 @@
 "use client";
 
-import { Button, Select, TextInput } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { object, string } from "yup";
-
-import { FlowContainer } from "@/components/layout/flow-container";
-import { cast, MODALS } from "@/packages/libraries";
-import { stat } from "fs";
-import { ArrowDown01Icon } from "hugeicons-react";
-import { FormButtons } from "@/components/shared/interface";
-import { SubAdminListData } from "@/builders/types/sub-admins";
 import clsx from "clsx";
+import { ArrowDown01Icon } from "hugeicons-react";
+import { Select, TextInput } from "@mantine/core";
+import { Form, useForm, yupResolver } from "@mantine/form";
+
+import { cast, MODALS } from "@/packages/libraries";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { FormButtons } from "@/components/shared/interface";
+import { OccupantsData } from "@/builders/types/occupants";
+import { schema } from "./schema";
 import { modals } from "@mantine/modals";
 
-const schema = object({
-  full_name: string().required("Full name is required"),
-  phone_number: string().required("Phone number is required"),
-});
-
-interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
+interface ViewEditOccupantsProps extends Omit<OccupantsData, "edit"> {
   edit: boolean;
 }
 
-export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
+export function ViewEditOccupants({ edit, ...data }: ViewEditOccupantsProps) {
   const isActive = data.status === "Active";
 
   const form = useForm({
     initialValues: {
+      house_no: data.house_no,
       full_name: data.full_name,
+      email_address: data.email_address,
       phone_number: data.phone_number,
+      sub_occupants: data.sub_occupants,
       status: data.status,
       edit_details: edit,
     },
@@ -37,15 +34,18 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
     transformValues: (values) => {
       const { full_name, phone_number, status } = values;
       return {
+        house_no: cast.string(data.house_no),
         full_name: cast.string(full_name),
+        email_address: cast.string(data.email_address),
         phone_number: cast.string(phone_number),
+        sub_occupants: cast.number(data.sub_occupants),
         status: cast.string(status),
       };
     },
   });
 
   const handleSubmit = () => {
-    modals.close(MODALS.VIEW_EDIT_SUB_ADMIN);
+    modals.close(MODALS.VIEW_EDIT_NEW_OCCUPANTS);
   };
 
   return (
@@ -57,12 +57,35 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
         type='plain'
         bg='white'
       >
+        <Select
+          data={["A11", "B11"]}
+          value={data.house_no}
+          disabled={!form.getValues().edit_details}
+          label='House Number'
+          rightSection={<ArrowDown01Icon />}
+          searchable={false}
+          withAsterisk
+          classNames={{
+            option: "hover:bg-purple-4 text-sm",
+            input: "text-sm",
+            options: "text-sm",
+            error: "text-xs",
+          }}
+          {...form.getInputProps("house_no")}
+        />
         <TextInput
           label='Full Name'
           value={data.full_name}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("full_name")}
+        />
+        <TextInput
+          label='Email Address'
+          value={data.email_address}
+          disabled={!form.getValues().edit_details}
+          withAsterisk
+          {...form.getInputProps("email_address")}
         />
         <TextInput
           label='Phone Number'
@@ -101,6 +124,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
                 : "hover:bg-green-1 border-green-9",
               "bg-opacity-9"
             ),
+            onClick: () => {},
           }}
           rightButton={{
             children: form.getValues().edit_details ? "Save changes" : "Edit",

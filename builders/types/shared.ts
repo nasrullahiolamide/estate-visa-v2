@@ -53,3 +53,9 @@ export function useThumbnailData(_?: any, index?: number) {
     file_size: faker.number.int({ min: 1000, max: 10000 }),
   };
 }
+
+export function generateHouseNumber(): string {
+  const letter = faker.string.alpha(1).toUpperCase();
+  const number = faker.string.numeric(2);
+  return `${letter}${number}`;
+}

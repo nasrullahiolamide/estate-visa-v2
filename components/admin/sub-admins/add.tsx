@@ -71,6 +71,7 @@ export function AddSubAdmins() {
             option: "hover:bg-purple-4 text-sm",
             input: "text-sm",
             options: "text-sm",
+            error: "text-xs",
           }}
           {...form.getInputProps("status")}
         />

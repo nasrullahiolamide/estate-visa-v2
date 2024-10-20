@@ -6,7 +6,7 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { ArrowDown01Icon } from "hugeicons-react";
 import { User, Setting2, LogoutCurve } from "iconsax-react";
 
-import { ConfirmLogout } from "./modals/confirm-logout";
+import { ConfirmLogout } from "./modals/logout";
 
 export function AdminUser() {
   function handleLogout() {
@@ -32,8 +32,7 @@ export function AdminUser() {
           <Avatar
             src='/images/avatar.png'
             alt='Mide Martins'
-            radius='xl'
-            className='w-10 h-10 md:w-12 md:h-12'
+            className='rounded-full w-8 h-8 md:w-12 md:h-12'
           />
 
           <Flex gap={12} className='hidden sm:flex' align='center'>

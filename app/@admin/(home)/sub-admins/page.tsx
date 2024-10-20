@@ -10,7 +10,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { EmptySlot } from "@/components/shared/interface";
-import { DeleteSubAdmin } from "@/components/admin/sub-admins/delete";
+import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { ViewSubAdmins } from "@/components/admin/sub-admins/view-edit";
 import {
   SubAdminListData,
@@ -38,7 +38,14 @@ import {
   FlowFloatingButtons,
   useFlowState,
   useFlowPagination,
+  FlowMenuItem,
 } from "@/components/layout";
+
+const filterData = [
+  { label: "Recently Added", value: "recent" },
+  { label: "Name(A-Z)", value: "a-z" },
+  { label: "Name(Z-A)", value: "z-a" },
+];
 
 const handleAddSubAdmin = () => {
   modals.open({
@@ -50,16 +57,16 @@ const handleAddSubAdmin = () => {
 
 const handleDelete = () => {
   modals.open({
-    children: <DeleteSubAdmin />,
+    children: <ConfirmDelete title='property owner' />,
     withCloseButton: false,
-    modalId: MODALS.DELETE_SUB_ADMIN,
+    modalId: MODALS.CONFIRM_DELETE,
   });
 };
 
 const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
   modals.open({
     title: "Sub Admin Details",
-    modalId: MODALS.EDIT_SUB_ADMIN,
+    modalId: MODALS.VIEW_EDIT_SUB_ADMIN,
     children: <ViewSubAdmins {...details} edit={edit} />,
   });
 };
@@ -77,30 +84,33 @@ export default function SubAdmins() {
           <FlowMenu wrapperProps={{ className: "block sm:hidden text-center" }}>
             <FlowMenuTarget />
             <FlowMenuDropdown>
-              <Menu.Item onClick={() => handleViewEdit(list)}>View</Menu.Item>
-              <Menu.Item onClick={() => handleViewEdit(list, true)}>
-                Edit
-              </Menu.Item>
-              <Menu.Item>{isActive ? "Disable" : "Activate"}</Menu.Item>
+              <FlowMenuItem item='view' onClick={() => handleViewEdit(list)} />
+              <FlowMenuItem
+                item='edit'
+                onClick={() => handleViewEdit(list, true)}
+              />
+              <FlowMenuItem
+                item='activate-suspend'
+                isActive={isActive}
+                handlers={{
+                  onActivate: () => console.log("Activated"),
+                  onSuspend: () => console.log("Suspended"),
+                }}
+              />
               <Menu.Divider />
-              <Menu.Item
-                color='red'
-                leftSection={<Trash size={15} />}
-                onClick={handleDelete}
-              >
-                Delete
-              </Menu.Item>
+              <FlowMenuItem item='delete' onClick={handleDelete} />
             </FlowMenuDropdown>
           </FlowMenu>
+
           <Flex className='hidden sm:flex' gap={8} align='center'>
             <Tooltip label='View'>
               <div onClick={() => handleViewEdit(list)}>
-                <EyeIcon />
+                <EyeIcon color='var(--blue-8)' />
               </div>
             </Tooltip>
             <Tooltip label='Edit'>
               <div onClick={() => handleViewEdit(list, true)}>
-                <EditIcon />
+                <EditIcon color='var(--blue-8)' />
               </div>
             </Tooltip>
             {isActive ? (
@@ -142,7 +152,7 @@ export default function SubAdmins() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Sub Admins' options={<Options />} />
+      <AppShellHeader title='Sub Admins' options={<HeaderOptions />} />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -155,7 +165,6 @@ export default function SubAdmins() {
               <FlowTable
                 data={dataToDisplay}
                 columns={subAdminListColumns}
-                initialLeftPinnedColumns={["full_name"]}
                 skeleton={false}
               />
             ) : (
@@ -182,11 +191,7 @@ export default function SubAdmins() {
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
-          filterData={[
-            { label: "Recently Added", value: "recent" },
-            { label: "Name(A-Z)", value: "a-z" },
-            { label: "Name(Z-A)", value: "z-a" },
-          ]}
+          filterData={filterData}
           primaryButton={{
             icon: "add",
             btnProps: {
@@ -207,7 +212,7 @@ export default function SubAdmins() {
   );
 }
 
-function Options() {
+function HeaderOptions() {
   return (
     <Flex gap={14}>
       <Button
@@ -218,13 +223,7 @@ function Options() {
       >
         Add New Sub Admin
       </Button>
-      <FilterDropdown
-        data={[
-          { label: "Recently Added", value: "recent" },
-          { label: "Name(A-Z)", value: "a-z" },
-          { label: "Name(Z-A)", value: "z-a" },
-        ]}
-      />
+      <FilterDropdown data={filterData} />
       <Button
         fz='sm'
         size='md'
