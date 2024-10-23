@@ -129,8 +129,6 @@ export function FlowFloatingButtons({
         {hasFilterButton && (
           <FilterDropdown
             showLabel={false}
-            withArrow
-            arrowPosition='center'
             data={filterData}
             {...filterProps}
           />

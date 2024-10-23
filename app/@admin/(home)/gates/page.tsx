@@ -7,7 +7,7 @@ import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
+import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/svgs";
 import { ViewEditGates } from "@/components/admin/gates/view-edit";

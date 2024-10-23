@@ -1,1 +1,1 @@
-export { FilterDropdown, type FilterData } from "./filter-dropdown";
+export { FilterDropdown, type FilterData } from "./filter";

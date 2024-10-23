@@ -16,7 +16,6 @@ export { FlowModalContent } from "./flow-modal-content";
 export { FlowPagination } from "./flow-pagination";
 export { FlowPaper } from "./flow-paper";
 export { FlowProgress } from "./flow-progress";
-export { FlowRightSection } from "./flow-right-section";
 export { FlowScrollHorizontal } from "./flow-scroll-horizontal";
 export { FlowSearch } from "./flow-search";
 export { FlowStepContent } from "./flow-step-content";

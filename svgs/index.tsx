@@ -37,5 +37,6 @@ export { ClockIcon } from "./clock-icon";
 export { UploadCloudIcon } from "./upload-cloud-icon";
 export { FileIcon } from "./file-icon";
 export { Check } from "./check";
+export { AddIcon } from "./add-icon";
 
 export type { IconType } from "./type";

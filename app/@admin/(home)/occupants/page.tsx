@@ -10,7 +10,7 @@ import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { AddNewOccupants } from "@/components/admin/occupants/add";
 import { ViewEditOccupants } from "@/components/admin/occupants/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
+import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import {
   OccupantsData,

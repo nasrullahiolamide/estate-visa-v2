@@ -1,68 +1,46 @@
-import { createTree } from "@/packages/libraries";
-import { Group, Menu, Box, RenderTreeNodePayload } from "@mantine/core";
+import { ArrowDownIcon } from "@/svgs";
+import { Text, Menu, RenderTreeNodePayload } from "@mantine/core";
 import clsx from "clsx";
-import { ArrowDown3, ArrowRight3 } from "iconsax-react";
-import { create } from "lodash";
 
-interface FileIconProps {
-  name?: string;
-  expanded: boolean;
-}
+interface LeafProps extends RenderTreeNodePayload {}
 
-function FileIcon({ name, expanded }: FileIconProps) {
-  if (name) {
-    return expanded ? (
-      <ArrowDown3 color='currentColor' size='14' />
-    ) : (
-      <ArrowRight3 color='currentColor' size='14' />
-    );
-  }
-  return null;
-}
-
-export function LeafDropdown({
+export function Leaf({
   node,
   expanded,
-  elementProps,
   hasChildren,
-}: RenderTreeNodePayload) {
+  elementProps,
+  selected,
+}: LeafProps) {
   return (
-    <>
-      <Menu.Item key={node.value}>{node.value}</Menu.Item>
-    </>
-  );
-}
-
-//   {
-//     /* If this node has children, we show another dropdown */
-//   }
-
-{
-  /* <Menu {...props}>
-  <Menu.Target>
-    {showLabel ? (
-      <Button
-        variant='outline'
-        fz='sm'
+    <Menu.Item
+      closeMenuOnClick={!hasChildren}
+      miw={150}
+      {...elementProps}
+      className={clsx("hover:bg-gray-1 rounded-none p-4", {
+        "!bg-purple-4": expanded,
+      })}
+    >
+      <Text
         size='md'
-        leftSection={<FilterIcon />}
-        rightSection={<ArrowDownIcon />}
+        fz={14}
+        c='gray.11'
+        // className='flex items-center gap-4 justify-between sm:justify-start'
+        className='flex items-center justify-between'
       >
-        Filter
-      </Button>
-    ) : (
-      <Button radius='md' w={50} h={50} variant='outline' bg='white' p={0}>
-        <FilterIcon width={20} height={20} />
-      </Button>
-    )}
-  </Menu.Target>
-  <Menu.Dropdown className='z-20'>
-    {data?.map((item) => (
-      <Fragment key={item.label}>
-        <LeafDropdown node={item} />
-        <Menu.Divider className='hidden' />
-      </Fragment>
-    ))}
-  </Menu.Dropdown>
-</Menu>; */
+        <span>{node.label}</span>
+        {hasChildren && (
+          <ArrowDownIcon
+            // className={clsx("rotate-0 sm:rotate-90  order-2 sm:order-1", {
+            className={clsx("-rotate-90", {
+              "-rotate-180": expanded,
+            })}
+            style={{
+              transition: "transform 0.2s",
+            }}
+          />
+        )}
+        {/* <span className='order-1 sm:order-2'>{node.label}</span> */}
+      </Text>
+    </Menu.Item>
+  );
 }

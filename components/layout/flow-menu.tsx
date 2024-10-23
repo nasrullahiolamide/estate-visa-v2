@@ -9,7 +9,7 @@ export function FlowMenu({ children, wrapperProps, ...props }: flowMenuProps) {
     <Box {...wrapperProps}>
       <Menu
         offset={0}
-        position='bottom-start'
+        position='bottom'
         withArrow
         arrowPosition='center'
         {...props}

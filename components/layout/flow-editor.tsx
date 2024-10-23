@@ -99,7 +99,7 @@ export function FlowEditor(props: FlowEditorProps) {
           </FlowPaper>
         </FlowContentContainer>
 
-        <Flex align='center' gap={8} px='md' py='sm'>
+        <Flex align='center' gap={8} px='md' py='sm' wrap='wrap'>
           <RichTextEditor.Code />
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />

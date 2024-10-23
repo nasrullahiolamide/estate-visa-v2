@@ -1,16 +1,12 @@
-import { Box, Button, Group, Menu, MenuProps } from "@mantine/core";
-import { ArrowDownIcon, FilterIcon } from "@/svgs";
-import { ArrowDown3, ArrowRight3 } from "iconsax-react";
-import { Fragment } from "react";
-import { Branch } from "./branch";
+import { Button, Menu, MenuProps, Tree, TreeNodeData } from "@mantine/core";
 
-export type FilterData = {
-  label: string;
-  children?: FilterData;
-}[];
+import { Leaf } from "./leaf";
+import { ArrowDownIcon, FilterIcon } from "@/svgs";
+
+export type FilterData = TreeNodeData[];
 
 interface FilterDropdownProps extends MenuProps {
-  data: FilterData | undefined;
+  data: FilterData;
   showLabel?: boolean;
 }
 
@@ -19,5 +15,38 @@ export function FilterDropdown({
   showLabel = true,
   ...props
 }: FilterDropdownProps) {
-  return <Branch data={data} />;
+  return (
+    <Menu {...props} position='bottom-end'>
+      <Menu.Target>
+        {showLabel ? (
+          <Button
+            variant='outline'
+            fz='sm'
+            size='md'
+            leftSection={<FilterIcon />}
+            rightSection={<ArrowDownIcon />}
+          >
+            Filter
+          </Button>
+        ) : (
+          <Button radius='md' w={50} h={50} variant='outline' bg='white' p={0}>
+            <FilterIcon width={20} height={20} />
+          </Button>
+        )}
+      </Menu.Target>
+      <Menu.Dropdown className='z-20 p-0' variant='action'>
+        <Tree
+          data={data}
+          selectOnClick
+          clearSelectionOnOutsideClick
+          renderNode={(payload) => <Leaf {...payload} />}
+          classNames={{
+            subtree:
+              "absolute top-1/2 right-full mr-2 bg-white border border-primary-border-light rounded-lg shadow-2xl transform transition-all duration-300 ease-in-out overflow-hidden",
+            root: "relative shadow-2xl",
+          }}
+        />
+      </Menu.Dropdown>
+    </Menu>
+  );
 }

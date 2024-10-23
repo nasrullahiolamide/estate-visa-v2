@@ -17,6 +17,7 @@ export type MeetingsData = {
   time: string;
   attendees: number;
   status: string;
+  // meeting_details?: string;
   created_at?: string;
   updated_at?: string;
 };

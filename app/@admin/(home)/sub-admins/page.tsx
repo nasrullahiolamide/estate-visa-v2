@@ -7,7 +7,7 @@ import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { subAdminListColumns } from "@/columns/sub-admin-list";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter-dropdown";
+import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { EmptySlot } from "@/components/shared/interface";
 import { ConfirmDelete } from "@/components/admin/shared/modals";

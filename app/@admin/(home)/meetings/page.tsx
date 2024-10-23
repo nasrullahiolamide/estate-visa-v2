@@ -1,18 +1,19 @@
 "use client";
 
-import { Fragment } from "react";
-import { Add } from "iconsax-react";
-import { Button, Flex } from "@mantine/core";
+import { Fragment, ReactNode } from "react";
+import { Button, Flex, Menu, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useDisclosure } from "@mantine/hooks";
+import { useFakeMeetingsList } from "@/builders/types/meetings";
+import { meetingColumns } from "@/columns/meetings";
 import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { ViewEditHouses } from "@/components/admin/houses/view-edit";
-import { AddNewHouse } from "@/components/admin/houses/add";
 import { SheduleMeeting } from "@/components/admin/meetings/shedule";
-
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { AddNewMinutes } from "@/components/admin/meetings/add-minutes";
+import { ActivateIcon, AddIcon, EditIcon } from "@/svgs";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -23,19 +24,32 @@ import {
   FlowTable,
   FlowFloatingButtons,
   FlowTableActions,
+  FlowMenu,
+  FlowMenuDropdown,
 } from "@/components/layout";
-import { useDisclosure } from "@mantine/hooks";
-import { useFakeMeetingsList } from "@/builders/types/meetings";
-import { meetingColumns } from "@/columns/meetings";
-import { AddNewMinutes } from "@/components/admin/meetings/add-minutes";
 
 const filterOptions = [
-  { label: "Recently Added", value: "recent" },
-  { label: "Street Name(A-Z)", value: "a-z" },
-  { label: "Street Name(Z-A)", value: "z-a" },
+  { label: "A-Z", value: "a-z" },
+  {
+    label: "Status",
+    value: "status",
+    children: [
+      { label: "Completed", value: "completed" },
+      { label: "Scheduled", value: "sheduled" },
+      { label: "Cancelled", value: "cancelled" },
+    ],
+  },
 ];
 
-const handleNewMinutes = () => {
+const handleDelete = () => {
+  modals.open({
+    children: <ConfirmDelete title='meeting' />,
+    withCloseButton: false,
+    modalId: MODALS.CONFIRM_DELETE,
+  });
+};
+
+const handleMinutes = () => {
   modals.open({
     title: "Add Meeting Minutes",
     children: <AddNewMinutes />,
@@ -43,6 +57,80 @@ const handleNewMinutes = () => {
   });
 };
 
+const Actions: Record<PropertyKey, ReactNode> = {
+  cancelled: (
+    <FlowTableActions
+      actions={["edit", "add", "delete"]}
+      showDesktopView={false}
+      editProps={{
+        label: "Edit Meeting Details",
+        onEdit: () => console.log("Edit Meeting Details"),
+      }}
+      addProps={{
+        label: "Reschedule Meeting",
+        onAdd: handleMinutes,
+      }}
+      deleteProps={{
+        onDelete: handleDelete,
+      }}
+    />
+  ),
+
+  completed: (
+    <FlowTableActions
+      actions={["view", "add", "delete"]}
+      showDesktopView={false}
+      viewProps={{
+        label: "View Meeting Details",
+        onView: () => console.log("View Meeting Details"),
+      }}
+      addProps={{
+        label: "Add Meeting Minutes",
+        onAdd: handleMinutes,
+      }}
+      deleteProps={{
+        onDelete: handleDelete,
+      }}
+    />
+  ),
+
+  scheduled: (
+    <FlowTableActions
+      actions={["edit", "others", "delete"]}
+      showDesktopView={false}
+      editProps={{
+        label: "Edit Meeting Details",
+        onEdit: () => console.log("Edit Meeting Details"),
+      }}
+      deleteProps={{
+        onDelete: handleDelete,
+      }}
+      otherProps={{
+        children: (
+          <Menu.Item
+            closeMenuOnClick={false}
+            leftSection={<EditIcon width={14} />}
+          >
+            <Menu position='right-start' offset={45}>
+              <Menu.Target>
+                <Text fz={14} w='100%'>
+                  Edit Status
+                </Text>
+              </Menu.Target>
+              <FlowMenuDropdown variant='action'>
+                <Menu.Item onClick={() => console.log("Meeting Scheduled")}>
+                  Complete Meeting
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item>Cancel Meeting</Menu.Item>
+              </FlowMenuDropdown>
+            </Menu>
+          </Menu.Item>
+        ),
+      }}
+    />
+  ),
+};
 export default function Meetings() {
   const [opened, { open: openDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -52,11 +140,7 @@ export default function Meetings() {
   const dataToDisplay = meetings?.data.map((list) => {
     return {
       ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-        />
-      ),
+      action: Actions[list.status.toLowerCase()],
     };
   });
 
@@ -87,7 +171,7 @@ export default function Meetings() {
                 withButton
                 text='Shedule Meeting'
                 btnProps={{
-                  leftSection: <Add />,
+                  leftSection: <AddIcon />,
                   onClick: openDrawer,
                 }}
               />
@@ -123,15 +207,15 @@ interface HeaderOptionsProps {
 function HeaderOptions({ openDrawer }: HeaderOptionsProps) {
   return (
     <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<Add />}>
+      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={openDrawer}>
         Schedule Meeting
       </Button>
       <Button
         fz='sm'
         variant='outline'
         size='md'
-        leftSection={<Add />}
-        onClick={handleNewMinutes}
+        leftSection={<AddIcon />}
+        onClick={handleMinutes}
       >
         Add Meeting Minutes
       </Button>
