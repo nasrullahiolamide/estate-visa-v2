@@ -2,7 +2,7 @@
 
 import { Fragment } from "react";
 import { Add } from "iconsax-react";
-import { Button, Flex, Menu, Tooltip } from "@mantine/core";
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { occupantsColumns } from "@/columns/occupants";
@@ -16,28 +16,17 @@ import {
   OccupantsData,
   useFakeOccupantsList,
 } from "@/builders/types/occupants";
-import {
-  DownloadIcon,
-  UploadIcon,
-  EditIcon,
-  EyeIcon,
-  ActivateIcon,
-  DeactivateIcon,
-  TrashIcon,
-} from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/svgs";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
   FlowFooter,
-  FlowMenu,
-  FlowMenuDropdown,
-  FlowMenuTarget,
   FlowPagination,
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowMenuItem,
+  FlowTableActions,
 } from "@/components/layout";
 
 const filterOptions = [
@@ -71,68 +60,31 @@ const handleViewEdit = (details: OccupantsData, edit: boolean = false) => {
 };
 
 export default function Occupants() {
-  const Occupants = useFakeOccupantsList();
+  const occupants = useFakeOccupantsList();
 
-  const dataToDisplay = Occupants?.data.map((list) => {
+  const dataToDisplay = occupants?.data.map((list) => {
     const isActive = list.status === "Active";
 
     return {
       ...list,
       action: (
-        <>
-          <FlowMenu wrapperProps={{ className: "block sm:hidden text-center" }}>
-            <FlowMenuTarget />
-            <FlowMenuDropdown>
-              <FlowMenuItem item='view' onClick={() => handleViewEdit(list)} />
-              <FlowMenuItem
-                item='edit'
-                onClick={() => handleViewEdit(list, true)}
-              />
-              <FlowMenuItem
-                item='activate-suspend'
-                isActive={isActive}
-                handlers={{
-                  onActivate: () => console.log("Activated"),
-                  onSuspend: () => console.log("Suspended"),
-                }}
-              />
-              <Menu.Divider />
-              <FlowMenuItem item='delete' onClick={handleDelete} />
-            </FlowMenuDropdown>
-          </FlowMenu>
-
-          <Flex className='hidden sm:flex' gap={8} align='center'>
-            <Tooltip label='View'>
-              <div onClick={() => handleViewEdit(list)}>
-                <EyeIcon color='var(--blue-8)' />
-              </div>
-            </Tooltip>
-            <Tooltip label='Edit'>
-              <div onClick={() => handleViewEdit(list, true)}>
-                <EditIcon color='var(--blue-8)' />
-              </div>
-            </Tooltip>
-            {isActive ? (
-              <Tooltip label='De-activate'>
-                <div>
-                  <DeactivateIcon />
-                </div>
-              </Tooltip>
-            ) : (
-              <Tooltip label='Activate'>
-                <div>
-                  <ActivateIcon />
-                </div>
-              </Tooltip>
-            )}
-
-            <Tooltip label='Delete'>
-              <div onClick={handleDelete}>
-                <TrashIcon />
-              </div>
-            </Tooltip>
-          </Flex>
-        </>
+        <FlowTableActions
+          actions={["activate-suspend", "edit", "view", "delete"]}
+          editProps={{
+            onEdit: () => handleViewEdit(list, true),
+          }}
+          viewProps={{
+            onView: () => handleViewEdit(list),
+          }}
+          deleteProps={{
+            onDelete: handleDelete,
+          }}
+          activateSuspendProps={{
+            isActive,
+            onActivate: () => {},
+            onSuspend: () => {},
+          }}
+        />
       ),
     };
   });
@@ -151,11 +103,12 @@ export default function Occupants() {
           }}
         >
           <FlowPaper>
-            {Occupants?.data.length ? (
+            {occupants?.data.length ? (
               <FlowTable
                 data={dataToDisplay}
                 columns={occupantsColumns}
                 skeleton={false}
+                onRowClick={handleViewEdit}
               />
             ) : (
               <EmptySlot
@@ -165,6 +118,7 @@ export default function Occupants() {
                 text='Add New Occupant'
                 btnProps={{
                   leftSection: <Add />,
+                  onClick: handleNewOccupants,
                 }}
               />
             )}

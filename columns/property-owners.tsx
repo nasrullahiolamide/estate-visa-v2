@@ -50,7 +50,7 @@ export const propertyOwnersColumns = [
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
-      const isActive = value === "Active";
+      const isActive = value.toLowerCase() === "active";
 
       return (
         <Pill
@@ -64,7 +64,15 @@ export const propertyOwnersColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: "Actions",
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Actions'
+      />
+    ),
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

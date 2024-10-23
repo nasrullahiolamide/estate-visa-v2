@@ -3,5 +3,33 @@
     display: flex;
     flex-direction: column;
     gap: rem(6);
+
+    .input {
+      font-size: rem(14px);
+    }
+
+    .error {
+      font-size: rem(12px);
+    }
   }
 }
+
+.day {
+  /* font-size: rem(14px); */
+
+  &[data-selected="true"] {
+    border-radius: 100%;
+  }
+  &[data-today="true"] {
+    background-color: transparent;
+    border-radius: 100%;
+    border: 1px solid var(--gray-12);
+    color: var(--gray-12);
+  }
+}
+/* 
+.month,
+.day,
+.weekday {
+  font-size: rem(14px);
+} */

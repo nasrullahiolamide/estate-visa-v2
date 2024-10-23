@@ -2,6 +2,7 @@ import { Checkbox, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { OccupantsData } from "@/builders/types/occupants";
+import { table } from "console";
 
 const columnHelper = createColumnHelper<Actionable<OccupantsData>>();
 
@@ -46,7 +47,7 @@ export const occupantsColumns = [
     },
   }),
   columnHelper.accessor("sub_occupants", {
-    header: "No of Sub Occupants",
+    header: "Sub Occupants",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
@@ -62,7 +63,7 @@ export const occupantsColumns = [
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
-      const isActive = value === "Active";
+      const isActive = value.toLowerCase() === "active";
 
       return (
         <Pill
@@ -76,7 +77,15 @@ export const occupantsColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: "Actions",
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Actions'
+      />
+    ),
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

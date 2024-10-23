@@ -53,43 +53,31 @@ export function ViewEditOccupants({ edit, ...data }: ViewEditOccupantsProps) {
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
-        gap={25}
+        gap={18}
         type='plain'
         bg='white'
       >
         <Select
           data={["A11", "B11"]}
-          value={data.house_no}
           disabled={!form.getValues().edit_details}
           label='House Number'
-          rightSection={<ArrowDown01Icon />}
-          searchable={false}
           withAsterisk
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-            options: "text-sm",
-            error: "text-xs",
-          }}
           {...form.getInputProps("house_no")}
         />
         <TextInput
           label='Full Name'
-          value={data.full_name}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("full_name")}
         />
         <TextInput
           label='Email Address'
-          value={data.email_address}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("email_address")}
         />
         <TextInput
           label='Phone Number'
-          value={data.phone_number}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("phone_number")}
@@ -97,15 +85,8 @@ export function ViewEditOccupants({ edit, ...data }: ViewEditOccupantsProps) {
 
         <Select
           data={["Active", "Suspended"]}
-          value={data.status}
           disabled={!form.getValues().edit_details}
           label='Account Status'
-          rightSection={<ArrowDown01Icon />}
-          searchable={false}
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-          }}
           {...form.getInputProps("status")}
         />
 

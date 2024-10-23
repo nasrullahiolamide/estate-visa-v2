@@ -1,14 +1,16 @@
 import {
   ActionIcon,
   FocusTrap,
+  rem,
   TextInput,
   TextInputProps,
 } from "@mantine/core";
 import { useClickOutside } from "@mantine/hooks";
-import { SearchNormal1 } from "iconsax-react";
+// import { SearchNormal1 } from "iconsax-react";
 import { useState } from "react";
 import { useFlowDispatch, useFlowState } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
+import { SearchIcon } from "@/svgs";
 
 interface FlowSearchProps extends TextInputProps {}
 
@@ -26,10 +28,12 @@ export function FlowSearch(props: FlowSearchProps) {
     <FocusTrap active>
       <TextInput
         ref={ref}
-        placeholder="Search groups"
-        size="md"
+        leftSection={<SearchIcon />}
+        placeholder='Search'
+        size='sm'
+        py='1rem'
         style={{ width: 240 }}
-        className="text-primary-text-body"
+        className='text-primary-text-body'
         value={search}
         onChange={(event) => {
           dispatch({
@@ -43,12 +47,12 @@ export function FlowSearch(props: FlowSearchProps) {
   ) : (
     <ActionIcon
       size={42}
-      variant="transparent"
+      variant='transparent'
       onClick={() => {
         setShowSearchField(true);
       }}
     >
-      <SearchNormal1 color="var(--primary-text-caption)" />
+      <SearchIcon color='var(--primary-text-caption)' />
     </ActionIcon>
   );
 }

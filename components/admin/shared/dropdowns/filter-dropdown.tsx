@@ -1,10 +1,13 @@
-import { FilterIcon } from "@/svgs";
+import { ArrowDownIcon, FilterIcon } from "@/svgs";
 import { Button, Menu, MenuProps } from "@mantine/core";
-import clsx from "clsx";
-import { ArrowDown01Icon } from "hugeicons-react";
 import { Fragment } from "react";
+import clsx from "clsx";
 
-export type FilterData = { label: string; value: string }[];
+export type FilterData = {
+  label: string;
+  value: string;
+  children?: FilterData;
+}[];
 
 interface FilterDropdownProps extends MenuProps {
   data: FilterData | undefined;
@@ -25,7 +28,7 @@ export function FilterDropdown({
             fz='sm'
             size='md'
             leftSection={<FilterIcon />}
-            rightSection={<ArrowDown01Icon />}
+            rightSection={<ArrowDownIcon />}
           >
             Filter
           </Button>

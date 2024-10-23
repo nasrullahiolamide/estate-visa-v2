@@ -28,20 +28,16 @@ const links = [
     href: "/",
   },
   {
-    title: "How it works",
-    href: "#how-it-works",
-  },
-  {
     title: "Features",
     href: "#features",
   },
   {
-    title: "Testimonial",
-    href: "#testimonial",
+    title: "How It Works",
+    href: "#how-it-works",
   },
   {
-    title: "Pricing",
-    href: "#pricing",
+    title: "Testimonial",
+    href: "#testimonial",
   },
 ];
 

@@ -4,6 +4,20 @@
 
 :root {
   --chart-background: #f2f4f7;
+  --top-text-color: #000;
+  --top-selected-color: var(--blue-7);
+  --clock-wrapper-bg: #fff;
+  --clock-bg: #21212114;
+  --hand-circle-outer: var(--blue-7);
+  --hand-circle-center: var(--blue-7);
+  --hand-line-color: var(--blue-7);
+  --numbers-text-color: #000;
+  --top-meridiem-color: var(--blue-7);
+  --meridiem-selected-bg-color: var(--blue-7);
+  --meridiem-text-color: #000;
+  --meridiem-selected-text-color: #fff;
+  --meridiem-bg-color: var(--gray-2);
+  --numbers-font-size-reg: 1.1rem;
 
   .recharts-legend-item-text {
     color: var(--primary-text-subtle) !important;
@@ -12,4 +26,47 @@
 
 * {
   scroll-behavior: smooth;
+}
+
+.ProseMirror {
+  height: 100%;
+  font-size: 14px;
+}
+
+.ProseMirror:focus {
+  outline: none;
+  border: none;
+}
+
+.css-1outj7w-meridiem {
+  font-weight: 700 !important;
+  font-size: 28px !important;
+}
+
+.css-1wtkbk-time-TopBar,
+.css-1igvx5z-timeSelected-time-TopBar,
+.css-6bnttf-minuteWrapper {
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.3rem !important;
+}
+
+.css-1igvx5z-timeSelected-time-TopBar {
+  background-color: var(--purple-4) !important;
+  color: var(--blue-7) !important;
+}
+
+.css-1wtkbk-time-TopBar,
+.css-6bnttf-minuteWrapper {
+  background-color: var(--gray-2) !important;
+}
+
+.css-hcsisw-wrapper {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+.css-3g92bx-timepicker {
+  width: 100% !important;
 }

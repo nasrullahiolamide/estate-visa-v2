@@ -62,10 +62,15 @@ export enum MODALS {
   //======== ADD =========
   ADD_SUB_ADMIN = USER_ACTIONS.ADD + "-sub-admin",
   ADD_NEW_OCCUPANTS = USER_ACTIONS.ADD + "-new-occupants",
+  ADD_NEW_HOUSE = USER_ACTIONS.ADD + "-new-house",
+  ADD_MEETINGS_MINUTES = USER_ACTIONS.ADD + "-meetings-minutes",
 
-  //======== VIEW_EDIT =========
+  //======== VIEW/EDIT =========
   VIEW_EDIT_SUB_ADMIN = USER_ACTIONS.VIEW_EDIT + "-sub-admin",
   VIEW_EDIT_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",
+  VIEW_SUB_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-sub-occupants",
+  VIEW_EDIT_HOUSES = USER_ACTIONS.VIEW_EDIT + "-houses",
+  VIEW_EDIT_GATES = USER_ACTIONS.VIEW_EDIT + "-gates",
 
   //======== DELETE =========
   DELETE_SUB_ADMIN = USER_ACTIONS.DELETE + "-sub-admin",

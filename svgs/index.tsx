@@ -31,5 +31,11 @@ export { InstagramIcon } from "./instagram-icon";
 export { FacebookIcon } from "./facebook-icon";
 export { XIcon } from "./x-icon";
 export { LinkedInIcon } from "./linkedin-icon";
+export { ArrowDownIcon } from "./arrow-down-icon";
+export { CalenderIcon } from "./calender-icon";
+export { ClockIcon } from "./clock-icon";
+export { UploadCloudIcon } from "./upload-cloud-icon";
+export { FileIcon } from "./file-icon";
+export { Check } from "./check";
 
 export type { IconType } from "./type";

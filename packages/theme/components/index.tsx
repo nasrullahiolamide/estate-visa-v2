@@ -49,6 +49,12 @@ import textInput from "./text-input.module.css";
 import textarea from "./textarea.module.css";
 import timeInput from "./time-input.module.css";
 import anchor from "./anchor.module.css";
+import {
+  ArrowDownIcon,
+  CalenderIcon,
+  CancelCircleIcon,
+  ClockIcon,
+} from "@/svgs";
 
 export const components: MantineThemeComponents = {
   InputWrapper: InputWrapper.extend({
@@ -68,7 +74,11 @@ export const components: MantineThemeComponents = {
       keepMounted: true,
       lockScroll: true,
       position: "right",
-      size: 500,
+      size: 700,
+      closeButtonProps: {
+        icon: <CancelCircleIcon />,
+      },
+      overlayProps: { backgroundOpacity: 0.35 },
     },
     classNames: drawer,
   }),
@@ -93,6 +103,7 @@ export const components: MantineThemeComponents = {
     defaultProps: {
       size: "lg",
       variant: "default",
+      rightSection: <CalenderIcon />,
     },
     classNames: dateInput,
   }),
@@ -112,6 +123,7 @@ export const components: MantineThemeComponents = {
     defaultProps: {
       size: "lg",
       variant: "default",
+      rightSection: <ClockIcon />,
     },
     classNames: timeInput,
   }),
@@ -148,9 +160,16 @@ export const components: MantineThemeComponents = {
   Select: Select.extend({
     defaultProps: {
       size: "lg",
-      searchable: true,
+      searchable: false,
       variant: "default",
-      clearable: true,
+      clearable: false,
+      rightSection: <ArrowDownIcon />,
+      classNames: {
+        option: "hover:bg-purple-4 text-sm",
+        input: "text-sm",
+        options: "text-sm",
+        error: "text-xs",
+      },
     },
     classNames: select,
   }),

@@ -19,8 +19,9 @@ export function Providers({ children }: ProvidersProps) {
       <ToastContainer
         stacked
         position='top-center'
-        theme='colored'
+        theme='dark'
         transition={Bounce}
+        className='z-[999]'
       />
     </ReactQueryProvider>
   );

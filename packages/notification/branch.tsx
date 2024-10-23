@@ -1,6 +1,6 @@
 import { ScrollAreaAutosize, Tree } from "@mantine/core";
 
-import { createTree } from "./create-tree";
+import { createTree } from "../libraries/create-tree";
 import { Leaf } from "./leaf";
 
 interface BranchProps {

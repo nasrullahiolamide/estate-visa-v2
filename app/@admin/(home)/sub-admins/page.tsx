@@ -16,29 +16,19 @@ import {
   SubAdminListData,
   useFakeSubAdminList,
 } from "@/builders/types/sub-admins";
-import {
-  DownloadIcon,
-  EditIcon,
-  EyeIcon,
-  ActivateIcon,
-  DeactivateIcon,
-  TrashIcon,
-} from "@/svgs";
+import { DownloadIcon } from "@/svgs";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
   FlowFooter,
-  FlowMenu,
-  FlowMenuDropdown,
-  FlowMenuTarget,
   FlowPagination,
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
   useFlowState,
   useFlowPagination,
-  FlowMenuItem,
+  FlowTableActions,
 } from "@/components/layout";
 
 const filterData = [
@@ -80,60 +70,23 @@ export default function SubAdmins() {
     return {
       ...list,
       action: (
-        <>
-          <FlowMenu wrapperProps={{ className: "block sm:hidden text-center" }}>
-            <FlowMenuTarget />
-            <FlowMenuDropdown>
-              <FlowMenuItem item='view' onClick={() => handleViewEdit(list)} />
-              <FlowMenuItem
-                item='edit'
-                onClick={() => handleViewEdit(list, true)}
-              />
-              <FlowMenuItem
-                item='activate-suspend'
-                isActive={isActive}
-                handlers={{
-                  onActivate: () => console.log("Activated"),
-                  onSuspend: () => console.log("Suspended"),
-                }}
-              />
-              <Menu.Divider />
-              <FlowMenuItem item='delete' onClick={handleDelete} />
-            </FlowMenuDropdown>
-          </FlowMenu>
-
-          <Flex className='hidden sm:flex' gap={8} align='center'>
-            <Tooltip label='View'>
-              <div onClick={() => handleViewEdit(list)}>
-                <EyeIcon color='var(--blue-8)' />
-              </div>
-            </Tooltip>
-            <Tooltip label='Edit'>
-              <div onClick={() => handleViewEdit(list, true)}>
-                <EditIcon color='var(--blue-8)' />
-              </div>
-            </Tooltip>
-            {isActive ? (
-              <Tooltip label='De-activate'>
-                <div>
-                  <DeactivateIcon />
-                </div>
-              </Tooltip>
-            ) : (
-              <Tooltip label='Activate'>
-                <div>
-                  <ActivateIcon />
-                </div>
-              </Tooltip>
-            )}
-
-            <Tooltip label='Delete'>
-              <div onClick={handleDelete}>
-                <TrashIcon />
-              </div>
-            </Tooltip>
-          </Flex>
-        </>
+        <FlowTableActions
+          actions={["activate-suspend", "edit", "view", "delete"]}
+          editProps={{
+            onEdit: () => handleViewEdit(list, true),
+          }}
+          viewProps={{
+            onView: () => handleViewEdit(list),
+          }}
+          deleteProps={{
+            onDelete: handleDelete,
+          }}
+          activateSuspendProps={{
+            isActive,
+            onActivate: () => {},
+            onSuspend: () => {},
+          }}
+        />
       ),
     };
   });
@@ -166,6 +119,8 @@ export default function SubAdmins() {
                 data={dataToDisplay}
                 columns={subAdminListColumns}
                 skeleton={false}
+                initialLeftPinnedColumns={["full_name"]}
+                onRowClick={handleViewEdit}
               />
             ) : (
               <EmptySlot

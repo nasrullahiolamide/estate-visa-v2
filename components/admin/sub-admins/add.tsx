@@ -9,12 +9,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { cast } from "@/packages/libraries";
 import { stat } from "fs";
 import { ArrowDown01Icon } from "hugeicons-react";
-
-const schema = object({
-  full_name: string().required("Full name is required"),
-  email: string().email("Invalid email").required("Email is required"),
-  phone_number: string().required("Phone number is required"),
-});
+import { schema } from "./schema";
 
 export function AddSubAdmins() {
   const form = useForm({
@@ -42,7 +37,7 @@ export function AddSubAdmins() {
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
-        gap={25}
+        gap={18}
         type='plain'
         bg='white'
       >
@@ -66,13 +61,6 @@ export function AddSubAdmins() {
           data={["Active", "Suspended"]}
           label='Account Status'
           rightSection={<ArrowDown01Icon />}
-          searchable={false}
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-            options: "text-sm",
-            error: "text-xs",
-          }}
           {...form.getInputProps("status")}
         />
 

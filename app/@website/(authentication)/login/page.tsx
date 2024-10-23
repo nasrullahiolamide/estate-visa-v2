@@ -18,6 +18,7 @@ import { handleError } from "@/packages/notification";
 import { APP, handleLogin, PAGES, USER_TYPE } from "@/packages/libraries";
 import { LoginResponseData } from "@/builders/types/login";
 import { builder } from "@/builders";
+import { toast } from "react-toastify";
 
 const schema = object({
   username: string()
@@ -78,9 +79,9 @@ export default function Page() {
     onError: handleError(),
   });
 
-  handleError({
-    message: "Invalid email address",
-  });
+  // handleError({
+  //   message: "Invalid email address",
+  // });
 
   function handleSubmit(values: typeof form.values) {
     // mutate(values, {});
@@ -90,9 +91,11 @@ export default function Page() {
       values.username !== "superadmin@estatevisa.com"
     ) {
       console.log("Invalid email address");
-      handleError({
-        message: "Invalid email address",
-      });
+      // handleError({
+      //   message: "Invalid email address",
+      // });
+
+      toast.error("Invalid email address");
       return;
     }
 

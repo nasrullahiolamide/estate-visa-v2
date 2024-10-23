@@ -1,4 +1,3 @@
-export { CustomTable } from "./custom-table";
 export { DrawersProvider, useDrawer } from "./drawer";
 export { Emblem } from "./emblem";
 export { FormButtons } from "./form-buttons";

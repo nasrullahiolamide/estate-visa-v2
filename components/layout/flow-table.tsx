@@ -28,6 +28,7 @@ interface FlowTableProps<T> {
   initialRightPinnedColumns?: string[];
   columnOrdering?: string[];
   skeleton?: boolean;
+  onRowClick?: (props: any) => void;
 }
 
 const debugTable = process.env.NODE_ENV !== "production";
@@ -39,6 +40,7 @@ export function FlowTable<T>({
   columnOrdering = [],
   data = [],
   skeleton,
+  onRowClick,
 }: FlowTableProps<T>) {
   const [columnOrder, setColumnOrder] = useState<string[]>(columnOrdering);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -49,13 +51,13 @@ export function FlowTable<T>({
     right: [...initialRightPinnedColumns, "Action"],
   });
 
+  const { setPage } = useFlowPagination();
+
   const {
     page: pageIndex,
     numberOfPages: pageCount,
     pageSize,
   } = useFlowState();
-
-  const { setPage } = useFlowPagination();
 
   const [pagination, setPaginationState] = useState<PaginationState>({
     pageIndex,
@@ -99,10 +101,6 @@ export function FlowTable<T>({
     <>
       <Table
         stickyHeader
-        striped
-        // highlightOnHover
-        // highlightOnHoverColor='var(--purple-2)'
-        // stripedColor='#E3DBFF'
         miw='max-content'
         bg='white'
         className={clsx({
@@ -128,6 +126,7 @@ export function FlowTable<T>({
                 row={row}
                 skeleton={skeleton}
                 bgColor={color}
+                onRowClick={onRowClick}
               />
             );
           })}
@@ -138,24 +137,18 @@ export function FlowTable<T>({
 }
 
 // Table Header Component
-
 interface TableHeaderProps<T> {
   headerGroup: HeaderGroup<T>;
   skeleton: any;
   bgColor?: string;
 }
 
-const TableHeader = <T,>({
-  headerGroup,
-  skeleton,
-  bgColor,
-}: TableHeaderProps<T>) => (
+const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
   <Table.Tr key={headerGroup.id}>
     {headerGroup.headers.map((header) => (
       <Table.Th
         lh={2}
         fw={600}
-        ta='start'
         key={header.id}
         className={clsx(
           "text-primary-text-body pr-4 sm:px-6 py-4 sm:py-6 bg-white",
@@ -196,19 +189,25 @@ const TableHeader = <T,>({
 );
 
 // Table Row Component
-
 interface TableRowProps<T> {
   row: Row<T>;
   skeleton: any;
   bgColor: string;
+  onRowClick?: (props: any) => void;
 }
-const TableRow = <T,>({ row, skeleton, bgColor }: TableRowProps<T>) => {
+const TableRow = <T,>({
+  row,
+  skeleton,
+  bgColor,
+  onRowClick,
+}: TableRowProps<T>) => {
   return (
     <Table.Tr
       key={row.id}
       className={clsx(
         "hover:bg-blue-50 pr-4 sm:px-6 sm:py-4 cursor-pointer w-fit"
       )}
+      onClick={() => onRowClick && onRowClick(row.original)}
     >
       {row.getVisibleCells().map((cell) => {
         return (

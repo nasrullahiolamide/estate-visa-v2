@@ -59,3 +59,14 @@ export function generateHouseNumber(): string {
   const number = faker.string.numeric(2);
   return `${letter}${number}`;
 }
+
+export function generateRelationshipStatus(): string {
+  return faker.helpers.arrayElement([
+    "Friend",
+    "Family",
+    "Colleague",
+    "Neighbor",
+    "Relative",
+    "Acquaintance",
+  ]);
+}

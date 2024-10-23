@@ -7,6 +7,7 @@ import { ArrowDown01Icon } from "hugeicons-react";
 import { User, Setting2, LogoutCurve } from "iconsax-react";
 
 import { ConfirmLogout } from "./modals/logout";
+import { ArrowDownIcon } from "@/svgs";
 
 export function AdminUser() {
   function handleLogout() {
@@ -19,11 +20,14 @@ export function AdminUser() {
   return (
     <Menu
       shadow='md'
-      width={200}
       position='bottom-end'
       styles={{
         item: {
-          padding: "8px 16px",
+          padding: "16px",
+          borderRadius: 0,
+        },
+        dropdown: {
+          padding: 0,
         },
       }}
     >
@@ -32,31 +36,48 @@ export function AdminUser() {
           <Avatar
             src='/images/avatar.png'
             alt='Mide Martins'
-            className='rounded-full w-8 h-8 md:w-12 md:h-12'
+            size={40}
+            className='rounded-full'
           />
 
           <Flex gap={12} className='hidden sm:flex' align='center'>
             <Stack gap={1}>
-              <p className='text-primary-text-body font-medium'>Mide Martins</p>
+              <p className='text-primary-text-body font-medium text-sm cur'>
+                Mide Martins
+              </p>
               <p className='text-xs'>Estate Owner</p>
             </Stack>
 
-            <ArrowDown01Icon className='cursor-pointer' />
+            <ArrowDownIcon className='cursor-pointer' />
           </Flex>
         </Flex>
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Account</Menu.Label>
+        <Menu.Item
+          classNames={{
+            item: "hover:bg-transparent cursor-auto",
+          }}
+          closeMenuOnClick={false}
+        >
+          <Flex align='center' gap={8}>
+            <Avatar src='/images/avatar.png' alt='Mide Martins' size={30} />
+            <Stack gap={1}>
+              <p className='text-primary-text-body font-medium'>Mide Martins</p>
+              <p className='text-xs'>useradmin@estatevisa.com</p>
+            </Stack>
+          </Flex>
+        </Menu.Item>
+        <Menu.Divider />
+
         <Menu.Item
           leftSection={<User size={18} />}
           onClick={() => navigate(PAGES.PROFILE)}
         >
           My Profile
         </Menu.Item>
-        <Menu.Item leftSection={<Setting2 size={18} />}>Settings</Menu.Item>
-        <Menu.Divider />
         <Menu.Item
+          bg='purple.4'
           color='red'
           leftSection={<LogoutCurve size={18} />}
           onClick={handleLogout}

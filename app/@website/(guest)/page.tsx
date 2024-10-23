@@ -25,7 +25,7 @@ export default function Page() {
       <HeroSection />
       <Services />
       <Procedures />
-      <PricingPlans />
+      {/* <PricingPlans /> */}
       <JoinUs />
       <WebsiteFooter />
     </Stack>

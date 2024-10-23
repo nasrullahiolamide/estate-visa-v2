@@ -3,5 +3,26 @@
     display: flex;
     flex-direction: column;
     gap: rem(6);
+
+    .input {
+      font-size: rem(14px);
+    }
+
+    .error {
+      font-size: rem(12px);
+    }
+  }
+}
+
+.day {
+  font-size: rem(14px);
+
+  &[data-selected="true"] {
+    border-radius: 100%;
+  }
+  &[data-today="true"] {
+    border-radius: 100%;
+    background-color: transparent;
+    border-color: var(--gray-12);
   }
 }

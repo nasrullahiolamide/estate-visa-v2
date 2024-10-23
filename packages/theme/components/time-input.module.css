@@ -3,5 +3,13 @@
     display: flex;
     flex-direction: column;
     gap: rem(6);
+
+    .input {
+      font-size: rem(14px);
+    }
+
+    .error {
+      font-size: rem(12px);
+    }
   }
 }

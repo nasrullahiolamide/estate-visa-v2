@@ -14,7 +14,7 @@ export function VerticalLine(props: VerticalLineProps) {
 
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start 70vh", "end center"],
+    offset: ["start 80vh", "end center"],
   });
 
   // VERTICAL LINE KEYFRAMES
@@ -49,7 +49,7 @@ export function VerticalLine(props: VerticalLineProps) {
       initial='initial'
       style={style}
       className={clsx(
-        "sm:hidden block w-0.5 h-44 border-t-0 mx-auto",
+        "sm:hidden block w-0.5 h-24 border-t-0 mx-auto",
         props.className
       )}
     />

@@ -1,22 +1,15 @@
 "use client";
 
-import { Button, Select, TextInput } from "@mantine/core";
+import { Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { object, string } from "yup";
 
 import { FlowContainer } from "@/components/layout/flow-container";
 import { cast, MODALS } from "@/packages/libraries";
-import { stat } from "fs";
-import { ArrowDown01Icon } from "hugeicons-react";
 import { FormButtons } from "@/components/shared/interface";
 import { SubAdminListData } from "@/builders/types/sub-admins";
 import clsx from "clsx";
 import { modals } from "@mantine/modals";
-
-const schema = object({
-  full_name: string().required("Full name is required"),
-  phone_number: string().required("Phone number is required"),
-});
+import { schema } from "./schema";
 
 interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
   edit: boolean;
@@ -53,20 +46,18 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
-        gap={25}
+        gap={18}
         type='plain'
         bg='white'
       >
         <TextInput
           label='Full Name'
-          value={data.full_name}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("full_name")}
         />
         <TextInput
           label='Phone Number'
-          value={data.phone_number}
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("phone_number")}
@@ -74,15 +65,8 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
 
         <Select
           data={["Active", "Suspended"]}
-          value={data.status}
           disabled={!form.getValues().edit_details}
           label='Account Status'
-          rightSection={<ArrowDown01Icon />}
-          searchable={false}
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-          }}
           {...form.getInputProps("status")}
         />
 

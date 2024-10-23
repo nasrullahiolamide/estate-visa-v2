@@ -77,22 +77,14 @@ export function AddNewOccupants({
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
-        gap={25}
+        gap={18}
         type='plain'
         bg='white'
       >
         <Select
           data={["A11", "B11"]}
           label='House Number'
-          rightSection={<ArrowDown01Icon />}
-          searchable={false}
           withAsterisk
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-            options: "text-sm",
-            error: "text-xs",
-          }}
           {...form.getInputProps("house_no")}
         />
         <TextInput
@@ -114,14 +106,6 @@ export function AddNewOccupants({
         <Select
           data={["Active", "Suspended"]}
           label='Status'
-          rightSection={<ArrowDown01Icon />}
-          searchable={false}
-          classNames={{
-            option: "hover:bg-purple-4 text-sm",
-            input: "text-sm",
-            options: "text-sm",
-            error: "text-xs",
-          }}
           {...form.getInputProps("status")}
         />
 

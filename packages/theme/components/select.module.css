@@ -3,6 +3,32 @@
     display: flex;
     flex-direction: column;
     gap: rem(6);
+
+    /* 
+        option: "hover:bg-purple-4 text-sm",
+        input: "text-sm",
+        options: "text-sm",
+        error: "text-xs", */
+
+    .input {
+      font-size: rem(14px);
+    }
+
+    .error {
+      font-size: rem(12px);
+    }
+
+    .options {
+      font-size: rem(14px);
+    }
+
+    .option {
+      font-size: rem(14px);
+
+      &:hover {
+        background-color: var(--purple-4);
+      }
+    }
   }
 
   .input {
@@ -17,6 +43,7 @@
         --input-color: var(--primary-text-subtle);
       }
 
+      font-size: rem(14);
       border-inline-width: 0;
       border-block-start-width: 0;
       border-radius: 0;

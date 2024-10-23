@@ -19,4 +19,94 @@ export const notifications = [
     message: "was assigned to an estate.",
     time: "2 hours ago",
   },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
+  {
+    user: { name: "Meedowner", avatar: "/images/avatar.png" },
+    message: "was assigned to an estate.",
+    time: "2 hours ago",
+  },
 ];

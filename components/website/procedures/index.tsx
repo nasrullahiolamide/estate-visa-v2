@@ -33,7 +33,11 @@ export function Procedures() {
         align='center'
         justify='center'
         gap={10}
-        className='flex-col sm:flex-row'
+        mt={18}
+        className='flex-col sm:flex-row bg-no-repeat xl:bg-[url("/images/curly-line.png")]'
+        style={{
+          backgroundPositionX: "center",
+        }}
       >
         <Step
           number={1}
