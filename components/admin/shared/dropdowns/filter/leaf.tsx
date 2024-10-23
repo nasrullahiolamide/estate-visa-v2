@@ -1,5 +1,6 @@
 import { createTree } from "@/packages/libraries";
 import { Group, Menu, Box, RenderTreeNodePayload } from "@mantine/core";
+import clsx from "clsx";
 import { ArrowDown3, ArrowRight3 } from "iconsax-react";
 import { create } from "lodash";
 
@@ -25,7 +26,11 @@ export function LeafDropdown({
   elementProps,
   hasChildren,
 }: RenderTreeNodePayload) {
-  return <Menu.Item key={node.value}>{node.label}</Menu.Item>;
+  return (
+    <>
+      <Menu.Item key={node.value}>{node.value}</Menu.Item>
+    </>
+  );
 }
 
 //   {

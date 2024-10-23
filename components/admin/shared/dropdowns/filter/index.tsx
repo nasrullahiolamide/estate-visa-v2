@@ -6,7 +6,6 @@ import { Branch } from "./branch";
 
 export type FilterData = {
   label: string;
-  value: string;
   children?: FilterData;
 }[];
 
@@ -15,19 +14,6 @@ interface FilterDropdownProps extends MenuProps {
   showLabel?: boolean;
 }
 
-interface FileIconProps {
-  expanded: boolean;
-}
-
-function FileIcon({ expanded }: FileIconProps) {
-  return expanded ? (
-    <ArrowDown3 color='currentColor' size='16' />
-  ) : (
-    <ArrowRight3 color='currentColor' size='16' />
-  );
-}
-
-// Main FilterDropdown component that can include nested dropdowns
 export function FilterDropdown({
   data,
   showLabel = true,
@@ -35,4 +21,3 @@ export function FilterDropdown({
 }: FilterDropdownProps) {
   return <Branch data={data} />;
 }
-// LeafDropdown handles individual items, and if it has children, it renders as a nested dropdown
