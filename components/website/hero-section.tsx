@@ -2,6 +2,7 @@ import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
 import { Picture } from "../shared/interface";
 import { Features } from "./features";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { TalkToUsButton } from "./talk-to-us/button";
 
 export function HeroSection() {
   return (
@@ -46,7 +47,7 @@ export function HeroSection() {
             while providing occupants with a smooth living experience.
           </Text>
 
-          <Button px={60}>Talk to us</Button>
+          <TalkToUsButton px={60} />
           <Features />
         </Stack>
       </Flex>

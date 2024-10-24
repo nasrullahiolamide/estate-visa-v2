@@ -60,8 +60,7 @@ export function AddNewMinutes() {
   return (
     <Form form={form} onSubmit={() => {}}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className='sm:rounded-2xl bg-primary-background-white h-[550px] sm:h-full overflow-scroll sm:justify-center'
         gap={18}
         type='plain'
         bg='white'
@@ -99,11 +98,10 @@ export function AddNewMinutes() {
           multiple
           {...form.getInputProps("upload_id")}
         />
-
-        <Button mt={10} type='submit' onClick={handleSubmit}>
-          Add Minutes
-        </Button>
       </FlowContainer>
+      <Button mt={10} type='submit' onClick={handleSubmit} w='100%'>
+        Add Minutes
+      </Button>
     </Form>
   );
 }

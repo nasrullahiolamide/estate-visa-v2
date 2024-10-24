@@ -14,7 +14,7 @@ export function AdminUser() {
     modals.open({
       children: <ConfirmLogout />,
       withCloseButton: false,
-      modalId: MODALS.CONFIRM_LOGOUT,
+      modalId: MODALS.CONFIRMATION,
     });
   }
   return (
@@ -53,7 +53,7 @@ export function AdminUser() {
         </Flex>
       </Menu.Target>
 
-      <Menu.Dropdown>
+      <Menu.Dropdown className='shadow-lg overflow-hidden' variant='action'>
         <Menu.Item
           classNames={{
             item: "hover:bg-transparent cursor-auto",

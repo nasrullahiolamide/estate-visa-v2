@@ -47,7 +47,7 @@ const handleDelete = () => {
   modals.open({
     children: <ConfirmDelete title='occupant' />,
     withCloseButton: false,
-    modalId: MODALS.CONFIRM_DELETE,
+    modalId: MODALS.CONFIRMATION,
   });
 };
 

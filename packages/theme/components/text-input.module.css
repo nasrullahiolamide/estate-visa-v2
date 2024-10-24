@@ -22,4 +22,8 @@
       padding-block: 1.5rem;
     }
   }
+
+  .label {
+    width: fit-content;
+  }
 }

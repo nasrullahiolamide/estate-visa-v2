@@ -34,7 +34,7 @@ export function FilterDropdown({
           </Button>
         )}
       </Menu.Target>
-      <Menu.Dropdown className='z-20 p-0' variant='action'>
+      <Menu.Dropdown className='z-20 p-0 overflow-hidden' variant='action'>
         <Tree
           data={data}
           selectOnClick
@@ -42,8 +42,8 @@ export function FilterDropdown({
           renderNode={(payload) => <Leaf {...payload} />}
           classNames={{
             subtree:
-              "absolute top-1/2 right-full mr-2 bg-white border border-primary-border-light rounded-lg shadow-2xl transform transition-all duration-300 ease-in-out overflow-hidden",
-            root: "relative shadow-2xl",
+              "hidden absolute top-1/2 right-full mr-2 bg-white border border-primary-border-light rounded-lg shadow-2xl transform transition-all duration-300 ease-in-out overflow-hidden",
+            // root: "relative shadow-2xl",
           }}
         />
       </Menu.Dropdown>

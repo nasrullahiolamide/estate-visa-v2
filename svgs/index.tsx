@@ -38,5 +38,6 @@ export { UploadCloudIcon } from "./upload-cloud-icon";
 export { FileIcon } from "./file-icon";
 export { Check } from "./check";
 export { AddIcon } from "./add-icon";
+export { BellIcon } from "./bell-icon";
 
 export type { IconType } from "./type";

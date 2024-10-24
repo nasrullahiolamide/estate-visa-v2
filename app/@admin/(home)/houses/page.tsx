@@ -28,8 +28,22 @@ import {
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
-  { label: "Name(A-Z)", value: "a-z" },
-  { label: "Name(Z-A)", value: "z-a" },
+  { label: "Street Name(A-Z)", value: "a-z" },
+  { label: "Street Name(Z-A)", value: "z-a" },
+  {
+    label: "Status",
+    value: "status",
+    children: [
+      {
+        label: "Active",
+        value: "active",
+      },
+      {
+        label: "Suspended",
+        value: "suspended",
+      },
+    ],
+  },
 ];
 
 const handleNewHouse = () => {
@@ -44,7 +58,7 @@ const handleDelete = () => {
   modals.open({
     children: <ConfirmDelete title='house' />,
     withCloseButton: false,
-    modalId: MODALS.CONFIRM_DELETE,
+    modalId: MODALS.CONFIRMATION,
   });
 };
 

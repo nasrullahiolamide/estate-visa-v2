@@ -18,9 +18,10 @@ import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
 import { PAGES } from "@/packages/libraries";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { TalkToUsButton } from "./talk-to-us/button";
 
 const links = [
   {
@@ -29,15 +30,15 @@ const links = [
   },
   {
     title: "Features",
-    href: "#features",
+    href: "/#features",
   },
   {
     title: "How It Works",
-    href: "#how-it-works",
+    href: "/#how-it-works",
   },
   {
     title: "Testimonial",
-    href: "#testimonial",
+    href: "/#testimonial",
   },
 ];
 
@@ -58,6 +59,7 @@ export function NavList({ close }: { close?: () => void }) {
           fw={500}
           w='fit-content'
           onClick={close}
+          component={Link}
         >
           {link.title}
         </Anchor>
@@ -67,20 +69,15 @@ export function NavList({ close }: { close?: () => void }) {
 }
 
 export function WebsiteHeader() {
-  const [opened, { toggle, close }] = useDisclosure();
-
-  useEffect(() => {
-    const handleScroll = () => opened && close();
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  const [opened, toggle] = useState(false);
 
   return (
     <Stack gap={0}>
-      <Flex justify='space-between' className='lg:px-16 md:px-8 px-4'>
+      <Flex
+        justify='space-between'
+        align='center'
+        className='lg:px-16 md:px-8 px-4'
+      >
         <Flex
           w='100%'
           maw={MAX_SCREEN_WIDTH}
@@ -92,7 +89,7 @@ export function WebsiteHeader() {
           mx='auto'
         >
           <Box component='figure'>
-            <EstateVisaLogo width={72} height={72} />
+            <EstateVisaLogo width={62} height={62} />
           </Box>
           <Flex
             gap={32}
@@ -110,12 +107,10 @@ export function WebsiteHeader() {
               justifySelf: "end",
             }}
           >
-            <Link href={PAGES.LOGIN}>
-              <Button variant='outline'>Log in</Button>
-            </Link>
-            <Button variant='primary' className='hidden sm:block'>
-              Talk to us
+            <Button href={PAGES.LOGIN} variant='outline' component={Link}>
+              Log in
             </Button>
+            <TalkToUsButton className='hidden sm:block' />
           </Flex>
 
           <Popover
@@ -125,6 +120,7 @@ export function WebsiteHeader() {
               transition: "pop-top-right",
             }}
             opened={opened}
+            onChange={toggle}
             classNames={{
               dropdown: "bg-white/70 mt-2",
             }}
@@ -141,10 +137,11 @@ export function WebsiteHeader() {
               <Burger
                 hiddenFrom='lg'
                 opened={opened}
-                onClick={toggle}
+                onClick={() => toggle(!opened)}
                 aria-label='Toggle navigation'
                 transitionDuration={500}
                 className='relative'
+                size='md'
               />
             </Popover.Target>
 
@@ -153,7 +150,7 @@ export function WebsiteHeader() {
               miw={300}
             >
               <Stack gap={12} py={16} px={20}>
-                <NavList close={close} />
+                <NavList close={() => toggle(!opened)} />
               </Stack>
             </Popover.Dropdown>
           </Popover>

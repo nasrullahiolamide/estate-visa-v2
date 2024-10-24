@@ -150,7 +150,7 @@ export const components: MantineThemeComponents = {
 
   PasswordInput: TextInput.extend({
     defaultProps: {
-      size: "md",
+      size: "sm",
       type: "password",
       variant: "default",
     },
@@ -178,6 +178,10 @@ export const components: MantineThemeComponents = {
     defaultProps: {
       size: "lg",
       variant: "default",
+      rightSection: <ArrowDownIcon />,
+      classNames: {
+        option: "hover:bg-purple-4 text-sm",
+      },
     },
     classNames: multiSelect,
   }),

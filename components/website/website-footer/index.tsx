@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { Divider, Flex, Stack, Text } from "@mantine/core";
 import clsx from "clsx";
+import { Divider, Flex, Stack, Text } from "@mantine/core";
 import { Copyright } from "iconsax-react";
-
 import { FOOTER_LINKS } from "./links";
 import { FOOTER_CONTACT } from "./contact";
 import {
@@ -12,18 +11,15 @@ import {
   LinkedInIcon,
   XIcon,
 } from "@/svgs";
-import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export function WebsiteFooter() {
   return (
     <>
       <Stack
         component='footer'
-        // maw={MAX_SCREEN_WIDTH}
-        // mx='auto'
         mt='auto'
         fz={14}
-        className='lg:p-16 md:p-8 py-12 px-5 lg:pb-10'
+        className='lg:p-16 md:p-8 py-12 px-5 lg:pb-10 justify-evenly'
       >
         <div
           className={clsx(
@@ -32,25 +28,28 @@ export function WebsiteFooter() {
             "flex-col justify-start md:flex-row min-[1248px]:justify-between"
           )}
           style={{
-            rowGap: 40,
+            rowGap: 30,
             columnGap: 50,
           }}
         >
-          <div className='flex flex-row flex-1  items-center lg:flex-col gap-2 lg:items-start'>
-            <EstateVisaLogo />
-            <Text fw={700} fz={18} className='hidden lg:block'>
+          <div className='flex flex-row flex-1 items-center lg:flex-col gap-2 lg:items-start'>
+            <EstateVisaLogo width={80} />
+            <Text fw={700} fz={18}>
               Estate Visa
             </Text>
           </div>
 
           <div
             className={clsx(
-              "flex flex-col md:flex-row basis-full lg:basis-0 flex-[2] gap-10"
+              "flex md:flex-row basis-full lg:basis-0 flex-[2] justify-between sm:gap-10 flex-wrap"
             )}
           >
             {FOOTER_LINKS.map(({ title, links }) => {
               return (
-                <div className='flex flex-col flex-1 gap-4 ' key={title}>
+                <div
+                  className='w-fit flex flex-col sm:flex-1 gap-4 '
+                  key={title}
+                >
                   <h3 className='prose-lg/semi-bold'>{title}</h3>
                   <div className='flex flex-col gap-3'>
                     {links.map(({ name, link }) => {

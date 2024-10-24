@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { Tag } from "../tag";
 import { PricingCard } from "./card";
-import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { TalkToUsButton } from "../talk-to-us/button";
 
 export function PricingPlans() {
   const plans = [
@@ -87,9 +87,7 @@ export function PricingPlans() {
         ))}
       </Box>
 
-      <Button px={60} mx='auto' className='w-full max-w-[500px]'>
-        Talk to us now!
-      </Button>
+      <TalkToUsButton px={60} mx='auto' className='w-full max-w-[500px]' />
     </Stack>
   );
 }

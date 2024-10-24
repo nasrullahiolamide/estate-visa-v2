@@ -1,5 +1,6 @@
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { Button, Stack, Title, Text, Flex } from "@mantine/core";
+import { TalkToUsButton } from "./talk-to-us/button";
 
 export function JoinUs() {
   return (
@@ -38,7 +39,7 @@ export function JoinUs() {
           your experience just got better.
         </Text>
 
-        <Button px={60}>Talk to us now!</Button>
+        <TalkToUsButton px={60} />
       </Flex>
     </Stack>
   );

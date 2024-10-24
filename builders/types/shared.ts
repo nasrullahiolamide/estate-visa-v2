@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { MIME_TYPES } from "@mantine/dropzone";
 
 import dayjs from "dayjs";
+import { string } from "yup";
 
 export type Nullish<Value, Exempt extends keyof Value = never> = {
   [Property in keyof Value]: Property extends Exempt
@@ -70,3 +71,7 @@ export function generateRelationshipStatus(): string {
     "Acquaintance",
   ]);
 }
+
+export const requiredString = string().required(
+  "This field is required. Please enter the necessary information."
+);

@@ -11,7 +11,7 @@ import {
   Procedures,
 } from "@/components/website";
 
-export default function Page() {
+export default function HomePage() {
   return (
     <Stack gap={0}>
       <Box

@@ -49,35 +49,35 @@ export default function Page() {
     validateInputOnBlur: true,
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().auth.login,
-    onSuccess: (payload) => {
-      const { data, message } = payload;
+  // const { mutate, isPending } = useMutation({
+  //   mutationFn: builder.use().auth.login,
+  //   onSuccess: (payload) => {
+  //     const { data, message } = payload;
 
-      function loginCallback(data: LoginResponseData) {
-        const { access_token, user_type } = data;
+  //     function loginCallback(data: LoginResponseData) {
+  //       const { access_token, user_type } = data;
 
-        if (
-          user_type === USER_TYPE.ADMIN ||
-          user_type === USER_TYPE.SUPER_ADMIN
-        ) {
-          handleLogin({
-            access_token,
-            user_type,
-          });
+  //       if (
+  //         user_type === USER_TYPE.ADMIN ||
+  //         user_type === USER_TYPE.SUPER_ADMIN
+  //       ) {
+  //         handleLogin({
+  //           access_token,
+  //           user_type,
+  //         });
 
-          navigate(PAGES.DASHBOARD);
-        } else {
-          handleError({
-            message,
-          })();
-        }
-      }
+  //         navigate(PAGES.DASHBOARD);
+  //       } else {
+  //         handleError({
+  //           message,
+  //         })();
+  //       }
+  //     }
 
-      if (data) loginCallback(data);
-    },
-    onError: handleError(),
-  });
+  //     if (data) loginCallback(data);
+  //   },
+  //   onError: handleError(),
+  // });
 
   // handleError({
   //   message: "Invalid email address",
@@ -127,6 +127,7 @@ export default function Page() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                width: "100%",
               },
             }}
             label={
@@ -146,8 +147,8 @@ export default function Page() {
             {...form.getInputProps("password")}
           />
           <Button
-            loading={isPending}
-            disabled={isPending}
+            // loading={isPending}
+            // disabled={isPending}
             type='submit'
             mt='auto'
           >
