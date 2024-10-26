@@ -38,7 +38,7 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
     // </Menu.Item>
 
     <Menu.Item
-      closeMenuOnClick={false}
+      closeMenuOnClick={!hasChildren}
       miw={150}
       className={clsx("hover:bg-gray-1 rounded-none p-4", {
         "!bg-purple-4": props.selected,

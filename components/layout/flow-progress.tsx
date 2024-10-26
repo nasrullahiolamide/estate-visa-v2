@@ -1,15 +1,20 @@
 import { Progress } from "@mantine/core";
 
 interface FlowProgressProps {
-  step: number;
   active: number;
+  total: number;
 }
 
-export function FlowProgress({ step, active }: FlowProgressProps) {
+export function FlowProgress({ active, total }: FlowProgressProps) {
   return (
     <Progress
-      value={active === step ? 100 : 0}
-      bg={active === step ? "var(--accent-9)" : "var(--accent-3)"}
+      radius='xs'
+      size={4}
+      value={Math.max(25, (active / total) * 100)}
+      bg='transparent'
+      color={"var(--green-9)"}
+      animated
+      transitionDuration={200}
     />
   );
 }

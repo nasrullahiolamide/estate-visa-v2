@@ -24,7 +24,6 @@ import {
   FlowTable,
   FlowFloatingButtons,
   FlowTableActions,
-  FlowMenu,
   FlowMenuDropdown,
 } from "@/components/layout";
 
@@ -131,6 +130,7 @@ const Actions: Record<PropertyKey, ReactNode> = {
     />
   ),
 };
+
 export default function Meetings() {
   const [opened, { open: openDrawer, close: closeDrawer }] =
     useDisclosure(false);

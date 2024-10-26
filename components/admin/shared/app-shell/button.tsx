@@ -3,7 +3,7 @@
 import { PAGES } from "@/packages/libraries";
 import { ActionIcon, NavLink, NavLinkProps } from "@mantine/core";
 import { usePathname } from "next/navigation";
-
+import { toString } from "lodash";
 import Link, { LinkProps } from "next/link";
 
 interface ButtonProps extends NavLinkProps, LinkProps {
@@ -13,7 +13,10 @@ interface ButtonProps extends NavLinkProps, LinkProps {
 export function AppShellButton({ opened, ...props }: ButtonProps) {
   const pathname = usePathname();
 
-  const isActive = pathname === props.href;
+  const isActive =
+    props.href === PAGES.DASHBOARD
+      ? pathname === PAGES.DASHBOARD
+      : pathname.startsWith(toString(props.href));
 
   return opened ? (
     <NavLink

@@ -10,7 +10,6 @@ import {
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { Fragment } from "react";
 import { object, string } from "yup";
-
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/admin/user-management/profile/profile-image";

@@ -20,7 +20,7 @@ export function RecentActivities() {
     <Stack
       flex={1}
       bg='white'
-      className=' rounded-lg backdrop-blur-sm w-full'
+      className='rounded-lg backdrop-blur-sm w-full'
       p={20}
       gap={16}
     >
@@ -35,10 +35,7 @@ export function RecentActivities() {
         </Tabs.List>
 
         <FlowTabsPanel value='this-week' mih={300}>
-          <FlowContentContainer
-            mt={16}
-            className='lg:overflow-scroll h-full sm:h-[300px]'
-          >
+          <FlowContentContainer mt={16} className='overflow-scroll h-[300px]'>
             {notifications.map((notification, index) => (
               <NotificationItem {...notification} key={index} />
             ))}

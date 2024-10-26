@@ -12,11 +12,11 @@ import { ViewEditOccupants } from "@/components/admin/occupants/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { DownloadIcon, UploadIcon } from "@/svgs";
 import {
   OccupantsData,
   useFakeOccupantsList,
 } from "@/builders/types/occupants";
-import { DownloadIcon, UploadIcon } from "@/svgs";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -91,10 +91,7 @@ export default function Occupants() {
 
   return (
     <Fragment>
-      <AppShellHeader
-        title='Occupants'
-        options={<SharedOccupantsHeaderOptions />}
-      />
+      <AppShellHeader title='Occupants' options={<HeaderOptions />} />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -161,7 +158,7 @@ export default function Occupants() {
   );
 }
 
-export function SharedOccupantsHeaderOptions() {
+export function HeaderOptions() {
   return (
     <Flex gap={14} wrap='wrap'>
       <Button

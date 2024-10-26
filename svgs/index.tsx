@@ -39,5 +39,7 @@ export { FileIcon } from "./file-icon";
 export { Check } from "./check";
 export { AddIcon } from "./add-icon";
 export { BellIcon } from "./bell-icon";
+export { DoubleMarkIcon } from "./double-mark-icon";
+export { ArrowBack } from "./arrow-back";
 
 export type { IconType } from "./type";

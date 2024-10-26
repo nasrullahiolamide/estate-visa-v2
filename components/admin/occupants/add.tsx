@@ -62,7 +62,7 @@ export function AddNewOccupants({
     };
 
     modals.open({
-      modalId: MODALS.CONFIRM_OCCUPANT,
+      modalId: MODALS.CONFIRMATION,
       children:
         viewId === "property-owners" ? (
           <ConfirmPropertyOwner data={formData} />

@@ -93,7 +93,7 @@ export function FlowTableActions<T extends ActionType[]>({
   DropdownProps,
   showDesktopView = true,
 }: FlowTableActionsProps<T>) {
-  const view: Record<PropertyKey, ReactNode> = {
+  const desktopView: Record<PropertyKey, ReactNode> = {
     [ACTIONS_LABELS.ADD]: (
       <Menu.Item
         key={ACTIONS_LABELS.ADD}
@@ -105,13 +105,15 @@ export function FlowTableActions<T extends ActionType[]>({
     ),
 
     [ACTIONS_LABELS.EDIT]: (
-      <Menu.Item
-        key={ACTIONS_LABELS.EDIT}
-        leftSection={<EditIcon width={14} />}
-        onClick={editProps?.onEdit}
-      >
-        {editProps?.label || "Edit"}
-      </Menu.Item>
+      <>
+        <Menu.Item
+          key={ACTIONS_LABELS.EDIT}
+          leftSection={<EditIcon width={14} />}
+          onClick={editProps?.onEdit}
+        >
+          {editProps?.label || "Edit"}
+        </Menu.Item>
+      </>
     ),
 
     [ACTIONS_LABELS.DELETE]: (
@@ -163,7 +165,71 @@ export function FlowTableActions<T extends ActionType[]>({
       </Menu.Item>
     ),
 
-    others: otherProps?.children,
+    others: (
+      <Fragment key={ACTIONS_LABELS.OTHERS}>{otherProps?.children}</Fragment>
+    ),
+  };
+
+  const mobileView: Record<PropertyKey, ReactNode> = {
+    [ACTIONS_LABELS.ADD]: (
+      <Tooltip label={addProps?.label || "Add"} className='hidden sm:block'>
+        <div onClick={addProps?.onAdd}>
+          <AddIcon color='var(--blue-8)' />
+        </div>
+      </Tooltip>
+    ),
+
+    [ACTIONS_LABELS.EDIT]: (
+      <Tooltip label={editProps?.label || "Edit"} className='hidden sm:block'>
+        <div onClick={editProps?.onEdit}>
+          <EditIcon color='var(--blue-8)' />
+        </div>
+      </Tooltip>
+    ),
+
+    [ACTIONS_LABELS.DELETE]: (
+      <Tooltip
+        label={deleteProps?.label || "Delete"}
+        className='hidden sm:block'
+      >
+        <div onClick={deleteProps?.onDelete}>
+          <TrashIcon color='var(--red-8)' />
+        </div>
+      </Tooltip>
+    ),
+
+    [ACTIONS_LABELS.VIEW]: (
+      <Tooltip label={viewProps?.label || "View"} className='hidden sm:block'>
+        <div onClick={viewProps?.onView}>
+          <EyeIcon color='var(--blue-8)' />
+        </div>
+      </Tooltip>
+    ),
+
+    [ACTIONS_LABELS.ACTIVATE_SUSPEND]: (
+      <Tooltip
+        label={
+          activateSuspendProps?.label || activateSuspendProps?.isActive
+            ? "Suspend"
+            : "Activate"
+        }
+        className='hidden sm:block'
+      >
+        <div
+          onClick={
+            activateSuspendProps?.isActive
+              ? activateSuspendProps?.onSuspend
+              : activateSuspendProps?.onActivate
+          }
+        >
+          {activateSuspendProps?.isActive ? (
+            <DeactivateIcon color='var(--yellow-8)' />
+          ) : (
+            <ActivateIcon color='var(--green-8)' />
+          )}
+        </div>
+      </Tooltip>
+    ),
   };
 
   return (
@@ -177,41 +243,13 @@ export function FlowTableActions<T extends ActionType[]>({
       >
         <FlowMenuTarget />
         <FlowMenuDropdown {...DropdownProps}>
-          {actions && actions.map((action) => view[action])}
+          {actions && actions.map((action) => desktopView[action])}
         </FlowMenuDropdown>
       </FlowMenu>
 
       {showDesktopView && (
-        <Flex className='hidden sm:flex justify-center' gap={8} align='center'>
-          <Tooltip label='View'>
-            <div onClick={viewProps?.onView}>
-              <EyeIcon color='var(--blue-8)' />
-            </div>
-          </Tooltip>
-          <Tooltip label='Edit'>
-            <div onClick={editProps?.onEdit}>
-              <EditIcon color='var(--blue-8)' />
-            </div>
-          </Tooltip>
-          {activateSuspendProps?.isActive ? (
-            <Tooltip label='Suspend'>
-              <div onClick={activateSuspendProps.onSuspend}>
-                <DeactivateIcon />
-              </div>
-            </Tooltip>
-          ) : (
-            <Tooltip label='Activate'>
-              <div onClick={activateSuspendProps?.onActivate}>
-                <ActivateIcon />
-              </div>
-            </Tooltip>
-          )}
-
-          <Tooltip label='Delete'>
-            <div onClick={deleteProps?.onDelete}>
-              <TrashIcon />
-            </div>
-          </Tooltip>
+        <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+          {actions && actions.map((action) => mobileView[action])}
         </Flex>
       )}
     </Fragment>

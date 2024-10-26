@@ -38,11 +38,14 @@
     padding-block: rem(12px);
     padding-inline: rem(10px);
     flex: 1;
-    gap: rem(8px);
     display: flex;
     font-size: var(--nl-size);
     color: var(--nl-color);
     background-color: var(--nl-bg);
+
+    .body {
+      text-align: center;
+    }
 
     &:hover {
       --nl-color: var(--accent-7);

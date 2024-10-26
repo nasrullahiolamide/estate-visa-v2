@@ -1,9 +1,18 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
+export type addNewEstateData = {
+  estate_name: string;
+  estate_location: string;
+  no_of_houses: string;
+  house_types: string[] | null;
+  service_requests: string[] | null;
+  service_types: string[] | null;
+};
+
 export type EstateList = {
   total: number;
-  data: EstateListData[];
+  data: EstatesData[];
   page_size: number;
   current_page: number;
   last_page: number;
@@ -11,17 +20,17 @@ export type EstateList = {
   prev_page_url: any;
 };
 
-export type EstateListData = {
+export type EstatesData = {
   estate_name: string;
   owner: string;
   no_of_houses: number;
   location: string;
-  interest?: string;
+  interests: Array<string>;
   created_at: string;
   updated_at: string;
 };
 
-export function useFakeEstateListData(_?: any, index?: number) {
+export function useFakeEstateData(_?: any, index?: number) {
   faker.seed(index);
 
   const id = index ?? faker.number.int({ max: 10 });
@@ -30,20 +39,23 @@ export function useFakeEstateListData(_?: any, index?: number) {
     id,
     estate_name: faker.location.city(),
     owner: faker.person.fullName(),
-    no_of_houses: faker.number.int(),
+    no_of_houses: faker.number.int({ min: 10, max: 80 }),
     location: faker.location.country(),
-    interest: faker.commerce.department(),
+    interests: Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      () => faker.commerce.department()
+    ),
     created_at: faker.date.recent().toISOString(),
     updated_at: faker.date.recent().toISOString(),
   };
 }
 
-export function useFakeStaffList(): EstateList {
+export function useFakeEstateList(): EstateList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 7 }) },
-    useFakeEstateListData
+    useFakeEstateData
   );
 
   return {

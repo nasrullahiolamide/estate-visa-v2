@@ -35,5 +35,5 @@ export function useStepper<T extends Record<PropertyKey, unknown>>({
     handlers.decrement();
   }
 
-  return { active, next, previous };
+  return { active, next, previous, max };
 }

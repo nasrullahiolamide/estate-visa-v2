@@ -20,11 +20,14 @@ export enum APP {
 }
 
 export enum USER_TYPE {
-  SUPER_ADMIN = "MDN User",
-  ADMIN = "Estate Admin",
-  STAFF = "Estate Staff",
-  GUEST = "MDN Guest",
-  USER = "User",
+  SUPER_ADMIN = "super-admin",
+  ADMIN = "admin",
+  OCCUPANT = "occupant",
+  SUB_OCCUPANT = "sub-occupant",
+  PROPERTY_OWNER = "property-owner",
+  GATEMAN = "gateman",
+  GUEST = "website-guest",
+  USER = "user",
 }
 
 export enum PAGES {
@@ -49,6 +52,7 @@ export enum PAGES {
   SERVICE_REQUESTS = "/service-requests",
   MARKET_PLACE = "/market-place",
   ESTATES = "/estates",
+  ADD_NEW_ESTATE = "/add-new-estate",
 }
 
 export enum USER_ACTIONS {
@@ -60,26 +64,20 @@ export enum USER_ACTIONS {
 
 export enum MODALS {
   //======== ADD =========
+  ADD = "add",
   ADD_SUB_ADMIN = USER_ACTIONS.ADD + "-sub-admin",
   ADD_NEW_OCCUPANTS = USER_ACTIONS.ADD + "-new-occupants",
   ADD_NEW_HOUSE = USER_ACTIONS.ADD + "-new-house",
   ADD_MEETINGS_MINUTES = USER_ACTIONS.ADD + "-meetings-minutes",
 
   //======== VIEW/EDIT =========
+  VIEW_EDIT = "view-edit",
   VIEW_EDIT_SUB_ADMIN = USER_ACTIONS.VIEW_EDIT + "-sub-admin",
   VIEW_EDIT_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",
   VIEW_SUB_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-sub-occupants",
   VIEW_EDIT_HOUSES = USER_ACTIONS.VIEW_EDIT + "-houses",
   VIEW_EDIT_GATES = USER_ACTIONS.VIEW_EDIT + "-gates",
 
-  //======== DELETE =========
-  DELETE_SUB_ADMIN = USER_ACTIONS.DELETE + "-sub-admin",
-  DELETE_PROPERTY_OWNER = USER_ACTIONS.DELETE + "-property-owner",
-  DELETE_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",
-
-  //======== CONFIRM =========
-  CONFIRMATION = USER_ACTIONS.CONFIRM,
-  CONFIRM_DELETE = USER_ACTIONS.CONFIRM + "-delete",
-  CONFIRM_LOGOUT = USER_ACTIONS.CONFIRM + "-logout",
-  CONFIRM_OCCUPANT = USER_ACTIONS.CONFIRM + "-occupant",
+  //======== CONFIRMATION =========
+  CONFIRMATION = "confirmation",
 }

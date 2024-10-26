@@ -21,6 +21,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useFlowState } from "./flow-context";
 import { useFlowPagination } from "./use-flow-pagination";
+import { handleClickPropagation } from "@/packages/libraries";
 interface FlowTableProps<T> {
   data?: T[];
   columns: ColumnDef<T, any>[];
@@ -210,6 +211,7 @@ const TableRow = <T,>({
       onClick={() => onRowClick && onRowClick(row.original)}
     >
       {row.getVisibleCells().map((cell) => {
+        const isActionButtonCell = cell.column.id === "action";
         return (
           <Table.Td
             fz={14}
@@ -220,6 +222,9 @@ const TableRow = <T,>({
               "fixed z-[4] left-0 shadow-xl":
                 cell.column.getIsPinned() === "left",
             })}
+            onClick={(e) =>
+              isActionButtonCell ? handleClickPropagation(e) : null
+            }
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </Table.Td>
