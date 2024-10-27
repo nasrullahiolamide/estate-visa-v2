@@ -1,19 +1,37 @@
 import { USER_TYPE } from "@/packages/libraries";
 
-export type MDNUser = USER_TYPE.SUPER_ADMIN;
-export type Owner = USER_TYPE.ADMIN;
+export const SuperAdmin = USER_TYPE.SUPER_ADMIN;
+export const Admin = USER_TYPE.ADMIN;
+export const Guest = USER_TYPE.GUEST;
+export const Occupant = USER_TYPE.OCCUPANT;
+export const SubOccupant = USER_TYPE.SUB_OCCUPANT;
+export const PropertyOwner = USER_TYPE.PROPERTY_OWNER;
+export const Gateman = USER_TYPE.GATEMAN;
 
-export type UserType = MDNUser | Owner;
+export type UserType = (typeof Admins)[number];
+
+export const Admins = [
+  SuperAdmin,
+  Admin,
+  Guest,
+  Occupant,
+  SubOccupant,
+  PropertyOwner,
+  Gateman,
+];
 
 export type LoginResponseData = {
-  roles?: Array<any>;
-  permissions?: Array<any>;
   access_token: string;
-  username: string;
-  full_name: string;
-  user_type: UserType;
+  user: {
+    id: string;
+    roles: Array<{ name: UserType }>;
+    email: string;
+    firstname: string;
+    lastname: string;
+    username: string;
+    picture: string | null;
+    password: string;
+  };
 };
 
-export type StaffLoginResponse = { data: LoginResponseData; message?: string };
-
-export type LoginResponse = StaffLoginResponse;
+export type LoginResponse = { data: LoginResponseData; message?: string };

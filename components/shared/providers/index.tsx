@@ -14,12 +14,12 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
-      <FavIcon />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer
         stacked
-        position='top-center'
-        theme='dark'
+        draggable
+        position='top-right'
+        theme='colored'
         transition={Bounce}
         className='z-[999]'
       />

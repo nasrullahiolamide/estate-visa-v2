@@ -1,7 +1,7 @@
 "use client";
 
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { cast, PAGES } from "@/packages/libraries";
+import { cast, makePath, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
 import { FlowContainer, FlowContentContainer } from "@/components/layout";
 import { schema } from "@/components/super-admin/estates/add-new-estate/schema";
@@ -40,7 +40,10 @@ export default function AddNewEstates() {
 
   return (
     <FormProvider form={form}>
-      <AppShellHeader title='Add New Estate' backHref={PAGES.ESTATES} />
+      <AppShellHeader
+        title='Add New Estate'
+        backHref={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
+      />
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{

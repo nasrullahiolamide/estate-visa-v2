@@ -3,13 +3,15 @@ import { OptionsType } from "cookies-next/lib/types";
 
 import { encode } from "../encryption";
 import { APP, TOKEN, USER_TYPE } from "../enum";
+import { UserType } from "@/builders/types/login";
 
 interface HandleLogin {
   access_token: string;
-  organization_id?: number;
-  full_name?: string;
-  user_type?: USER_TYPE;
-  username?: string;
+  uid: string;
+  user_type: UserType;
+  full_name: string;
+  email: string;
+  username: string;
 }
 
 const options = {
@@ -18,12 +20,18 @@ const options = {
   sameSite: "strict",
 } satisfies OptionsType;
 
-export function handleLogin({
-  full_name,
-  access_token,
-  user_type = USER_TYPE.STAFF,
-  username,
-}: HandleLogin) {
+const account: Record<PropertyKey, string> = {
+  [USER_TYPE.ADMIN]: "Estate Owner",
+  [USER_TYPE.SUPER_ADMIN]: "Super Admin",
+  [USER_TYPE.OCCUPANT]: "Occupant",
+  [USER_TYPE.SUB_OCCUPANT]: "Sub Occupant",
+  [USER_TYPE.PROPERTY_OWNER]: "Property Owner",
+  [USER_TYPE.GATEMAN]: "Gateman",
+};
+
+export function handleLogin({ access_token, ...user }: HandleLogin) {
+  const { uid, full_name, user_type, username } = { ...user };
+
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
     payload: string,
@@ -36,10 +44,23 @@ export function handleLogin({
 
   setCookie(APP.EXPANDED_NAVBAR, "true", options);
 
-  console.log(getCookies({ encode }));
+  if (user_type) {
+    setCookie(APP.USER_TYPE, account[user_type], {
+      ...options,
+      sameSite: "lax",
+      encode,
+    });
+  }
+
+  if (uid) {
+    setCookie(APP.USER_ID, uid, {
+      ...options,
+      sameSite: "lax",
+    });
+  }
 
   if (username) {
-    setCookie(APP.USER_NAME, username, {
+    setCookie(APP.USER_NAME, uid, {
       ...options,
       sameSite: "lax",
       encode,
@@ -54,11 +75,11 @@ export function handleLogin({
     });
   }
 
-  if (user_type) {
-    setCookie(APP.USER_TYPE, user_type, {
-      ...options,
-      sameSite: "lax",
-      encode,
-    });
-  }
+  // if (email) {
+  //   setCookie(APP.EMAIL, email, {
+  //     ...options,
+  //     sameSite: "lax",
+  //     encode,
+  //   });
+  // }
 }

@@ -10,7 +10,7 @@ export function InstagramIcon({ ...props }: SVGProps<SVGSVGElement>) {
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
-      <g clip-path='url(#clip0_2043_23908)'>
+      <g clipPath='url(#clip0_2043_23908)'>
         <path
           d='M18.375 0H5.625C2.5184 0 0 2.5184 0 5.625V18.375C0 21.4816 2.5184 24 5.625 24H18.375C21.4816 24 24 21.4816 24 18.375V5.625C24 2.5184 21.4816 0 18.375 0Z'
           fill='url(#paint0_radial_2043_23908)'
@@ -33,10 +33,10 @@ export function InstagramIcon({ ...props }: SVGProps<SVGSVGElement>) {
           gradientUnits='userSpaceOnUse'
           gradientTransform='translate(6.375 25.8485) rotate(-90) scale(23.7858 22.1227)'
         >
-          <stop stop-color='#FFDD55' />
-          <stop offset='0.1' stop-color='#FFDD55' />
-          <stop offset='0.5' stop-color='#FF543E' />
-          <stop offset='1' stop-color='#C837AB' />
+          <stop stopColor='#FFDD55' />
+          <stop offset='0.1' stopColor='#FFDD55' />
+          <stop offset='0.5' stopColor='#FF543E' />
+          <stop offset='1' stopColor='#C837AB' />
         </radialGradient>
         <radialGradient
           id='paint1_radial_2043_23908'
@@ -46,9 +46,9 @@ export function InstagramIcon({ ...props }: SVGProps<SVGSVGElement>) {
           gradientUnits='userSpaceOnUse'
           gradientTransform='translate(-4.02009 1.72884) rotate(78.681) scale(10.6324 43.827)'
         >
-          <stop stop-color='#3771C8' />
-          <stop offset='0.128' stop-color='#3771C8' />
-          <stop offset='1' stop-color='#6600FF' stop-opacity='0' />
+          <stop stopColor='#3771C8' />
+          <stop offset='0.128' stopColor='#3771C8' />
+          <stop offset='1' stopColor='#6600FF' stopOpacity='0' />
         </radialGradient>
         <clipPath id='clip0_2043_23908'>
           <rect width='24' height='24' fill='white' />

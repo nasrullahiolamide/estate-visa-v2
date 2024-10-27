@@ -14,7 +14,7 @@
 //           <rect width='1200' height='1200' x='0' y='0'></rect>
 //         </clipPath>
 //       </defs>
-//       <g clip-path='url(#__lottie_element_77)'>
+//       <g clipPath='url(#__lottie_element_77)'>
 //         <g
 //           transform='matrix(-0.014580332674086094,0.15753087401390076,-0.13774457573890686,-0.012749003246426582,288.6731262207031,383.3103942871094)'
 //           opacity='1'

@@ -10,4 +10,14 @@ export type ProfileData = {
   image?: string;
   password?: string;
   confirm_password: string;
+  user: {
+    id: string;
+    roles: Array<{ name: string }>;
+    email: string;
+    firstname: string;
+    lastname: string;
+    username: string;
+    picture: string | null;
+    password: string;
+  };
 };

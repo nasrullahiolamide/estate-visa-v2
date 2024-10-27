@@ -10,17 +10,17 @@ import {
   Popover,
   Stack,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+
+import Link from "next/link";
+import { hasCookie } from "cookies-next";
+import { useLayoutEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
+import { PAGES, TOKEN } from "@/packages/libraries";
 
-import { PAGES } from "@/packages/libraries";
-
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
-import clsx from "clsx";
 import { TalkToUsButton } from "./talk-to-us/button";
 
 const links = [
@@ -43,7 +43,6 @@ const links = [
 ];
 
 export function NavList({ close }: { close?: () => void }) {
-  const pathname = usePathname();
   return (
     <>
       {links.map((link, index) => (
@@ -51,10 +50,7 @@ export function NavList({ close }: { close?: () => void }) {
           key={index}
           href={link.href}
           variant='hover'
-          className={clsx(
-            "text-primary-text-body py-2"
-            // pathname.includes(link.href) && "text-blue-8"
-          )}
+          className={clsx("text-primary-text-body py-2")}
           fz={18}
           fw={500}
           w='fit-content'
@@ -70,6 +66,12 @@ export function NavList({ close }: { close?: () => void }) {
 
 export function WebsiteHeader() {
   const [opened, toggle] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const pathname = usePathname();
+
+  useLayoutEffect(() => {
+    setIsAdmin(hasCookie(TOKEN.HEADER));
+  }, []);
 
   return (
     <Stack gap={0}>
@@ -107,10 +109,16 @@ export function WebsiteHeader() {
               justifySelf: "end",
             }}
           >
-            <Button href={PAGES.LOGIN} variant='outline' component={Link}>
-              Log in
+            <Button
+              href={isAdmin ? PAGES.DASHBOARD : PAGES.LOGIN}
+              variant='outline'
+              component={Link}
+              // className={clsx({ "skeleton border-none miw-36": !isAdmin })}
+            >
+              {isAdmin ? "Go to dashboard" : "Login"}
             </Button>
-            <TalkToUsButton className='hidden sm:block' />
+
+            {pathname === PAGES.TALK_TO_US ? null : <TalkToUsButton />}
           </Flex>
 
           <Popover

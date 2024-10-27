@@ -1,12 +1,12 @@
 "use client";
 
-import { APP } from "@/packages/libraries";
+import { APP, PAGES, TOKEN } from "@/packages/libraries";
 import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
-import { getCookie } from "cookies-next";
+import { getCookie, hasCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
-import { adminLinks } from "@/components/admin/shared/data/navlinks";
+import { superAdminLinks } from "@/components/admin/shared/data/navlinks";
 import { EstateVisaLogo } from "@/svgs";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -49,7 +49,7 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none pt-8'
         >
           <Stack gap={12}>
-            {adminLinks.map((link, index) => (
+            {superAdminLinks.map((link, index) => (
               <AppShellButton
                 key={index}
                 leftSection={<link.icon />}
@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
       </AppShell.Navbar>
 
       <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
-        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
+        <Stack gap={0} flex={1} className='bg-primary-background-dark'>
           {children}
         </Stack>
       </AppShell.Main>

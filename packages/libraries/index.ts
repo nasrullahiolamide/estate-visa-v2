@@ -1,4 +1,4 @@
-export { isAdmin, isGuest, isStaff, isSuperAdmin, isUser } from "./auth";
+export { isAdmin, isGuest, isSuperAdmin } from "./auth";
 
 export {
   decrypt,

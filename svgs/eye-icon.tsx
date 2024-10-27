@@ -10,7 +10,7 @@ export function EyeIcon({ ...props }: SVGProps<SVGSVGElement>) {
       xmlns='http://www.w3.org/2000/svg'
       {...props}
     >
-      <g clip-path='url(#clip0_986_93344)'>
+      <g clipPath='url(#clip0_986_93344)'>
         <path
           d='M1.73334 10.0002C1.73334 10.0002 5.06667 3.3335 10.9 3.3335C16.7333 3.3335 20.0667 10.0002 20.0667 10.0002C20.0667 10.0002 16.7333 16.6668 10.9 16.6668C5.06667 16.6668 1.73334 10.0002 1.73334 10.0002Z'
           stroke='currentColor'

@@ -40,7 +40,7 @@ const filterOptions = [
 ];
 
 const AddNewEstates = () =>
-  navigate(makePath(PAGES.ESTATES, PAGES.ADD_NEW_ESTATE));
+  navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE));
 
 const handleDelete = () => {
   modals.open({

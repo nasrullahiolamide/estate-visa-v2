@@ -9,7 +9,7 @@ import { ConfirmationModal } from "@/components/shared/interface";
 export function ConfirmLogout() {
   const handleLogout = () => {
     navigate(PAGES.LOGOUT);
-    modals.close(MODALS.CONFIRM_LOGOUT);
+    modals.close(MODALS.CONFIRMATION);
   };
 
   return (

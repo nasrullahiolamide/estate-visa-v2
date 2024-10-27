@@ -9,14 +9,13 @@ export enum TOKEN {
 
 export enum APP {
   TOKEN = "tKn",
-  ORG_ID = "orgId",
-  USER_DATA = "uData",
   USER_TYPE = "uType",
   EMAIL = "eMail",
   FULL_NAME = "fLNe",
-  UNIQUE_LINK = "uniqL",
   EXPANDED_NAVBAR = "edNav",
-  USER_NAME = "uID",
+  USER_NAME = "uNme",
+  USER_ID = "uID",
+  USER_DATA = "uDat",
 }
 
 export enum USER_TYPE {
@@ -27,11 +26,10 @@ export enum USER_TYPE {
   PROPERTY_OWNER = "property-owner",
   GATEMAN = "gateman",
   GUEST = "website-guest",
-  USER = "user",
 }
 
 export enum PAGES {
-  DASHBOARD = "/",
+  DASHBOARD = "/dashboard",
   PROFILE = "/profile",
   LOGIN = "/login",
   LOGOUT = "/logout",
@@ -39,8 +37,6 @@ export enum PAGES {
   VERIFY_EMAIL = "/verify-email",
   RESET_PASSWORD = "/reset-password",
   TALK_TO_US = "/talk-to-us",
-
-  // admin and super-admin
   SUB_ADMINS = "/sub-admins",
   PROPERTY_OWNERS = "/property-owners",
   OCCUPANTS = "/occupants",
@@ -53,6 +49,7 @@ export enum PAGES {
   MARKET_PLACE = "/market-place",
   ESTATES = "/estates",
   ADD_NEW_ESTATE = "/add-new-estate",
+  NOT_FOUND = "/404",
 }
 
 export enum USER_ACTIONS {

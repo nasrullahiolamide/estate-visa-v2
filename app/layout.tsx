@@ -17,11 +17,13 @@ import "@/styles/accent.scss";
 import "@/styles/index.css";
 import "@/packages/variables/index.css";
 
-import clsx from "clsx";
-
 type LayoutProps = PropsWithChildren<{
   admin: ReactNode;
   super_admin: ReactNode;
+  occupant: ReactNode;
+  sub_occupant: ReactNode;
+  property_owner: ReactNode;
+  gateman: ReactNode;
   website: ReactNode;
 }>;
 
@@ -32,6 +34,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   admin,
   super_admin,
+  occupant,
+  sub_occupant,
+  property_owner,
+  gateman,
   website,
   children,
 }: LayoutProps) {
@@ -39,13 +45,17 @@ export default async function RootLayout({
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
     [USER_TYPE.SUPER_ADMIN]: super_admin,
+    [USER_TYPE.OCCUPANT]: occupant,
+    [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
+    [USER_TYPE.PROPERTY_OWNER]: property_owner,
+    [USER_TYPE.GATEMAN]: gateman,
     [USER_TYPE.GUEST]: website,
   };
 
   return (
     <html lang='en'>
       <body>
-        <main className={clsx("scrollbar-none")}>
+        <main className='scrollbar-none'>
           <Providers>
             {children}
             {view[userType]}

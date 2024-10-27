@@ -1,19 +1,22 @@
 import { api } from "@/builders/axios";
 import { ProfileData } from "@/builders/types/profile";
 
-const get = function () {
+const get = function (id: string) {
   return api
     .get<{
       data: ProfileData;
-    }>("/account/profile")
+    }>(`/users/${id}`)
     .then(({ data }) => data);
 };
 
-const edit = function (data: { password: string; new_password: string }) {
+const edit = function (
+  id: string,
+  data: { password: string; new_password: string }
+) {
   return api
     .post<{
       message: string;
-    }>("/account/profile/edit", data)
+    }>(`/users/${id}/edit`, data)
     .then(({ data }) => data);
 };
 

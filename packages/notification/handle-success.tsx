@@ -1,10 +1,9 @@
 import { ReactNode } from "react";
-
 import { Branch } from "./branch";
 import { toast, ToastOptions } from "react-toastify";
 
 interface HandleSuccessProps extends Omit<ToastOptions, "message"> {
-  message?: ReactNode;
+  message?: string | ReactNode;
 }
 
 export function handleSuccess({
@@ -12,7 +11,6 @@ export function handleSuccess({
   ...props
 }: HandleSuccessProps = {}) {
   toast.success(message, {
-    autoClose: 5 * 1000,
     ...props,
   });
 }

@@ -1,5 +1,5 @@
 import { ComponentType, SVGProps } from "react";
-import { PAGES } from "@/packages/libraries";
+import { makePath, PAGES } from "@/packages/libraries";
 import {
   AdministratorIcon,
   DashboardIcon,
@@ -22,31 +22,63 @@ export type NavLinkType = Array<{
 
 export const adminLinks = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
-  { title: "Sub Admins", href: PAGES.SUB_ADMINS, icon: AdministratorIcon },
+  {
+    title: "Sub Admins",
+    href: makePath(PAGES.DASHBOARD, PAGES.SUB_ADMINS),
+    icon: AdministratorIcon,
+  },
   {
     title: "Property Owners",
-    href: PAGES.PROPERTY_OWNERS,
+    href: makePath(PAGES.DASHBOARD, PAGES.PROPERTY_OWNERS),
     icon: UserGroupIcon,
   },
-  { title: "Occupants", href: PAGES.OCCUPANTS, icon: UserFriendsIcon },
-  { title: "Sub Occupants", href: PAGES.SUB_OCCUPANTS, icon: UserGroupIcon },
-  { title: "Houses", href: PAGES.HOUSES, icon: HousesIcon },
-  { title: "Gates", href: PAGES.GATES, icon: GateIcon },
-  { title: "Messages", href: PAGES.MESSAGES, icon: TablerMessageIcon },
-  { title: "Meetings", href: PAGES.MEETINGS, icon: GroupDiscussionIcon },
+  {
+    title: "Occupants",
+    href: makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS),
+    icon: UserFriendsIcon,
+  },
+  {
+    title: "Sub Occupants",
+    href: makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS),
+    icon: UserGroupIcon,
+  },
+  {
+    title: "Houses",
+    href: makePath(PAGES.DASHBOARD, PAGES.HOUSES),
+    icon: HousesIcon,
+  },
+  {
+    title: "Gates",
+    href: makePath(PAGES.DASHBOARD, PAGES.GATES),
+    icon: GateIcon,
+  },
+  {
+    title: "Messages",
+    href: makePath(PAGES.DASHBOARD, PAGES.MESSAGES),
+    icon: TablerMessageIcon,
+  },
+  {
+    title: "Meetings",
+    href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
+    icon: GroupDiscussionIcon,
+  },
   {
     title: "Service Requests",
-    href: PAGES.SERVICE_REQUESTS,
+    href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
     icon: ServiceRequestIcon,
   },
   {
     title: "Market Place",
-    href: PAGES.MARKET_PLACE,
+    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
     icon: MarketPlaceIcon,
   },
 ];
 
 export const superAdminLinks = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
-  { title: "Estates", href: PAGES.ESTATES, icon: EstateIcon },
+  {
+    title: "Estates",
+    href: makePath(PAGES.DASHBOARD, PAGES.ESTATES),
+    icon: EstateIcon,
+  },
 ];

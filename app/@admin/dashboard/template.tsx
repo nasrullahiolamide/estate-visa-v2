@@ -1,21 +1,20 @@
 "use client";
 
-import { APP } from "@/packages/libraries";
-import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
-import { getCookie } from "cookies-next";
+import { getCookie, hasCookie } from "cookies-next";
 import { boolean } from "mathjs";
+import { APP, PAGES, TOKEN } from "@/packages/libraries";
+import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
-import { superAdminLinks } from "@/components/admin/shared/data/navlinks";
+import { adminLinks } from "@/components/admin/shared/data/navlinks";
 import { EstateVisaLogo } from "@/svgs";
-import { useHeadroom } from "@mantine/hooks";
+import { navigate } from "@/packages/actions";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
 export default function Template({ children }: TemplateProps) {
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
-  const pinned = useHeadroom({ fixedAt: 120 });
 
   return (
     <AppShell
@@ -51,7 +50,7 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none pt-8'
         >
           <Stack gap={12}>
-            {superAdminLinks.map((link, index) => (
+            {adminLinks.map((link, index) => (
               <AppShellButton
                 key={index}
                 leftSection={<link.icon />}
@@ -65,7 +64,7 @@ export default function Template({ children }: TemplateProps) {
       </AppShell.Navbar>
 
       <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
-        <Stack gap={0} flex={1} className='bg-primary-background-dark'>
+        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
           {children}
         </Stack>
       </AppShell.Main>

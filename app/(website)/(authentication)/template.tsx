@@ -8,11 +8,10 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-export default async function Layout({ children }: LayoutProps) {
+export default async function Template({ children }: LayoutProps) {
   const userType = await getUserType();
-  if (!isGuest(userType)) {
-    console.log("Layout: navigate to PAGES.DASHBOARD");
-    redirect(PAGES.DASHBOARD);
-  }
+
+  if (!isGuest(userType)) redirect(PAGES.DASHBOARD);
+
   return <Auth>{children}</Auth>;
 }
