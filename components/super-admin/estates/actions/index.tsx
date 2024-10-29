@@ -106,12 +106,12 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
       <Flex className='hidden sm:flex justify-center items-center' gap={8}>
         <FlowToolTip
           icon='View'
-          component={Link}
+          component='a'
           href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, viewLink)}
         />
         <FlowToolTip
           icon='Edit'
-          component={Link}
+          component='a'
           href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, editLink)}
         />
         <FlowToolTip icon='Delete' onClick={handleDelete} />

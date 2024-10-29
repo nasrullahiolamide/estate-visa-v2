@@ -16,7 +16,7 @@ export function ConfirmPropertyOwner({ data }: ConfirmPropertyOwnerProps) {
     console.log("Added Successfully");
     console.log(data);
     modals.close(MODALS.ADD_NEW_OCCUPANTS);
-    modals.close(MODALS.CONFIRM_OCCUPANT);
+    modals.close(MODALS.CONFIRMATION);
   };
 
   return (
@@ -34,7 +34,7 @@ export function ConfirmPropertyOwner({ data }: ConfirmPropertyOwnerProps) {
             flex={1}
             w='fit-content'
             variant='outline'
-            onClick={() => modals.close(MODALS.CONFIRM_OCCUPANT)}
+            onClick={() => modals.close(MODALS.CONFIRMATION)}
           >
             No
           </Button>
