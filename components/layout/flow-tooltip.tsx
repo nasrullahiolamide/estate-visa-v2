@@ -19,7 +19,7 @@ type FlowToolTipCoreProps = {
   onClick?: (props?: any) => void;
 };
 
-type FlowToolTipProps<C extends ElementType = "a"> = FlowToolTipCoreProps &
+type FlowToolTipProps<C extends ElementType = "div"> = FlowToolTipCoreProps &
   PolymorphicComponentProps<C>;
 
 const view: Record<PropertyKey, ReactNode> = {
@@ -30,9 +30,10 @@ const view: Record<PropertyKey, ReactNode> = {
   Suspend: <DeactivateIcon color='var(--yellow-8)' />,
 };
 
-export function FlowToolTip<C extends ElementType = "a">({
+export function FlowToolTip<C extends ElementType = "div">({
   label,
   icon,
+  children,
   ...props
 }: FlowToolTipProps<C>) {
   return (

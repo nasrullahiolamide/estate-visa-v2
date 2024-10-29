@@ -1,5 +1,6 @@
 "use client";
-
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
 import {
   Button,
   Divider,
@@ -8,57 +9,64 @@ import {
   TextInput,
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { Fragment } from "react";
-import { object, string } from "yup";
+import { useQuery } from "@tanstack/react-query";
+import { APP, cast, pass } from "@/packages/libraries";
+import { builder } from "@/builders";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/admin/user-management/profile/image";
-import { cast } from "@/packages/libraries";
-
-const schema = object({
-  full: string().required("Firstname is required"),
-  last_name: string().required("Lastname is required"),
-  phone_number: string().required("Phone number is required"),
-  email: string().email("Invalid email").required("Email is required"),
-  password: string().required("Password is required"),
-});
+import { schema } from "@/components/super-admin/profile/schema";
+import { FormProvider } from "@/components/super-admin/profile/edit-profile-form-context";
 
 export default function Profile() {
+  const userId = getCookie(APP.USER_ID) as string;
+
+  const { data, isLoading } = useQuery({
+    queryKey: builder.account.profile.get.get(userId),
+    queryFn: () => builder.use().account.profile.get(userId),
+    select: (data) => data,
+  });
+
   const form = useForm({
     initialValues: {
-      full_name: "Madamidola Abdulrasheed",
-      username: "Brainiac",
-      email: "superadmin@gmail.com",
-      phone_number: "09038450563",
-      password: "superadmin",
-      confirm_password: "superadmin",
+      fullname: "",
+      username: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirm_password: "",
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const {
-        full_name,
-        username,
-        email,
-        phone_number,
-        password,
-        confirm_password,
-      } = values;
-
+      const { fullname, email, phone, username, password } = values;
       return {
-        full_name: cast.string(full_name),
+        fullname: cast.string(fullname),
         username: cast.string(username),
         email: cast.string(email),
-        phone_number: cast.string(phone_number),
+        phone: cast.string(phone),
         password: cast.string(password),
-        confirm_password: cast.string(confirm_password),
       };
     },
   });
 
+  useEffect(() => {
+    const { firstname, lastname, username, email, phone } = {
+      ...data,
+    };
+    form.initialize({
+      fullname: `${pass.string(firstname)} ${pass.string(lastname)}`,
+      username: pass.string(username),
+      email: pass.string(email),
+      phone: pass.string(phone),
+      password: "",
+      confirm_password: "",
+    });
+  }, [isLoading]);
+
   return (
-    <Fragment>
+    <FormProvider form={form}>
       <AppShellHeader title='My Profile' />
 
       <FlowContainer gap={32} className='p-5 sm:p-8'>
@@ -68,7 +76,7 @@ export default function Profile() {
             className='rounded-2xl bg-primary-background-white'
           >
             <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
-              <ProfileImage />
+              <ProfileImage url={data?.picture} form={form} />
               <Divider />
               <SimpleGrid
                 w='100%'
@@ -79,12 +87,13 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label='Fullname'
-                  {...form.getInputProps("full_name")}
+                  label='Full Name'
+                  {...form.getInputProps("fullname")}
                 />
 
                 <TextInput
                   label='Username'
+                  placeholder={!data?.username ? "Enter your username" : ""}
                   {...form.getInputProps("username")}
                 />
 
@@ -96,14 +105,16 @@ export default function Profile() {
                 <TextInput
                   label='Phone Number'
                   disabled
-                  {...form.getInputProps("phone_number")}
+                  {...form.getInputProps("phone")}
                 />
                 <PasswordInput
                   label='Password'
+                  placeholder='**********'
                   {...form.getInputProps("password")}
                 />
                 <PasswordInput
                   label='Confirm Password'
+                  placeholder='**********'
                   {...form.getInputProps("confirm_password")}
                 />
               </SimpleGrid>
@@ -115,6 +126,6 @@ export default function Profile() {
           </FlowContainer>
         </Form>
       </FlowContainer>
-    </Fragment>
+    </FormProvider>
   );
 }

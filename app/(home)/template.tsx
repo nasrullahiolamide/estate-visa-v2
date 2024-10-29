@@ -14,9 +14,5 @@ export default function Template({ children }: TemplateProps) {
 
   const isHomeRoute = GENERAL_ROUTES.includes(pathname);
 
-  return (
-    <Suspense fallback={<SuspenseOverlay />}>
-      <FlowStateProvider>{isHomeRoute ? children : null}</FlowStateProvider>
-    </Suspense>
-  );
+  return isHomeRoute ? children : null;
 }
