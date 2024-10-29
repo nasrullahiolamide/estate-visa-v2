@@ -21,6 +21,7 @@ import {
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface PageProps {
   params: {
@@ -40,21 +41,6 @@ export default function Page({ params }: PageProps) {
     select: ({ data }) => data,
   });
 
-  const { mutate: addNewEstate, isPending } = useMutation({
-    mutationFn: builder.use().estates.post,
-    onSuccess: () => {
-      navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
-      handleSuccess({
-        message: "New Estate Added Successfully",
-      });
-
-      queryClient.invalidateQueries({
-        queryKey: builder.estates.get.get(),
-      });
-    },
-    onError: handleError(),
-  });
-
   const { mutate: editEstate, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().estates.id.put,
     onSuccess: () => {
@@ -62,7 +48,6 @@ export default function Page({ params }: PageProps) {
       handleSuccess({
         message: "Estate Updated Successfully",
       });
-
       queryClient.invalidateQueries({
         queryKey: builder.estates.get.get(),
       });
@@ -121,12 +106,7 @@ export default function Page({ params }: PageProps) {
     });
   }, [data, isLoading]);
 
-  const btnText =
-    actionType === "view"
-      ? "Edit Estate"
-      : actionType === "add"
-      ? "Add Estate"
-      : "Save Changes";
+  const btnText = actionType === "view" ? "Edit Estate" : "Save Changes";
 
   function handleSubmit({
     owner,
@@ -149,8 +129,7 @@ export default function Page({ params }: PageProps) {
       },
     };
 
-    if (actionType === "add") addNewEstate(data);
-    else editEstate({ id: estateId as string, data });
+    editEstate({ id: estateId as string, data });
   }
 
   return (
@@ -170,12 +149,12 @@ export default function Page({ params }: PageProps) {
               <Form form={form} className='h-full flex' onSubmit={handleSubmit}>
                 <DesktopView
                   onSubmit={handleSubmit}
-                  isSubmitting={isPending || isUpdating}
+                  isSubmitting={isUpdating}
                   btnText={btnText}
                 />
                 <MobileView
                   onSubmit={handleSubmit}
-                  isSubmitting={isPending || isUpdating}
+                  isSubmitting={isUpdating}
                   btnText={btnText}
                 />
               </Form>
@@ -189,6 +168,7 @@ export default function Page({ params }: PageProps) {
             text='Add Estate'
             btnProps={{
               leftSection: <AddIcon />,
+              component: "a",
               href: makePath(
                 PAGES.DASHBOARD,
                 PAGES.ESTATES,

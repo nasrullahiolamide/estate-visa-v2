@@ -27,6 +27,7 @@ interface MobileProps extends ViewProps {}
 
 export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
   const form = useFormContext();
+
   const { active, next, previous, max } = useStepper<FormValues>({
     content,
     form,

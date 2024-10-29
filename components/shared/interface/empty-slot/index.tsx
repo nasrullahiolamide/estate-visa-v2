@@ -1,3 +1,4 @@
+import { PolymorphicComponentProps } from "@mantine/core";
 import {
   Box,
   BoxProps,
@@ -8,7 +9,12 @@ import {
   Title,
 } from "@mantine/core";
 import Image from "next/image";
-import Link from "next/link";
+import { ElementType } from "react";
+
+type BtnProps<T extends ElementType = "a"> = ButtonProps & {
+  href?: string;
+  onClick?: () => void;
+} & PolymorphicComponentProps<T>;
 
 type EmptySlotProps = BoxProps & {
   src?:
@@ -24,12 +30,12 @@ type EmptySlotProps = BoxProps & {
     | {
         withButton: true;
         text: string;
-        btnProps: ButtonProps & { href: string; onClick?: () => void };
+        btnProps: BtnProps;
       }
     | {
         withButton?: false;
         text?: string;
-        btnProps?: ButtonProps & { href: string; onClick?: () => void };
+        btnProps?: BtnProps;
       }
   );
 
@@ -83,11 +89,7 @@ export function EmptySlot({
           </Title>
         </Stack>
 
-        {withButton && (
-          <Button component={Link} {...btnProps}>
-            {text}
-          </Button>
-        )}
+        {withButton && <Button {...btnProps}>{text}</Button>}
       </Stack>
     </Stack>
   );
