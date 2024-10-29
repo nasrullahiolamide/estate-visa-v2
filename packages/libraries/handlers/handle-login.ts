@@ -1,36 +1,26 @@
-import { getCookies, setCookie } from "cookies-next";
+import { setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
 
 import { encode } from "../encryption";
-import { APP, TOKEN, USER_TYPE } from "../enum";
-import { UserType } from "@/builders/types/login";
+import { APP, TOKEN } from "../enum";
+import { string } from "mathjs";
+import { ProfileData } from "@/builders/types/profile";
 
-interface HandleLogin {
+interface HandleLogin extends ProfileData {
   access_token: string;
-  uid: string;
-  user_type: UserType;
-  full_name: string;
-  email: string;
-  username: string;
+  user_type: string;
 }
 
 const options = {
   secure: true,
-  maxAge: 60 * 60 * 24 * 7,
+  maxAge: 60 * 60 * 4,
   sameSite: "strict",
 } satisfies OptionsType;
 
-const account: Record<PropertyKey, string> = {
-  [USER_TYPE.ADMIN]: "Estate Owner",
-  [USER_TYPE.SUPER_ADMIN]: "Super Admin",
-  [USER_TYPE.OCCUPANT]: "Occupant",
-  [USER_TYPE.SUB_OCCUPANT]: "Sub Occupant",
-  [USER_TYPE.PROPERTY_OWNER]: "Property Owner",
-  [USER_TYPE.GATEMAN]: "Gateman",
-};
-
 export function handleLogin({ access_token, ...user }: HandleLogin) {
-  const { uid, full_name, user_type, username } = { ...user };
+  const { user_type, firstname, lastname, id } = { ...user };
+  const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;
+  const uid = id;
 
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
@@ -45,7 +35,7 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
   setCookie(APP.EXPANDED_NAVBAR, "true", options);
 
   if (user_type) {
-    setCookie(APP.USER_TYPE, account[user_type], {
+    setCookie(APP.USER_TYPE, user_type, {
       ...options,
       sameSite: "lax",
       encode,
@@ -53,17 +43,9 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
   }
 
   if (uid) {
-    setCookie(APP.USER_ID, uid, {
+    setCookie(APP.USER_ID, string(uid), {
       ...options,
       sameSite: "lax",
-    });
-  }
-
-  if (username) {
-    setCookie(APP.USER_NAME, uid, {
-      ...options,
-      sameSite: "lax",
-      encode,
     });
   }
 

@@ -1,16 +1,15 @@
 "use client";
 
-import { Fragment } from "react";
+import Link from "next/link";
+import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { makePath, MODALS, PAGES } from "@/packages/libraries";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { cast, makePath, PAGES } from "@/packages/libraries";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddIcon, DownloadIcon } from "@/svgs";
-import { useFakeEstateList } from "@/builders/types/estates";
-
+import { estatesColumns } from "@/columns/estates";
+import { navigate } from "@/packages/actions";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -20,10 +19,16 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
+  useFlowPagination,
 } from "@/components/layout";
-import { estatesColumns } from "@/columns/estates";
-import { navigate } from "@/packages/actions";
+import { EstateList } from "@/builders/types/estates";
+import { useEstateValue } from "@/packages/hooks/use-estate-query";
+import { builder } from "@/builders";
+import { useFakeEstateList } from "@/builders/types/estates";
+import { useFlowState } from "@/components/layout";
+import { useQuery } from "@tanstack/react-query";
+import { EstateActions } from "@/components/super-admin/estates/actions";
+import clsx from "clsx";
 
 const filterOptions = [
   { label: "A - Z", value: "a-z" },
@@ -42,33 +47,59 @@ const filterOptions = [
 const AddNewEstates = () =>
   navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE));
 
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='estate' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
-  });
-};
-
 export default function Estates() {
-  const estates = useFakeEstateList();
+  const initialEstateList = useFakeEstateList();
+  const pagination = useFlowPagination();
 
-  const dataToDisplay = estates?.data.map((list) => {
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["view", "edit", "delete"]}
-          editProps={{
-            onEdit: () => {},
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-          }}
-        />
-      ),
-    };
+  const { setEstate } = useEstateValue();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { data: estates, isPlaceholderData } = useQuery({
+    queryKey: builder.estates.get.get(),
+    queryFn: () =>
+      builder.use().estates.get({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialEstateList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          const editLink = setEstate({
+            action: "edit",
+            ...list,
+          });
+          const viewLink = setEstate({
+            action: "view",
+            ...list,
+          });
+          return {
+            ...list,
+            action: (
+              <EstateActions
+                editLink={editLink}
+                viewLink={viewLink}
+                id={list.id}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(estates?.page);
+    pagination.setTotal(estates?.total);
+    pagination.setEntriesCount(estates?.data?.length);
+    pagination.setPageSize(estates?.pageSize);
+  }, [isPlaceholderData]);
 
   return (
     <Fragment>
@@ -82,9 +113,9 @@ export default function Estates() {
           <FlowPaper>
             {estates?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={estates?.data}
                 columns={estatesColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
               />
             ) : (
               <EmptySlot
@@ -94,38 +125,48 @@ export default function Estates() {
                 text='Add Estate'
                 btnProps={{
                   leftSection: <AddIcon />,
-                  onClick: AddNewEstates,
+                  href: makePath(
+                    PAGES.DASHBOARD,
+                    PAGES.ESTATES,
+                    PAGES.ADD_NEW_ESTATE
+                  ),
                 }}
               />
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: estates?.data.length === 0 || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
-        <FlowFloatingButtons
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: AddNewEstates,
-            },
-          }}
-          secondaryButtons={[
-            {
-              icon: "download",
+        {estates?.data.length !== 0 && (
+          <FlowFloatingButtons
+            withPrimaryButon
+            withSecondaryButtons
+            hasFilterButton
+            filterData={filterOptions}
+            primaryButton={{
+              icon: "add",
               btnProps: {
                 onClick: AddNewEstates,
               },
-            },
-          ]}
-        />
+            }}
+            secondaryButtons={[
+              {
+                icon: "download",
+                btnProps: {
+                  onClick: AddNewEstates,
+                },
+              },
+            ]}
+          />
+        )}
       </FlowContainer>
     </Fragment>
   );
@@ -138,7 +179,8 @@ function HeaderOptions() {
         fz='sm'
         size='md'
         leftSection={<AddIcon />}
-        onClick={AddNewEstates}
+        component={Link}
+        href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE)}
       >
         Add New Estate
       </Button>

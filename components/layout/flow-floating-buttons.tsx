@@ -78,25 +78,6 @@ export function FlowFloatingButtons({
     [IconType.UPLOAD]: <UploadIcon width={20} height={20} />,
   };
 
-  const [open, setOpen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const toggleOpen = () => setOpen((prev) => !prev);
-
-  useEffect(() => {
-    let lastScrollY = window.scrollY;
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setVisible(false);
-      } else {
-        setVisible(true);
-      }
-      lastScrollY = window.scrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div
       style={{

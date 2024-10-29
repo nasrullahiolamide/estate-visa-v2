@@ -9,7 +9,7 @@ import { propertyOwnersColumns } from "@/columns/property-owners";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { AddNewOccupants } from "@/components/admin/occupants/add";
 import { ViewEditPropertyOwners } from "@/components/admin/property-owners/view-edit";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import {
@@ -156,7 +156,7 @@ export default function PropertyOwners() {
   );
 }
 
-export function HeaderOptions() {
+function HeaderOptions() {
   return (
     <Flex gap={14} wrap='wrap'>
       <Button

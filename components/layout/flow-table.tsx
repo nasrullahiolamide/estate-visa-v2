@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useFlowState } from "./flow-context";
 import { useFlowPagination } from "./use-flow-pagination";
-import { handleClickPropagation } from "@/packages/libraries";
+import { cast, handleClickPropagation } from "@/packages/libraries";
 interface FlowTableProps<T> {
   data?: T[];
   columns: ColumnDef<T, any>[];
@@ -66,7 +66,7 @@ export function FlowTable<T>({
   });
 
   useEffect(() => {
-    setPage(pagination.pageIndex);
+    setPage(cast.number(pagination.pageIndex));
   }, [pagination.pageIndex]);
 
   const table = useReactTable({

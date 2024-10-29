@@ -1,12 +1,14 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
-import { Add, Trash } from "iconsax-react";
-import { Button, Flex, Menu, Tooltip } from "@mantine/core";
+import { Fragment } from "react";
+import { Add } from "iconsax-react";
+
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
+
 import { subAdminListColumns } from "@/columns/sub-admin-list";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { EmptySlot } from "@/components/shared/interface";
@@ -93,15 +95,6 @@ export default function SubAdmins() {
 
   const { page, search } = useFlowState();
   const pagination = useFlowPagination();
-
-  useEffect(() => {
-    if (false) return;
-
-    pagination.setPage(subAdminsData?.current_page);
-    pagination.setTotal(subAdminsData?.total);
-    pagination.setEntriesCount(subAdminsData?.data?.length);
-    pagination.setPageSize(subAdminsData?.page_size);
-  }, []);
 
   return (
     <Fragment>

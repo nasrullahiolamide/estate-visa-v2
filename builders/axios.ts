@@ -23,9 +23,9 @@ export const api = axios.create({
 
 function handleRequest(config: InternalAxiosRequestConfig<any>) {
   const { vHdr: header, vPl: payload, vSg: signature } = getCookies();
-  const value = [header, payload, signature].join(".");
 
   if (header) {
+    const value = [header, payload, signature].join(".");
     config.headers.Authorization = `Bearer ${value}`;
   }
 

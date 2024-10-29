@@ -1,4 +1,3 @@
-import { USER_TYPE } from "@/packages/libraries";
 import { ceil, divide } from "mathjs";
 import { useReducer } from "react";
 
@@ -25,7 +24,6 @@ export type FlowAction =
   | { type: FlowActionType.SET_PAGE; payload: number }
   | { type: FlowActionType.SET_ENTRIES_PER_PAGE; payload: number }
   | { type: FlowActionType.SET_TOTAL_ENTRY_COUNT; payload: number }
-  | { type: FlowActionType.SET_ENTRIES_COUNT_ON_CURRENT_PAGE; payload: number }
   | { type: FlowActionType.SET_SEARCH; payload: string }
   | { type: FlowActionType.SET_PAGE_SIZE; payload: number };
 
@@ -52,6 +50,8 @@ function reducer(state: FlowState, action: FlowAction): FlowState {
         pageSize: action.payload,
         numberOfPages: getNumberOfPages(state.totalEntryCount, action.payload),
       };
+    case FlowActionType.SET_ENTRIES_PER_PAGE:
+      return { ...state, entriesPerPage: action.payload };
     case FlowActionType.SET_TOTAL_ENTRY_COUNT:
       return {
         ...state,

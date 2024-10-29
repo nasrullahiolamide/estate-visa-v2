@@ -1,8 +1,10 @@
 "use client";
 
 import { Fragment } from "react";
+
+import { modals } from "@mantine/modals";
 import { Button, Flex } from "@mantine/core";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import {
@@ -23,7 +25,6 @@ import {
 } from "@/components/layout";
 import { ViewSubOccupants } from "@/components/admin/sub-occupants/view";
 import { MODALS } from "@/packages/libraries";
-import { modals } from "@mantine/modals";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },

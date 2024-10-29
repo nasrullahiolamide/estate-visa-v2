@@ -24,7 +24,7 @@ type LayoutProps = PropsWithChildren<{
   sub_occupant: ReactNode;
   property_owner: ReactNode;
   gateman: ReactNode;
-  website: ReactNode;
+  guest: ReactNode;
 }>;
 
 export const metadata: Metadata = {
@@ -38,10 +38,11 @@ export default async function RootLayout({
   sub_occupant,
   property_owner,
   gateman,
-  website,
+  guest,
   children,
 }: LayoutProps) {
   const userType = await getUserType();
+
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
     [USER_TYPE.SUPER_ADMIN]: super_admin,
@@ -49,7 +50,7 @@ export default async function RootLayout({
     [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
     [USER_TYPE.PROPERTY_OWNER]: property_owner,
     [USER_TYPE.GATEMAN]: gateman,
-    [USER_TYPE.GUEST]: website,
+    [USER_TYPE.GUEST]: guest,
   };
 
   return (

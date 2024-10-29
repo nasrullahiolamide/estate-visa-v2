@@ -2,6 +2,7 @@ import {
   Flex,
   FlexProps,
   Pagination,
+  PaginationControl,
   PaginationEdgeProps,
   PaginationNext,
   Text,
@@ -43,7 +44,7 @@ export function FlowPagination({
       className='prose-sm/medium'
     >
       <Pagination.Previous />
-      {Array.from({ length: 10 }, (_, index) => {
+      {Array.from({ length: numberOfPages }, (_, index) => {
         if (index > 2) return null;
         return (
           <Pagination.Control
@@ -55,7 +56,7 @@ export function FlowPagination({
           </Pagination.Control>
         );
       })}
-      {/* <Pagination.Dots /> */}
+      <Pagination.Dots />
       <Pagination.Control value={numberOfPages} active={page === numberOfPages}>
         {numberOfPages}
       </Pagination.Control>

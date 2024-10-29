@@ -1,9 +1,10 @@
 export type Arbitrary = string & {};
 
 type Params = {
-  ordering: "asc" | "desc";
   page: number;
+  pageSize: number;
   search: string;
+  sortOrder: "asc" | "desc";
 };
 
 export type FilterParams<T extends Record<PropertyKey, unknown> = {}> =

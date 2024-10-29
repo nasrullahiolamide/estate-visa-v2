@@ -1,7 +1,11 @@
+"use client";
+
 import { Fragment } from "react";
-import { Stack, Flex } from "@mantine/core";
+import { Stack } from "@mantine/core";
 
 import { RecentActivities } from "@/components/admin/overview";
+import { FlowContentHorizontal } from "@/components/layout";
+
 import {
   StatisticsOverview,
   PercentageOfUsers,
@@ -11,7 +15,6 @@ import {
   AppShellHeader,
   AppShellMain,
 } from "@/components/admin/shared/app-shell";
-import { FlowContentHorizontal } from "@/components/layout/flow-content-horizontal";
 
 export default function Overview() {
   return (

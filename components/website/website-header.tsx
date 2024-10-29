@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 
 import Link from "next/link";
-import { hasCookie } from "cookies-next";
+import { getCookie, hasCookie } from "cookies-next";
 import { useLayoutEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -65,13 +65,15 @@ export function NavList({ close }: { close?: () => void }) {
 }
 
 export function WebsiteHeader() {
-  const [opened, toggle] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const pathname = usePathname();
+  const [opened, toggle] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
 
-  useLayoutEffect(() => {
-    setIsAdmin(hasCookie(TOKEN.HEADER));
-  }, []);
+  const isAdmin = hasCookie(TOKEN.HEADER);
+
+  // useLayoutEffect(() => {
+  //   setIsAdmin(hasCookie(TOKEN.HEADER));
+  // }, []);
 
   return (
     <Stack gap={0}>

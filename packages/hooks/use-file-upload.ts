@@ -98,7 +98,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    */
   const [preview, setPreview] = useState<Partial<FilePreview>>({
     name: file_name,
-    url: file_url || "/images/avatar.png",
+    url: file_url,
     size: file_size,
     type: file_type,
   });

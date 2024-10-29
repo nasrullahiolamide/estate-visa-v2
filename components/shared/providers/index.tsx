@@ -6,6 +6,7 @@ import { ReactQueryProvider } from "./tanstack/react-query";
 import { CustomMantineProvider } from "./mantine";
 import { FavIcon } from "./favicon";
 import { Bounce, ToastContainer } from "react-toastify";
+import NextTopLoader from "nextjs-toploader";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
+      <NextTopLoader showSpinner={false} color='var(--blue-7)' />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer
         stacked

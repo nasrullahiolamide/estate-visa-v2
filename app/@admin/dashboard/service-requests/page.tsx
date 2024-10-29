@@ -3,7 +3,7 @@
 import { Fragment, ReactNode } from "react";
 import { Flex, Menu } from "@mantine/core";
 
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import {

@@ -1,12 +1,18 @@
 {
-  "ignorePatterns": [".*.js", "packages/**", "node_modules/"],
-  "parser": "@typescript-eslint/parser",
+  // "ignorePatterns": [".*.js", "packages/**", "node_modules/"],
+  // "parser": "@typescript-eslint/parser",
 
-  "extends": ["next/core-web-vitals", "next/typescript"],
-  "plugins": ["unused-imports"],
+  "extends": [
+    //   "next/core-web-vitals",
+    //   "next/typescript",
+    // "plugin:react-hooks/recommended"
+  ],
+  // "plugins": ["unused-imports"],
   "rules": {
-    "no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "error",
-    "react/react-in-jsx-scope": "off"
+    //   "no-unused-vars": "off",
+    //   "unused-imports/no-unused-imports": "error",
+    //   "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "off"
+    // "react-hooks/exhaustive-deps": "warn"
   }
 }

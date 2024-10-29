@@ -8,7 +8,7 @@ import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { ViewEditHouses } from "@/components/admin/houses/view-edit";
 import { AddNewHouse } from "@/components/admin/houses/add";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { HousesData, useFakeHousesList } from "@/builders/types/houses";

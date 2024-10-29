@@ -9,7 +9,7 @@ import { occupantsColumns } from "@/columns/occupants";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { AddNewOccupants } from "@/components/admin/occupants/add";
 import { ViewEditOccupants } from "@/components/admin/occupants/view-edit";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/svgs";
@@ -158,7 +158,7 @@ export default function Occupants() {
   );
 }
 
-export function HeaderOptions() {
+function HeaderOptions() {
   return (
     <Flex gap={14} wrap='wrap'>
       <Button

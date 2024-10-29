@@ -28,7 +28,7 @@ export const estatesColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("estate_name", {
+  columnHelper.accessor("name", {
     header: "Estate Name",
     enableSorting: false,
   }),
@@ -36,7 +36,7 @@ export const estatesColumns = [
     header: "Owner",
     enableSorting: false,
   }),
-  columnHelper.accessor("no_of_houses", {
+  columnHelper.accessor("numberOfHouses", {
     header: () => (
       <Text
         ta='center'
@@ -71,6 +71,7 @@ export const estatesColumns = [
     enableSorting: false,
     cell: ({ getValue }) => {
       const interests = getValue();
+      if (!interests) return null;
       const greaterThanOne = interests.length > 1;
       return (
         <Menu offset={2} position='bottom-end' closeOnItemClick={false}>
@@ -90,7 +91,6 @@ export const estatesColumns = [
           </Menu.Target>
           {greaterThanOne && (
             <Menu.Dropdown variant='action' className=''>
-              {/* <Menu.Label children='Interests' /> */}
               {interests.map((interest, i) => (
                 <Fragment key={interest}>
                   <Menu.Item className='py-2 bg-transparent cursor-auto'>

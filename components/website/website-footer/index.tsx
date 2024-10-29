@@ -24,8 +24,8 @@ export function WebsiteFooter() {
         <div
           className={clsx(
             "flex flex-wrap gap-12 sm:gap-8",
-            "clump:gap-x-[clamp(20px,9vw,172px)] min-[1248px]:clump:gap-x-[clamp(20px,6vw,172px)] ",
-            "flex-col justify-start md:flex-row min-[1248px]:justify-between"
+            "clump:gap-x-[clamp(20px,9vw,172px)] xl:clump:gap-x-[clamp(20px,6vw,172px)] ",
+            "flex-col justify-start md:flex-row xl:justify-between"
           )}
           style={{
             rowGap: 30,

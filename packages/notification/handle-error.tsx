@@ -1,4 +1,3 @@
-import { NotificationData, notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import { ReactNode } from "react";
 

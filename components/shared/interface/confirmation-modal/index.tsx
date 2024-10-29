@@ -9,6 +9,7 @@ import {
   BoxProps,
   ButtonProps,
   FlexProps,
+  ModalProps,
 } from "@mantine/core";
 import { Emblem } from "@/components/shared/interface";
 import { modals } from "@mantine/modals";
@@ -87,6 +88,7 @@ export function ConfirmationModal({
               w='fit-content'
               variant='outline'
               className='sm:flex-1'
+              flex={1}
               color='gray.12'
               onClick={secondaryBtnProps?.onClick || handleCancel}
               {...secondaryBtnProps}

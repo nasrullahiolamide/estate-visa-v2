@@ -1,4 +1,4 @@
-export { FlowBadge } from "./flow-badge";
+export { FlowToolTip } from "./flow-tooltip";
 export { FlowContainer } from "./flow-container";
 export { FlowContentContainer } from "./flow-content-container";
 export { FlowContentHorizontal } from "./flow-content-horizontal";

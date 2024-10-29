@@ -29,6 +29,7 @@ export enum USER_TYPE {
 }
 
 export enum PAGES {
+  WEBSITE = "/",
   DASHBOARD = "/dashboard",
   PROFILE = "/profile",
   LOGIN = "/login",

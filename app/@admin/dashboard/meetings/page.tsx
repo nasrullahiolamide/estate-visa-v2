@@ -9,7 +9,7 @@ import { meetingColumns } from "@/columns/meetings";
 import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { SheduleMeeting } from "@/components/admin/meetings/shedule";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddNewMinutes } from "@/components/admin/meetings/add-minutes";

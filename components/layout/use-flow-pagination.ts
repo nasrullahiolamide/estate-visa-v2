@@ -1,3 +1,4 @@
+import { cast } from "@/packages/libraries";
 import { useFlowDispatch } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
 
@@ -8,13 +9,13 @@ export function useFlowPagination() {
     setTotal: (total: number = 0) => {
       dispatch({ type: FlowActionType.SET_TOTAL_ENTRY_COUNT, payload: total });
     },
-    setPage: (page: number = 1) => {
-      dispatch({ type: FlowActionType.SET_PAGE, payload: page });
+    setPage: (page: string = "1") => {
+      dispatch({ type: FlowActionType.SET_PAGE, payload: cast.number(page) });
     },
-    setPageSize: (rowsPerPage: number = 1) => {
+    setPageSize: (rowsPerPage: string = "10") => {
       dispatch({
         type: FlowActionType.SET_PAGE_SIZE,
-        payload: rowsPerPage,
+        payload: cast.number(rowsPerPage),
       });
     },
     setSearch: (search: string = "") => {
@@ -22,7 +23,7 @@ export function useFlowPagination() {
     },
     setEntriesCount: (count: number = 0) => {
       dispatch({
-        type: FlowActionType.SET_ENTRIES_COUNT_ON_CURRENT_PAGE,
+        type: FlowActionType.SET_ENTRIES_PER_PAGE,
         payload: count,
       });
     },

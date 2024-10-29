@@ -8,6 +8,7 @@ import {
   Title,
 } from "@mantine/core";
 import Image from "next/image";
+import Link from "next/link";
 
 type EmptySlotProps = BoxProps & {
   src?:
@@ -23,12 +24,12 @@ type EmptySlotProps = BoxProps & {
     | {
         withButton: true;
         text: string;
-        btnProps: ButtonProps & { onClick?: () => void };
+        btnProps: ButtonProps & { href: string; onClick?: () => void };
       }
     | {
         withButton?: false;
         text?: string;
-        btnProps?: ButtonProps & { onClick?: () => void };
+        btnProps?: ButtonProps & { href: string; onClick?: () => void };
       }
   );
 
@@ -82,7 +83,11 @@ export function EmptySlot({
           </Title>
         </Stack>
 
-        {withButton && <Button {...btnProps}>{text}</Button>}
+        {withButton && (
+          <Button component={Link} {...btnProps}>
+            {text}
+          </Button>
+        )}
       </Stack>
     </Stack>
   );

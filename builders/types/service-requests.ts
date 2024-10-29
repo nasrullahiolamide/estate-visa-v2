@@ -1,4 +1,4 @@
-import { da, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { generateHouseNumber } from "./shared";
 

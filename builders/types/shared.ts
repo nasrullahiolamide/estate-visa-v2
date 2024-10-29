@@ -75,3 +75,9 @@ export function generateRelationshipStatus(): string {
 export const requiredString = string().required(
   "This field is required. Please enter the necessary information."
 );
+
+export type OptionsData = {
+  id?: string;
+  name: string;
+  description: string;
+};

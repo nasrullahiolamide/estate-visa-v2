@@ -5,11 +5,18 @@ import { ConfirmationModal } from "@/components/shared/interface";
 
 interface ConfirmDeleteProps {
   title: string;
+  onDelete?: (props?: any) => void;
+  isDeleting?: boolean;
 }
 
-export function ConfirmDelete({ title }: ConfirmDeleteProps) {
+export function ConfirmDelete({
+  title,
+  onDelete,
+  isDeleting,
+}: ConfirmDeleteProps) {
   const handleDelete = () => {
-    console.log("Deleted", title);
+    onDelete && onDelete();
+
     modals.close(MODALS.CONFIRMATION);
   };
 

@@ -1,45 +1,84 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
+import { OptionsData } from "./shared";
 
-export type addNewEstateData = {
-  estate_name: string;
-  estate_location: string;
-  no_of_houses: string;
-  house_types: string[] | null;
-  service_requests: string[] | null;
-  service_types: string[] | null;
+export type UpdateEstateData = {
+  name: string;
+  location: string;
+  numberOfHouses: number;
+  managerDetails: ManagerDetails;
+  houseTypes: string[];
+  interests: string[];
+  serviceRequestTypes: string[];
+};
+
+export type ManagerDetails = {
+  owner: string;
+  firstname?: string;
+  lastname?: string;
+  username: string;
+  email: string;
+  phone: string;
+  password: string;
 };
 
 export type EstateList = {
   total: number;
   data: EstatesData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  pageSize: string;
+  page: string;
 };
 
 export type EstatesData = {
-  estate_name: string;
-  owner: string;
-  no_of_houses: number;
+  id: string;
+  name: string;
+  username?: string;
   location: string;
-  interests: Array<string>;
-  created_at: string;
-  updated_at: string;
+  owner: string;
+  email?: string;
+  password?: string;
+  interests: string[];
+  phone?: string;
+  serviceRequestTypes?: string[];
+  numberOfHouses?: number;
+  houseTypes?: string[];
+  created_at?: string;
+  updated_at?: string;
+  deletedAt?: string;
+};
+
+export type Estate = {
+  name: string;
+  location: string;
+  owner: string;
+  phone: string;
+  interests: string[];
+  serviceRequestTypes: string[];
+  numberOfHouses: number;
+  manager: ManagerDetails;
+  admins: Admin[];
+  houseTypes: OptionsData[];
+};
+
+export type Admin = {
+  email: string;
+  firstname: string;
+  lastname: string;
+  username: string;
+  phone: string;
+  password: string;
 };
 
 export function useFakeEstateData(_?: any, index?: number) {
   faker.seed(index);
 
-  const id = index ?? faker.number.int({ max: 10 });
+  const id = index?.toString() ?? faker.number.int({ max: 10 }).toString();
 
   return {
     id,
-    estate_name: faker.location.city(),
+    name: faker.location.city(),
     owner: faker.person.fullName(),
-    no_of_houses: faker.number.int({ min: 10, max: 80 }),
+    numberOfHouses: faker.number.int({ min: 10, max: 80 }),
     location: faker.location.country(),
     interests: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
@@ -60,11 +99,8 @@ export function useFakeEstateList(): EstateList {
 
   return {
     data,
-    page_size: faker.number.int({ min: 5, max: 10 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
+    pageSize: faker.number.int({ min: 5, max: 10 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
     total: faker.number.int({ min: 5, max: 10 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
   };
 }

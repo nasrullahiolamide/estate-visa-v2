@@ -8,9 +8,11 @@ import {
 } from "@/svgs";
 import {
   Flex,
+  MantineComponent,
   Menu,
   MenuDropdownProps,
   MenuItemProps,
+  PolymorphicComponentProps,
   Tooltip,
 } from "@mantine/core";
 import { Fragment, PropsWithChildren, ReactNode } from "react";
@@ -34,6 +36,12 @@ type ActionType =
   | "delete"
   | "add"
   | "others";
+
+type ActionProps = {
+  component?: PolymorphicComponentProps<MenuItemProps>;
+  label: string;
+  onClick: () => void;
+};
 
 type ActionPropsMap = {
   add: {
@@ -110,6 +118,7 @@ export function FlowTableActions<T extends ActionType[]>({
           key={ACTIONS_LABELS.EDIT}
           leftSection={<EditIcon width={14} />}
           onClick={editProps?.onEdit}
+          {...editProps}
         >
           {editProps?.label || "Edit"}
         </Menu.Item>
@@ -125,6 +134,7 @@ export function FlowTableActions<T extends ActionType[]>({
           leftSection={<TrashIcon width={15} />}
           key={ACTIONS_LABELS.DELETE}
           onClick={deleteProps?.onDelete}
+          {...deleteProps}
         >
           {deleteProps?.label || "Delete"}
         </Menu.Item>
@@ -133,10 +143,10 @@ export function FlowTableActions<T extends ActionType[]>({
 
     [ACTIONS_LABELS.VIEW]: (
       <Menu.Item
-        {...ItemProps}
         leftSection={<EyeIcon width={14} />}
         key={ACTIONS_LABELS.VIEW}
         onClick={viewProps?.onView}
+        {...viewProps}
       >
         {viewProps?.label || "View"}
       </Menu.Item>
@@ -158,6 +168,7 @@ export function FlowTableActions<T extends ActionType[]>({
             <ActivateIcon width={13} />
           )
         }
+        {...activateSuspendProps}
       >
         {activateSuspendProps?.label || activateSuspendProps?.isActive
           ? "Suspend"
@@ -172,7 +183,11 @@ export function FlowTableActions<T extends ActionType[]>({
 
   const mobileView: Record<PropertyKey, ReactNode> = {
     [ACTIONS_LABELS.ADD]: (
-      <Tooltip label={addProps?.label || "Add"} className='hidden sm:block'>
+      <Tooltip
+        key={ACTIONS_LABELS.ADD}
+        label={addProps?.label || "Add"}
+        className='hidden sm:block'
+      >
         <div onClick={addProps?.onAdd}>
           <AddIcon color='var(--blue-8)' />
         </div>
@@ -180,7 +195,11 @@ export function FlowTableActions<T extends ActionType[]>({
     ),
 
     [ACTIONS_LABELS.EDIT]: (
-      <Tooltip label={editProps?.label || "Edit"} className='hidden sm:block'>
+      <Tooltip
+        key={ACTIONS_LABELS.EDIT}
+        label={editProps?.label || "Edit"}
+        className='hidden sm:block'
+      >
         <div onClick={editProps?.onEdit}>
           <EditIcon color='var(--blue-8)' />
         </div>
@@ -189,6 +208,7 @@ export function FlowTableActions<T extends ActionType[]>({
 
     [ACTIONS_LABELS.DELETE]: (
       <Tooltip
+        key={ACTIONS_LABELS.DELETE}
         label={deleteProps?.label || "Delete"}
         className='hidden sm:block'
       >
@@ -199,7 +219,11 @@ export function FlowTableActions<T extends ActionType[]>({
     ),
 
     [ACTIONS_LABELS.VIEW]: (
-      <Tooltip label={viewProps?.label || "View"} className='hidden sm:block'>
+      <Tooltip
+        key={ACTIONS_LABELS.VIEW}
+        label={viewProps?.label || "View"}
+        className='hidden sm:block'
+      >
         <div onClick={viewProps?.onView}>
           <EyeIcon color='var(--blue-8)' />
         </div>
@@ -208,6 +232,7 @@ export function FlowTableActions<T extends ActionType[]>({
 
     [ACTIONS_LABELS.ACTIVATE_SUSPEND]: (
       <Tooltip
+        key={ACTIONS_LABELS.ACTIVATE_SUSPEND}
         label={
           activateSuspendProps?.label || activateSuspendProps?.isActive
             ? "Suspend"

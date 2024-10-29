@@ -6,7 +6,7 @@ import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AppShellHeader } from "@/components/admin/shared/app-shell/header";
+import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/svgs";
