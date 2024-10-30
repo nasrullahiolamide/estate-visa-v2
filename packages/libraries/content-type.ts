@@ -24,6 +24,7 @@ export function getContentType(mime: MIME_TYPE): ContentType {
     "application/vnd.microsoft.portable-executable": "File",
     "application/x-rar": "Image",
     "application/x-7z-compressed": "Image",
+    "image/heif": "Image",
   };
 
   return mime_types[mime];
