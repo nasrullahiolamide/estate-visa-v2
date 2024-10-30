@@ -1,6 +1,11 @@
-"use client";
-
-import axios, { InternalAxiosRequestConfig } from "axios";
+import { handleError } from "@/packages/notification";
+import { clearCookies, navigate } from "@/packages/actions";
+import { makePath, PAGES } from "@/packages/libraries";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { getCookies } from "cookies-next";
 import qs from "query-string";
 
@@ -33,3 +38,17 @@ function handleRequest(config: InternalAxiosRequestConfig<any>) {
 }
 
 api.interceptors.request.use(handleRequest);
+
+// function handleResponse(error: AxiosError) {
+//   if (error?.response?.status == 401) {
+//     clearCookies();
+//     window.location.href =
+//       PAGES.LOGIN + "?redirect=" + window.location.pathname;
+//   }
+//   return Promise.reject(error);
+// }
+
+// api.interceptors.response.use(
+//   (response: AxiosResponse) => response,
+//   handleResponse
+// );

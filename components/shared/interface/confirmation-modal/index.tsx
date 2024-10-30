@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { ElementType, Fragment } from "react";
 import { MODALS } from "@/packages/libraries";
 
 import {
@@ -10,9 +10,15 @@ import {
   ButtonProps,
   FlexProps,
   ModalProps,
+  PolymorphicComponentProps,
 } from "@mantine/core";
 import { Emblem } from "@/components/shared/interface";
 import { modals } from "@mantine/modals";
+
+type BtnProps<T extends ElementType = "a"> = ButtonProps & {
+  href?: string;
+  onClick?: () => void;
+} & PolymorphicComponentProps<T>;
 
 type ConfirmationModalProps = BoxProps & {
   src?: "delete" | "success" | "disable" | "logout";
@@ -20,21 +26,21 @@ type ConfirmationModalProps = BoxProps & {
   title: string;
   description?: string;
   btnText?: string;
-  btnProps?: ButtonProps & { onClick?: () => void };
+  btnProps?: BtnProps;
 } & (
     | {
         withTwoButtons: true;
         primaryBtnText: string;
         secondaryBtnText: string;
-        primaryBtnProps?: ButtonProps & { onClick?: () => void };
-        secondaryBtnProps?: ButtonProps & { onClick?: () => void };
+        primaryBtnProps?: BtnProps;
+        secondaryBtnProps?: BtnProps;
       }
     | {
         withTwoButtons?: false;
         primaryBtnText?: string;
         secondaryBtnText?: string;
-        primaryBtnProps?: ButtonProps & { onClick?: () => void };
-        secondaryBtnProps?: ButtonProps & { onClick?: () => void };
+        primaryBtnProps?: BtnProps;
+        secondaryBtnProps?: BtnProps;
       }
   );
 

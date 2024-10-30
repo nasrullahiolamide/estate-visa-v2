@@ -1,16 +1,16 @@
-import { SuperAdminUpdateData } from "@/builders/types/super-admin-profile";
+import { AdminUpdateData } from "@/builders/types/profile";
 import { createFormContext } from "@mantine/form";
 
 interface FormValues {
+  estate_name: string;
   fullname: string;
-  username: string;
   email: string;
   phone: string;
   password: string;
   confirm_password: string;
 }
 
-type TransformFormValues = (values: FormValues) => SuperAdminUpdateData;
+type TransformFormValues = (values: FormValues) => AdminUpdateData;
 
 const [FormProvider, useFormContext, useForm] = createFormContext<
   FormValues,

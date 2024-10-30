@@ -7,9 +7,13 @@ export type Occupants = {
   data: PropertyOwnersData[];
   page_size: number;
   current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+};
+
+export type OccupantsList = {
+  total: number;
+  data: PropertyOwnersData[];
+  pageSize: string;
+  page: string;
 };
 
 export type PropertyOwnersData = {
@@ -20,6 +24,13 @@ export type PropertyOwnersData = {
   status: string;
   created_at?: string;
   updated_at?: string;
+};
+
+export type UpdateProperyOwnerData = {
+  email: string;
+  fullname: string;
+  phone: string;
+  houseId: string;
 };
 
 export function useFakePropertyOwnersData(_?: any, index?: number) {
@@ -39,7 +50,7 @@ export function useFakePropertyOwnersData(_?: any, index?: number) {
   };
 }
 
-export function useFakePropertyOwnersList(): Occupants {
+export function useFakePropertyOwnersList(): OccupantsList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -50,10 +61,7 @@ export function useFakePropertyOwnersList(): Occupants {
   return {
     data,
     total: 20,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
   };
 }

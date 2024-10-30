@@ -1,10 +1,17 @@
 import { PasswordInput, SimpleGrid, TextInput, Title } from "@mantine/core";
 import { Fragment } from "react";
 import { useFormContext } from "../form-context";
-import { Form } from "@mantine/form";
+import { usePathname } from "next/navigation";
+import { PAGES } from "@/packages/libraries";
+import { useEstateValue } from "@/packages/hooks/use-estate-query";
 
 export function ManagementProfile() {
   const form = useFormContext();
+  const pathname = usePathname();
+  const identifier = pathname.split(`${PAGES.ESTATES}/`)[1];
+  const {
+    estate: { action },
+  } = useEstateValue(identifier);
 
   return (
     <Fragment>

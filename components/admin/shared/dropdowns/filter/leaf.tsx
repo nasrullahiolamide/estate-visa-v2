@@ -44,7 +44,14 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
         "!bg-purple-4": props.selected,
       })}
     >
-      <Menu position='right-start' offset={20} closeOnItemClick={false}>
+      <Menu
+        position='right-start'
+        trigger='hover'
+        openDelay={100}
+        closeDelay={400}
+        offset={20}
+        closeOnItemClick={false}
+      >
         <Menu.Target>
           <Flex
             align='center'

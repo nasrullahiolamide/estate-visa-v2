@@ -49,7 +49,6 @@ export default function Page() {
       serviceRequestTypes: [],
       houseTypes: [],
       interests: [],
-      loading: true,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,

@@ -23,6 +23,16 @@ export type OccupantsData = {
   updated_at?: string;
 };
 
+// {
+//   "email": "example@example.com",
+//   "fullname": "John",
+//   "phone": "123456789",
+//   "isMain": true,
+//   "isPropertyOwner": true,
+//   "relationshipToMain": "Friend",
+//   "houseId": "123e4567-e89b-12d3-a456-426614174000"
+// }
+
 export function useFakeOccupantsData(_?: any, index?: number) {
   faker.seed(index);
 

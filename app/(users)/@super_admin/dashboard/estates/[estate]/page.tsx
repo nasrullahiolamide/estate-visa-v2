@@ -21,7 +21,6 @@ import {
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
 import clsx from "clsx";
-import Link from "next/link";
 
 interface PageProps {
   params: {
@@ -68,7 +67,6 @@ export default function Page({ params }: PageProps) {
       serviceRequestTypes: [],
       houseTypes: [],
       interests: [],
-      loading: true,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
@@ -101,8 +99,6 @@ export default function Page({ params }: PageProps) {
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       username: pass.string(manager?.username),
       email: pass.string(manager?.email),
-      password: "",
-      loading: false,
     });
   }, [data, isLoading]);
 

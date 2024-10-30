@@ -15,32 +15,34 @@ export function HeroSection() {
     >
       <Flex flex={1} direction='column' justify='center'>
         <Stack align='center' ta='center' gap={24}>
-          <Title
-            order={2}
-            fw={700}
-            fz={{
-              base: 36,
-              sm: 50,
-              xl: 60,
-            }}
-          >
-            Simplifying Estate Management <br className='hidden lg:block' />
-            for Owners and Residents.
-          </Title>
+          <div className='lg:mx-16 md:mx-8 mx-4'>
+            <Title
+              order={2}
+              fw={700}
+              fz={{
+                base: 36,
+                sm: 50,
+                xl: 60,
+              }}
+            >
+              Simplifying Estate Management <br className='hidden lg:block' />
+              for Owners and Residents.
+            </Title>
 
-          <Text
-            fz={{
-              base: 16,
-              sm: 18,
-            }}
-            lh={1.5}
-            maw={800}
-            w='100%'
-          >
-            From property oversight to resident communication, our platform
-            empowers estate owners and admins to manage operations seamlessly
-            while providing occupants with a smooth living experience.
-          </Text>
+            <Text
+              fz={{
+                base: 16,
+                sm: 18,
+              }}
+              lh={1.5}
+              maw={800}
+              w='100%'
+            >
+              From property oversight to resident communication, our platform
+              empowers estate owners and admins to manage operations seamlessly
+              while providing occupants with a smooth living experience.
+            </Text>
+          </div>
 
           <TalkToUsButton px={60} />
           <Features />

@@ -20,6 +20,14 @@ export type SubAdminListData = {
   updated_at: string;
 };
 
+export type SubAdminData = {
+  email: string;
+  fullname: string;
+  phone: string;
+  password: string;
+  estateId: string;
+};
+
 export function useFakeSubAdminListData(_?: any, index?: number) {
   faker.seed(index);
 

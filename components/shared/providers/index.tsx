@@ -15,6 +15,7 @@ interface ProvidersProps {
 export function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
+      <FavIcon />
       <NextTopLoader showSpinner={false} color='var(--blue-7)' />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer

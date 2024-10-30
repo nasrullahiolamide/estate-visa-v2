@@ -7,7 +7,8 @@ import { usePathname } from "next/navigation";
 import { getUserType } from "@/packages/actions";
 import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
-import { adminLinks, NavLinkType, superAdminLinks } from "../../data/navlinks";
+import { NavLinkType } from "../../data/navlinks";
+import { ADMIN_ROUTES, SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
 
 export function Links() {
   const [links, setLinks] = useState<NavLinkType>([]);
@@ -22,14 +23,15 @@ export function Links() {
   const pathname = usePathname();
 
   const view: Record<PropertyKey, NavLinkType> = {
-    [USER_TYPE.ADMIN]: adminLinks,
-    [USER_TYPE.SUPER_ADMIN]: superAdminLinks,
+    [USER_TYPE.ADMIN]: ADMIN_ROUTES,
+    [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
   };
 
   return (
     <Flex
       align='center'
       justify='space-between'
+      gap={12}
       className='lg:~px-1/8 overflow-scroll scrollbar-none'
       hiddenFrom='lg'
     >

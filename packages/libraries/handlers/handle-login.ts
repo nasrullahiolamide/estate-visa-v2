@@ -11,7 +11,7 @@ interface HandleLogin extends ProfileData {
   user_type: string;
 }
 
-const options = {
+export const cookieOptions = {
   secure: true,
   maxAge: 60 * 60 * 4,
   sameSite: "strict",
@@ -28,15 +28,15 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
     signature: string
   ];
 
-  setCookie(TOKEN.HEADER, header, options);
-  setCookie(TOKEN.PAYLOAD, payload, options);
-  setCookie(TOKEN.SIGNATURE, signature, options);
+  setCookie(TOKEN.HEADER, header, cookieOptions);
+  setCookie(TOKEN.PAYLOAD, payload, cookieOptions);
+  setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
-  setCookie(APP.EXPANDED_NAVBAR, "true", options);
+  setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {
-      ...options,
+      ...cookieOptions,
       sameSite: "lax",
       encode,
     });
@@ -44,14 +44,14 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
 
   if (uid) {
     setCookie(APP.USER_ID, string(uid), {
-      ...options,
+      ...cookieOptions,
       sameSite: "lax",
     });
   }
 
   if (full_name) {
     setCookie(APP.FULL_NAME, full_name, {
-      ...options,
+      ...cookieOptions,
       sameSite: "lax",
       encode,
     });
@@ -59,7 +59,7 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
 
   // if (email) {
   //   setCookie(APP.EMAIL, email, {
-  //     ...options,
+  //     ...cookieOptions,
   //     sameSite: "lax",
   //     encode,
   //   });

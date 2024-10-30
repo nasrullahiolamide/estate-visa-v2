@@ -30,8 +30,8 @@ export default function Profile() {
 
   const form = useForm({
     initialValues: {
+      estate_name: "",
       fullname: "",
-      username: "",
       email: "",
       phone: "",
       password: "",
@@ -40,10 +40,10 @@ export default function Profile() {
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { fullname, email, phone, username, password } = values;
+      const { estate_name, fullname, email, phone, password } = values;
       return {
+        estate_name: cast.string(estate_name),
         fullname: cast.string(fullname),
-        username: cast.string(username),
         email: cast.string(email),
         phone: cast.string(phone),
         password: cast.string(password),
@@ -52,12 +52,12 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    const { firstname, lastname, username, email, phone } = {
+    const { firstname, lastname, email, phone, estate } = {
       ...data,
     };
     form.initialize({
+      estate_name: pass.string(estate?.name),
       fullname: `${pass.string(firstname)} ${pass.string(lastname)}`,
-      username: pass.string(username),
       email: pass.string(email),
       phone: pass.string(phone),
       password: "",
@@ -87,14 +87,14 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label='Full Name'
-                  {...form.getInputProps("fullname")}
+                  label='Estate Name'
+                  disabled
+                  {...form.getInputProps("estate_name")}
                 />
-
                 <TextInput
-                  label='Username'
-                  placeholder={!data?.username ? "Enter your username" : ""}
-                  {...form.getInputProps("username")}
+                  label='Full Name'
+                  disabled
+                  {...form.getInputProps("fullname")}
                 />
 
                 <TextInput

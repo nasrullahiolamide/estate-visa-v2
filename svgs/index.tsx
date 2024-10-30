@@ -41,5 +41,6 @@ export { AddIcon } from "./add-icon";
 export { BellIcon } from "./bell-icon";
 export { DoubleMarkIcon } from "./double-mark-icon";
 export { ArrowBack } from "./arrow-back";
+export { BroadcastIcon } from "./broadcast-icon";
 
 export type { IconType } from "./type";

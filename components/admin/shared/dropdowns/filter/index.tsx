@@ -1,18 +1,30 @@
 import { Button, Menu, MenuProps, Tree, TreeNodeData } from "@mantine/core";
 
 import { Leaf } from "./leaf";
-import { ArrowDownIcon, FilterIcon } from "@/svgs";
+import { ArrowDownIcon, FilterIcon, IconType } from "@/svgs";
+import { ReactNode } from "react";
 
 export type FilterData = TreeNodeData[];
 
-interface FilterDropdownProps extends MenuProps {
+type FilterDropdownProps = MenuProps & {
   data: FilterData;
-  showLabel?: boolean;
-}
+  icon?: JSX.Element | ReactNode;
+} & (
+    | {
+        showLabel?: true;
+        label?: string;
+      }
+    | {
+        showLabel?: false;
+        label?: string;
+      }
+  );
 
 export function FilterDropdown({
   data,
   showLabel = true,
+  icon: Icon = <FilterIcon />,
+  label = "Filter",
   ...props
 }: FilterDropdownProps) {
   return (
@@ -23,14 +35,14 @@ export function FilterDropdown({
             variant='outline'
             fz='sm'
             size='md'
-            leftSection={<FilterIcon />}
+            leftSection={Icon}
             rightSection={<ArrowDownIcon />}
           >
-            Filter
+            {label}
           </Button>
         ) : (
           <Button radius='md' w={50} h={50} variant='outline' bg='white' p={0}>
-            <FilterIcon width={20} height={20} />
+            {Icon}
           </Button>
         )}
       </Menu.Target>

@@ -1,32 +1,37 @@
 "use client";
 
-import { Button, Select, SimpleGrid, Stack, TextInput } from "@mantine/core";
+import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { Fragment } from "react";
-import { object, string } from "yup";
 
 import { FlowContainer } from "@/components/layout/flow-container";
-import { cast } from "@/packages/libraries";
-import { stat } from "fs";
+import { APP, cast, decryptUri, pass } from "@/packages/libraries";
 import { ArrowDown01Icon } from "hugeicons-react";
 import { schema } from "./schema";
+import { getCookie } from "cookies-next";
+import { ProfileData } from "@/builders/types/profile";
 
 export function AddSubAdmins() {
+  const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+
   const form = useForm({
     initialValues: {
-      full_name: "",
+      fullname: "",
       email: "",
-      phone_number: "",
+      password: "",
+      phone: "",
+      estateId: pass.string(userData.estate.id),
       status: "Active",
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { full_name, email, phone_number, status } = values;
+      const { fullname, email, phone, status, password, estateId } = values;
       return {
-        full_name: cast.string(full_name),
+        fullname: cast.string(fullname),
         email: cast.string(email),
-        phone_number: cast.string(phone_number),
+        password: cast.string(password),
+        phone: cast.string(phone),
+        estateId: cast.string(estateId),
         status: cast.string(status),
       };
     },
@@ -44,17 +49,22 @@ export function AddSubAdmins() {
         <TextInput
           label='Full Name'
           withAsterisk
-          {...form.getInputProps("full_name")}
+          {...form.getInputProps("fullname")}
         />
         <TextInput
           label='Email Address'
           withAsterisk
           {...form.getInputProps("email")}
         />
+        <PasswordInput
+          label='Password'
+          withAsterisk
+          {...form.getInputProps("password")}
+        />
         <TextInput
           label='Phone Number'
           withAsterisk
-          {...form.getInputProps("phone_number")}
+          {...form.getInputProps("phone")}
         />
 
         <Select

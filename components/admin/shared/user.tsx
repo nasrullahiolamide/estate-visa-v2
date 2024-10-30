@@ -1,13 +1,13 @@
 import clsx from "clsx";
 
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { User, LogoutCurve } from "iconsax-react";
 import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { navigate } from "@/packages/actions";
-import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { APP, encryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { builder } from "@/builders";
 import { ArrowDownIcon } from "@/svgs";
@@ -28,7 +28,11 @@ export function UserDetails() {
   const { data, isLoading } = useSuspenseQuery({
     queryKey: builder.account.profile.get.get(userId),
     queryFn: () => builder.use().account.profile.get(userId),
-    select: (data) => data,
+    select: (data) => {
+      const encryptedValue = encryptUri(data);
+      setCookie(APP.USER_DATA, encryptedValue);
+      return data;
+    },
   });
 
   const userDetails = {
@@ -76,7 +80,7 @@ export function UserDetails() {
           >
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium text-sm'>
-                {userDetails.fullName}
+                {userDetails.firstname}
               </p>
               <p className='text-xs'>{userDetails.userType}</p>
             </Stack>
@@ -95,12 +99,12 @@ export function UserDetails() {
           <Flex align='center' gap={8}>
             <Avatar
               src={userDetails?.picture}
-              alt={userDetails.fullName}
+              alt={userDetails.firstname}
               size={40}
             />
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium'>
-                {userDetails.fullName}
+                {userDetails.firstname}
               </p>
               <p className='text-xs'>{userDetails?.email}</p>
             </Stack>

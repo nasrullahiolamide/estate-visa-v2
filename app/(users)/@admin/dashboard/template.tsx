@@ -1,14 +1,13 @@
 "use client";
 
-import { getCookie, hasCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
-import { APP, PAGES, TOKEN } from "@/packages/libraries";
 import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
-import { adminLinks } from "@/components/admin/shared/data/navlinks";
+import { APP } from "@/packages/libraries";
+import { ADMIN_ROUTES } from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/svgs";
-import { navigate } from "@/packages/actions";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -50,7 +49,7 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none pt-8'
         >
           <Stack gap={12}>
-            {adminLinks.map((link, index) => (
+            {ADMIN_ROUTES.map((link, index) => (
               <AppShellButton
                 key={index}
                 leftSection={<link.icon />}

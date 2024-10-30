@@ -36,6 +36,7 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
     onSuccess: () => {
       handleSuccess({
         message: "Estate deleted successfully",
+        delay: 500,
       });
       queryClient.invalidateQueries({
         queryKey: builder.estates.get.get(),

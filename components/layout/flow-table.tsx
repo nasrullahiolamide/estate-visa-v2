@@ -33,6 +33,7 @@ interface FlowTableProps<T> {
 }
 
 const debugTable = process.env.NODE_ENV !== "production";
+const shadow = "0 4px 10px rgba(0, 0, 0, 0.1)";
 
 export function FlowTable<T>({
   columns,
@@ -158,6 +159,9 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
             "sticky left-0 ": header.column.getIsPinned() === "left",
           }
         )}
+        style={{
+          boxShadow: header.column.getIsPinned() === "left" ? shadow : "none",
+        }}
         colSpan={header.colSpan}
       >
         {header.isPlaceholder ? null : (
@@ -217,14 +221,14 @@ const TableRow = <T,>({
             fz={14}
             key={cell.id}
             pos='sticky'
+            onClick={(e) =>
+              isActionButtonCell ? handleClickPropagation(e) : null
+            }
             className={clsx("pr-4 sm:px-6 sm:py-4 w-fit", bgColor, {
               skeleton,
               "fixed z-[4] left-0 shadow-xl":
                 cell.column.getIsPinned() === "left",
             })}
-            onClick={(e) =>
-              isActionButtonCell ? handleClickPropagation(e) : null
-            }
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </Table.Td>
