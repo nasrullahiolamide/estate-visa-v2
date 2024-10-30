@@ -1,4 +1,4 @@
-import { PAGES } from "@/packages/libraries";
+import { makePath, PAGES } from "@/packages/libraries";
 import {
   GateIcon,
   HousesIcon,
@@ -25,28 +25,28 @@ export const stats: StatItem[] = [
     value: 140,
     total: 200,
     label: "Manage Houses",
-    href: PAGES.HOUSES,
+    href: "#",
   },
   {
     icon: UserFriendsIcon,
     title: "Total Occupants",
     value: 120,
     label: "Manage Occupants",
-    href: PAGES.OCCUPANTS,
+    href: "#",
   },
   {
     icon: UserGroupIcon,
     title: "Total Sub-Occupants",
     value: 100,
     label: "Manage Sub-Occupants",
-    href: PAGES.SUB_OCCUPANTS,
+    href: "#",
   },
   {
     icon: GateIcon,
     title: "Total Gates",
     value: 4,
     label: "Manage Gates",
-    href: PAGES.GATES,
+    href: "#",
   },
 ];
 
@@ -56,20 +56,20 @@ export const superAdminStats: StatItem[] = [
     title: "Total Estates",
     value: 120,
     label: "Manage Estates",
-    href: PAGES.ESTATES,
+    href: makePath(PAGES.DASHBOARD, PAGES.ESTATES),
   },
   {
     icon: UserIcon,
     title: "Total Estate Owners",
     value: 120,
     label: "Manage Estate Owners",
-    href: PAGES.OCCUPANTS,
+    href: "#",
   },
   {
     icon: UserIcon,
     title: "Total Users",
     value: 100,
     label: "Manage Users",
-    href: PAGES.OCCUPANTS,
+    href: "#",
   },
 ];

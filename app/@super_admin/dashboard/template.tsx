@@ -1,8 +1,8 @@
 "use client";
 
-import { APP, PAGES, TOKEN } from "@/packages/libraries";
+import { APP } from "@/packages/libraries";
 import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
-import { getCookie, hasCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";

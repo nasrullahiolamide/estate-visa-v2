@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
-import { cast, makePath, PAGES } from "@/packages/libraries";
+import { makePath, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
@@ -21,7 +21,6 @@ import {
   FlowFloatingButtons,
   useFlowPagination,
 } from "@/components/layout";
-import { EstateList } from "@/builders/types/estates";
 import { useEstateValue } from "@/packages/hooks/use-estate-query";
 import { builder } from "@/builders";
 import { useFakeEstateList } from "@/builders/types/estates";

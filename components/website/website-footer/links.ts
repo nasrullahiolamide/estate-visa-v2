@@ -15,7 +15,7 @@ export const FOOTER_LINKS = [
       { name: "Careers", link: "#" },
       { name: "Blogs", link: "#" },
       { name: "Our Team", link: "#" },
-      { name: "Reviews", link: "#" },
+      // { name: "Reviews", link: "#" },
     ],
   },
   {

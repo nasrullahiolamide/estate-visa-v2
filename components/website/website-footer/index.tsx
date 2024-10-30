@@ -41,7 +41,7 @@ export function WebsiteFooter() {
 
           <div
             className={clsx(
-              "flex md:flex-row basis-full lg:basis-0 flex-[2] justify-between sm:gap-10 flex-wrap"
+              "flex md:flex-row basis-full lg:basis-0 flex-[2] justify-between gap-10 flex-wrap"
             )}
           >
             {FOOTER_LINKS.map(({ title, links }) => {

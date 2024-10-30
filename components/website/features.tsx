@@ -11,9 +11,8 @@ const data = [
 export function Features() {
   return (
     <Flex
-      className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full lg:scrollbar-none'
+      className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full lg:scrollbar-none sm:justify-center'
       mx='auto'
-      justify='center'
       gap={20}
     >
       {data.map((item, index) => (

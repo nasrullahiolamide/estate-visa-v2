@@ -120,7 +120,9 @@ export function WebsiteHeader() {
               {isAdmin ? "Go to dashboard" : "Login"}
             </Button>
 
-            {pathname === PAGES.TALK_TO_US ? null : <TalkToUsButton />}
+            {pathname === PAGES.TALK_TO_US ? null : (
+              <TalkToUsButton className='hidden lg:block' />
+            )}
           </Flex>
 
           <Popover

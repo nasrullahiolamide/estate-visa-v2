@@ -20,8 +20,7 @@ export default function TalkToUs() {
         <Title
           order={2}
           ta='center'
-          className='w-full prose-2xl/semi-bold sm:prose-4xl/semi-bold sm:px-5'
-          py={40}
+          className='w-full prose-2xl/semi-bold sm:prose-4xl/semi-bold sm:px-5 py-8 sm:py-10'
           maw={950}
           mx='auto'
         >

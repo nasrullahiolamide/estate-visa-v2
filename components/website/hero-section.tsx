@@ -8,17 +8,12 @@ export function HeroSection() {
   return (
     <Stack
       py={40}
-      className='h-full w-full overflow-hidden'
+      className='h-full w-full overflow-hidden sm:px-5'
       justify='center'
       maw={MAX_SCREEN_WIDTH}
       mx='auto'
     >
-      <Flex
-        flex={1}
-        direction='column'
-        justify='center'
-        className='lg:mx-16 md:mx-8 mx-4'
-      >
+      <Flex flex={1} direction='column' justify='center'>
         <Stack align='center' ta='center' gap={24}>
           <Title
             order={2}
@@ -58,14 +53,14 @@ export function HeroSection() {
         width='100%'
         mah={500}
         src='/images/device-mockups.png'
-        className='hidden sm:block'
+        className='hidden md:block'
       />
       <Picture
         my={20}
         mx='auto'
         width='90%'
         src='/images/mockup-dashboard.png'
-        className='block sm:hidden'
+        className='block md:hidden'
       />
     </Stack>
   );
