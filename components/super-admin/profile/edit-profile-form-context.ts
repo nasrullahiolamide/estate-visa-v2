@@ -1,16 +1,17 @@
-import { AdminUpdateData } from "@/builders/types/profile";
+import { AdminUpdateData, UpdateProfileData } from "@/builders/types/profile";
 import { createFormContext } from "@mantine/form";
 
 interface FormValues {
-  estate_name: string;
   fullname: string;
   email: string;
+  username: string;
+  estatename: string;
   phone: string;
   password: string;
   confirm_password: string;
 }
 
-type TransformFormValues = (values: FormValues) => AdminUpdateData;
+type TransformFormValues = (values: FormValues) => FormValues;
 
 const [FormProvider, useFormContext, useForm] = createFormContext<
   FormValues,

@@ -46,3 +46,13 @@ export type AdminUpdateData = Nullish<
     password: string;
   }>
 >;
+
+export type UpdateProfileData = Partial<{
+  fullname: string;
+  username: string;
+  email: string;
+  phone: string;
+  password: string;
+  confirm_password: string;
+  estatename: string;
+}>;

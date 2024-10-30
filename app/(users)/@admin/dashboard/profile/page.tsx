@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import {
@@ -30,8 +31,9 @@ export default function Profile() {
 
   const form = useForm({
     initialValues: {
-      estate_name: "",
       fullname: "",
+      username: "",
+      estatename: "",
       email: "",
       phone: "",
       password: "",
@@ -40,10 +42,10 @@ export default function Profile() {
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { estate_name, fullname, email, phone, password } = values;
+      const { fullname, email, phone, username, password } = values;
       return {
-        estate_name: cast.string(estate_name),
         fullname: cast.string(fullname),
+        username: cast.string(username),
         email: cast.string(email),
         phone: cast.string(phone),
         password: cast.string(password),
@@ -52,14 +54,15 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    const { firstname, lastname, email, phone, estate } = {
+    const { firstname, lastname, username, email, phone, estate } = {
       ...data,
     };
     form.initialize({
-      estate_name: pass.string(estate?.name),
       fullname: `${pass.string(firstname)} ${pass.string(lastname)}`,
+      username: pass.string(username),
       email: pass.string(email),
       phone: pass.string(phone),
+      estatename: pass.string(estate?.name),
       password: "",
       confirm_password: "",
     });
@@ -87,14 +90,14 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label='Estate Name'
-                  disabled
-                  {...form.getInputProps("estate_name")}
-                />
-                <TextInput
                   label='Full Name'
-                  disabled
                   {...form.getInputProps("fullname")}
+                />
+
+                <TextInput
+                  label='Username'
+                  placeholder={!data?.username ? "Enter your username" : ""}
+                  {...form.getInputProps("username")}
                 />
 
                 <TextInput

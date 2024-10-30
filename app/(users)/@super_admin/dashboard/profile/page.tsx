@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import {
@@ -32,6 +33,7 @@ export default function Profile() {
     initialValues: {
       fullname: "",
       username: "",
+      estatename: "",
       email: "",
       phone: "",
       password: "",
@@ -52,7 +54,7 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    const { firstname, lastname, username, email, phone } = {
+    const { firstname, lastname, username, email, phone, estate } = {
       ...data,
     };
     form.initialize({
@@ -60,6 +62,7 @@ export default function Profile() {
       username: pass.string(username),
       email: pass.string(email),
       phone: pass.string(phone),
+      estatename: pass.string(estate?.name),
       password: "",
       confirm_password: "",
     });
