@@ -1,23 +1,15 @@
 "use client";
 
+import { useQueryState } from "nuqs";
 import { Fragment } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex, Tabs } from "@mantine/core";
-
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
-
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { FlowPaper } from "@/components/layout/flow-paper";
-
-import { EmptySlot } from "@/components/shared/interface";
-import { FlowFooter } from "@/components/layout/flow-footer";
-import { FlowEntriesPerPage } from "@/components/layout/flow-entries-per-page";
-import { FlowPagination } from "@/components/layout/flow-pagination";
-import { useQueryState } from "nuqs";
 import { FlowTabs, FlowTabsPanel } from "@/components/layout";
-import { BroadcastIcon, UserFriendsIcon } from "@/svgs";
+import { UserFriendsIcon, BroadcastIcon } from "@/svgs";
 
 export default function Messages() {
   const [view, setView] = useQueryState("type", {
@@ -34,11 +26,12 @@ export default function Messages() {
           }}
         >
           <FlowTabs value={view} onChange={setView}>
-            <Flex justify='space-between' align='center' py={18}>
+            <Flex align='center'>
               <Tabs.List className='w-full'>
                 <Tabs.Tab
                   value='occupants'
                   flex={1}
+                  py={18}
                   leftSection={<UserFriendsIcon />}
                 >
                   Occupants
@@ -46,6 +39,7 @@ export default function Messages() {
                 <Tabs.Tab
                   value='broadcast'
                   flex={1}
+                  py={18}
                   leftSection={<BroadcastIcon />}
                 >
                   BroadCast

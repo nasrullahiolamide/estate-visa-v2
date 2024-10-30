@@ -51,13 +51,13 @@ export function AppShellHeader({
           gap={36}
           align='center'
           justify='space-between'
-          className='~px-1/8 py-2 md:py-5'
+          className='~px-1/8 py-3'
         >
           <Center hiddenFrom='lg'>
-            <EstateVisaLogo height={50} width={50} />
+            <EstateVisaLogo height={55} width={55} />
           </Center>
 
-          <Flex className='flex-1 gap-2 justify-end sm:justify-between '>
+          <Flex className='flex-1 gap-2 justify-end sm:justify-between items-center '>
             <SearchEstate />
             <Flex gap={15} align='center'>
               <Center

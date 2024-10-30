@@ -1,11 +1,8 @@
 .list {
-  &[data-variant="default"] {
-    gap: rem(12);
-
-    &::before {
+  /* &[data-variant="default"] {
+    /* &::before {
       border: none;
-    }
-  }
+    } */
 
   &[data-variant="pill"] {
     border-radius: rem(8);
@@ -33,16 +30,17 @@
     padding: 0;
     padding-inline: rem(12);
     padding-block: rem(8);
+    width: fit-content;
 
     --tab-radius: 0;
 
     &:hover {
-      --tab-bg: transparent;
+      --tab-bg: var(--accent-1);
       color: var(--tabs-color);
     }
 
     &[data-active="true"] {
-      --tab-bg: var(--accent-2);
+      --tab-bg: transparent;
       color: var(--tabs-color);
       font-weight: 500;
     }

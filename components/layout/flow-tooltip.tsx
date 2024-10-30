@@ -7,20 +7,18 @@ import {
 } from "@/svgs";
 import {
   Box,
+  createPolymorphicComponent,
   BoxProps,
   PolymorphicComponentProps,
   Tooltip,
 } from "@mantine/core";
 import { ElementType, ReactNode } from "react";
 
-type FlowToolTipCoreProps = {
+interface FlowToolTipCoreProps {
   label?: string;
   icon: "View" | "Edit" | "Delete" | "Activate" | "Suspend";
   onClick?: (props?: any) => void;
-};
-
-type FlowToolTipProps<C extends ElementType = "a"> = FlowToolTipCoreProps &
-  PolymorphicComponentProps<C>;
+}
 
 const view: Record<PropertyKey, ReactNode> = {
   View: <EyeIcon color='var(--blue-8)' />,
@@ -30,10 +28,16 @@ const view: Record<PropertyKey, ReactNode> = {
   Suspend: <DeactivateIcon color='var(--yellow-8)' />,
 };
 
-export function FlowToolTip({ label, icon, ...props }: FlowToolTipProps) {
+export const FlowToolTip = createPolymorphicComponent<
+  "div",
+  FlowToolTipCoreProps
+>(({ ...props }) => {
   return (
-    <Tooltip label={label ? label : icon} className='hidden sm:block'>
-      <Box {...props}>{view[icon]}</Box>
+    <Tooltip
+      label={props.label ? props.label : props.icon}
+      className='hidden sm:block'
+    >
+      <Box {...props}>{view[props.icon]}</Box>
     </Tooltip>
   );
-}
+});

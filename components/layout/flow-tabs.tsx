@@ -11,7 +11,7 @@ export function FlowTabs({
 }: FlowTabsProps) {
   return (
     <Stack flex={1} {...tabsContainerProps}>
-      <Tabs {...props} display='contents' classNames={{}}>
+      <Tabs {...props} display='contents'>
         {children}
       </Tabs>
     </Stack>

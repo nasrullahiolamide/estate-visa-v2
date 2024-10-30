@@ -31,7 +31,7 @@ export function Links() {
     <Flex
       align='center'
       justify='space-between'
-      gap={12}
+      gap={20}
       className='lg:~px-1/8 overflow-scroll scrollbar-none'
       hiddenFrom='lg'
     >
@@ -50,7 +50,7 @@ export function Links() {
             component={Link}
             href={item.href}
             label={
-              <Flex gap={10} align='center' justify='center'>
+              <Flex gap={10} align='center' justify='center' py={8}>
                 <item.icon width={20} />
                 <Box>{item.title}</Box>
               </Flex>
