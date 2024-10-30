@@ -1,4 +1,4 @@
-import { SuperAdminUpdateData } from "@/builders/types/super-admin";
+import { SuperAdminUpdateData } from "@/builders/types/super-admin-profile";
 import { createFormContext } from "@mantine/form";
 
 interface FormValues {
