@@ -15,7 +15,7 @@ export type StatItem = {
   value: number;
   total?: number;
   label: string;
-  href: string;
+  href?: string;
 };
 
 export const stats: StatItem[] = [
@@ -63,13 +63,12 @@ export const superAdminStats: StatItem[] = [
     title: "Total Estate Owners",
     value: 120,
     label: "Manage Estate Owners",
-    href: "#",
+    href: makePath(PAGES.DASHBOARD, PAGES.ESTATES),
   },
   {
     icon: UserIcon,
     title: "Total Users",
     value: 100,
     label: "Manage Users",
-    href: "#",
   },
 ];

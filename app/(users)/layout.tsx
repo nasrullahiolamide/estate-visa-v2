@@ -1,9 +1,8 @@
 import { PropsWithChildren, ReactNode } from "react";
-import { getUserType } from "@/packages/actions";
+import { getAuthorizedUser } from "@/packages/actions";
 import { USER_TYPE } from "@/packages/libraries";
-// import { redirect } from "next/navigation";
-// import { getCookies } from "cookies-next";
-// import { handleError } from "@/packages/notification";
+import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
 type LayoutProps = PropsWithChildren<{
   admin: ReactNode;
@@ -13,6 +12,7 @@ type LayoutProps = PropsWithChildren<{
   property_owner: ReactNode;
   gateman: ReactNode;
   guest: ReactNode;
+  request: NextRequest;
 }>;
 
 export default async function Layout({
@@ -22,16 +22,17 @@ export default async function Layout({
   sub_occupant,
   property_owner,
   gateman,
-  guest,
+  guest = (
+    <p>
+      You are not authorized to view this page. Please contact the
+      administrator.
+    </p>
+  ),
+  request,
 }: LayoutProps) {
-  const userType = await getUserType();
-  // const allCookies = getCookies();
-  // const requiredCookies = [
-  //   TOKEN.HEADER,
-  //   TOKEN.PAYLOAD,
-  //   TOKEN.SIGNATURE,
-  //   APP.USER_TYPE,
-  // ];
+  const { isAuthorized, userType, nextRoute } = await getAuthorizedUser(
+    request
+  );
 
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
@@ -40,22 +41,9 @@ export default async function Layout({
     [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
     [USER_TYPE.PROPERTY_OWNER]: property_owner,
     [USER_TYPE.GATEMAN]: gateman,
-    [USER_TYPE.GUEST]: guest,
   };
 
-  // const hasAllRequiredCookies = requiredCookies.every(
-  //   (cookie) => cookie in allCookies
-  // );
+  if (!isAuthorized) redirect(nextRoute);
 
-  // console.log({ hasAllRequiredCookies, allCookies });
-
-  // if (!hasAllRequiredCookies) {
-  //   handleError({
-  //     message:
-  //       "You are not authorized to view this page. Please login to continue.",
-  //   });
-  //   redirect(PAGES.LOGIN);
-  // }
-
-  return view[userType];
+  return isAuthorized ? view[userType] : guest;
 }

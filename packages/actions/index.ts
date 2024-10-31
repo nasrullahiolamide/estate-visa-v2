@@ -1,3 +1,3 @@
-export { getUserType } from "./get-user-type";
+export { getAuthorizedUser } from "./get-authorized-user";
 export { clearCookies } from "./clear-cookies";
 export { navigate } from "./navigate";

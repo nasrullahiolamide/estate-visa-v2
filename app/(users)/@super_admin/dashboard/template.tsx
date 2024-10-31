@@ -6,7 +6,7 @@ import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
-import { superAdminLinks } from "@/components/admin/shared/data/navlinks";
+import { SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/svgs";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -49,7 +49,7 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none pt-8'
         >
           <Stack gap={12}>
-            {superAdminLinks.map((link, index) => (
+            {SUPER_ADMIN_ROUTES.map((link, index) => (
               <AppShellButton
                 key={index}
                 leftSection={<link.icon />}

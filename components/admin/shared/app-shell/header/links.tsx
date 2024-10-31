@@ -4,7 +4,7 @@ import Link from "next/link";
 import { toString } from "lodash";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { getUserType } from "@/packages/actions";
+import { getAuthorizedUser } from "@/packages/actions";
 import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import { NavLinkType } from "../../data/navlinks";
@@ -15,7 +15,7 @@ export function Links() {
 
   useEffect(() => {
     (async () => {
-      const userType = await getUserType();
+      const { userType } = await getAuthorizedUser();
       setLinks(view[userType]);
     })();
   }, []);

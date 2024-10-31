@@ -1,8 +1,26 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { boolean, object } from "yup";
+
+import { useMutation } from "@tanstack/react-query";
+import { navigate } from "@/packages/actions";
+import { handleError, handleSuccess } from "@/packages/notification";
+import {
+  APP,
+  decryptUri,
+  encode,
+  encryptUri,
+  handleLogin,
+  PAGES,
+  pass,
+} from "@/packages/libraries";
+import { Admins, LoginResponseData } from "@/builders/types/login";
+import { builder } from "@/builders";
+import { requiredString } from "@/builders/types/shared";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import {
   Button,
@@ -12,13 +30,6 @@ import {
   PasswordInput,
   Box,
 } from "@mantine/core";
-import { useMutation } from "@tanstack/react-query";
-import { navigate } from "@/packages/actions";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { APP, handleLogin, PAGES, USER_TYPE } from "@/packages/libraries";
-import { Admins, LoginResponseData } from "@/builders/types/login";
-import { builder } from "@/builders";
-import { requiredString } from "@/builders/types/shared";
 
 const schema = object({
   email: requiredString.email(
@@ -29,10 +40,20 @@ const schema = object({
 });
 
 export default function Page() {
-  const email = getCookie(APP.EMAIL) ?? "";
+  const sessionStatus = useSearchParams().get("session");
+  const email = decryptUri(getCookie(APP.EMAIL));
+
+  useEffect(() => {
+    if (sessionStatus === "expired") {
+      handleError({
+        message: "Your session has expired. Please sign in again.",
+      })();
+    }
+  }, [sessionStatus]);
+
   const form = useForm({
     initialValues: {
-      email,
+      email: pass.string(email),
       password: "",
     },
     validate: yupResolver(schema),
@@ -58,7 +79,6 @@ export default function Page() {
         handleLogin({
           access_token,
           user_type,
-          email,
           ...user,
         });
         navigate(PAGES.DASHBOARD);

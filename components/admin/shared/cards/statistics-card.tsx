@@ -42,9 +42,11 @@ export function StatisticsCard({
           )}
         </Text>
       </Flex>
-      <Link href={href} className='text-accent-6 text-sm mt-auto underline'>
-        {label}
-      </Link>
+      {href && (
+        <Link href={href} className='text-accent-6 text-sm mt-auto underline'>
+          {label}
+        </Link>
+      )}
     </Stack>
   );
 }

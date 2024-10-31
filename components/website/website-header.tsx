@@ -12,16 +12,17 @@ import {
 } from "@mantine/core";
 
 import Link from "next/link";
-import { getCookie, hasCookie } from "cookies-next";
-import { useLayoutEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import clsx from "clsx";
+
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
-import { PAGES, TOKEN } from "@/packages/libraries";
+import { PAGES } from "@/packages/libraries";
 
 import { TalkToUsButton } from "./talk-to-us/button";
+import { getAuthorizedUser } from "@/packages/actions";
 
 const links = [
   {
@@ -67,13 +68,14 @@ export function NavList({ close }: { close?: () => void }) {
 export function WebsiteHeader() {
   const pathname = usePathname();
   const [opened, toggle] = useState(false);
-  // const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  const isAdmin = hasCookie(TOKEN.HEADER);
-
-  // useLayoutEffect(() => {
-  //   setIsAdmin(hasCookie(TOKEN.HEADER));
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const { isAuthorized } = await getAuthorizedUser();
+      setIsAdmin(isAuthorized);
+    })();
+  }, []);
 
   return (
     <Stack gap={0}>

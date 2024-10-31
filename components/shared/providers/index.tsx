@@ -16,7 +16,7 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
       <FavIcon />
-      <NextTopLoader showSpinner={false} color='var(--blue-7)' />
+      <NextTopLoader showSpinner={false} color='var(--blue-7)' height={4} />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer
         stacked

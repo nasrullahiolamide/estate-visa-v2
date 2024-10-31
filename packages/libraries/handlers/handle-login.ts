@@ -1,7 +1,7 @@
 import { setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
 
-import { encode } from "../encryption";
+import { decrypt, decryptUri, encode, encryptUri } from "../encryption";
 import { APP, TOKEN } from "../enum";
 import { string } from "mathjs";
 import { ProfileData } from "@/builders/types/profile";
@@ -18,7 +18,7 @@ export const cookieOptions = {
 } satisfies OptionsType;
 
 export function handleLogin({ access_token, ...user }: HandleLogin) {
-  const { user_type, firstname, lastname, id } = { ...user };
+  const { user_type, firstname, lastname, id, email } = { ...user };
   const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;
   const uid = id;
 
@@ -33,6 +33,8 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
   setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
+
+  if (email) setCookie(APP.EMAIL, encryptUri(email));
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {
@@ -56,12 +58,4 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
       encode,
     });
   }
-
-  // if (email) {
-  //   setCookie(APP.EMAIL, email, {
-  //     ...cookieOptions,
-  //     sameSite: "lax",
-  //     encode,
-  //   });
-  // }
 }

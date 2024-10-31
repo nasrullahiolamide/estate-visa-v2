@@ -36,7 +36,7 @@ export function ConfirmLogout() {
 
   const handleLogOut = () => {
     clearCookies();
-    navigate(PAGES.WEBSITE);
+    navigate(PAGES.LOGIN);
     refresh();
     modals.close(MODALS.CONFIRMATION);
     handleSuccess({
