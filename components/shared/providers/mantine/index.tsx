@@ -9,7 +9,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { DrawersProvider } from "@/components/shared/interface";
 import { theme } from "../theme";
-import { CancelCircleIcon } from "@/svgs";
+import { CancelCircleIcon } from "@/icons";
 
 interface MantineProviderProps {
   children: ReactNode;

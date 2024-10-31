@@ -1,4 +1,4 @@
-import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
+import { EstateVisaLogo } from "@/icons/estate-visa-logo";
 import { Box, Flex, Stack } from "@mantine/core";
 import { PropsWithChildren } from "react";
 

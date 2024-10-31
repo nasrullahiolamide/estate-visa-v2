@@ -1,4 +1,4 @@
-import { ListArrow } from "@/svgs/list-arrow";
+import { ListArrow } from "@/icons/list-arrow";
 import { Title, Card, Box, Text, Flex, Stack } from "@mantine/core";
 import {} from "iconsax-react";
 

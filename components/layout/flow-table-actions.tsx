@@ -5,7 +5,7 @@ import {
   EditIcon,
   EyeIcon,
   TrashIcon,
-} from "@/svgs";
+} from "@/icons";
 import {
   Flex,
   MantineComponent,

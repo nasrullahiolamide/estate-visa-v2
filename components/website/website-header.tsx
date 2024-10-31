@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { EstateVisaLogo } from "@/svgs/estate-visa-logo";
+import { EstateVisaLogo } from "@/icons/estate-visa-logo";
 import { PAGES } from "@/packages/libraries";
 
 import { TalkToUsButton } from "./talk-to-us/button";

@@ -9,7 +9,7 @@ import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/icons";
 import { ViewEditGates } from "@/components/admin/gates/view-edit";
 import { AddNewGate } from "@/components/admin/gates/add";
 import { GatesData, useFakeGatesList } from "@/builders/types/gates";

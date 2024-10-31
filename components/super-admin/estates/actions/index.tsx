@@ -8,7 +8,7 @@ import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
 import { makePath, MODALS, PAGES } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { EditIcon, EyeIcon, TrashIcon } from "@/svgs";
+import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
 import { ConfirmationModal } from "@/components/shared/interface";
 import {
   FlowMenu,

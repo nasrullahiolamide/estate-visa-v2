@@ -16,7 +16,7 @@ import {
   PropertyOwnersData,
   useFakePropertyOwnersList,
 } from "@/builders/types/property-owners";
-import { DownloadIcon, UploadIcon } from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

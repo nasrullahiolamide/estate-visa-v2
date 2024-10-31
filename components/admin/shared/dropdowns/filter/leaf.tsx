@@ -1,4 +1,4 @@
-import { ArrowDownIcon } from "@/svgs";
+import { ArrowDownIcon } from "@/icons";
 import { Text, Menu, RenderTreeNodePayload, Group, Flex } from "@mantine/core";
 import clsx from "clsx";
 

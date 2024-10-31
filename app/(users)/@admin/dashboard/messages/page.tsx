@@ -9,7 +9,29 @@ import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
 import { FlowTabs, FlowTabsPanel } from "@/components/layout";
-import { UserFriendsIcon, BroadcastIcon } from "@/svgs";
+import { OccupantMessages } from "@/components/admin/messages/occupants";
+import {
+  UserFriendsIcon,
+  BroadcastIcon,
+  TablerMessageIcon,
+  Inbox,
+} from "@/icons";
+import { modals } from "@mantine/modals";
+import { MODALS } from "@/packages/libraries";
+
+const handleBroadcast = () => {
+  modals.open({
+    title: "Write Broadcast",
+    modalId: MODALS.BROADCAST_MESSAGE,
+  });
+};
+
+const handleWriteMessage = () => {
+  modals.open({
+    title: "Write Message",
+    modalId: MODALS.WRITE_MESSAGE,
+  });
+};
 
 export default function Messages() {
   const [view, setView] = useQueryState("type", {
@@ -18,7 +40,10 @@ export default function Messages() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Messages' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Messages'
+        options={<HeaderOptions view={view} />}
+      />
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
@@ -48,7 +73,7 @@ export default function Messages() {
             </Flex>
 
             <FlowTabsPanel value='occupants'>
-              <></>
+              <OccupantMessages />
             </FlowTabsPanel>
           </FlowTabs>
         </FlowContentContainer>
@@ -57,26 +82,43 @@ export default function Messages() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ view }: { view: string }) {
   return (
     <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<Add />}>
-        Write a Message
-      </Button>
+      {view === "occupants" ? (
+        <Button
+          fz='sm'
+          size='md'
+          leftSection={<Add />}
+          onClick={handleWriteMessage}
+        >
+          Write a Message
+        </Button>
+      ) : (
+        <Button
+          fz='sm'
+          size='md'
+          leftSection={<Add />}
+          onClick={handleBroadcast}
+        >
+          Send a Broadcast
+        </Button>
+      )}
+      <FilterDropdown
+        label='All'
+        icon={<Inbox />}
+        data={[
+          { label: "All", value: "all" },
+          { label: "Inbox", value: "inbox" },
+          { label: "Sent", value: "sent" },
+        ]}
+      />
       <FilterDropdown
         label='Filter'
         data={[
           { label: "Recently Added", value: "recent" },
           { label: "Street Name(A-Z)", value: "a-z" },
           { label: "Street Name(Z-A)", value: "z-a" },
-        ]}
-      />
-      <FilterDropdown
-        label='All'
-        data={[
-          { label: "All", value: "all" },
-          { label: "Inbox", value: "inbox" },
-          { label: "Sent", value: "sent" },
         ]}
       />
     </Flex>

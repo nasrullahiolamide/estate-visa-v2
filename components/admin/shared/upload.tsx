@@ -1,4 +1,4 @@
-import { UploadCloudIcon } from "@/svgs";
+import { UploadCloudIcon } from "@/icons";
 import { Center } from "@mantine/core";
 
 interface UploadProps {

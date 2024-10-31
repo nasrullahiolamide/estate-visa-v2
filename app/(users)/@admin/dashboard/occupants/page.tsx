@@ -12,7 +12,7 @@ import { ViewEditOccupants } from "@/components/admin/occupants/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   OccupantsData,
   useFakeOccupantsList,

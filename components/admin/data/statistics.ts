@@ -7,7 +7,7 @@ import {
   IconType,
   EstateIcon,
   UserIcon,
-} from "@/svgs";
+} from "@/icons";
 
 export type StatItem = {
   icon: IconType;

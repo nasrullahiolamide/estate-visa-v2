@@ -1,6 +1,6 @@
 "use client";
 
-import { GateIcon } from "@/svgs";
+import { GateIcon } from "@/icons";
 import {
   Cell,
   LabelList,
@@ -19,7 +19,7 @@ import {
 } from "@mantine/core";
 import { DownloadDropdown } from "./download-dropdown";
 import { Fragment, SVGProps } from "react";
-import { IconType } from "@/svgs/type";
+import { IconType } from "@/icons/type";
 
 type Data = {
   name: string;

@@ -1,4 +1,4 @@
-import { IconType } from "@/svgs";
+import { IconType } from "@/icons";
 import { Flex, FlexProps } from "@mantine/core";
 import { ReactNode } from "react";
 

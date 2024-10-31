@@ -18,7 +18,7 @@ import {
   SubAdminListData,
   useFakeSubAdminList,
 } from "@/builders/types/sub-admins";
-import { DownloadIcon } from "@/svgs";
+import { DownloadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

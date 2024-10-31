@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@mantine/core";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { ArrowBack, BellIcon, EstateVisaLogo } from "@/svgs";
+import { ArrowBack, BellIcon, EstateVisaLogo } from "@/icons";
 
 import { SearchEstate } from "../../search-estate";
 import { UserDetails } from "../../user";

@@ -12,7 +12,7 @@ import {
   TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
-} from "@/svgs";
+} from "@/icons";
 
 export type NavLinkType = Array<{
   title: string;

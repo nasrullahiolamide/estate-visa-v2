@@ -1,4 +1,4 @@
-import { DownloadIcon, FilterIcon } from "@/svgs";
+import { DownloadIcon, FilterIcon } from "@/icons";
 import { BarChart } from "@mantine/charts";
 import { Stack, Group, Indicator, Flex, Text, Select } from "@mantine/core";
 import { ArrowDown } from "iconsax-react";

@@ -3,7 +3,7 @@
 import { FlowContainer } from "@/components/layout";
 import { FormButtons } from "@/components/shared/interface";
 import { cast, pass } from "@/packages/libraries";
-import { TrashIcon } from "@/svgs";
+import { TrashIcon } from "@/icons";
 import {
   Divider,
   Drawer,

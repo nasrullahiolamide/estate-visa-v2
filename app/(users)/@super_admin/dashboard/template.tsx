@@ -7,7 +7,7 @@ import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
 import { SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/svgs";
+import { EstateVisaLogo } from "@/icons";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 

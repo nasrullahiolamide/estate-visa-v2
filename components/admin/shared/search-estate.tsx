@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-import { SearchIcon } from "@/svgs";
+import { SearchIcon } from "@/icons";
 
 export function SearchEstate() {
   const form = useForm({

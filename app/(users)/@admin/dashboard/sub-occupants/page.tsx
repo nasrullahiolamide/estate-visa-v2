@@ -12,7 +12,7 @@ import {
   useFakeSubOccupantsList,
 } from "@/builders/types/sub-occupants";
 import { subOccupantsColumns } from "@/columns/sub-occupants";
-import { DownloadIcon } from "@/svgs";
+import { DownloadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

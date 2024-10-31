@@ -4,6 +4,8 @@
       border: none;
     } */
 
+  width: fit-content;
+
   &[data-variant="pill"] {
     border-radius: rem(8);
     border: 1px solid var(--primary-border-light);

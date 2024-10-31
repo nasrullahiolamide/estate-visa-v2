@@ -7,7 +7,7 @@ import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
 import { AppShellButton } from "@/components/admin/shared/app-shell/button";
 import { APP } from "@/packages/libraries";
 import { ADMIN_ROUTES } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/svgs";
+import { EstateVisaLogo } from "@/icons";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 

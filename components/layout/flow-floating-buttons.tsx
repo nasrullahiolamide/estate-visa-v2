@@ -11,7 +11,7 @@ import {
 
 import { FilterDropdown, FilterData } from "../admin/shared/dropdowns";
 import { Add } from "iconsax-react";
-import { DownloadIcon, UploadIcon } from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/icons";
 import { ReactNode, useEffect, useState } from "react";
 
 enum IconType {

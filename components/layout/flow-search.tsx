@@ -10,7 +10,7 @@ import { useClickOutside } from "@mantine/hooks";
 import { useState } from "react";
 import { useFlowDispatch, useFlowState } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
-import { SearchIcon } from "@/svgs";
+import { SearchIcon } from "@/icons";
 
 interface FlowSearchProps extends TextInputProps {}
 

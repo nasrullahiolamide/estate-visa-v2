@@ -1,7 +1,7 @@
 import { Button, Menu, MenuProps, Tree, TreeNodeData } from "@mantine/core";
 
 import { Leaf } from "./leaf";
-import { ArrowDownIcon, FilterIcon, IconType } from "@/svgs";
+import { ArrowDownIcon, FilterIcon, IconType } from "@/icons";
 import { ReactNode } from "react";
 
 export type FilterData = TreeNodeData[];

@@ -78,4 +78,7 @@ export enum MODALS {
 
   //======== CONFIRMATION =========
   CONFIRMATION = "confirmation",
+
+  BROADCAST_MESSAGE = "broadcast-message",
+  WRITE_MESSAGE = "write-message",
 }

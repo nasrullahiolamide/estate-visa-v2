@@ -3,7 +3,7 @@ import { Button, Checkbox, Menu, Pill, Text } from "@mantine/core";
 import { Actionable } from "@/builders/types/table";
 import { EstatesData } from "@/builders/types/estates";
 import { FlowMenu } from "@/components/layout";
-import { ArrowDownIcon } from "@/svgs";
+import { ArrowDownIcon } from "@/icons";
 import { Fragment } from "react";
 
 const columnHelper = createColumnHelper<Actionable<EstatesData>>();

@@ -11,7 +11,7 @@ import {
 } from "@mantine/core";
 import { useState, Fragment } from "react";
 import { ArrowDown2 } from "iconsax-react";
-import { Mark } from "@/svgs";
+import { Mark } from "@/icons";
 import clsx from "clsx";
 
 interface SelectProps extends ButtonProps {

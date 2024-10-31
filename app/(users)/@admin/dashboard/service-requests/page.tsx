@@ -10,7 +10,7 @@ import {
   ServiceRequestsData,
   useFakeServiceRequestsList,
 } from "@/builders/types/service-requests";
-import { DoubleMarkIcon } from "@/svgs";
+import { DoubleMarkIcon } from "@/icons";
 import { serviceRequestsColumns } from "@/columns/service-requests";
 import {
   FlowContainer,

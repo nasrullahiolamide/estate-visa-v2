@@ -13,7 +13,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddNewMinutes } from "@/components/admin/meetings/add-minutes";
-import { ActivateIcon, AddIcon, EditIcon } from "@/svgs";
+import { ActivateIcon, AddIcon, EditIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

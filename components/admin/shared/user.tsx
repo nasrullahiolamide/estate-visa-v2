@@ -10,7 +10,7 @@ import { navigate } from "@/packages/actions";
 import { APP, encryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { builder } from "@/builders";
-import { ArrowDownIcon } from "@/svgs";
+import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./modals/logout";
 import Link from "next/link";
 

@@ -10,7 +10,7 @@ import {
   InstagramIcon,
   LinkedInIcon,
   XIcon,
-} from "@/svgs";
+} from "@/icons";
 
 export function WebsiteFooter() {
   return (

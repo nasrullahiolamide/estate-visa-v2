@@ -13,7 +13,7 @@ import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { HousesData, useFakeHousesList } from "@/builders/types/houses";
 import { housesColumns } from "@/columns/houses";
-import { DownloadIcon, UploadIcon } from "@/svgs";
+import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

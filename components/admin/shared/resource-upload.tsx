@@ -7,7 +7,7 @@ import { GetInputPropsReturnType } from "@mantine/form/lib/types";
 import { MIME, MIME_TYPE } from "@/builders/types/shared";
 import { Status } from "@/packages/hooks/use-file-upload";
 import { pass } from "@/packages/libraries";
-import { Check, FileIcon } from "@/svgs";
+import { Check, FileIcon } from "@/icons";
 
 import { Upload } from "./upload";
 import { useState } from "react";

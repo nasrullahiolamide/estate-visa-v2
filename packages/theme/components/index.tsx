@@ -28,6 +28,7 @@ import { DateInput, DateTimePicker, TimeInput } from "@mantine/dates";
 
 import actionIcon from "./action-icon.module.css";
 import appShell from "./app-shell.module.css";
+import anchor from "./anchor.module.css";
 import button from "./button.module.css";
 import dateInput from "./date-input.module.css";
 import datePickerInput from "./date-picker-input.module.css";
@@ -48,13 +49,12 @@ import tabs from "./tabs.module.css";
 import textInput from "./text-input.module.css";
 import textarea from "./textarea.module.css";
 import timeInput from "./time-input.module.css";
-import anchor from "./anchor.module.css";
 import {
   ArrowDownIcon,
   CalenderIcon,
   CancelCircleIcon,
   ClockIcon,
-} from "@/svgs";
+} from "@/icons";
 
 export const components: MantineThemeComponents = {
   InputWrapper: InputWrapper.extend({

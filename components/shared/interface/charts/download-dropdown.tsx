@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { useState, Fragment } from "react";
 import { ArrowDown2 } from "iconsax-react";
-import { DownloadIcon, Mark } from "@/svgs";
+import { DownloadIcon, Mark } from "@/icons";
 import clsx from "clsx";
 
 interface DownloadDropdownProps extends ButtonProps {

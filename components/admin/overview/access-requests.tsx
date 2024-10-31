@@ -1,6 +1,6 @@
 "use client";
 
-import { GateIcon } from "@/svgs";
+import { GateIcon } from "@/icons";
 import { Box, Flex, Group, Indicator, Stack, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "./requests-dropdown";
 import { DownloadDropdown } from "../../shared/interface/charts/download-dropdown";

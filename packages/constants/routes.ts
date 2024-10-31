@@ -12,7 +12,7 @@ import {
   TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
-} from "@/svgs";
+} from "@/icons";
 
 export const GENERAL_ROUTES = [
   PAGES.WEBSITE,

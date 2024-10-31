@@ -4,7 +4,7 @@ import {
   EyeIcon,
   ActivateIcon,
   DeactivateIcon,
-} from "@/svgs";
+} from "@/icons";
 import {
   Box,
   createPolymorphicComponent,
