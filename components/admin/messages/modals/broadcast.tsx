@@ -3,25 +3,27 @@
 import { Button, Flex, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { cast } from "@/packages/libraries";
+import { cast, MODALS } from "@/packages/libraries";
 
 import { Plane, TrashIcon } from "@/icons";
+import { modals } from "@mantine/modals";
+import { FlowEditor } from "@/components/layout/flow-editor";
 
 export function BroadcastModal() {
   const form = useForm({
     initialValues: {
-      name: "",
-      location: "",
-      status: "Open",
+      to: "All houses",
+      subject: "",
+      message: "",
     },
     // validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { name, location, status } = values;
+      const { to, subject, message } = values;
       return {
-        name: cast.string(name),
-        location: cast.string(location),
-        status: cast.string(status),
+        to: cast.string(name),
+        subject: cast.string(location),
+        message: cast.string(status),
       };
     },
   });
@@ -37,28 +39,40 @@ export function BroadcastModal() {
         type='plain'
         bg='white'
       >
-        <TextInput
-          label='Gate Name'
-          withAsterisk
-          {...form.getInputProps("name")}
-        />
-        <TextInput
-          label='Location'
-          withAsterisk
-          {...form.getInputProps("location")}
-        />
         <Select
-          data={["Open", "Closed"]}
-          label='House Status'
+          label='To'
           withAsterisk
-          {...form.getInputProps("status")}
+          data={[
+            "All houses",
+            "All active houses",
+            "All Sub Admins",
+            "All active Sub Admins",
+          ]}
+          {...form.getInputProps("to")}
+        />
+        <TextInput
+          label='Subject'
+          withAsterisk
+          {...form.getInputProps("subject")}
+        />
+        <FlowEditor
+          label='Message'
+          withAsterisk
+          placeholder='Type something here...'
+          {...form.getInputProps("message")}
         />
 
-        <Flex justify='space-between'>
-          <Button mt={10} type='button' leftSection={<TrashIcon />}>
+        <Flex justify='space-between' mt={10}>
+          <Button
+            type='button'
+            color='red'
+            variant='outline'
+            leftSection={<TrashIcon />}
+            onClick={() => modals.close(MODALS.BROADCAST_MESSAGE)}
+          >
             Discard
           </Button>
-          <Button mt={10} type='submit' leftSection={<Plane />}>
+          <Button type='submit' rightSection={<Plane />}>
             Send
           </Button>
         </Flex>

@@ -10,6 +10,8 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
 import { FlowTabs, FlowTabsPanel } from "@/components/layout";
 import { OccupantMessages } from "@/components/admin/messages/occupants";
+import { BroadcastModal } from "@/components/admin/messages/modals/broadcast";
+
 import {
   UserFriendsIcon,
   BroadcastIcon,
@@ -22,6 +24,7 @@ import { MODALS } from "@/packages/libraries";
 const handleBroadcast = () => {
   modals.open({
     title: "Write Broadcast",
+    children: <BroadcastModal />,
     modalId: MODALS.BROADCAST_MESSAGE,
   });
 };
