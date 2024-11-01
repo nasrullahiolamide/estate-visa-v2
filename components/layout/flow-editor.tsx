@@ -36,6 +36,7 @@ export function FlowEditor(props: FlowEditorProps) {
   const { label, withAsterisk, placeholder } = textInputProps;
 
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       // mark extensions
       Bold,

@@ -32,6 +32,7 @@ export enum PAGES {
   WEBSITE = "/",
   DASHBOARD = "/dashboard",
   PROFILE = "/profile",
+  NOTIFICATIONS = "/notifications",
   LOGIN = "/login",
   LOGOUT = "/logout",
   REGISTER = "/signup",
@@ -79,6 +80,5 @@ export enum MODALS {
   //======== CONFIRMATION =========
   CONFIRMATION = "confirmation",
 
-  BROADCAST_MESSAGE = "broadcast-message",
-  WRITE_MESSAGE = "write-message",
+  WRITE_BROADCAST_MESSAGE = "write-broadcast-message",
 }

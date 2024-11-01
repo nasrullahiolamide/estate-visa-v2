@@ -16,17 +16,21 @@ import { ArrowBack, BellIcon, EstateVisaLogo } from "@/icons";
 import { SearchEstate } from "../../search-estate";
 import { UserDetails } from "../../user";
 import { Links } from "./links";
+import clsx from "clsx";
+import { PAGES } from "@/packages/libraries";
 
 interface AppShellHeaderProps {
   title: string;
   backHref?: string;
   options?: JSX.Element;
+  showLinks?: boolean;
 }
 
 export function AppShellHeader({
   title,
   backHref,
   options,
+  showLinks = true,
 }: AppShellHeaderProps) {
   return (
     <AppShell.Section
@@ -65,6 +69,8 @@ export function AppShellHeader({
                 h={45}
                 w={45}
                 className='rounded-full cursor-pointer'
+                component={Link}
+                href={PAGES.NOTIFICATIONS}
               >
                 <Indicator processing color='red' size={10} withBorder>
                   <BellIcon width={22} />
@@ -81,7 +87,9 @@ export function AppShellHeader({
           gap={20}
           align='center'
           justify='space-between'
-          className='~px-1/8 hidden lg:flex'
+          className={clsx("~px-1/8 hidden lg:flex", {
+            "!flex": !showLinks,
+          })}
           py={18}
           mih={78}
         >
@@ -104,9 +112,9 @@ export function AppShellHeader({
               {title}
             </h1>
           </Flex>
-          {!backHref && options}
+          {options}
         </Flex>
-        <Links />
+        {showLinks && <Links />}
       </Stack>
     </AppShell.Section>
   );

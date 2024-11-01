@@ -44,5 +44,7 @@ export { ArrowBack } from "./arrow-back";
 export { BroadcastIcon } from "./broadcast";
 export { Inbox } from "./inbox";
 export { Plane } from "./plane";
+export { AttachFile } from "./attach-file";
+export { CurlyBackArrrow } from "./curly-back-arrow";
 
 export type { IconType } from "./type";

@@ -16,7 +16,6 @@ export function ConfirmDelete({
 }: ConfirmDeleteProps) {
   const handleDelete = () => {
     onDelete && onDelete();
-
     modals.close(MODALS.CONFIRMATION);
   };
 
@@ -31,6 +30,8 @@ export function ConfirmDelete({
         primaryBtnProps={{
           color: "red",
           onClick: handleDelete,
+          loading: isDeleting,
+          disabled: isDeleting,
         }}
       />
     </Fragment>

@@ -15,6 +15,7 @@ import { EmptySlot } from "@/components/shared/interface";
 import { FlowFooter } from "@/components/layout/flow-footer";
 import { FlowEntriesPerPage } from "@/components/layout/flow-entries-per-page";
 import { FlowPagination } from "@/components/layout/flow-pagination";
+import clsx from "clsx";
 
 export default function PropertyOwners() {
   return (
@@ -35,9 +36,13 @@ export default function PropertyOwners() {
             />
           </FlowPaper>
 
-          <FlowFooter hidden={true}>
-            <FlowEntriesPerPage />
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: true,
+            })}
+          >
             <FlowPagination />
+            <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
       </FlowContainer>
