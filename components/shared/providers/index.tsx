@@ -24,7 +24,8 @@ export function Providers({ children }: ProvidersProps) {
         position='top-right'
         theme='colored'
         transition={Bounce}
-        className='z-[999]'
+        className='z-[999] min-w-96'
+        
       />
     </ReactQueryProvider>
   );

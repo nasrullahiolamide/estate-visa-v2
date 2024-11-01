@@ -1,10 +1,26 @@
 import { api } from "@/builders/axios";
-import { SubAdminData } from "@/builders/types/sub-admins";
+import { FilterParams } from "@/builders/types/filter-params";
+import { ProfileData } from "@/builders/types/profile";
+import {
+  SubAdminData,
+  SubAdminList,
+  SubAdminListData,
+} from "@/builders/types/sub-admins";
+
+const get = function (variables: { id: string; params?: FilterParams }) {
+  const { id, params } = variables;
+  return api
+    .get<SubAdminList>(`/users/sub-admins/${id}`, { params })
+    .then((data) => data.data);
+};
 
 const post = function (data: SubAdminData) {
-  return api.post("/users/sub-admins/create", data);
+  return api
+    .post<ProfileData>("/users/sub-admins/create", data)
+    .then((data) => data.data);
 };
 
 export const sub_admins = {
+  get,
   post,
 };

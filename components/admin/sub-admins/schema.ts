@@ -5,9 +5,9 @@ const requiredString = string().required(
 );
 
 export const schema = object({
-  full_name: requiredString,
-  email_address: requiredString.email(
+  fullname: requiredString,
+  email: requiredString.email(
     "Invalid email. Please enter a valid email address."
   ),
-  phone_number: requiredString,
+  phone: requiredString,
 });

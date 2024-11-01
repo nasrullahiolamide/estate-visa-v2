@@ -16,22 +16,22 @@ interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
 }
 
 export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
-  const isActive = data.status === "Active";
+  const isActive = data.status.toLowerCase() === "active";
 
   const form = useForm({
     initialValues: {
-      full_name: data.full_name,
-      phone_number: data.phone_number,
+      fullname: data.firstname,
+      phone: data.phone,
       status: data.status,
       edit_details: edit,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { full_name, phone_number, status } = values;
+      const { fullname, phone, status } = values;
       return {
-        full_name: cast.string(full_name),
-        phone_number: cast.string(phone_number),
+        fullname: cast.string(fullname),
+        phone_number: cast.string(phone),
         status: cast.string(status),
       };
     },
@@ -54,17 +54,26 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
           label='Full Name'
           disabled={!form.getValues().edit_details}
           withAsterisk
-          {...form.getInputProps("full_name")}
+          {...form.getInputProps("fullname")}
         />
         <TextInput
           label='Phone Number'
           disabled={!form.getValues().edit_details}
           withAsterisk
-          {...form.getInputProps("phone_number")}
+          {...form.getInputProps("phone")}
         />
 
         <Select
-          data={["Active", "Suspended"]}
+          data={[
+            {
+              value: "active",
+              label: "Active",
+            },
+            {
+              value: "suspended",
+              label: "Suspended",
+            },
+          ]}
           disabled={!form.getValues().edit_details}
           label='Account Status'
           {...form.getInputProps("status")}
@@ -77,7 +86,9 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             px: 0,
           }}
           leftButton={{
-            children: `${isActive ? "Disable" : "Activate"} Account`,
+            children:
+              !form.getValues().edit_details &&
+              `${isActive ? "Disable" : "Activate"} Account`,
             c: isActive ? "red" : "green",
             className: clsx(
               isActive

@@ -1,30 +1,30 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
-export type EstateList = {
+export type SubAdminList = {
   total: number;
   data: SubAdminListData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  pageSize: string;
+  page: string;
 };
 
 export type SubAdminListData = {
-  full_name: string;
-  phone_number: string;
-  last_login: Date;
+  id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  fullName: string;
+  username: string;
+  phone: string;
+  picture: string;
+  lastLogin: string;
   status: string;
-  created_at: string;
-  updated_at: string;
 };
 
 export type SubAdminData = {
   email: string;
   fullname: string;
   phone: string;
-  password: string;
   estateId: string;
 };
 
@@ -34,17 +34,20 @@ export function useFakeSubAdminListData(_?: any, index?: number) {
   const id = index ?? faker.number.int({ max: 100 });
 
   return {
-    id,
-    full_name: faker.person.fullName(),
-    phone_number: faker.phone.number(),
-    last_login: faker.date.recent(),
+    id: id.toString(),
+    email: faker.internet.email(),
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    fullName: faker.person.fullName(),
+    username: faker.person.middleName(),
+    phone: faker.phone.number(),
+    picture: faker.image.avatar(),
+    lastLogin: faker.date.recent().toString(),
     status: faker.helpers.arrayElement(["Active", "Suspended"]),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
   };
 }
 
-export function useFakeSubAdminList(): EstateList {
+export function useFakeSubAdminList(): SubAdminList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -54,11 +57,8 @@ export function useFakeSubAdminList(): EstateList {
 
   return {
     data,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
     total: 20,
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
   };
 }

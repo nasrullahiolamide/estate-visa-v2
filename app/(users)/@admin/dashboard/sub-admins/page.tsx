@@ -1,24 +1,29 @@
 "use client";
 
-import { Fragment } from "react";
+import clsx from "clsx";
+import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
 
+import { getCookie } from "cookies-next";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
+
+import { builder } from "@/builders";
+import { ProfileData } from "@/builders/types/profile";
+import { APP, decryptUri, MODALS } from "@/packages/libraries";
 
 import { subAdminListColumns } from "@/columns/sub-admin-list";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { AddSubAdmins } from "@/components/admin/sub-admins/add";
 import { EmptySlot } from "@/components/shared/interface";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { ViewSubAdmins } from "@/components/admin/sub-admins/view-edit";
+import { DownloadIcon } from "@/icons";
 import {
   SubAdminListData,
   useFakeSubAdminList,
 } from "@/builders/types/sub-admins";
-import { DownloadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -30,8 +35,8 @@ import {
   FlowFloatingButtons,
   useFlowState,
   useFlowPagination,
-  FlowTableActions,
 } from "@/components/layout";
+import { SubAdminActions } from "@/components/admin/sub-admins/actions";
 
 const filterData = [
   { label: "Recently Added", value: "recent" },
@@ -47,14 +52,6 @@ const handleAddSubAdmin = () => {
   });
 };
 
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='property owner' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
-  });
-};
-
 const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
   modals.open({
     title: "Sub Admin Details",
@@ -64,37 +61,59 @@ const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
 };
 
 export default function SubAdmins() {
-  const subAdminsData = useFakeSubAdminList();
+  const initialSubAdminList = useFakeSubAdminList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const {
+    estate: { id: estateId },
+  }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
-  const dataToDisplay = subAdminsData?.data.map((list) => {
-    const isActive = list.status === "Active";
-
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-          editProps={{
-            onEdit: () => handleViewEdit(list, true),
-          }}
-          viewProps={{
-            onView: () => handleViewEdit(list),
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-          }}
-          activateSuspendProps={{
-            isActive,
-            onActivate: () => {},
-            onSuspend: () => {},
-          }}
-        />
-      ),
-    };
+  const { data: subAdmins, isPlaceholderData } = useQuery({
+    queryKey: builder.sub_admins.get.get(),
+    queryFn: () =>
+      builder.use().sub_admins.get({
+        id: estateId,
+        params: {
+          page,
+          pageSize,
+          search,
+        },
+      }),
+    placeholderData: initialSubAdminList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          console.log(list);
+          return {
+            ...list,
+            action: (
+              <SubAdminActions
+                id={list.id}
+                isActive={list.status.toLowerCase() === "active"}
+                handlers={{
+                  onAdd: AddSubAdmins,
+                  onView: () => handleViewEdit(list),
+                  onEdit: () => handleViewEdit(list, true),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
 
-  const { page, search } = useFlowState();
-  const pagination = useFlowPagination();
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(subAdmins?.page);
+    pagination.setTotal(subAdmins?.total);
+    pagination.setEntriesCount(subAdmins?.data?.length);
+    pagination.setPageSize(subAdmins?.pageSize);
+  }, [isPlaceholderData]);
 
   return (
     <Fragment>
@@ -107,12 +126,12 @@ export default function SubAdmins() {
           }}
         >
           <FlowPaper>
-            {subAdminsData?.data.length ? (
+            {subAdmins?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={subAdmins.data}
                 columns={subAdminListColumns}
-                skeleton={false}
-                initialLeftPinnedColumns={["full_name"]}
+                skeleton={isPlaceholderData}
+                initialLeftPinnedColumns={["fullName"]}
                 onRowClick={handleViewEdit}
               />
             ) : (
@@ -128,8 +147,11 @@ export default function SubAdmins() {
               />
             )}
           </FlowPaper>
-
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: subAdmins?.data.length === 0 || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>

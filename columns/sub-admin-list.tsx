@@ -1,5 +1,5 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
+import { Center, Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
 import { Actionable } from "@/builders/types/table";
 import { SubAdminListData } from "@/builders/types/sub-admins";
 import dayjs from "dayjs";
@@ -25,12 +25,18 @@ export const subAdminListColumns = [
     ),
     enableSorting: false,
   }),
-
-  columnHelper.accessor("full_name", {
+  columnHelper.accessor("fullName", {
     header: "Full Name",
     enableSorting: false,
+    cell: (info) => {
+      const firstname = info.row.original.firstname;
+      const lastname = info.row.original.lastname ?? "";
+
+      return `${firstname} ${lastname}`;
+    },
   }),
-  columnHelper.accessor("phone_number", {
+
+  columnHelper.accessor("phone", {
     header: "Phone Number",
     enableSorting: false,
     cell: ({ getValue }) => {
@@ -42,34 +48,51 @@ export const subAdminListColumns = [
       );
     },
   }),
-  columnHelper.accessor("last_login", {
-    header: "Last Login",
+  columnHelper.accessor("lastLogin", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Last Login'
+      />
+    ),
     cell: ({ getValue }) => {
       const value = getValue();
-      return (
-        <Flex className='flex-row sm:flex-col' gap={25}>
+      return value ? (
+        <Flex ta='center' className='flex-row sm:flex-col' gap={25}>
           <Text fz={14}>{dayjs(value).format("DD/MM/YYYY")}</Text>
           <Text fz={14}>{dayjs(value).format("h:mm A")}</Text>
         </Flex>
+      ) : (
+        <Text fz={14} ta='center'>
+          --
+        </Text>
       );
     },
     enableSorting: false,
   }),
   columnHelper.accessor("status", {
-    header: "Status",
+    header: () => (
+      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+    ),
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
       const isActive = value.toLowerCase() === "active";
 
       return (
-        <Pill
-          c={isActive ? "green" : "red"}
-          bg={isActive ? "green.1" : "red.1"}
-          fw={500}
-          children={value}
-          size='sm'
-        />
+        <Center>
+          <Pill
+            c={isActive ? "green" : "red"}
+            bg={isActive ? "green.1" : "red.1"}
+            fw={500}
+            className='capitalize'
+            children={value}
+            size='sm'
+          />
+        </Center>
       );
     },
   }),

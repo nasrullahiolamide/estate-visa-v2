@@ -1,44 +1,103 @@
 "use client";
 
-import { Button, PasswordInput, Select, TextInput } from "@mantine/core";
+import { getCookie } from "cookies-next";
+import { Button, Stack, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 
-import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, decryptUri, pass } from "@/packages/libraries";
-import { ArrowDown01Icon } from "hugeicons-react";
-import { schema } from "./schema";
-import { getCookie } from "cookies-next";
 import { ProfileData } from "@/builders/types/profile";
+import { FlowContainer } from "@/components/layout/flow-container";
+import {
+  APP,
+  cast,
+  decryptUri,
+  makePath,
+  MODALS,
+  PAGES,
+  pass,
+} from "@/packages/libraries";
+
+import { schema } from "./schema";
+import { builder } from "@/builders";
+import { handleSuccess, handleError } from "@/packages/notification";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { modals } from "@mantine/modals";
+import { useState } from "react";
+import { Copy } from "iconsax-react";
 
 export function AddSubAdmins() {
   const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const queryClient = useQueryClient();
+
+  const [isCopied, setIsCopied] = useState(false);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().sub_admins.post,
+    onSuccess: (data) => {
+      // TODO: Delete later
+      const password = data.password;
+      const handleCopy = () => {
+        navigator.clipboard.writeText(password ?? "");
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 3000);
+      };
+      toast.warning(
+        <div>
+          <p>This is a temporary message.</p>
+          <p>Sub Admin has been created successfully.</p>
+          <div className='flex mt-3 items-center justify-center'>
+            <p>
+              Use this password to login: <strong>{password}</strong>
+            </p>
+            <button
+              onClick={handleCopy}
+              style={{ marginInline: "10px", cursor: "pointer" }}
+            >
+              {isCopied ? "Copied!" : <Copy size={24} />}
+            </button>
+          </div>
+        </div>
+      );
+      /////////////
+
+      queryClient.invalidateQueries({
+        queryKey: builder.sub_admins.get.get(),
+      });
+
+      modals.close(MODALS.ADD_SUB_ADMIN);
+      // handleSuccess({
+      //   message: "Sub-Admin Added Successfully",
+      // });
+    },
+    onError: handleError(),
+  });
 
   const form = useForm({
     initialValues: {
       fullname: "",
       email: "",
-      password: "",
       phone: "",
       estateId: pass.string(userData.estate.id),
-      status: "Active",
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { fullname, email, phone, status, password, estateId } = values;
+      const { fullname, email, phone, estateId } = values;
       return {
         fullname: cast.string(fullname),
         email: cast.string(email),
-        password: cast.string(password),
         phone: cast.string(phone),
         estateId: cast.string(estateId),
-        status: cast.string(status),
       };
     },
   });
 
+  function handleSubmit(values: typeof form.values) {
+    mutate(values);
+  }
+
   return (
-    <Form form={form} onSubmit={() => {}}>
+    <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
@@ -56,25 +115,13 @@ export function AddSubAdmins() {
           withAsterisk
           {...form.getInputProps("email")}
         />
-        <PasswordInput
-          label='Password'
-          withAsterisk
-          {...form.getInputProps("password")}
-        />
         <TextInput
           label='Phone Number'
           withAsterisk
           {...form.getInputProps("phone")}
         />
 
-        <Select
-          data={["Active", "Suspended"]}
-          label='Account Status'
-          rightSection={<ArrowDown01Icon />}
-          {...form.getInputProps("status")}
-        />
-
-        <Button type='submit' mt={10}>
+        <Button type='submit' mt={10} loading={isPending} disabled={isPending}>
           Add Sub Admin
         </Button>
       </FlowContainer>

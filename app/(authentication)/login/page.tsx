@@ -11,6 +11,7 @@ import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import {
   APP,
+  cast,
   decryptUri,
   encode,
   encryptUri,
@@ -41,7 +42,7 @@ const schema = object({
 
 export default function Page() {
   const sessionStatus = useSearchParams().get("session");
-  const email = decryptUri(getCookie(APP.EMAIL));
+  const email = cast.string(decryptUri(getCookie(APP.EMAIL)), "");
 
   useEffect(() => {
     if (sessionStatus === "expired") {
@@ -53,7 +54,7 @@ export default function Page() {
 
   const form = useForm({
     initialValues: {
-      email: pass.string(email),
+      email,
       password: "",
     },
     validate: yupResolver(schema),
@@ -71,7 +72,7 @@ export default function Page() {
         if (!isValidAdmin) {
           handleError({
             message:
-              "You are not yet authorized, please contact your administrator.",
+              "There's no dashboard currently for your userType, please contact your administrator.",
           })();
           return;
         }
