@@ -13,7 +13,7 @@ export function FlowContainer({
   return (
     <Stack
       flex={1}
-      className={clsx("h-full overflow-auto bg-primary-background-white", {
+      className={clsx("h-full overflow-auto bg-primary-background-subtle", {
         "border rounded-xl border-primary-border-light bg-primary-background-white":
           type === "border",
       })}
