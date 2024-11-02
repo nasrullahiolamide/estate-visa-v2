@@ -25,7 +25,7 @@ export const subAdminListColumns = [
     ),
     enableSorting: false,
   }),
-  columnHelper.accessor("fullName", {
+  columnHelper.accessor("fullname", {
     header: "Full Name",
     enableSorting: false,
     cell: (info) => {

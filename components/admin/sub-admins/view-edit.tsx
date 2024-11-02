@@ -1,29 +1,58 @@
 "use client";
 
+import clsx from "clsx";
+import { modals } from "@mantine/modals";
 import { Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 
-import { FlowContainer } from "@/components/layout/flow-container";
-import { cast, MODALS } from "@/packages/libraries";
+import { builder } from "@/builders";
+import {
+  SubAdminListData,
+  UpdateSubAdminData,
+} from "@/builders/types/sub-admins";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { APP, cast, decryptUri, MODALS } from "@/packages/libraries";
 import { FormButtons } from "@/components/shared/interface";
-import { SubAdminListData } from "@/builders/types/sub-admins";
-import clsx from "clsx";
-import { modals } from "@mantine/modals";
+import { FlowContainer } from "@/components/layout/flow-container";
+
 import { schema } from "./schema";
+import { ProfileData } from "@/builders/types/profile";
+import { getCookie } from "cookies-next";
 
 interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
   edit: boolean;
 }
 
 export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
+  const {
+    estate: { id: estateId },
+  }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const isActive = data.status.toLowerCase() === "active";
 
-  const form = useForm({
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().sub_admins.id.put,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.sub_admins.get.get(),
+      });
+      modals.close(MODALS.VIEW_EDIT_SUB_ADMIN);
+      handleSuccess({
+        message: "Sub-Admin Edited Successfully",
+      });
+    },
+    onError: handleError(),
+  });
+
+  const form = useForm<UpdateSubAdminData>({
     initialValues: {
       fullname: data.firstname,
       phone: data.phone,
       status: data.status,
       edit_details: edit,
+      estateId,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
@@ -31,18 +60,32 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
       const { fullname, phone, status } = values;
       return {
         fullname: cast.string(fullname),
-        phone_number: cast.string(phone),
+        phone: cast.string(phone),
         status: cast.string(status),
       };
     },
   });
 
-  const handleSubmit = () => {
-    modals.close(MODALS.VIEW_EDIT_SUB_ADMIN);
-  };
+  function handleSubmit({
+    estateId,
+    fullname,
+    phone,
+    status,
+  }: typeof form.values) {
+    mutate({
+      id: data.id,
+      data: {
+        fullname,
+        phone,
+        status,
+        estateId,
+      },
+    });
+  }
 
+  const isEditing = form.getValues().edit_details;
   return (
-    <Form form={form}>
+    <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
@@ -74,7 +117,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
               label: "Suspended",
             },
           ]}
-          disabled={!form.getValues().edit_details}
+          disabled={!isEditing}
           label='Account Status'
           {...form.getInputProps("status")}
         />
@@ -86,9 +129,10 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             px: 0,
           }}
           leftButton={{
-            children: `${isActive ? "Disable" : "Activate"} Account`,
             c: isActive ? "red" : "green",
-            hidden: !form.getValues().edit_details,
+            children: `${isActive ? "Disable" : "Activate"} Account`,
+            hidden: !isEditing,
+            disabled: isPending,
             className: clsx(
               isActive
                 ? "hover:bg-red-1 border-red-4"
@@ -97,10 +141,13 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             ),
           }}
           rightButton={{
-            children: form.getValues().edit_details ? "Save changes" : "Edit",
-            onClick: form.getValues().edit_details
-              ? handleSubmit
-              : () => form.setValues({ edit_details: true }),
+            type: isEditing ? "submit" : "button",
+            children: isEditing ? "Save changes" : "Edit",
+            loading: isPending,
+            disabled: isPending,
+            onClick: !isEditing
+              ? () => form.setValues({ edit_details: true })
+              : () => handleSubmit(form.getValues()),
           }}
         />
       </FlowContainer>

@@ -13,7 +13,7 @@ export type SubAdminListData = {
   email: string;
   firstname: string;
   lastname: string;
-  fullName: string;
+  fullname: string;
   username: string;
   phone: string;
   picture: string;
@@ -28,10 +28,16 @@ export type SubAdminData = {
   estateId: string;
 };
 
-export type UpdateSubAdminData = SubAdminData &
-  Partial<{
-    password: string;
-  }>;
+export type UpdateSubAdminData = Partial<{
+  id: string;
+  email: string;
+  fullname: string;
+  phone: string;
+  estateId: string;
+  password: string;
+  status: string;
+  edit_details: boolean;
+}>;
 
 export function useFakeSubAdminListData(_?: any, index?: number) {
   faker.seed(index);
@@ -43,7 +49,7 @@ export function useFakeSubAdminListData(_?: any, index?: number) {
     email: faker.internet.email(),
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
-    fullName: faker.person.fullName(),
+    fullname: faker.person.fullName(),
     username: faker.person.middleName(),
     phone: faker.phone.number(),
     picture: faker.image.avatar(),

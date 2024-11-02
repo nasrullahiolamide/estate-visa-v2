@@ -43,18 +43,18 @@ export function SubAdminActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().estates.id.remove,
+    mutationFn: builder.use().sub_admins.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
       handleSuccess({
-        message: "Estate deleted successfully",
-        delay: 500,
+        message: "Sub-Admin deleted successfully",
+        autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.estates.get.get(),
+        queryKey: builder.sub_admins.get.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -72,11 +72,14 @@ export function SubAdminActions({
           srcProps={{
             ml: 0,
           }}
+          secondaryBtnProps={{
+            disabled: isPending,
+          }}
           primaryBtnProps={{
             color: "red",
-            onClick: () => mutate(id),
             loading: isPending,
             disabled: isPending,
+            onClick: () => mutate(id),
           }}
         />
       ),

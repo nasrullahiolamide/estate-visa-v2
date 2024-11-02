@@ -7,12 +7,13 @@ import {
   ButtonProps,
   MenuProps,
   Transition,
+  StackProps,
 } from "@mantine/core";
 
 import { FilterDropdown, FilterData } from "../admin/shared/dropdowns";
 import { Add } from "iconsax-react";
 import { DownloadIcon, UploadIcon } from "@/icons";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 
 enum IconType {
   FILTER = "filter",
@@ -29,7 +30,7 @@ type Button = {
   };
 };
 
-type FlowFloatingButtonsProps = BoxProps &
+type FlowFloatingButtonsProps = StackProps &
   (
     | {
         withPrimaryButon: true;
@@ -71,6 +72,7 @@ export function FlowFloatingButtons({
   hasFilterButton,
   withPrimaryButon,
   withSecondaryButtons,
+  ...containerProps
 }: FlowFloatingButtonsProps) {
   const view: Record<PropertyKey, ReactNode> = {
     [IconType.ADD]: <Add size={30} />,
@@ -79,14 +81,15 @@ export function FlowFloatingButtons({
   };
 
   return (
-    <div
+    <Stack
       style={{
         position: "fixed",
         bottom: 30,
         right: 12,
         zIndex: 10,
       }}
-      className='block lg:hidden'
+      hiddenFrom='lg'
+      {...containerProps}
     >
       <Stack justify='center' align='center'>
         {withSecondaryButtons &&
@@ -128,6 +131,6 @@ export function FlowFloatingButtons({
           </Button>
         )}
       </Stack>
-    </div>
+    </Stack>
   );
 }

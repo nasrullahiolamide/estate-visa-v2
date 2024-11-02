@@ -86,7 +86,6 @@ export default function SubAdmins() {
         page,
         pageSize,
         data: data.map((list) => {
-          console.log(list);
           return {
             ...list,
             action: (
@@ -117,7 +116,14 @@ export default function SubAdmins() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Sub Admins' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Sub Admins'
+        options={
+          <HeaderOptions
+            hidden={subAdmins?.data.length === 0 || isPlaceholderData}
+          />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -158,6 +164,7 @@ export default function SubAdmins() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={subAdmins?.data.length === 0 || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
@@ -182,9 +189,9 @@ export default function SubAdmins() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14}>
+    <Flex gap={14} hidden={hidden}>
       <Button
         fz='sm'
         size='md'
