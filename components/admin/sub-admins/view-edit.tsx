@@ -86,10 +86,9 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             px: 0,
           }}
           leftButton={{
-            children:
-              !form.getValues().edit_details &&
-              `${isActive ? "Disable" : "Activate"} Account`,
+            children: `${isActive ? "Disable" : "Activate"} Account`,
             c: isActive ? "red" : "green",
+            hidden: !form.getValues().edit_details,
             className: clsx(
               isActive
                 ? "hover:bg-red-1 border-red-4"

@@ -28,6 +28,11 @@ export type SubAdminData = {
   estateId: string;
 };
 
+export type UpdateSubAdminData = SubAdminData &
+  Partial<{
+    password: string;
+  }>;
+
 export function useFakeSubAdminListData(_?: any, index?: number) {
   faker.seed(index);
 

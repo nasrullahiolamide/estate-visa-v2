@@ -1,11 +1,8 @@
 import { api } from "@/builders/axios";
 import { FilterParams } from "@/builders/types/filter-params";
 import { ProfileData } from "@/builders/types/profile";
-import {
-  SubAdminData,
-  SubAdminList,
-  SubAdminListData,
-} from "@/builders/types/sub-admins";
+import { SubAdminData, SubAdminList } from "@/builders/types/sub-admins";
+import { id } from "./id";
 
 const get = function (variables: { id: string; params?: FilterParams }) {
   const { id, params } = variables;
@@ -21,6 +18,7 @@ const post = function (data: SubAdminData) {
 };
 
 export const sub_admins = {
+  id,
   get,
   post,
 };

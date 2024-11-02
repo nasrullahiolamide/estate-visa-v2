@@ -9,9 +9,19 @@ const update = function (id: string, data: Partial<{}>) {
   return api.put(`/users/${id}/edit`, data).then(({ data }) => data);
 };
 
+const change_status = function (
+  id: string,
+  data: {
+    status: string;
+  }
+) {
+  return api.put(`/users/${id}`, data);
+};
+
 export const account = {
   profile: {
     get,
     update,
   },
+  change_status,
 };
