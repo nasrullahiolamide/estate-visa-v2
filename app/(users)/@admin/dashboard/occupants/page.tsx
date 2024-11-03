@@ -1,14 +1,14 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { occupantsColumns } from "@/columns/occupants";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AddNewOccupants } from "@/components/admin/occupants/add";
-import { ViewEditOccupants } from "@/components/admin/occupants/view-edit";
+import { AddNewOccupants } from "@/components/admin/occupants/modals/add";
+import { ViewEditOccupants } from "@/components/admin/occupants/modals/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
@@ -27,7 +27,13 @@ import {
   FlowTable,
   FlowFloatingButtons,
   FlowTableActions,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
+import clsx from "clsx";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
+import { OccupantActions } from "@/components/admin/occupants/actions";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -39,59 +45,76 @@ const handleNewOccupants = () => {
   modals.open({
     title: "Add New Occupant",
     children: <AddNewOccupants />,
-    modalId: MODALS.ADD_NEW_OCCUPANTS,
-  });
-};
-
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='occupant' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
+    modalId: MODALS.ADD_DETAILS,
   });
 };
 
 const handleViewEdit = (details: OccupantsData, edit: boolean = false) => {
   modals.open({
     title: "Occupant Details",
-    modalId: MODALS.VIEW_EDIT_NEW_OCCUPANTS,
+    modalId: MODALS.VIEW_EDIT_DETAILS,
     children: <ViewEditOccupants {...details} edit={edit} />,
   });
 };
 
 export default function Occupants() {
-  const occupants = useFakeOccupantsList();
+  const initialOccupantsList = useFakeOccupantsList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const dataToDisplay = occupants?.data.map((list) => {
-    const isActive = list.status === "Active";
-
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-          editProps={{
-            onEdit: () => handleViewEdit(list, true),
-          }}
-          viewProps={{
-            onView: () => handleViewEdit(list),
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-          }}
-          activateSuspendProps={{
-            isActive,
-            onActivate: () => {},
-            onSuspend: () => {},
-          }}
-        />
-      ),
-    };
+  const { data: occupants, isPlaceholderData } = useQuery({
+    queryKey: builder.occupants.get.get(),
+    queryFn: () =>
+      builder.use().occupants.get({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialOccupantsList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: (
+              <OccupantActions
+                id={list.id}
+                isActive={list.status.toLowerCase() === "active"}
+                handlers={{
+                  onAdd: handleNewOccupants,
+                  onView: () => handleViewEdit(list),
+                  onEdit: () => handleViewEdit(list, true),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(occupants?.page);
+    pagination.setTotal(occupants?.total);
+    pagination.setEntriesCount(occupants?.data?.length);
+    pagination.setPageSize(occupants?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = occupants?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Occupants' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Occupants'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -102,9 +125,9 @@ export default function Occupants() {
           <FlowPaper>
             {occupants?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={occupants.data}
                 columns={occupantsColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
                 onRowClick={handleViewEdit}
               />
             ) : (
@@ -121,13 +144,18 @@ export default function Occupants() {
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
@@ -158,9 +186,9 @@ export default function Occupants() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
         fz='sm'
         size='md'

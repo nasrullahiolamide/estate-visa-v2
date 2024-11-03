@@ -1,9 +1,9 @@
 import { Checkbox, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
-import { HousesData } from "@/builders/types/houses";
+import { HouseData } from "@/builders/types/houses";
 
-const columnHelper = createColumnHelper<Actionable<HousesData>>();
+const columnHelper = createColumnHelper<Actionable<HouseData>>();
 
 export const housesColumns = [
   columnHelper.display({
@@ -25,30 +25,30 @@ export const housesColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("house_no", {
+  columnHelper.accessor("houseNumber", {
     header: "House No",
     enableSorting: false,
   }),
-  columnHelper.accessor("street_name", {
+  columnHelper.accessor("streetName", {
     header: "Street Name",
     enableSorting: false,
   }),
-  columnHelper.accessor("occupant_name", {
-    header: "Occupant Name",
-    enableSorting: false,
-  }),
-  columnHelper.accessor("occupants", {
-    header: "No of Occupants",
-    enableSorting: false,
-    cell: ({ getValue }) => {
-      const value = getValue();
-      return (
-        <Text fz={14} ta='center'>
-          {value}
-        </Text>
-      );
-    },
-  }),
+  // columnHelper.accessor(, {
+  //   header: "Occupant Name",
+  //   enableSorting: false,
+  // }),
+  // columnHelper.accessor("occupants", {
+  //   header: "No of Occupants",
+  //   enableSorting: false,
+  //   cell: ({ getValue }) => {
+  //     const value = getValue();
+  //     return (
+  //       <Text fz={14} ta='center'>
+  //         {value}
+  //       </Text>
+  //     );
+  //   },
+  // }),
   columnHelper.accessor("status", {
     header: "Status",
     enableSorting: false,

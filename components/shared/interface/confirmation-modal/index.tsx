@@ -63,8 +63,10 @@ export function ConfirmationModal({
 
   return (
     <Fragment>
-      <Stack py={10} className='sm:p-5'>
-        <Emblem image={`/sprites/${src}.gif`} h={110} ml={40} {...srcProps} />
+      <Stack py={10} className='sm:p-5' gap={24}>
+        {src && (
+          <Emblem image={`/sprites/${src}.gif`} h={110} ml={40} {...srcProps} />
+        )}
         {description ? (
           <>
             <Text ta='center' className='prose-2xl/medium'>

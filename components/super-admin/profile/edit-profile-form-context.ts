@@ -1,4 +1,3 @@
-import { AdminUpdateData, UpdateProfileData } from "@/builders/types/profile";
 import { createFormContext } from "@mantine/form";
 
 interface FormValues {

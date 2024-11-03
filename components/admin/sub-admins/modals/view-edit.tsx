@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { modals } from "@mantine/modals";
-import { Select, TextInput } from "@mantine/core";
+import { Button, Flex, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 
 import { builder } from "@/builders";
@@ -16,9 +16,10 @@ import { APP, cast, decryptUri, MODALS } from "@/packages/libraries";
 import { FormButtons } from "@/components/shared/interface";
 import { FlowContainer } from "@/components/layout/flow-container";
 
-import { schema } from "./schema";
+import { schema } from "../schema";
 import { ProfileData } from "@/builders/types/profile";
 import { getCookie } from "cookies-next";
+import { activateAccount, suspendAccount } from "../actions";
 
 interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
   edit: boolean;
@@ -129,10 +130,14 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             px: 0,
           }}
           leftButton={{
-            c: isActive ? "red" : "green",
-            children: `${isActive ? "Disable" : "Activate"} Account`,
             hidden: !isEditing,
             disabled: isPending,
+            c: isActive ? "red" : "green",
+            children: `${isActive ? "Disable" : "Activate"} Account`,
+            onClick: isActive
+              ? () => suspendAccount(data.id)
+              : () => activateAccount(data.id),
+
             className: clsx(
               isActive
                 ? "hover:bg-red-1 border-red-4"
@@ -141,10 +146,10 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             ),
           }}
           rightButton={{
-            type: isEditing ? "submit" : "button",
-            children: isEditing ? "Save changes" : "Edit",
             loading: isPending,
             disabled: isPending,
+            type: isEditing ? "submit" : "button",
+            children: isEditing ? "Save changes" : "Edit",
             onClick: !isEditing
               ? () => form.setValues({ edit_details: true })
               : () => handleSubmit(form.getValues()),
@@ -154,3 +159,21 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
     </Form>
   );
 }
+
+// <Flex pt={15}>
+//   {isActive ? (
+//     <Button
+//       color='red'
+//       variant='outline'
+//       onClick={() => suspendAccount(data.id)}
+//       hidden={!isEditing}
+//       disabled={isPending}
+//     >
+//       Disable Account
+//     </Button>
+//   ) : (
+//     <Button c='green'>Activate Account</Button>
+//   )}
+
+//   {isEditing ? <Button></Button> : <Button></Button>}
+// </Flex>;

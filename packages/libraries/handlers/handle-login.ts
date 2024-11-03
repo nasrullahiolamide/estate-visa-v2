@@ -34,7 +34,7 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
 
   setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
 
-  if (email) setCookie(APP.EMAIL, encryptUri(email));
+  if (email) setCookie(APP.EMAIL, email);
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {

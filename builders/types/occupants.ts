@@ -1,37 +1,48 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { generateHouseNumber } from "./shared";
+import { HouseData, useFakeHouseData } from "./houses";
 
-export type Occupants = {
+export type OccupantList = {
   total: number;
   data: OccupantsData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  pageSize: string;
+  page: string;
 };
 
 export type OccupantsData = {
-  house_no: string;
-  full_name: string;
-  email_address: string;
-  phone_number: string;
-  sub_occupants: number;
+  id: string;
   status: string;
-  created_at?: string;
-  updated_at?: string;
+  isMain: boolean;
+  isPropertyOwner: boolean;
+  relationshipToMain: string;
+  user: OccupantUser;
+  house: HouseData;
+  noOfSubOccupants: number;
 };
 
-// {
-//   "email": "example@example.com",
-//   "fullname": "John",
-//   "phone": "123456789",
-//   "isMain": true,
-//   "isPropertyOwner": true,
-//   "relationshipToMain": "Friend",
-//   "houseId": "123e4567-e89b-12d3-a456-426614174000"
-// }
+export type UpdateOccupantData = {
+  email: string;
+  fullname: string;
+  phone: string;
+  isMain: boolean;
+  isPropertyOwner: boolean;
+  relationshipToMain: string;
+  houseId: string;
+};
+
+export type OccupantUser = {
+  id: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  fullname: string;
+  phone: string;
+  picture: string;
+  password: string;
+  status: string;
+  lastLogin: string;
+};
 
 export type OccupantMessages = {};
 
@@ -39,21 +50,39 @@ export function useFakeOccupantsData(_?: any, index?: number) {
   faker.seed(index);
 
   const id = index ?? faker.number.int({ max: 100 });
+  const user = {
+    id: id.toString(),
+    email: faker.internet.email(),
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    fullname: faker.person.fullName(),
+    phone: faker.phone.number(),
+    picture: faker.image.avatar(),
+    password: faker.internet.password(),
+    status: faker.helpers.arrayElement(["active", "suspended"]),
+    lastLogin: faker.date.recent().toISOString(),
+  };
+
+  const house = useFakeHouseData(index);
 
   return {
-    id,
-    house_no: generateHouseNumber(),
-    full_name: faker.person.fullName(),
-    email_address: faker.internet.email(),
-    phone_number: faker.phone.number(),
-    sub_occupants: faker.number.int({ min: 1, max: 10 }),
-    status: faker.helpers.arrayElement(["Active", "Suspended"]),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+    id: id.toString(),
+    status: faker.helpers.arrayElement(["active", "suspended"]),
+    isMain: faker.helpers.arrayElement([true, false]),
+    isPropertyOwner: faker.helpers.arrayElement([true, false]),
+    relationshipToMain: faker.helpers.arrayElement([
+      "friend",
+      "child",
+      "sibling",
+      "parent",
+    ]),
+    user,
+    house,
+    noOfSubOccupants: faker.number.int({ min: 1, max: 10 }),
   };
 }
 
-export function useFakeOccupantsList(): Occupants {
+export function useFakeOccupantsList(): OccupantList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -64,10 +93,7 @@ export function useFakeOccupantsList(): Occupants {
   return {
     data,
     total: 20,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
   };
 }

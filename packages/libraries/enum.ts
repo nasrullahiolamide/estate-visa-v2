@@ -63,13 +63,14 @@ export enum USER_ACTIONS {
 
 export enum MODALS {
   //======== ADD =========
-  ADD = "add",
+  ADD_DETAILS = "add-details",
   ADD_SUB_ADMIN = USER_ACTIONS.ADD + "-sub-admin",
   ADD_NEW_OCCUPANTS = USER_ACTIONS.ADD + "-new-occupants",
   ADD_NEW_HOUSE = USER_ACTIONS.ADD + "-new-house",
   ADD_MEETINGS_MINUTES = USER_ACTIONS.ADD + "-meetings-minutes",
 
   //======== VIEW/EDIT =========
+  VIEW_EDIT_DETAILS = "view/edit_details",
   VIEW_EDIT = "view-edit",
   VIEW_EDIT_SUB_ADMIN = USER_ACTIONS.VIEW_EDIT + "-sub-admin",
   VIEW_EDIT_NEW_OCCUPANTS = USER_ACTIONS.VIEW_EDIT + "-new-occupants",

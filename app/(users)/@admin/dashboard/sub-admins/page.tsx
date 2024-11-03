@@ -16,9 +16,11 @@ import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { subAdminListColumns } from "@/columns/sub-admin-list";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
-import { AddSubAdmins } from "@/components/admin/sub-admins/add";
+import { AddSubAdmins } from "@/components/admin/sub-admins/modals/add";
 import { EmptySlot } from "@/components/shared/interface";
-import { ViewSubAdmins } from "@/components/admin/sub-admins/view-edit";
+import { ViewSubAdmins } from "@/components/admin/sub-admins/modals/view-edit";
+import { SubAdminActions } from "@/components/admin/sub-admins/actions";
+
 import { DownloadIcon } from "@/icons";
 import {
   SubAdminListData,
@@ -36,7 +38,6 @@ import {
   useFlowState,
   useFlowPagination,
 } from "@/components/layout";
-import { SubAdminActions } from "@/components/admin/sub-admins/actions";
 
 const filterData = [
   { label: "Recently Added", value: "recent" },
@@ -114,14 +115,14 @@ export default function SubAdmins() {
     pagination.setPageSize(subAdmins?.pageSize);
   }, [isPlaceholderData]);
 
+  const noDataAvailable = subAdmins?.data.length === 0;
+
   return (
     <Fragment>
       <AppShellHeader
         title='Sub Admins'
         options={
-          <HeaderOptions
-            hidden={subAdmins?.data.length === 0 || isPlaceholderData}
-          />
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
@@ -155,7 +156,7 @@ export default function SubAdmins() {
           </FlowPaper>
           <FlowFooter
             className={clsx("flex", {
-              hidden: subAdmins?.data.length === 0 || numberOfPages <= 1,
+              hidden: noDataAvailable || numberOfPages <= 1,
             })}
           >
             <FlowPagination />
@@ -164,7 +165,7 @@ export default function SubAdmins() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          hidden={subAdmins?.data.length === 0 || isPlaceholderData}
+          hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton

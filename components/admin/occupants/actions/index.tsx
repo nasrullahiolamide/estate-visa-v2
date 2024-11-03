@@ -10,7 +10,6 @@ import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
-import { UpdateStatus } from "../../shared/modals/update-status";
 import {
   FlowMenu,
   FlowMenuTarget,
@@ -24,8 +23,9 @@ import {
   EyeIcon,
   TrashIcon,
 } from "@/icons";
+import { UpdateStatus } from "../modals/update-status";
 
-interface SubAdminActionsProps {
+interface OccupantActionsProps {
   id: string;
   isActive: Boolean;
   handlers: {
@@ -39,13 +39,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: (
-      <UpdateStatus
-        id={id}
-        title='Are you sure you want to activate this account?'
-        status='active'
-      />
-    ),
+    children: <UpdateStatus id={id} status='active' />,
   });
 }
 
@@ -53,36 +47,30 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: (
-      <UpdateStatus
-        id={id}
-        title='Are you sure you want to disable this account?'
-        status='suspended'
-      />
-    ),
+    children: <UpdateStatus id={id} status='suspended' />,
   });
 }
 
-export function SubAdminActions({
+export function OccupantActions({
   id,
   handlers,
   isActive,
-}: SubAdminActionsProps) {
+}: OccupantActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().sub_admins.id.remove,
+    mutationFn: builder.use().occupants.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
       handleSuccess({
-        message: "Sub-Admin deleted successfully",
+        message: "Occupant deleted successfully",
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.occupants.get.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -93,7 +81,7 @@ export function SubAdminActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this Sub Admin?'
+          title='Are you sure you want to delete this occupant?'
           src='delete'
           primaryBtnText='Yes, delete'
           secondaryBtnText='No'
@@ -129,7 +117,7 @@ export function SubAdminActions({
             <Menu.Item
               color='#969921'
               leftSection={<DeactivateIcon width={13} />}
-              onClick={() => activateAccount(id)}
+              onClick={() => suspendAccount(id)}
             >
               Suspend
             </Menu.Item>
@@ -137,7 +125,7 @@ export function SubAdminActions({
             <Menu.Item
               color='#11A506'
               leftSection={<ActivateIcon width={13} />}
-              onClick={() => suspendAccount(id)}
+              onClick={() => activateAccount(id)}
             >
               Activate
             </Menu.Item>
@@ -166,12 +154,12 @@ export function SubAdminActions({
       </FlowMenu>
 
       <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
         {isActive ? (
           <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
         ) : (
           <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon='View' onClick={handlers.onView} />
         <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
         <FlowToolTip icon='Delete' onClick={handleDelete} />
       </Flex>

@@ -7,7 +7,7 @@ import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { propertyOwnersColumns } from "@/columns/property-owners";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AddNewOccupants } from "@/components/admin/occupants/add";
+import { AddNewOccupants } from "@/components/admin/occupants/modals/add";
 import { ViewEditPropertyOwners } from "@/components/admin/property-owners/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";

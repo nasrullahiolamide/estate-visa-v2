@@ -42,7 +42,7 @@ const schema = object({
 
 export default function Page() {
   const sessionStatus = useSearchParams().get("session");
-  const email = cast.string(decryptUri(getCookie(APP.EMAIL)), "");
+  const email = getCookie(APP.EMAIL) ?? "";
 
   useEffect(() => {
     if (sessionStatus === "expired") {

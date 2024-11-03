@@ -16,7 +16,7 @@ import {
   pass,
 } from "@/packages/libraries";
 
-import { schema } from "./schema";
+import { schema } from "../schema";
 import { builder } from "@/builders";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { useQueryClient, useMutation } from "@tanstack/react-query";

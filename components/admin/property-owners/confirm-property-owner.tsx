@@ -4,17 +4,10 @@ import { MODALS } from "@/packages/libraries";
 
 import { Button, Text, Stack, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { Emblem } from "@/components/shared/interface";
-import { PropertyOwnersData } from "@/builders/types/property-owners";
 
-interface ConfirmPropertyOwnerProps {
-  data: PropertyOwnersData;
-}
-
-export function ConfirmPropertyOwner({ data }: ConfirmPropertyOwnerProps) {
+export function ConfirmPropertyOwner() {
   const handleConfirmation = () => {
     console.log("Added Successfully");
-    console.log(data);
     modals.close(MODALS.ADD_NEW_OCCUPANTS);
     modals.close(MODALS.CONFIRMATION);
   };

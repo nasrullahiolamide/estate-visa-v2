@@ -6,22 +6,20 @@ const get = function (id: string) {
 };
 
 const update = function (id: string, data: Partial<{}>) {
-  return api.put(`/users/${id}/edit`, data).then(({ data }) => data);
+  return api.put(`/users/${id}`, data).then(({ data }) => data);
 };
 
-const change_status = function (
-  id: string,
-  data: {
-    status: string;
-  }
-) {
-  return api.put(`/users/${id}`, data);
+const change_status = function (variables: { id: string; status: string }) {
+  const { id, status } = variables;
+  return api.put(`/users/${id}`, {
+    status,
+  });
 };
 
 export const account = {
   profile: {
     get,
     update,
+    change_status,
   },
-  change_status,
 };
