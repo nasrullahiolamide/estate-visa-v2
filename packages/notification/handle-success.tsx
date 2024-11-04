@@ -11,6 +11,7 @@ export function handleSuccess({
   ...props
 }: HandleSuccessProps = {}) {
   toast.success(message, {
+    autoClose: 1200,
     ...props,
   });
 }

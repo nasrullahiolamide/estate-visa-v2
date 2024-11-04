@@ -18,6 +18,19 @@ export type HouseData = {
   updatedAt?: string;
 };
 
+export type UpdateHouseData = {
+  streetName: string;
+  houseNumber: string;
+  houseTypeId: string;
+  validityPeriod: string;
+  status: string;
+};
+
+export type BulkUpdateHouseData = {
+  houses: UpdateHouseData[];
+  estateId: string;
+};
+
 export function useFakeHouseData(_?: any, index?: number) {
   faker.seed(index);
 

@@ -1,4 +1,4 @@
-import { Center, Checkbox, Pill, Text } from "@mantine/core";
+import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { OccupantsData } from "@/builders/types/occupants";
@@ -10,14 +10,22 @@ export const occupantsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()} // Select all rows on page
-        indeterminate={table.getIsSomePageRowsSelected()}
-        onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
-      />
+      <Flex justify='center' className='w-full'>
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()} // Select all rows on page
+          indeterminate={table.getIsSomePageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
+          classNames={{
+            root: "justify-center",
+          }}
+        />
+      </Flex>
     ),
     cell: ({ row }) => (
       <Checkbox
+        classNames={{
+          body: "justify-center",
+        }}
         checked={row.getIsSelected()} // Check if the row is selected
         disabled={!row.getCanSelect()} // Disable if row selection is not allowed
         onChange={row.getToggleSelectedHandler()} // Toggles selection for individual row
@@ -27,8 +35,19 @@ export const occupantsColumns = [
   }),
 
   columnHelper.accessor("house.houseNumber", {
-    header: "House No",
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='House No'
+      />
+    ),
     enableSorting: false,
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+    ),
   }),
 
   columnHelper.accessor("user.fullname", {
@@ -43,16 +62,19 @@ export const occupantsColumns = [
   }),
 
   columnHelper.accessor("user.phone", {
-    header: "Phone Number",
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Phone Number'
+      />
+    ),
     enableSorting: false,
-    cell: ({ getValue }) => {
-      const value = getValue();
-      return (
-        <Text fz={14} c='blue.7'>
-          {value}
-        </Text>
-      );
-    },
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+    ),
   }),
   columnHelper.accessor("noOfSubOccupants", {
     header: () => (
@@ -65,14 +87,9 @@ export const occupantsColumns = [
       />
     ),
     enableSorting: false,
-    cell: ({ getValue }) => {
-      const value = getValue();
-      return (
-        <Text fz={14} ta='center'>
-          {value}
-        </Text>
-      );
-    },
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+    ),
   }),
   columnHelper.accessor("status", {
     header: () => (

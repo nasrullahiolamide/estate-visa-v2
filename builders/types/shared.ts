@@ -77,7 +77,7 @@ export const requiredString = string().required(
 );
 
 export type OptionsData = {
-  id?: string;
+  id: string;
   name: string;
   description: string;
 };

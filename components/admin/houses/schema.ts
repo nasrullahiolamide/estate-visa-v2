@@ -5,9 +5,9 @@ const requiredString = string().required(
 );
 
 export const schema = object({
-  street_name: requiredString,
-  house_no: requiredString,
-  house_type: requiredString,
+  streetName: requiredString,
+  houseNumber: requiredString,
+  houseTypeId: requiredString,
   status: requiredString,
-  validity_period: requiredString,
+  validityPeriod: requiredString,
 });
