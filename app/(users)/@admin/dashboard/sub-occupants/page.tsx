@@ -7,12 +7,12 @@ import { Button, Flex } from "@mantine/core";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { subOccupantsColumns } from "@/columns/sub-occupants";
+import { DownloadIcon } from "@/icons";
 import {
   SubOccupantsData,
   useFakeSubOccupantsList,
 } from "@/builders/types/sub-occupants";
-import { subOccupantsColumns } from "@/columns/sub-occupants";
-import { DownloadIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,

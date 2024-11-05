@@ -1,22 +1,24 @@
 "use client";
 
-import { Fragment } from "react";
+import clsx from "clsx";
 import { Add } from "iconsax-react";
-import { Button, Flex, Menu, Tooltip } from "@mantine/core";
+import { Fragment, useEffect } from "react";
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
-import { propertyOwnersColumns } from "@/columns/property-owners";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AddNewOccupants } from "@/components/admin/occupants/modals/add";
-import { ViewEditPropertyOwners } from "@/components/admin/property-owners/view-edit";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
+import { useFakeOccupantsList } from "@/builders/types/occupants";
+import { OccupantActions } from "@/components/admin/occupants/actions";
+import { occupantsColumns } from "@/columns/occupants";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import {
-  PropertyOwnersData,
-  useFakePropertyOwnersList,
-} from "@/builders/types/property-owners";
 import { DownloadIcon, UploadIcon } from "@/icons";
+import {
+  OccupantsForm,
+  OccupantsFormProps,
+} from "@/components/admin/occupants/modals/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -26,7 +28,8 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
 
 const filterOptions = [
@@ -35,63 +38,74 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleNewOccupants = () => {
+const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
   modals.open({
-    title: "Add New Occupant",
-    children: <AddNewOccupants viewId='property-owners' />,
-    modalId: MODALS.ADD_NEW_OCCUPANTS,
-  });
-};
-
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='property owner' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
-  });
-};
-
-const handleViewEdit = (details: PropertyOwnersData, edit: boolean = false) => {
-  modals.open({
-    title: "Property Owner Details",
-    modalId: MODALS.VIEW_EDIT_NEW_OCCUPANTS,
-    children: <ViewEditPropertyOwners {...details} edit={edit} />,
+    title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
+    modalId: MODALS.FORM_DETAILS,
+    children: <OccupantsForm data={data} modalType={modalType} />,
   });
 };
 
 export default function PropertyOwners() {
-  const propertyOwners = useFakePropertyOwnersList();
+  const initialOccupantsList = useFakeOccupantsList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const dataToDisplay = propertyOwners?.data.map((list) => {
-    const isActive = list.status === "Active";
-
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-          editProps={{
-            onEdit: () => handleViewEdit(list, true),
-          }}
-          viewProps={{
-            onView: () => handleViewEdit(list),
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-          }}
-          activateSuspendProps={{
-            isActive,
-            onActivate: () => {},
-            onSuspend: () => {},
-          }}
-        />
-      ),
-    };
+  const { data: occupants, isPlaceholderData } = useQuery({
+    queryKey: builder.occupants.get.get(),
+    queryFn: () =>
+      builder.use().occupants.get({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialOccupantsList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: (
+              <OccupantActions
+                id={list.id}
+                isActive={list.status.toLowerCase() === "active"}
+                handlers={{
+                  onAdd: () => handleOccupantForm({ modalType: "add" }),
+                  onView: () =>
+                    handleOccupantForm({ data: list, modalType: "view" }),
+                  onEdit: () =>
+                    handleOccupantForm({ data: list, modalType: "edit" }),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(occupants?.page);
+    pagination.setTotal(occupants?.total);
+    pagination.setEntriesCount(occupants?.data?.length);
+    pagination.setPageSize(occupants?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = occupants?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Property Owners' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Property Owners'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -100,32 +114,39 @@ export default function PropertyOwners() {
           }}
         >
           <FlowPaper>
-            {propertyOwners?.data.length ? (
+            {occupants?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
-                columns={propertyOwnersColumns}
-                skeleton={false}
+                data={occupants.data}
+                columns={occupantsColumns}
+                skeleton={isPlaceholderData}
+                onRowClick={handleOccupantForm}
               />
             ) : (
               <EmptySlot
-                title='There are no property owners here yet. Add an occupant to get started!'
+                title='There are no occupants yet. Add one to get started!'
                 src='person-minus'
                 withButton
                 text='Add New Occupant'
                 btnProps={{
                   leftSection: <Add />,
+                  onClick: () => handleOccupantForm({ modalType: "add" }),
                 }}
               />
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
@@ -133,20 +154,20 @@ export default function PropertyOwners() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: handleNewOccupants,
+              onClick: () => handleOccupantForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
             {
               icon: "download",
               btnProps: {
-                onClick: handleNewOccupants,
+                onClick: () => {},
               },
             },
             {
               icon: "upload",
               btnProps: {
-                onClick: handleNewOccupants,
+                onClick: () => {},
               },
             },
           ]}
@@ -156,14 +177,14 @@ export default function PropertyOwners() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={handleNewOccupants}
+        onClick={() => handleOccupantForm({ modalType: "add" })}
       >
         Add New Occupant
       </Button>
