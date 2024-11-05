@@ -39,7 +39,7 @@ export function FavIcon() {
       <link
         rel='manifest'
         crossOrigin='use-credentials'
-        href='/favicon/site.webmanifest'
+        href='/favicon/webmanifest.json'
       />
     </>
   );
