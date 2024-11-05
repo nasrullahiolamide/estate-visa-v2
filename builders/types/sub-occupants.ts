@@ -2,25 +2,20 @@ import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { generateHouseNumber, generateRelationshipStatus } from "./shared";
 
-export type SubOccupants = {
+export type SubOccupantsList = {
   total: number;
   data: SubOccupantsData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  pageSize: string;
+  page: string;
 };
 
 export type SubOccupantsData = {
-  house_no: string;
-  full_name: string;
-  email_address: string;
-  phone_number: string;
-  occupant: string;
-  relationship: string;
-  created_at?: string;
-  updated_at?: string;
+  houseNumber: string;
+  fullname: string;
+  email: string;
+  phone: string;
+  occupantName: string;
+  relationshipWithMain: string;
 };
 
 export function useFakeSubOccupantsData(_?: any, index?: number) {
@@ -30,18 +25,16 @@ export function useFakeSubOccupantsData(_?: any, index?: number) {
 
   return {
     id,
-    house_no: generateHouseNumber(),
-    full_name: faker.person.fullName(),
-    email_address: faker.internet.email(),
-    phone_number: faker.phone.number(),
-    occupant: faker.person.fullName(),
-    relationship: generateRelationshipStatus(),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+    houseNumber: generateHouseNumber(),
+    fullname: faker.person.fullName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number(),
+    occupantName: faker.person.fullName(),
+    relationshipWithMain: generateRelationshipStatus(),
   };
 }
 
-export function useFakeSubOccupantsList(): SubOccupants {
+export function useFakeSubOccupantsList(): SubOccupantsList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -52,10 +45,7 @@ export function useFakeSubOccupantsList(): SubOccupants {
   return {
     data,
     total: 20,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
   };
 }

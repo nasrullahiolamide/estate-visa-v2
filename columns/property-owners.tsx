@@ -1,4 +1,4 @@
-import { Checkbox, Pill, Text } from "@mantine/core";
+import { Center, Checkbox, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { PropertyOwnersData } from "@/builders/types/property-owners";
@@ -25,44 +25,60 @@ export const propertyOwnersColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("house_no", {
+  columnHelper.accessor("house.houseNumber", {
     header: "House No",
     enableSorting: false,
   }),
-  columnHelper.accessor("full_name", {
+  columnHelper.accessor("user.fullname", {
     header: "Full Name",
     enableSorting: false,
-  }),
-  columnHelper.accessor("phone_number", {
-    header: "Phone Number",
-    enableSorting: false,
-    cell: ({ getValue }) => {
-      const value = getValue();
-      return (
-        <Text fz={14} c='blue.7'>
-          {value}
-        </Text>
-      );
+    cell: (info) => {
+      const firstname = info.row.original.user.firstname;
+      const lastname = info.row.original.user.lastname ?? "";
+
+      return `${firstname} ${lastname}`;
     },
   }),
+  columnHelper.accessor("user.phone", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Phone Number'
+      />
+    ),
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+    ),
+  }),
+
   columnHelper.accessor("status", {
-    header: "Status",
+    header: () => (
+      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+    ),
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
-      const isActive = value.toLowerCase() === "active";
+      const isActive = value?.toLowerCase() === "active";
 
       return (
-        <Pill
-          c={isActive ? "green" : "red"}
-          bg={isActive ? "green.1" : "red.1"}
-          fw={500}
-          children={value}
-          size='sm'
-        />
+        <Center>
+          <Pill
+            c={isActive ? "green" : "red"}
+            bg={isActive ? "green.1" : "red.1"}
+            fw={500}
+            className='capitalize'
+            children={value}
+            size='sm'
+          />
+        </Center>
       );
     },
   }),
+
   columnHelper.accessor("action", {
     header: () => (
       <Text

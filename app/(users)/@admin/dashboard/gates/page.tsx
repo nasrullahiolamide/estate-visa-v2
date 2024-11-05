@@ -1,17 +1,14 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
+import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/icons";
-import { ViewEditGates } from "@/components/admin/gates/view-edit";
-import { AddNewGate } from "@/components/admin/gates/add";
 import { GatesData, useFakeGatesList } from "@/builders/types/gates";
 import { gatesColumns } from "@/columns/gates";
 import {
@@ -23,8 +20,17 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
+import { handleOccupantForm } from "../occupants/page";
+import { ProfileData } from "@/builders/types/profile";
+import { getCookie } from "cookies-next";
+import { GateActions } from "@/components/admin/gates/actions";
+import clsx from "clsx";
+import { GateForm, GatesFormProps } from "@/components/admin/gates/form";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -32,63 +38,67 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleNewGate = () => {
+const handleGateForm = ({ data, modalType }: GatesFormProps) => {
   modals.open({
-    title: "Add New Gate",
-    children: <AddNewGate />,
-    modalId: MODALS.ADD_NEW_HOUSE,
-  });
-};
-
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='gate' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
-  });
-};
-
-const handleViewEdit = (details: GatesData, edit: boolean = false) => {
-  modals.open({
-    title: "Gate Details",
-    modalId: MODALS.VIEW_EDIT_GATES,
-    children: <ViewEditGates {...details} edit={edit} />,
+    title: modalType === "add" ? "Add New Gate" : "Gate Details",
+    modalId: MODALS.FORM_DETAILS,
+    children: <GateForm data={data} modalType={modalType} />,
   });
 };
 
 export default function Gates() {
-  const gates = useFakeGatesList();
+  const initialGatesList = useFakeGatesList();
+  const pagination = useFlowPagination();
+  const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const estateId = userData.estate.id;
 
-  const dataToDisplay = gates?.data.map((list) => {
-    const isGateOpened = list.status.toLowerCase() === "open";
+  const { page, pageSize, search, numberOfPages } = useFlowState();
 
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-          editProps={{
-            onEdit: () => handleViewEdit(list, true),
-          }}
-          viewProps={{
-            onView: () => handleViewEdit(list),
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-          }}
-          activateSuspendProps={{
-            isActive: isGateOpened,
-            onActivate: () => {},
-            onSuspend: () => {},
-          }}
-        />
-      ),
-    };
+  const { data: gates, isPlaceholderData } = useQuery({
+    queryKey: builder.gates.get.get(),
+    queryFn: () => builder.use().gates.get(estateId),
+    placeholderData: initialGatesList,
+    select({ data }) {
+      return {
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: (
+              <GateActions
+                id={list.id}
+                handlers={{
+                  onAdd: () => handleGateForm({ modalType: "add" }),
+                  onView: () =>
+                    handleGateForm({ data: list, modalType: "view" }),
+                  onEdit: () =>
+                    handleGateForm({ data: list, modalType: "edit" }),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    // pagination.setPage(occupants?.page);
+    // pagination.setTotal(occupants?.total);
+    // pagination.setEntriesCount(occupants?.data?.length);
+    // pagination.setPageSize(occupants?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = gates?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Houses' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Houses'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -99,9 +109,9 @@ export default function Gates() {
           <FlowPaper>
             {gates?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={gates.data}
                 columns={gatesColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
               />
             ) : (
               <EmptySlot
@@ -111,19 +121,24 @@ export default function Gates() {
                 text='Add New Gate'
                 btnProps={{
                   leftSection: <Add />,
-                  onClick: handleNewGate,
+                  onClick: () => handleGateForm({ modalType: "add" }),
                 }}
               />
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
@@ -131,7 +146,7 @@ export default function Gates() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: handleNewGate,
+              onClick: () => handleGateForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
@@ -148,10 +163,15 @@ export default function Gates() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<Add />} onClick={handleNewGate}>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<Add />}
+        onClick={() => handleGateForm({ modalType: "add" })}
+      >
         Add New Gate
       </Button>
       <FilterDropdown data={filterOptions} />

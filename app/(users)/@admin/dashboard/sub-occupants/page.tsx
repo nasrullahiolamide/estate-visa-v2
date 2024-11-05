@@ -1,12 +1,16 @@
 "use client";
 
-import { Fragment } from "react";
-
+import clsx from "clsx";
+import { Fragment, useEffect } from "react";
 import { modals } from "@mantine/modals";
 import { Button, Flex } from "@mantine/core";
+import { MODALS } from "@/packages/libraries";
+import { builder } from "@/builders";
+import { useQuery } from "@tanstack/react-query";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { ViewSubOccupants } from "@/components/admin/sub-occupants/view";
 import { subOccupantsColumns } from "@/columns/sub-occupants";
 import { DownloadIcon } from "@/icons";
 import {
@@ -22,9 +26,9 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
-import { ViewSubOccupants } from "@/components/admin/sub-occupants/view";
-import { MODALS } from "@/packages/libraries";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -35,17 +39,54 @@ const filterOptions = [
 const handleView = (details: SubOccupantsData) => {
   modals.open({
     title: "Sub Occupant Details",
-    modalId: MODALS.VIEW_SUB_OCCUPANTS,
+    modalId: MODALS.FORM_DETAILS,
     children: <ViewSubOccupants {...details} />,
   });
 };
 
 export default function SubOccupants() {
-  const subOccupants = useFakeSubOccupantsList();
+  const initialSubOccupantsList = useFakeSubOccupantsList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { data: subOccupants, isPlaceholderData } = useQuery({
+    queryKey: builder.sub_occupants.get.get(),
+    queryFn: () =>
+      builder.use().sub_occupants.get({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialSubOccupantsList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data,
+      };
+    },
+  });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(subOccupants?.page);
+    pagination.setTotal(subOccupants?.total);
+    pagination.setEntriesCount(subOccupants?.data?.length);
+    pagination.setPageSize(subOccupants?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = subOccupants?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Sub-Occupants' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Sub-Occupants'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -58,7 +99,7 @@ export default function SubOccupants() {
               <FlowTable
                 data={subOccupants.data}
                 columns={subOccupantsColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
                 onRowClick={handleView}
               />
             ) : (
@@ -68,14 +109,18 @@ export default function SubOccupants() {
               />
             )}
           </FlowPaper>
-
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           withSecondaryButtons
           hasFilterButton
           filterData={filterOptions}
@@ -93,9 +138,9 @@ export default function SubOccupants() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'

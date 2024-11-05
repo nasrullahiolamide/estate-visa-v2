@@ -1,15 +1,11 @@
+import { id } from "./../http/sub-admins/id";
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { generateHouseNumber } from "./shared";
+import { OccupantUser } from "./occupants";
+import { HouseData, useFakeHouseData } from "./houses";
 
-export type Occupants = {
-  total: number;
-  data: PropertyOwnersData[];
-  page_size: number;
-  current_page: number;
-};
-
-export type OccupantsList = {
+export type PropertyOwnersList = {
   total: number;
   data: PropertyOwnersData[];
   pageSize: string;
@@ -17,18 +13,15 @@ export type OccupantsList = {
 };
 
 export type PropertyOwnersData = {
-  house_no: string;
-  full_name: string;
-  email_address: string;
-  phone_number: string;
+  id: string;
   status: string;
-  created_at?: string;
-  updated_at?: string;
+  user: OccupantUser;
+  house: HouseData;
 };
 
 export type UpdateProperyOwnerData = {
-  email: string;
   fullname: string;
+  email: string;
   phone: string;
   houseId: string;
 };
@@ -37,20 +30,29 @@ export function useFakePropertyOwnersData(_?: any, index?: number) {
   faker.seed(index);
 
   const id = index ?? faker.number.int({ max: 100 });
+  const user = {
+    id: id.toString(),
+    email: faker.internet.email(),
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    fullname: faker.person.fullName(),
+    phone: faker.phone.number(),
+    picture: faker.image.avatar(),
+    password: faker.internet.password(),
+    status: faker.helpers.arrayElement(["active", "suspended"]),
+    lastLogin: faker.date.recent().toISOString(),
+  };
+  const house = useFakeHouseData(index);
 
   return {
-    id,
-    house_no: generateHouseNumber(),
-    full_name: faker.person.fullName(),
-    email_address: faker.internet.email(),
-    phone_number: faker.phone.number(),
+    id: id.toString(),
     status: faker.helpers.arrayElement(["Active", "Suspended"]),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+    user,
+    house,
   };
 }
 
-export function useFakePropertyOwnersList(): OccupantsList {
+export function useFakePropertyOwnersList(): PropertyOwnersList {
   faker.seed(dayjs().day());
 
   const data = Array.from(

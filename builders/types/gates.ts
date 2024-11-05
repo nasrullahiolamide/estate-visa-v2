@@ -1,23 +1,42 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
-import { generateHouseNumber } from "./shared";
 
-export type Gates = {
+export type GateList = {
   total: number;
   data: GatesData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  pageSize: string;
+  page: string;
 };
 
-export type GatesData = {
+export type UpdateGateData = {
   name: string;
   location: string;
   status: string;
-  created_at?: string;
-  updated_at?: string;
+  estateId: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type GatesData = {
+  id: string;
+  status: string;
+  name: string;
+  location: string;
+  estate: Estate;
+};
+
+export type Estate = {
+  id: string;
+  name: string;
+  location: string;
+  owner: string;
+  phone: string;
+  interests: string[];
+  serviceRequestTypes: string[];
+  numberOfHouses: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 };
 
 export function useFakeGatesData(_?: any, index?: number) {
@@ -25,17 +44,43 @@ export function useFakeGatesData(_?: any, index?: number) {
 
   const id = index ?? faker.number.int({ max: 100 });
 
+  const estate = {
+    id: id.toString(),
+    name: faker.company.name(),
+    location: faker.location.street(),
+    owner: faker.company.name(),
+    phone: faker.phone.number(),
+    interests: Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      () => faker.lorem.word()
+    ),
+    serviceRequestTypes: Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      () => faker.lorem.word()
+    ),
+    numberOfHouses: faker.number.int({ min: 1, max: 100 }),
+    createdAt: faker.date.past().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
+    deletedAt: faker.date.recent().toISOString(),
+  };
+
   return {
-    id,
+    id: id.toString(),
     name: faker.helpers.arrayElement(["Gate A", "Gate B", "Gate C"]),
     location: faker.location.street(),
+    estate,
     status: faker.helpers.arrayElement(["Open", "Close"]),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+    createdAt: faker.date.past().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
   };
 }
 
-export function useFakeGatesList(): Gates {
+export const fakeGateData = Array.from(
+  { length: faker.number.int({ min: 3, max: 100 }) },
+  useFakeGatesData
+);
+
+export function useFakeGatesList() {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -43,13 +88,15 @@ export function useFakeGatesList(): Gates {
     useFakeGatesData
   );
 
-  return {
-    data,
-    total: 20,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
-  };
+  // return {
+  //   data,
+  //   total: 20,
+  //   pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+  //   page: faker.number.int({ min: 1, max: 5 }).toString(),
+  // };
+
+  return Array.from(
+    { length: faker.number.int({ min: 3, max: 100 }) },
+    useFakeGatesData
+  );
 }

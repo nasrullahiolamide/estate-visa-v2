@@ -8,17 +8,10 @@ import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
-import { useFakeOccupantsList } from "@/builders/types/occupants";
-import { OccupantActions } from "@/components/admin/occupants/actions";
-import { occupantsColumns } from "@/columns/occupants";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/icons";
-import {
-  OccupantsForm,
-  OccupantsFormProps,
-} from "@/components/admin/occupants/modals/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -31,6 +24,14 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { propertyOwnersColumns } from "@/columns/property-owners";
+import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
+import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
+import { handleOccupantForm } from "../occupants/page";
+import {
+  PropertyOwnerForm,
+  PropertyOwnerFormProps,
+} from "@/components/admin/property-owners/modals/form";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -38,28 +39,31 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
+export const handlePropertyOwnerForm = ({
+  data,
+  modalType = "view",
+}: PropertyOwnerFormProps) => {
   modals.open({
-    title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
+    title: "Property Owner Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <OccupantsForm data={data} modalType={modalType} />,
+    children: <PropertyOwnerForm data={data} modalType={modalType} />,
   });
 };
 
 export default function PropertyOwners() {
-  const initialOccupantsList = useFakeOccupantsList();
+  const initialPropertyOwnersList = useFakePropertyOwnersList();
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get(),
+  const { data: propertyOwners, isPlaceholderData } = useQuery({
+    queryKey: builder.property_owners.get.get(),
     queryFn: () =>
-      builder.use().occupants.get({
+      builder.use().property_owners.get({
         page,
         pageSize,
         search,
       }),
-    placeholderData: initialOccupantsList,
+    placeholderData: initialPropertyOwnersList,
     select({ total, page, data, pageSize }) {
       return {
         total,
@@ -69,15 +73,22 @@ export default function PropertyOwners() {
           return {
             ...list,
             action: (
-              <OccupantActions
+              <PropertyOwnerActions
                 id={list.id}
                 isActive={list.status.toLowerCase() === "active"}
                 handlers={{
-                  onAdd: () => handleOccupantForm({ modalType: "add" }),
+                  onAdd: () =>
+                    handleOccupantForm({
+                      modalType: "add",
+                      viewId: "property-owners",
+                    }),
                   onView: () =>
-                    handleOccupantForm({ data: list, modalType: "view" }),
+                    handlePropertyOwnerForm({ data: list, modalType: "view" }),
                   onEdit: () =>
-                    handleOccupantForm({ data: list, modalType: "edit" }),
+                    handlePropertyOwnerForm({
+                      data: list,
+                      modalType: "edit",
+                    }),
                 }}
               />
             ),
@@ -90,13 +101,15 @@ export default function PropertyOwners() {
   useEffect(() => {
     if (isPlaceholderData) return;
 
-    pagination.setPage(occupants?.page);
-    pagination.setTotal(occupants?.total);
-    pagination.setEntriesCount(occupants?.data?.length);
-    pagination.setPageSize(occupants?.pageSize);
+    pagination.setPage(propertyOwners?.page);
+    pagination.setTotal(propertyOwners?.total);
+    pagination.setEntriesCount(propertyOwners?.data?.length);
+    pagination.setPageSize(propertyOwners?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = occupants?.data.length === 0;
+  const noDataAvailable = propertyOwners?.data.length === 0;
+
+  console.log(propertyOwners);
 
   return (
     <Fragment>
@@ -114,10 +127,10 @@ export default function PropertyOwners() {
           }}
         >
           <FlowPaper>
-            {occupants?.data.length ? (
+            {propertyOwners?.data.length ? (
               <FlowTable
-                data={occupants.data}
-                columns={occupantsColumns}
+                data={propertyOwners.data}
+                columns={propertyOwnersColumns}
                 skeleton={isPlaceholderData}
                 onRowClick={handleOccupantForm}
               />
@@ -129,7 +142,11 @@ export default function PropertyOwners() {
                 text='Add New Occupant'
                 btnProps={{
                   leftSection: <Add />,
-                  onClick: () => handleOccupantForm({ modalType: "add" }),
+                  onClick: () =>
+                    handleOccupantForm({
+                      modalType: "add",
+                      viewId: "property-owners",
+                    }),
                 }}
               />
             )}
@@ -154,7 +171,11 @@ export default function PropertyOwners() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: () => handleOccupantForm({ modalType: "add" }),
+              onClick: () =>
+                handleOccupantForm({
+                  modalType: "add",
+                  viewId: "property-owners",
+                }),
             },
           }}
           secondaryButtons={[
@@ -184,7 +205,12 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={() => handleOccupantForm({ modalType: "add" })}
+        onClick={() =>
+          handleOccupantForm({
+            modalType: "add",
+            viewId: "property-owners",
+          })
+        }
       >
         Add New Occupant
       </Button>

@@ -1,15 +1,18 @@
 import { api } from "@/builders/axios";
-import { UpdateEstateData, EstateList } from "@/builders/types/estates";
 import { FilterParams } from "@/builders/types/filter-params";
 import { id } from "./id";
+import {
+  PropertyOwnersList,
+  UpdateProperyOwnerData,
+} from "@/builders/types/property-owners";
 
 const get = function (params?: FilterParams) {
   return api
-    .get<EstateList>("/property-owners", { params })
+    .get<PropertyOwnersList>("/property-owners", { params })
     .then(({ data }) => data);
 };
 
-const post = function (data: UpdateEstateData) {
+const post = function (data: UpdateProperyOwnerData) {
   return api.post("/property-owners", data);
 };
 

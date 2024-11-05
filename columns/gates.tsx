@@ -73,6 +73,7 @@ export const gatesColumns = [
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
             children={value}
+            className='capitalize'
             size='sm'
             ta='center'
           />
