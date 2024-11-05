@@ -78,8 +78,7 @@ export enum MODALS {
   VIEW_EDIT_HOUSES = USER_ACTIONS.VIEW_EDIT + "-houses",
   VIEW_EDIT_GATES = USER_ACTIONS.VIEW_EDIT + "-gates",
 
-  //======== CONFIRMATION =========
   CONFIRMATION = "confirmation",
-
+  FORM_DETAILS = "form-details",
   WRITE_BROADCAST_MESSAGE = "write-broadcast-message",
 }

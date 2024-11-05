@@ -9,10 +9,12 @@ interface FormValues {
   isMain: boolean;
   isPropertyOwner: boolean;
   relationshipToMain: string;
+  noOfSubOccupants: string;
   houseId: string;
+  modalType: "add" | "edit" | "view";
 }
 
-export type TransformFormValues = (values: FormValues) => UpdateOccupantData;
+export type TransformFormValues = (values: FormValues) => FormValues;
 
 const [FormProvider, useFormContext, useForm] = createFormContext<FormValues>();
 export { FormProvider, useForm, useFormContext };

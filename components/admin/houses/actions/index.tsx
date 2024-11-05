@@ -25,7 +25,7 @@ import {
 } from "@/icons";
 import { UpdateStatus } from "../modals/update-status";
 
-interface OccupantActionsProps {
+interface HousesActionsProps {
   id: string;
   isActive: Boolean;
   handlers: {
@@ -51,26 +51,22 @@ export function suspendAccount(id: string) {
   });
 }
 
-export function OccupantActions({
-  id,
-  handlers,
-  isActive,
-}: OccupantActionsProps) {
+export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.id.remove,
+    mutationFn: builder.use().houses.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
       handleSuccess({
-        message: "Occupant deleted successfully",
+        message: "House deleted successfully",
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.houses.list.table.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -81,7 +77,7 @@ export function OccupantActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this occupant?'
+          title='Are you sure you want to delete this house?'
           src='delete'
           primaryBtnText='Yes, delete'
           secondaryBtnText='No'

@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
-import { generateHouseNumber } from "./shared";
 import { HouseData, useFakeHouseData } from "./houses";
 
 export type OccupantList = {

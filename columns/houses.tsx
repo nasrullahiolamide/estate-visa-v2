@@ -1,4 +1,4 @@
-import { Checkbox, Pill, Text } from "@mantine/core";
+import { Center, Checkbox, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { HouseData } from "@/builders/types/houses";
@@ -33,37 +33,45 @@ export const housesColumns = [
     header: "Street Name",
     enableSorting: false,
   }),
-  // columnHelper.accessor(, {
-  //   header: "Occupant Name",
-  //   enableSorting: false,
-  // }),
-  // columnHelper.accessor("occupants", {
-  //   header: "No of Occupants",
-  //   enableSorting: false,
-  //   cell: ({ getValue }) => {
-  //     const value = getValue();
-  //     return (
-  //       <Text fz={14} ta='center'>
-  //         {value}
-  //       </Text>
-  //     );
-  //   },
-  // }),
+  columnHelper.accessor("occupantName", {
+    header: "Occupant Name",
+    enableSorting: false,
+  }),
+  columnHelper.accessor("noOfOccupants", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Sub Occupant'
+      />
+    ),
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+    ),
+  }),
   columnHelper.accessor("status", {
-    header: "Status",
+    header: () => (
+      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+    ),
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
       const isActive = value.toLowerCase() === "active";
 
       return (
-        <Pill
-          c={isActive ? "green" : "red"}
-          bg={isActive ? "green.1" : "red.1"}
-          fw={500}
-          children={value}
-          size='sm'
-        />
+        <Center>
+          <Pill
+            c={isActive ? "green" : "red"}
+            bg={isActive ? "green.1" : "red.1"}
+            fw={500}
+            className='capitalize'
+            children={value}
+            size='sm'
+          />
+        </Center>
       );
     },
   }),

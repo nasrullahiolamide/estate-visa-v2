@@ -10,12 +10,13 @@ export type HousesList = {
 
 export type HouseData = {
   id: string;
-  streetName: string;
   houseNumber: string;
+  streetName: string;
+  occupantName: string;
+  noOfOccupants: number;
   validityPeriod: string;
+  houseTypeId: string;
   status: string;
-  createdAt?: string;
-  updatedAt?: string;
 };
 
 export type UpdateHouseData = {
@@ -38,12 +39,14 @@ export function useFakeHouseData(_?: any, index?: number) {
 
   return {
     id: id.toString(),
+    houseNo: faker.location.buildingNumber(),
+    houseNumber: faker.location.buildingNumber(),
     streetName: faker.location.street(),
-    houseNumber: faker.person.fullName(),
+    occupantName: faker.person.fullName(),
+    noOfOccupants: faker.number.int({ min: 1, max: 10 }),
     validityPeriod: faker.date.future().toISOString(),
+    houseTypeId: id.toString(),
     status: faker.helpers.arrayElement(["active", "suspended"]),
-    createdAt: faker.date.past().toISOString(),
-    updatedAt: faker.date.recent().toISOString(),
   };
 }
 

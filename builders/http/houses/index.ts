@@ -5,9 +5,10 @@ import {
   HouseData,
   HousesList,
 } from "@/builders/types/houses";
+import { FilterParams } from "@/builders/types/filter-params";
 
-const table = function () {
-  return api.get<HousesList>("/houses").then((data) => data);
+const table = function (params?: FilterParams) {
+  return api.get<HousesList>("/houses", { params }).then((data) => data.data);
 };
 
 const all = function (id: string) {

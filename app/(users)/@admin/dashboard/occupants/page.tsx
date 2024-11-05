@@ -1,22 +1,24 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
+import clsx from "clsx";
 import { Add } from "iconsax-react";
+import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
+import { useFakeOccupantsList } from "@/builders/types/occupants";
+import { OccupantActions } from "@/components/admin/occupants/actions";
 import { occupantsColumns } from "@/columns/occupants";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { AddNewOccupants } from "@/components/admin/occupants/modals/add";
-import { ViewEditOccupants } from "@/components/admin/occupants/modals/view-edit";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/icons";
 import {
-  OccupantsData,
-  useFakeOccupantsList,
-} from "@/builders/types/occupants";
+  OccupantsForm,
+  OccupantsFormProps,
+} from "@/components/admin/occupants/modals/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -26,14 +28,9 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import clsx from "clsx";
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
-import { OccupantActions } from "@/components/admin/occupants/actions";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -41,19 +38,11 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleNewOccupants = () => {
+const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
   modals.open({
-    title: "Add New Occupant",
-    children: <AddNewOccupants />,
-    modalId: MODALS.ADD_DETAILS,
-  });
-};
-
-const handleViewEdit = (details: OccupantsData, edit: boolean = false) => {
-  modals.open({
-    title: "Occupant Details",
-    modalId: MODALS.VIEW_EDIT_DETAILS,
-    children: <ViewEditOccupants {...details} edit={edit} />,
+    title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
+    modalId: MODALS.FORM_DETAILS,
+    children: <OccupantsForm data={data} modalType={modalType} />,
   });
 };
 
@@ -84,9 +73,11 @@ export default function Occupants() {
                 id={list.id}
                 isActive={list.status.toLowerCase() === "active"}
                 handlers={{
-                  onAdd: handleNewOccupants,
-                  onView: () => handleViewEdit(list),
-                  onEdit: () => handleViewEdit(list, true),
+                  onAdd: () => handleOccupantForm({ modalType: "add" }),
+                  onView: () =>
+                    handleOccupantForm({ data: list, modalType: "view" }),
+                  onEdit: () =>
+                    handleOccupantForm({ data: list, modalType: "edit" }),
                 }}
               />
             ),
@@ -128,7 +119,7 @@ export default function Occupants() {
                 data={occupants.data}
                 columns={occupantsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleViewEdit}
+                onRowClick={handleOccupantForm}
               />
             ) : (
               <EmptySlot
@@ -138,7 +129,7 @@ export default function Occupants() {
                 text='Add New Occupant'
                 btnProps={{
                   leftSection: <Add />,
-                  onClick: handleNewOccupants,
+                  onClick: () => handleOccupantForm({ modalType: "add" }),
                 }}
               />
             )}
@@ -163,20 +154,20 @@ export default function Occupants() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: handleNewOccupants,
+              onClick: () => handleOccupantForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
             {
               icon: "download",
               btnProps: {
-                onClick: handleNewOccupants,
+                onClick: () => {},
               },
             },
             {
               icon: "upload",
               btnProps: {
-                onClick: handleNewOccupants,
+                onClick: () => {},
               },
             },
           ]}
@@ -193,7 +184,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={handleNewOccupants}
+        onClick={() => handleOccupantForm({ modalType: "add" })}
       >
         Add New Occupant
       </Button>

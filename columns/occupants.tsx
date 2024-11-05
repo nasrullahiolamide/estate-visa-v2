@@ -2,7 +2,6 @@ import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { OccupantsData } from "@/builders/types/occupants";
-import { table } from "console";
 
 const columnHelper = createColumnHelper<Actionable<OccupantsData>>();
 
@@ -98,7 +97,7 @@ export const occupantsColumns = [
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
-      const isActive = value.toLowerCase() === "active";
+      const isActive = value?.toLowerCase() === "active";
 
       return (
         <Center>

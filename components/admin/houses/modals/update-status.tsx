@@ -8,19 +8,19 @@ import { MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
 
-interface ConfirmOccupantProps {
+interface UpdateStatusProps {
   id: string;
   status: "active" | "suspended";
 }
 
-export function UpdateStatus({ id, status }: ConfirmOccupantProps) {
+export function UpdateStatus({ id, status }: UpdateStatusProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.id.change_status,
+    mutationFn: builder.use().houses.id.change_status,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.houses.list.table.get(),
       });
       modals.closeAll();
       handleSuccess({

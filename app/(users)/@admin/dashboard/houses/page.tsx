@@ -1,19 +1,26 @@
 "use client";
 
-import { Fragment } from "react";
+import clsx from "clsx";
+
+import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+
+import { builder } from "@/builders";
+import { useFakeHousesList } from "@/builders/types/houses";
 import { MODALS } from "@/packages/libraries";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
-import { ViewEditHouses } from "@/components/admin/houses/view-edit";
-import { AddNewHouse } from "@/components/admin/houses/modals/add";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { HousesData, useFakeHousesList } from "@/builders/types/houses";
+import { HousesActions } from "@/components/admin/houses/actions";
 import { housesColumns } from "@/columns/houses";
 import { DownloadIcon, UploadIcon } from "@/icons";
+import {
+  HouseForm,
+  HouseFormProps,
+} from "@/components/admin/houses/modals/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -23,7 +30,8 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
 
 const filterOptions = [
@@ -46,67 +54,74 @@ const filterOptions = [
   },
 ];
 
-const handleNewHouse = () => {
+const handleHouseForm = ({ data, modalType = "add" }: HouseFormProps) => {
   modals.open({
-    title: "Add New House",
-    children: <AddNewHouse />,
-    modalId: MODALS.ADD_NEW_HOUSE,
-  });
-};
-
-const handleDelete = () => {
-  modals.open({
-    children: <ConfirmDelete title='house' />,
-    withCloseButton: false,
-    modalId: MODALS.CONFIRMATION,
-  });
-};
-
-const handleViewEdit = (details: HousesData, edit: boolean = false) => {
-  modals.open({
-    title: "House Details",
-    modalId: MODALS.VIEW_EDIT_HOUSES,
-    children: <ViewEditHouses {...details} edit={edit} />,
+    title: modalType === "add" ? "Add New House" : "House Details",
+    modalId: MODALS.FORM_DETAILS,
+    children: <HouseForm data={data} modalType={modalType} />,
   });
 };
 
 export default function Houses() {
-  const houses = useFakeHousesList();
+  const initialHousesList = useFakeHousesList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const dataToDisplay = houses?.data.map((list) => {
-    const isActive = list.status === "Active";
-
-    return {
-      ...list,
-      action: (
-        <FlowTableActions
-          actions={["activate-suspend", "edit", "view", "delete"]}
-          editProps={{
-            onEdit: () => handleViewEdit(list, true),
-            label: "Edit House",
-          }}
-          viewProps={{
-            onView: () => handleViewEdit(list),
-            label: "View House",
-          }}
-          deleteProps={{
-            onDelete: handleDelete,
-            label: "Delete House",
-          }}
-          activateSuspendProps={{
-            isActive,
-            onActivate: () => {},
-            onSuspend: () => {},
-            label: isActive ? "Suspend House" : "Activate House",
-          }}
-        />
-      ),
-    };
+  const { data: houses, isPlaceholderData } = useQuery({
+    queryKey: builder.houses.list.table.get(),
+    queryFn: () =>
+      builder.use().houses.list.table({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialHousesList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: (
+              <HousesActions
+                id={list.id}
+                isActive={list.status.toLowerCase() === "active"}
+                handlers={{
+                  onAdd: () => handleHouseForm({ modalType: "add" }),
+                  onView: () =>
+                    handleHouseForm({ data: list, modalType: "view" }),
+                  onEdit: () =>
+                    handleHouseForm({ data: list, modalType: "edit" }),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
   });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(houses?.page);
+    pagination.setTotal(houses?.total);
+    pagination.setEntriesCount(houses?.data?.length);
+    pagination.setPageSize(houses?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = houses?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Houses' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Houses'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -117,9 +132,9 @@ export default function Houses() {
           <FlowPaper>
             {houses?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={houses.data}
                 columns={housesColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
               />
             ) : (
               <EmptySlot
@@ -129,19 +144,24 @@ export default function Houses() {
                 text='Add New House'
                 btnProps={{
                   leftSection: <Add />,
-                  onClick: handleNewHouse,
+                  onClick: () => handleHouseForm({ modalType: "add" }),
                 }}
               />
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           withSecondaryButtons
           hasFilterButton
@@ -149,7 +169,7 @@ export default function Houses() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: handleNewHouse,
+              onClick: () => handleHouseForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
@@ -172,10 +192,15 @@ export default function Houses() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<Add />} onClick={handleNewHouse}>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<Add />}
+        onClick={() => handleHouseForm({ modalType: "add" })}
+      >
         Add New House
       </Button>
       <FilterDropdown data={filterOptions} />
