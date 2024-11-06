@@ -23,10 +23,10 @@ interface StarRatingProps {
 export function StarRating(props: StarRatingProps) {
   const {
     maxRating = 5,
-    color = "#fcc419",
+    color = "#F89B10",
     tempRating = 0,
     rating = 4,
-    size = 36,
+    size = 30,
     className = "",
   } = props;
 
@@ -62,7 +62,7 @@ function Star({ full, color, size }: StarProps) {
   };
 
   return (
-    <span role='button' style={starStyle}>
+    <span style={starStyle}>
       {full ? (
         <svg
           xmlns='http://www.w3.org/2000/svg'

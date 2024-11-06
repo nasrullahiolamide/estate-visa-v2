@@ -62,8 +62,9 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
           blurDataURL={blurDataURL}
           unoptimized={unoptimized}
           overrideSrc={overrideSrc}
+          className='rounded-lg'
           style={{
-            objectFit: "contain",
+            objectFit: "cover",
           }}
         />
       </Box>

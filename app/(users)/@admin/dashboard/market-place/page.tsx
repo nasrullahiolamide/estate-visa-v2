@@ -20,8 +20,9 @@ import {
   FlowTabs,
   FlowTabsPanel,
 } from "@/components/layout";
+import { TotalListings } from "@/components/admin/market-place/listings/total";
 
-enum VIEW_TYPES {
+export enum VIEW_TYPES {
   TOTAL_LISTINGS = "total-listings",
   PENDING_APPROVALS = "pending-approvals",
   ACTIVE_LISTINGS = "active-listings",
@@ -80,7 +81,10 @@ export default function Messages() {
             onChange={setView}
             tabsContainerProps={{ gap: 0 }}
           >
-            <Flex align='center' className='overflow-scroll w-full bg-white'>
+            <Flex
+              align='center'
+              className='overflow-scroll w-full bg-white  sticky top-0 z-40'
+            >
               <Tabs.List className='w-full flex-nowrap'>
                 <Tabs.Tab value={VIEW_TYPES.TOTAL_LISTINGS} flex={1} py={20}>
                   Total Listings (100)
@@ -105,7 +109,7 @@ export default function Messages() {
             </Flex>
 
             <FlowTabsPanel value={VIEW_TYPES.TOTAL_LISTINGS}>
-              <></>
+              <TotalListings />
             </FlowTabsPanel>
             <FlowTabsPanel value={VIEW_TYPES.PENDING_APPROVALS}>
               <></>
