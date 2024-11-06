@@ -1,45 +1,130 @@
 "use client";
 
-import { Fragment } from "react";
-import { Add } from "iconsax-react";
-import { Button, Flex } from "@mantine/core";
+import Link from "next/link";
 
+import { useQueryState } from "nuqs";
+import { Fragment } from "react";
+
+import { Button, Flex, Tabs } from "@mantine/core";
+import { makePath, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
-
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { FlowPaper } from "@/components/layout/flow-paper";
+import { Inbox, CarbonRule } from "@/icons";
 
-import { EmptySlot } from "@/components/shared/interface";
-import { FlowFooter } from "@/components/layout/flow-footer";
-import { FlowEntriesPerPage } from "@/components/layout/flow-entries-per-page";
-import { FlowPagination } from "@/components/layout/flow-pagination";
-import clsx from "clsx";
+import {
+  FlowEntriesPerPage,
+  FlowFooter,
+  FlowPagination,
+  FlowTabs,
+  FlowTabsPanel,
+} from "@/components/layout";
 
-export default function PropertyOwners() {
+enum VIEW_TYPES {
+  TOTAL_LISTINGS = "total-listings",
+  PENDING_APPROVALS = "pending-approvals",
+  ACTIVE_LISTINGS = "active-listings",
+  REPORTED_LISTINGS = "reported-listings",
+  SUSPENDED_LISTINGS = "suspended-listings",
+}
+
+const filterOptions = [
+  { label: "Recent", value: "recent" },
+  {
+    label: "Category",
+    value: "category",
+    children: [
+      {
+        label: "Active",
+        value: "active",
+      },
+      {
+        label: "Suspended",
+        value: "suspended",
+      },
+    ],
+  },
+  {
+    label: "Seller",
+    value: "seller",
+    children: [
+      {
+        label: "Active",
+        value: "active",
+      },
+      {
+        label: "Suspended",
+        value: "suspended",
+      },
+    ],
+  },
+];
+
+export default function Messages() {
+  const [view, setView] = useQueryState("type", {
+    defaultValue: VIEW_TYPES.TOTAL_LISTINGS,
+  });
+
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<Options />} />
+      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <FlowContainer type='plain' className='lg:~p-1/8'>
+        <FlowContentContainer
+          classNames={{
+            root: "rounded-none lg:rounded-2xl",
+          }}
+        >
+          <FlowTabs
+            value={view}
+            onChange={setView}
+            tabsContainerProps={{ gap: 0 }}
+          >
+            <Flex align='center' className='overflow-scroll w-full bg-white'>
+              <Tabs.List className='w-full flex-nowrap'>
+                <Tabs.Tab value={VIEW_TYPES.TOTAL_LISTINGS} flex={1} py={20}>
+                  Total Listings (100)
+                </Tabs.Tab>
+                <Tabs.Tab value={VIEW_TYPES.PENDING_APPROVALS} flex={1} py={20}>
+                  Pending Approvals (20)
+                </Tabs.Tab>
+                <Tabs.Tab value={VIEW_TYPES.ACTIVE_LISTINGS} flex={1} py={20}>
+                  Active Listings (20)
+                </Tabs.Tab>
+                <Tabs.Tab value={VIEW_TYPES.REPORTED_LISTINGS} flex={1} py={20}>
+                  Reported Listings (20)
+                </Tabs.Tab>
+                <Tabs.Tab
+                  value={VIEW_TYPES.SUSPENDED_LISTINGS}
+                  flex={1}
+                  py={18}
+                >
+                  Suspended Listings
+                </Tabs.Tab>
+              </Tabs.List>
+            </Flex>
 
-      <FlowContainer type='plain'>
-        <FlowContentContainer>
-          <FlowPaper>
-            <EmptySlot
-              title='You have no rules in the market place yet, add a new rule to get started.'
-              src='marketplace'
-              withButton
-              text='Add New Rule'
-              btnProps={{
-                leftSection: <Add />,
-              }}
-            />
-          </FlowPaper>
+            <FlowTabsPanel value={VIEW_TYPES.TOTAL_LISTINGS}>
+              <></>
+            </FlowTabsPanel>
+            <FlowTabsPanel value={VIEW_TYPES.PENDING_APPROVALS}>
+              <></>
+            </FlowTabsPanel>
+            <FlowTabsPanel value={VIEW_TYPES.ACTIVE_LISTINGS}>
+              <></>
+            </FlowTabsPanel>
+            <FlowTabsPanel value={VIEW_TYPES.REPORTED_LISTINGS}>
+              <></>
+            </FlowTabsPanel>
+            <FlowTabsPanel value={VIEW_TYPES.SUSPENDED_LISTINGS}>
+              <></>
+            </FlowTabsPanel>
+          </FlowTabs>
 
           <FlowFooter
-            className={clsx("flex", {
-              hidden: true,
-            })}
+          // className={clsx("flex bg-white space-between", {
+          //   hidden: false,
+          // })}
           >
             <FlowPagination />
             <FlowEntriesPerPage />
@@ -50,19 +135,19 @@ export default function PropertyOwners() {
   );
 }
 
-function Options() {
+function HeaderOptions() {
   return (
     <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<Add />}>
-        Add New Rule
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<CarbonRule />}
+        component={Link}
+        href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MARKET_RULES)}
+      >
+        Market Rules
       </Button>
-      <FilterDropdown
-        data={[
-          { label: "Recently Added", value: "recent" },
-          { label: "Street Name(A-Z)", value: "a-z" },
-          { label: "Street Name(Z-A)", value: "z-a" },
-        ]}
-      />
+      <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
   );
 }
