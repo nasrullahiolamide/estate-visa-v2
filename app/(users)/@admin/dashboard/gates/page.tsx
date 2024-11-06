@@ -8,8 +8,8 @@ import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/icons";
-import { GatesData, useFakeGatesList } from "@/builders/types/gates";
+import { DownloadIcon } from "@/icons";
+import { useFakeGatesList } from "@/builders/types/gates";
 import { gatesColumns } from "@/columns/gates";
 import {
   FlowContainer,
@@ -56,10 +56,17 @@ export default function Gates() {
 
   const { data: gates, isPlaceholderData } = useQuery({
     queryKey: builder.gates.get.get(),
-    queryFn: () => builder.use().gates.get(estateId),
+    queryFn: () =>
+      builder.use().gates.get({
+        id: estateId,
+        params: { page, pageSize, search },
+      }),
     placeholderData: initialGatesList,
-    select({ data }) {
+    select({ page, pageSize, total, data }) {
       return {
+        page,
+        pageSize,
+        total,
         data: data.map((list) => {
           return {
             ...list,
@@ -83,10 +90,10 @@ export default function Gates() {
   useEffect(() => {
     if (isPlaceholderData) return;
 
-    // pagination.setPage(occupants?.page);
-    // pagination.setTotal(occupants?.total);
-    // pagination.setEntriesCount(occupants?.data?.length);
-    // pagination.setPageSize(occupants?.pageSize);
+    pagination.setPage(gates?.page);
+    pagination.setTotal(gates?.total);
+    pagination.setEntriesCount(gates?.data?.length);
+    pagination.setPageSize(gates?.pageSize);
   }, [isPlaceholderData]);
 
   const noDataAvailable = gates?.data.length === 0;

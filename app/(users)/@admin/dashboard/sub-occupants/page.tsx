@@ -67,7 +67,7 @@ export default function SubOccupants() {
       };
     },
   });
-
+  console.log(subOccupants);
   useEffect(() => {
     if (isPlaceholderData) return;
 

@@ -1,5 +1,6 @@
 import { account } from "./account";
 import { auth } from "./auth";
+import { dashboard } from "./dashboard";
 import { estates } from "./estates";
 import { gates } from "./gates";
 import { houses } from "./houses";
@@ -20,4 +21,5 @@ export const http = {
   sub_occupants,
   houses,
   gates,
+  dashboard,
 };

@@ -45,22 +45,25 @@ export type OccupantUser = {
 
 export type OccupantMessages = {};
 
+const id = faker.number.int({ max: 100 });
+
+export const fakeOccupantUser = {
+  id: id.toString(),
+  email: faker.internet.email(),
+  firstname: faker.person.firstName(),
+  lastname: faker.person.lastName(),
+  fullname: faker.person.fullName(),
+  phone: faker.phone.number(),
+  picture: faker.image.avatar(),
+  password: faker.internet.password(),
+  status: faker.helpers.arrayElement(["active", "suspended"]),
+  lastLogin: faker.date.recent().toISOString(),
+};
+
 export function useFakeOccupantsData(_?: any, index?: number) {
   faker.seed(index);
 
   const id = index ?? faker.number.int({ max: 100 });
-  const user = {
-    id: id.toString(),
-    email: faker.internet.email(),
-    firstname: faker.person.firstName(),
-    lastname: faker.person.lastName(),
-    fullname: faker.person.fullName(),
-    phone: faker.phone.number(),
-    picture: faker.image.avatar(),
-    password: faker.internet.password(),
-    status: faker.helpers.arrayElement(["active", "suspended"]),
-    lastLogin: faker.date.recent().toISOString(),
-  };
 
   const house = useFakeHouseData(index);
 
@@ -75,7 +78,7 @@ export function useFakeOccupantsData(_?: any, index?: number) {
       "sibling",
       "parent",
     ]),
-    user,
+    user: fakeOccupantUser,
     house,
     noOfSubOccupants: faker.number.int({ min: 1, max: 10 }),
   };

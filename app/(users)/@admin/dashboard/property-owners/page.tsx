@@ -77,11 +77,7 @@ export default function PropertyOwners() {
                 id={list.id}
                 isActive={list.status.toLowerCase() === "active"}
                 handlers={{
-                  onAdd: () =>
-                    handleOccupantForm({
-                      modalType: "add",
-                      viewId: "property-owners",
-                    }),
+                  onAdd: () => handlePropertyOwnerForm({ modalType: "add" }),
                   onView: () =>
                     handlePropertyOwnerForm({ data: list, modalType: "view" }),
                   onEdit: () =>
@@ -171,11 +167,7 @@ export default function PropertyOwners() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: () =>
-                handleOccupantForm({
-                  modalType: "add",
-                  viewId: "property-owners",
-                }),
+              onClick: () => handlePropertyOwnerForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
@@ -205,12 +197,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={() =>
-          handleOccupantForm({
-            modalType: "add",
-            viewId: "property-owners",
-          })
-        }
+        onClick={() => handlePropertyOwnerForm({ modalType: "add" })}
       >
         Add New Occupant
       </Button>

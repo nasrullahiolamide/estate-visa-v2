@@ -78,7 +78,7 @@ export function OccupantsForm({
       email: data?.user.email ?? "",
       phone: data?.user.phone ?? "",
       status: data?.status ?? "active",
-      noOfSubOccupants: pass.string(data?.noOfSubOccupants) ?? "",
+      noOfSubOccupants: pass.string(data?.noOfSubOccupants),
       relationshipToMain: data?.relationshipToMain ?? "",
       isMain: data?.isMain ?? true,
       isPropertyOwner: data?.isPropertyOwner ?? false,
@@ -221,7 +221,7 @@ export function OccupantsForm({
             Edit
           </Button>
         ) : (
-          <Button mt={10} type='submit' onSubmit={handleSubmit}>
+          <Button mt={10} type='submit'>
             Add New Occupant
           </Button>
         )}

@@ -1,8 +1,12 @@
 import { api } from "@/builders/axios";
+import { FilterParams } from "@/builders/types/filter-params";
 import { GateList, GatesData, UpdateGateData } from "@/builders/types/gates";
 
-const get = function (id: string) {
-  return api.get<GatesData[]>(`/gates/all/${id}`).then((data) => data);
+const get = function (variables: { id: string; params?: FilterParams }) {
+  const { id, params } = variables;
+  return api
+    .get<GateList>(`/gates/all/${id}`, { params })
+    .then((data) => data.data);
 };
 const edit = function (variables: { id: string; data: UpdateGateData }) {
   const { id, data } = variables;

@@ -20,8 +20,8 @@ import { schema } from "../../occupants/schema";
 import { activateAccount, suspendAccount } from "../actions";
 
 export type PropertyOwnerFormProps = {
-  data: PropertyOwnersData;
-  modalType: "edit" | "view";
+  data?: PropertyOwnersData;
+  modalType: "edit" | "view" | "add";
 };
 export function PropertyOwnerForm({
   data,
@@ -30,6 +30,20 @@ export function PropertyOwnerForm({
   const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const estateId = userData.estate.id;
   const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().property_owners.post,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.property_owners.get.get(),
+      });
+      modals.closeAll();
+      handleSuccess({
+        message: "Property Owner Added Successfully",
+      });
+    },
+    onError: handleError(),
+  });
 
   const { mutate: updateOccupant, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().property_owners.id.put,
@@ -80,10 +94,13 @@ export function PropertyOwnerForm({
       status,
     };
 
-    updateOccupant({ id: data?.id ?? "", data: updatedData });
+    isEditing
+      ? updateOccupant({ id: data?.id ?? "", data: updatedData })
+      : mutate(updatedData);
   };
 
   const isEditing = form.getValues().modalType === "edit";
+  const isViewing = form.getValues().modalType === "view";
   const isActive = data?.status === "active";
 
   return (
@@ -100,25 +117,25 @@ export function PropertyOwnerForm({
           nothingFoundMessage='No house numbers found'
           label='House Number'
           placeholder='Select House Number'
-          disabled={!isEditing}
+          disabled={isViewing}
           withAsterisk
           {...form.getInputProps("houseId")}
         />
         <TextInput
           label='Full Name'
-          disabled={!isEditing}
+          disabled={isViewing}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
           label='Email Address'
-          disabled={!isEditing}
+          disabled={isViewing}
           withAsterisk
           {...form.getInputProps("email")}
         />
         <TextInput
           label='Phone Number'
-          disabled={!isEditing}
+          disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phone")}
         />
@@ -134,7 +151,7 @@ export function PropertyOwnerForm({
             },
           ]}
           label='Status'
-          disabled={!isEditing}
+          disabled={isViewing}
           {...form.getInputProps("status")}
         />
         {isEditing ? (
@@ -165,13 +182,22 @@ export function PropertyOwnerForm({
               children: "Save changes",
             }}
           />
-        ) : (
+        ) : isViewing ? (
           <Button
             mt={10}
             type='button'
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
+          </Button>
+        ) : (
+          <Button
+            mt={10}
+            type='submit'
+            loading={isPending}
+            disabled={isPending}
+          >
+            Add New Occupant
           </Button>
         )}
       </FlowContainer>

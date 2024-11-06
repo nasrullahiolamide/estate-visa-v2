@@ -1,9 +1,13 @@
-import { Box, Flex, Stack, Text, Title } from "@mantine/core";
+import { Box, Flex, Stack, StackProps, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
 import { StatItem } from "../../data/statistics";
+import clsx from "clsx";
+import { skeleton } from "@/packages/tailwind";
 
-interface StatisticsCardProps extends StatItem {}
+interface StatisticsCardProps extends StatItem {
+  skeleton?: boolean;
+}
 
 export function StatisticsCard({
   icon: Icon,
@@ -12,13 +16,16 @@ export function StatisticsCard({
   label,
   title,
   href,
+  skeleton,
 }: StatisticsCardProps) {
   return (
     <Stack
       component='article'
       bg='white'
       p={24}
-      className='rounded-lg shadow-md flex flex-col items-start'
+      className={clsx("rounded-lg shadow-md flex flex-col items-start", {
+        skeleton: skeleton,
+      })}
     >
       <Box
         bg='blue.7'

@@ -73,7 +73,9 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
       estateId,
     };
 
-    form.getValues().modalType === "edit"
+    if (isViewing) return;
+
+    isEditing
       ? updateGate({ id: data?.id ?? "", data: updatedData })
       : addGate(updatedData);
   };
@@ -118,7 +120,15 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
           withAsterisk
           {...form.getInputProps("status")}
         />
-        {isEditing ? (
+        {isViewing ? (
+          <Button
+            mt={10}
+            type='button'
+            onClick={() => form.setValues({ modalType: "edit" })}
+          >
+            Edit
+          </Button>
+        ) : isEditing ? (
           <Button
             mt={10}
             type='submit'
@@ -126,14 +136,6 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
             disabled={isUpdating}
           >
             Save Changes
-          </Button>
-        ) : isViewing ? (
-          <Button
-            mt={10}
-            type='button'
-            onClick={() => form.setValues({ modalType: "edit" })}
-          >
-            Edit
           </Button>
         ) : (
           <Button

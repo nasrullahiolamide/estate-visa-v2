@@ -17,15 +17,15 @@ export function ViewSubOccupants({ ...data }: ViewSubOccupantsProps) {
       type='plain'
       bg='white'
     >
-      <TextInput label='House Number' value={data.houseNumber} disabled />
-      <TextInput label='Full Name' value={data.fullname} disabled />
-      <TextInput label='Email Address' value={data.email} disabled />
-      <TextInput label='Phone Number' disabled value={data.phone} />
-      <TextInput label="Occupant's Name" disabled value={data.occupantName} />
+      <TextInput label='House Number' value={data.id} disabled />
+      <TextInput label='Full Name' value={data.user.firstname} disabled />
+      <TextInput label='Email Address' value={data.user.email} disabled />
+      <TextInput label='Phone Number' disabled value={data.user.phone} />
+      <TextInput label="Occupant's Name" disabled value={data.user.firstname} />
       <TextInput
         label='Relationship'
         disabled
-        value={data.relationshipWithMain}
+        value={data.relationshipToMain}
       />
 
       <Button onClick={() => modals.close(MODALS.FORM_DETAILS)} mt={10}>

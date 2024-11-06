@@ -12,7 +12,7 @@ import {
 export type StatItem = {
   icon: IconType;
   title: string;
-  value: number;
+  value?: number;
   total?: number;
   label: string;
   href?: string;

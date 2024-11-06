@@ -24,15 +24,15 @@ export const subOccupantsColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("houseNumber", {
+  columnHelper.accessor("id", {
     header: "House No",
     enableSorting: false,
   }),
-  columnHelper.accessor("fullname", {
+  columnHelper.accessor("user.fullname", {
     header: "Full Name",
     enableSorting: false,
   }),
-  columnHelper.accessor("phone", {
+  columnHelper.accessor("user.phone", {
     header: "Phone Number",
     enableSorting: false,
     cell: ({ getValue }) => {
@@ -44,11 +44,11 @@ export const subOccupantsColumns = [
       );
     },
   }),
-  columnHelper.accessor("occupantName", {
+  columnHelper.accessor("user.firstname", {
     header: "Occupant's Name",
     enableSorting: false,
   }),
-  columnHelper.accessor("relationshipWithMain", {
+  columnHelper.accessor("relationshipToMain", {
     header: "Relationship",
     enableSorting: false,
   }),

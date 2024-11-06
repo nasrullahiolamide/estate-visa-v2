@@ -88,15 +88,10 @@ export function useFakeGatesList() {
     useFakeGatesData
   );
 
-  // return {
-  //   data,
-  //   total: 20,
-  //   pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
-  //   page: faker.number.int({ min: 1, max: 5 }).toString(),
-  // };
-
-  return Array.from(
-    { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeGatesData
-  );
+  return {
+    data,
+    total: 20,
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
+  };
 }

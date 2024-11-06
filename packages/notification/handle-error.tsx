@@ -15,7 +15,7 @@ export function handleError(
       "An error occurred while processing your request. Please try again later.",
   }
 ) {
-  return (error?: AxiosError<{ message?: any }>) => {
+  return (error?: AxiosError<{ message?: string }>) => {
     const data = error?.response?.data?.message;
 
     toast.error(data || message, {

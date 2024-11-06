@@ -4,6 +4,8 @@ import { builder } from "@/builders";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MODALS } from "@/packages/libraries";
+import { Axios, AxiosError } from "axios";
 
 export function ConfirmOccupant() {
   const queryClient = useQueryClient();
@@ -20,7 +22,10 @@ export function ConfirmOccupant() {
         message: "Occupant Added Successfully",
       });
     },
-    onError: handleError(),
+    onError: (error: AxiosError) => {
+      handleError()(error as AxiosError<{ message?: string }>);
+      modals.close(MODALS.CONFIRMATION);
+    },
   });
 
   return (
@@ -43,7 +48,10 @@ export function ConfirmOccupant() {
       secondaryBtnProps={{
         disabled: isPending,
         onClick: () => {
-          form.setValues({ ...form.values, isPropertyOwner: false });
+          form.setValues({
+            ...form.values,
+            isPropertyOwner: false,
+          });
           mutate(form.values);
         },
       }}
@@ -66,7 +74,10 @@ export function ConfirmPropertyOwner() {
         message: "Occupant Added Successfully",
       });
     },
-    onError: handleError(),
+    onError: () => {
+      handleError();
+      modals.close(MODALS.CONFIRMATION);
+    },
   });
 
   return (
