@@ -4,7 +4,12 @@ import { Fragment } from "react";
 
 export function ProductDetail() {
   return (
-    <Stack p={30}>
+    <Stack
+      p={{
+        base: 20,
+        sm: 30,
+      }}
+    >
       <Stack
         h={{
           base: "auto",
