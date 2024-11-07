@@ -16,7 +16,7 @@ import { builder } from "@/builders";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { ProfileImage } from "@/components/admin/user-management/profile/image";
+import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import { schema } from "@/components/super-admin/profile/schema";
 import { FormProvider } from "@/components/super-admin/profile/edit-profile-form-context";
 

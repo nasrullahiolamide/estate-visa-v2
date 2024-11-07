@@ -6,7 +6,6 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { navigate } from "@/packages/actions";
 import { APP, encryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { builder } from "@/builders";
@@ -64,7 +63,7 @@ export function UserDetails() {
         <Flex align='center' gap={8} className='cursor-pointer'>
           <Avatar
             src={null}
-            alt='Mide Martins'
+            alt={userDetails.firstname}
             size={45}
             className={clsx({
               skeleton: isLoading,
@@ -90,7 +89,10 @@ export function UserDetails() {
         </Flex>
       </Menu.Target>
 
-      <Menu.Dropdown className='shadow-lg overflow-hidden' variant='action'>
+      <Menu.Dropdown
+        className='shadow-lg overflow-hidden min-w-56'
+        variant='action'
+      >
         <Menu.Item
           classNames={{
             item: "hover:bg-transparent cursor-auto",

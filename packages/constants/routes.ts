@@ -26,6 +26,15 @@ export type NavLinkType = Array<{
   icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
 }>;
 
+export const SUPER_ADMIN_ROUTES = [
+  { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
+  {
+    title: "Estates",
+    href: makePath(PAGES.DASHBOARD, PAGES.ESTATES),
+    icon: EstateIcon,
+  },
+];
+
 export const ADMIN_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   {
@@ -80,11 +89,41 @@ export const ADMIN_ROUTES = [
   },
 ];
 
-export const SUPER_ADMIN_ROUTES = [
+export const OCCUPANT_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   {
-    title: "Estates",
-    href: makePath(PAGES.DASHBOARD, PAGES.ESTATES),
-    icon: EstateIcon,
+    title: "Gate Requests",
+    href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
+    icon: GateIcon,
+  },
+  {
+    title: "Messages",
+    href: makePath(PAGES.DASHBOARD, PAGES.MESSAGES),
+    icon: TablerMessageIcon,
+  },
+  {
+    title: "Notice Board",
+    href: makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
+    icon: TablerMessageIcon,
+  },
+  {
+    title: "Meetings",
+    href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
+    icon: GroupDiscussionIcon,
+  },
+  {
+    title: "Sub Occupants",
+    href: makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS),
+    icon: UserGroupIcon,
+  },
+  {
+    title: "Service Requests",
+    href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
+    icon: ServiceRequestIcon,
+  },
+  {
+    title: "Market Place",
+    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
+    icon: MarketPlaceIcon,
   },
 ];
