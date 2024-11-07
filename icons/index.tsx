@@ -47,5 +47,7 @@ export { Plane } from "./plane";
 export { AttachFile } from "./attach-file";
 export { CurlyBackArrrow } from "./curly-back-arrow";
 export { CarbonRule } from "./carbon-rule";
+export { AirlineManageGateIcon } from "./airline-manage-gates";
+export { NoticeBoardIcon } from "./notice-board";
 
 export type { IconType } from "./type";

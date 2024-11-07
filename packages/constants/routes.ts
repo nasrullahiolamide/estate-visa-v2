@@ -12,6 +12,8 @@ import {
   TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
+  AirlineManageGateIcon,
+  NoticeBoardIcon,
 } from "@/icons";
 
 export const GENERAL_ROUTES = [
@@ -94,7 +96,7 @@ export const OCCUPANT_ROUTES = [
   {
     title: "Gate Requests",
     href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
-    icon: GateIcon,
+    icon: AirlineManageGateIcon,
   },
   {
     title: "Messages",
@@ -104,7 +106,7 @@ export const OCCUPANT_ROUTES = [
   {
     title: "Notice Board",
     href: makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
-    icon: TablerMessageIcon,
+    icon: NoticeBoardIcon,
   },
   {
     title: "Meetings",
