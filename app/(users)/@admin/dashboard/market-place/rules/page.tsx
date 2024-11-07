@@ -1,24 +1,19 @@
 "use client";
 import clsx from "clsx";
 
-import { Fragment, useEffect } from "react";
-import { Add } from "iconsax-react";
+import { Fragment } from "react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 
 import { builder } from "@/builders";
-import { useFakeHousesList } from "@/builders/types/houses";
+import { useFakeMarketRulesList } from "@/builders/types/market-rules";
+import { marketRuleColumns } from "@/columns/market-rules";
 import { makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { HousesActions } from "@/components/admin/houses/actions";
-import { housesColumns } from "@/columns/houses";
-import {
-  HouseForm,
-  HouseFormProps,
-} from "@/components/admin/houses/modals/form";
+import { AddIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -31,7 +26,8 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { AddIcon } from "@/icons";
+import { MarketRuleActions } from "@/components/admin/market-place/rules/actions";
+import { MarketRuleForm } from "@/components/admin/market-place/rules/add";
 
 const filterOptions = [
   { label: "Date", value: "date" },
@@ -69,74 +65,39 @@ const filterOptions = [
   },
 ];
 
-const handleHouseForm = ({ data, modalType = "add" }: HouseFormProps) => {
+const handleMarketRuleForm = () => {
   modals.open({
-    title: modalType === "add" ? "Add New House" : "House Details",
+    title: "Add New Rule",
     modalId: MODALS.FORM_DETAILS,
-    children: <HouseForm data={data} modalType={modalType} />,
+    children: <MarketRuleForm />,
   });
 };
 
 export default function MarketRules() {
-  const initialHousesList = useFakeHousesList();
+  const initialMarketRulesList = useFakeMarketRulesList();
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const { data: houses, isPlaceholderData } = useQuery({
-    queryKey: builder.houses.list.table.get(),
-    queryFn: () =>
-      builder.use().houses.list.table({
-        page,
-        pageSize,
-        search,
-      }),
-    placeholderData: initialHousesList,
-    select({ total, page, data, pageSize }) {
-      return {
-        total,
-        page,
-        pageSize,
-        data: data.map((list) => {
-          return {
-            ...list,
-            action: (
-              <HousesActions
-                id={list.id}
-                isActive={list.status.toLowerCase() === "active"}
-                handlers={{
-                  onAdd: () => handleHouseForm({ modalType: "add" }),
-                  onView: () =>
-                    handleHouseForm({ data: list, modalType: "view" }),
-                  onEdit: () =>
-                    handleHouseForm({ data: list, modalType: "edit" }),
-                }}
-              />
-            ),
-          };
-        }),
-      };
-    },
-  });
-
-  useEffect(() => {
-    if (isPlaceholderData) return;
-
-    pagination.setPage(houses?.page);
-    pagination.setTotal(houses?.total);
-    pagination.setEntriesCount(houses?.data?.length);
-    pagination.setPageSize(houses?.pageSize);
-  }, [isPlaceholderData]);
-
-  const noDataAvailable = houses?.data.length === 0;
+  const dataToDisplay = initialMarketRulesList.data.map((data) => ({
+    ...data,
+    action: (
+      <MarketRuleActions
+        id={data.id}
+        handlers={{
+          onAdd: () => handleMarketRuleForm(),
+          onView: () => {},
+          onEdit: () => {},
+        }}
+      />
+    ),
+  }));
 
   return (
     <Fragment>
       <AppShellHeader
         title='Market Rules'
         backHref={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE)}
-        options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
-        }
+        options={<HeaderOptions />}
       />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
@@ -146,11 +107,11 @@ export default function MarketRules() {
           }}
         >
           <FlowPaper>
-            {houses?.data.length ? (
+            {dataToDisplay ? (
               <FlowTable
-                data={houses.data}
-                columns={housesColumns}
-                skeleton={isPlaceholderData}
+                data={dataToDisplay}
+                columns={marketRuleColumns}
+                skeleton={false}
               />
             ) : (
               <EmptySlot
@@ -167,7 +128,8 @@ export default function MarketRules() {
 
           <FlowFooter
             className={clsx("flex", {
-              hidden: noDataAvailable || numberOfPages <= 1,
+              // hidden: noDataAvailable || numberOfPages <= 1,
+              hidden: false,
             })}
           >
             <FlowPagination />
@@ -176,14 +138,15 @@ export default function MarketRules() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable || isPlaceholderData}
+          // hidden={noDataAvailable || isPlaceholderData}
+          hidden={false}
           withPrimaryButon
           hasFilterButton
           filterData={filterOptions}
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: () => handleHouseForm({ modalType: "add" }),
+              onClick: () => handleMarketRuleForm(),
             },
           }}
         />
@@ -192,10 +155,15 @@ export default function MarketRules() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+function HeaderOptions({ hidden }: { hidden?: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />}>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={handleMarketRuleForm}
+      >
         Add New Rule
       </Button>
       <FilterDropdown data={filterOptions} />

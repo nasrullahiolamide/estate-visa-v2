@@ -13,7 +13,7 @@ export function ProductDetail() {
       <Stack
         h={{
           base: "auto",
-          sm: 720,
+          sm: 650,
         }}
         className='overflow-scroll'
       >
@@ -98,49 +98,26 @@ export function ProductDetail() {
             tellus feugiat pretium tellus. Lorem ipsum dolor sit amet
             consectetur. Semper id lacus pretium tellus feugiat pretium tellus
           </Text>
-          <Title order={2} c='plum.5' fz={14} fw={500}>
+          {/* <Title order={2} c='plum.5' fz={14} fw={500}>
             Product Description
           </Title>
-          <Text
-            fz={14}
-            c='gray'
-            p={10}
-            className='border border-gray-3 rounded-md'
-          >
-            Lorem ipsum dolor sit amet consectetur. Semper id lacus pretium
-            tellus feugiat pretium tellus. Lorem ipsum dolor sit amet
-            consectetur. Semper id lacus pretium tellus feugiat pretium tellus
-          </Text>
-          <Title order={2} c='plum.5' fz={14} fw={500}>
-            Product Description
-          </Title>
-          <Text
-            fz={14}
-            c='gray'
-            p={10}
-            className='border border-gray-3 rounded-md'
-          >
-            Lorem ipsum dolor sit amet consectetur. Semper id lacus pretium
-            tellus feugiat pretium tellus. Lorem ipsum dolor sit amet
-            consectetur. Semper id lacus pretium tellus feugiat pretium tellus
-          </Text>
-          <Title order={2} c='plum.5' fz={14} fw={500}>
-            Product Description
-          </Title>
-          <Text
-            fz={14}
-            c='gray'
-            p={10}
-            className='border border-gray-3 rounded-md'
-          >
-            Lorem ipsum dolor sit amet consectetur. Semper id lacus pretium
-            tellus feugiat pretium tellus. Lorem ipsum dolor sit amet
-            consectetur. Semper id lacus pretium tellus feugiat pretium tellus
-          </Text>
+          <Stack mah={300} className='overflow-auto'>
+            <Text
+              fz={14}
+              c='gray'
+              p={10}
+              className='border border-gray-3 rounded-md'
+            >
+              Lorem ipsum dolor sit amet consectetur. Semper id lacus pretium
+              tellus feugiat pretium tellus. Lorem ipsum dolor sit amet
+              consectetur. Semper id lacus pretium tellus feugiat pretium tellus
+            </Text>
+          </Stack> */}
         </Stack>
-        <Divider />
+
+        <Divider my={15} />
       </Stack>
-      <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
+      <Flex wrap='wrap' justify='space-between' mb={15} gap={35}>
         <Button
           variant='outline'
           color='gray'
