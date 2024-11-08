@@ -13,7 +13,7 @@ export function ConfirmOccupant() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().occupants.post,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: builder.occupants.get.get(),
       });
@@ -21,6 +21,7 @@ export function ConfirmOccupant() {
       handleSuccess({
         message: "Occupant Added Successfully",
       });
+      console.log(data);
     },
     onError: (error: AxiosError) => {
       handleError()(error as AxiosError<{ message?: string }>);

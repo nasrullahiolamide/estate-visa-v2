@@ -1,7 +1,5 @@
 "use client";
 
-import clsx from "clsx";
-
 import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
 import { Button, Flex } from "@mantine/core";
@@ -10,9 +8,9 @@ import { APP, MODALS } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon } from "@/icons";
-import { useFakeGatesList } from "@/builders/types/gates";
+import { AddIcon, DownloadIcon } from "@/icons";
 import { gatesColumns } from "@/columns/gates";
+import clsx from "clsx";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -27,9 +25,11 @@ import {
 } from "@/components/layout";
 import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
-import { getCookie } from "cookies-next";
-import { GateActions } from "@/components/admin/gates/actions";
 import { GateForm, GatesFormProps } from "@/components/admin/gates/form";
+import { useFakeGateRequestList } from "@/builders/types/gate-requests";
+import { GateRequestActions } from "@/components/occupant/gate-request/actions";
+import { getCookie } from "cookies-next";
+import { gateRequestsColumns } from "@/columns/gate-requests";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -46,20 +46,15 @@ const handleGateForm = ({ data, modalType }: GatesFormProps) => {
 };
 
 export default function Gates() {
-  const initialGatesList = useFakeGatesList();
+  const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
 
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const { data: gates, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.get.get(),
-    queryFn: () =>
-      builder.use().gates.get({
-        id: estateId,
-        params: { page, pageSize, search },
-      }),
-    placeholderData: initialGatesList,
+  const { data: gateRequests, isPlaceholderData } = useQuery({
+    queryKey: builder.gates.requests.get.get(),
+    queryFn: () => builder.use().gates.requests.get({ page, pageSize, search }),
+    placeholderData: initialGateRequestList,
     select({ page, pageSize, total, data }) {
       return {
         page,
@@ -69,14 +64,12 @@ export default function Gates() {
           return {
             ...list,
             action: (
-              <GateActions
+              <GateRequestActions
                 id={list.id}
                 handlers={{
                   onAdd: () => handleGateForm({ modalType: "add" }),
-                  onView: () =>
-                    handleGateForm({ data: list, modalType: "view" }),
-                  onEdit: () =>
-                    handleGateForm({ data: list, modalType: "edit" }),
+                  onView: () => {},
+                  onEdit: () => {},
                 }}
               />
             ),
@@ -88,13 +81,13 @@ export default function Gates() {
   useEffect(() => {
     if (isPlaceholderData) return;
 
-    pagination.setPage(gates?.page);
-    pagination.setTotal(gates?.total);
-    pagination.setEntriesCount(gates?.data?.length);
-    pagination.setPageSize(gates?.pageSize);
+    pagination.setPage(gateRequests?.page);
+    pagination.setTotal(gateRequests?.total);
+    pagination.setEntriesCount(gateRequests?.data?.length);
+    pagination.setPageSize(gateRequests?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = gates?.data.length === 0;
+  const noDataAvailable = gateRequests?.data.length === 0;
 
   return (
     <Fragment>
@@ -112,20 +105,20 @@ export default function Gates() {
           }}
         >
           <FlowPaper>
-            {gates?.data.length ? (
+            {gateRequests?.data.length ? (
               <FlowTable
-                data={gates.data}
-                columns={gatesColumns}
+                data={gateRequests.data}
+                columns={gateRequestsColumns}
                 skeleton={isPlaceholderData}
               />
             ) : (
               <EmptySlot
-                title='No gates have been added yet. Add a gate to begin managing access!'
-                src='gate'
+                title='You have no gate requests yet. Create one to get started!'
+                src='question'
                 withButton
-                text='Add New Gate'
+                text='Send New Request'
                 btnProps={{
-                  leftSection: <Add />,
+                  leftSection: <AddIcon />,
                   onClick: () => handleGateForm({ modalType: "add" }),
                 }}
               />
@@ -177,7 +170,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         leftSection={<Add />}
         onClick={() => handleGateForm({ modalType: "add" })}
       >
-        Add New Gate
+        Send New Request
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button

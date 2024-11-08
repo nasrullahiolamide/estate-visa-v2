@@ -16,12 +16,14 @@ export enum APP {
   USER_NAME = "uNme",
   USER_ID = "uID",
   USER_DATA = "uDat",
+  OCCUPANT_ID = "oID",
+  ESTATE_ID = "eID",
 }
 
 export enum USER_TYPE {
   SUPER_ADMIN = "super-admin",
   ADMIN = "admin",
-  OCCUPANT = "occupant",
+  OCCUPANT = "principal-occupant",
   SUB_OCCUPANT = "sub-occupant",
   PROPERTY_OWNER = "property-owner",
   GATEMAN = "gateman",

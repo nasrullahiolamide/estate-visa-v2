@@ -31,8 +31,7 @@ export interface HouseFormProps {
 }
 
 export function HouseForm({ modalType = "add", data }: HouseFormProps) {
-  const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
-  const estateId = userData.estate.id;
+  const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
   const { mutate: addHouse, isPending: isAdding } = useMutation({

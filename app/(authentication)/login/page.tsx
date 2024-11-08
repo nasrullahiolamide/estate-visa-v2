@@ -56,7 +56,7 @@ export default function Page() {
     mutationFn: builder.use().auth.login,
     onSuccess: ({ data }) => {
       function loginCallback(data: LoginResponseData) {
-        const { access_token, user } = { ...data };
+        const { user } = { ...data };
         const user_type = user.roles[0].name;
         const isValidAdmin = Admins.includes(user_type);
 
@@ -67,11 +67,9 @@ export default function Page() {
           })();
           return;
         }
-
         handleLogin({
-          access_token,
           user_type,
-          ...user,
+          ...data,
         });
         navigate(PAGES.DASHBOARD);
         handleSuccess({ message: `Welcome back, ${user.firstname}` });

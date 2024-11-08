@@ -42,13 +42,12 @@ export function OccupantsForm({
   modalType = "add",
   viewId = "occupants",
 }: OccupantsFormProps) {
-  const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
-  const estateId = userData.estate.id;
+  const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
   const { mutate: updateOccupant, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().occupants.id.edit,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: builder.occupants.get.get(),
       });

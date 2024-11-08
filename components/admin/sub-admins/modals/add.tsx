@@ -26,7 +26,7 @@ import { useState } from "react";
 import { Copy } from "iconsax-react";
 
 export function AddSubAdmins() {
-  const userData: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
   const [isCopied, setIsCopied] = useState(false);
@@ -77,7 +77,7 @@ export function AddSubAdmins() {
       fullname: "",
       email: "",
       phone: "",
-      estateId: pass.string(userData.estate.id),
+      estateId,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,

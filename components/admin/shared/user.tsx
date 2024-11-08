@@ -6,12 +6,20 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useSuspenseQuery } from "@tanstack/react-query";
 
-import { APP, encryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
+import {
+  APP,
+  decryptUri,
+  encryptUri,
+  makePath,
+  MODALS,
+  PAGES,
+} from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { builder } from "@/builders";
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./modals/logout";
 import Link from "next/link";
+import { ProfileData } from "@/builders/types/profile";
 
 function handleLogout() {
   modals.open({
@@ -22,33 +30,18 @@ function handleLogout() {
 }
 
 export function UserDetails() {
-  const userId = getCookie(APP.USER_ID) as string;
-
-  const { data, isLoading } = useSuspenseQuery({
-    queryKey: builder.account.profile.get.get(userId),
-    queryFn: () => builder.use().account.profile.get(userId),
-    select: (data) => {
-      const encryptedValue = encryptUri(data);
-      setCookie(APP.USER_DATA, encryptedValue);
-      return data;
-    },
-  });
+  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const userDetails = {
-    fullName: `${data?.firstname} ${data?.lastname}`,
-    userType: formatUserType[data?.roles[0].name],
-    ...data,
+    fullName: `${user?.firstname} ${user?.lastname}`,
+    userType: formatUserType[user?.roles[0].name],
+    ...user,
   };
 
   return (
     <Menu
       shadow='md'
       position='bottom-end'
-      classNames={{
-        item: clsx({
-          skeleton: isLoading,
-        }),
-      }}
       styles={{
         item: {
           padding: "14px",
@@ -61,22 +54,9 @@ export function UserDetails() {
     >
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
-          <Avatar
-            src={null}
-            alt={userDetails.firstname}
-            size={45}
-            className={clsx({
-              skeleton: isLoading,
-            })}
-          />
+          <Avatar src={null} alt={userDetails.firstname} size={45} />
 
-          <Flex
-            gap={12}
-            className={clsx("hidden sm:flex", {
-              skeleton: isLoading,
-            })}
-            align='center'
-          >
+          <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium text-sm'>
                 {userDetails.firstname}

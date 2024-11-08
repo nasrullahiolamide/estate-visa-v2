@@ -5,8 +5,9 @@ import { decrypt, decryptUri, encode, encryptUri } from "../encryption";
 import { APP, TOKEN } from "../enum";
 import { string } from "mathjs";
 import { ProfileData } from "@/builders/types/profile";
+import { LoginResponseData } from "@/builders/types/login";
 
-interface HandleLogin extends ProfileData {
+interface HandleLogin extends LoginResponseData {
   access_token: string;
   user_type: string;
 }
@@ -17,10 +18,16 @@ export const cookieOptions = {
   sameSite: "strict",
 } satisfies OptionsType;
 
-export function handleLogin({ access_token, ...user }: HandleLogin) {
-  const { user_type, firstname, lastname, id, email } = { ...user };
+export function handleLogin({
+  access_token,
+  user,
+  expiresIn,
+  occupant,
+  user_type,
+}: HandleLogin) {
+  const encryptedUser = encryptUri(user);
+  const { firstname, lastname, id: uid, email, estate } = { ...user };
   const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;
-  const uid = id;
 
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
@@ -28,31 +35,47 @@ export function handleLogin({ access_token, ...user }: HandleLogin) {
     signature: string
   ];
 
+  setCookie(APP.USER_DATA, encryptedUser);
+
   setCookie(TOKEN.HEADER, header, cookieOptions);
   setCookie(TOKEN.PAYLOAD, payload, cookieOptions);
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
   setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
 
+  if (uid) {
+    setCookie(APP.USER_ID, uid, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+  }
+
+  if (estate) {
+    setCookie(APP.ESTATE_ID, estate.id, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+  }
+
+  if (occupant) {
+    setCookie(APP.OCCUPANT_ID, occupant.id, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+  }
+
   if (email) setCookie(APP.EMAIL, email);
 
-  if (user_type) {
-    setCookie(APP.USER_TYPE, user_type, {
+  if (full_name) {
+    setCookie(APP.FULL_NAME, full_name, {
       ...cookieOptions,
       sameSite: "lax",
       encode,
     });
   }
 
-  if (uid) {
-    setCookie(APP.USER_ID, string(uid), {
-      ...cookieOptions,
-      sameSite: "lax",
-    });
-  }
-
-  if (full_name) {
-    setCookie(APP.FULL_NAME, full_name, {
+  if (user_type) {
+    setCookie(APP.USER_TYPE, user_type, {
       ...cookieOptions,
       sameSite: "lax",
       encode,
