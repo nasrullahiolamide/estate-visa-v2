@@ -5,7 +5,9 @@
     gap: rem(6);
 
     .input {
-      font-size: rem(14px);
+      min-height: rem(50);
+      padding-right: rem(48);
+      padding-block: 0;
     }
 
     .error {
@@ -14,15 +16,18 @@
   }
 }
 
-.day {
-  font-size: rem(14px);
+.section {
+  width: rem(48);
+}
 
+.day {
   &[data-selected="true"] {
     border-radius: 100%;
   }
   &[data-today="true"] {
     border-radius: 100%;
     background-color: transparent;
-    border-color: var(--gray-12);
+    border: 1px solid var(--gray-12);
+    color: var(--gray-12);
   }
 }

@@ -1,16 +1,26 @@
 "use client";
 
+import clsx from "clsx";
+
 import { Fragment, useEffect } from "react";
-import { Add } from "iconsax-react";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
+
+import { builder } from "@/builders";
+import { useFakeGateRequestList } from "@/builders/types/gate-requests";
 import { APP, MODALS } from "@/packages/libraries";
+import { gateRequestsColumns } from "@/columns/gate-requests";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { GateRequestActions } from "@/components/occupant/gate-request/actions";
 import { AddIcon, DownloadIcon } from "@/icons";
-import { gatesColumns } from "@/columns/gates";
-import clsx from "clsx";
+import { Add } from "iconsax-react";
+import {
+  GateRequestForm,
+  GateRequestFormProps,
+} from "@/components/occupant/gate-request/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -23,25 +33,54 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
-import { GateForm, GatesFormProps } from "@/components/admin/gates/form";
-import { useFakeGateRequestList } from "@/builders/types/gate-requests";
-import { GateRequestActions } from "@/components/occupant/gate-request/actions";
-import { getCookie } from "cookies-next";
-import { gateRequestsColumns } from "@/columns/gate-requests";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
   { label: "Name(A-Z)", value: "a-z" },
   { label: "Name(Z-A)", value: "z-a" },
+  {
+    label: "Guest Type",
+    value: "guest-type",
+    children: [
+      {
+        label: "Family",
+        value: "family",
+      },
+      {
+        label: "Friend",
+        value: "friend",
+      },
+      {
+        label: "Worker",
+        value: "worker",
+      },
+    ],
+  },
+  {
+    label: "Status",
+    value: "status",
+    children: [
+      {
+        label: "Pending",
+        value: "pending",
+      },
+      {
+        label: "Approved",
+        value: "approved",
+      },
+      {
+        label: "Cancelled",
+        value: "cancelled",
+      },
+    ],
+  },
 ];
 
-const handleGateForm = ({ data, modalType }: GatesFormProps) => {
+const handleGateRequestForm = ({ data, modalType }: GateRequestFormProps) => {
   modals.open({
-    title: modalType === "add" ? "Add New Gate" : "Gate Details",
+    title: modalType === "add" ? "Generate Request" : "Request Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <GateForm data={data} modalType={modalType} />,
+    children: <GateRequestForm data={data} modalType={modalType} />,
   });
 };
 
@@ -66,10 +105,11 @@ export default function Gates() {
             action: (
               <GateRequestActions
                 id={list.id}
+                accessCode={list.accessCode}
                 handlers={{
-                  onAdd: () => handleGateForm({ modalType: "add" }),
-                  onView: () => {},
-                  onEdit: () => {},
+                  onAdd: () => handleGateRequestForm({ modalType: "add" }),
+                  onEdit: () =>
+                    handleGateRequestForm({ modalType: "edit", data: list }),
                 }}
               />
             ),
@@ -78,6 +118,7 @@ export default function Gates() {
       };
     },
   });
+
   useEffect(() => {
     if (isPlaceholderData) return;
 
@@ -119,7 +160,7 @@ export default function Gates() {
                 text='Send New Request'
                 btnProps={{
                   leftSection: <AddIcon />,
-                  onClick: () => handleGateForm({ modalType: "add" }),
+                  onClick: () => handleGateRequestForm({ modalType: "add" }),
                 }}
               />
             )}
@@ -144,7 +185,7 @@ export default function Gates() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: () => handleGateForm({ modalType: "add" }),
+              onClick: () => handleGateRequestForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
@@ -168,7 +209,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={() => handleGateForm({ modalType: "add" })}
+        onClick={() => handleGateRequestForm({ modalType: "add" })}
       >
         Send New Request
       </Button>

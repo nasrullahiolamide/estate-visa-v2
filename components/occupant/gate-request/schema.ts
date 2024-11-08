@@ -1,11 +1,11 @@
 import { object, string } from "yup";
 
-const requiredString = string().required(
-  "This field is required. Please enter the necessary information."
-);
+const requiredString = string().required("This is a required field");
 
 export const schema = object({
-  name: requiredString,
-  location: requiredString,
-  status: requiredString,
+  guestName: requiredString,
+  guestType: requiredString,
+  phoneNo: requiredString,
+  visitDate: requiredString,
+  visitTime: requiredString,
 });

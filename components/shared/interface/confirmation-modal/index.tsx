@@ -21,7 +21,7 @@ type BtnProps<T extends ElementType = "a"> = ButtonProps & {
 } & PolymorphicComponentProps<T>;
 
 type ConfirmationModalProps = BoxProps & {
-  src?: "delete" | "success" | "disable" | "logout";
+  src?: "delete" | "success" | "disable" | "logout" | "share";
   srcProps?: FlexProps;
   title: string;
   description?: string;

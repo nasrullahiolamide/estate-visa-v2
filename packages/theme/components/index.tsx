@@ -130,8 +130,9 @@ export const components: MantineThemeComponents = {
 
   DatePickerInput: DateTimePicker.extend({
     defaultProps: {
-      size: "lg",
+      size: "sm",
       variant: "default",
+      rightSection: <CalenderIcon />,
     },
     classNames: datePickerInput,
   }),

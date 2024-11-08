@@ -1,86 +1,108 @@
 "use client";
 
-import { Button, Select, TextInput } from "@mantine/core";
+import {
+  Button,
+  Popover,
+  PopoverDropdown,
+  PopoverTarget,
+  Select,
+  TextInput,
+} from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 
 import { getCookie } from "cookies-next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { APP, decryptUri, MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
-import { ProfileData } from "@/builders/types/profile";
+import {
+  GateRequestData,
+  UpdateGateRequestData,
+} from "@/builders/types/gate-requests";
+import { APP, cast, MODALS } from "@/packages/libraries";
+import { handleSuccess, handleError } from "@/packages/notification";
 import { FlowContainer } from "@/components/layout/flow-container";
 
 import { schema } from "./schema";
-import { GatesData } from "@/builders/types/gates";
+import { DatePickerInput, TimeInput } from "@mantine/dates";
+import { CalenderIcon, ClockIcon } from "@/icons";
+import { useRef, useState } from "react";
 
-export type GatesFormProps = {
-  data?: GatesData;
+import Timekeeper from "react-timekeeper";
+import { TimePickerInput } from "@/components/shared/interface";
+
+export type GateRequestFormProps = {
+  data?: GateRequestData;
   modalType: "add" | "edit" | "view";
 };
-export function GateForm({ data, modalType = "view" }: GatesFormProps) {
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
+export function GateRequestForm({
+  data,
+  modalType = "view",
+}: GateRequestFormProps) {
+  const occupantId = getCookie(APP.OCCUPANT_ID) ?? "";
+  const requestId = data?.id;
   const queryClient = useQueryClient();
 
-  const { mutate: addGate, isPending } = useMutation({
-    mutationFn: builder.use().gates.post,
+  const { mutate: addRequest, isPending } = useMutation({
+    mutationFn: builder.use().gates.requests.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
+        queryKey: builder.gates.requests.get.get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
-        message: "Gate Added Successfully",
+        message: "Gate Request Added Successfully",
       });
     },
     onError: handleError(),
   });
 
-  const { mutate: updateGate, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().gates.edit,
+  const { mutate: updateRequest, isPending: isUpdating } = useMutation({
+    mutationFn: builder.use().gates.requests.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
+        queryKey: builder.gates.requests.get.get(),
       });
-      modals.closeAll();
+      modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
-        message: "Gate Updated Successfully",
+        message: "Gate Request Updated Successfully",
       });
     },
     onError: handleError(),
   });
 
+  console.log(data);
   const form = useForm({
     initialValues: {
-      name: data?.name ?? "",
-      location: data?.location ?? "",
-      status: data?.status ?? "open",
+      guestName: data?.guestName ?? "",
+      guestType: data?.guestType ?? "Friend",
+      phoneNo: data?.phoneNo ?? "",
+      visitDate: data?.visitDate ?? new Date(),
+      visitTime: data?.visitTime ?? "",
       modalType,
+      occupantId,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
+    transformValues: (values) => {
+      return {
+        ...values,
+        visitDate: cast.string(values.visitDate),
+        visitTime: cast.string(values.visitTime),
+      };
+    },
   });
-
-  const handleSubmit = () => {
-    const { name, location, status } = form.getValues();
-    const updatedData = {
-      name,
-      location,
-      status,
-      estateId,
-    };
-
-    if (isViewing) return;
-
-    isEditing
-      ? updateGate({ id: data?.id ?? "", data: updatedData })
-      : addGate(updatedData);
-  };
 
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
+
+  const handleSubmit = (values: Omit<UpdateGateRequestData, "modalType">) => {
+    if (isViewing) return;
+
+    isEditing
+      ? updateRequest({ id: requestId ?? "", data: values })
+      : addRequest(values);
+  };
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
@@ -92,32 +114,39 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
         bg='white'
       >
         <TextInput
-          label='Gate Name'
+          label='Guest Name'
+          placeholder="Enter guest's name"
           disabled={isViewing}
           withAsterisk
-          {...form.getInputProps("name")}
-        />
-        <TextInput
-          label='Gate Location'
-          disabled={isViewing}
-          withAsterisk
-          {...form.getInputProps("location")}
+          {...form.getInputProps("guestName")}
         />
         <Select
-          data={[
-            {
-              value: "open",
-              label: "Open",
-            },
-            {
-              value: "closed",
-              label: "Closed",
-            },
-          ]}
-          label='Gate Status'
+          data={["Friend", "Family", "Worker"]}
+          label='Guest Type'
           disabled={isViewing}
           withAsterisk
-          {...form.getInputProps("status")}
+          {...form.getInputProps("guestType")}
+        />
+        <TextInput
+          label='Phone Number'
+          placeholder="Enter guest's phone number"
+          disabled={isViewing}
+          withAsterisk
+          {...form.getInputProps("phoneNo")}
+        />
+
+        <DatePickerInput
+          label='Date of Visit'
+          minDate={new Date()}
+          disabled={isViewing}
+          valueFormat='DD/MM/YYYY'
+          withAsterisk
+          {...form.getInputProps("visitDate")}
+        />
+        <TimePickerInput
+          label='Time of Visit'
+          withAsterisk
+          {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
           <Button
@@ -134,7 +163,7 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
             loading={isUpdating}
             disabled={isUpdating}
           >
-            Save Changes
+            Update Request
           </Button>
         ) : (
           <Button
@@ -143,7 +172,7 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
             loading={isPending}
             disabled={isPending}
           >
-            Add Gate
+            Generate Request
           </Button>
         )}
       </FlowContainer>

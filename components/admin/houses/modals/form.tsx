@@ -18,8 +18,7 @@ import dayjs, { ManipulateType } from "dayjs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { HouseData } from "@/builders/types/houses";
-import { ProfileData } from "@/builders/types/profile";
-import { APP, cast, decryptUri } from "@/packages/libraries";
+import { APP, cast } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { FlowContainer } from "@/components/layout/flow-container";
 

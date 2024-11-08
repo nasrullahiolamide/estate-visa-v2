@@ -6,3 +6,4 @@ export { Picture } from "./picture";
 export { EmptySlot } from "./empty-slot";
 export { ConfirmationModal } from "./confirmation-modal";
 export { StarRating } from "./star-rating";
+export { TimePickerInput } from "./time-picker-input";

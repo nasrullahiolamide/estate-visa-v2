@@ -8,7 +8,11 @@ import { getAuthorizedUser } from "@/packages/actions";
 import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import { NavLinkType } from "../../data/navlinks";
-import { ADMIN_ROUTES, SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
+import {
+  ADMIN_ROUTES,
+  OCCUPANT_ROUTES,
+  SUPER_ADMIN_ROUTES,
+} from "@/packages/constants/routes";
 
 export function Links() {
   const [links, setLinks] = useState<NavLinkType>([]);
@@ -25,6 +29,7 @@ export function Links() {
   const view: Record<PropertyKey, NavLinkType> = {
     [USER_TYPE.ADMIN]: ADMIN_ROUTES,
     [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
+    [USER_TYPE.OCCUPANT]: OCCUPANT_ROUTES,
   };
 
   return (

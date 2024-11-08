@@ -3,32 +3,25 @@ import clsx from "clsx";
 import { Fragment } from "react";
 import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Flex, Menu } from "@mantine/core";
+import { Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
+import { CancelCircleIcon, EditIcon, ShareIcon, TrashIcon } from "@/icons";
 import { ConfirmationModal } from "@/components/shared/interface";
 import {
   FlowMenu,
   FlowMenuTarget,
   FlowMenuDropdown,
-  FlowToolTip,
 } from "@/components/layout";
-import {
-  CancelCircleIcon,
-  EditIcon,
-  EyeIcon,
-  ShareIcon,
-  TrashIcon,
-} from "@/icons";
 
 interface GateRequestActionsProps {
   id: string;
+  accessCode: number;
   handlers: {
     onAdd: () => void;
-    onView: () => void;
     onEdit: () => void;
   };
 }
@@ -37,7 +30,7 @@ export function GateRequestActions({ id, handlers }: GateRequestActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().gates.remove,
+    mutationFn: builder.use().gates.requests.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -48,7 +41,25 @@ export function GateRequestActions({ id, handlers }: GateRequestActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
+        queryKey: builder.gates.requests.get.get(),
+      });
+      modals.close(MODALS.CONFIRMATION);
+    },
+  });
+
+  const { mutate: changeStatus } = useMutation({
+    mutationFn: builder.use().gates.requests.change_status,
+    onError: (error: AxiosError) => {
+      handleError(error)();
+      modals.close(MODALS.CONFIRMATION);
+    },
+    onSuccess: () => {
+      handleSuccess({
+        message: "Gate Request Status Updated Successfully",
+        autoClose: 1200,
+      });
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -82,6 +93,31 @@ export function GateRequestActions({ id, handlers }: GateRequestActionsProps) {
     });
   };
 
+  const handleShare = () => {
+    modals.open({
+      title: "Share Code",
+      modalId: MODALS.CONFIRMATION,
+      children: (
+        <ConfirmationModal
+          title='Gate Request Generated!'
+          description='Share the generated code to your guest immediately via SMS or WhatsApp.'
+          src='share'
+          btnText='Share Now'
+          srcProps={{
+            ml: 0,
+            h: 130,
+          }}
+          btnProps={{
+            color: "blue",
+            onClick: () => {
+              modals.close(MODALS.CONFIRMATION);
+            },
+          }}
+        />
+      ),
+    });
+  };
+
   return (
     <Fragment>
       <FlowMenu>
@@ -95,13 +131,13 @@ export function GateRequestActions({ id, handlers }: GateRequestActionsProps) {
           </Menu.Item>
           <Menu.Item
             leftSection={<ShareIcon width={14} />}
-            onClick={handlers.onEdit}
+            onClick={handleShare}
           >
             Share Request
           </Menu.Item>
           <Menu.Item
             leftSection={<CancelCircleIcon width={14} />}
-            onClick={handlers.onEdit}
+            onClick={() => changeStatus({ id, status: "cancelled" })}
           >
             Cancel Request
           </Menu.Item>

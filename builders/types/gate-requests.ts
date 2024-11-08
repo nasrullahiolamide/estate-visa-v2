@@ -23,7 +23,7 @@ export type GateRequestData = {
   guestName: string;
   guestType: string;
   phoneNo: string;
-  visitDate: string;
+  visitDate: Date | null;
   visitTime: string;
   accessCode: number;
   status: string;
@@ -55,7 +55,7 @@ export function useFakeGateRequestsData(_?: any, index?: number) {
     guestName: faker.person.fullName(),
     guestType: faker.helpers.arrayElement(["Visitor", "Delivery"]),
     phoneNo: faker.phone.number(),
-    visitDate: faker.date.future().toISOString(),
+    visitDate: faker.date.future(),
     visitTime: faker.date.future().toISOString(),
     accessCode: faker.number.int({ min: 1000, max: 9999 }),
     status: faker.helpers.arrayElement(["pending", "approved", "declined"]),

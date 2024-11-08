@@ -127,24 +127,28 @@ export const gateRequestsColumns = [
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
-      const isActive = value.toLowerCase() === "open";
+
+      const colors: Record<PropertyKey, { color: string; bg: string }> = {
+        approved: { color: "green", bg: "green.1" },
+        pending: { color: "#969921", bg: "#feffd7" },
+        cancelled: { color: "red", bg: "red.1" },
+      };
 
       return (
         <Box ta='center'>
           <Pill
-            c={isActive ? "green" : "red"}
-            bg={isActive ? "green.1" : "red.1"}
+            ta='center'
+            c={colors[value]?.color}
+            bg={colors[value]?.bg}
             fw={500}
             children={value}
             className='capitalize'
             size='sm'
-            ta='center'
           />
         </Box>
       );
     },
   }),
-
   columnHelper.accessor("action", {
     header: () => (
       <Text
@@ -155,7 +159,11 @@ export const gateRequestsColumns = [
         children='Actions'
       />
     ),
-    cell: ({ renderValue }) => renderValue(),
+    cell: ({ renderValue }) => (
+      <Stack gap={5} ta='center' justify='center'>
+        {renderValue()}
+      </Stack>
+    ),
     enableSorting: false,
   }),
 ];
