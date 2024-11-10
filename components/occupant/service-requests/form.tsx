@@ -150,7 +150,7 @@ export function ServiceRequestForm({
           label='Brief Description'
           placeholder='Type Something...'
           disabled={isViewing}
-          withAsterisk
+          draggable={false}
           {...form.getInputProps("description")}
         />
         <ResourceUpload
