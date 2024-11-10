@@ -24,7 +24,7 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { propertyOwnersColumns } from "@/columns/property-owners";
+import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
 import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
 import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
 import { handleOccupantForm } from "../occupants/page";

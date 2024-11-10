@@ -12,7 +12,6 @@ export { FlowHeader } from "./flow-header";
 export { FlowMenuDropdown } from "./flow-menu-dropdown";
 export { FlowMenuTarget } from "./flow-menu-target";
 export { FlowMenu } from "./flow-menu";
-export { FlowModalContent } from "./flow-modal-content";
 export { FlowPagination } from "./flow-pagination";
 export { FlowPaper } from "./flow-paper";
 export { FlowProgress } from "./flow-progress";

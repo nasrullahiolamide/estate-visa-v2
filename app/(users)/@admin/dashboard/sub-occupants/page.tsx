@@ -10,13 +10,9 @@ import { useQuery } from "@tanstack/react-query";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { ViewSubOccupants } from "@/components/admin/sub-occupants/view";
-import { subOccupantsColumns } from "@/columns/sub-occupants";
+import { subOccupantsColumns } from "@/columns/for_admins/sub-occupants";
 import { DownloadIcon } from "@/icons";
-import {
-  SubOccupantsData,
-  useFakeSubOccupantsList,
-} from "@/builders/types/sub-occupants";
+import { useFakeSubOccupantsList } from "@/builders/types/sub-occupants";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -29,6 +25,10 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import {
+  SubOccupantsForm,
+  SubOccupantsFormProps,
+} from "@/components/occupant/sub-occupants/form";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -36,11 +36,11 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleView = (details: SubOccupantsData) => {
+const handleSubOccupantForm = ({ data }: SubOccupantsFormProps) => {
   modals.open({
     title: "Sub Occupant Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <ViewSubOccupants {...details} />,
+    children: <SubOccupantsForm data={data} modalType='view' />,
   });
 };
 
@@ -100,7 +100,7 @@ export default function SubOccupants() {
                 data={subOccupants.data}
                 columns={subOccupantsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleView}
+                onRowClick={handleSubOccupantForm}
               />
             ) : (
               <EmptySlot

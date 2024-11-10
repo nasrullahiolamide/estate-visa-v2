@@ -13,7 +13,7 @@ export type UpdateGateRequestData = {
   guestName: string;
   guestType: string;
   phoneNo: string;
-  visitDate: string;
+  visitDate: Date;
   visitTime: string;
   occupantId: string;
 };
@@ -23,7 +23,7 @@ export type GateRequestData = {
   guestName: string;
   guestType: string;
   phoneNo: string;
-  visitDate: Date | null;
+  visitDate: Date;
   visitTime: string;
   accessCode: number;
   status: string;

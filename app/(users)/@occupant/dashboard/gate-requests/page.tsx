@@ -10,7 +10,7 @@ import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
 import { APP, MODALS } from "@/packages/libraries";
-import { gateRequestsColumns } from "@/columns/gate-requests";
+import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
@@ -130,10 +130,12 @@ export default function Gates() {
 
   const noDataAvailable = gateRequests?.data.length === 0;
 
+  console.log({ gateRequests });
+
   return (
     <Fragment>
       <AppShellHeader
-        title='Houses'
+        title='Gate Request'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }

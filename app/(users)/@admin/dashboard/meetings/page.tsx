@@ -5,7 +5,7 @@ import { Button, Flex, Menu, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useDisclosure } from "@mantine/hooks";
 import { useFakeMeetingsList } from "@/builders/types/meetings";
-import { meetingColumns } from "@/columns/meetings";
+import { ActionableMeetingColumns } from "@/columns/for_admins/meetings";
 import { MODALS } from "@/packages/libraries";
 import { ConfirmDelete } from "@/components/admin/shared/modals";
 import { SheduleMeeting } from "@/components/admin/meetings/shedule";
@@ -13,7 +13,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddNewMinutes } from "@/components/admin/meetings/add-minutes";
-import { ActivateIcon, AddIcon, EditIcon } from "@/icons";
+import { AddIcon, EditIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -161,7 +161,7 @@ export default function Meetings() {
             {meetings?.data.length ? (
               <FlowTable
                 data={dataToDisplay}
-                columns={meetingColumns}
+                columns={ActionableMeetingColumns}
                 skeleton={false}
               />
             ) : (

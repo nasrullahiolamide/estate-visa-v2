@@ -1,12 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Box, Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
-import { Actionable } from "@/builders/types/table";
+import { Box, Checkbox, Pill, Text } from "@mantine/core";
 import { MeetingsData } from "@/builders/types/meetings";
 
-import dayjs from "dayjs";
 import { formatDate } from "@/packages/libraries";
 
-const columnHelper = createColumnHelper<Actionable<MeetingsData>>();
+const columnHelper = createColumnHelper<MeetingsData>();
 
 export const meetingColumns = [
   columnHelper.display({
@@ -72,7 +70,7 @@ export const meetingColumns = [
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
         completed: { color: "green", bg: "green.1" },
-        scheduled: { color: "blue", bg: "blue.1" },
+        scheduled: { color: "#969921", bg: "#feffd7" },
         cancelled: { color: "red", bg: "red.1" },
       };
 
@@ -89,19 +87,6 @@ export const meetingColumns = [
         </Box>
       );
     },
-  }),
-  columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
-    cell: ({ renderValue }) => renderValue(),
-    enableSorting: false,
   }),
 ];
 

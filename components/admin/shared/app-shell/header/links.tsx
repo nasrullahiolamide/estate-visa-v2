@@ -2,17 +2,22 @@
 
 import Link from "next/link";
 import { toString } from "lodash";
-import { useEffect, useState } from "react";
+import { SVGProps, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getAuthorizedUser } from "@/packages/actions";
 import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
-import { NavLinkType } from "../../data/navlinks";
 import {
   ADMIN_ROUTES,
   OCCUPANT_ROUTES,
   SUPER_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
+
+export type NavLinkType = Array<{
+  title: string;
+  href: string;
+  icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
+}>;
 
 export function Links() {
   const [links, setLinks] = useState<NavLinkType>([]);

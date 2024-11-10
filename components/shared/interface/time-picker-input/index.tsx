@@ -1,36 +1,34 @@
 "use client";
 
+import Timekeeper, { TimeOutput } from "react-timekeeper";
 import { useRef, useState } from "react";
-import { UnstyledButton, InputWrapper, Button, Menu } from "@mantine/core";
-import Timekeeper from "react-timekeeper";
-import dayjs from "dayjs";
 import { GetInputPropsReturnType } from "@mantine/form/lib/types";
-import { Stack } from "@mantine/core";
-import { TIME_FORMAT } from "@/packages/constants/time";
+import { InputWrapper, Button, Menu, Stack } from "@mantine/core";
+import { ClockIcon } from "@/icons";
 
 interface TimePickerProps extends GetInputPropsReturnType {
   withAsterisk?: boolean;
+  placeholder?: string;
   label: string;
 }
 
 export function TimePickerInput({
   label,
   withAsterisk,
+  value,
+  onChange: handleFormChange,
+  placeholder = "--:--",
   ...props
 }: TimePickerProps) {
   const timeRef = useRef<HTMLInputElement>(null);
-  const [selectedTime, setSelectedTime] = useState(dayjs().format(TIME_FORMAT));
-  const [timeOpen, setTimeOpen] = useState(false);
-
-  const handleTimeChange = (newTime) => {
-    setSelectedTime(newTime);
-    // form.setFieldValue("visitTime", formattedTime);
-  };
+  const [showTime, setShowTime] = useState(false);
 
   return (
     <Menu
+      onChange={(opened) => setShowTime(opened)}
+      opened={showTime}
+      closeOnClickOutside
       position='bottom'
-      offset={5}
       classNames={{
         dropdown: "bg-transparent border-none",
       }}
@@ -45,34 +43,43 @@ export function TimePickerInput({
             label: "text-primary-text-body",
             root: "gap-1.5",
           }}
-          {...props}
         >
-          <UnstyledButton
+          <Button
             type='button'
             variant='default'
-            onClick={() => setTimeOpen(!timeOpen)}
-            className='w-full cursor-pointer text-sm rounded-xl'
+            className='w-full cursor-pointer uppercase'
+            fz='sm'
+            rightSection={<ClockIcon />}
             style={{
-              padding: "0 12px",
+              padding: "0 15px",
               minHeight: "48px",
-              textAlign: "left",
-              border: "1px solid var(--mantine-color-gray-4)",
-              borderRadius: "6px",
+            }}
+            classNames={{
+              inner: "justify-between",
             }}
           >
-            {selectedTime}
-          </UnstyledButton>
+            {value || placeholder}
+          </Button>
         </InputWrapper>
       </Menu.Target>
 
       <Menu.Dropdown>
         <Timekeeper
           closeOnMinuteSelect
-          time={selectedTime}
-          onChange={(data) => handleTimeChange(data.formatted12)}
+          time={value}
+          onChange={(t) => handleFormChange(t.formatted12)}
           switchToMinuteOnHourDropdownSelect
           doneButton={(props) => (
-            <Button variant='transparent' w='100%' ta='center' {...props}>
+            <Button
+              p={0}
+              variant='transparent'
+              w='100%'
+              ta='center'
+              {...props}
+              onClick={() => {
+                setShowTime(false);
+              }}
+            >
               Done
             </Button>
           )}

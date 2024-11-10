@@ -22,7 +22,7 @@ const edit = function (variables: { id: string; data: UpdateGateRequestData }) {
 
 const change_status = function (variables: { id: string; status: string }) {
   const { id, status } = variables;
-  return api.patch(`/gate-requests/${id}`, { status });
+  return api.patch(`/gate-requests/change-status/${id}`, { status });
 };
 
 const remove = function (id: string) {

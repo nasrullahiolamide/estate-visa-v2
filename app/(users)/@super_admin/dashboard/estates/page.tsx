@@ -8,7 +8,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddIcon, DownloadIcon } from "@/icons";
-import { estatesColumns } from "@/columns/estates";
+import { estatesColumns } from "@/columns/for_super_admins/estates";
 import { navigate } from "@/packages/actions";
 import {
   FlowContainer,

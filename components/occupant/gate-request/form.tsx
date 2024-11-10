@@ -1,40 +1,31 @@
 "use client";
 
-import {
-  Button,
-  Popover,
-  PopoverDropdown,
-  PopoverTarget,
-  Select,
-  TextInput,
-} from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { modals } from "@mantine/modals";
+import dayjs from "dayjs";
 
 import { getCookie } from "cookies-next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { Button, Select, TextInput } from "@mantine/core";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { DatePickerInput } from "@mantine/dates";
+import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
 import {
   GateRequestData,
   UpdateGateRequestData,
 } from "@/builders/types/gate-requests";
-import { APP, cast, MODALS } from "@/packages/libraries";
+import { APP, cast, formatDate, MODALS, pass } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
+import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
+import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { FlowContainer } from "@/components/layout/flow-container";
-
-import { schema } from "./schema";
-import { DatePickerInput, TimeInput } from "@mantine/dates";
-import { CalenderIcon, ClockIcon } from "@/icons";
-import { useRef, useState } from "react";
-
-import Timekeeper from "react-timekeeper";
 import { TimePickerInput } from "@/components/shared/interface";
+import { schema } from "./schema";
 
 export type GateRequestFormProps = {
   data?: GateRequestData;
   modalType: "add" | "edit" | "view";
 };
+
 export function GateRequestForm({
   data,
   modalType = "view",
@@ -71,24 +62,24 @@ export function GateRequestForm({
     onError: handleError(),
   });
 
-  console.log(data);
   const form = useForm({
     initialValues: {
       guestName: data?.guestName ?? "",
       guestType: data?.guestType ?? "Friend",
       phoneNo: data?.phoneNo ?? "",
-      visitDate: data?.visitDate ?? new Date(),
-      visitTime: data?.visitTime ?? "",
+      visitDate: dayjs(data?.visitDate, DATE_FORMAT).toDate() ?? new Date(),
+      visitTime:
+        data?.visitTime ?? formatDate(new Date().getTime(), TIME_FORMAT),
       modalType,
       occupantId,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
-    transformValues: (values) => {
+    transformValues: ({ visitDate, visitTime, ...values }) => {
       return {
         ...values,
-        visitDate: cast.string(values.visitDate),
-        visitTime: cast.string(values.visitTime),
+        visitDate: dayjs(visitDate, DATE_FORMAT).toDate(),
+        visitTime: cast.string(visitTime),
       };
     },
   });
@@ -121,7 +112,7 @@ export function GateRequestForm({
           {...form.getInputProps("guestName")}
         />
         <Select
-          data={["Friend", "Family", "Worker"]}
+          data={RELATIONSHIP_OPTIONS}
           label='Guest Type'
           disabled={isViewing}
           withAsterisk
@@ -139,7 +130,7 @@ export function GateRequestForm({
           label='Date of Visit'
           minDate={new Date()}
           disabled={isViewing}
-          valueFormat='DD/MM/YYYY'
+          valueFormat={DATE_FORMAT}
           withAsterisk
           {...form.getInputProps("visitDate")}
         />

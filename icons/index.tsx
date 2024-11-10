@@ -50,5 +50,7 @@ export { CarbonRule } from "./carbon-rule";
 export { AirlineManageGateIcon } from "./airline-manage-gates";
 export { NoticeBoardIcon } from "./notice-board";
 export { ShareIcon } from "./share";
+export { HourglassIcon } from "./hourglass";
+export { NotesIcon } from "./notes";
 
 export type { IconType } from "./type";

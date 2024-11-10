@@ -24,7 +24,8 @@ type EmptySlotProps = BoxProps & {
     | "no-talk"
     | "question"
     | "marketplace"
-    | "meeting";
+    | "meeting"
+    | "no-sound";
   title: string;
 } & (
     | {

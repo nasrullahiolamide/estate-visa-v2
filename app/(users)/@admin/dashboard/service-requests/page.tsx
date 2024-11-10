@@ -11,7 +11,7 @@ import {
   useFakeServiceRequestsList,
 } from "@/builders/types/service-requests";
 import { DoubleMarkIcon } from "@/icons";
-import { serviceRequestsColumns } from "@/columns/service-requests";
+import { serviceRequestsColumns } from "@/columns/for_occupants/service-requests";
 import {
   FlowContainer,
   FlowContentContainer,

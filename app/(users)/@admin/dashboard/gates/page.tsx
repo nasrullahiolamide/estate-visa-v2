@@ -12,7 +12,7 @@ import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon } from "@/icons";
 import { useFakeGatesList } from "@/builders/types/gates";
-import { gatesColumns } from "@/columns/gates";
+import { gatesColumns } from "@/columns/for_admins/gates";
 import {
   FlowContainer,
   FlowContentContainer,

@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { builder } from "@/builders";
 import { useFakeMarketRulesList } from "@/builders/types/market-rules";
-import { marketRuleColumns } from "@/columns/market-rules";
+import { marketRuleColumns } from "@/columns/for_admins/market-rules";
 import { makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";

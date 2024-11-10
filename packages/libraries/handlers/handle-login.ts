@@ -62,6 +62,11 @@ export function handleLogin({
       ...cookieOptions,
       sameSite: "lax",
     });
+
+    setCookie(APP.HOUSE_ID, occupant.house.id, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
   }
 
   if (email) setCookie(APP.EMAIL, email);

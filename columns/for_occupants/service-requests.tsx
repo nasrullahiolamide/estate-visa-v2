@@ -3,6 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
 import { formatDate } from "@/packages/libraries";
+import { DATE_FORMAT } from "@/packages/constants/time";
 
 const columnHelper = createColumnHelper<Actionable<ServiceRequestsData>>();
 
@@ -26,43 +27,91 @@ export const serviceRequestsColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("house_no", {
-    header: "House No",
-    enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+  columnHelper.accessor("serviceType", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Service Type'
+      />
     ),
-  }),
-  columnHelper.accessor("name", {
-    header: "Name",
-    enableSorting: false,
-  }),
-  columnHelper.accessor("account_type", {
-    header: "Account Type",
-    enableSorting: false,
-  }),
-  columnHelper.accessor("phone_number", {
-    header: "Phone Number",
-    enableSorting: false,
-    cell: ({ getValue }) => {
-      const value = getValue();
-      return <Text fz={14} c='blue.7' children={value} />;
-    },
-  }),
-  columnHelper.accessor("service_type", {
-    header: "Service Type",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+      <Text
+        ta='center'
+        fz={14}
+        className='w-full'
+        tt='capitalize'
+        children={getValue()}
+      />
     ),
   }),
 
-  columnHelper.accessor("date", {
-    header: "Date",
+  columnHelper.accessor("createdAt", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Date Submitted'
+      />
+    ),
     enableSorting: false,
-    cell: ({ getValue }) => formatDate(getValue(), "LL"),
+    cell: ({ getValue }) => (
+      <Text
+        ta='center'
+        fz={14}
+        className='w-full'
+        children={formatDate(getValue(), DATE_FORMAT)}
+      />
+    ),
   }),
-
+  columnHelper.accessor("preferredTime", {
+    header: () => (
+      <Text
+        ta='center'
+        tt='capitalize'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Preferred Time'
+      />
+    ),
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <Text
+        ta='center'
+        tt='capitalize'
+        fz={14}
+        className='w-full'
+        children={getValue()}
+      />
+    ),
+  }),
+  columnHelper.accessor("urgencyLevel", {
+    header: () => (
+      <Text
+        ta='center'
+        fw={600}
+        fz={14}
+        className='w-full'
+        children='Urgency Level'
+      />
+    ),
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <Text
+        ta='center'
+        tt='capitalize'
+        fz={14}
+        className='w-full'
+        children={getValue()}
+      />
+    ),
+  }),
   columnHelper.accessor("status", {
     header: () => (
       <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
@@ -81,6 +130,7 @@ export const serviceRequestsColumns = [
         <Box ta='center'>
           <Pill
             ta='center'
+            tt='capitalize'
             c={colors[value.toLowerCase()].color}
             bg={colors[value.toLowerCase()].bg}
             fw={500}

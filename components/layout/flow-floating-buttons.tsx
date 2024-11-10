@@ -8,27 +8,32 @@ import {
   MenuProps,
   Transition,
   StackProps,
+  PolymorphicComponentProps,
 } from "@mantine/core";
 
 import { FilterDropdown, FilterData } from "../admin/shared/dropdowns";
 import { Add } from "iconsax-react";
-import { DownloadIcon, UploadIcon } from "@/icons";
-import { ReactNode } from "react";
+import { DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
+import { ElementType, ReactNode } from "react";
 
 enum IconType {
   FILTER = "filter",
   UPLOAD = "upload",
   DOWNLOAD = "download",
   ADD = "add",
+  NOTES = "notes",
 }
-type Icon = "upload" | "download" | "add";
+type Icon = "upload" | "download" | "add" | "notes";
 
 type Button = {
   icon: Icon;
-  btnProps: ButtonProps & {
-    onClick: () => void;
-  };
+  btnProps: BtnProps;
 };
+
+type BtnProps<T extends ElementType = "a"> = ButtonProps & {
+  href?: string;
+  onClick?: () => void;
+} & PolymorphicComponentProps<T>;
 
 type FlowFloatingButtonsProps = StackProps &
   (
@@ -78,6 +83,7 @@ export function FlowFloatingButtons({
     [IconType.ADD]: <Add size={30} />,
     [IconType.DOWNLOAD]: <DownloadIcon width={20} height={20} />,
     [IconType.UPLOAD]: <UploadIcon width={20} height={20} />,
+    [IconType.NOTES]: <NotesIcon width={20} height={20} />,
   };
 
   return (
@@ -96,6 +102,7 @@ export function FlowFloatingButtons({
           secondaryButtons.map(({ icon, btnProps }) => {
             return (
               <Button
+                key={icon}
                 radius='md'
                 w={50}
                 h={50}

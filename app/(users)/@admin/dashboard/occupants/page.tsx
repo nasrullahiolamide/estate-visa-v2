@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakeOccupantsList } from "@/builders/types/occupants";
 import { OccupantActions } from "@/components/admin/occupants/actions";
-import { occupantsColumns } from "@/columns/occupants";
+import { occupantsColumns } from "@/columns/for_admins/occupants";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";

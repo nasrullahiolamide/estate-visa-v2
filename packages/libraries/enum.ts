@@ -13,11 +13,11 @@ export enum APP {
   EMAIL = "eMail",
   FULL_NAME = "fLNe",
   EXPANDED_NAVBAR = "edNav",
-  USER_NAME = "uNme",
   USER_ID = "uID",
   USER_DATA = "uDat",
   OCCUPANT_ID = "oID",
   ESTATE_ID = "eID",
+  HOUSE_ID = "hID",
 }
 
 export enum USER_TYPE {
@@ -51,6 +51,7 @@ export enum PAGES {
   MESSAGES = "/messages",
   NOTICE_BOARD = "/notice-board",
   MEETINGS = "/meetings",
+  MINUTES = "/minutes",
   SERVICE_REQUESTS = "/service-requests",
   MARKET_PLACE = "/market-place",
   MARKET_RULES = "/rules",
@@ -87,4 +88,6 @@ export enum MODALS {
   CONFIRMATION = "confirmation",
   FORM_DETAILS = "form-details",
   WRITE_BROADCAST_MESSAGE = "write-broadcast-message",
+  WRTIE_MESSAGE = "write-message",
+  UPLOAD_RESOURCES = "upload-resources",
 }

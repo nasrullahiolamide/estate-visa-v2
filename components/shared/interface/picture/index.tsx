@@ -42,7 +42,7 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
         ref={ref}
         component='picture'
         style={{
-          aspectRatio: "4/3",
+          aspectRatio: "1",
           position: "relative",
           width,
           height,
@@ -64,7 +64,7 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
           overrideSrc={overrideSrc}
           className='rounded-lg'
           style={{
-            objectFit: "cover",
+            objectFit: "contain",
           }}
         />
       </Box>

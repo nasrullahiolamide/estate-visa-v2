@@ -1,7 +1,6 @@
 "use client";
 
-import { Fragment } from "react";
-import { Box, Button, Flex, Text } from "@mantine/core";
+import { Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 import { SearchIcon } from "@/icons";
@@ -38,7 +37,7 @@ export function SearchEstate() {
       color='gray.3'
       variant='outline'
       leftSection={<SearchIcon width={18} />}
-      className='!hidden sm:!flex'
+      className='!flex'
       children={
         <Flex align='center'>
           <Text fz={14} c='dimmed' pr={60}>

@@ -15,7 +15,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { HousesActions } from "@/components/admin/houses/actions";
-import { housesColumns } from "@/columns/houses";
+import { housesColumns } from "@/columns/for_admins/houses";
 import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   HouseForm,
