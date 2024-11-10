@@ -104,7 +104,7 @@ export function ServieRequestActions({
 
   return (
     <Fragment>
-      <FlowMenu>
+      <FlowMenu withArrow={false} position='bottom-end'>
         <FlowMenuTarget />
         <FlowMenuDropdown>
           {(status === STATUS.PENDING || status === STATUS.IN_PROGESS) && (

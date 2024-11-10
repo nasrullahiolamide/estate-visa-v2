@@ -16,7 +16,12 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <ReactQueryProvider>
       <FavIcon />
-      <NextTopLoader showSpinner={false} color='var(--blue-7)' height={4} />
+      <NextTopLoader
+        showSpinner={false}
+        color='var(--blue-7)'
+        height={4}
+        crawlSpeed={100}
+      />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer
         stacked
@@ -25,7 +30,6 @@ export function Providers({ children }: ProvidersProps) {
         theme='colored'
         transition={Bounce}
         className='z-[999] min-w-96'
-        
       />
     </ReactQueryProvider>
   );

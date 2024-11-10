@@ -1,4 +1,4 @@
-import { Box, Checkbox, Pill, Text } from "@mantine/core";
+import { Box, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
@@ -151,7 +151,7 @@ export const serviceRequestsColumns = [
         children='Actions'
       />
     ),
-    cell: ({ renderValue }) => renderValue(),
+    cell: ({ renderValue }) => <Flex justify='center'>{renderValue()}</Flex>,
     enableSorting: false,
   }),
 ];
