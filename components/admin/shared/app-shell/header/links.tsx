@@ -9,7 +9,10 @@ import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import {
   ADMIN_ROUTES,
+  GATEMAN_ROUTES,
   OCCUPANT_ROUTES,
+  PROPERTY_OWNER_ROUTES,
+  SUB_OCCUPANT_ROUTES,
   SUPER_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
 
@@ -35,6 +38,9 @@ export function Links() {
     [USER_TYPE.ADMIN]: ADMIN_ROUTES,
     [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
     [USER_TYPE.OCCUPANT]: OCCUPANT_ROUTES,
+    [USER_TYPE.PROPERTY_OWNER]: PROPERTY_OWNER_ROUTES,
+    [USER_TYPE.SUB_OCCUPANT]: SUB_OCCUPANT_ROUTES,
+    [USER_TYPE.GATEMAN]: GATEMAN_ROUTES,
   };
 
   return (

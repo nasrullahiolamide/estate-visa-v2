@@ -40,10 +40,7 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-export const handleSubOccupantForm = ({
-  data,
-  modalType,
-}: SubOccupantsFormProps) => {
+const handleSubOccupantForm = ({ data, modalType }: SubOccupantsFormProps) => {
   modals.open({
     title: modalType === "add" ? "Add Sub Occupant" : "Sub Occupant Details",
     modalId: MODALS.FORM_DETAILS,

@@ -34,37 +34,20 @@ export function ProductCard({}: ProductCardProps) {
       />
 
       <Stack gap='xs'>
-        <Flex justify='space-between' gap={10}>
-          <Text fw={500} size='lg'>
-            Original Nike Sneakers
-          </Text>
-          <Pill
-            c='white'
-            radius='sm'
-            bg='green.10'
-            ml={8}
-            className='capitalize'
-          >
-            New Arrival
-          </Pill>
-        </Flex>
+        <Text fw={500} size='lg'>
+          Original Nike Sneakers
+        </Text>
         <Text fw={700} size='xl'>
           ₦20,000
         </Text>
+        <StarRating className='!justify-start' />
         <Text size='sm' color='violet' mt={-5}>
           House A10
         </Text>
-        <StarRating className='!justify-start' />
+        <Text c='blue.7' className='underline cursor-pointer' mt={10}>
+          View Details
+        </Text>
       </Stack>
-
-      <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
-        <Button variant='outline' color='gray' size='sm' fz={13} flex={1}>
-          Reject
-        </Button>
-        <Button color='blue' size='sm' fz={13} flex={1}>
-          Approve
-        </Button>
-      </Flex>
     </Stack>
   );
 }

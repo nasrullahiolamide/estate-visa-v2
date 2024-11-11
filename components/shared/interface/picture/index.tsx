@@ -12,6 +12,7 @@ type PictureProps = Omit<BoxProps, keyof ImageProps> &
     width: number | string;
     height: number | string;
     optimize: boolean;
+    objectFit: "contain" | "cover" | "fill" | "none" | "scale-down";
   }>;
 
 export const Picture = forwardRef<HTMLImageElement, PictureProps>(
@@ -32,6 +33,7 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
       unoptimized = !optimize,
       overrideSrc,
       style,
+      objectFit = "contain",
       ...boxProps
     } = props;
 
@@ -64,7 +66,7 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
           overrideSrc={overrideSrc}
           className='rounded-lg'
           style={{
-            objectFit: "contain",
+            objectFit,
           }}
         />
       </Box>

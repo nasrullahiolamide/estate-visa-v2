@@ -30,7 +30,7 @@ export default function MeetingMinutes() {
     <Fragment>
       <AppShellHeader
         title='Meetings Minutes'
-        backHref={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
+        backHref={makePath(PAGES.DASHBOARD)}
         showLinks={false}
         options={<HeaderOptions />}
       />

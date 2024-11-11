@@ -1,3 +1,4 @@
+import { Gateman } from './../../builders/types/login';
 import { makePath, PAGES } from "@/packages/libraries";
 import { SVGProps } from "react";
 import {
@@ -27,6 +28,22 @@ export type NavLinkType = Array<{
   href: string;
   icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
 }>;
+
+export const GATEMAN_ROUTES = [
+  {
+    title: "Gate Requests",
+    href: makePath(PAGES.DASHBOARD),
+    icon: GroupDiscussionIcon,
+  },
+];
+
+export const PROPERTY_OWNER_ROUTES = [
+  {
+    title: "Meetings",
+    href: makePath(PAGES.DASHBOARD),
+    icon: GroupDiscussionIcon,
+  },
+];
 
 export const SUPER_ADMIN_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
@@ -117,6 +134,35 @@ export const OCCUPANT_ROUTES = [
     title: "Sub Occupants",
     href: makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS),
     icon: UserGroupIcon,
+  },
+  {
+    title: "Service Requests",
+    href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
+    icon: ServiceRequestIcon,
+  },
+  {
+    title: "Market Place",
+    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
+    icon: MarketPlaceIcon,
+  },
+];
+
+export const SUB_OCCUPANT_ROUTES = [
+  { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
+  {
+    title: "Gate Requests",
+    href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
+    icon: AirlineManageGateIcon,
+  },
+  {
+    title: "Notice Board",
+    href: makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
+    icon: NoticeBoardIcon,
+  },
+  {
+    title: "Meetings",
+    href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
+    icon: GroupDiscussionIcon,
   },
   {
     title: "Service Requests",

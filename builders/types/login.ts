@@ -20,8 +20,8 @@ export const Admins = [
   SuperAdmin,
   Admin,
   Occupant,
-  // SubOccupant,
-  // PropertyOwner,
+  SubOccupant,
+  PropertyOwner,
   // Gateman,
 ] as Array<string>;
 

@@ -27,11 +27,14 @@ import {
 import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
 import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
 import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
-import { handleOccupantForm } from "../occupants/page";
 import {
   PropertyOwnerForm,
   PropertyOwnerFormProps,
 } from "@/components/admin/property-owners/modals/form";
+import {
+  OccupantsFormProps,
+  OccupantsForm,
+} from "@/components/admin/occupants/modals/form";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -39,7 +42,15 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-export const handlePropertyOwnerForm = ({
+const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
+  modals.open({
+    title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
+    modalId: MODALS.FORM_DETAILS,
+    children: <OccupantsForm data={data} modalType={modalType} />,
+  });
+};
+
+const handlePropertyOwnerForm = ({
   data,
   modalType = "view",
 }: PropertyOwnerFormProps) => {

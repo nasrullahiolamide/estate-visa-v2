@@ -8,6 +8,8 @@ type LayoutProps = PropsWithChildren<{
   admin: ReactNode;
   super_admin: ReactNode;
   occupant: ReactNode;
+  sub_occupant: ReactNode;
+  property_owner: ReactNode;
   guest: ReactNode;
   request: NextRequest;
 }>;
@@ -16,6 +18,8 @@ export default async function Layout({
   admin,
   super_admin,
   occupant,
+  sub_occupant,
+  property_owner,
   guest = (
     <p>
       You are not authorized to view this page. Please contact the
@@ -32,8 +36,8 @@ export default async function Layout({
     [USER_TYPE.ADMIN]: admin,
     [USER_TYPE.SUPER_ADMIN]: super_admin,
     [USER_TYPE.OCCUPANT]: occupant,
-    // [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
-    // [USER_TYPE.PROPERTY_OWNER]: property_owner,
+    [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
+    [USER_TYPE.PROPERTY_OWNER]: property_owner,
     // [USER_TYPE.GATEMAN]: gateman,
   };
 

@@ -1,24 +1,15 @@
 import clsx from "clsx";
+import Link from "next/link";
 
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import { User, LogoutCurve } from "iconsax-react";
 import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
-import {
-  APP,
-  decryptUri,
-  encryptUri,
-  makePath,
-  MODALS,
-  PAGES,
-} from "@/packages/libraries";
+import { APP, decryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
-import { builder } from "@/builders";
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./modals/logout";
-import Link from "next/link";
 import { ProfileData } from "@/builders/types/profile";
 
 function handleLogout() {

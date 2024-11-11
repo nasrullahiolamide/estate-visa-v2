@@ -22,17 +22,13 @@ export function ViewServiceRequest({
         gap={15}
         h={620}
       >
-        <TextInput label='House Number' value={data.house_no} disabled />
-        <TextInput label='Account Type' value={data.account_type} disabled />
-        <TextInput label='Phone Number' disabled value={data.phone_number} />
-        <TextInput label='Service Type' disabled value={data.service_type} />
-        <TextInput label='Date' disabled value={data.date} />
-        <TextInput
-          label='Preferred Time'
-          disabled
-          value={data.preferred_time}
-        />
-        <TextInput label='Urgency Level' disabled value={data.urgency_level} />
+        <TextInput label='House Number' value={data.houseNo} disabled />
+        <TextInput label='Account Type' value={data.accountType} disabled />
+        <TextInput label='Phone Number' disabled value={data.phone} />
+        <TextInput label='Service Type' disabled value={data.serviceType} />
+        <TextInput label='Date' disabled value={data.createdAt} />
+        <TextInput label='Preferred Time' disabled value={data.preferredTime} />
+        <TextInput label='Urgency Level' disabled value={data.urgencyLevel} />
         <Textarea label='Brief Description' disabled value={data.description} />
         <TextInput label='Status' disabled value={data.status} />
       </FlowContainer>

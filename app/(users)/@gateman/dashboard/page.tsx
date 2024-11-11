@@ -1,24 +1,26 @@
 "use client";
 
 import clsx from "clsx";
-import { Add } from "iconsax-react";
+
 import { Fragment, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { useQuery } from "@tanstack/react-query";
+
 import { builder } from "@/builders";
-import { useFakeOccupantsList } from "@/builders/types/occupants";
-import { OccupantActions } from "@/components/admin/occupants/actions";
-import { occupantsColumns } from "@/columns/for_admins/occupants";
+import { useFakeGateRequestList } from "@/builders/types/gate-requests";
+import { APP, MODALS } from "@/packages/libraries";
+import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/icons";
+import { GateRequestActions } from "@/components/occupant/gate-request/actions";
+import { AddIcon, DownloadIcon } from "@/icons";
+import { Add } from "iconsax-react";
 import {
-  OccupantsForm,
-  OccupantsFormProps,
-} from "@/components/admin/occupants/modals/form";
+  GateRequestForm,
+  GateRequestFormProps,
+} from "@/components/occupant/gate-request/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -36,48 +38,78 @@ const filterOptions = [
   { label: "Recently Added", value: "recent" },
   { label: "Name(A-Z)", value: "a-z" },
   { label: "Name(Z-A)", value: "z-a" },
+  {
+    label: "Guest Type",
+    value: "guest-type",
+    children: [
+      {
+        label: "Family",
+        value: "family",
+      },
+      {
+        label: "Friend",
+        value: "friend",
+      },
+      {
+        label: "Worker",
+        value: "worker",
+      },
+    ],
+  },
+  {
+    label: "Status",
+    value: "status",
+    children: [
+      {
+        label: "Pending",
+        value: "pending",
+      },
+      {
+        label: "Approved",
+        value: "approved",
+      },
+      {
+        label: "Cancelled",
+        value: "cancelled",
+      },
+    ],
+  },
 ];
 
-const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
+const handleGateRequestForm = ({ data, modalType }: GateRequestFormProps) => {
   modals.open({
-    title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
+    title: modalType === "add" ? "Generate Request" : "Request Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <OccupantsForm data={data} modalType={modalType} />,
+    children: <GateRequestForm data={data} modalType={modalType} />,
   });
 };
 
-export default function Occupants() {
-  const initialOccupantsList = useFakeOccupantsList();
+export default function Gates() {
+  const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
+
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get(),
-    queryFn: () =>
-      builder.use().occupants.get({
-        page,
-        pageSize,
-        search,
-      }),
-    placeholderData: initialOccupantsList,
-    select({ total, page, data, pageSize }) {
+  const { data: gateRequests, isPlaceholderData } = useQuery({
+    queryKey: builder.gates.requests.get.get(),
+    queryFn: () => builder.use().gates.requests.get({ page, pageSize, search }),
+    placeholderData: initialGateRequestList,
+    select({ page, pageSize, total, data }) {
       return {
-        total,
         page,
         pageSize,
+        total,
         data: data.map((list) => {
           return {
             ...list,
             action: (
-              <OccupantActions
+              <GateRequestActions
                 id={list.id}
-                isActive={list.status.toLowerCase() === "active"}
+                accessCode={list.accessCode}
                 handlers={{
-                  onAdd: () => handleOccupantForm({ modalType: "add" }),
-                  onView: () =>
-                    handleOccupantForm({ data: list, modalType: "view" }),
+                  onAdd: () => handleGateRequestForm({ modalType: "add" }),
                   onEdit: () =>
-                    handleOccupantForm({ data: list, modalType: "edit" }),
+                    handleGateRequestForm({ modalType: "edit", data: list }),
                 }}
               />
             ),
@@ -90,18 +122,20 @@ export default function Occupants() {
   useEffect(() => {
     if (isPlaceholderData) return;
 
-    pagination.setPage(occupants?.page);
-    pagination.setTotal(occupants?.total);
-    pagination.setEntriesCount(occupants?.data?.length);
-    pagination.setPageSize(occupants?.pageSize);
+    pagination.setPage(gateRequests?.page);
+    pagination.setTotal(gateRequests?.total);
+    pagination.setEntriesCount(gateRequests?.data?.length);
+    pagination.setPageSize(gateRequests?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = occupants?.data.length === 0;
+  const noDataAvailable = gateRequests?.data.length === 0;
+
+  console.log({ gateRequests });
 
   return (
     <Fragment>
       <AppShellHeader
-        title='Occupants'
+        title='Gate Request'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
@@ -114,22 +148,21 @@ export default function Occupants() {
           }}
         >
           <FlowPaper>
-            {occupants?.data.length ? (
+            {gateRequests?.data.length ? (
               <FlowTable
-                data={occupants.data}
-                columns={occupantsColumns}
+                data={gateRequests.data}
+                columns={gateRequestsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleOccupantForm}
               />
             ) : (
               <EmptySlot
-                title='There are no occupants yet. Add one to get started!'
-                src='person-minus'
+                title='You have no gate requests yet. Create one to get started!'
+                src='question'
                 withButton
-                text='Add New Occupant'
+                text='Send New Request'
                 btnProps={{
-                  leftSection: <Add />,
-                  onClick: () => handleOccupantForm({ modalType: "add" }),
+                  leftSection: <AddIcon />,
+                  onClick: () => handleGateRequestForm({ modalType: "add" }),
                 }}
               />
             )}
@@ -154,18 +187,12 @@ export default function Occupants() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: () => handleOccupantForm({ modalType: "add" }),
+              onClick: () => handleGateRequestForm({ modalType: "add" }),
             },
           }}
           secondaryButtons={[
             {
               icon: "download",
-              btnProps: {
-                onClick: () => {},
-              },
-            },
-            {
-              icon: "upload",
               btnProps: {
                 onClick: () => {},
               },
@@ -184,14 +211,11 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<Add />}
-        onClick={() => handleOccupantForm({ modalType: "add" })}
+        onClick={() => handleGateRequestForm({ modalType: "add" })}
       >
-        Add New Occupant
+        Send New Request
       </Button>
       <FilterDropdown data={filterOptions} />
-      <Button variant='outline' fz='sm' size='md' leftSection={<UploadIcon />}>
-        Bulk Upload
-      </Button>
       <Button
         variant='outline'
         fz='sm'

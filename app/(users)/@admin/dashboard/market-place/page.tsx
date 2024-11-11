@@ -11,7 +11,7 @@ import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { Inbox, CarbonRule } from "@/icons";
+import { CarbonRule } from "@/icons";
 
 import {
   FlowEntriesPerPage,
@@ -22,7 +22,7 @@ import {
 } from "@/components/layout";
 import { TotalListings } from "@/components/admin/market-place/listings/total";
 
-export enum VIEW_TYPES {
+enum VIEW_TYPES {
   TOTAL_LISTINGS = "total-listings",
   PENDING_APPROVALS = "pending-approvals",
   ACTIVE_LISTINGS = "active-listings",

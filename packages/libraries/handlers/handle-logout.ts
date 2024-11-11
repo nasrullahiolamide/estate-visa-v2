@@ -8,7 +8,10 @@ export async function handleLogout() {
     TOKEN.PAYLOAD,
     TOKEN.SIGNATURE,
     APP.FULL_NAME,
-    APP.USER_NAME,
+    APP.ESTATE_ID,
+    APP.HOUSE_ID,
+    APP.USER_DATA,
+    APP.OCCUPANT_ID,
     APP.USER_ID,
   ];
 

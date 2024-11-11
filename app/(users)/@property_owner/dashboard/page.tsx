@@ -94,7 +94,7 @@ function HeaderOptions() {
         size='md'
         leftSection={<NotesIcon />}
         component={Link}
-        href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS, PAGES.MINUTES)}
+        href={makePath(PAGES.DASHBOARD, PAGES.MINUTES)}
       >
         Meeting Minutes
       </Button>

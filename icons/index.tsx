@@ -52,5 +52,6 @@ export { NoticeBoardIcon } from "./notice-board";
 export { ShareIcon } from "./share";
 export { HourglassIcon } from "./hourglass";
 export { NotesIcon } from "./notes";
+export { ListIcon } from "./list";
 
 export type { IconType } from "./type";
