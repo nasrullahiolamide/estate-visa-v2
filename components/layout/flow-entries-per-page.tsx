@@ -11,12 +11,7 @@ type FlowEntriesPerPageProps = {
   totalProps?: TextProps;
 };
 
-export function FlowEntriesPerPage({
-  rootProps,
-  pageProps,
-  countProps,
-  totalProps,
-}: FlowEntriesPerPageProps) {
+export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
   const { pageSize } = useFlowState();
   const dispatch = useFlowDispatch();
 

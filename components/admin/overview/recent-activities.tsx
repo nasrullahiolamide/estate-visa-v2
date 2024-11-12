@@ -38,7 +38,7 @@ export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
         mt={12}
         mih={300}
         mah={350}
-        className='overflow-scroll justify-center'
+        className='overflow-scroll'
       >
         {data.map((activity) => (
           <Flex

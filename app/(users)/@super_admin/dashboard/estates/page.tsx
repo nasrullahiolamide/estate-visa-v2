@@ -30,9 +30,9 @@ import { EstateActions } from "@/components/super-admin/estates/actions";
 import clsx from "clsx";
 
 const filterOptions = [
-  { label: "A - Z", value: "a-z" },
-  { label: "Z - A", value: "z-a" },
-  { label: "Most Recent", value: "most-recent" },
+  { label: "A - Z", value: "A-Z" },
+  { label: "Z - A", value: "Z-A" },
+  { label: "Most Recent", value: "Recent" },
   {
     label: "Number of houses (low to high)",
     value: "low-to-high",
@@ -51,7 +51,8 @@ export default function Estates() {
   const pagination = useFlowPagination();
 
   const { setEstate } = useEstateValue();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, search, numberOfPages, sortBy, sortOrder } =
+    useFlowState();
 
   const { data: estates, isPlaceholderData } = useQuery({
     queryKey: builder.estates.get.get(),
@@ -60,6 +61,8 @@ export default function Estates() {
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
       }),
     placeholderData: initialEstateList,
     select({ total, page, data, pageSize }) {

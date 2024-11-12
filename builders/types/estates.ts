@@ -72,7 +72,7 @@ export type Admin = {
 export function useFakeEstateData(_?: any, index?: number) {
   faker.seed(index);
 
-  const id = index?.toString() ?? faker.number.int({ max: 10 }).toString();
+  const id = index?.toString() ?? faker.number.int({ max: 50 }).toString();
 
   return {
     id,

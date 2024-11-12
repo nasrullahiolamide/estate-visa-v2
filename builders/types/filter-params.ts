@@ -4,7 +4,9 @@ type Params = {
   page: number;
   pageSize: number;
   search: string;
-  sortOrder: "asc" | "desc";
+  sortOrder: string;
+  sortBy: string;
+  status: string;
 };
 
 export type FilterParams<T extends Record<PropertyKey, unknown> = {}> =

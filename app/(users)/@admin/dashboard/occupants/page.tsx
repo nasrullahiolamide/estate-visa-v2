@@ -34,8 +34,8 @@ import {
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
-  { label: "Name(A-Z)", value: "a-z" },
-  { label: "Name(Z-A)", value: "z-a" },
+  { label: "Name(A-Z)", value: "A-Z" },
+  { label: "Name(Z-A)", value: "Z-A" },
 ];
 
 const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {

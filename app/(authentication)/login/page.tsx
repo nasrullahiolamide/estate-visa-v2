@@ -95,8 +95,8 @@ export default function Page() {
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
         <Stack gap={24}>
           <TextInput
-            placeholder='Enter your email address or username'
-            label='Email Address'
+            placeholder='Enter your email address or gate-username'
+            label='Username'
             {...form.getInputProps("username")}
           />
           <PasswordInput

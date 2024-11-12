@@ -131,8 +131,6 @@ export default function Page({ params }: PageProps) {
       },
     };
 
-    console.log(data);
-
     isEditing && editEstate({ id: estateId ?? "", data });
     isViewing && form.setValues({ action: "edit" });
   }

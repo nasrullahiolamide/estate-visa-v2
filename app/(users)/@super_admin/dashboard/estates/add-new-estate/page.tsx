@@ -1,5 +1,7 @@
 "use client";
 
+import clsx from "clsx";
+
 import { Fragment } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
@@ -17,7 +19,6 @@ import {
   FormValues,
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
-import clsx from "clsx";
 
 export default function Page() {
   const queryClient = useQueryClient();
@@ -54,16 +55,18 @@ export default function Page() {
     validateInputOnBlur: true,
   });
 
-  function handleSubmit({
-    owner,
-    username,
-    email,
-    phone,
-    password,
-    numberOfHouses,
-    ...values
-  }: typeof form.values) {
-    const data = {
+  function handleSubmit() {
+    const {
+      owner,
+      username,
+      email,
+      phone,
+      password,
+      numberOfHouses,
+      ...values
+    } = form.getValues();
+
+    const payload = {
       ...values,
       numberOfHouses: cast.number(numberOfHouses),
       managerDetails: {
@@ -75,7 +78,7 @@ export default function Page() {
       },
     };
 
-    addNewEstate(data);
+    addNewEstate(payload);
   }
 
   return (
@@ -91,7 +94,7 @@ export default function Page() {
               root: clsx("rounded-xl bg-white lg:p-12 m-4 p-6 ", {}),
             }}
           >
-            <Form form={form} className='h-full flex' onSubmit={handleSubmit}>
+            <Form form={form} className='h-full flex'>
               <DesktopView
                 onSubmit={handleSubmit}
                 isSubmitting={isPending}
