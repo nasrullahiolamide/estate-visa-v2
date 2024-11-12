@@ -1,43 +1,97 @@
 "use client";
 
+import clsx from "clsx";
+
 import { GateIcon } from "@/icons";
-import { Box, Flex, Group, Indicator, Stack, Text } from "@mantine/core";
+import { Flex, Stack, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "./requests-dropdown";
-import { DownloadDropdown } from "../../shared/interface/charts/download-dropdown";
 import { PieChart } from "@/components/shared/interface/charts/pie";
 import { cast } from "@/packages/libraries";
-
-const data = [
-  { name: "Approved", value: 70, color: "#11A506", label: "70%" },
-  { name: "Pending", value: 30, color: "#969921", label: "30%" },
-];
+import { useFakeAccessRequestData } from "@/builders/types/admin-dashboard";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
+import { useQueryState } from "nuqs";
 
 export function AccessRequests() {
+  const initialAccessRequest = useFakeAccessRequestData();
+
+  const [period, setPeriod] = useQueryState("ar-prd", {
+    defaultValue: "weekly",
+  });
+
+  const { data, isPlaceholderData } = useQuery({
+    queryKey: builder.dashboard.admin.access_requests.get(period),
+    queryFn: () => builder.use().dashboard.admin.access_requests({ period }),
+    placeholderData: initialAccessRequest,
+    select: (data) => {
+      const approvedPercentage = Math.floor(data.approvedPercentage);
+      const pendingPercentage = Math.floor(data.pendingPercentage);
+      const totalRequests = Math.floor(data.totalRequests);
+
+      const noData = approvedPercentage === 0 && pendingPercentage === 0;
+
+      return {
+        totalRequests,
+        noData,
+        requests: [
+          {
+            name: "Approved",
+            value: approvedPercentage,
+            color: "#11A506",
+            label: approvedPercentage > 0 ? `${approvedPercentage}%` : "",
+          },
+          {
+            name: "Pending",
+            value: pendingPercentage,
+            color: "#969921",
+            label: pendingPercentage > 0 ? `${pendingPercentage}%` : "",
+          },
+        ],
+      };
+    },
+  });
+
   return (
     <Stack
       bg='white'
-      className='rounded-lg backdrop-blur-sm w-full sm:w-[620px]'
+      className={clsx("rounded-lg backdrop-blur-sm w-full sm:w-[620px]", {
+        skeleton: isPlaceholderData,
+      })}
       p={20}
       gap={16}
     >
-      <Flex>
+      <Flex align='center'>
         <Text fw={500} fz='lg'>
           Access Request
         </Text>
 
         <FilterRequestsDropdown
-          data={["Weekly", "Monthly", "Yearly"]}
+          data={["weekly", "monthly", "yearly"]}
+          value={period}
+          onFilter={setPeriod}
           ml='auto'
         />
       </Flex>
-      <PieChart
-        data={data}
-        labelProps={{
-          icon: GateIcon,
-          text: "Total Requests",
-          value: cast.string(10),
-        }}
-      />
+      {data?.noData ? (
+        <Flex
+          justify='center'
+          align='center'
+          className='h-[300px] bg-gray-1 rounded-lg'
+        >
+          <Text c='gray' fz={14}>
+            No data available
+          </Text>
+        </Flex>
+      ) : (
+        <PieChart
+          data={data?.requests ?? []}
+          labelProps={{
+            icon: GateIcon,
+            text: "Total Requests",
+            value: cast.string(data?.totalRequests),
+          }}
+        />
+      )}
     </Stack>
   );
 }

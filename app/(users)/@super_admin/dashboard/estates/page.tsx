@@ -91,6 +91,7 @@ export default function Estates() {
     },
   });
 
+  console.log(estates);
   useEffect(() => {
     if (isPlaceholderData) return;
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
 import {
@@ -9,7 +11,12 @@ import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { DrawersProvider } from "@/components/shared/interface";
 import { theme } from "../theme";
-import { CancelCircleIcon } from "@/icons";
+import { CancelCircleIcon, SearchIcon } from "@/icons";
+import { Spotlight } from "@mantine/spotlight";
+import { getAuthorizedUser } from "@/packages/actions";
+import { spotLightActions } from "@/packages/actions/spotlight";
+import { getCookie } from "cookies-next";
+import { APP, USER_TYPE } from "@/packages/libraries";
 
 interface MantineProviderProps {
   children: ReactNode;
@@ -41,6 +48,7 @@ export function CustomMantineProvider({ children }: MantineProviderProps) {
               },
             }}
           />
+
           {/*
               ModalsProvider is a context provider that manages modals state
               and provides modals API to all components inside its subtree

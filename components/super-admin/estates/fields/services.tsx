@@ -1,4 +1,4 @@
-import { Title, Checkbox, Stack } from "@mantine/core";
+import { Checkbox, Stack } from "@mantine/core";
 import { Fragment } from "react";
 import { useFormContext } from "../form-context";
 import { builder } from "@/builders";
@@ -23,11 +23,12 @@ export function Services() {
 
   return (
     <Fragment>
-      <Title order={3} fw={400}>
-        Service Requests
-      </Title>
       <Checkbox.Group
+        label='Service Requests'
         withAsterisk
+        classNames={{
+          label: "mb-2",
+        }}
         {...form.getInputProps("serviceRequestTypes")}
       >
         <Stack p={14} className='border border-gray-4 rounded-lg'>
@@ -39,15 +40,20 @@ export function Services() {
               label={request}
               value={request}
               className={clsx({ skeleton: serviceTypesLoading })}
+              disabled={form.getValues().action === "view"}
             />
           ))}
         </Stack>
       </Checkbox.Group>
 
-      <Title order={3} fw={400}>
-        Service Types
-      </Title>
-      <Checkbox.Group withAsterisk {...form.getInputProps("interests")}>
+      <Checkbox.Group
+        label='Service Types'
+        withAsterisk
+        classNames={{
+          label: "mb-2",
+        }}
+        {...form.getInputProps("interests")}
+      >
         <Stack p={14} className='border border-gray-4 rounded-lg'>
           {serviceTypes?.map((type) => (
             <Checkbox
@@ -57,6 +63,7 @@ export function Services() {
               label={type.name}
               value={type.name}
               className={clsx({ skeleton: serviceTypesLoading })}
+              disabled={form.getValues().action === "view"}
             />
           ))}
         </Stack>

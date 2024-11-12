@@ -2,8 +2,13 @@ import { AreaChart } from "@mantine/charts";
 import { Stack, Group, Indicator, Flex, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "@/components/admin/overview";
 import { rates } from "@/components/admin/data/rates";
+import { useQueryState } from "nuqs";
 
 export function OnboardingRates() {
+  const [timeFilter, setTimeFilter] = useQueryState("time-filter", {
+    defaultValue: "Week",
+  });
+
   return (
     <Stack
       flex={1}
@@ -19,6 +24,8 @@ export function OnboardingRates() {
         </Text>
         <FilterRequestsDropdown
           data={["Week", "Biannual", "Quarter"]}
+          onFilter={setTimeFilter}
+          value={timeFilter}
           ml='auto'
         />
       </Group>

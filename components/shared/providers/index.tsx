@@ -20,7 +20,7 @@ export function Providers({ children }: ProvidersProps) {
         showSpinner={false}
         color='var(--blue-7)'
         height={4}
-        crawlSpeed={100}
+        crawlSpeed={500}
       />
       <CustomMantineProvider>{children}</CustomMantineProvider>
       <ToastContainer

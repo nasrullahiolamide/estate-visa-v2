@@ -2,23 +2,23 @@
 
 import { Box } from "@mantine/core";
 
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
-import { useFakeAdminDashboardData } from "@/builders/types/admin-dashboard";
 import { makePath, PAGES } from "@/packages/libraries";
 import { EstateIcon, UserIcon } from "@/icons";
 import { StatisticsCard } from "@/components/admin/shared";
 
-export function StatisticsOverview() {
-  const initialAdminData = useFakeAdminDashboardData();
+interface StatisticsOverviewProps {
+  totalEstates: number;
+  totalEstateOwners: number;
+  totalUsers: number;
+  skeleton?: boolean;
+}
 
-  const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.get.get(),
-    queryFn: () => builder.use().dashboard.admin.get(),
-    placeholderData: initialAdminData,
-    select: (data) => data,
-  });
-
+export function StatisticsOverview({
+  totalEstates,
+  totalEstateOwners,
+  totalUsers,
+  skeleton,
+}: StatisticsOverviewProps) {
   return (
     <Box
       className='grid gap-6'
@@ -30,28 +30,28 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={EstateIcon}
         title='Total Estates'
-        value={data?.totalHouses}
-        total={data?.totalHouses}
+        value={totalEstates}
+        total={totalEstates}
         label='Manage Houses'
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
-        skeleton={isPlaceholderData}
+        skeleton={skeleton}
       />
 
       <StatisticsCard
         icon={UserIcon}
         title='Total Estate Owners'
-        value={data?.totalOccupants}
+        value={totalEstateOwners}
         label='Manage Estate Owners'
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
-        skeleton={isPlaceholderData}
+        skeleton={skeleton}
       />
 
       <StatisticsCard
         icon={UserIcon}
         title='Total Users'
-        value={data?.totalSubOccupants}
+        value={totalUsers}
         label='Manage Users'
-        skeleton={isPlaceholderData}
+        skeleton={skeleton}
       />
     </Box>
   );

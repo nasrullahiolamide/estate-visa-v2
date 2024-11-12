@@ -12,12 +12,14 @@ export function BasicInfo() {
         label='Estate Name'
         placeholder='Enter the name of your estate'
         withAsterisk
+        disabled={form.getValues().action === "view"}
         {...form.getInputProps("name")}
       />
       <TextInput
         label='Estate Location'
         placeholder='Enter the location of your estate'
         withAsterisk
+        disabled={form.getValues().action === "view"}
         {...form.getInputProps("location")}
       />
       <TextInput
@@ -26,6 +28,7 @@ export function BasicInfo() {
         placeholder='Enter the number of houses in your estate'
         min={0}
         withAsterisk
+        disabled={form.getValues().action === "view"}
         {...form.getInputProps("numberOfHouses")}
       />
     </Fragment>

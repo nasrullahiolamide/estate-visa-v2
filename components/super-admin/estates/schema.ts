@@ -14,7 +14,13 @@ export const schema = object({
   password: string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters."),
-  houseTypes: array().of(string()).notRequired(),
-  serviceRequestTypes: array().of(string()).notRequired(),
-  serviceTypes: array().of(string()).notRequired(),
+  houseTypes: array()
+    .of(string())
+    .min(1, "At least one house type is required."),
+  serviceRequestTypes: array()
+    .of(string())
+    .min(1, "At least one service request type is required."),
+  serviceTypes: array()
+    .of(string())
+    .min(1, "At least one service type is required."),
 });

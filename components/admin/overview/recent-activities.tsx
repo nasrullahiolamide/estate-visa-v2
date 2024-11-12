@@ -1,20 +1,20 @@
 "use client";
 
-import { Stack, Tabs, Title } from "@mantine/core";
-import { useQueryState } from "nuqs";
+import clsx from "clsx";
+import { Avatar, Flex, Stack, Text, Title } from "@mantine/core";
+import { RecentActivityFeed } from "@/builders/types/super-admin-dashboard";
+import { FlowContentContainer } from "@/components/layout";
+import { fromNow } from "@/packages/libraries/formatters";
 
-import { notifications } from "../data/notifications";
-import { NotificationItem } from "./notification-item";
-import {
-  FlowContentContainer,
-  FlowTabs,
-  FlowTabsPanel,
-} from "@/components/layout";
+interface RecentActivitiesProps {
+  data: RecentActivityFeed[];
+  skeleton?: boolean;
+}
 
-export function RecentActivities() {
-  const [activity, setActivity] = useQueryState("activity", {
-    defaultValue: "this-week",
-  });
+const user = null;
+
+export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
+  if (data.length === 0) return null;
 
   return (
     <Stack
@@ -24,31 +24,49 @@ export function RecentActivities() {
       p={20}
       gap={16}
     >
-      <Title className='prose-xl/medium text-primary-text-body'>
-        Recent Activity Feed
-      </Title>
+      <Stack gap={6}>
+        <Title order={2} className='prose-xl/medium text-primary-text-body'>
+          Recent Activity Feed
+        </Title>
 
-      <FlowTabs value={activity} onChange={setActivity} px={0}>
-        <Tabs.List>
-          <Tabs.Tab value='this-week'>This week</Tabs.Tab>
-          <Tabs.Tab value='last-week'>Last week</Tabs.Tab>
-        </Tabs.List>
+        <Text c='gray' fz={14}>
+          Showing activities for the last 7 days
+        </Text>
+      </Stack>
 
-        <FlowTabsPanel value='this-week' mih={300}>
-          <FlowContentContainer mt={16} className='overflow-scroll h-[300px]'>
-            {notifications.map((notification, index) => (
-              <NotificationItem {...notification} key={index} />
-            ))}
-          </FlowContentContainer>
-        </FlowTabsPanel>
-        <FlowTabsPanel value='last-week' mih={300}>
-          <FlowContentContainer h={300} mt={16} className='lg:overflow-scroll '>
-            {notifications.map((notification, index) => (
-              <NotificationItem {...notification} key={index} />
-            ))}
-          </FlowContentContainer>
-        </FlowTabsPanel>
-      </FlowTabs>
+      <FlowContentContainer
+        mt={12}
+        mih={300}
+        mah={350}
+        className='overflow-scroll justify-center'
+      >
+        {data.map((activity) => (
+          <Flex
+            key={activity.id}
+            flex={1}
+            gap={18}
+            wrap='nowrap'
+            align='center'
+            className={clsx("border-t border-gray-2 h-full ", { skeleton })}
+            py={16}
+          >
+            {user ? (
+              <Avatar src={user} radius='xl' size={45} />
+            ) : (
+              <Avatar color='blue.4' radius='xl' size={45}>
+                {/* {user?.name[0]} */}
+                {user}
+              </Avatar>
+            )}
+            <Stack gap={4}>
+              <Text fz={14}>{activity.details}</Text>
+              <Text fz={12} c='gray'>
+                {fromNow(activity.createdAt)}
+              </Text>
+            </Stack>
+          </Flex>
+        ))}
+      </FlowContentContainer>
     </Stack>
   );
 }

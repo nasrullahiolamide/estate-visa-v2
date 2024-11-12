@@ -1,7 +1,9 @@
 import dayjs, { ConfigType } from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(LocalizedFormat);
+dayjs.extend(relativeTime);
 
 /**
  * Formats a Date object or date string using the specified format.
@@ -11,4 +13,8 @@ dayjs.extend(LocalizedFormat);
  */
 export function formatDate(date?: ConfigType, format?: string): string | null {
   return dayjs(date).isValid() ? dayjs(date).format(format ?? "LLL") : null;
+}
+
+export function fromNow(date: ConfigType): string {
+  return dayjs(date).fromNow();
 }

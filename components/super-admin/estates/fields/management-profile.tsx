@@ -31,18 +31,21 @@ export function ManagementProfile() {
           label='Estate Owner'
           placeholder="Enter the estate owner's name"
           withAsterisk
+          disabled={form.getValues().action === "view"}
           {...form.getInputProps("owner")}
         />
         <TextInput
           label='Estate Email Address'
           placeholder="Enter the estate owner's email address"
           withAsterisk
+          disabled={form.getValues().action === "view"}
           {...form.getInputProps("email")}
         />
         <TextInput
           label='Estate Phone Number'
           placeholder="Enter the estate owner's phone number"
           withAsterisk
+          disabled={form.getValues().action === "view"}
           {...form.getInputProps("phone")}
         />
 
@@ -50,12 +53,14 @@ export function ManagementProfile() {
           label='Username'
           placeholder='Enter the estate owner username'
           withAsterisk
+          disabled={form.getValues().action === "view"}
           {...form.getInputProps("username")}
         />
         <PasswordInput
           label='Password'
           placeholder='********'
           withAsterisk
+          disabled={form.getValues().action === "view"}
           {...form.getInputProps("password")}
         />
       </SimpleGrid>

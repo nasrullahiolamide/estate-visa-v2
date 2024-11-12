@@ -6,34 +6,69 @@ export type AdminDashboardData = {
   totalOccupants: number;
   totalGates: number;
   totalSubOccupants: number;
-  recentActivityFeed: RecentActivity[];
+  recentActivityFeed: RecentActivityFeed[];
 };
 
-export type AdminDashboard = {
-  data: AdminDashboardData;
+export type RecentActivityFeed = {
+  id: string;
+  action: string;
+  timestamp: string;
+  details: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 };
 
-export type RecentActivity = {
-  note?: string;
-  activity_type: string;
-  created_at: string;
-  name: string;
+export type AccessRequestData = {
+  totalRequests: number;
+  approvedPercentage: number;
+  pendingPercentage: number;
 };
 
-export function useFakeRecentActivity(): RecentActivity {
+export type ServiceRequestData = {
+  day: string;
+  approved: number;
+  rejected: number;
+  pending: number;
+}[];
+
+export function useFakeServiceRequesData(): ServiceRequestData {
+  faker.seed(dayjs().day());
+
+  return Array.from({ length: faker.number.int({ min: 3, max: 100 }) }, () => ({
+    day: faker.date.recent().toISOString(),
+    approved: faker.number.int({ min: 1, max: 100 }),
+    rejected: faker.number.int({ min: 1, max: 100 }),
+    pending: faker.number.int({ min: 1, max: 100 }),
+  }));
+}
+
+export function useFakeAccessRequestData(): AccessRequestData {
   faker.seed(dayjs().day());
 
   return {
-    note: faker.lorem.sentence(),
-    activity_type: faker.helpers.arrayElement([
-      "Occupant",
-      "Property Owner",
-      "Sub Occupant",
-      "House",
-      "Gate",
+    totalRequests: faker.number.int({ min: 1, max: 100 }),
+    approvedPercentage: faker.number.int({ min: 1, max: 100 }),
+    pendingPercentage: faker.number.int({ min: 1, max: 100 }),
+  };
+}
+
+export function useFakeRecentActivityFeedData() {
+  faker.seed(dayjs().day());
+
+  return {
+    id: faker.number.int({ max: 100 }).toString(),
+    action: faker.helpers.arrayElement([
+      "created",
+      "updated",
+      "deleted",
+      "added",
     ]),
-    created_at: faker.date.recent().toISOString(),
-    name: faker.person.fullName(),
+    timestamp: faker.date.recent().toISOString(),
+    details: faker.lorem.sentence(),
+    createdAt: faker.date.recent().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
+    deletedAt: faker.date.recent().toISOString(),
   };
 }
 
@@ -47,7 +82,7 @@ export function useFakeAdminDashboardData(): AdminDashboardData {
     totalSubOccupants: faker.number.int({ min: 1, max: 100 }),
     recentActivityFeed: Array.from(
       { length: faker.number.int({ min: 3, max: 100 }) },
-      useFakeRecentActivity
+      useFakeRecentActivityFeedData
     ),
   };
 }

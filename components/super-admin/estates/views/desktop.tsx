@@ -28,7 +28,7 @@ export function DesktopView({ onSubmit, isSubmitting, btnText }: DesktopProps) {
       <Button
         type='submit'
         mt={25}
-        onSubmit={onSubmit}
+        onClick={onSubmit}
         loading={isSubmitting}
         disabled={isSubmitting}
       >

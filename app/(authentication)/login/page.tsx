@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
+
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { boolean, object } from "yup";
-
 import { useMutation } from "@tanstack/react-query";
 import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { APP, handleLogin, PAGES } from "@/packages/libraries";
-import { Admins, LoginResponseData } from "@/builders/types/login";
 import { builder } from "@/builders";
+import { Admins, LoginResponseData } from "@/builders/types/login";
 import { requiredString } from "@/builders/types/shared";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import {
@@ -24,16 +24,14 @@ import {
 } from "@mantine/core";
 
 const schema = object({
-  email: requiredString.email(
-    "Invalid email. Please enter a valid email address."
-  ),
+  username: requiredString,
   password: requiredString.min(6, "Password must be at least 6 characters."),
   remember_me: boolean().notRequired(),
 });
 
 export default function Page() {
   const sessionStatus = useSearchParams().get("session");
-  const email = getCookie(APP.EMAIL) ?? "";
+  const username = getCookie(APP.USERNAME) ?? "";
 
   useEffect(() => {
     if (sessionStatus === "expired") {
@@ -45,7 +43,7 @@ export default function Page() {
 
   const form = useForm({
     initialValues: {
-      email,
+      username,
       password: "",
     },
     validate: yupResolver(schema),
@@ -81,7 +79,12 @@ export default function Page() {
   });
 
   function handleSubmit(values: typeof form.values) {
-    mutate(values);
+    const payload = {
+      email: values.username,
+      password: values.password,
+    };
+
+    mutate(payload);
   }
 
   return (
@@ -92,10 +95,9 @@ export default function Page() {
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
         <Stack gap={24}>
           <TextInput
-            placeholder='user@example.com'
-            label='Email address'
-            type='email'
-            {...form.getInputProps("email")}
+            placeholder='Enter your email address or username'
+            label='Email Address'
+            {...form.getInputProps("username")}
           />
           <PasswordInput
             placeholder='**********'

@@ -3,22 +3,24 @@
 import { Box } from "@mantine/core";
 
 import { StatisticsCard } from "../shared/cards";
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
-import { useFakeAdminDashboardData } from "@/builders/types/admin-dashboard";
 import { makePath, PAGES } from "@/packages/libraries";
 import { GateIcon, HousesIcon, UserFriendsIcon, UserGroupIcon } from "@/icons";
 
-export function StatisticsOverview() {
-  const initialAdminData = useFakeAdminDashboardData();
+interface StatisticsOverviewProps {
+  totalHouses: number;
+  totalOccupants: number;
+  totalSubOccupants: number;
+  totalGates: number;
+  skeleton?: boolean;
+}
 
-  const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.get.get(),
-    queryFn: () => builder.use().dashboard.admin.get(),
-    placeholderData: initialAdminData,
-    select: (data) => data,
-  });
-
+export function StatisticsOverview({
+  totalHouses,
+  totalOccupants,
+  totalSubOccupants,
+  totalGates,
+  skeleton: isPlaceholderData,
+}: StatisticsOverviewProps) {
   return (
     <Box
       className='grid gap-6'
@@ -30,8 +32,8 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={HousesIcon}
         title='Total Houses'
-        value={data?.totalHouses}
-        total={data?.totalHouses}
+        value={totalHouses}
+        total={totalHouses}
         label='Manage Houses'
         href={makePath(PAGES.DASHBOARD, PAGES.HOUSES)}
         skeleton={isPlaceholderData}
@@ -40,7 +42,7 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={UserFriendsIcon}
         title='Total Occupants'
-        value={data?.totalOccupants}
+        value={totalOccupants}
         label='Manage Occupants'
         href={makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS)}
         skeleton={isPlaceholderData}
@@ -49,7 +51,7 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={UserGroupIcon}
         title='Total Sub-Occupants'
-        value={data?.totalSubOccupants}
+        value={totalSubOccupants}
         label='Manage Sub-Occupants'
         href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
         skeleton={isPlaceholderData}
@@ -58,7 +60,7 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={GateIcon}
         title='Total Gates'
-        value={data?.totalGates}
+        value={totalGates}
         label='Manage Gates'
         href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
         skeleton={isPlaceholderData}

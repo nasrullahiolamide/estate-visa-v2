@@ -34,7 +34,7 @@ export default function Page({ params }: PageProps) {
     estate: { id: estateId, action: actionType },
   } = useEstateValue(params.estate);
 
-  const { data, isLoading } = useQuery({
+  const { data: estates, isLoading } = useQuery({
     queryKey: builder.estates.id.get.get(),
     queryFn: () => builder.use().estates.id.get(estateId as string),
     select: ({ data }) => data,
@@ -84,7 +84,7 @@ export default function Page({ params }: PageProps) {
       serviceRequestTypes = [],
       houseTypes = [],
     } = {
-      ...data,
+      ...estates,
     };
     form.setValues({
       name: pass.string(name),
@@ -99,20 +99,26 @@ export default function Page({ params }: PageProps) {
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       username: pass.string(manager?.username),
       email: pass.string(manager?.email),
+      password: pass.string(manager?.password),
+      action: actionType,
     });
-  }, [data, isLoading]);
+  }, [estates, isLoading]);
 
-  const btnText = actionType === "view" ? "Edit Estate" : "Save Changes";
+  const isViewing = form.getValues().action === "view";
+  const isEditing = form.getValues().action === "edit";
+  const btnText = isViewing ? "Edit Estate" : "Save Changes";
 
-  function handleSubmit({
-    owner,
-    username,
-    email,
-    phone,
-    password,
-    numberOfHouses,
-    ...values
-  }: typeof form.values) {
+  function handleSubmit() {
+    const {
+      owner,
+      username,
+      email,
+      phone,
+      password,
+      numberOfHouses,
+      ...values
+    } = form.getValues();
+
     const data = {
       ...values,
       numberOfHouses: cast.number(numberOfHouses),
@@ -125,7 +131,10 @@ export default function Page({ params }: PageProps) {
       },
     };
 
-    editEstate({ id: estateId as string, data });
+    console.log(data);
+
+    isEditing && editEstate({ id: estateId ?? "", data });
+    isViewing && form.setValues({ action: "edit" });
   }
 
   return (
@@ -135,14 +144,14 @@ export default function Page({ params }: PageProps) {
         backHref={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
-        {data ? (
+        {estates ? (
           <FormProvider form={form}>
             <FlowContentContainer
               classNames={{
                 root: clsx("rounded-xl bg-white lg:p-12 m-4 p-6 ", {}),
               }}
             >
-              <Form form={form} className='h-full flex' onSubmit={handleSubmit}>
+              <Form form={form} className='h-full flex'>
                 <DesktopView
                   onSubmit={handleSubmit}
                   isSubmitting={isUpdating}

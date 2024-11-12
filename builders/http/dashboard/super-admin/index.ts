@@ -1,10 +1,12 @@
 import { api } from "@/builders/axios";
-import { AdminDashboardData } from "@/builders/types/admin-dashboard";
+import { SuperAdminDashboardData } from "@/builders/types/super-admin-dashboard";
 
-const get = function () {
+const get = function ({ timeFilter }: { timeFilter: string }) {
   return api
-    .get<AdminDashboardData>("/analytics/superadmin-dashboard")
+    .get<SuperAdminDashboardData>("/analytics/superadmin-dashboard", {
+      params: timeFilter,
+    })
     .then((data) => data.data);
 };
 
-export const admin = { get };
+export const super_admin = { get };

@@ -1,26 +1,51 @@
-import { DownloadIcon, FilterIcon } from "@/icons";
+import clsx from "clsx";
+
 import { BarChart } from "@mantine/charts";
-import { Stack, Group, Indicator, Flex, Text, Select } from "@mantine/core";
-import { ArrowDown } from "iconsax-react";
+import { Stack, Group, Indicator, Flex, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "./requests-dropdown";
 import { DownloadDropdown } from "../../shared/interface/charts/download-dropdown";
+import { useQueryState } from "nuqs";
+import { builder } from "@/builders";
+import { useFakeServiceRequesData } from "@/builders/types/admin-dashboard";
+import { useQuery } from "@tanstack/react-query";
 
-export const data = [
-  { day: "Mon", Approved: 1200, Pending: 900, Declined: 200 },
-  { day: "Tue", Approved: 1900, Pending: 1200, Declined: 400 },
-  { day: "Wed", Approved: 400, Pending: 1000, Declined: 200 },
-  { day: "Thur", Approved: 1000, Pending: 200, Declined: 800 },
-  { day: "Fri", Approved: 800, Pending: 1400, Declined: 1200 },
-  { day: "Sat", Approved: 750, Pending: 600, Declined: 1000 },
-  { day: "Sun", Approved: 750, Pending: 600, Declined: 1000 },
-];
+export type ServiceRequestData = {
+  day: string;
+  approved: number;
+  rejected: number;
+  pending: number;
+};
 
 export function ServiceRequests() {
+  const initialServiceRequests = useFakeServiceRequesData();
+
+  const [period, setPeriod] = useQueryState("sr-prd", {
+    defaultValue: "week",
+  });
+
+  const { data, isPlaceholderData } = useQuery({
+    queryKey: builder.dashboard.admin.service_requests.get(period),
+    queryFn: () => builder.use().dashboard.admin.service_requests({ period }),
+    placeholderData: initialServiceRequests,
+    select: (data) => {
+      return data.map((item) => {
+        return {
+          day: item.day,
+          Approved: item.approved,
+          Pending: item.pending,
+          Declined: item.rejected,
+        };
+      });
+    },
+  });
+
   return (
     <Stack
       bg='white'
       justify='space-between'
-      className='rounded-lg backdrop-blur-sm w-full'
+      className={clsx("rounded-lg backdrop-blur-sm w-full", {
+        skeleton: isPlaceholderData,
+      })}
       p={20}
       gap={16}
     >
@@ -28,11 +53,16 @@ export function ServiceRequests() {
         <Text fw={500} size='lg'>
           Service Request
         </Text>
-        <FilterRequestsDropdown data={["Week", "6 months", "Year"]} ml='auto' />
+        <FilterRequestsDropdown
+          data={["week", "6months", "year"]}
+          ml='auto'
+          value={period}
+          onFilter={setPeriod}
+        />
       </Group>
       <BarChart
         h={300}
-        data={data}
+        data={data ?? []}
         dataKey='day'
         type='stacked'
         series={[

@@ -21,15 +21,15 @@ import { DownloadDropdown } from "./download-dropdown";
 import { Fragment, SVGProps } from "react";
 import { IconType } from "@/icons/type";
 
-type Data = {
+export type PieChartData = {
   name: string;
   value: number;
   color: string;
-  label: string;
+  label?: string;
 };
 
 type PieChartsProps = {
-  data: Data[];
+  data: PieChartData[];
   labelProps: {
     icon?: IconType;
     text: string;
@@ -50,15 +50,10 @@ type PieChartsProps = {
 export function PieChart({
   withDownloadButton = true,
   data,
-  legendProps,
-  labelProps: { icon: LabelIcon, text, value } = {
-    icon: GateIcon,
-    text: "Total requests",
-    value: "10",
-  },
+  labelProps: { icon: LabelIcon, text, value },
 }: PieChartsProps) {
   return (
-    <>
+    <Fragment>
       <Box style={{ position: "relative" }} mt={30}>
         <ResponsiveContainer width='100%' height={250}>
           <RePieChart>
@@ -112,15 +107,17 @@ export function PieChart({
         <Group className='w-full'>
           {data.map((item, i) => {
             return (
-              <Flex flex={1} key={i} align='center' justify='center' gap={10}>
-                <Indicator color={item.color} />
-                <Text fz={14}>{item.name}</Text>
-              </Flex>
+              item.value > 0 && (
+                <Flex flex={1} key={i} align='center' justify='center' gap={10}>
+                  <Indicator color={item.color} />
+                  <Text fz={14}>{item.name}</Text>
+                </Flex>
+              )
             );
           })}
         </Group>
         {withDownloadButton && <DownloadDropdown />}
       </Flex>
-    </>
+    </Fragment>
   );
 }

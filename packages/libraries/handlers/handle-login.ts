@@ -69,7 +69,7 @@ export function handleLogin({
     });
   }
 
-  if (email) setCookie(APP.EMAIL, email);
+  if (email) setCookie(APP.USERNAME, email);
 
   if (full_name) {
     setCookie(APP.FULL_NAME, full_name, {

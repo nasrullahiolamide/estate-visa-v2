@@ -10,10 +10,6 @@ export type SuperAdminDashboardData = {
   recentActivityFeed: Array<RecentActivityFeed>;
 };
 
-export type SuperAdminDashboard = {
-  data: SuperAdminDashboardData;
-};
-
 export type RecentActivityFeed = {
   id: string;
   action: string;
@@ -41,7 +37,7 @@ export function useFakeRecentActivityFeedData() {
   faker.seed(dayjs().day());
 
   return {
-    id: "faker",
+    id: faker.number.int({ max: 100 }).toString(),
     action: faker.helpers.arrayElement([
       "created",
       "updated",

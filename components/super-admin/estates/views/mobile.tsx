@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   FlowContainer,
   FlowProgress,
@@ -15,7 +16,6 @@ import { HouseTypes } from "../fields/house-types";
 import { Services } from "../fields/services";
 import { ViewProps } from ".";
 import { makePath, PAGES } from "@/packages/libraries";
-import Link from "next/link";
 
 const content: StepContent<FormValues> = {
   0: ["name", "location", "numberOfHouses", "interests", "serviceRequestTypes"],
@@ -119,9 +119,9 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
                 flex={1}
                 w='fit-content'
                 type='submit'
-                onSubmit={onSubmit}
                 loading={isSubmitting}
                 disabled={isSubmitting}
+                onClick={onSubmit}
               >
                 {btnText}
               </Button>
