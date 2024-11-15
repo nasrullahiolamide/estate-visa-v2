@@ -22,7 +22,7 @@ export default function Profile() {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const userDetails = {
-    fullname: `${user?.firstname} ${user?.lastname}`,
+    fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
     estatename: user?.estate?.name,
     ...user,
   };

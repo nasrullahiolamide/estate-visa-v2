@@ -13,7 +13,7 @@ interface ProfileImageProps {
 }
 
 export function ProfileImage({ url, form }: ProfileImageProps) {
-  const { preview, handleUpload } = useFileUpload({
+  const { preview, handleUpload, isPending } = useFileUpload({
     key: "profile-image",
     onError: () => {
       handleError({

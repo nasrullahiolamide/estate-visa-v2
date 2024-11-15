@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, ReactNode } from "react";
+import { Fragment, ReactNode, useEffect } from "react";
 import { Flex, Menu } from "@mantine/core";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
@@ -22,10 +22,18 @@ import {
   FlowTable,
   FlowFloatingButtons,
   FlowTableActions,
+  useFlowPagination,
+  useFlowState,
+  FlowMenu,
 } from "@/components/layout";
 import { modals } from "@mantine/modals";
 import { ViewServiceRequest } from "@/components/admin/service-requests/view";
 import { MODALS } from "@/packages/libraries";
+import clsx from "clsx";
+import { builder } from "@/builders";
+import { OccupantActions } from "@/components/admin/occupants/actions";
+import { useQuery } from "@tanstack/react-query";
+import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
 
 const filterOptions = [
   { label: "Date", value: "date" },
@@ -74,7 +82,7 @@ function handleView(details: ServiceRequestsData) {
         {...details}
         buttonProps={{
           children: "Close",
-          onClick: () => modals.close(MODALS.VIEW_EDIT),
+          onClick: () => modals.close(MODALS.FORM_DETAILS),
         }}
       />
     ),
@@ -94,7 +102,7 @@ function handleView(details: ServiceRequestsData) {
         {...details}
         buttonProps={{
           children: "Close",
-          onClick: () => modals.close(MODALS.VIEW_EDIT),
+          onClick: () => modals.close(MODALS.FORM_DETAILS),
         }}
       />
     ),
@@ -103,56 +111,58 @@ function handleView(details: ServiceRequestsData) {
   modals.open({
     title: "Service Request",
     children: view[details.status.toLowerCase()],
-    modalId: MODALS.VIEW_EDIT,
+    modalId: MODALS.FORM_DETAILS,
   });
 }
 
 export default function ServiceRequest() {
-  const serviceRequests = useFakeServiceRequestsList();
+  const initialServiceRequests = useFakeServiceRequestsList();
+  const pagination = useFlowPagination();
+  const { page, pageSize, search, numberOfPages } = useFlowState();
 
-  const dataToDisplay = serviceRequests?.data.map((list) => {
-    const render: Record<PropertyKey, ReactNode> = {
-      "in progress": (
-        <FlowTableActions
-          actions={["others"]}
-          showDesktopView={false}
-          otherProps={{
-            children: (
-              <Menu.Item c='green' leftSection={<DoubleMarkIcon width={14} />}>
-                Set as Completed
-              </Menu.Item>
-            ),
-          }}
-        />
-      ),
-
-      pending: (
-        <FlowTableActions
-          actions={["others"]}
-          showDesktopView={false}
-          otherProps={{
-            children: (
-              <Menu.Item
-                color='blue.7'
-                leftSection={<DoubleMarkIcon width={14} />}
-              >
-                Set as In Progress
-              </Menu.Item>
-            ),
-          }}
-        />
-      ),
-    };
-
-    return {
-      ...list,
-      action: render[list.status.toLowerCase()],
-    };
+  const { data: serviceRequests, isPlaceholderData } = useQuery({
+    queryKey: builder.service_requests.get.get(),
+    queryFn: () =>
+      builder.use().service_requests.get({
+        page,
+        pageSize,
+        search,
+      }),
+    placeholderData: initialServiceRequests,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: <ServiceRequestActions id={list.id} status={list.status} />,
+          };
+        }),
+      };
+    },
   });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(serviceRequests?.page);
+    pagination.setTotal(serviceRequests?.total);
+    pagination.setEntriesCount(serviceRequests?.data?.length);
+    pagination.setPageSize(serviceRequests?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = serviceRequests?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Service Request' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Service Request'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
 
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
@@ -163,9 +173,9 @@ export default function ServiceRequest() {
           <FlowPaper>
             {serviceRequests?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={serviceRequests.data}
                 columns={serviceRequestsColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
                 onRowClick={handleView}
               />
             ) : (
@@ -176,21 +186,30 @@ export default function ServiceRequest() {
             )}
           </FlowPaper>
 
-          <FlowFooter hidden={false}>
+          <FlowFooter
+            className={clsx("flex", {
+              hidden: noDataAvailable || numberOfPages <= 1,
+            })}
+          >
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
-        <FlowFloatingButtons hasFilterButton filterData={filterOptions} />
+        <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
+          hasFilterButton
+          filterData={filterOptions}
+        />
       </FlowContainer>
     </Fragment>
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      {/* <SearchTable /> */}
       <FilterDropdown data={filterOptions} />
     </Flex>
   );

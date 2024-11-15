@@ -16,7 +16,7 @@ export function AccessRequests() {
   const initialAccessRequest = useFakeAccessRequestData();
 
   const [period, setPeriod] = useQueryState("ar-prd", {
-    defaultValue: "weekly",
+    defaultValue: "monthly",
   });
 
   const { data, isPlaceholderData } = useQuery({

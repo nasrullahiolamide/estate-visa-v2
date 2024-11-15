@@ -1,7 +1,9 @@
 import { MoreIcon } from "@/icons";
 import { ActionIcon, MenuTarget, MenuTargetProps } from "@mantine/core";
 
-interface FlowMenuTargetProps extends Omit<MenuTargetProps, "children"> {}
+interface FlowMenuTargetProps extends Omit<MenuTargetProps, "children"> {
+  disabled?: boolean;
+}
 
 export function FlowMenuTarget(props: FlowMenuTargetProps) {
   return (

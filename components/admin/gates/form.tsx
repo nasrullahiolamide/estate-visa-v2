@@ -10,18 +10,16 @@ import {
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
-
 import { getCookie } from "cookies-next";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { GatesData } from "@/builders/types/gates";
+import { ProfileData } from "@/builders/types/profile";
 import { FlowContainer } from "@/components/layout/flow-container";
 
 import { schema } from "./schema";
-import { ProfileData } from "@/builders/types/profile";
 
 export type GatesFormProps = {
   data?: GatesData;
@@ -97,7 +95,6 @@ export function GateForm({
   const { name, modalType } = form.getValues();
   const isEditing = modalType === "edit";
   const isViewing = modalType === "view";
-  const isAdding = modalType === "add";
 
   return (
     <Form form={form} onSubmit={handleSubmit}>

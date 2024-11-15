@@ -4,10 +4,9 @@
     flex-direction: column;
     gap: rem(6);
 
-    height: rem(100px) !important;
-
     .input {
       font-size: rem(14px);
     }
   }
+  height: rem(100px) !important;
 }

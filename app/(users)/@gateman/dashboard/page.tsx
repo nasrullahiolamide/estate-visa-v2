@@ -9,7 +9,7 @@ import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
-import { APP, MODALS } from "@/packages/libraries";
+import { MODALS } from "@/packages/libraries";
 import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
@@ -129,8 +129,6 @@ export default function Gates() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = gateRequests?.data.length === 0;
-
-  console.log({ gateRequests });
 
   return (
     <Fragment>
