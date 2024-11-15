@@ -61,7 +61,8 @@ export function UserDetails() {
       </Menu.Target>
 
       <Menu.Dropdown
-        className='shadow-lg overflow-hidden min-w-56'
+        miw={230}
+        className='shadow-lg overflow-hidden'
         variant='action'
       >
         <Menu.Item

@@ -16,7 +16,9 @@ const edit = function (variables: { id: string; data: UpdateGateData }) {
 };
 
 const post = function (data: UpdateGateData) {
-  return api.post("/gates", data);
+  return api
+    .post<{ username: string }>("/gates", data)
+    .then((data) => data.data);
 };
 
 const remove = function (id: string) {

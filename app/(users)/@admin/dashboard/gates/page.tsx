@@ -99,7 +99,7 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Houses'
+        title='Gates'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }

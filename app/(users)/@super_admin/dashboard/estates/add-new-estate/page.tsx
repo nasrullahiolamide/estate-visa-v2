@@ -21,14 +21,9 @@ import {
 } from "@/components/super-admin/estates/form-context";
 
 export default function Page() {
-  const queryClient = useQueryClient();
-
   const { mutate: addNewEstate, isPending } = useMutation({
     mutationFn: builder.use().estates.post,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: builder.estates.get.get(),
-      });
       navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
       handleSuccess({
         message: "New Estate Added Successfully",

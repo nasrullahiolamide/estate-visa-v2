@@ -20,6 +20,7 @@ export function HouseTypes() {
       withAsterisk
       classNames={{
         label: "mb-2",
+        error: "mt-3",
       }}
       {...form.getInputProps("houseTypes")}
     >

@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+
 import { Add } from "iconsax-react";
 import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
@@ -8,10 +9,13 @@ import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
 import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
+import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
+import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/icons";
+import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -24,9 +28,6 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
-import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
-import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
 import {
   PropertyOwnerForm,
   PropertyOwnerFormProps,
@@ -37,9 +38,9 @@ import {
 } from "@/components/admin/occupants/modals/form";
 
 const filterOptions = [
-  { label: "Recently Added", value: "recent" },
-  { label: "Name(A-Z)", value: "a-z" },
-  { label: "Name(Z-A)", value: "z-a" },
+  { label: "Recently Added", value: "Recent" },
+  { label: "Name(A-Z)", value: "A-Z" },
+  { label: "Name(Z-A)", value: "Z-A" },
 ];
 
 const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {

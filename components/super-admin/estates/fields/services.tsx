@@ -28,6 +28,7 @@ export function Services() {
         withAsterisk
         classNames={{
           label: "mb-2",
+          error: "mt-3",
         }}
         {...form.getInputProps("serviceRequestTypes")}
       >
@@ -51,6 +52,7 @@ export function Services() {
         withAsterisk
         classNames={{
           label: "mb-2",
+          error: "mt-3",
         }}
         {...form.getInputProps("interests")}
       >

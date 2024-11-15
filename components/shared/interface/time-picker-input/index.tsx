@@ -18,7 +18,6 @@ export function TimePickerInput({
   value,
   onChange: handleFormChange,
   placeholder = "--:--",
-  ...props
 }: TimePickerProps) {
   const timeRef = useRef<HTMLInputElement>(null);
   const [showTime, setShowTime] = useState(false);
@@ -43,6 +42,7 @@ export function TimePickerInput({
             label: "text-primary-text-body",
             root: "gap-1.5",
           }}
+          flex={1}
         >
           <Button
             type='button'

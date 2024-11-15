@@ -1,38 +1,54 @@
 "use client";
 
-import { Button, Select, TextInput } from "@mantine/core";
+import {
+  Button,
+  PasswordInput,
+  Select,
+  Stack,
+  TextInput,
+  Text,
+} from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 
 import { getCookie } from "cookies-next";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
-import { ProfileData } from "@/builders/types/profile";
+import { GatesData } from "@/builders/types/gates";
 import { FlowContainer } from "@/components/layout/flow-container";
 
 import { schema } from "./schema";
-import { GatesData } from "@/builders/types/gates";
+import { ProfileData } from "@/builders/types/profile";
 
 export type GatesFormProps = {
   data?: GatesData;
   modalType: "add" | "edit" | "view";
 };
-export function GateForm({ data, modalType = "view" }: GatesFormProps) {
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
+export function GateForm({
+  data,
+  modalType: formType = "view",
+}: GatesFormProps) {
   const queryClient = useQueryClient();
+  const {
+    estate: { id: estateId, name: estateName },
+  }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const { mutate: addGate, isPending } = useMutation({
     mutationFn: builder.use().gates.post,
-    onSuccess: () => {
+    onSuccess: ({ username }) => {
       queryClient.invalidateQueries({
         queryKey: builder.gates.get.get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
-        message: "Gate Added Successfully",
+        message: (
+          <p>
+            Gate <strong>{username}</strong> added successfully!
+          </p>
+        ),
       });
     },
     onError: handleError(),
@@ -57,30 +73,31 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
       name: data?.name ?? "",
       location: data?.location ?? "",
       status: data?.status ?? "open",
-      modalType,
+      password: data?.password ?? "",
+      modalType: formType,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
   });
 
   const handleSubmit = () => {
-    const { name, location, status } = form.getValues();
+    const { name, location, status, password } = form.getValues();
     const updatedData = {
       name,
+      password,
       location,
       status,
       estateId,
     };
-
-    if (isViewing) return;
-
     isEditing
       ? updateGate({ id: data?.id ?? "", data: updatedData })
       : addGate(updatedData);
   };
 
-  const isEditing = form.getValues().modalType === "edit";
-  const isViewing = form.getValues().modalType === "view";
+  const { name, modalType } = form.getValues();
+  const isEditing = modalType === "edit";
+  const isViewing = modalType === "view";
+  const isAdding = modalType === "add";
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
@@ -91,14 +108,40 @@ export function GateForm({ data, modalType = "view" }: GatesFormProps) {
         type='plain'
         bg='white'
       >
-        <TextInput
-          label='Gate Name'
-          disabled={isViewing}
-          withAsterisk
-          {...form.getInputProps("name")}
-        />
+        <Stack gap={0}>
+          <TextInput
+            label='Gate Name'
+            placeholder="Enter the gate's name"
+            disabled={isViewing}
+            withAsterisk
+            {...form.getInputProps("name")}
+          />
+          {name && (
+            <Text fz={14} c='yellow.8' mt={5}>
+              Gate username {isViewing ? "is" : "will be"}{" "}
+              <strong>
+                {name}-{estateName}
+              </strong>
+            </Text>
+          )}
+        </Stack>
+        <Stack gap={0}>
+          <PasswordInput
+            label='Gate Password'
+            placeholder='********'
+            disabled={isViewing}
+            withAsterisk
+            {...form.getInputProps("password")}
+          />
+          {!form.errors.password && (
+            <Text fz={14} c='yellow.8' mt={5}>
+              This is the password required to approve gate requests
+            </Text>
+          )}
+        </Stack>
         <TextInput
           label='Gate Location'
+          placeholder="Enter the gate's location"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("location")}

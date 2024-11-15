@@ -1,25 +1,48 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
-export type Meetings = {
+export type MeetingList = {
   total: number;
-  data: MeetingsData[];
-  page_size: number;
-  current_page: number;
-  last_page: number;
-  next_page_url: any;
-  prev_page_url: any;
+  data: MeetingListData[];
+  pageSize: string;
+  page: string;
 };
 
-export type MeetingsData = {
+export type MeetingListData = {
+  id: string;
   title: string;
-  date: Date;
+  date: string;
   time: string;
-  attendees: number;
+  minutes: string;
+  noOfAttendees: number;
+  location: string;
+  platform: string;
+  meetingLink: string;
+  venue: string;
+  notes: string;
+  file: string;
   status: string;
-  // meeting_details?: string;
-  created_at?: string;
-  updated_at?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type MeetingData = {
+  id?: string;
+  title: string;
+  estateId: string;
+  date: Date;
+  time: string | null;
+  location: string;
+  platform: string;
+  venue: string;
+  meetingLink: string;
+  notes: string;
+};
+
+export type MinutesData = {
+  minutes: string;
+  noOfAttendees: number;
+  file: string;
 };
 
 export function useFakeMeetingsData(_?: any, index?: number) {
@@ -28,18 +51,25 @@ export function useFakeMeetingsData(_?: any, index?: number) {
   const id = index ?? faker.number.int({ max: 100 });
 
   return {
-    id,
-    title: faker.lorem.words(),
-    date: faker.date.recent(),
+    id: id.toString(),
+    title: faker.word.adjective(),
+    date: faker.date.recent().toISOString(),
     time: faker.date.recent().toISOString(),
-    attendees: faker.number.int({ min: 1, max: 100 }),
-    status: faker.helpers.arrayElement(["Completed", "Scheduled", "Cancelled"]),
-    created_at: faker.date.past().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+    minutes: faker.lorem.paragraph(),
+    noOfAttendees: faker.number.int({ min: 1, max: 100 }),
+    location: faker.location.city(),
+    platform: faker.company.name(),
+    meetingLink: faker.internet.url(),
+    venue: faker.location.country(),
+    notes: faker.lorem.paragraph(),
+    file: faker.system.filePath(),
+    status: faker.helpers.arrayElement(["completed"]),
+    createdAt: faker.date.recent().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
   };
 }
 
-export function useFakeMeetingsList(): Meetings {
+export function useFakeMeetingsList(): MeetingList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
@@ -50,10 +80,7 @@ export function useFakeMeetingsList(): Meetings {
   return {
     data,
     total: 20,
-    page_size: faker.number.int({ min: 5, max: 20 }),
-    current_page: faker.number.int({ min: 1, max: 5 }),
-    last_page: faker.number.int({ min: 1, max: 5 }),
-    next_page_url: faker.internet.url(),
-    prev_page_url: faker.internet.url(),
+    pageSize: faker.number.int({ min: 5, max: 20 }).toString(),
+    page: faker.number.int({ min: 1, max: 5 }).toString(),
   };
 }

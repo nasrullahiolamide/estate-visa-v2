@@ -10,6 +10,7 @@ export type GateList = {
 
 export type UpdateGateData = {
   name: string;
+  password: string;
   location: string;
   status: string;
   estateId: string;
@@ -21,6 +22,7 @@ export type GatesData = {
   id: string;
   status: string;
   name: string;
+  password: string;
   location: string;
   estate: Estate;
 };
@@ -65,8 +67,9 @@ export function useFakeGatesData(_?: any, index?: number) {
   };
 
   return {
-    id: id.toString(),
+    id: id?.toString(),
     name: faker.helpers.arrayElement(["Gate A", "Gate B", "Gate C"]),
+    password: "password",
     location: faker.location.street(),
     estate,
     status: faker.helpers.arrayElement(["Open", "Close"]),

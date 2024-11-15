@@ -37,7 +37,6 @@ export enum PAGES {
   NOTIFICATIONS = "/notifications",
   LOGIN = "/login",
   LOGOUT = "/logout",
-  REGISTER = "/signup",
   VERIFY_EMAIL = "/verify-email",
   RESET_PASSWORD = "/reset-password",
   TALK_TO_US = "/talk-to-us",

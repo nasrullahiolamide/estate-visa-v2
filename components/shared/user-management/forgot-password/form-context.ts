@@ -2,7 +2,7 @@ import { createFormContext } from "@mantine/form";
 
 interface FormValues {
   email: string;
-  otp: string;
+  token: string;
   password: string;
   confirm_password: string;
   reset_password: boolean;

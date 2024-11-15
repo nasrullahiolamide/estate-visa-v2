@@ -1,20 +1,7 @@
+import { User } from "./login";
 import { Nullish } from "./shared";
 
-export type ProfileData = {
-  id: string;
-  roles: Array<{ name: string }>;
-  email?: string;
-  firstname?: string;
-  lastname?: string;
-  fullname?: string;
-  username?: string;
-  picture?: string;
-  password?: string;
-  phone?: string;
-  estateId?: string;
-  houseId?: string;
-  estate: Estate;
-};
+export type ProfileData = User;
 
 export type Estate = {
   id: string;

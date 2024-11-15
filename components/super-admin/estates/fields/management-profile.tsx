@@ -58,7 +58,7 @@ export function ManagementProfile() {
         />
         <PasswordInput
           label='Password'
-          placeholder='********'
+          placeholder='Enter current password or set a new one'
           withAsterisk
           disabled={form.getValues().action === "view"}
           {...form.getInputProps("password")}

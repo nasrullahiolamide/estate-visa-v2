@@ -99,7 +99,6 @@ export default function Page({ params }: PageProps) {
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       username: pass.string(manager?.username),
       email: pass.string(manager?.email),
-      password: pass.string(manager?.password),
       action: actionType,
     });
   }, [estates, isLoading]);

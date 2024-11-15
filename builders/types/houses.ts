@@ -15,7 +15,10 @@ export type HouseData = {
   occupantName: string;
   noOfOccupants: number;
   validityPeriod: string;
-  houseTypeId: string;
+  houseType: {
+    id: string;
+    name: string;
+  };
   status: string;
 };
 
@@ -45,7 +48,15 @@ export function useFakeHouseData(_?: any, index?: number) {
     occupantName: faker.person.fullName(),
     noOfOccupants: faker.number.int({ min: 1, max: 10 }),
     validityPeriod: faker.date.future().toISOString(),
-    houseTypeId: id.toString(),
+    houseType: {
+      id: id.toString(),
+      name: faker.helpers.arrayElement([
+        "bungalow",
+        "duplex",
+        "flat",
+        "penthouse",
+      ]),
+    },
     status: faker.helpers.arrayElement(["active", "suspended"]),
   };
 }

@@ -54,11 +54,11 @@ const filterOptions = [
   },
 ];
 
-const handleHouseForm = ({ data, modalType = "add" }: HouseFormProps) => {
+const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
   modals.open({
     title: modalType === "add" ? "Add New House" : "House Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <HouseForm data={data} modalType={modalType} />,
+    children: <HouseForm id={id} modalType={modalType} />,
   });
 };
 
@@ -91,9 +91,9 @@ export default function Houses() {
                 handlers={{
                   onAdd: () => handleHouseForm({ modalType: "add" }),
                   onView: () =>
-                    handleHouseForm({ data: list, modalType: "view" }),
+                    handleHouseForm({ id: list.id, modalType: "view" }),
                   onEdit: () =>
-                    handleHouseForm({ data: list, modalType: "edit" }),
+                    handleHouseForm({ id: list.id, modalType: "edit" }),
                 }}
               />
             ),

@@ -1,12 +1,12 @@
 "use client";
 
-import { Button, TextInput } from "@mantine/core";
+import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { cast, MODALS } from "@/packages/libraries";
-import { object, string } from "yup";
+import { object } from "yup";
 import { FlowEditor } from "@/components/layout/flow-editor";
-import { ResourceUpload } from "../shared/resource-upload";
+import { ResourceUpload } from "../../shared/resource-upload";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { toast } from "react-toastify";
 import { concat } from "lodash";
@@ -15,30 +15,48 @@ import {
   MS_WORD_MIME_TYPE,
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
-
-const requiredString = string().required(
-  "This field is required. Please enter the necessary information."
-);
+import { builder } from "@/builders";
+import { useQuery } from "@tanstack/react-query";
+import { requiredString } from "@/builders/types/shared";
 
 const schema = object({
   title: requiredString,
-  no_of_attendees: requiredString,
+  noOfAttendees: requiredString,
 });
 
-export function AddNewMinutes() {
+export interface MeetingMinutesFormProps {
+  formType: "add" | "edit";
+  meetingId?: string;
+}
+
+export function MeetingMinutesForm({
+  formType,
+  meetingId,
+}: MeetingMinutesFormProps) {
+  const { data: meetings } = useQuery({
+    queryKey: builder.meetings.get.all.get(),
+    queryFn: () => builder.use().meetings.get.all(),
+    select: (data) => {
+      return data.map((meeting) => ({
+        value: meeting.id ?? "",
+        label: meeting.title,
+      }));
+    },
+  });
+
   const form = useForm({
     initialValues: {
-      title: "",
-      no_of_attendees: "",
+      title_id: meetingId,
+      noOfAttendees: "",
       minutes: "",
+      formType,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { title, no_of_attendees, minutes } = values;
+      const { noOfAttendees, minutes } = values;
       return {
-        title: cast.string(title),
-        no_of_attendees: cast.string(no_of_attendees),
+        noOfAttendees: cast.string(noOfAttendees),
         minutes: cast.string(minutes),
       };
     },
@@ -47,36 +65,37 @@ export function AddNewMinutes() {
   const handleSubmit = () => {};
 
   const { preview, handleUpload, status, progress } = useFileUpload({
-    key: MODALS.ADD_MEETINGS_MINUTES,
+    key: MODALS.FORM_DETAILS,
     onError: () => {
       toast.error("Failed to upload resource");
     },
     onSuccess: ({ data }) => {
       form.clearFieldError("thumbnail_id");
-      form.setFieldValue("upload_id", data?.id);
+      form.setFieldValue("file", data?.id);
     },
   });
 
   return (
     <Form form={form} onSubmit={() => {}}>
       <FlowContainer
-        className='sm:rounded-2xl bg-primary-background-white h-[550px] sm:h-full overflow-scroll sm:justify-center'
+        className='bg-primary-background-white h-[550px] sm:h-full overflow-scroll sm:justify-center'
         gap={18}
         type='plain'
         bg='white'
       >
-        <TextInput
+        <Select
           label='Meeting Title'
-          placeholder='Board Meeting, Team Meeting, etc.'
+          data={meetings}
+          placeholder='Select a meeting title'
           withAsterisk
-          {...form.getInputProps("title")}
+          {...form.getInputProps("title_id")}
         />
         <TextInput
           type='number'
           label='Number of Attendees'
           placeholder='Enter the number of attendees'
           withAsterisk
-          {...form.getInputProps("no_of_attendees")}
+          {...form.getInputProps("noOfAttendees")}
         />
         <FlowEditor
           label='Write Meeting Minutes'

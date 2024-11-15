@@ -1,16 +1,13 @@
 "use client";
 
 import { FlowContainer } from "@/components/layout";
-import { FormButtons } from "@/components/shared/interface";
-import { cast, pass } from "@/packages/libraries";
+import { FormButtons, TimePickerInput } from "@/components/shared/interface";
+import { cast, formatDate } from "@/packages/libraries";
 import { TrashIcon } from "@/icons";
 import {
   Divider,
   Drawer,
   Flex,
-  Popover,
-  PopoverDropdown,
-  PopoverTarget,
   ScrollAreaAutosize,
   Select,
   Stack,
@@ -18,10 +15,16 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { DateInput, DatePickerInput, TimeInput } from "@mantine/dates";
+import { DatePickerInput } from "@mantine/dates";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import { object, string } from "yup";
+import { ReactNode, useEffect } from "react";
+import { object } from "yup";
+import { requiredString } from "@/builders/types/shared";
+import { builder } from "@/builders";
+import { handleSuccess, handleError } from "@/packages/notification";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { TIME_FORMAT } from "@/packages/constants/time";
 
 enum Location {
   Physical = "Physical",
@@ -29,19 +32,18 @@ enum Location {
   Hybrid = "Hybrid",
 }
 
-const requiredString = string().required(
-  "This field is required. Please enter the necessary information."
-);
-
 const schema = object({
   title: requiredString,
   date: requiredString,
   time: requiredString,
+  location: requiredString,
+  venue: requiredString,
 });
 
 interface SheduleMeetingProps {
   open: boolean;
   close: () => void;
+  id: string;
 }
 
 const MeetingPlaceholder: Record<PropertyKey, string> = {
@@ -50,49 +52,55 @@ const MeetingPlaceholder: Record<PropertyKey, string> = {
   WhatsApp: "https://wa.me/123456789",
 };
 
-export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
-  const timeRef = useRef<HTMLInputElement>(null);
+export function SheduleMeeting({ open, close, id }: SheduleMeetingProps) {
+  const queryClient = useQueryClient();
 
-  const [timeOpen, setTimeOpen] = useState(false);
+  const { mutate: scheduleMeeting, isPending } = useMutation({
+    mutationFn: builder.use().meetings.schedule,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.meetings.get.table.get(),
+      });
+      handleSuccess({
+        message: "Meeting Scheduled Successfully",
+      });
+      close();
+    },
+    onError: handleError(),
+  });
 
   const form = useForm({
     initialValues: {
       title: "",
+      estateId: id,
       date: new Date(),
-      time: "12:00",
-      location: "Physical",
-      note: "",
+      time: formatDate(new Date().getTime(), TIME_FORMAT),
+      location: Location.Physical,
+      notes: "",
       venue: "",
       platform: "",
-      "meeting-link": "",
-      "physical-venue": "",
+      meetingLink: "",
     },
-
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { title, date } = values;
+      const { date, time, location } = values;
       return {
-        title: cast.string(title),
-        date: cast.string(date),
-        time: cast.string(values.time),
-        location: cast.string(values.location.toLowerCase()),
-        note: cast.string(values.note),
-        venue: cast.string(values.venue),
-        platform: cast.string(values.platform),
-        "meeting-link": cast.string(values["meeting-link"]),
-        "physical-venue": cast.string(values["physical-venue"]),
+        ...values,
+        location: cast.string(location.toLowerCase()),
+        date: cast.string(date.toISOString()),
+        time: cast.string(time),
       };
     },
   });
 
-  const handleTimeChange = (newTime: any) => {
-    console.log(newTime);
-  };
-
   useEffect(() => {
     if (open) form.reset();
   }, [open]);
+
+  function handleSubmit(values: typeof form.values) {
+    scheduleMeeting(values);
+  }
 
   const nextView: Record<PropertyKey, ReactNode> = {
     [Location.Physical]: (
@@ -116,7 +124,7 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
           label='Meeting Link'
           placeholder={MeetingPlaceholder[form.getValues().platform]}
           withAsterisk
-          {...form.getInputProps("meeting-link")}
+          {...form.getInputProps("meetingLink")}
         />
       </>
     ),
@@ -137,13 +145,13 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
             "Select a virtual platform"
           }
           disabled={!form.getValues().platform}
-          {...form.getInputProps("meeting-link")}
+          {...form.getInputProps("meetingLink")}
         />
         <TextInput
           label='Physical Venue'
           placeholder='E.g. Conference Room, Office'
           withAsterisk
-          {...form.getInputProps("physical-venue")}
+          {...form.getInputProps("venue")}
         />
       </>
     ),
@@ -156,7 +164,7 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
       onClose={close}
       opened={open}
     >
-      <Form form={form}>
+      <Form form={form} onSubmit={handleSubmit}>
         <FlowContainer
           className='bg-primary-background-white sm:overflow-scroll'
           type='plain'
@@ -178,48 +186,19 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
             />
 
             <Flex gap={15} className='flex-col sm:flex-row' pos='relative'>
-              <DateInput
+              <DatePickerInput
                 label='Date'
-                clearable
-                defaultValue={new Date()}
+                minDate={new Date()}
+                valueFormat='YYYY-MM-DD'
                 withAsterisk
                 flex={1}
                 {...form.getInputProps("date")}
               />
-
-              {/* <Popover
-                opened={timeOpen}
-                classNames={{
-                  dropdown: "bg-transparent border-none",
-                }}
-              >
-                <PopoverTarget> */}
-              {/* <TimeInput
+              <TimePickerInput
                 label='Time'
-                flex={1}
                 withAsterisk
-                ref={timeRef}
-                onClick={() => setTimeOpen(!timeOpen)}
                 {...form.getInputProps("time")}
-              /> */}
-
-              {/* </PopoverTarget>
-                <PopoverDropdown>
-                  <Timekeeper
-                    switchToMinuteOnHourDropdownSelect
-                    closeOnMinuteSelect
-                    doneButton={(props) => (
-                      <button
-                        onClick={() => {
-                          setTimeOpen(false);
-                        }}
-                      >
-                        Done
-                      </button>
-                    )}
-                  />
-                </PopoverDropdown>
-              </Popover> */}
+              />
             </Flex>
           </Stack>
           <Divider my={30} />
@@ -244,7 +223,7 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
           <Textarea
             label='Note'
             placeholder='Add a note for the meeting'
-            {...form.getInputProps("note")}
+            {...form.getInputProps("notes")}
           />
         </FlowContainer>
         <FormButtons
@@ -255,14 +234,18 @@ export function SheduleMeeting({ open, close }: SheduleMeetingProps) {
           }}
           leftButton={{
             children: "Discard",
+            type: "button",
             c: "red",
             className: "hover:bg-red-1 border-red-4 bg-opacity-9",
             leftSection: <TrashIcon width='18px' />,
             onClick: close,
+            disabled: isPending,
           }}
           rightButton={{
             children: "Shedule",
-            onClick: () => {},
+            type: "submit",
+            loading: isPending,
+            disabled: isPending,
           }}
         />
       </Form>

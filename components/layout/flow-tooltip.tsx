@@ -4,6 +4,7 @@ import {
   EyeIcon,
   ActivateIcon,
   DeactivateIcon,
+  AddIcon,
 } from "@/icons";
 import {
   Box,
@@ -16,7 +17,7 @@ import { ElementType, ReactNode } from "react";
 
 interface FlowToolTipCoreProps {
   label?: string;
-  icon: "View" | "Edit" | "Delete" | "Activate" | "Suspend";
+  icon: "View" | "Edit" | "Delete" | "Activate" | "Suspend" | "Add";
   onClick?: (props?: any) => void;
 }
 
@@ -26,6 +27,7 @@ const view: Record<PropertyKey, ReactNode> = {
   Delete: <TrashIcon color='var(--red-8)' />,
   Activate: <ActivateIcon color='var(--green-8)' />,
   Suspend: <DeactivateIcon color='var(--yellow-8)' />,
+  Add: <AddIcon />,
 };
 
 export const FlowToolTip = createPolymorphicComponent<

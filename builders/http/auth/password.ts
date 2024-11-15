@@ -1,6 +1,6 @@
 import { api } from "@/builders/axios";
 
-function change(data: { password: string; email: string; otp: string }) {
+function change(data: { newPassword: string; token: string }) {
   return api.post("/users/reset-password", data);
 }
 

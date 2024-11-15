@@ -2,10 +2,11 @@
 
 import clsx from "clsx";
 import { Avatar, Button, Text } from "@mantine/core";
-import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone, IMAGE_MIME_TYPE, MIME_TYPES } from "@mantine/dropzone";
 
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { handleError } from "@/packages/notification";
+import { concat } from "lodash";
 interface ProfileImageProps {
   url?: string;
   form: any;
@@ -27,7 +28,7 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
 
   return (
     <Dropzone
-      accept={IMAGE_MIME_TYPE}
+      accept={concat(MIME_TYPES.png, MIME_TYPES.jpeg)}
       styles={{
         inner: {
           display: "flex",

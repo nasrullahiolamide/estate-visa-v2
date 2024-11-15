@@ -35,7 +35,7 @@ export function handleLogin({
     signature: string
   ];
 
-  setCookie(APP.USER_DATA, encryptedUser);
+  setCookie(APP.USER_DATA, encryptedUser, cookieOptions);
 
   setCookie(TOKEN.HEADER, header, cookieOptions);
   setCookie(TOKEN.PAYLOAD, payload, cookieOptions);

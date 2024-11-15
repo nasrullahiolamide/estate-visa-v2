@@ -4,6 +4,7 @@ import { dashboard } from "./dashboard";
 import { estates } from "./estates";
 import { gates } from "./gates";
 import { houses } from "./houses";
+import { meetings } from "./meetings";
 import { occupants } from "./occupants";
 import { property_owners } from "./property-owners";
 import { service_requests } from "./service-requests";
@@ -24,4 +25,5 @@ export const http = {
   gates,
   dashboard,
   service_requests,
+  meetings,
 };

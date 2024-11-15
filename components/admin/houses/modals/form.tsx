@@ -17,22 +17,32 @@ import dayjs, { ManipulateType } from "dayjs";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
-import { HouseData } from "@/builders/types/houses";
-import { APP, cast } from "@/packages/libraries";
+import { APP, cast, pass } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { FlowContainer } from "@/components/layout/flow-container";
 
 import { schema } from "../schema";
+import { DATE_FORMAT } from "@/packages/constants/time";
+import { useEffect } from "react";
+import { HouseData } from "@/builders/types/houses";
 
 export interface HouseFormProps {
   modalType: "add" | "edit" | "view";
-  data?: HouseData;
+  id?: string;
 }
 
-export function HouseForm({ modalType = "add", data }: HouseFormProps) {
+export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
+  // Fetch house data
+  const { data, isLoading } = useQuery({
+    queryKey: builder.houses.id.get.get(),
+    queryFn: () => builder.use().houses.id.get(id),
+    select: (data) => data,
+  });
+
+  // Add  house
   const { mutate: addHouse, isPending: isAdding } = useMutation({
     mutationFn: builder.use().houses.post,
     onSuccess: () => {
@@ -47,6 +57,7 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
     onError: handleError(),
   });
 
+  // Update house
   const { mutate: updateHouse, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().houses.id.edit,
     onSuccess: () => {
@@ -61,6 +72,7 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
     onError: handleError(),
   });
 
+  // Fetch house types
   const { data: houseTypes } = useQuery({
     queryKey: builder.estates.house_types.get.get(),
     queryFn: () => builder.use().estates.house_types.get(),
@@ -74,11 +86,11 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
 
   const form = useForm({
     initialValues: {
-      houseNumber: data?.houseNumber ?? "",
-      houseTypeId: data?.houseTypeId ?? "",
-      streetName: data?.streetName ?? "",
-      status: data?.status ?? "",
-      duration: data?.validityPeriod ?? "",
+      houseNumber: "",
+      houseTypeId: "",
+      streetName: "",
+      status: "",
+      duration: "",
       durationType: "months",
       modalType,
     },
@@ -112,7 +124,7 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
       form.getTransformedValues().duration,
       form.getValues().durationType as ManipulateType
     )
-    .format("MMMM D, YYYY");
+    .format(DATE_FORMAT);
 
   function handleSubmit() {
     const {
@@ -142,8 +154,23 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
       : addHouse(payload);
   }
 
+  useEffect(() => {
+    const { houseNumber, houseType, streetName, status, validityPeriod } =
+      data as HouseData;
+
+    form.initialize({
+      houseNumber: pass.string(houseNumber),
+      houseTypeId: pass.string(houseType.id),
+      streetName: pass.string(streetName),
+      status: pass.string(status),
+      duration: pass.string(validityPeriod.split(" ")[0]),
+      durationType: "months",
+      modalType,
+    });
+  }, [data, isLoading]);
+
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <Form form={form}>
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
@@ -240,10 +267,10 @@ export function HouseForm({ modalType = "add", data }: HouseFormProps) {
         ) : (
           <Button
             mt={10}
-            type='submit'
+            type='button'
             loading={isAdding}
             disabled={isAdding}
-            onSubmit={handleSubmit}
+            onClick={handleSubmit}
           >
             {isEditing ? "Save Changes" : "Add New House"}
           </Button>

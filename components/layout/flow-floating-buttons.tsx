@@ -82,7 +82,7 @@ export function FlowFloatingButtons({
   const view: Record<PropertyKey, ReactNode> = {
     [IconType.ADD]: <Add size={30} />,
     [IconType.DOWNLOAD]: <DownloadIcon width={20} height={20} />,
-    [IconType.UPLOAD]: <UploadIcon width={20} height={20} />,
+    [IconType.UPLOAD]: <UploadIcon width={17} height={17} />,
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,
   };
 

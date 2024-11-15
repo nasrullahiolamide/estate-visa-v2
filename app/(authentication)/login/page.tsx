@@ -24,8 +24,18 @@ import {
 } from "@mantine/core";
 
 const schema = object({
-  username: requiredString,
+  username: requiredString.test(
+    "email-or-gate-username",
+    "This field must be a valid email or a gate-username.",
+    (value) => {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$/;
+
+      return emailPattern.test(value) || stringStringPattern.test(value);
+    }
+  ),
   password: requiredString.min(6, "Password must be at least 6 characters."),
+
   remember_me: boolean().notRequired(),
 });
 
@@ -115,7 +125,7 @@ export default function Page() {
                 <Text
                   c='accent.6'
                   component={Link}
-                  href='/forgot-password'
+                  href={PAGES.RESET_PASSWORD}
                   fz='sm'
                 >
                   Forgot password?

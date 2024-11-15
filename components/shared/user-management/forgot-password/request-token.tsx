@@ -3,32 +3,36 @@
 import Link from "next/link";
 
 import { Form } from "@mantine/form";
-import { useFormContext } from "./password-reset-form-context";
+import { useFormContext } from "./form-context";
 
-// import { builder } from "@/packages";
 import { PAGES } from "@/packages/libraries";
 import { Box, Button, Stack, TextInput } from "@mantine/core";
+import { builder } from "@/builders";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { useMutation } from "@tanstack/react-query";
 
-export function RequestOTP() {
+export function RequestTOKEN() {
   const form = useFormContext();
 
-  // const { mutate, isPending } = useMutation({
-  //   mutationFn: builder.use().auth.password.forgot,
-  //   onError: handleError(),
-  //   onSuccess: ({ data }) => {
-  //     AlertSuccess({
-  //       text: "A password reset link has been sent to your email address.",
-  //     });
-  //     form.reset();
-  //   },
-  // });
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().auth.password.forgot,
+    onError: handleError(),
+    onSuccess: ({ data }) => {
+      handleSuccess({
+        message:
+          "A password reset link has been sent to your email address." ||
+          data.message,
+      });
+      form.reset();
+    },
+  });
 
   function handleSubmit({ email }: typeof form.values) {
-    console.log({ email });
+    mutate({ email });
   }
 
   return (
-    <Stack data-aos='fade-left'>
+    <Stack data-aos='fade-left' gap={8}>
       <Stack gap={8} className='text-primary-text-body text-center'>
         <h2 className='font-medium text-2xl'>Forgot Password?</h2>
         <p className='text-sm sm:text-base'>
@@ -36,7 +40,6 @@ export function RequestOTP() {
           password.
         </p>
       </Stack>
-
       <Box
         component={Form}
         form={form}
@@ -53,8 +56,8 @@ export function RequestOTP() {
           />
           <Button
             type='submit'
-            // loading={isPending}
-            // disabled={isPending}
+            loading={isPending}
+            disabled={isPending}
             className='text-primary-button-surface'
           >
             Email password reset link

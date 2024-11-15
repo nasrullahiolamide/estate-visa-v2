@@ -1,9 +1,9 @@
 import { api } from "@/builders/axios";
-import { UpdateHouseData } from "@/builders/types/houses";
+import { HouseData, UpdateHouseData } from "@/builders/types/houses";
 import { SubAdminData } from "@/builders/types/sub-admins";
 
 const get = function (id: string) {
-  return api.get<SubAdminData>(`/houses/${id}`).then((data) => data);
+  return api.get<HouseData>(`/houses/${id}`).then((data) => data.data);
 };
 
 const edit = function (variables: { id: string; data: UpdateHouseData }) {
