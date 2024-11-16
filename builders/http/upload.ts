@@ -8,13 +8,11 @@ export const upload = function (variables: {
 }) {
   const { formData, onUploadProgress } = variables;
   return api
-    .post<{
-      data: UploadData;
-    }>("/uploads", formData, {
+    .post<UploadData>("/upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
       onUploadProgress,
     })
-    .then(({ data }) => data);
+    .then((data) => data);
 };

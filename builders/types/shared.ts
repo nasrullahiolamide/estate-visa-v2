@@ -4,6 +4,10 @@ import { MIME_TYPES } from "@mantine/dropzone";
 import dayjs from "dayjs";
 import { string } from "yup";
 
+export type RenameKeys<T, Mappings extends Record<string, string>> = {
+  [K in keyof T as K extends keyof Mappings ? Mappings[K] : K]: T[K];
+};
+
 export type Nullish<Value, Exempt extends keyof Value = never> = {
   [Property in keyof Value]: Property extends Exempt
     ? Value[Property]
@@ -35,11 +39,11 @@ export type CourseContentTypes = [mime: MIME_TYPE, content_type: ContentType][];
 export type ContentType = "Image" | "Video" | "Text" | "File" | "Audio" | "PPT";
 
 export type Thumbnail = {
-  id: number;
-  file_name: string;
-  file_type: string;
-  file_url: string;
-  file_size: number;
+  asset_id: string;
+  bytes: number;
+  secure_url: string;
+  original_filename: string;
+  resource_type: string;
 };
 
 export function useThumbnailData(_?: any, index?: number) {
@@ -47,11 +51,11 @@ export function useThumbnailData(_?: any, index?: number) {
   const id = index ?? faker.number.int({ max: 10 });
 
   return {
-    id,
-    file_name: faker.system.fileName(),
-    file_type: faker.system.mimeType(),
-    file_url: faker.internet.url(),
-    file_size: faker.number.int({ min: 1000, max: 10000 }),
+    asset_id: id.toString(),
+    original_filename: faker.system.fileName(),
+    resource_type: faker.system.mimeType(),
+    secure_url: faker.internet.url(),
+    bytes: faker.number.int({ min: 1000, max: 10000 }),
   };
 }
 

@@ -1,15 +1,15 @@
-import clsx from "clsx";
-
+import { AxiosError } from "axios";
 import { Fragment, ReactNode } from "react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { modals } from "@mantine/modals";
 import { Menu, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { AddIcon, EditIcon, EyeIcon, TrashIcon } from "@/icons";
 import { ConfirmationModal } from "@/components/shared/interface";
+import { ViewMeeting } from "../modals/view";
 import {
   FlowMenuDropdown,
   FlowMenu,
@@ -18,15 +18,20 @@ import {
 
 interface MeetingActionsProps {
   id: string;
-  status: "cancelled" | "completed" | "scheduled" | string;
+  status: string;
+  hasMeeting: boolean;
   handlers: {
-    onViewMinutes: () => void;
+    onEditMinutes: () => void;
     onAddMinutes: () => void;
+    onEditMeeting: () => void;
   };
 }
 
-export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
+export function MeetingActions({ ...props }: MeetingActionsProps) {
+  const { status, id, handlers, hasMeeting } = props;
   const queryClient = useQueryClient();
+  const [isDrawerOpened, { open: openDrawer, close: closeDrawer }] =
+    useDisclosure(false);
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().meetings.remove,
@@ -40,7 +45,7 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get(),
+        queryKey: builder.meetings.get.table.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -51,7 +56,7 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this house?'
+          title='Are you sure you want to delete this meeting?'
           src='delete'
           primaryBtnText='Yes, delete'
           secondaryBtnText='No'
@@ -76,16 +81,12 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
 
   const Actions: Record<PropertyKey, ReactNode> = {
     cancelled: (
-      <FlowMenu
-        wrapperProps={{
-          className: clsx("block text-center sm:hidden"),
-        }}
-      >
+      <FlowMenu>
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
             leftSection={<EditIcon width={14} />}
-            onClick={handlers.onViewMinutes}
+            onClick={handlers.onEditMeeting}
           >
             Edit Meeting Details
           </Menu.Item>
@@ -108,25 +109,27 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
     ),
 
     completed: (
-      <FlowMenu
-        wrapperProps={{
-          className: clsx("block text-center sm:hidden"),
-        }}
-      >
+      <FlowMenu>
         <FlowMenuTarget />
         <FlowMenuDropdown>
-          <Menu.Item
-            leftSection={<EyeIcon width={14} />}
-            onClick={handlers.onViewMinutes}
-          >
+          <Menu.Item leftSection={<EyeIcon width={14} />} onClick={openDrawer}>
             View Meeting Details
           </Menu.Item>
-          <Menu.Item
-            leftSection={<AddIcon width={14} />}
-            onClick={handlers.onAddMinutes}
-          >
-            Add Meeting Minutes
-          </Menu.Item>
+          {hasMeeting ? (
+            <Menu.Item
+              leftSection={<EditIcon width={14} />}
+              onClick={handlers.onEditMinutes}
+            >
+              Edit Meeting Minutes
+            </Menu.Item>
+          ) : (
+            <Menu.Item
+              leftSection={<AddIcon width={14} />}
+              onClick={handlers.onAddMinutes}
+            >
+              Add Meeting Minutes
+            </Menu.Item>
+          )}
           <Menu.Divider />
           <Menu.Item
             color='#CC0404'
@@ -140,24 +143,20 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
     ),
 
     scheduled: (
-      <FlowMenu
-        wrapperProps={{
-          className: clsx("block text-center sm:hidden"),
-        }}
-      >
+      <FlowMenu>
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
-            leftSection={<EyeIcon width={14} />}
-            onClick={handlers.onAddMinutes}
+            leftSection={<EditIcon width={14} />}
+            onClick={handlers.onEditMeeting}
           >
-            View Meeting Details
+            Edit Meeting Details
           </Menu.Item>
           <Menu.Item
             closeMenuOnClick={false}
             leftSection={<EditIcon width={14} />}
           >
-            <FlowMenu position='right-start' offset={45}>
+            <FlowMenu position='right-start' withArrow={false} offset={45}>
               <Menu.Target>
                 <Text fz={14} w='100%'>
                   Edit Status
@@ -168,7 +167,9 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
                   Complete Meeting
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item>Cancel Meeting</Menu.Item>
+                <Menu.Item onClick={() => console.log("Meeting Cancelled")}>
+                  Cancel Meeting
+                </Menu.Item>
               </FlowMenuDropdown>
             </FlowMenu>
           </Menu.Item>
@@ -185,5 +186,10 @@ export function MeetingActions({ status, id, handlers }: MeetingActionsProps) {
     ),
   };
 
-  return <Fragment>{Actions[status]}</Fragment>;
+  return (
+    <Fragment>
+      {Actions[status]}
+      <ViewMeeting open={isDrawerOpened} close={closeDrawer} id={id} />
+    </Fragment>
+  );
 }

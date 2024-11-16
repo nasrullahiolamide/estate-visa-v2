@@ -53,5 +53,6 @@ export { ShareIcon } from "./share";
 export { HourglassIcon } from "./hourglass";
 export { NotesIcon } from "./notes";
 export { ListIcon } from "./list";
+export { NoData } from "./no-file";
 
 export type { IconType } from "./type";

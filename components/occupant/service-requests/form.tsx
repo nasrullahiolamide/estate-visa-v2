@@ -16,7 +16,7 @@ import { ResourceUpload } from "@/components/admin/shared/resource-upload";
 import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { toast } from "react-toastify";
-import { concat } from "lodash";
+import { concat, toString } from "lodash";
 
 export interface ServiceRequestFormProps {
   data?: ServiceRequestsData;
@@ -28,7 +28,7 @@ export function ServiceRequestForm({
   modalType: formType,
 }: ServiceRequestFormProps) {
   const requestId = data?.id;
-  const occupantId = getCookie(APP.OCCUPANT_ID) ?? "";
+  const occupantId = toString(getCookie(APP.OCCUPANT_ID));
 
   const queryClient = useQueryClient();
 
@@ -80,13 +80,13 @@ export function ServiceRequestForm({
     status: fileStatus,
     progress,
   } = useFileUpload({
-    key: MODALS.UPLOAD_RESOURCES,
+    key: "others",
     onError: () => {
       toast.error("Failed to upload resource");
     },
     onSuccess: ({ data }) => {
       form.clearFieldError("image");
-      form.setFieldValue("image", data?.file_url);
+      form.setFieldValue("image", data?.secure_url);
     },
   });
 

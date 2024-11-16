@@ -100,6 +100,9 @@ export function ResourceUpload({
       ? "accent.9"
       : "gray.4";
 
+  const checkColor =
+    status === "error" ? "red.9" : status === "uploaded" ? "green.9" : "gray.4";
+
   const background =
     status === "error"
       ? "red.4"
@@ -113,11 +116,12 @@ export function ResourceUpload({
       gap={14}
       className={clsx("border rounded-md bg-primary-background-subtle", {
         "border-red-9": status === "error",
-        "border-primary-button-normal": status === "uploaded",
+        // "border-primary-border-light": status === "uploaded",
         "border-primary-border-light": [
           "pending",
           "dropped",
           "uploading",
+          "uploaded",
         ].includes(status),
       })}
     >
@@ -136,7 +140,12 @@ export function ResourceUpload({
             <Text fz={14} className='text-primary-text-body'>
               {name}
             </Text>
-            <Center p={3} c='white' bg={color} className='rounded-full size-4'>
+            <Center
+              p={3}
+              c='white'
+              bg={checkColor}
+              className='rounded-full size-4'
+            >
               <Check />
             </Center>
           </Flex>

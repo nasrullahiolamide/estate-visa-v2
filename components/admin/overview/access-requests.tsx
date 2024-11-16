@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 
-import { GateIcon } from "@/icons";
+import { GateIcon, NoData } from "@/icons";
 import { Flex, Stack, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "./requests-dropdown";
 import { PieChart } from "@/components/shared/interface/charts/pie";
@@ -11,6 +11,7 @@ import { useFakeAccessRequestData } from "@/builders/types/admin-dashboard";
 import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useQueryState } from "nuqs";
+import { EmptySlot } from "@/components/shared/interface";
 
 export function AccessRequests() {
   const initialAccessRequest = useFakeAccessRequestData();
@@ -73,16 +74,12 @@ export function AccessRequests() {
         />
       </Flex>
       {data?.noData ? (
-        <Flex
-          justify='center'
-          align='center'
-          className='h-[300px] bg-gray-1 rounded-lg'
-        >
-          <Text c='gray' fz={14}>
-            No data available
-          </Text>
-        </Flex>
+        <Stack gap={0}>
+          <NoData />
+          <Text ta='center'>No Data Available</Text>
+        </Stack>
       ) : (
+        // </Stack>
         <PieChart
           data={data?.requests ?? []}
           labelProps={{

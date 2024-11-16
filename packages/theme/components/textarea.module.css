@@ -8,5 +8,8 @@
       font-size: rem(14px);
     }
   }
+}
+
+.input {
   height: rem(100px) !important;
 }

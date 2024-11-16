@@ -54,13 +54,13 @@ export function MarketRuleForm() {
   const handleSubmit = () => {};
 
   const { preview, handleUpload, status, progress } = useFileUpload({
-    key: MODALS.ADD_MEETINGS_MINUTES,
+    key: "minutes",
     onError: () => {
       toast.error("Failed to upload resource");
     },
     onSuccess: ({ data }) => {
       form.clearFieldError("thumbnail_id");
-      form.setFieldValue("upload_id", data?.id);
+      form.setFieldValue("upload_id", data?.asset_id);
     },
   });
 

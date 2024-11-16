@@ -60,34 +60,35 @@ export const MeetingColumns = [
     ),
   }),
 
-  // columnHelper.accessor("status", {
-  //   header: () => (
-  //     <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-  //   ),
-  //   enableSorting: false,
-  //   cell: ({ getValue }) => {
-  //     const value = getValue();
+  columnHelper.accessor("status", {
+    header: () => (
+      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+    ),
+    enableSorting: false,
+    cell: ({ getValue }) => {
+      const value = getValue();
 
-  //     const colors: Record<PropertyKey, { color: string; bg: string }> = {
-  //       completed: { color: "green", bg: "green.1" },
-  //       scheduled: { color: "#969921", bg: "#feffd7" },
-  //       cancelled: { color: "red", bg: "red.1" },
-  //     };
+      const colors: Record<PropertyKey, { color: string; bg: string }> = {
+        completed: { color: "green", bg: "green.1" },
+        scheduled: { color: "#969921", bg: "#feffd7" },
+        cancelled: { color: "red", bg: "red.1" },
+      };
 
-  //     return (
-  //       <Box ta='center'>
-  //         <Pill
-  //           ta='center'
-  //           c={colors[value.toLowerCase()].color}
-  //           bg={colors[value.toLowerCase()].bg}
-  //           fw={500}
-  //           children={value}
-  //           size='sm'
-  //         />
-  //       </Box>
-  //     );
-  //   },
-  // }),
+      return (
+        <Box ta='center'>
+          <Pill
+            ta='center'
+            c={colors[value.toLowerCase()].color}
+            bg={colors[value.toLowerCase()].bg}
+            fw={500}
+            children={value}
+            size='sm'
+            className='capitalize'
+          />
+        </Box>
+      );
+    },
+  }),
   columnHelper.accessor("action", {
     header: () => (
       <Text

@@ -55,9 +55,11 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
   thumbnail?: Partial<Thumbnail> | null;
 
   /**
-   * The key to use for the upload
+   * The key type to use for the upload
+   * @type {Categories}
+   * @default "others"
    */
-  key?: string;
+  key?: Categories;
 
   /**
    * The form to use for the upload
@@ -66,6 +68,7 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
 };
 
 export type Files = (FileWithPath | undefined)[];
+export type Categories = "minutes" | "profile-pictures" | "messages" | "others";
 export type Status = "dropped" | "uploading" | "uploaded" | "pending" | "error";
 
 export function useFileUpload<FormValues extends Record<string, unknown>>({
@@ -86,7 +89,12 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    * Destructure the thumbnail object
    * @type {Thumbnail}
    */
-  const { file_name, file_url, file_size, file_type } = { ...thumbnail };
+  const {
+    original_filename: file_name,
+    secure_url: file_url,
+    bytes: file_size,
+    resource_type: file_type,
+  } = { ...thumbnail };
 
   /**
    * Created as a state to hold the files to upload
@@ -165,7 +173,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    * @returns void
    */
   const handleUpload = ([file]: Files) => {
-    if (!file) return;
+    if (!file || !key) return;
     setStatus("uploading");
 
     const formData = new FormData();
@@ -176,6 +184,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     };
 
     formData.append("file", file);
+    formData.append("type", key);
     Object.entries({ ...form }).forEach(([key, value]) => {
       formData.append(key, pass.string(value));
     });

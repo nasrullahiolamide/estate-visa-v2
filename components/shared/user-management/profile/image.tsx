@@ -13,16 +13,17 @@ interface ProfileImageProps {
 }
 
 export function ProfileImage({ url, form }: ProfileImageProps) {
-  const { preview, handleUpload, isPending } = useFileUpload({
-    key: "profile-image",
+  const { preview, handleUpload } = useFileUpload({
+    key: "profile-pictures",
     onError: () => {
       handleError({
         message: "Failed to upload thumbnail",
       })();
     },
     onSuccess: ({ data }) => {
+      console.log(data);
       form.clearFieldError("thumbnail_id");
-      form.setFieldValue("thumbnail_id", data.id);
+      form.setFieldValue("thumbnail_id", data.secure_url);
     },
   });
 
@@ -46,11 +47,11 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
         size={90}
         radius={9999}
         className='bg-gray-2 cursor-pointer'
-        src={url ?? "/vectors/image-plus.svg"}
+        src={preview.url ?? "/vectors/image-plus.svg"}
         alt={preview.name ?? "thumbnail"}
         classNames={{
           image: clsx({
-            "p-4": !url,
+            "p-4": !preview.url,
           }),
         }}
       />

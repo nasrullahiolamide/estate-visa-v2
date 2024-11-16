@@ -16,6 +16,10 @@ const all = function () {
   return api.get<MeetingData[]>(`/meetings/all`).then((data) => data.data);
 };
 
+const id = function (id: string) {
+  return api.get<MeetingData>(`/meetings/${id}`).then((data) => data.data);
+};
+
 const schedule = function (data: MeetingData) {
   return api.post("/meetings", data);
 };
@@ -24,14 +28,16 @@ const remove = function (id: string) {
   return api.delete(`/meetings/${id}`);
 };
 
-const minutes = function (id: string) {
+const minutes = function (variables: { id: string; data: MinutesData }) {
+  const { id, data } = variables;
   return api
-    .patch<MinutesData>(`/meetings/${id}/minutes`)
+    .patch<MinutesData>(`/meetings/${id}/minutes`, data)
     .then((data) => data.data);
 };
 
 export const meetings = {
   get: {
+    id,
     all,
     table,
   },

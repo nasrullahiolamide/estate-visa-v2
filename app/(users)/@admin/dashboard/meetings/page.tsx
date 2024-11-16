@@ -1,27 +1,27 @@
 "use client";
 
+import clsx from "clsx";
+import { toString } from "lodash";
 import { getCookie } from "cookies-next";
-
-import { Fragment, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Flex } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Fragment, useEffect } from "react";
 import { modals } from "@mantine/modals";
-
+import { Button, Flex } from "@mantine/core";
 import { builder } from "@/builders";
 import { useFakeMeetingsList } from "@/builders/types/meetings";
 import { MeetingColumns } from "@/columns/for_admins/meetings";
 import { APP, MODALS } from "@/packages/libraries";
-import { SheduleMeeting } from "@/components/admin/meetings/modals/shedule";
-import {
-  MeetingMinutesForm,
-  MeetingMinutesFormProps,
-} from "@/components/admin/meetings/modals/form";
+import { useMeetingDrawer } from "@/packages/hooks/use-meeting-props";
 import { MeetingActions } from "@/components/admin/meetings/actions";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddIcon } from "@/icons";
+import {
+  SheduleMeeting,
+  MeetingMinutesForm,
+  MeetingMinutesFormProps,
+} from "@/components/admin/meetings/modals";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -34,7 +34,6 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import clsx from "clsx";
 
 const filterOptions = [
   { label: "A-Z", value: "A-Z" },
@@ -49,21 +48,29 @@ const filterOptions = [
   },
 ];
 
-const handleMinuteForm = ({ formType, meetingId }: MeetingMinutesFormProps) => {
+const handleMinuteForm = ({ ...props }: MeetingMinutesFormProps) => {
+  const { formType = "add", meetingId, data } = props;
   modals.open({
-    title: "Add Meeting Minutes",
-    children: <MeetingMinutesForm formType={formType} meetingId={meetingId} />,
     modalId: MODALS.FORM_DETAILS,
+    closeOnClickOutside: false,
+    title: formType === "add" ? "Add Meeting Minutes" : "Edit Meeting Minutes",
+    children: (
+      <MeetingMinutesForm
+        formType={formType}
+        meetingId={meetingId}
+        data={data}
+      />
+    ),
   });
 };
 
 export default function Meetings() {
-  const [isDrawerOpened, { open: openDrawer, close: closeDrawer }] =
-    useDisclosure(false);
-
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
+  const estateId = toString(getCookie(APP.ESTATE_ID));
   const initialMeetingList = useFakeMeetingsList();
   const pagination = useFlowPagination();
+
+  const { meetingProps, scheduleMeeting, editMeeting } =
+    useMeetingDrawer(false);
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
@@ -83,11 +90,17 @@ export default function Meetings() {
               <MeetingActions
                 status={list.status}
                 id={list.id}
+                hasMeeting={list.minutes ? true : false}
                 handlers={{
+                  onEditMeeting: () => editMeeting(list),
                   onAddMinutes: () =>
                     handleMinuteForm({ formType: "add", meetingId: list.id }),
-                  onViewMinutes: () =>
-                    handleMinuteForm({ formType: "edit", meetingId: list.id }),
+                  onEditMinutes: () =>
+                    handleMinuteForm({
+                      formType: "edit",
+                      meetingId: list.id,
+                      data: list,
+                    }),
                 }}
               />
             ),
@@ -96,6 +109,8 @@ export default function Meetings() {
       };
     },
   });
+
+  const noDataAvailable = meetings?.data.length === 0;
 
   useEffect(() => {
     if (isPlaceholderData) return;
@@ -106,15 +121,13 @@ export default function Meetings() {
     pagination.setPageSize(meetings?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = meetings?.data.length === 0;
-
   return (
     <Fragment>
       <AppShellHeader
         title='Meeting Overview'
         options={
           <HeaderOptions
-            openDrawer={openDrawer}
+            scheduleMeeting={scheduleMeeting}
             hidden={noDataAvailable || isPlaceholderData}
           />
         }
@@ -141,7 +154,7 @@ export default function Meetings() {
                 text='Shedule Meeting'
                 btnProps={{
                   leftSection: <AddIcon />,
-                  onClick: openDrawer,
+                  onClick: scheduleMeeting,
                 }}
               />
             )}
@@ -164,7 +177,7 @@ export default function Meetings() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: openDrawer,
+              onClick: scheduleMeeting,
             },
           }}
           secondaryButtons={[
@@ -176,25 +189,26 @@ export default function Meetings() {
             },
           ]}
         />
-        <SheduleMeeting
-          open={isDrawerOpened}
-          close={closeDrawer}
-          id={estateId}
-        />
+        <SheduleMeeting {...meetingProps} />
       </FlowContainer>
     </Fragment>
   );
 }
 
 interface HeaderOptionsProps {
-  openDrawer: () => void;
+  scheduleMeeting: () => void;
   hidden?: boolean;
 }
 
-function HeaderOptions({ openDrawer, hidden }: HeaderOptionsProps) {
+function HeaderOptions({ scheduleMeeting, hidden }: HeaderOptionsProps) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={openDrawer}>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={scheduleMeeting}
+      >
         Schedule Meeting
       </Button>
       <Button

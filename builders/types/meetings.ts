@@ -36,6 +36,8 @@ export type MeetingData = {
   platform: string;
   venue: string;
   meetingLink: string;
+  minutes?: string;
+  file?: string;
   notes: string;
 };
 

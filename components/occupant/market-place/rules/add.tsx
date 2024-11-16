@@ -3,7 +3,7 @@
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { cast, MODALS } from "@/packages/libraries";
+import { cast } from "@/packages/libraries";
 import { object, string } from "yup";
 import { FlowEditor } from "@/components/layout/flow-editor";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
@@ -54,13 +54,13 @@ export function MarketRuleForm() {
   const handleSubmit = () => {};
 
   const { preview, handleUpload, status, progress } = useFileUpload({
-    key: MODALS.ADD_MEETINGS_MINUTES,
+    key: "others",
     onError: () => {
       toast.error("Failed to upload resource");
     },
     onSuccess: ({ data }) => {
       form.clearFieldError("thumbnail_id");
-      form.setFieldValue("upload_id", data?.id);
+      form.setFieldValue("upload_id", data?.secure_url);
     },
   });
 
