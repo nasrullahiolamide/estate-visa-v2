@@ -79,7 +79,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
       title: "",
       date: new Date(),
       time: formatDate(new Date().getTime(), TIME_FORMAT),
-      location: "Physical",
+      location: Location.Physical,
       notes: "",
       venue: "",
       platform: "",
@@ -99,70 +99,70 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
   });
 
   useEffect(() => {
-    form.setValues({
-      title: pass.string(data?.title),
-      date: dayjs(data?.date, DATE_FORMAT).toDate(),
-      time: pass.string(data?.time),
-      venue: pass.string(data?.venue),
-      platform: pass.string(data?.platform),
-      meetingLink: pass.string(data?.meetingLink),
-      notes: pass.string(data?.notes),
-      location: pass.string(data?.location),
-    });
+    if (data) {
+      form.setValues({
+        title: pass.string(data.title),
+        date: dayjs(data.date, DATE_FORMAT).toDate(),
+        time: pass.string(data.time),
+        venue: pass.string(data.venue),
+        platform: pass.string(data.platform),
+        meetingLink: pass.string(data.meetingLink),
+        notes: pass.string(data.notes),
+        location: Location[data?.location as keyof typeof Location],
+      });
+    }
   }, [data]);
 
   function handleSubmit(values: Omit<typeof form.values, "minutes" | "file">) {
     scheduleMeeting(values);
   }
 
-  const nextView: Record<string, ReactNode> = {
-    Physical: (
-      <TextInput label='Venue' withAsterisk {...form.getInputProps("venue")} />
-    ),
-    Virtual: (
-      <>
-        <Select
-          label='Platform'
-          placeholder='Select meeting platform'
-          data={["Zoom", "Google Meet", "WhatsApp"]}
-          withAsterisk
-          {...form.getInputProps("platform")}
-        />
+  const renderLocationDetails = () => {
+    const location = form.getValues().location;
+
+    if (location === Location.Physical) {
+      return (
         <TextInput
-          label='Meeting Link'
-          placeholder={MeetingPlaceholder[form.getValues().platform]}
-          withAsterisk
-          {...form.getInputProps("meetingLink")}
-        />
-      </>
-    ),
-    Hybrid: (
-      <>
-        <Select
-          label='Virtual Platform'
-          data={["Zoom", "Google Meet", "WhatsApp"]}
-          placeholder='--select--'
-          withAsterisk
-          {...form.getInputProps("platform")}
-        />
-        <TextInput
-          label='Meeting Link'
-          withAsterisk
-          placeholder={
-            MeetingPlaceholder[form.getValues().platform] ||
-            "Select a virtual platform"
-          }
-          disabled={!form.getValues().platform}
-          {...form.getInputProps("meetingLink")}
-        />
-        <TextInput
-          label='Physical Venue'
-          placeholder='E.g. Conference Room, Office'
+          label='Venue'
           withAsterisk
           {...form.getInputProps("venue")}
         />
-      </>
-    ),
+      );
+    }
+
+    if (location === Location.Virtual || location === Location.Hybrid) {
+      return (
+        <>
+          <Select
+            label='Platform'
+            placeholder='Select meeting platform'
+            data={["Zoom", "Google Meet", "WhatsApp"]}
+            withAsterisk
+            {...form.getInputProps("platform")}
+          />
+          <TextInput
+            label='Meeting Link'
+            placeholder={
+              MeetingPlaceholder[form.getValues().platform] ??
+              "Select a virtual platform"
+            }
+            withAsterisk
+            disabled={!form.getValues().platform}
+            {...form.getInputProps("meetingLink")}
+          />
+          {location === Location.Hybrid && (
+            <TextInput
+              label='Physical Venue'
+              placeholder='E.g. Conference Room, Office'
+              withAsterisk
+              {...form.getInputProps("venue")}
+            />
+          )}
+        </>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -224,7 +224,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
               withAsterisk
               {...form.getInputProps("location")}
             />
-            {nextView[form.getValues().location]}
+            {renderLocationDetails()}
           </Stack>
 
           <Divider my={30} />

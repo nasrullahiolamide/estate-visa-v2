@@ -19,9 +19,7 @@ export function RequestTOKEN() {
     onError: handleError(),
     onSuccess: ({ data }) => {
       handleSuccess({
-        message:
-          "A password reset link has been sent to your email address." ||
-          data.message,
+        message: "A password reset link has been sent to your email address.",
       });
       form.reset();
     },

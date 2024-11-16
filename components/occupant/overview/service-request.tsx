@@ -1,6 +1,6 @@
 import { FilterRequestsDropdown } from "@/components/admin/overview";
 import { Button, Flex, Stack, Text, Title } from "@mantine/core";
-import { Fragment, ReactNode } from "react";
+import { useQueryState } from "nuqs";
 
 interface ServiceRequestProps {}
 
@@ -26,6 +26,9 @@ const requests = [
 ];
 
 export function ServiceRequest({}: ServiceRequestProps) {
+  const [period, setPeriod] = useQueryState("sr-prd", {
+    defaultValue: "week",
+  });
   return (
     <Stack
       flex={1}
@@ -43,7 +46,12 @@ export function ServiceRequest({}: ServiceRequestProps) {
             List of services you requested for this week
           </Text>
         </Stack>
-        <FilterRequestsDropdown data={["Week", "6 months", "Year"]} size='sm' />
+        <FilterRequestsDropdown
+          data={["Week", "6months", "Year"]}
+          size='sm'
+          value={period}
+          onFilter={setPeriod}
+        />
       </Flex>
 
       <Stack mah={400} className='overflow-auto' gap={0}>

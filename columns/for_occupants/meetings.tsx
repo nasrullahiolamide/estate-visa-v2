@@ -1,10 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { Box, Checkbox, Pill, Text } from "@mantine/core";
-import { MeetingsData } from "@/builders/types/meetings";
+import { MeetingListData } from "@/builders/types/meetings";
 
 import { formatDate } from "@/packages/libraries";
 
-const columnHelper = createColumnHelper<MeetingsData>();
+const columnHelper = createColumnHelper<MeetingListData>();
 
 export const meetingColumns = [
   columnHelper.display({
@@ -40,7 +40,7 @@ export const meetingColumns = [
     enableSorting: false,
     cell: ({ getValue }) => formatDate(getValue(), "LT"),
   }),
-  columnHelper.accessor("attendees", {
+  columnHelper.accessor("noOfAttendees", {
     header: () => (
       <Text
         ta='center'

@@ -19,7 +19,7 @@ import {
 import { filterOptions } from "@/components/occupant/meetings/table";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns";
 import { DownloadIcon } from "@/icons";
-import { SheduleMeeting } from "@/components/admin/meetings/shedule";
+import { SheduleMeeting } from "@/components/admin/meetings/modals/shedule";
 import { useDisclosure } from "@mantine/hooks";
 
 export default function MeetingMinutes() {
@@ -98,7 +98,7 @@ export default function MeetingMinutes() {
           </FlowFooter>
         </Fragment>
         <FlowFloatingButtons hasFilterButton filterData={filterOptions} />
-        <SheduleMeeting open={opened} close={closeDrawer} />
+        {/* <SheduleMeeting open={opened} close={closeDrawer} /> */}
       </FlowContainer>
     </Fragment>
   );
