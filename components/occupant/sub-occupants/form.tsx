@@ -40,7 +40,7 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   });
 
   const { mutate: updateSubOccupant, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().occupants.id.edit,
+    mutationFn: builder.use().sub_occupants.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.sub_occupants.get.get(),

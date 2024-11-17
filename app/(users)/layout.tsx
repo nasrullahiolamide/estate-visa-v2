@@ -21,7 +21,7 @@ export default async function Layout({
   occupant,
   sub_occupant,
   property_owner,
-  gateman,
+  // gateman,
   guest = (
     <p>
       You are not authorized to view this page. Please contact the
@@ -40,7 +40,7 @@ export default async function Layout({
     [USER_TYPE.OCCUPANT]: occupant,
     [USER_TYPE.SUB_OCCUPANT]: sub_occupant,
     [USER_TYPE.PROPERTY_OWNER]: property_owner,
-    [USER_TYPE.GATEMAN]: gateman,
+    // [USER_TYPE.GATEMAN]: gateman,
   };
 
   if (!isAuthorized) redirect(nextRoute);
