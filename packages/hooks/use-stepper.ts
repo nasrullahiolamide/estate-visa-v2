@@ -28,11 +28,15 @@ export function useStepper<T extends Record<PropertyKey, unknown>>({
 
   function next() {
     const hasErrors = checkForErrors();
-    if (!hasErrors) handlers.increment();
+    if (!hasErrors) {
+      handlers.increment();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   function previous() {
     handlers.decrement();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   return { active, next, previous, max };

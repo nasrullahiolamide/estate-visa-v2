@@ -37,34 +37,12 @@ export const estatesColumns = [
     enableSorting: false,
   }),
   columnHelper.accessor("numberOfHouses", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='No of Houses'
-      />
-    ),
+    header: "No of Houses",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
   columnHelper.accessor("location", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Location'
-      />
-    ),
+    header: "Location",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
   columnHelper.accessor("interests", {
     header: "Interests",
@@ -83,7 +61,7 @@ export const estatesColumns = [
               c='gray.12'
               variant='transparent'
               rightSection={
-                greaterThanOne && <ArrowDownIcon className='ml-4' />
+                greaterThanOne && <ArrowDownIcon className='ml-3' />
               }
             >
               {interests.length > 1 ? `${interests.at(0)}...` : interests.at(0)}
@@ -111,15 +89,7 @@ export const estatesColumns = [
   }),
 
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

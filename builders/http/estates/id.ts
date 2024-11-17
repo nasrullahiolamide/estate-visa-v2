@@ -1,8 +1,8 @@
 import { api } from "@/builders/axios";
-import { Estate, UpdateEstateData } from "@/builders/types/estates";
+import { SingleEstate, UpdateEstateData } from "@/builders/types/estates";
 
 const get = function (id: string) {
-  return api.get<Estate>(`/estates/${id}`).then((data) => data);
+  return api.get<SingleEstate>(`/estates/${id}`).then((data) => data.data);
 };
 
 const put = function (variables: { id: string; data: UpdateEstateData }) {

@@ -1,26 +1,29 @@
 "use client";
 
+import clsx from "clsx";
+
+import { toString } from "lodash";
 import { Fragment, useEffect } from "react";
+import { Form, useForm, yupResolver } from "@mantine/form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { navigate } from "@/packages/actions";
 import { cast, makePath, PAGES, pass } from "@/packages/libraries";
-import { AddIcon } from "@/icons";
-import { AppShellHeader } from "@/components/admin/shared";
-import { FlowContainer, FlowContentContainer } from "@/components/layout";
-import { EmptySlot } from "@/components/shared/interface";
+import { handleError, handleSuccess } from "@/packages/notification";
 import { useEstateValue } from "@/packages/hooks/use-estate-query";
-import { Form, useForm, yupResolver } from "@mantine/form";
+import { AddIcon } from "@/icons";
+import { FlowContainer, FlowContentContainer } from "@/components/layout";
+import { AppShellHeader } from "@/components/admin/shared";
+import { EmptySlot } from "@/components/shared/interface";
 import { schema } from "@/components/super-admin/estates/schema";
 import { DesktopView } from "@/components/super-admin/estates/views/desktop";
 import { MobileView } from "@/components/super-admin/estates/views/mobile";
-import { handleError, handleSuccess } from "@/packages/notification";
 import {
   FormProvider,
   FormValues,
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
-import clsx from "clsx";
+import { useFakeSingleEstateData } from "@/builders/types/estates";
 
 interface PageProps {
   params: {
@@ -30,25 +33,27 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const queryClient = useQueryClient();
+  const initialEstateData = useFakeSingleEstateData();
   const {
     estate: { id: estateId, action: actionType },
   } = useEstateValue(params.estate);
 
-  const { data: estates, isLoading } = useQuery({
-    queryKey: builder.estates.id.get.get(),
-    queryFn: () => builder.use().estates.id.get(estateId as string),
-    select: ({ data }) => data,
+  const { data: estates, isPlaceholderData } = useQuery({
+    queryKey: builder.estates.id.get.get(estateId),
+    queryFn: () => builder.use().estates.id.get(toString(estateId)),
+    placeholderData: initialEstateData,
+    enabled: !!estateId,
   });
 
   const { mutate: editEstate, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().estates.id.put,
     onSuccess: () => {
       navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
-      handleSuccess({
-        message: "Estate Updated Successfully",
-      });
       queryClient.invalidateQueries({
         queryKey: builder.estates.get.get(),
+      });
+      handleSuccess({
+        message: "Estate Updated Successfully",
       });
     },
     onError: handleError(),
@@ -86,6 +91,8 @@ export default function Page({ params }: PageProps) {
     } = {
       ...estates,
     };
+
+    console.log(estates);
     form.setValues({
       name: pass.string(name),
       location: pass.string(location),
@@ -99,9 +106,10 @@ export default function Page({ params }: PageProps) {
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       username: pass.string(manager?.username),
       email: pass.string(manager?.email),
+      password: pass.string(manager?.password),
       action: actionType,
     });
-  }, [estates, isLoading]);
+  }, [estates, isPlaceholderData]);
 
   const isViewing = form.getValues().action === "view";
   const isEditing = form.getValues().action === "edit";
@@ -115,6 +123,7 @@ export default function Page({ params }: PageProps) {
       phone,
       password,
       numberOfHouses,
+      action,
       ...values
     } = form.getValues();
 
@@ -145,7 +154,9 @@ export default function Page({ params }: PageProps) {
           <FormProvider form={form}>
             <FlowContentContainer
               classNames={{
-                root: clsx("rounded-xl bg-white lg:p-12 m-4 p-6 ", {}),
+                root: clsx("rounded-xl bg-white lg:p-12 m-4 p-6 ", {
+                  skeleton: isPlaceholderData,
+                }),
               }}
             >
               <Form form={form} className='h-full flex'>

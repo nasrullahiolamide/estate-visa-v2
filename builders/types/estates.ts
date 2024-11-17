@@ -42,12 +42,9 @@ export type EstatesData = {
   serviceRequestTypes?: string[];
   numberOfHouses?: number;
   houseTypes?: string[];
-  created_at?: string;
-  updated_at?: string;
-  deletedAt?: string;
 };
 
-export type Estate = {
+export type SingleEstate = {
   name: string;
   location: string;
   owner: string;
@@ -69,13 +66,11 @@ export type Admin = {
   password: string;
 };
 
-export function useFakeEstateData(_?: any, index?: number) {
+export function useFakeEstatesData(_?: any, index?: number): EstatesData {
   faker.seed(index);
 
-  const id = index?.toString() ?? faker.number.int({ max: 50 }).toString();
-
   return {
-    id,
+    id: faker.string.uuid(),
     name: faker.location.city(),
     owner: faker.person.fullName(),
     numberOfHouses: faker.number.int({ min: 10, max: 80 }),
@@ -84,8 +79,60 @@ export function useFakeEstateData(_?: any, index?: number) {
       { length: faker.number.int({ min: 1, max: 5 }) },
       () => faker.commerce.department()
     ),
-    created_at: faker.date.recent().toISOString(),
-    updated_at: faker.date.recent().toISOString(),
+  };
+}
+
+export function useFakeSingleEstateData(_?: any, index?: number): SingleEstate {
+  faker.seed(index);
+
+  const manager = {
+    owner: faker.person.fullName(),
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    username: faker.internet.userName(),
+    email: faker.internet.email(),
+    phone: faker.phone.number(),
+    password: faker.internet.password(),
+  };
+
+  const admins = Array.from(
+    { length: faker.number.int({ min: 1, max: 3 }) },
+    () => ({
+      email: faker.internet.email(),
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
+      username: faker.internet.userName(),
+      phone: faker.phone.number(),
+      password: faker.internet.password(),
+    })
+  );
+
+  const houseTypes = Array.from(
+    { length: faker.number.int({ min: 1, max: 5 }) },
+    () => ({
+      id: faker.string.uuid(),
+      name: faker.commerce.productName(),
+      description: faker.commerce.product(),
+    })
+  );
+
+  return {
+    name: faker.location.city(),
+    location: faker.location.country(),
+    owner: faker.person.fullName(),
+    phone: faker.phone.number(),
+    interests: Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      () => faker.commerce.department()
+    ),
+    serviceRequestTypes: Array.from(
+      { length: faker.number.int({ min: 1, max: 5 }) },
+      () => faker.commerce.product()
+    ),
+    numberOfHouses: faker.number.int({ min: 10, max: 80 }),
+    manager,
+    admins,
+    houseTypes,
   };
 }
 
@@ -94,7 +141,7 @@ export function useFakeEstateList(): EstateList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 7 }) },
-    useFakeEstateData
+    useFakeEstatesData
   );
 
   return {

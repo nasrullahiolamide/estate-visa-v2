@@ -146,14 +146,14 @@ interface TableHeaderProps<T> {
 }
 
 const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
-  <Table.Tr key={headerGroup.id}>
+  <Table.Tr key={headerGroup.id} ta='center'>
     {headerGroup.headers.map((header) => (
       <Table.Th
         lh={2}
         fw={600}
         key={header.id}
         className={clsx(
-          "text-primary-text-body pr-4 sm:px-6 py-4 sm:py-6 bg-white",
+          "text-primary-text-body px-6 py-4 sm:py-6 bg-white text-center",
           {
             skeleton,
             "sticky left-0 ": header.column.getIsPinned() === "left",
@@ -167,8 +167,11 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
         {header.isPlaceholder ? null : (
           <Flex
             align='center'
+            justify='center'
             className={
-              header.column.getCanSort() ? "cursor-pointer select-none" : ""
+              header.column.getCanSort()
+                ? "cursor-pointer select-none"
+                : "text-center"
             }
             onClick={header.column.getToggleSortingHandler()}
             title={
@@ -210,7 +213,7 @@ const TableRow = <T,>({
     <Table.Tr
       key={row.id}
       className={clsx(
-        "hover:bg-blue-50 pr-4 sm:px-6 sm:py-4 cursor-pointer w-fit"
+        "hover:bg-blue-50 px-6 sm:py-4 cursor-pointer w-fit text-center"
       )}
       onClick={() => onRowClick && onRowClick(row.original)}
     >
@@ -224,7 +227,7 @@ const TableRow = <T,>({
             onClick={(e) =>
               isActionButtonCell ? handleClickPropagation(e) : null
             }
-            className={clsx("pr-4 sm:px-6 sm:py-4 w-fit", bgColor, {
+            className={clsx("px-6 sm:py-4 w-fit", bgColor, {
               skeleton,
               "fixed z-[4] left-0 shadow-xl":
                 cell.column.getIsPinned() === "left",

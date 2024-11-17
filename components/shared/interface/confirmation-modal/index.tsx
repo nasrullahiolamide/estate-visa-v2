@@ -96,7 +96,6 @@ export function ConfirmationModal({
               w='fit-content'
               variant='outline'
               className='sm:flex-1'
-              flex={1}
               color='gray.12'
               onClick={secondaryBtnProps?.onClick || handleCancel}
               {...secondaryBtnProps}
@@ -104,6 +103,7 @@ export function ConfirmationModal({
               {secondaryBtnText}
             </Button>
             <Button
+              w='fit-content'
               flex={1}
               onClick={primaryBtnProps?.onClick || handleCancel}
               {...primaryBtnProps}

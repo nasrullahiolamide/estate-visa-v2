@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { boolean, object } from "yup";
 import { useMutation } from "@tanstack/react-query";
@@ -25,16 +25,16 @@ import {
 import { toString } from "lodash";
 
 const schema = object({
-  // username: requiredString.test(
-  //   "email-or-gate-username",
-  //   "This field must be a valid email or a gate-username.",
-  //   (value) => {
-  //     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //     const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9 _-]+$/;
+  username: requiredString.test(
+    "email-or-gate-username",
+    "This field must be a valid email or a gate-username.",
+    (value) => {
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      const gateUsernamePattern = /^[a-zA-Z0-9_-]+(?:-[a-zA-Z0-9_-]+)*$/;
 
-  //     return emailPattern.test(value) || stringStringPattern.test(value);
-  //   }
-  // ),
+      return emailPattern.test(value) || gateUsernamePattern.test(value);
+    }
+  ),
   password: requiredString.min(6, "Password must be at least 6 characters."),
   remember_me: boolean().notRequired(),
 });
@@ -58,6 +58,10 @@ export default function Page() {
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
+    transformValues: (values) => ({
+      ...values,
+      username: values.username.toLowerCase(),
+    }),
   });
 
   const { mutate, isPending } = useMutation({
@@ -120,7 +124,7 @@ export default function Page() {
               },
             }}
             label={
-              <>
+              <Fragment>
                 <span>Password</span>
                 <Text
                   c='accent.6'
@@ -130,7 +134,7 @@ export default function Page() {
                 >
                   Forgot password?
                 </Text>
-              </>
+              </Fragment>
             }
             type='password'
             {...form.getInputProps("password")}

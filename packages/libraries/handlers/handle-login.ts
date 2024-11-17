@@ -41,9 +41,7 @@ export function handleLogin({
   setCookie(TOKEN.PAYLOAD, payload, cookieOptions);
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
-  // setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
-
-  console.log(firstname, lastname, user_type);
+  setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {

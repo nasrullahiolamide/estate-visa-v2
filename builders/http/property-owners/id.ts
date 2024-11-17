@@ -1,5 +1,5 @@
 import { api } from "@/builders/axios";
-import { Estate, UpdateEstateData } from "@/builders/types/estates";
+import { SingleEstate, UpdateEstateData } from "@/builders/types/estates";
 import { OccupantsData, UpdateOccupantData } from "@/builders/types/occupants";
 import { UpdateProperyOwnerData } from "@/builders/types/property-owners";
 

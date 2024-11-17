@@ -34,6 +34,7 @@ export function GateForm({
     estate: { id: estateId, name: estateName },
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
+  // Add gate mutation
   const { mutate: addGate, isPending } = useMutation({
     mutationFn: builder.use().gates.post,
     onSuccess: ({ username }) => {
@@ -52,6 +53,7 @@ export function GateForm({
     onError: handleError(),
   });
 
+  // Update gate mutation
   const { mutate: updateGate, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().gates.edit,
     onSuccess: () => {
@@ -93,6 +95,10 @@ export function GateForm({
   };
 
   const { name, modalType } = form.getValues();
+  const formattedName = name.replace(/\s+/g, "-");
+  const formattedEstateName = estateName.replace(/\s+/g, "-");
+  const gateUsername = `${formattedName}-${formattedEstateName}`.toLowerCase();
+
   const isEditing = modalType === "edit";
   const isViewing = modalType === "view";
 
@@ -116,9 +122,7 @@ export function GateForm({
           {name && (
             <Text fz={14} c='yellow.8' mt={5}>
               Gate username {isViewing ? "is" : "will be"}{" "}
-              <strong>
-                {name}-{estateName}
-              </strong>
+              <strong>{gateUsername}</strong>
             </Text>
           )}
         </Stack>

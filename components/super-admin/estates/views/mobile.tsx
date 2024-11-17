@@ -51,7 +51,7 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
           <FlowStepContent gap={18}>
             <BasicInfo />
             <Services />
-            <Flex gap={30} wrap='wrap' mt='auto'>
+            <Flex gap={20} wrap='wrap' mt='auto'>
               <Button
                 variant='outline'
                 flex={1}
@@ -81,7 +81,7 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
           <FlowStepContent gap={18}>
             <HouseTypes />
             <Stack mt='auto'>
-              <Flex gap={30} wrap='wrap'>
+              <Flex gap={20} wrap='wrap'>
                 <Button
                   variant='outline'
                   flex={1}
@@ -121,13 +121,14 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
           <FlowStepContent gap={18}>
             <ManagementProfile />
             <Stack mt='auto'>
-              <Flex gap={30} wrap='wrap'>
+              <Flex gap={20} wrap='wrap'>
                 <Button
                   variant='outline'
                   flex={1}
                   type='button'
                   w='fit-content'
                   color='red'
+                  disabled={isSubmitting}
                   component={Link}
                   leftSection={<TrashIcon width='18px' />}
                   href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
@@ -140,6 +141,7 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
                   w='fit-content'
                   type='button'
                   onClick={previous}
+                  disabled={isSubmitting}
                   leftSection={<ArrowLeft size={20} />}
                 >
                   Previous
