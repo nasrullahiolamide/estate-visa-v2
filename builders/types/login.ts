@@ -16,13 +16,13 @@ export const formatUserType: Record<PropertyKey, string> = {
   [USER_TYPE.GATEMAN]: "Gateman",
 };
 
-export const Admins = [
+export const AvailableDashboards = [
   SuperAdmin,
   Admin,
   Occupant,
   SubOccupant,
   PropertyOwner,
-  // Gateman,
+  Gateman,
 ] as Array<string>;
 
 export type LoginResponseData = {

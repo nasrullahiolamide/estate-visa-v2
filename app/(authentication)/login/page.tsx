@@ -11,7 +11,7 @@ import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { APP, handleLogin, PAGES } from "@/packages/libraries";
 import { builder } from "@/builders";
-import { Admins, LoginResponseData } from "@/builders/types/login";
+import { AvailableDashboards, LoginResponseData } from "@/builders/types/login";
 import { requiredString } from "@/builders/types/shared";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import {
@@ -29,7 +29,7 @@ const schema = object({
     "This field must be a valid email or a gate-username.",
     (value) => {
       const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9_-]+$/;
+      const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9 _-]+$/;
 
       return emailPattern.test(value) || stringStringPattern.test(value);
     }
@@ -66,7 +66,7 @@ export default function Page() {
       function loginCallback(data: LoginResponseData) {
         const { user } = { ...data };
         const user_type = user.roles[0].name;
-        const isValidAdmin = Admins.includes(user_type);
+        const isValidAdmin = AvailableDashboards.includes(user_type);
 
         if (!isValidAdmin) {
           handleError({

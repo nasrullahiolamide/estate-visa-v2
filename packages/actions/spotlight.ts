@@ -29,7 +29,30 @@ export const spotLightActions: Record<PropertyKey, SpotlightActionData[]> = {
       onClick: () => navigate(PAGES.DASHBOARD),
     },
   ],
-
+  [USER_TYPE.SUB_OCCUPANT]: [
+    {
+      id: PAGES.DASHBOARD,
+      label: "Overview",
+      description: "Get full information about current system status",
+      onClick: () => navigate(PAGES.DASHBOARD),
+    },
+  ],
+  [USER_TYPE.PROPERTY_OWNER]: [
+    {
+      id: PAGES.DASHBOARD,
+      label: "Overview",
+      description: "Get full information about current system status",
+      onClick: () => navigate(PAGES.DASHBOARD),
+    },
+  ],
+  [USER_TYPE.GATEMAN]: [
+    {
+      id: PAGES.DASHBOARD,
+      label: "Overview",
+      description: "Get full information about current system status",
+      onClick: () => navigate(PAGES.DASHBOARD),
+    },
+  ],
   [USER_TYPE.GUEST]: [
     {
       id: USER_TYPE.GUEST,
