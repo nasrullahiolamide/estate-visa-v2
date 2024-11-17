@@ -28,7 +28,7 @@ export function WebsiteFooter() {
             "flex-col justify-start md:flex-row xl:justify-between"
           )}
           style={{
-            rowGap: 30,
+            rowGap: 24,
             columnGap: 50,
           }}
         >
@@ -41,23 +41,25 @@ export function WebsiteFooter() {
 
           <div
             className={clsx(
-              "flex md:flex-row basis-full lg:basis-0 flex-[2] justify-between gap-10 flex-wrap"
+              "flex md:flex-row basis-full lg:basis-0 flex-[2] gap-10"
             )}
           >
             {FOOTER_LINKS.map(({ title, links }) => {
               return (
                 <div
-                  className='w-fit flex flex-col sm:flex-1 gap-4 '
+                  className='w-full flex flex-col sm:flex-1 gap-4 '
                   key={title}
                 >
-                  <h3 className='prose-lg/semi-bold'>{title}</h3>
+                  <h3 className='font-semibold text-base sm:text-lg'>
+                    {title}
+                  </h3>
                   <div className='flex flex-col gap-3'>
                     {links.map(({ name, link }) => {
                       return (
                         <Link
                           href={link}
                           key={name}
-                          className='w-fit text-base hover:underline'
+                          className='text-sm hover:underline'
                         >
                           {name}
                         </Link>
@@ -70,16 +72,18 @@ export function WebsiteFooter() {
           </div>
 
           <div className='flex flex-1 flex-col gap-3'>
-            <h3 className='prose-lg/semi-bold'>Contact Information</h3>
+            <h3 className='font-semibold text-base sm:text-lg'>
+              Contact Information
+            </h3>
             {FOOTER_CONTACT.map((item) => {
               return (
                 <div
                   className='flex items-center gap-3 flex-wrap'
                   key={item.value}
                 >
-                  <p className='text-base'>{item.label}:</p>
+                  <p className='text-sm'>{item.label}:</p>
                   <Link target='_blank' rel='noopener' href={item.link}>
-                    <p className='text-base text-accent-5 hover:underline'>
+                    <p className='text-sm text-accent-5 hover:underline'>
                       {item.value}
                     </p>
                   </Link>
