@@ -25,7 +25,7 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
 };
 
 export function CountDown({ ...props }) {
-  const deadline = new Date("November 11, 2024 22:00:00");
+  const deadline = new Date("November 24, 2024 22:00:00");
   let millisecondsTillDeadline = Date.parse(String(deadline));
 
   return (
