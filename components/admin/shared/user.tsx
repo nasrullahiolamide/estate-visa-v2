@@ -50,7 +50,7 @@ export function UserDetails() {
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium text-sm'>
-                {userDetails.firstname}
+                {userDetails.fullName}
               </p>
               <p className='text-xs'>{userDetails.userType}</p>
             </Stack>

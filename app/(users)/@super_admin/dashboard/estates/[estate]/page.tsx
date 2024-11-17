@@ -7,6 +7,7 @@ import { Fragment, useEffect } from "react";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
+import { useFakeSingleEstateData } from "@/builders/types/estates";
 import { navigate } from "@/packages/actions";
 import { cast, makePath, PAGES, pass } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -23,7 +24,6 @@ import {
   FormValues,
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
-import { useFakeSingleEstateData } from "@/builders/types/estates";
 
 interface PageProps {
   params: {
@@ -92,7 +92,6 @@ export default function Page({ params }: PageProps) {
       ...estates,
     };
 
-    console.log(estates);
     form.setValues({
       name: pass.string(name),
       location: pass.string(location),

@@ -1,11 +1,12 @@
 import { api } from "@/builders/axios";
-import { ProfileData } from "@/builders/types/profile";
+import { ProfileData, UpdateProfileData } from "@/builders/types/profile";
 
 const get = function (id: string) {
   return api.get<ProfileData>(`/users/${id}`).then((data) => data.data);
 };
 
-const update = function (id: string, data: Partial<{}>) {
+const update = function (variables: { id: string; data: UpdateProfileData }) {
+  const { id, data } = variables;
   return api.put(`/users/${id}`, data).then(({ data }) => data);
 };
 

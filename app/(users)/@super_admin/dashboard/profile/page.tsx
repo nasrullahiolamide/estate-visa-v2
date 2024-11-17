@@ -17,8 +17,12 @@ import { ProfileImage } from "@/components/shared/user-management/profile/image"
 import { schema } from "@/components/super-admin/profile/schema";
 import { FormProvider } from "@/components/super-admin/profile/form-context";
 import { ProfileData } from "@/builders/types/profile";
+import { builder } from "@/builders";
+import { handleSuccess, handleError } from "@/packages/notification";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function Profile() {
+  const queryClient = useQueryClient();
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const userDetails = {
@@ -27,13 +31,26 @@ export default function Profile() {
     ...user,
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().account.profile.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.account.profile.get.get(),
+      });
+      handleSuccess({
+        message: "Profile Updated Successfully",
+      });
+    },
+    onError: handleError(),
+  });
+
   const form = useForm({
     initialValues: {
-      fullname: userDetails.fullname,
-      username: userDetails.username,
-      estatename: userDetails.estatename,
+      fullname: userDetails.fullname ?? "",
+      username: userDetails.username ?? "",
+      estatename: userDetails.estatename ?? "",
       email: userDetails.email,
-      phone: userDetails.phone,
+      phone: userDetails.phone ?? "",
       password: "",
       confirm_password: "",
     },
