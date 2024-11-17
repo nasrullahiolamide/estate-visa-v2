@@ -14,6 +14,7 @@ import { builder } from "@/builders";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
+import { toString } from "lodash";
 
 export interface SubOccupantsFormProps {
   data?: SubOccupantsData;
@@ -22,7 +23,7 @@ export interface SubOccupantsFormProps {
 
 export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   const subOccupantId = data?.id;
-  const houseId = getCookie(APP.HOUSE_ID) ?? "";
+  const houseId = toString(getCookie(APP.HOUSE_ID));
   const queryClient = useQueryClient();
 
   const { mutate: addSubOccupant, isPending } = useMutation({

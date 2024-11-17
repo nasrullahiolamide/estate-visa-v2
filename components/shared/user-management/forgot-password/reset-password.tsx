@@ -28,6 +28,8 @@ export function ResetPassword() {
       newPassword: password,
       token,
     };
+
+    console.log(payload);
     mutate(payload);
   }
 

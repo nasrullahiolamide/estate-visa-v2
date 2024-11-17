@@ -1,4 +1,4 @@
-import clsx from "clsx";
+"use client";
 
 import { Fragment } from "react";
 import { AxiosError } from "axios";

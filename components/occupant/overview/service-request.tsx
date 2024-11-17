@@ -1,3 +1,5 @@
+"use client";
+
 import { FilterRequestsDropdown } from "@/components/admin/overview";
 import { Button, Flex, Stack, Text, Title } from "@mantine/core";
 import { useQueryState } from "nuqs";
@@ -29,6 +31,7 @@ export function ServiceRequest({}: ServiceRequestProps) {
   const [period, setPeriod] = useQueryState("sr-prd", {
     defaultValue: "week",
   });
+
   return (
     <Stack
       flex={1}

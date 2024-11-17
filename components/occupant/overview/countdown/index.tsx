@@ -41,9 +41,15 @@ export function CountDown({ ...props }) {
       </Title>
       <Countdown renderer={renderer} date={millisecondsTillDeadline} />
       <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>
-        <Text c='gray.8'>
-          Renew subscription by {formatDate(deadline, "LL")}.
-        </Text>
+        {millisecondsTillDeadline > Date.now() ? (
+          <Text c='gray.8'>
+            Renew subscription by {formatDate(deadline, "LL")}.
+          </Text>
+        ) : (
+          <Text c='red.8'>
+            Your subscription has expired since {formatDate(deadline, "LL")}.
+          </Text>
+        )}
         <Button>Renew Now</Button>
       </Stack>
     </FlowContainer>
