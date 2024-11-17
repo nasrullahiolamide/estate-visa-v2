@@ -64,6 +64,7 @@ export function ResetPassword() {
             {...form.getInputProps("confirm_password")}
           />
           <Button
+            mt={10}
             type='submit'
             loading={isPending}
             disabled={isPending}

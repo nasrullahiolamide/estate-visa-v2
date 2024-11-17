@@ -46,7 +46,6 @@ export default function Page() {
   const params = useSearchParams();
 
   const token = params.get("token") ?? "";
-  const userId = params.get("userId") ?? "";
 
   const form = useForm({
     initialValues: {

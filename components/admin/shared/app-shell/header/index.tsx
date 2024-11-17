@@ -107,7 +107,6 @@ export function AppShellHeader({
                 <ArrowBack />
               </ActionIcon>
             )}
-
             <h1 className='text-2xl text-primary-text-body font-bold'>
               {title}
             </h1>

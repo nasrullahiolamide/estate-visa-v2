@@ -66,9 +66,9 @@ export default function Page() {
       function loginCallback(data: LoginResponseData) {
         const { user } = { ...data };
         const user_type = user.roles[0].name;
-        const isValidAdmin = AvailableDashboards.includes(user_type);
+        const isDashboardAvailable = AvailableDashboards.includes(user_type);
 
-        if (!isValidAdmin) {
+        if (!isDashboardAvailable) {
           handleError({
             message:
               "There's no dashboard currently for your userType, please contact your administrator.",
@@ -80,7 +80,7 @@ export default function Page() {
           ...data,
         });
         navigate(PAGES.DASHBOARD);
-        handleSuccess({ message: `Welcome back, ${user.firstname}` });
+        handleSuccess({ message: "You have successfully logged in." });
       }
 
       if (data) loginCallback(data);
@@ -105,7 +105,7 @@ export default function Page() {
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
         <Stack gap={24}>
           <TextInput
-            placeholder='Enter your email address or gate-username'
+            placeholder='Email Address or Gate Username'
             label='Username'
             {...form.getInputProps("username")}
           />

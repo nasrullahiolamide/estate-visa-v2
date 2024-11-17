@@ -53,6 +53,7 @@ export function RequestTOKEN() {
             {...form.getInputProps("email")}
           />
           <Button
+            mt={20}
             type='submit'
             loading={isPending}
             disabled={isPending}
