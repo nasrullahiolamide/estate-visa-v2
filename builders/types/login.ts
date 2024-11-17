@@ -1,4 +1,5 @@
 import { USER_TYPE } from "@/packages/libraries";
+import { faker } from "@faker-js/faker";
 
 export const SuperAdmin = USER_TYPE.SUPER_ADMIN;
 export const Admin = USER_TYPE.ADMIN;
@@ -78,3 +79,32 @@ export type Occupant = {
 };
 
 export type LoginResponse = { data: LoginResponseData; message?: string };
+
+export function useFakeUserData(_?: any, index?: number): User {
+  faker.seed(index);
+
+  return {
+    id: index?.toString() ?? faker.number.int({ max: 100 }).toString(),
+    email: faker.internet.email(),
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    username: faker.internet.userName(),
+    phone: faker.phone.number(),
+    picture: faker.image.avatar(),
+    password: faker.internet.password(),
+    refreshToken: faker.internet.password(),
+    status: faker.lorem.word(),
+    lastLogin: faker.date.past().toString(),
+    roles: [{ name: faker.lorem.word() }],
+    estate: {
+      id: index?.toString() ?? faker.number.int({ max: 100 }).toString(),
+      name: faker.company.name(),
+      location: faker.location.city(),
+      owner: faker.person.fullName(),
+      phone: faker.internet.userName(),
+      interests: [faker.lorem.word()],
+      serviceRequestTypes: [faker.lorem.word()],
+      numberOfHouses: faker.number.int(),
+    },
+  };
+}

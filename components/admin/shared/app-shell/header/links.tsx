@@ -1,11 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import clsx from "clsx";
 import { toString } from "lodash";
+import { builder } from "@/builders";
+import { getCookie } from "cookies-next";
+import { useFakeUserData } from "@/builders/types/login";
+import { useQuery } from "@tanstack/react-query";
 import { SVGProps, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { getAuthorizedUser } from "@/packages/actions";
-import { PAGES, USER_TYPE } from "@/packages/libraries";
+import { APP, PAGES, USER_TYPE } from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import {
   ADMIN_ROUTES,
@@ -16,6 +20,15 @@ import {
   SUPER_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
 
+const view: Record<PropertyKey, NavLinkType> = {
+  [USER_TYPE.ADMIN]: ADMIN_ROUTES,
+  [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
+  [USER_TYPE.OCCUPANT]: OCCUPANT_ROUTES,
+  [USER_TYPE.PROPERTY_OWNER]: PROPERTY_OWNER_ROUTES,
+  [USER_TYPE.SUB_OCCUPANT]: SUB_OCCUPANT_ROUTES,
+  [USER_TYPE.GATEMAN]: GATEMAN_ROUTES,
+};
+
 export type NavLinkType = Array<{
   title: string;
   href: string;
@@ -23,25 +36,25 @@ export type NavLinkType = Array<{
 }>;
 
 export function Links() {
+  const userId = toString(getCookie(APP.USER_ID));
+
   const [links, setLinks] = useState<NavLinkType>([]);
   const activeLinkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const pathname = usePathname();
 
-  const view: Record<PropertyKey, NavLinkType> = {
-    [USER_TYPE.ADMIN]: ADMIN_ROUTES,
-    [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
-    [USER_TYPE.OCCUPANT]: OCCUPANT_ROUTES,
-    [USER_TYPE.PROPERTY_OWNER]: PROPERTY_OWNER_ROUTES,
-    [USER_TYPE.SUB_OCCUPANT]: SUB_OCCUPANT_ROUTES,
-    [USER_TYPE.GATEMAN]: GATEMAN_ROUTES,
-  };
+  const { data: user, isLoading } = useQuery({
+    queryKey: builder.account.profile.get.get(userId),
+    queryFn: () => builder.use().account.profile.get(userId),
+    select: (data) => data,
+    enabled: !!userId,
+  });
 
   useEffect(() => {
-    (async () => {
-      const { userType } = await getAuthorizedUser();
+    if (user) {
+      const userType = user.roles[0].name;
       setLinks(view[userType]);
-    })();
-  }, []);
+    }
+  }, [user, isLoading]);
 
   useEffect(() => {
     const activeIndex = links.findIndex((item) =>
@@ -64,10 +77,12 @@ export function Links() {
       align='center'
       justify='space-between'
       gap={20}
-      className='lg:~px-1/8 overflow-x-auto scrollbar-none'
+      className={clsx("lg:~px-1/8 overflow-x-auto scrollbar-none", {
+        skeleton: isLoading,
+      })}
       hiddenFrom='lg'
     >
-      {links?.map((item, index) => {
+      {links.map((item, index) => {
         const isActive =
           item.href === PAGES.DASHBOARD
             ? pathname === PAGES.DASHBOARD

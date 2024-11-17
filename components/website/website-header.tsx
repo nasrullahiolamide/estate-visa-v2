@@ -13,16 +13,17 @@ import {
 
 import Link from "next/link";
 import clsx from "clsx";
-
+import { toString } from "lodash";
+import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-
+import { builder } from "@/builders";
+import { useFakeUserData } from "@/builders/types/login";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { APP, PAGES } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/icons/estate-visa-logo";
-import { PAGES } from "@/packages/libraries";
-
 import { TalkToUsButton } from "./talk-to-us/button";
-import { getAuthorizedUser } from "@/packages/actions";
 
 const links = [
   {
@@ -66,16 +67,24 @@ export function NavList({ close }: { close?: () => void }) {
 }
 
 export function WebsiteHeader() {
+  const userId = toString(getCookie(APP.USER_ID));
   const pathname = usePathname();
+
   const [opened, toggle] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setisAdmin] = useState(false);
+
+  const { data: user, isLoading } = useQuery({
+    queryKey: builder.account.profile.get.get(userId),
+    queryFn: () => builder.use().account.profile.get(userId),
+    select: (data) => data,
+    enabled: !!userId,
+  });
 
   useEffect(() => {
-    (async () => {
-      const { isAuthorized } = await getAuthorizedUser();
-      setIsAdmin(isAuthorized);
-    })();
-  }, []);
+    if (user) {
+      setisAdmin(true);
+    }
+  }, [user, isLoading]);
 
   return (
     <Stack gap={0}>
@@ -117,7 +126,9 @@ export function WebsiteHeader() {
               href={isAdmin ? PAGES.DASHBOARD : PAGES.LOGIN}
               variant='outline'
               component={Link}
-              // className={clsx({ "skeleton border-none miw-36": !isAdmin })}
+              className={clsx({
+                "skeleton border-none miw-36": isLoading,
+              })}
             >
               {isAdmin ? "Go to dashboard" : "Login"}
             </Button>
