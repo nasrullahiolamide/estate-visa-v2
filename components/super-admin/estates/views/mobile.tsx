@@ -16,6 +16,7 @@ import { HouseTypes } from "../fields/house-types";
 import { Services } from "../fields/services";
 import { ViewProps } from ".";
 import { makePath, PAGES } from "@/packages/libraries";
+import { TrashIcon } from "@/icons";
 
 const content: StepContent<FormValues> = {
   0: ["name", "location", "numberOfHouses", "interests", "serviceRequestTypes"],
@@ -58,9 +59,10 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
                 w='fit-content'
                 color='red'
                 component={Link}
+                leftSection={<TrashIcon width='18px' />}
                 href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
               >
-                Cancel
+                Discard
               </Button>
               <Button
                 w='fit-content'
@@ -82,14 +84,15 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
               <Flex gap={30} wrap='wrap'>
                 <Button
                   variant='outline'
-                  type='button'
                   flex={1}
+                  type='button'
                   w='fit-content'
                   color='red'
                   component={Link}
+                  leftSection={<TrashIcon width='18px' />}
                   href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
                 >
-                  Cancel
+                  Discard
                 </Button>
                 <Button
                   variant='outline'
@@ -121,14 +124,15 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
               <Flex gap={30} wrap='wrap'>
                 <Button
                   variant='outline'
-                  type='button'
                   flex={1}
+                  type='button'
                   w='fit-content'
                   color='red'
                   component={Link}
+                  leftSection={<TrashIcon width='18px' />}
                   href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
                 >
-                  Cancel
+                  Discard
                 </Button>
                 <Button
                   variant='outline'
