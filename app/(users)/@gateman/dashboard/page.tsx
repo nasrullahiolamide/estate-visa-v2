@@ -154,14 +154,8 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title='You have no gate requests yet. Create one to get started!'
+                title='You have no gate requests yet. You’ll surely get one soon!'
                 src='question'
-                withButton
-                text='Send New Request'
-                btnProps={{
-                  leftSection: <AddIcon />,
-                  onClick: () => handleGateRequestForm({ modalType: "add" }),
-                }}
               />
             )}
           </FlowPaper>

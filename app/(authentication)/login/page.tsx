@@ -22,26 +22,26 @@ import {
   PasswordInput,
   Box,
 } from "@mantine/core";
+import { toString } from "lodash";
 
 const schema = object({
-  username: requiredString.test(
-    "email-or-gate-username",
-    "This field must be a valid email or a gate-username.",
-    (value) => {
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9 _-]+$/;
+  // username: requiredString.test(
+  //   "email-or-gate-username",
+  //   "This field must be a valid email or a gate-username.",
+  //   (value) => {
+  //     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //     const stringStringPattern = /^[a-zA-Z0-9_-]+-[a-zA-Z0-9 _-]+$/;
 
-      return emailPattern.test(value) || stringStringPattern.test(value);
-    }
-  ),
+  //     return emailPattern.test(value) || stringStringPattern.test(value);
+  //   }
+  // ),
   password: requiredString.min(6, "Password must be at least 6 characters."),
-
   remember_me: boolean().notRequired(),
 });
 
 export default function Page() {
   const sessionStatus = useSearchParams().get("session");
-  const username = getCookie(APP.USERNAME) ?? "";
+  const username = toString(getCookie(APP.USERNAME));
 
   useEffect(() => {
     if (sessionStatus === "expired") {
