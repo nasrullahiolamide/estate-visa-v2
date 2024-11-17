@@ -40,25 +40,12 @@ export const propertyOwnersColumns = [
     },
   }),
   columnHelper.accessor("user.phone", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Phone Number'
-      />
-    ),
+    header: "Phone Number",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
 
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
@@ -80,15 +67,7 @@ export const propertyOwnersColumns = [
   }),
 
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

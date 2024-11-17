@@ -69,8 +69,8 @@ export function EmptySlot({
           <Image
             alt={`Doodle illustration with ${src}`}
             src={`/doodles/${src}.png`}
-            width={150}
-            height={150}
+            width={120}
+            height={120}
           />
         </Box>
       )}

@@ -138,7 +138,6 @@ export default function SubAdmins() {
                 data={subAdmins.data}
                 columns={subAdminListColumns}
                 skeleton={isPlaceholderData}
-                initialLeftPinnedColumns={["fullName"]}
                 onRowClick={handleViewEdit}
               />
             ) : (

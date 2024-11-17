@@ -21,6 +21,13 @@ export type OccupantsData = {
 };
 
 export type UpdateOccupantData = {
+  fullname: string;
+  phone: string;
+  houseId: string;
+  status: string;
+};
+
+export type AddOccupantData = {
   email: string;
   fullname: string;
   phone: string;

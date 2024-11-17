@@ -24,7 +24,7 @@ export function UserDetails() {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const userDetails = {
-    fullName: `${user?.firstname} ${user?.lastname}`,
+    fullName: `${user?.firstname} ${user?.lastname ?? ""}`,
     userType: formatUserType[user?.roles[0].name],
     ...user,
   };
@@ -45,7 +45,7 @@ export function UserDetails() {
     >
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
-          <Avatar src={null} alt={userDetails.firstname} size={45} />
+          <Avatar src={null} alt={userDetails.fullName} size={45} />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
             <Stack gap={1}>
@@ -73,12 +73,12 @@ export function UserDetails() {
           <Flex align='center' gap={8}>
             <Avatar
               src={userDetails?.picture}
-              alt={userDetails.firstname}
+              alt={userDetails.fullName}
               size={40}
             />
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium'>
-                {userDetails.firstname}
+                {userDetails.fullName}
               </p>
               <p className='text-xs'>{userDetails?.email}</p>
             </Stack>

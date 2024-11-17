@@ -1,6 +1,6 @@
 import { api } from "@/builders/axios";
 import { FilterParams } from "@/builders/types/filter-params";
-import { OccupantList, UpdateOccupantData } from "@/builders/types/occupants";
+import { AddOccupantData, OccupantList } from "@/builders/types/occupants";
 import { id } from "./id";
 
 const get = function (params?: FilterParams) {
@@ -9,7 +9,7 @@ const get = function (params?: FilterParams) {
     .then((data) => data.data);
 };
 
-const post = function (data: UpdateOccupantData) {
+const post = function (data: AddOccupantData) {
   return api.post("/occupants", data);
 };
 

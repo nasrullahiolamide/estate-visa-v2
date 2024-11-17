@@ -117,8 +117,6 @@ export default function PropertyOwners() {
 
   const noDataAvailable = propertyOwners?.data.length === 0;
 
-  console.log(propertyOwners);
-
   return (
     <Fragment>
       <AppShellHeader
@@ -140,7 +138,6 @@ export default function PropertyOwners() {
                 data={propertyOwners.data}
                 columns={propertyOwnersColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleOccupantForm}
               />
             ) : (
               <EmptySlot

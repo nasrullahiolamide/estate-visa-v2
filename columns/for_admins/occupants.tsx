@@ -34,19 +34,8 @@ export const occupantsColumns = [
   }),
 
   columnHelper.accessor("house.houseNumber", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='House No'
-      />
-    ),
+    header: "House No",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
 
   columnHelper.accessor("user.fullname", {
@@ -61,39 +50,15 @@ export const occupantsColumns = [
   }),
 
   columnHelper.accessor("user.phone", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Phone Number'
-      />
-    ),
+    header: "Phone Number",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
   columnHelper.accessor("noOfSubOccupants", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Sub Occupant'
-      />
-    ),
+    header: "Sub Occupant",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
@@ -114,15 +79,7 @@ export const occupantsColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

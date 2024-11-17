@@ -9,10 +9,9 @@ import { modals } from "@mantine/modals";
 import { getCookie } from "cookies-next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { APP, decryptUri, MODALS, pass } from "@/packages/libraries";
+import { APP, MODALS, pass } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
-import { ProfileData } from "@/builders/types/profile";
 import { OccupantsData } from "@/builders/types/occupants";
 import { FormButtons } from "@/components/shared/interface";
 import { FlowContainer } from "@/components/layout/flow-container";
@@ -21,6 +20,7 @@ import { schema } from "../schema";
 import { FormProvider } from "../context";
 import { ConfirmOccupant, ConfirmPropertyOwner } from "./confirmation";
 import { activateAccount, suspendAccount } from "../actions";
+import { toString } from "lodash";
 
 type ViewId = "occupants" | "property-owners";
 
@@ -28,26 +28,16 @@ export type OccupantsFormProps = {
   viewId?: ViewId;
   data?: OccupantsData;
   modalType: "add" | "edit" | "view";
-} & (
-  | { viewId: "property-owners"; children?: ReactNode }
-  | {
-      viewId?: Exclude<ViewId, "property-owners">;
-      children?: never;
-    }
-);
+};
 
-export function OccupantsForm({
-  data,
-  children,
-  modalType = "add",
-  viewId = "occupants",
-}: OccupantsFormProps) {
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
+export function OccupantsForm({ ...props }: OccupantsFormProps) {
+  const { data, modalType = "add", viewId = "occupants" } = props;
+  const estateId = toString(getCookie(APP.ESTATE_ID));
   const queryClient = useQueryClient();
 
   const { mutate: updateOccupant, isPending: isUpdating } = useMutation({
     mutationFn: builder.use().occupants.id.edit,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.occupants.get.get(),
       });
@@ -62,11 +52,21 @@ export function OccupantsForm({
   const { data: houseNumbers } = useQuery({
     queryKey: builder.houses.list.all.get(estateId),
     queryFn: () => builder.use().houses.list.all(estateId),
-    select: (data) => {
-      return data.map((house) => ({
-        value: house.id,
-        label: house.houseNumber,
-      }));
+    select: (house) => {
+      return house
+        .filter(({ noOfOccupants, id }) => {
+          if (modalType === "add") {
+            return noOfOccupants !== 1;
+          } else {
+            return noOfOccupants !== 1 || id === data?.house.id;
+          }
+        })
+        .map(({ id, houseNumber }) => {
+          return {
+            value: id,
+            label: houseNumber,
+          };
+        });
     },
   });
 
@@ -88,30 +88,19 @@ export function OccupantsForm({
   });
 
   const handleSubmit = () => {
-    const {
-      email,
-      fullname,
-      phone,
-      houseId,
-      status,
-      isMain,
-      isPropertyOwner,
-      relationshipToMain,
-    } = form.getValues();
+    const { fullname, phone, houseId, status } = form.getValues();
 
     const updatedData = {
-      email,
       fullname,
       phone,
       houseId,
       status,
-      isMain,
-      isPropertyOwner,
-      relationshipToMain,
     };
 
+    console.log(updatedData);
+
     isEditing
-      ? updateOccupant({ id: data?.id ?? "", data: updatedData })
+      ? updateOccupant({ id: toString(data?.id), data: updatedData })
       : modals.open({
           modalId: MODALS.CONFIRMATION,
           children:
@@ -142,7 +131,7 @@ export function OccupantsForm({
       >
         <Select
           data={houseNumbers}
-          nothingFoundMessage='No house numbers found'
+          nothingFoundMessage='No available house numbers'
           label='House Number'
           placeholder='Select House Number'
           disabled={isViewing}
@@ -167,7 +156,6 @@ export function OccupantsForm({
           withAsterisk
           {...form.getInputProps("phone")}
         />
-        {children}
         <Select
           data={[
             {

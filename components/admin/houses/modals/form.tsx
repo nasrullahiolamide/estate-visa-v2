@@ -11,21 +11,18 @@ import {
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-
 import { getCookie } from "cookies-next";
 import dayjs, { ManipulateType } from "dayjs";
-
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { APP, cast, pass } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
-import { FlowContainer } from "@/components/layout/flow-container";
-
-import { schema } from "../schema";
 import { DATE_FORMAT } from "@/packages/constants/time";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { schema } from "../schema";
 import { useEffect } from "react";
-import { HouseData } from "@/builders/types/houses";
 import { toString } from "lodash";
+import clsx from "clsx";
 
 export interface HouseFormProps {
   modalType: "add" | "edit" | "view";
@@ -38,7 +35,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   // Fetch house data
   const { data, isLoading } = useQuery({
-    queryKey: builder.houses.id.get.get(),
+    queryKey: builder.houses.id.get.get(id),
     queryFn: () => builder.use().houses.id.get(id),
     select: (data) => data,
   });
@@ -90,7 +87,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
       houseNumber: "",
       houseTypeId: "",
       streetName: "",
-      status: "",
+      status: "active",
       duration: "",
       durationType: "months",
       modalType,
@@ -167,7 +164,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
       durationType: "months",
       modalType,
     });
-  }, [data, isLoading]);
+  }, [data]);
 
   return (
     <Form form={form}>
@@ -182,25 +179,32 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           label='Street Name'
           disabled={isViewing}
           withAsterisk
+          classNames={{
+            input: clsx({ skeleton: modalType !== "add" && isLoading }),
+          }}
           {...form.getInputProps("streetName")}
         />
         <TextInput
           label='House Number'
           disabled={isViewing}
           withAsterisk
+          classNames={{
+            input: clsx({ skeleton: modalType !== "add" && isLoading }),
+          }}
           {...form.getInputProps("houseNumber")}
         />
         <Select
           data={houseTypes}
           label='House Type'
           nothingFoundMessage='No house types found'
-          disabled={isViewing}
+          disabled={isViewing || (modalType !== "add" && isLoading)}
           withAsterisk
           {...form.getInputProps("houseTypeId")}
         />
         <Select
           label='Status'
-          disabled={isViewing}
+          fz={14}
+          disabled={isViewing || (modalType !== "add" && isLoading)}
           data={[
             {
               value: "active",
@@ -244,6 +248,9 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
             placeholder={`Enter the validity period in ${
               form.getValues().durationType
             }`}
+            classNames={{
+              input: clsx({ skeleton: modalType !== "add" && isLoading }),
+            }}
             {...form.getInputProps("duration")}
           />
 

@@ -10,7 +10,7 @@ import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
-import { UpdateStatus } from "../../shared/modals/update-status";
+import { UpdateStatus } from "../modals/update-status";
 import {
   FlowMenu,
   FlowMenuTarget,

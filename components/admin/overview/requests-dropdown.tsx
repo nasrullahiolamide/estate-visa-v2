@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { Fragment } from "react";
 import { ArrowDown2 } from "iconsax-react";
-import { Mark } from "@/icons";
+import { ArrowDownIcon, Mark } from "@/icons";
 
 interface FilterRequestsProps extends ButtonProps {
   data: string[];
@@ -35,9 +35,10 @@ export function FilterRequestsDropdown({
       <Menu.Target>
         <Button
           variant='outline'
-          size='md'
+          size='sm'
+          fz={14}
           color='gray.10'
-          rightSection={<ArrowDown2 size={14} />}
+          rightSection={<ArrowDownIcon width={14} />}
           className='capitalize'
           {...props}
         >
@@ -53,7 +54,7 @@ export function FilterRequestsDropdown({
                 key={item}
                 onClick={() => onFilter(item)}
                 className={clsx(
-                  "hover:bg-purple-4 rounded-none p-4 capitalize",
+                  "hover:bg-purple-4 rounded-none p-3 capitalize",
                   value === item && "bg-purple-4"
                 )}
                 classNames={{

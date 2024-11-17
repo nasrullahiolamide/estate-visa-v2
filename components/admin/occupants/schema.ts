@@ -1,8 +1,5 @@
-import { array, object, string } from "yup";
-
-const requiredString = string().required(
-  "This field is required. Please enter the necessary information."
-);
+import { requiredString } from "@/builders/types/shared";
+import { object, string } from "yup";
 
 export const schema = object({
   houseId: requiredString,

@@ -80,13 +80,18 @@ export function ServiceRequests() {
         />
         <Flex justify='space-between' align='center' mt='auto'>
           <Group>
-            <Indicator color='#11A506' />
-            <Text fz={14}>Approved</Text>
-
-            <Indicator color='#969921' />
-            <Text fz={14}>Pending</Text>
-            <Indicator color='#EF5DA8' />
-            <Text fz={14}>Declined</Text>
+            <Flex align='center' gap={14}>
+              <Indicator color='#11A506' />
+              <Text fz={14}>Approved</Text>
+            </Flex>
+            <Flex align='center' gap={14}>
+              <Indicator color='#969921' />
+              <Text fz={14}>Pending</Text>
+            </Flex>
+            <Flex align='center' gap={14}>
+              <Indicator color='#EF5DA8' />
+              <Text fz={14}>Declined</Text>
+            </Flex>
           </Group>
           <DownloadDropdown />
         </Flex>

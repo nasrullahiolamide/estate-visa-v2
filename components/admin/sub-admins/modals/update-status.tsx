@@ -16,7 +16,7 @@ interface ConfirmOccupantProps {
 
 export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
   const queryClient = useQueryClient();
-
+  console.log(status);
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().account.profile.change_status,
     onSuccess: () => {
@@ -25,7 +25,10 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
       });
       modals.close(MODALS.CONFIRMATION);
       handleSuccess({
-        message: "Account activated successfully",
+        message:
+          status === "active"
+            ? "Account activated successfully"
+            : "Account disabled successfully",
       });
     },
     onError: handleError(),
@@ -35,7 +38,7 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
     <Fragment>
       <ConfirmationModal
         withTwoButtons
-        src='disable'
+        src={status === "active" ? "success" : "disable"}
         title={title}
         primaryBtnText='Yes, proceed'
         secondaryBtnText='No'
@@ -49,6 +52,7 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
           disabled: isPending,
         }}
         secondaryBtnProps={{
+          disabled: isPending,
           onClick: () => modals.close(MODALS.CONFIRMATION),
         }}
       />

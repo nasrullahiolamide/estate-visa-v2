@@ -1,11 +1,11 @@
-import { ConfirmationModal } from "@/components/shared/interface";
-import { useFormContext } from "../context";
-import { builder } from "@/builders";
-import { handleSuccess, handleError } from "@/packages/notification";
+import { AxiosError } from "axios";
 import { modals } from "@mantine/modals";
+import { builder } from "@/builders";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MODALS } from "@/packages/libraries";
-import { Axios, AxiosError } from "axios";
+import { handleSuccess, handleError } from "@/packages/notification";
+import { ConfirmationModal } from "@/components/shared/interface";
+import { useFormContext } from "../context";
 
 export function ConfirmOccupant() {
   const queryClient = useQueryClient();
@@ -13,7 +13,7 @@ export function ConfirmOccupant() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().occupants.post,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.occupants.get.get(),
       });
@@ -21,7 +21,6 @@ export function ConfirmOccupant() {
       handleSuccess({
         message: "Occupant Added Successfully",
       });
-      console.log(data);
     },
     onError: (error: AxiosError) => {
       handleError()(error as AxiosError<{ message?: string }>);
@@ -49,10 +48,7 @@ export function ConfirmOccupant() {
       secondaryBtnProps={{
         disabled: isPending,
         onClick: () => {
-          form.setValues({
-            ...form.values,
-            isPropertyOwner: false,
-          });
+          form.setFieldValue("isPropertyOwner", false);
           mutate(form.values);
         },
       }}
@@ -101,7 +97,7 @@ export function ConfirmPropertyOwner() {
       secondaryBtnProps={{
         disabled: isPending,
         onClick: () => {
-          form.setValues({ ...form.values, isPropertyOwner: false });
+          form.setFieldValue("isPropertyOwner", false);
           mutate(form.values);
         },
       }}

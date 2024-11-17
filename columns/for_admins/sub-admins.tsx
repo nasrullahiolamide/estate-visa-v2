@@ -49,15 +49,7 @@ export const subAdminListColumns = [
     },
   }),
   columnHelper.accessor("lastLogin", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Last Login'
-      />
-    ),
+    header: "Last Login",
     cell: ({ getValue }) => {
       const value = getValue();
       return value ? (
@@ -74,9 +66,7 @@ export const subAdminListColumns = [
     enableSorting: false,
   }),
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
