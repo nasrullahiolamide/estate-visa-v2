@@ -100,7 +100,6 @@ export default function SubOccupants() {
                 data={subOccupants.data}
                 columns={subOccupantsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleSubOccupantForm}
               />
             ) : (
               <EmptySlot

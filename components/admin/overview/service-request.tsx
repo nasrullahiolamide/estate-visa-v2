@@ -32,7 +32,7 @@ export function ServiceRequests() {
     select: (data) => {
       return data.map((item) => {
         return {
-          day: item.day,
+          day: item.day.substring(0, 3),
           Approved: item.approved,
           Pending: item.pending,
           Declined: item.rejected,

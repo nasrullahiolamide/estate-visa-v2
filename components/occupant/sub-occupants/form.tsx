@@ -8,7 +8,6 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { SubOccupantsData } from "@/builders/types/sub-occupants";
 
 import { schema } from "./schema";
-import { UpdateOccupantData } from "@/builders/types/occupants";
 import { getCookie } from "cookies-next";
 import { builder } from "@/builders";
 import { handleSuccess, handleError } from "@/packages/notification";
