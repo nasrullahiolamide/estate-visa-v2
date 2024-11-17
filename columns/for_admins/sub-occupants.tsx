@@ -24,11 +24,11 @@ export const subOccupantsColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("id", {
+  columnHelper.accessor("house.houseNumber", {
     header: "House No",
     enableSorting: false,
   }),
-  columnHelper.accessor("user.fullname", {
+  columnHelper.accessor("user.firstname", {
     header: "Full Name",
     enableSorting: false,
   }),
@@ -44,7 +44,7 @@ export const subOccupantsColumns = [
       );
     },
   }),
-  columnHelper.accessor("user.firstname", {
+  columnHelper.accessor("mainOccupant.firstname", {
     header: "Occupant's Name",
     enableSorting: false,
   }),

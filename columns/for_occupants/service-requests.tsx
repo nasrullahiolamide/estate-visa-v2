@@ -121,7 +121,7 @@ export const serviceRequestsColumns = [
       const value = getValue();
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
-        pending: { color: "yellow.12", bg: "yellow.2" },
+        pending: { color: "#969921", bg: "#feffd7" },
         "in progress": { color: "blue", bg: "blue.1" },
         completed: { color: "green", bg: "green.1" },
       };

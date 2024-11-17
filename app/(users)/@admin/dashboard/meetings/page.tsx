@@ -92,7 +92,7 @@ export default function Meetings() {
                 id={list.id}
                 hasMeeting={list.minutes ? true : false}
                 handlers={{
-                  onEditMeeting: () => editMeeting(list),
+                  onEditMeeting: () => {},
                   onAddMinutes: () =>
                     handleMinuteForm({ formType: "add", meetingId: list.id }),
                   onEditMinutes: () =>

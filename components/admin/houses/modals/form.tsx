@@ -150,7 +150,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
     };
 
     isEditing
-      ? updateHouse({ id: data?.id ?? "", data: houseData })
+      ? updateHouse({ id: toString(data?.id), data: houseData })
       : addHouse(payload);
   }
 

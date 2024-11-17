@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
-import { generateHouseNumber, generateRelationshipStatus } from "./shared";
+import { generateRelationshipStatus } from "./shared";
 import { fakeOccupantUser, OccupantUser } from "./occupants";
+import { HouseData, useFakeHouseData } from "./houses";
 
 export type SubOccupantsList = {
   total: number;
@@ -14,7 +15,11 @@ export type SubOccupantsData = {
   id: string;
   relationshipToMain: string;
   user: OccupantUser;
+  house: HouseData;
+  mainOccupant: OccupantUser;
 };
+
+const fakeHouseData = useFakeHouseData();
 
 export function useFakeSubOccupantsData(_?: any, index?: number) {
   faker.seed(index);
@@ -25,6 +30,8 @@ export function useFakeSubOccupantsData(_?: any, index?: number) {
     id: id.toString(),
     user: fakeOccupantUser,
     relationshipToMain: generateRelationshipStatus(),
+    mainOccupant: fakeOccupantUser,
+    house: fakeHouseData,
   };
 }
 

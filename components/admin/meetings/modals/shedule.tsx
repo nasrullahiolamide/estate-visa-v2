@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 import { object } from "yup";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
@@ -68,6 +68,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
       handleSuccess({
         message: "Meeting Scheduled Successfully",
       });
+      form.reset();
       closeDrawer();
     },
     onError: handleError(),
