@@ -24,7 +24,7 @@ export type NavLinkType = Array<{
 
 export function Links() {
   const [links, setLinks] = useState<NavLinkType>([]);
-  const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const activeLinkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
   const pathname = usePathname();
 
   const view: Record<PropertyKey, NavLinkType> = {
@@ -44,15 +44,20 @@ export function Links() {
   }, []);
 
   useEffect(() => {
-    if (activeLinkRef.current) {
-      activeLinkRef.current.scrollIntoView({
+    const activeIndex = links.findIndex((item) =>
+      item.href === PAGES.DASHBOARD
+        ? pathname === PAGES.DASHBOARD
+        : pathname.startsWith(toString(item.href))
+    );
+
+    if (activeIndex !== -1 && activeLinkRefs.current[activeIndex]) {
+      activeLinkRefs.current[activeIndex]?.scrollIntoView({
         behavior: "smooth",
         block: "nearest",
         inline: "center",
       });
     }
-    console.log(activeLinkRef.current);
-  }, [pathname]);
+  }, [pathname, links]);
 
   return (
     <Flex
@@ -71,7 +76,9 @@ export function Links() {
         return (
           <NavLink
             key={index}
-            ref={isActive ? activeLinkRef : null}
+            ref={(el) => {
+              activeLinkRefs.current[index] = el;
+            }}
             active={isActive}
             variant='admin-app-shell-mobile'
             component={Link}

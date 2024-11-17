@@ -33,7 +33,7 @@ export function StatisticsOverview({
         icon={HousesIcon}
         title='Total Houses'
         value={totalHouses}
-        total={totalHouses}
+        total={totalHouses == 0 ? undefined : totalHouses}
         label='Manage Houses'
         href={makePath(PAGES.DASHBOARD, PAGES.HOUSES)}
         skeleton={isPlaceholderData}
