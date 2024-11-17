@@ -23,7 +23,7 @@ export function NoData() {
           <path d='M0,0 L315,0 L315,246 L0,246z'></path>
         </clipPath>
       </defs>
-      <g clip-path='url(#__lottie_element_184)'>
+      <g clipPath='url(#__lottie_element_184)'>
         <g
           transform='matrix(1,0,0,1,461.59698486328125,695.14599609375)'
           opacity='1'
@@ -94,7 +94,7 @@ export function NoData() {
           </g>
         </g>
         <g
-          clip-path='url(#__lottie_element_256)'
+          clipPath='url(#__lottie_element_256)'
           transform='matrix(0.9799929261207581,0,0,0.9799929261207581,333.6305847167969,203.41189575195312)'
           opacity='1'
           className='block'
@@ -243,7 +243,7 @@ export function NoData() {
           </g>
         </g>
         <g
-          clip-path='url(#__lottie_element_186)'
+          clipPath='url(#__lottie_element_186)'
           className='block'
           transform='matrix(1,0,0,1,0.162994384765625,-0.009002685546875)'
           opacity='1'

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { toString } from "lodash";
-import { SVGProps, useEffect, useState } from "react";
+import { SVGProps, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { getAuthorizedUser } from "@/packages/actions";
 import { PAGES, USER_TYPE } from "@/packages/libraries";
@@ -24,14 +24,7 @@ export type NavLinkType = Array<{
 
 export function Links() {
   const [links, setLinks] = useState<NavLinkType>([]);
-
-  useEffect(() => {
-    (async () => {
-      const { userType } = await getAuthorizedUser();
-      setLinks(view[userType]);
-    })();
-  }, []);
-
+  const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
   const pathname = usePathname();
 
   const view: Record<PropertyKey, NavLinkType> = {
@@ -43,12 +36,30 @@ export function Links() {
     [USER_TYPE.GATEMAN]: GATEMAN_ROUTES,
   };
 
+  useEffect(() => {
+    (async () => {
+      const { userType } = await getAuthorizedUser();
+      setLinks(view[userType]);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (activeLinkRef.current) {
+      activeLinkRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+    }
+    console.log(activeLinkRef.current);
+  }, [pathname]);
+
   return (
     <Flex
       align='center'
       justify='space-between'
       gap={20}
-      className='lg:~px-1/8 overflow-scroll scrollbar-none'
+      className='lg:~px-1/8 overflow-x-auto scrollbar-none'
       hiddenFrom='lg'
     >
       {links?.map((item, index) => {
@@ -60,11 +71,12 @@ export function Links() {
         return (
           <NavLink
             key={index}
-            flex={1}
+            ref={isActive ? activeLinkRef : null}
             active={isActive}
             variant='admin-app-shell-mobile'
             component={Link}
             href={item.href}
+            flex={1}
             label={
               <Flex gap={10} align='center' justify='center' py={8}>
                 <item.icon width={20} />

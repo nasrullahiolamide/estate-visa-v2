@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import { NoData } from "@/icons";
 import { BarChart } from "@mantine/charts";
 import { Stack, Group, Indicator, Flex, Text } from "@mantine/core";
 import { FilterRequestsDropdown } from "./requests-dropdown";
@@ -8,6 +9,7 @@ import { useQueryState } from "nuqs";
 import { builder } from "@/builders";
 import { useFakeServiceRequesData } from "@/builders/types/admin-dashboard";
 import { useQuery } from "@tanstack/react-query";
+import { Fragment } from "react";
 
 export type ServiceRequestData = {
   day: string;
@@ -60,33 +62,35 @@ export function ServiceRequests() {
           onFilter={setPeriod}
         />
       </Group>
-      <BarChart
-        h={300}
-        data={data ?? []}
-        dataKey='day'
-        type='stacked'
-        series={[
-          { name: "Approved", color: "#11A506" },
-          { name: "Pending", color: "#969921" },
-          { name: "Declined", color: "#EF5DA8" },
-        ]}
-        barProps={{
-          isAnimationActive: true,
-          animationDuration: 1000,
-        }}
-      />
-      <Flex justify='space-between' align='center' mt='auto'>
-        <Group>
-          <Indicator color='#11A506' />
-          <Text fz={14}>Approved</Text>
+      <Fragment>
+        <BarChart
+          h={300}
+          data={data ?? []}
+          dataKey='day'
+          type='stacked'
+          series={[
+            { name: "Approved", color: "#11A506" },
+            { name: "Pending", color: "#969921" },
+            { name: "Declined", color: "#EF5DA8" },
+          ]}
+          barProps={{
+            isAnimationActive: true,
+            animationDuration: 1000,
+          }}
+        />
+        <Flex justify='space-between' align='center' mt='auto'>
+          <Group>
+            <Indicator color='#11A506' />
+            <Text fz={14}>Approved</Text>
 
-          <Indicator color='#969921' />
-          <Text fz={14}>Pending</Text>
-          <Indicator color='#EF5DA8' />
-          <Text fz={14}>Declined</Text>
-        </Group>
-        <DownloadDropdown />
-      </Flex>
+            <Indicator color='#969921' />
+            <Text fz={14}>Pending</Text>
+            <Indicator color='#EF5DA8' />
+            <Text fz={14}>Declined</Text>
+          </Group>
+          <DownloadDropdown />
+        </Flex>
+      </Fragment>
     </Stack>
   );
 }

@@ -25,6 +25,7 @@ import { schema } from "../schema";
 import { DATE_FORMAT } from "@/packages/constants/time";
 import { useEffect } from "react";
 import { HouseData } from "@/builders/types/houses";
+import { toString } from "lodash";
 
 export interface HouseFormProps {
   modalType: "add" | "edit" | "view";
@@ -32,7 +33,7 @@ export interface HouseFormProps {
 }
 
 export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
-  const estateId = getCookie(APP.ESTATE_ID) ?? "";
+  const estateId = toString(getCookie(APP.ESTATE_ID));
   const queryClient = useQueryClient();
 
   // Fetch house data
@@ -118,7 +119,6 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
-  console.log(data);
   const eligibilityPeriod = dayjs()
     .add(
       form.getTransformedValues().duration,
@@ -155,8 +155,8 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   }
 
   useEffect(() => {
-    const { houseNumber, houseType, streetName, status, validityPeriod } =
-      data as HouseData;
+    if (!data) return;
+    const { houseNumber, houseType, streetName, status, validityPeriod } = data;
 
     form.initialize({
       houseNumber: pass.string(houseNumber),
@@ -268,8 +268,8 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           <Button
             mt={10}
             type='button'
-            loading={isAdding}
-            disabled={isAdding}
+            loading={isAdding || isUpdating}
+            disabled={isAdding || isUpdating}
             onClick={handleSubmit}
           >
             {isEditing ? "Save Changes" : "Add New House"}

@@ -41,7 +41,26 @@ export function handleLogin({
   setCookie(TOKEN.PAYLOAD, payload, cookieOptions);
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
-  setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
+  // setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
+
+  console.log(firstname, lastname, user_type);
+
+  if (user_type) {
+    setCookie(APP.USER_TYPE, user_type, {
+      ...cookieOptions,
+      sameSite: "lax",
+      encode,
+    });
+  }
+
+  if (email) setCookie(APP.USERNAME, email);
+
+  if (firstname) {
+    setCookie(APP.FULL_NAME, firstname, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+  }
 
   if (uid) {
     setCookie(APP.USER_ID, uid, {
@@ -66,24 +85,6 @@ export function handleLogin({
     setCookie(APP.HOUSE_ID, occupant.house.id, {
       ...cookieOptions,
       sameSite: "lax",
-    });
-  }
-
-  if (email) setCookie(APP.USERNAME, email);
-
-  if (full_name) {
-    setCookie(APP.FULL_NAME, full_name, {
-      ...cookieOptions,
-      sameSite: "lax",
-      encode,
-    });
-  }
-
-  if (user_type) {
-    setCookie(APP.USER_TYPE, user_type, {
-      ...cookieOptions,
-      sameSite: "lax",
-      encode,
     });
   }
 }
