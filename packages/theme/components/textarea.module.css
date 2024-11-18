@@ -12,4 +12,11 @@
 
 .input {
   height: rem(100px) !important;
+
+  &[data-variant="disabled"] {
+    --input-bg: var(--primary-background-light);
+    --input-color: var(--primary-text-subtle);
+    text-transform: capitalize;
+    cursor: not-allowed;
+  }
 }

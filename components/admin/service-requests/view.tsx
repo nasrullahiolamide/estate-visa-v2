@@ -49,6 +49,8 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
     },
   });
 
+  const accountType = data?.occupant.isMain ? "Occupant" : "Sub Occupant";
+
   return (
     <Fragment>
       <FlowContainer
@@ -60,7 +62,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
       >
         <TextInput
           label='House Number'
-          value={data?.houseNo}
+          value={data?.occupant.house.houseNumber}
           disabled
           classNames={{
             input: clsx("capitalize disabled:bg-white disabled:text-black", {
@@ -70,7 +72,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         />
         <TextInput
           label='Account Type'
-          value={data?.accountType}
+          value={accountType}
           disabled
           classNames={{
             input: clsx("capitalize disabled:bg-white disabled:text-black", {
@@ -81,7 +83,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         <TextInput
           label='Phone Number'
           disabled
-          value={data?.phone}
+          value={data?.occupant.user.phone}
           classNames={{
             input: clsx("capitalize disabled:bg-white disabled:text-black", {
               skeleton: isLoading,

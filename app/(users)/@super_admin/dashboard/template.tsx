@@ -39,7 +39,7 @@ export default function Template({ children }: TemplateProps) {
       >
         <AppShell.Section>
           <Center>
-            <EstateVisaLogo height={130} width={130} />
+            <EstateVisaLogo height={120} width={120} />
           </Center>
         </AppShell.Section>
 

@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { generateHouseNumber } from "./shared";
+import { OccupantsData, useFakeOccupantsData } from "./occupants";
 
 export type ServiceRequestList = {
   total: number;
@@ -11,17 +12,17 @@ export type ServiceRequestList = {
 
 export type ServiceRequestsData = {
   id: string;
-  houseNo: string;
-  name: string;
-  accountType: string;
-  phone: string;
   serviceType: string;
   preferredTime: string;
   urgencyLevel: string;
-  description: string;
   status: string;
+  contractor: string;
+  description: string;
+  image: string;
   createdAt: string;
   updatedAt: string;
+  deletedAt: string;
+  occupant: OccupantsData;
 };
 
 export type UpdateServiceRequestsData = {
@@ -41,17 +42,17 @@ export function useFakeServiceRequestsData(_?: any, index?: number) {
 
   return {
     id: id.toString(),
-    houseNo: generateHouseNumber(),
-    name: faker.company.name(),
-    accountType: faker.internet.email(),
-    phone: faker.phone.number(),
     serviceType: "Cleaning",
     preferredTime: "Morning",
     urgencyLevel: faker.helpers.arrayElement(["Low", "Medium", "High"]),
-    description: faker.lorem.paragraph(),
     status: faker.helpers.arrayElement(["pending", "declined", "approved"]),
+    contractor: faker.person.fullName(),
+    description: faker.lorem.paragraph(),
+    image: faker.image.url(),
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
+    deletedAt: faker.date.recent().toISOString(),
+    occupant: useFakeOccupantsData(),
   };
 }
 

@@ -67,9 +67,11 @@ export function AppShellHeader({
               <EstateVisaLogo height={55} width={55} />
             </Center>
 
-            <Title ta='center' fw={600}>
-              {user.estate.name} Estate
-            </Title>
+            {user.estate && (
+              <Title ta='center' fw={600}>
+                {user.estate.name} Estate
+              </Title>
+            )}
           </Flex>
 
           <Flex className='flex-1 gap-2 justify-end sm:justify-between items-center '>
