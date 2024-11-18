@@ -1,17 +1,26 @@
 "use client";
 
-import { APP } from "@/packages/libraries";
-import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
+import { APP, decryptUri } from "@/packages/libraries";
+import {
+  AppShell,
+  Center,
+  Flex,
+  ScrollArea,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/icons";
+import { ProfileData } from "@/builders/types/profile";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
 export default function Template({ children }: TemplateProps) {
+  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
 
@@ -41,6 +50,12 @@ export default function Template({ children }: TemplateProps) {
           <Center>
             <EstateVisaLogo height={120} width={120} />
           </Center>
+
+          {user.estate && (
+            <Title mt={10} ta='center' fw={700}>
+              {user.estate.name} Estate
+            </Title>
+          )}
         </AppShell.Section>
 
         <AppShell.Section

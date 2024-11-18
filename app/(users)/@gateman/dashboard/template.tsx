@@ -52,9 +52,11 @@ export default function Template({ children }: TemplateProps) {
             <EstateVisaLogo height={120} width={120} />
           </Center>
 
-          <Title mt={10} ta='center' fw={700}>
-            {user.estate.name} Estate
-          </Title>
+          {user.estate && (
+            <Title mt={10} ta='center' fw={700}>
+              {user.estate.name} Estate
+            </Title>
+          )}
         </AppShell.Section>
 
         <Divider mt={24} />

@@ -3,24 +3,17 @@
 import clsx from "clsx";
 
 import { Fragment, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
-import { MODALS } from "@/packages/libraries";
 import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { GateRequestActions } from "@/components/occupant/gate-request/actions";
-import { AddIcon, DownloadIcon } from "@/icons";
-import { Add } from "iconsax-react";
-import {
-  GateRequestForm,
-  GateRequestFormProps,
-} from "@/components/occupant/gate-request/form";
+import { DownloadIcon } from "@/icons";
+
 import {
   FlowContainer,
   FlowContentContainer,
@@ -33,6 +26,10 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { modals } from "@mantine/modals";
+import { AxiosError } from "axios";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -68,27 +65,32 @@ const filterOptions = [
         label: "Approved",
         value: "approved",
       },
-      {
-        label: "Cancelled",
-        value: "cancelled",
-      },
     ],
   },
 ];
 
-const handleGateRequestForm = ({ data, modalType }: GateRequestFormProps) => {
-  modals.open({
-    title: modalType === "add" ? "Generate Request" : "Request Details",
-    modalId: MODALS.FORM_DETAILS,
-    children: <GateRequestForm data={data} modalType={modalType} />,
-  });
-};
-
 export default function Gates() {
+  const queryClient = useQueryClient();
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
-
   const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { mutate: changeStatus, isPending } = useMutation({
+    mutationFn: builder.use().gates.requests.change_status,
+    onError: (error: AxiosError) => {
+      handleError(error)();
+    },
+    onSuccess: () => {
+      handleSuccess({
+        message: "Gate Request Approved Successfully",
+        autoClose: 1200,
+      });
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.get(),
+      });
+      modals.close(MODALS.CONFIRMATION);
+    },
+  });
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
     queryKey: builder.gates.requests.get.get(),
@@ -99,19 +101,22 @@ export default function Gates() {
         page,
         pageSize,
         total,
-        data: data.map((list) => {
+        data: data.map(({ id, status, ...list }) => {
           return {
             ...list,
+            id,
+            status,
             action: (
-              <GateRequestActions
-                id={list.id}
-                accessCode={list.accessCode}
-                handlers={{
-                  onAdd: () => handleGateRequestForm({ modalType: "add" }),
-                  onEdit: () =>
-                    handleGateRequestForm({ modalType: "edit", data: list }),
-                }}
-              />
+              <Button
+                fz='sm'
+                size='md'
+                onClick={() => changeStatus({ id, status: "approved" })}
+                loading={isPending}
+                disabled={isPending || status === "approved"}
+                className='disabled:bg-opacity-60'
+              >
+                Approve
+              </Button>
             ),
           };
         }),
@@ -172,16 +177,9 @@ export default function Gates() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
           withSecondaryButtons
           hasFilterButton
           filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handleGateRequestForm({ modalType: "add" }),
-            },
-          }}
           secondaryButtons={[
             {
               icon: "download",
@@ -199,14 +197,6 @@ export default function Gates() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <Button
-        fz='sm'
-        size='md'
-        leftSection={<Add />}
-        onClick={() => handleGateRequestForm({ modalType: "add" })}
-      >
-        Send New Request
-      </Button>
       <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'
