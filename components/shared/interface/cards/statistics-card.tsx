@@ -49,11 +49,11 @@ export function StatisticsCard({
         </Title>
         <Text fz={40} fw={500}>
           {value}
-          {total && (
+          {/* {total && (
             <Text span fw={500} fz={24} c='gray.7'>
               /{total}
             </Text>
-          )}
+          )} */}
         </Text>
       </Flex>
       {href && (
