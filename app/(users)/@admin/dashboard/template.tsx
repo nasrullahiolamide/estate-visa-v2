@@ -5,6 +5,7 @@ import { boolean } from "mathjs";
 import {
   AppShell,
   Center,
+  Divider,
   Flex,
   ScrollArea,
   Stack,
@@ -51,10 +52,11 @@ export default function Template({ children }: TemplateProps) {
             <EstateVisaLogo height={130} width={130} />
           </Center>
 
-          <Title mt={10} ta='center' fw={600}>
+          <Title mt={10} ta='center' fw={700}>
             {user.estate.name} Estate
           </Title>
         </AppShell.Section>
+        <Divider mt={24} />
 
         <AppShell.Section
           grow
