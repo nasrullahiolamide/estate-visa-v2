@@ -48,7 +48,7 @@ export function SearchEstate() {
         px={6}
         onClick={spotlight.open}
       >
-        <SearchIcon height={25} width={25} />
+        <SearchIcon height={60} width={25} />
       </Button>
 
       {userType && (

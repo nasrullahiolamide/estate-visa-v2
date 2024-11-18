@@ -60,15 +60,15 @@ export function AppShellHeader({
           gap={36}
           align='center'
           justify='space-between'
-          className='~px-1/8 py-3'
+          className='~px-1/8 py-2'
         >
-          <Flex align='center' gap={8} hiddenFrom='lg'>
+          <Flex align='center' gap={6} hiddenFrom='lg'>
             <Center hiddenFrom='lg'>
-              <EstateVisaLogo height={55} width={55} />
+              <EstateVisaLogo height={58} width={58} />
             </Center>
 
             {user.estate && (
-              <Title ta='center' fw={600}>
+              <Title fw={700} c='purple.10' order={2}>
                 {user.estate.name} Estate
               </Title>
             )}

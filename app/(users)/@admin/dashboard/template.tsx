@@ -15,8 +15,10 @@ import {
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP, decryptUri } from "@/packages/libraries";
 import { ADMIN_ROUTES } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/icons";
+import { Bull, EstateVisaLogo } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
+import { RotatingLogo } from "@/components/shared/interface/rotating-logo";
+import { EstateVisaLogo2 } from "@/icons/estate-visa-logo copy";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -53,7 +55,7 @@ export default function Template({ children }: TemplateProps) {
           </Center>
 
           {user.estate && (
-            <Title mt={10} ta='center' fw={700}>
+            <Title mt={10} ta='center' fw={700} c='purple.9'>
               {user.estate.name} Estate
             </Title>
           )}

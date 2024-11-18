@@ -53,10 +53,9 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section>
           <Center>
             <EstateVisaLogo height={120} width={120} />
-          </Center>
-
+          </Center>{" "}
           {user.estate && (
-            <Title mt={10} ta='center' fw={700}>
+            <Title mt={10} ta='center' fw={700} c='purple.9'>
               {user.estate.name} Estate
             </Title>
           )}

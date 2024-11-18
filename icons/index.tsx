@@ -54,5 +54,5 @@ export { HourglassIcon } from "./hourglass";
 export { NotesIcon } from "./notes";
 export { ListIcon } from "./list";
 export { NoData } from "./no-file";
-
+export { Bull } from "./bull";
 export type { IconType } from "./type";

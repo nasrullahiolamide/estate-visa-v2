@@ -14,6 +14,7 @@ import {
   scrollbar,
   typography,
   gridset,
+  rotating,
 } from "./packages/tailwind";
 
 /** @type {import('tailwindcss').Config} */
@@ -36,5 +37,5 @@ module.exports = {
       animation,
     },
   },
-  plugins: [fluid, scrollbar, prose, gridset, skeleton],
+  plugins: [fluid, scrollbar, prose, gridset, skeleton, rotating],
 };
