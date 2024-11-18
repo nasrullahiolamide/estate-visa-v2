@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Textarea, TextInput } from "@mantine/core";
+import { Button, Stack, Textarea, TextInput } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
 import { Fragment } from "react";
@@ -12,6 +12,12 @@ import { modals } from "@mantine/modals";
 import { AxiosError } from "axios";
 import clsx from "clsx";
 import { DATE_FORMAT } from "@/packages/constants/time";
+
+export enum SERVICE_REQUEST_STATUS {
+  PENDING = "pending",
+  DECLINED = "declined",
+  APPROVED = "approved",
+}
 
 interface ViewServiceRequestProps extends ServiceRequestsData {}
 
@@ -42,18 +48,6 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
       modals.close(MODALS.FORM_DETAILS);
     },
   });
-
-  const handleButtonClick = () => {
-    if (status === "pending") {
-      mutate({ id, status: "in-progress" });
-    } else if (status === "in-progress") {
-      mutate({ id, status: "completed" });
-    } else {
-      modals.close(MODALS.FORM_DETAILS);
-    }
-  };
-
-  console.log(data);
 
   return (
     <Fragment>
@@ -156,19 +150,31 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
       </FlowContainer>
-      <Button
-        mt={20}
-        w='100%'
-        onClick={handleButtonClick}
-        disabled={isPending}
-        children={
-          status === "completed"
-            ? "Close"
-            : status === "pending"
-            ? "Set as In Progress"
-            : "Set as Completed"
-        }
-      />
+      {status === "pending" ? (
+        <Stack mt={20} gap={10}>
+          <Button
+            color='red'
+            variant='outline'
+            flex={1}
+            disabled={isPending}
+            children='Decline Request'
+            onClick={() => mutate({ id, status: "declined" })}
+          />
+          <Button
+            flex={1}
+            onClick={() => mutate({ id, status: "approved" })}
+            disabled={isPending}
+            children='Approve Request'
+          />
+        </Stack>
+      ) : (
+        <Button
+          mt={20}
+          w='100%'
+          onClick={() => modals.close(MODALS.FORM_DETAILS)}
+          children='Close'
+        />
+      )}
     </Fragment>
   );
 }

@@ -45,29 +45,29 @@ export function ServiceRequestActions({
   });
 
   const render: Record<PropertyKey, ReactNode> = {
-    "in-progress": (
-      <Menu.Item
-        color='blue.7'
-        leftSection={<DoubleMarkIcon width={14} />}
-        onClick={() => mutate({ id, status: "completed" })}
-      >
-        Set as Completed
-      </Menu.Item>
-    ),
-
     pending: (
-      <Menu.Item
-        color='blue.7'
-        leftSection={<DoubleMarkIcon width={14} />}
-        onClick={() => mutate({ id, status: "in-progress" })}
-      >
-        Set as In Progress
-      </Menu.Item>
+      <Fragment>
+        <Menu.Item
+          color='blue.7'
+          leftSection={<DoubleMarkIcon width={14} />}
+          onClick={() => mutate({ id, status: "approved" })}
+        >
+          Approve Request
+        </Menu.Item>
+
+        <Menu.Item
+          color='red.7'
+          leftSection={<DoubleMarkIcon width={14} />}
+          onClick={() => mutate({ id, status: "declined" })}
+        >
+          Decline Request
+        </Menu.Item>
+      </Fragment>
     ),
   };
 
   return (
-    <FlowMenu disabled={status === "completed"}>
+    <FlowMenu disabled={status === "approved"}>
       <FlowMenuTarget />
       <FlowMenuDropdown>{render[status]}</FlowMenuDropdown>
     </FlowMenu>

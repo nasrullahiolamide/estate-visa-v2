@@ -60,8 +60,8 @@ export const serviceRequestsColumns = [
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
         pending: { color: "#969921", bg: "#feffd7" },
-        "in-progress": { color: "blue", bg: "blue.1" },
-        completed: { color: "green", bg: "green.1" },
+        declined: { color: "red", bg: "red.1" },
+        approved: { color: "green", bg: "green.1" },
       };
 
       return (

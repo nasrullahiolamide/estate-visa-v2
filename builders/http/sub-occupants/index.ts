@@ -5,7 +5,7 @@ import { SubOccupantsList } from "@/builders/types/sub-occupants";
 
 const get = function (params?: FilterParams) {
   return api
-    .get<SubOccupantsList>("/occupants/sub-occupants/", { params })
+    .get<SubOccupantsList>("/occupants/sub-occupants", { params })
     .then((data) => data.data);
 };
 

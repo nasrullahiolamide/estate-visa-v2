@@ -62,7 +62,7 @@ const filterOptions = [
       },
       {
         label: "In Progress",
-        value: "in-progress",
+        value: "pending",
       },
       {
         label: "Completed",

@@ -15,12 +15,14 @@ import { useSearchParams } from "next/navigation";
 import { requiredString } from "@/builders/types/shared";
 
 const schema = object({
-  email: string().email("Invalid email address"),
-  // otp: string().when("reset_password", {
-  //   is: false,
-  //   then: (schema) => schema.notRequired(),
-  //   otherwise: (schema) => schema.required("OTP is required"),
-  // }),
+  // email: string().email("Invalid email address"),
+  email: string()
+    .email("Invalid email address")
+    .when("reset_password", {
+      is: false,
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) => schema.required("Email is required"),
+    }),
   password: string().when("reset_password", {
     is: false,
     then: (schema) => schema.notRequired(),

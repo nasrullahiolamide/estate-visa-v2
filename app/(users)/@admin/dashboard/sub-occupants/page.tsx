@@ -79,6 +79,8 @@ export default function SubOccupants() {
 
   const noDataAvailable = subOccupants?.data.length === 0;
 
+  console.log(noDataAvailable);
+
   return (
     <Fragment>
       <AppShellHeader
