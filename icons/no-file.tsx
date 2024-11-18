@@ -1,6 +1,7 @@
 import { Text } from "@mantine/core";
+import { SVGProps } from "react";
 
-export function NoData() {
+export function NoData({ ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -10,6 +11,8 @@ export function NoData() {
       height='910'
       preserveAspectRatio='xMidYMid meet'
       className='w-full h-full'
+      {...props}
+
       //   style='width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px); content-visibility: visible;'
     >
       <defs>

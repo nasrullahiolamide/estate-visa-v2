@@ -30,7 +30,7 @@ export function ServiceRequests() {
     queryFn: () => builder.use().dashboard.admin.service_requests({ period }),
     placeholderData: initialServiceRequests,
     select: (data) => {
-      return data.map((item) => {
+      const transformedData = data.map((item) => {
         return {
           day: item.day.substring(0, 3),
           Approved: item.approved,
@@ -38,13 +38,18 @@ export function ServiceRequests() {
           Declined: item.rejected,
         };
       });
+
+      const hasData = transformedData.some(
+        (item) => item.Approved > 0 || item.Pending > 0 || item.Declined > 0
+      );
+
+      return hasData ? transformedData : [];
     },
   });
 
   return (
     <Stack
       bg='white'
-      justify='space-between'
       className={clsx("rounded-lg backdrop-blur-sm w-full", {
         skeleton: isPlaceholderData,
       })}
@@ -62,40 +67,47 @@ export function ServiceRequests() {
           onFilter={setPeriod}
         />
       </Group>
-      <Fragment>
-        <BarChart
-          h={300}
-          data={data ?? []}
-          dataKey='day'
-          type='stacked'
-          series={[
-            { name: "Approved", color: "#11A506" },
-            { name: "Pending", color: "#969921" },
-            { name: "Declined", color: "#EF5DA8" },
-          ]}
-          barProps={{
-            isAnimationActive: true,
-            animationDuration: 1000,
-          }}
-        />
-        <Flex justify='space-between' align='center' mt='auto'>
-          <Group>
-            <Flex align='center' gap={14}>
-              <Indicator color='#11A506' />
-              <Text fz={14}>Approved</Text>
-            </Flex>
-            <Flex align='center' gap={14}>
-              <Indicator color='#969921' />
-              <Text fz={14}>Pending</Text>
-            </Flex>
-            <Flex align='center' gap={14}>
-              <Indicator color='#EF5DA8' />
-              <Text fz={14}>Declined</Text>
-            </Flex>
-          </Group>
-          <DownloadDropdown />
-        </Flex>
-      </Fragment>
+      {data?.length ? (
+        <Fragment>
+          <BarChart
+            h={300}
+            data={data ?? []}
+            dataKey='day'
+            type='stacked'
+            series={[
+              { name: "Approved", color: "#11A506" },
+              { name: "Pending", color: "#969921" },
+              { name: "Declined", color: "#EF5DA8" },
+            ]}
+            barProps={{
+              isAnimationActive: true,
+              animationDuration: 1000,
+            }}
+          />
+          <Flex justify='space-between' align='center' mt='auto'>
+            <Group>
+              <Flex align='center' gap={14}>
+                <Indicator color='#11A506' />
+                <Text fz={14}>Approved</Text>
+              </Flex>
+              <Flex align='center' gap={14}>
+                <Indicator color='#969921' />
+                <Text fz={14}>Pending</Text>
+              </Flex>
+              <Flex align='center' gap={14}>
+                <Indicator color='#EF5DA8' />
+                <Text fz={14}>Declined</Text>
+              </Flex>
+            </Group>
+            <DownloadDropdown />
+          </Flex>
+        </Fragment>
+      ) : (
+        <Stack gap={0} h={320}>
+          <NoData />
+          <Text ta='center'>No Data Available</Text>
+        </Stack>
+      )}
     </Stack>
   );
 }
