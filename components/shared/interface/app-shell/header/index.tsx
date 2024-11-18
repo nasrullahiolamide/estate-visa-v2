@@ -9,6 +9,7 @@ import {
   Flex,
   Indicator,
   Stack,
+  Title,
 } from "@mantine/core";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { ArrowBack, BellIcon, EstateVisaLogo } from "@/icons";
@@ -17,7 +18,9 @@ import { SearchEstate } from "../../../search-estate";
 import { UserDetails } from "../../../user";
 import { Links } from "./links";
 import clsx from "clsx";
-import { PAGES } from "@/packages/libraries";
+import { APP, decryptUri, PAGES } from "@/packages/libraries";
+import { ProfileData } from "@/builders/types/profile";
+import { getCookie } from "cookies-next";
 
 interface AppShellHeaderProps {
   title: string;
@@ -32,6 +35,8 @@ export function AppShellHeader({
   options,
   showLinks = true,
 }: AppShellHeaderProps) {
+  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+
   return (
     <AppShell.Section
       pos='sticky'
@@ -57,9 +62,15 @@ export function AppShellHeader({
           justify='space-between'
           className='~px-1/8 py-3'
         >
-          <Center hiddenFrom='lg'>
-            <EstateVisaLogo height={55} width={55} />
-          </Center>
+          <Flex align='center' gap={8} hiddenFrom='lg'>
+            <Center hiddenFrom='lg'>
+              <EstateVisaLogo height={55} width={55} />
+            </Center>
+
+            <Title ta='center' fw={600}>
+              {user.estate.name} Estate
+            </Title>
+          </Flex>
 
           <Flex className='flex-1 gap-2 justify-end sm:justify-between items-center '>
             <SearchEstate />

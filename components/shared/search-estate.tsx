@@ -21,7 +21,7 @@ export function SearchEstate() {
         color='gray.3'
         variant='outline'
         leftSection={<SearchIcon width={18} />}
-        className='hidden sm:flex'
+        className='hidden lg:flex'
         onClick={spotlight.open}
         children={
           <Flex align='center'>
@@ -44,7 +44,7 @@ export function SearchEstate() {
       <Button
         variant='transparent'
         c='gray.10'
-        hiddenFrom='sm'
+        hiddenFrom='lg'
         px={6}
         onClick={spotlight.open}
       >
