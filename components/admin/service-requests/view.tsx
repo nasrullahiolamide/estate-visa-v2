@@ -65,7 +65,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           value={data?.occupant.house.houseNumber}
           disabled
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -75,7 +75,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           value={accountType}
           disabled
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -85,7 +85,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.occupant.user.phone}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -95,7 +95,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.serviceType}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -105,7 +105,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={formatDate(data?.createdAt, DATE_FORMAT) ?? ""}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -115,7 +115,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.preferredTime}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -125,7 +125,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.urgencyLevel}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -135,7 +135,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.description}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}
@@ -146,7 +146,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           disabled
           value={data?.status}
           classNames={{
-            input: clsx("capitalize disabled:bg-white disabled:text-black", {
+            input: clsx("capitalize", {
               skeleton: isLoading,
             }),
           }}

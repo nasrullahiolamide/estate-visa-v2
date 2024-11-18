@@ -117,6 +117,9 @@ export function GateForm({
             placeholder="Enter the gate's name"
             disabled={isViewing}
             withAsterisk
+            classNames={{
+              input: "disabled:bg-white disabled:text-black",
+            }}
             {...form.getInputProps("name")}
           />
           {name && (

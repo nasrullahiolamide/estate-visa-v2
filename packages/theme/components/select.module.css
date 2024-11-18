@@ -49,12 +49,9 @@
       border-radius: 0;
     }
 
-    &[data-variant="disabled"] {
-      --input-bg: var(--primary-background-light);
-      --input-color: var(--primary-text-subtle);
-      --input-bd: var(--primary-border-dark);
-      text-transform: capitalize;
-      cursor: not-allowed;
+    &[data-disabled="true"] {
+      background-color: white;
+      color: black;
     }
   }
 

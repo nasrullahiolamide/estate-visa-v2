@@ -22,14 +22,9 @@
       padding-block: 1.5rem;
     }
 
-    &[data-variant="disabled"] {
-      --input-bg: white;
-      --input-color: var(--gray-12);
-      --input-bd: var(--primary-border-light);
-      padding-block: 1.5rem;
-
-      text-transform: capitalize;
-      cursor: not-allowed;
+    &[data-disabled="true"] {
+      background-color: white;
+      color: black;
     }
   }
 
