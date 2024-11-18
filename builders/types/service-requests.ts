@@ -49,7 +49,7 @@ export function useFakeServiceRequestsData(_?: any, index?: number) {
     preferredTime: "Morning",
     urgencyLevel: faker.helpers.arrayElement(["Low", "Medium", "High"]),
     description: faker.lorem.paragraph(),
-    status: faker.helpers.arrayElement(["Pending", "In Progress", "Completed"]),
+    status: faker.helpers.arrayElement(["pending", "in-progress", "completed"]),
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
   };

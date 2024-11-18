@@ -5,7 +5,7 @@ import { modals } from "@mantine/modals";
 import { Menu, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { AddIcon, EditIcon, EyeIcon, TrashIcon } from "@/icons";
 import { ConfirmationModal } from "@/components/shared/interface";
@@ -15,6 +15,8 @@ import {
   FlowMenu,
   FlowMenuTarget,
 } from "@/components/layout";
+import { toString } from "lodash";
+import { getCookie } from "cookies-next";
 
 interface MeetingActionsProps {
   id: string;
@@ -28,11 +30,14 @@ interface MeetingActionsProps {
 }
 
 export function MeetingActions({ ...props }: MeetingActionsProps) {
-  const { status, id, handlers, hasMeeting } = props;
+  const estateId = toString(getCookie(APP.ESTATE_ID));
   const queryClient = useQueryClient();
+
+  const { status, id, handlers, hasMeeting } = props;
   const [isDrawerOpened, { open: openDrawer, close: closeDrawer }] =
     useDisclosure(false);
 
+  // Delete Meeting
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().meetings.remove,
     onError: (error: AxiosError) => {
@@ -45,7 +50,26 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.get({ estateId }),
+      });
+      modals.close(MODALS.CONFIRMATION);
+    },
+  });
+
+  // Change Meeting Status
+  const { mutate: changeStatus } = useMutation({
+    mutationFn: builder.use().meetings.change_status,
+    onError: (error: AxiosError) => {
+      handleError(error)();
+      modals.close(MODALS.CONFIRMATION);
+    },
+    onSuccess: () => {
+      handleSuccess({
+        message: "Meeting status changed successfully",
+        autoClose: 1200,
+      });
+      queryClient.invalidateQueries({
+        queryKey: builder.meetings.get.table.get({ estateId }),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -92,7 +116,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           </Menu.Item>
           <Menu.Item
             leftSection={<AddIcon width={14} />}
-            onClick={() => console.log("Reschedule Meeting")}
+            onClick={() => changeStatus({ id, status: "scheduled" })}
           >
             Reschedule Meeting
           </Menu.Item>
@@ -163,11 +187,15 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
                 </Text>
               </Menu.Target>
               <FlowMenuDropdown variant='action'>
-                <Menu.Item onClick={() => console.log("Meeting Scheduled")}>
+                <Menu.Item
+                  onClick={() => changeStatus({ id, status: "completed" })}
+                >
                   Complete Meeting
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item onClick={() => console.log("Meeting Cancelled")}>
+                <Menu.Item
+                  onClick={() => changeStatus({ id, status: "cancelled" })}
+                >
                   Cancel Meeting
                 </Menu.Item>
               </FlowMenuDropdown>

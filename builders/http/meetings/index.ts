@@ -8,7 +8,7 @@ import {
 
 const table = function (params?: FilterParams<{ estateId: string }>) {
   return api
-    .get<MeetingList>(`/meetings/`, { params })
+    .get<MeetingList>(`/meetings`, { params })
     .then((data) => data.data);
 };
 
@@ -28,6 +28,11 @@ const remove = function (id: string) {
   return api.delete(`/meetings/${id}`);
 };
 
+const change_status = function (variables: { id: string; status: string }) {
+  const { id, status } = variables;
+  return api.patch(`/meetings/change-status/${id}`, { status });
+};
+
 const minutes = function (variables: { id: string; data: MinutesData }) {
   const { id, data } = variables;
   return api
@@ -43,5 +48,6 @@ export const meetings = {
   },
   schedule,
   remove,
+  change_status,
   minutes,
 };

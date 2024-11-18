@@ -13,7 +13,7 @@ import {
 
 import { FilterDropdown, FilterData } from "../admin/shared/dropdowns";
 import { Add } from "iconsax-react";
-import { DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
+import { ClockIcon, DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
 import { ElementType, ReactNode } from "react";
 
 enum IconType {
@@ -22,8 +22,9 @@ enum IconType {
   DOWNLOAD = "download",
   ADD = "add",
   NOTES = "notes",
+  CLOCK = "clock",
 }
-type Icon = "upload" | "download" | "add" | "notes";
+type Icon = "upload" | "download" | "add" | "notes" | "clock";
 
 type Button = {
   icon: Icon;
@@ -84,6 +85,7 @@ export function FlowFloatingButtons({
     [IconType.DOWNLOAD]: <DownloadIcon width={20} height={20} />,
     [IconType.UPLOAD]: <UploadIcon width={17} height={17} />,
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,
+    [IconType.CLOCK]: <ClockIcon width={20} height={20} />,
   };
 
   return (

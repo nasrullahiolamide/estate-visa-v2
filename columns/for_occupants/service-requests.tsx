@@ -28,37 +28,12 @@ export const serviceRequestsColumns = [
   }),
 
   columnHelper.accessor("serviceType", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Service Type'
-      />
-    ),
+    header: "Service Type",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text
-        ta='center'
-        fz={14}
-        className='w-full'
-        tt='capitalize'
-        children={getValue()}
-      />
-    ),
   }),
 
   columnHelper.accessor("createdAt", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Date Submitted'
-      />
-    ),
+    header: "Date Submitted",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text
@@ -70,59 +45,22 @@ export const serviceRequestsColumns = [
     ),
   }),
   columnHelper.accessor("preferredTime", {
-    header: () => (
-      <Text
-        ta='center'
-        tt='capitalize'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Preferred Time'
-      />
-    ),
+    header: "Preferred Time",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text
-        ta='center'
-        tt='capitalize'
-        fz={14}
-        className='w-full'
-        children={getValue()}
-      />
-    ),
   }),
   columnHelper.accessor("urgencyLevel", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Urgency Level'
-      />
-    ),
+    header: "Urgency Level",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text
-        ta='center'
-        tt='capitalize'
-        fz={14}
-        className='w-full'
-        children={getValue()}
-      />
-    ),
   }),
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
         pending: { color: "#969921", bg: "#feffd7" },
-        "in progress": { color: "blue", bg: "blue.1" },
+        "in-progress": { color: "blue", bg: "blue.1" },
         completed: { color: "green", bg: "green.1" },
       };
 
@@ -142,15 +80,7 @@ export const serviceRequestsColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => <Flex justify='center'>{renderValue()}</Flex>,
     enableSorting: false,
   }),

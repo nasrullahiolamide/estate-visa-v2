@@ -1,7 +1,7 @@
 "use client";
 
-import { Fragment, ReactNode, useEffect } from "react";
-import { Flex, Menu } from "@mantine/core";
+import { Fragment, useEffect } from "react";
+import { Flex } from "@mantine/core";
 
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
@@ -10,7 +10,6 @@ import {
   ServiceRequestsData,
   useFakeServiceRequestsList,
 } from "@/builders/types/service-requests";
-import { DoubleMarkIcon } from "@/icons";
 import { serviceRequestsColumns } from "@/columns/for_occupants/service-requests";
 import {
   FlowContainer,
@@ -21,17 +20,14 @@ import {
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
-  FlowTableActions,
   useFlowPagination,
   useFlowState,
-  FlowMenu,
 } from "@/components/layout";
 import { modals } from "@mantine/modals";
 import { ViewServiceRequest } from "@/components/admin/service-requests/view";
 import { MODALS } from "@/packages/libraries";
 import clsx from "clsx";
 import { builder } from "@/builders";
-import { OccupantActions } from "@/components/admin/occupants/actions";
 import { useQuery } from "@tanstack/react-query";
 import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
 
@@ -76,41 +72,9 @@ const filterOptions = [
 ];
 
 function handleView(details: ServiceRequestsData) {
-  const view: Record<PropertyKey, ReactNode> = {
-    "in progress": (
-      <ViewServiceRequest
-        {...details}
-        buttonProps={{
-          children: "Close",
-          onClick: () => modals.close(MODALS.FORM_DETAILS),
-        }}
-      />
-    ),
-
-    pending: (
-      <ViewServiceRequest
-        {...details}
-        buttonProps={{
-          children: "Set as In Progress",
-          onClick: () => console.log("Set as In Progress"),
-        }}
-      />
-    ),
-
-    completed: (
-      <ViewServiceRequest
-        {...details}
-        buttonProps={{
-          children: "Close",
-          onClick: () => modals.close(MODALS.FORM_DETAILS),
-        }}
-      />
-    ),
-  };
-
   modals.open({
     title: "Service Request",
-    children: view[details.status.toLowerCase()],
+    children: <ViewServiceRequest {...details} />,
     modalId: MODALS.FORM_DETAILS,
   });
 }

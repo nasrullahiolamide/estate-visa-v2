@@ -83,7 +83,7 @@ export function MeetingMinutesForm({
         ...values,
         title_id: cast.string(title_id),
         noOfAttendees: cast.number(noOfAttendees),
-        minutes: cast.string(minutes),
+        minutes: `${minutes}`,
       };
     },
   });
@@ -127,7 +127,7 @@ export function MeetingMinutesForm({
           label='Meeting Title'
           data={meetings}
           placeholder='Select a meeting title'
-          className={clsx({ skeleton: isLoading })}
+          disabled={isLoading}
           withAsterisk
           {...form.getInputProps("title_id")}
         />

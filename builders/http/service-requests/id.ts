@@ -4,8 +4,10 @@ import {
   UpdateServiceRequestsData,
 } from "@/builders/types/service-requests";
 
-const get = function () {
-  return api.get<ServiceRequestsData>(`/service-requests`).then((data) => data);
+const get = function (id: string) {
+  return api
+    .get<ServiceRequestsData>(`/service-requests/${id}`)
+    .then((data) => data.data);
 };
 
 const edit = function (variables: {

@@ -213,7 +213,7 @@ const TableRow = <T,>({
     <Table.Tr
       key={row.id}
       className={clsx(
-        "hover:bg-blue-50 px-6 sm:py-4 cursor-pointer w-fit text-center"
+        "hover:bg-blue-50 px-6 sm:py-4 cursor-pointer w-fit text-center capitalize"
       )}
       onClick={() => onRowClick && onRowClick(row.original)}
     >

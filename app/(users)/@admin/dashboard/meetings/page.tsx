@@ -16,7 +16,7 @@ import { MeetingActions } from "@/components/admin/meetings/actions";
 import { AppShellHeader } from "@/components/admin/shared/app-shell";
 import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { AddIcon } from "@/icons";
+import { AddIcon, ClockIcon } from "@/icons";
 import {
   SheduleMeeting,
   MeetingMinutesForm,
@@ -173,6 +173,7 @@ export default function Meetings() {
           hidden={noDataAvailable || isPlaceholderData}
           withPrimaryButon
           hasFilterButton
+          withSecondaryButtons
           filterData={filterOptions}
           primaryButton={{
             icon: "add",
@@ -182,7 +183,7 @@ export default function Meetings() {
           }}
           secondaryButtons={[
             {
-              icon: "add",
+              icon: "clock",
               btnProps: {
                 onClick: () => handleMinuteForm({ formType: "add" }),
               },
@@ -215,7 +216,7 @@ function HeaderOptions({ scheduleMeeting, hidden }: HeaderOptionsProps) {
         fz='sm'
         variant='outline'
         size='md'
-        leftSection={<AddIcon />}
+        leftSection={<ClockIcon />}
         onClick={() => handleMinuteForm({ formType: "add" })}
       >
         Add Meeting Minutes
