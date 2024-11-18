@@ -23,7 +23,7 @@ export const AvailableDashboards = [
   Occupant,
   SubOccupant,
   PropertyOwner,
-  // Gateman,
+  Gateman,
 ] as Array<string>;
 
 export type LoginResponseData = {

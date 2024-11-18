@@ -11,7 +11,7 @@ import {
   PolymorphicComponentProps,
 } from "@mantine/core";
 
-import { FilterDropdown, FilterData } from "../admin/shared/dropdowns";
+import { FilterDropdown, FilterData } from "../shared/interface/dropdowns";
 import { Add } from "iconsax-react";
 import { ClockIcon, DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
 import { ElementType, ReactNode } from "react";

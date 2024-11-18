@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Stack, Textarea, TextInput } from "@mantine/core";
+import { Button, Flex, Group, Stack, Textarea, TextInput } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
 import { Fragment } from "react";
@@ -151,22 +151,22 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         />
       </FlowContainer>
       {status === "pending" ? (
-        <Stack mt={20} gap={10}>
+        <Flex mt={20} gap={10} className='flex-col sm:flex-row'>
           <Button
             color='red'
             variant='outline'
-            flex={1}
+            className='sm:flex-1'
             disabled={isPending}
             children='Decline Request'
             onClick={() => mutate({ id, status: "declined" })}
           />
           <Button
-            flex={1}
+            className='sm:flex-1'
             onClick={() => mutate({ id, status: "approved" })}
             disabled={isPending}
             children='Approve Request'
           />
-        </Stack>
+        </Flex>
       ) : (
         <Button
           mt={20}

@@ -17,7 +17,7 @@ import {
 } from "@/components/layout";
 
 import { filterOptions } from "@/components/occupant/meetings/table";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { DownloadIcon } from "@/icons";
 import { SheduleMeeting } from "@/components/admin/meetings/modals/shedule";
 import { useDisclosure } from "@mantine/hooks";

@@ -8,7 +8,7 @@ import { AppShellHeader } from "@/components/admin/shared";
 import { EmptySlot } from "@/components/shared/interface";
 import { Markdown } from "@/components/shared/markdown";
 import { modals } from "@mantine/modals";
-import { ConfirmDelete } from "@/components/admin/shared/modals";
+import { ConfirmDelete } from "@/components/shared/interface/modals";
 import { Attachments } from "@/components/admin/messages/attachments";
 
 import {

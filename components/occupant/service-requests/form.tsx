@@ -12,7 +12,7 @@ import { builder } from "@/builders";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
-import { ResourceUpload } from "@/components/admin/shared/resource-upload";
+import { ResourceUpload } from "@/components/shared/uploads/resource";
 import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { toast } from "react-toastify";

@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
 
-import { AppShellButton } from "@/components/admin/shared/app-shell/button";
+import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP } from "@/packages/libraries";
 import {
   OCCUPANT_ROUTES,

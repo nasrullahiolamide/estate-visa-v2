@@ -3,8 +3,8 @@
 import clsx from "clsx";
 import { Fragment } from "react";
 import { MODALS } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { OccupantWriteModal } from "@/components/occupant/messages/modals/write";
 import { modals } from "@mantine/modals";
 import {

@@ -13,8 +13,8 @@ import {
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { ArrowBack, BellIcon, EstateVisaLogo } from "@/icons";
 
-import { SearchEstate } from "../../search-estate";
-import { UserDetails } from "../../user";
+import { SearchEstate } from "../../../search-estate";
+import { UserDetails } from "../../../user";
 import { Links } from "./links";
 import clsx from "clsx";
 import { PAGES } from "@/packages/libraries";

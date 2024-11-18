@@ -17,7 +17,7 @@ import { handleSuccess, handleError } from "@/packages/notification";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
-import { ResourceUpload } from "../../shared/resource-upload";
+import { ResourceUpload } from "../../../shared/uploads/resource";
 import {
   MS_EXCEL_MIME_TYPE,
   MS_WORD_MIME_TYPE,

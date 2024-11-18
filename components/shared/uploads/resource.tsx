@@ -8,8 +8,7 @@ import { MIME, MIME_TYPE } from "@/builders/types/shared";
 import { Status } from "@/packages/hooks/use-file-upload";
 import { pass } from "@/packages/libraries";
 import { Check, FileIcon } from "@/icons";
-
-import { Upload } from "./upload";
+import { Upload } from "./upload-icon";
 import { useState } from "react";
 
 interface ResourceProps

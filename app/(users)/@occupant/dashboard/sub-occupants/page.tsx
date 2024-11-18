@@ -10,8 +10,8 @@ import { builder } from "@/builders";
 import { useFakeSubOccupantsList } from "@/builders/types/sub-occupants";
 import { MODALS } from "@/packages/libraries";
 
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { SubOccupantActions } from "@/components/occupant/sub-occupants/actions";
 import { ActionSubOccupantsColumns } from "@/columns/for_occupants/sub-occupants";

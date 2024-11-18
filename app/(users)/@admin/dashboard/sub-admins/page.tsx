@@ -14,8 +14,8 @@ import { ProfileData } from "@/builders/types/profile";
 import { APP, decryptUri, MODALS } from "@/packages/libraries";
 
 import { subAdminListColumns } from "@/columns/for_admins/sub-admins";
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { AddSubAdmins } from "@/components/admin/sub-admins/modals/add";
 import { EmptySlot } from "@/components/shared/interface";
 import { ViewSubAdmins } from "@/components/admin/sub-admins/modals/view-edit";

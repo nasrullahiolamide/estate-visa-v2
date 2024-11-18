@@ -14,7 +14,7 @@ import {
   MS_WORD_MIME_TYPE,
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
-import { ResourceUpload } from "../../shared/resource-upload";
+import { ResourceUpload } from "../../../shared/uploads/resource";
 import { DateInput, DatePicker, DatePickerInput } from "@mantine/dates";
 import { CalenderIcon } from "@/icons";
 

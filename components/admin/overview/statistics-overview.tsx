@@ -2,7 +2,7 @@
 
 import { Box } from "@mantine/core";
 
-import { StatisticsCard } from "../shared/cards";
+import { StatisticsCard } from "../../shared/interface/cards";
 import { makePath, PAGES } from "@/packages/libraries";
 import { GateIcon, HousesIcon, UserFriendsIcon, UserGroupIcon } from "@/icons";
 

@@ -11,7 +11,7 @@ import {
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { APP, cast, decryptUri } from "@/packages/libraries";
 
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import { schema } from "@/components/admin/profile/schema";

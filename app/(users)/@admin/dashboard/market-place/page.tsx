@@ -7,8 +7,8 @@ import { Fragment } from "react";
 
 import { Button, Flex, Tabs } from "@mantine/core";
 import { makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
 import { CarbonRule } from "@/icons";

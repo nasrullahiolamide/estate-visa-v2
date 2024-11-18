@@ -11,8 +11,8 @@ import { builder } from "@/builders";
 import { useFakeOccupantsList } from "@/builders/types/occupants";
 import { OccupantActions } from "@/components/admin/occupants/actions";
 import { occupantsColumns } from "@/columns/for_admins/occupants";
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { DownloadIcon, UploadIcon } from "@/icons";
 import {

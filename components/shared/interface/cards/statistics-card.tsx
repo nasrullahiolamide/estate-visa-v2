@@ -1,10 +1,17 @@
 import { Box, Flex, Stack, StackProps, Text, Title } from "@mantine/core";
 import Link from "next/link";
 
-import { StatItem } from "../../data/statistics";
 import clsx from "clsx";
-import { skeleton } from "@/packages/tailwind";
+import { IconType } from "@/icons";
 
+export type StatItem = {
+  icon: IconType;
+  title: string;
+  value?: number;
+  total?: number;
+  label: string;
+  href?: string;
+};
 interface StatisticsCardProps extends StatItem {
   skeleton?: boolean;
 }

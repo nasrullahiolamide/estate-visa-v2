@@ -9,7 +9,7 @@ import { modals } from "@mantine/modals";
 import { APP, decryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { ArrowDownIcon } from "@/icons";
-import { ConfirmLogout } from "./modals/logout";
+import { ConfirmLogout } from "./interface/modals/logout";
 import { ProfileData } from "@/builders/types/profile";
 
 function handleLogout() {

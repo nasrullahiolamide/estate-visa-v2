@@ -5,7 +5,7 @@ import { AppShell, Center, Flex, ScrollArea, Stack } from "@mantine/core";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
-import { AppShellButton } from "@/components/admin/shared/app-shell/button";
+import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/icons";
 

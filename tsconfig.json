@@ -26,7 +26,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "components/admin/shared/user.tsx",
+    "components/shared/user.tsx",
     "builders/types/profile.tss"
   ],
   "exclude": ["node_modules"]

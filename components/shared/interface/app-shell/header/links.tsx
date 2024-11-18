@@ -52,6 +52,7 @@ export function Links() {
   useEffect(() => {
     if (user) {
       const userType = user.roles[0].name;
+      console.log(userType);
       setLinks(view[userType]);
     }
   }, [user, isLoading]);

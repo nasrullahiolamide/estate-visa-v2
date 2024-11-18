@@ -16,7 +16,7 @@ import {
 } from "@mantine/dropzone";
 import { DatePickerInput } from "@mantine/dates";
 import { CalenderIcon } from "@/icons";
-import { ResourceUpload } from "@/components/admin/shared/resource-upload";
+import { ResourceUpload } from "@/components/shared/uploads/resource";
 
 const requiredString = string().required("This is a required field.");
 

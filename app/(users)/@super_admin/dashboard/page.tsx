@@ -15,7 +15,7 @@ import {
 import {
   AppShellHeader,
   AppShellMain,
-} from "@/components/admin/shared/app-shell";
+} from "@/components/shared/interface/app-shell";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
 import { useFakeSuperAdminDashboardData } from "@/builders/types/super-admin-dashboard";

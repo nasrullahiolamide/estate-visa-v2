@@ -13,8 +13,8 @@ import { MeetingColumns } from "@/columns/for_admins/meetings";
 import { APP, MODALS } from "@/packages/libraries";
 import { useMeetingDrawer } from "@/packages/hooks/use-meeting-props";
 import { MeetingActions } from "@/components/admin/meetings/actions";
-import { AppShellHeader } from "@/components/admin/shared/app-shell";
-import { FilterDropdown } from "@/components/admin/shared/dropdowns/filter";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { AddIcon, ClockIcon } from "@/icons";
 import {
