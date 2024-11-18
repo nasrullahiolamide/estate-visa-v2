@@ -35,7 +35,8 @@ const schema = object({
       return emailPattern.test(value) || gateUsernamePattern.test(value);
     }
   ),
-  password: requiredString.min(6, "Password must be at least 6 characters."),
+  // password: requiredString.min(6, "Password must be at least 6 characters."),
+  password: requiredString,
   remember_me: boolean().notRequired(),
 });
 
