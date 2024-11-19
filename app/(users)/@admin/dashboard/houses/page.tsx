@@ -1,16 +1,19 @@
 "use client";
 
 import clsx from "clsx";
-
+import fileDownload from "js-file-download";
 import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
+
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import { useQuery } from "@tanstack/react-query";
-
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
+import { MIME_TYPE } from "@/builders/types/shared";
 import { useFakeHousesList } from "@/builders/types/houses";
 import { MODALS } from "@/packages/libraries";
+import { handleError } from "@/packages/notification";
+import { useFilename } from "@/packages/hooks/use-file-name";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
@@ -67,6 +70,15 @@ export default function Houses() {
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
+  const { mutate: download, isPending: isDownloading } = useMutation({
+    mutationFn: builder.use().houses.download,
+    onSuccess: (data) => {
+      const filename = useFilename("houses", data.type as MIME_TYPE);
+      fileDownload(data, filename);
+    },
+    onError: handleError(),
+  });
+
   const { data: houses, isPlaceholderData } = useQuery({
     queryKey: builder.houses.list.table.get(),
     queryFn: () =>
@@ -113,13 +125,18 @@ export default function Houses() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = houses?.data.length === 0;
+  const handleDownload = () => download();
 
   return (
     <Fragment>
       <AppShellHeader
         title='Houses'
         options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+          <HeaderOptions
+            hidden={noDataAvailable || isPlaceholderData}
+            onDownload={handleDownload}
+            isDownloading={isDownloading}
+          />
         }
       />
 
@@ -176,7 +193,9 @@ export default function Houses() {
             {
               icon: "download",
               btnProps: {
-                onClick: () => {},
+                onClick: () => download(),
+                loading: isDownloading,
+                disabled: isDownloading,
               },
             },
             {
@@ -192,7 +211,17 @@ export default function Houses() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+interface HeaderOptionsProps {
+  hidden: boolean;
+  onDownload: () => void;
+  isDownloading?: boolean;
+}
+
+function HeaderOptions({
+  hidden,
+  onDownload,
+  isDownloading,
+}: HeaderOptionsProps) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
@@ -212,6 +241,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<DownloadIcon />}
+        onClick={onDownload}
+        loading={isDownloading}
+        disabled={isDownloading}
       >
         Download Table
       </Button>

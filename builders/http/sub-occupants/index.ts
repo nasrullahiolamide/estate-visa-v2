@@ -16,7 +16,7 @@ const edit = function (variables: { id: string; data: AddOccupantData }) {
 
 const download = function () {
   return api
-    .get<SubOccupantsList>(`/occupants/sub-occupants/download`)
+    .get<Blob>(`/occupants/sub-occupants/download`)
     .then((data) => data.data);
 };
 

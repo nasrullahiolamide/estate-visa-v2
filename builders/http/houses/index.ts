@@ -19,9 +19,16 @@ const post = function (data: BulkUpdateHouseData) {
   return api.post("/houses", data);
 };
 
+const download = function () {
+  return api
+    .get<Blob>("/houses/download", { responseType: "blob" })
+    .then((data) => data.data);
+};
+
 export const houses = {
   id,
   post,
+  download,
   list: {
     table,
     all,

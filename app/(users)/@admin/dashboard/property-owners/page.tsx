@@ -1,13 +1,14 @@
 "use client";
 
 import clsx from "clsx";
+import fileDownload from "js-file-download";
 
 import { Add } from "iconsax-react";
 import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
 import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
@@ -36,6 +37,9 @@ import {
   OccupantsFormProps,
   OccupantsForm,
 } from "@/components/admin/occupants/modals/form";
+import { MIME_TYPE } from "@/builders/types/shared";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { handleError } from "@/packages/notification";
 
 const filterOptions = [
   { label: "Recently Added", value: "Recent" },
@@ -66,6 +70,15 @@ export default function PropertyOwners() {
   const initialPropertyOwnersList = useFakePropertyOwnersList();
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { mutate: download, isPending: isDownloading } = useMutation({
+    mutationFn: builder.use().property_owners.download,
+    onSuccess: (data) => {
+      const filename = useFilename("property-owners", data.type as MIME_TYPE);
+      fileDownload(data, filename);
+    },
+    onError: handleError(),
+  });
 
   const { data: propertyOwners, isPlaceholderData } = useQuery({
     queryKey: builder.property_owners.get.get(),
@@ -108,7 +121,6 @@ export default function PropertyOwners() {
 
   useEffect(() => {
     if (isPlaceholderData) return;
-
     pagination.setPage(propertyOwners?.page);
     pagination.setTotal(propertyOwners?.total);
     pagination.setEntriesCount(propertyOwners?.data?.length);
@@ -116,13 +128,18 @@ export default function PropertyOwners() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = propertyOwners?.data.length === 0;
+  const handleDownload = () => download();
 
   return (
     <Fragment>
       <AppShellHeader
         title='Property Owners'
         options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+          <HeaderOptions
+            hidden={noDataAvailable || isPlaceholderData}
+            onDownload={handleDownload}
+            isDownloading={isDownloading}
+          />
         }
       />
 
@@ -183,7 +200,9 @@ export default function PropertyOwners() {
             {
               icon: "download",
               btnProps: {
-                onClick: () => {},
+                onClick: () => download(),
+                loading: isDownloading,
+                disabled: isDownloading,
               },
             },
             {
@@ -199,7 +218,17 @@ export default function PropertyOwners() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+interface HeaderOptionsProps {
+  hidden: boolean;
+  onDownload: () => void;
+  isDownloading?: boolean;
+}
+
+function HeaderOptions({
+  hidden,
+  onDownload,
+  isDownloading,
+}: HeaderOptionsProps) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
@@ -219,6 +248,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<DownloadIcon />}
+        onClick={onDownload}
+        loading={isDownloading}
+        disabled={isDownloading}
       >
         Download Table
       </Button>

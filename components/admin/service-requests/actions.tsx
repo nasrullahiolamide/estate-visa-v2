@@ -67,7 +67,7 @@ export function ServiceRequestActions({
   };
 
   return (
-    <FlowMenu disabled={status === "approved"}>
+    <FlowMenu disabled={status !== "pending"}>
       <FlowMenuTarget />
       <FlowMenuDropdown>{render[status]}</FlowMenuDropdown>
     </FlowMenu>

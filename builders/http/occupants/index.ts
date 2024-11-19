@@ -13,8 +13,14 @@ const post = function (data: AddOccupantData) {
   return api.post("/occupants", data);
 };
 
+const download = function () {
+  return api
+    .get<Blob>("/occupants/download", { responseType: "blob" })
+    .then((data) => data.data);
+};
 export const occupants = {
   id,
   get,
   post,
+  download,
 };

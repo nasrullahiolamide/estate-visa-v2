@@ -1,12 +1,13 @@
 "use client";
 
 import clsx from "clsx";
+import fileDownload from "js-file-download";
 import { Add } from "iconsax-react";
 import { Fragment, useEffect } from "react";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { MODALS } from "@/packages/libraries";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakeOccupantsList } from "@/builders/types/occupants";
 import { OccupantActions } from "@/components/admin/occupants/actions";
@@ -31,6 +32,9 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { MIME_TYPE } from "@/builders/types/shared";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { handleError } from "@/packages/notification";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -50,6 +54,15 @@ export default function Occupants() {
   const initialOccupantsList = useFakeOccupantsList();
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { mutate: download, isPending: isDownloading } = useMutation({
+    mutationFn: builder.use().occupants.download,
+    onSuccess: (data) => {
+      const filename = useFilename("occupants", data.type as MIME_TYPE);
+      fileDownload(data, filename);
+    },
+    onError: handleError(),
+  });
 
   const { data: occupants, isPlaceholderData } = useQuery({
     queryKey: builder.occupants.get.get(),
@@ -89,7 +102,6 @@ export default function Occupants() {
 
   useEffect(() => {
     if (isPlaceholderData) return;
-
     pagination.setPage(occupants?.page);
     pagination.setTotal(occupants?.total);
     pagination.setEntriesCount(occupants?.data?.length);
@@ -97,13 +109,18 @@ export default function Occupants() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = occupants?.data.length === 0;
+  const handleDownload = () => download();
 
   return (
     <Fragment>
       <AppShellHeader
         title='Occupants'
         options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+          <HeaderOptions
+            hidden={noDataAvailable || isPlaceholderData}
+            onDownload={handleDownload}
+            isDownloading={isDownloading}
+          />
         }
       />
 
@@ -161,7 +178,9 @@ export default function Occupants() {
             {
               icon: "download",
               btnProps: {
-                onClick: () => {},
+                onClick: () => download(),
+                loading: isDownloading,
+                disabled: isDownloading,
               },
             },
             {
@@ -177,7 +196,17 @@ export default function Occupants() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+interface HeaderOptionsProps {
+  hidden: boolean;
+  onDownload: () => void;
+  isDownloading?: boolean;
+}
+
+function HeaderOptions({
+  hidden,
+  onDownload,
+  isDownloading,
+}: HeaderOptionsProps) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
@@ -197,6 +226,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<DownloadIcon />}
+        onClick={onDownload}
+        loading={isDownloading}
+        disabled={isDownloading}
       >
         Download Table
       </Button>

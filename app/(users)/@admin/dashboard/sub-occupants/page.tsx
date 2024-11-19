@@ -1,12 +1,13 @@
 "use client";
 
 import clsx from "clsx";
+import fileDownload from "js-file-download";
 import { Fragment, useEffect } from "react";
 import { modals } from "@mantine/modals";
 import { Button, Flex } from "@mantine/core";
 import { MODALS } from "@/packages/libraries";
 import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
@@ -29,6 +30,9 @@ import {
   SubOccupantsForm,
   SubOccupantsFormProps,
 } from "@/components/occupant/sub-occupants/form";
+import { MIME_TYPE } from "@/builders/types/shared";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { handleError } from "@/packages/notification";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -48,6 +52,15 @@ export default function SubOccupants() {
   const initialSubOccupantsList = useFakeSubOccupantsList();
   const pagination = useFlowPagination();
   const { page, pageSize, search, numberOfPages } = useFlowState();
+
+  const { mutate: download, isPending: isDownloading } = useMutation({
+    mutationFn: builder.use().sub_occupants.download,
+    onSuccess: (data) => {
+      const filename = useFilename("houses", data.type as MIME_TYPE);
+      fileDownload(data, filename);
+    },
+    onError: handleError(),
+  });
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
     queryKey: builder.sub_occupants.get.get(),
@@ -70,7 +83,6 @@ export default function SubOccupants() {
   console.log(subOccupants);
   useEffect(() => {
     if (isPlaceholderData) return;
-
     pagination.setPage(subOccupants?.page);
     pagination.setTotal(subOccupants?.total);
     pagination.setEntriesCount(subOccupants?.data?.length);
@@ -78,15 +90,18 @@ export default function SubOccupants() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = subOccupants?.data.length === 0;
-
-  console.log(noDataAvailable);
+  const handleDownload = () => download();
 
   return (
     <Fragment>
       <AppShellHeader
         title='Sub-Occupants'
         options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+          <HeaderOptions
+            hidden={noDataAvailable || isPlaceholderData}
+            onDownload={handleDownload}
+            isDownloading={isDownloading}
+          />
         }
       />
 
@@ -129,7 +144,9 @@ export default function SubOccupants() {
             {
               icon: "download",
               btnProps: {
-                onClick: () => console.log("Downloaded"),
+                onClick: () => download(),
+                loading: isDownloading,
+                disabled: isDownloading,
               },
             },
           ]}
@@ -139,7 +156,17 @@ export default function SubOccupants() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+interface HeaderOptionsProps {
+  hidden: boolean;
+  onDownload: () => void;
+  isDownloading?: boolean;
+}
+
+function HeaderOptions({
+  hidden,
+  onDownload,
+  isDownloading,
+}: HeaderOptionsProps) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <FilterDropdown data={filterOptions} />
@@ -148,6 +175,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<DownloadIcon />}
+        onClick={onDownload}
+        loading={isDownloading}
+        disabled={isDownloading}
       >
         Download Table
       </Button>

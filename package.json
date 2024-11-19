@@ -60,6 +60,7 @@
     "framer-motion": "^11.11.9",
     "hugeicons-react": "^0.3.0",
     "iconsax-react": "^0.0.8",
+    "js-file-download": "^0.4.12",
     "lodash": "^4.17.21",
     "mathjs": "^13.2.0",
     "next": "14.2.14",

@@ -19,4 +19,8 @@
     --button-fz: var(--mantine-font-size-md);
     font-size: var(--mantine-font-size-sm);
   }
+
+  &[data-loading="true"] {
+    cursor: not-allowed;
+  }
 }

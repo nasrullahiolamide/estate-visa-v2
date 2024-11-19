@@ -55,4 +55,5 @@ export { NotesIcon } from "./notes";
 export { ListIcon } from "./list";
 export { NoData } from "./no-file";
 export { Bull } from "./bull";
+export { CSVIcon } from "./csv-icon";
 export type { IconType } from "./type";

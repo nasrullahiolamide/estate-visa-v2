@@ -17,9 +17,10 @@ const post = function (data: UpdateProperyOwnerData) {
 };
 
 const download = function () {
-  return api.get("/property-owners/download");
+  return api
+    .get<Blob>("/property-owners/download", { responseType: "blob" })
+    .then((data) => data.data);
 };
-
 export const property_owners = {
   id,
   get,
