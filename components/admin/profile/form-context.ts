@@ -1,14 +1,15 @@
 import { createFormContext } from "@mantine/form";
 
-interface FormValues {
+export interface FormValues {
   fullname: string;
   email: string;
   username: string;
   estatename: string;
   phone: string;
+  picture: string;
 }
 
-type TransformFormValues = (values: FormValues) => FormValues;
+export type TransformFormValues = (values: FormValues) => FormValues;
 
 const [FormProvider, useFormContext, useForm] = createFormContext<
   FormValues,

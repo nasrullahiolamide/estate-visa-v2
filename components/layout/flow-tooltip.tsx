@@ -6,18 +6,21 @@ import {
   DeactivateIcon,
   AddIcon,
 } from "@/icons";
-import {
-  Box,
-  createPolymorphicComponent,
-  BoxProps,
-  PolymorphicComponentProps,
-  Tooltip,
-} from "@mantine/core";
-import { ElementType, ReactNode } from "react";
+import { Box, createPolymorphicComponent, Tooltip } from "@mantine/core";
+import { PasswordCheck } from "iconsax-react";
+import { ReactNode } from "react";
+import { MdOutlinePassword } from "react-icons/md";
 
 interface FlowToolTipCoreProps {
   label?: string;
-  icon: "View" | "Edit" | "Delete" | "Activate" | "Suspend" | "Add";
+  icon:
+    | "View"
+    | "Edit"
+    | "Delete"
+    | "Activate"
+    | "Suspend"
+    | "Add"
+    | "Password";
   onClick?: (props?: any) => void;
 }
 
@@ -28,6 +31,7 @@ const view: Record<PropertyKey, ReactNode> = {
   Activate: <ActivateIcon color='var(--green-8)' />,
   Suspend: <DeactivateIcon color='var(--yellow-8)' />,
   Add: <AddIcon />,
+  Password: <MdOutlinePassword size={20} color='var(--blue-8)' />,
 };
 
 export const FlowToolTip = createPolymorphicComponent<

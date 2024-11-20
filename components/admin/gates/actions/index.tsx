@@ -1,6 +1,7 @@
 import clsx from "clsx";
 
 import { Fragment } from "react";
+import { MdOutlinePassword } from "react-icons/md";
 import { AxiosError } from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Flex, Menu } from "@mantine/core";
@@ -17,6 +18,7 @@ import {
   FlowToolTip,
 } from "@/components/layout";
 import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
+import { ChangePassword } from "../form/change-password";
 
 interface GateActionsProps {
   id: string;
@@ -76,6 +78,14 @@ export function GateActions({ id, handlers }: GateActionsProps) {
     });
   };
 
+  const handleResetPassword = () => {
+    modals.open({
+      title: "Reset Password",
+      modalId: MODALS.CHANGE_PASSWORD,
+      children: <ChangePassword />,
+    });
+  };
+
   return (
     <Fragment>
       <FlowMenu
@@ -97,6 +107,12 @@ export function GateActions({ id, handlers }: GateActionsProps) {
           >
             Edit
           </Menu.Item>
+          <Menu.Item
+            leftSection={<MdOutlinePassword size={15} />}
+            onClick={handleResetPassword}
+          >
+            Change Password
+          </Menu.Item>
           <Menu.Divider />
           <Menu.Item
             color='#CC0404'
@@ -112,6 +128,11 @@ export function GateActions({ id, handlers }: GateActionsProps) {
         <FlowToolTip icon='View' onClick={handlers.onView} />
         <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
         <FlowToolTip icon='Delete' onClick={handleDelete} />
+        <FlowToolTip
+          icon='Password'
+          onClick={handleResetPassword}
+          label='Reset Password'
+        />
       </Flex>
     </Fragment>
   );

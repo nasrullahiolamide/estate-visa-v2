@@ -19,7 +19,7 @@ import { GatesData } from "@/builders/types/gates";
 import { ProfileData } from "@/builders/types/profile";
 import { FlowContainer } from "@/components/layout/flow-container";
 
-import { schema } from "./schema";
+import { schema } from "../../market-place/schema";
 
 export type GatesFormProps = {
   data?: GatesData;
@@ -129,20 +129,22 @@ export function GateForm({
             </Text>
           )}
         </Stack>
-        <Stack gap={0}>
-          <PasswordInput
-            label='Gate Password'
-            placeholder='********'
-            disabled={isViewing}
-            withAsterisk
-            {...form.getInputProps("password")}
-          />
-          {!form.errors.password && (
-            <Text fz={14} c='yellow.8' mt={5}>
-              This is the password required to approve gate requests
-            </Text>
-          )}
-        </Stack>
+        {isEditing && (
+          <Stack gap={0}>
+            <PasswordInput
+              label='Gate Password'
+              placeholder='********'
+              disabled={isViewing}
+              withAsterisk
+              {...form.getInputProps("password")}
+            />
+            {!form.errors.password && (
+              <Text fz={14} c='yellow.8' mt={5}>
+                This is the password required to approve gate requests
+              </Text>
+            )}
+          </Stack>
+        )}
         <TextInput
           label='Gate Location'
           placeholder="Enter the gate's location"

@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import {
   Button,
@@ -10,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { APP, cast, decryptUri } from "@/packages/libraries";
+import { APP, cast, pass } from "@/packages/libraries";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FlowContainer } from "@/components/layout/flow-container";
@@ -20,37 +21,53 @@ import {
   profileDetailsSchema,
 } from "@/components/admin/profile/schema";
 import { FormProvider } from "@/components/admin/profile/form-context";
-import { ProfileData } from "@/builders/types/profile";
+import { builder } from "@/builders";
+import { useQuery } from "@tanstack/react-query";
+import { toString } from "lodash";
+import { useEffect, useMemo } from "react";
 
 export default function Profile() {
-  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const userId = toString(getCookie(APP.USER_ID));
 
-  const userDetails = {
-    fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
-    estatename: user?.estate?.name,
-    ...user,
-  };
+  const { data: user, isLoading } = useQuery({
+    queryKey: builder.account.profile.get.get(),
+    queryFn: () => builder.use().account.profile.get(userId),
+    select: (data) => data,
+  });
+
+  const userDetails = useMemo(() => {
+    return {
+      fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
+      estatename: user?.estate?.name,
+      ...user,
+    };
+  }, [user]);
 
   const profileDetailsForm = useForm({
     initialValues: {
-      fullname: userDetails.fullname,
-      username: userDetails.username,
-      estatename: userDetails.estatename,
-      email: userDetails.email,
-      phone: userDetails.phone,
+      fullname: "",
+      username: "",
+      estatename: "",
+      email: "",
+      phone: "",
+      picture: "",
     },
     validate: yupResolver(profileDetailsSchema),
     validateInputOnBlur: true,
-    transformValues: (values) => {
-      const { fullname, email, phone, username } = values;
-      return {
-        fullname: cast.string(fullname),
-        username: cast.string(username),
-        email: cast.string(email),
-        phone: cast.string(phone),
-      };
-    },
   });
+
+  useEffect(() => {
+    if (user) {
+      profileDetailsForm.initialize({
+        fullname: pass.string(userDetails.fullname),
+        username: pass.string(userDetails.username),
+        estatename: pass.string(userDetails.estatename),
+        email: pass.string(userDetails.email),
+        phone: pass.string(userDetails.phone),
+        picture: pass.string(userDetails.picture),
+      });
+    }
+  }, [user]);
 
   const passwordForm = useForm({
     initialValues: {
@@ -80,10 +97,7 @@ export default function Profile() {
         >
           <Form form={profileDetailsForm} onSubmit={() => {}}>
             <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
-              <ProfileImage
-                url={userDetails?.picture}
-                form={profileDetailsForm}
-              />
+              <ProfileImage form={profileDetailsForm} />
               <Divider />
               <Title order={2} c='purple.9' fz={20} fw={500}>
                 Profile Details
@@ -98,6 +112,9 @@ export default function Profile() {
               >
                 <TextInput
                   label='Full Name'
+                  classNames={{
+                    input: clsx({ skeleton: isLoading }),
+                  }}
                   {...profileDetailsForm.getInputProps("fullname")}
                 />
 
@@ -106,6 +123,9 @@ export default function Profile() {
                   placeholder={
                     !userDetails?.username ? "Enter your username" : ""
                   }
+                  classNames={{
+                    input: clsx({ skeleton: isLoading }),
+                  }}
                   {...profileDetailsForm.getInputProps("username")}
                 />
 
@@ -113,17 +133,25 @@ export default function Profile() {
                   label='Email Address'
                   disabled
                   classNames={{
-                    input: "disabled:bg-gray-4",
+                    input: clsx({ skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
                 <TextInput
                   label='Phone Number'
                   disabled
+                  classNames={{
+                    input: clsx({ skeleton: isLoading }),
+                  }}
                   {...profileDetailsForm.getInputProps("phone")}
                 />
               </SimpleGrid>
-              <Button type='submit' className='sm:w-fit w-full ml-auto'>
+
+              <Button
+                type='submit'
+                className='sm:w-fit w-full ml-auto'
+                disabled={!profileDetailsForm.isDirty()}
+              >
                 Save Profile
               </Button>
             </FlowContainer>
@@ -148,7 +176,11 @@ export default function Profile() {
                   placeholder='**********'
                   {...passwordForm.getInputProps("curr_password")}
                 />
-                <PasswordInput label='New Password' placeholder='**********' />
+                <PasswordInput
+                  label='New Password'
+                  placeholder='**********'
+                  {...passwordForm.getInputProps("new_password")}
+                />
                 <PasswordInput
                   label='Confirm Password'
                   placeholder='**********'

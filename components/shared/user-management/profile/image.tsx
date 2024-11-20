@@ -7,12 +7,19 @@ import { Dropzone, IMAGE_MIME_TYPE, MIME_TYPES } from "@mantine/dropzone";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { handleError } from "@/packages/notification";
 import { concat } from "lodash";
+import { UseFormReturnType } from "@mantine/form";
+import {
+  FormValues,
+  TransformFormValues,
+} from "@/components/admin/profile/form-context";
 interface ProfileImageProps {
   url?: string;
-  form: any;
+  form: UseFormReturnType<FormValues, TransformFormValues>;
 }
 
 export function ProfileImage({ url, form }: ProfileImageProps) {
+  const { picture } = form.getValues();
+
   const { preview, handleUpload } = useFileUpload({
     key: "profile-pictures",
     onError: () => {
@@ -46,7 +53,7 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
         size={90}
         radius={9999}
         className='bg-gray-2 cursor-pointer'
-        src={url ?? preview.url ?? "/vectors/image-plus.svg"}
+        src={picture ?? preview.url ?? "/vectors/image-plus.svg"}
         alt={preview.name ?? "thumbnail"}
         classNames={{
           image: clsx({
