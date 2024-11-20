@@ -6,8 +6,6 @@ interface FormValues {
   username: string;
   estatename: string;
   phone: string;
-  password: string;
-  confirm_password: string;
 }
 
 type TransformFormValues = (values: FormValues) => FormValues;

@@ -21,7 +21,6 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
       })();
     },
     onSuccess: ({ data }) => {
-      console.log(data);
       form.clearFieldError("thumbnail_id");
       form.setFieldValue("thumbnail_id", data.secure_url);
     },
@@ -47,7 +46,7 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
         size={90}
         radius={9999}
         className='bg-gray-2 cursor-pointer'
-        src={preview.url ?? "/vectors/image-plus.svg"}
+        src={url ?? preview.url ?? "/vectors/image-plus.svg"}
         alt={preview.name ?? "thumbnail"}
         classNames={{
           image: clsx({
