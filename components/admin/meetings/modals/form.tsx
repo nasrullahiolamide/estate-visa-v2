@@ -1,7 +1,5 @@
 "use client";
 
-import clsx from "clsx";
-
 import { object } from "yup";
 import { concat } from "lodash";
 import { toast } from "react-toastify";
@@ -17,12 +15,12 @@ import { handleSuccess, handleError } from "@/packages/notification";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
-import { ResourceUpload } from "../../../shared/uploads/resource";
 import {
   MS_EXCEL_MIME_TYPE,
   MS_WORD_MIME_TYPE,
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
+import { ResourceUpload } from "@/components/shared/uploads/resource";
 
 const schema = object({
   title_id: requiredString,
@@ -60,7 +58,9 @@ export function MeetingMinutesForm({
         queryKey: builder.meetings.get.table.get(),
       });
       handleSuccess({
-        message: "Minute Added Successfully",
+        message: isEditing
+          ? "Minute Updated Successfully"
+          : "Minute Added Successfully",
       });
       modals.closeAll();
     },

@@ -36,6 +36,10 @@ export const housesColumns = [
   columnHelper.accessor("occupantName", {
     header: "Occupant Name",
     enableSorting: false,
+    cell: ({ getValue }) => {
+      const value = getValue();
+      return <Text fz={14}>{value ?? "--"}</Text>;
+    },
   }),
   columnHelper.accessor("noOfOccupants", {
     header: () => (

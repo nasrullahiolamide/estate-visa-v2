@@ -101,18 +101,14 @@ export function FlowEditor(props: FlowEditorProps) {
         </FlowContentContainer>
 
         <Flex align='center' gap={8} px='md' py='sm' wrap='wrap'>
-          <RichTextEditor.Code />
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />
           <RichTextEditor.Underline />
-          <RichTextEditor.Strikethrough />
           <RichTextEditor.Link />
           <RichTextEditor.BulletList />
           <RichTextEditor.OrderedList />
           <RichTextEditor.ControlsGroup>
             <RichTextEditor.H2 />
-            <RichTextEditor.H3 />
-            <RichTextEditor.H4 />
           </RichTextEditor.ControlsGroup>
         </Flex>
       </RichTextEditor>

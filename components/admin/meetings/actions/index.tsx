@@ -51,7 +51,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(estateId),
+        queryKey: builder.meetings.get.table.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -70,7 +70,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(estateId),
+        queryKey: builder.meetings.get.table.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

@@ -52,7 +52,6 @@ const handleMinuteForm = ({ ...props }: MeetingMinutesFormProps) => {
   const { formType = "add", meetingId, data } = props;
   modals.open({
     modalId: MODALS.FORM_DETAILS,
-    closeOnClickOutside: false,
     title: formType === "add" ? "Add Meeting Minutes" : "Edit Meeting Minutes",
     children: (
       <MeetingMinutesForm
@@ -74,7 +73,7 @@ export default function Meetings() {
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.get(),
+    queryKey: builder.meetings.get.table.get(),
     queryFn: () =>
       builder.use().meetings.get.table({ estateId, page, pageSize, search }),
     placeholderData: initialMeetingList,
@@ -92,7 +91,7 @@ export default function Meetings() {
                 id={list.id}
                 hasMeeting={list.minutes ? true : false}
                 handlers={{
-                  onEditMeeting: () => {},
+                  onEditMeeting: () => editMeeting(list),
                   onAddMinutes: () =>
                     handleMinuteForm({ formType: "add", meetingId: list.id }),
                   onEditMinutes: () =>

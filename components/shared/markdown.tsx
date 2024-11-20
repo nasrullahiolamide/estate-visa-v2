@@ -44,24 +44,24 @@ export function Markdown({
       rehypePlugins={[rehypeRaw]}
       components={{
         h1: ({ children }) => (
-          <h1 className={clsx("prose-5xl/bold", h1)}>{children}</h1>
+          <h1 className={clsx("prose-4xl/bold", h1)}>{children}</h1>
         ),
         h2: ({ children }) => (
-          <h2 className={clsx("prose-4xl/semi-bold", h2)}>{children}</h2>
+          <h2 className={clsx("prose-3xl/semi-bold", h2)}>{children}</h2>
         ),
         h3: ({ children }) => (
-          <h3 className={clsx("font-semibold prose-3xl/medium", h3)}>
+          <h3 className={clsx("font-semibold prose-2xl/medium", h3)}>
             {children}
           </h3>
         ),
         h4: ({ children }) => (
-          <h4 className={clsx("prose-2xl/regular", h4)}>{children}</h4>
+          <h4 className={clsx("prose-xl/regular", h4)}>{children}</h4>
         ),
         h5: ({ children }) => (
-          <h5 className={clsx("prose-xl/regular", h5)}>{children}</h5>
+          <h5 className={clsx("prose-lg/regular", h5)}>{children}</h5>
         ),
         h6: ({ children }) => (
-          <h6 className={clsx("prose-lg/regular", h6)}>{children}</h6>
+          <h6 className={clsx("prose-base/regular", h6)}>{children}</h6>
         ),
         pre: ({ children }) => (
           <pre className={clsx("font-mono", pre)}>{children}</pre>
@@ -88,12 +88,16 @@ export function Markdown({
           <strong className={clsx("font-bold", strong)}>{children}</strong>
         ),
         ul: ({ children }) => (
-          <ul className={clsx("list-disc list-inside", ul)}>{children}</ul>
+          <ul className={clsx("list-decimal list-outside ml-6", ul)}>
+            {children}
+          </ul>
         ),
         ol: ({ children }) => (
-          <ol className={clsx("list-decimal list-inside", ol)}>{children}</ol>
+          <ol className={clsx("list-decimal list-outside ml-6", ol)}>
+            {children}
+          </ol>
         ),
-        li: ({ children }) => <li className={clsx(li)}>{children}</li>,
+        li: ({ children }) => <li className={clsx("py-3", li)}>{children}</li>,
         a: ({ children, href }) => (
           <a href={href} className={clsx("text-accent-10", a)}>
             {children}

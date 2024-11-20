@@ -57,7 +57,7 @@ const MeetingPlaceholder: Record<PropertyKey, string> = {
 export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
   const queryClient = useQueryClient();
   const estateId = toString(getCookie(APP.ESTATE_ID));
-  const { isDrawerOpened, closeDrawer, data } = props;
+  const { isDrawerOpened, closeDrawer, data, isEditing } = props;
 
   const { mutate: scheduleMeeting, isPending } = useMutation({
     mutationFn: builder.use().meetings.schedule,
@@ -145,7 +145,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
             label='Meeting Link'
             placeholder={
               MeetingPlaceholder[form.getValues().platform] ??
-              "Select a virtual platform"
+              "Select meeting platform"
             }
             withAsterisk
             disabled={!form.getValues().platform}
@@ -183,7 +183,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           bg='white'
           h={{
             base: "auto",
-            sm: 720,
+            sm: 765,
           }}
         >
           <Stack gap='lg'>
@@ -238,8 +238,6 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
         </FlowContainer>
         <FormButtons
           containerProps={{
-            my: 20,
-            pb: 0,
             px: 0,
           }}
           leftButton={{
@@ -256,7 +254,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
             disabled: isPending,
           }}
           rightButton={{
-            children: "Shedule",
+            children: isEditing ? "Save Changes" : "Select meeting platform",
             type: "submit",
             loading: isPending,
             disabled: isPending,
