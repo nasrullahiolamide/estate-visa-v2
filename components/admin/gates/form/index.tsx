@@ -101,6 +101,7 @@ export function GateForm({
 
   const isEditing = modalType === "edit";
   const isViewing = modalType === "view";
+  const isAdding = modalType === "add";
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
@@ -129,7 +130,7 @@ export function GateForm({
             </Text>
           )}
         </Stack>
-        {isEditing && (
+        {isAdding && (
           <Stack gap={0}>
             <PasswordInput
               label='Gate Password'
