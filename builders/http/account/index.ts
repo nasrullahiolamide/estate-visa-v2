@@ -1,4 +1,3 @@
-import { password } from "./../auth/password";
 import { api } from "@/builders/axios";
 import { ProfileData, UpdateProfileData } from "@/builders/types/profile";
 
