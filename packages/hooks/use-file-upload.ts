@@ -13,7 +13,7 @@ export type Upload = {
   data: UploadData;
 };
 
-type FilePreview = {
+export type FilePreview = {
   name: string;
   size: number;
   type: string;

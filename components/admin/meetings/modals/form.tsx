@@ -21,6 +21,7 @@ import {
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
+import { FILE } from "@/packages/libraries/enum";
 
 const schema = object({
   title_id: requiredString,
@@ -95,10 +96,12 @@ export function MeetingMinutesForm({
     progress,
     isPending: isUploading,
   } = useFileUpload({
-    key: "minutes",
+    key: FILE.MINUTES,
+
     onError: () => {
       toast.error("Failed to upload resource");
     },
+
     onSuccess: ({ data }) => {
       form.clearFieldError("file");
       form.setFieldValue("file", data?.secure_url);
@@ -155,7 +158,7 @@ export function MeetingMinutesForm({
           completed={progress?.completed}
           onDrop={handleUpload}
           status={status}
-          multiple
+          multiple={false}
           {...form.getInputProps("file")}
         />
       </FlowContainer>

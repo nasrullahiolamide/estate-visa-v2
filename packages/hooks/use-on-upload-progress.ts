@@ -2,7 +2,7 @@ import { AxiosProgressEvent } from "axios";
 import { divide, multiply, round, subtract } from "mathjs";
 import { useState } from "react";
 
-interface Progress {
+export interface Progress {
   time_left: number;
   completed: number;
 }

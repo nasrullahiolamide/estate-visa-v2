@@ -92,3 +92,10 @@ export enum MODALS {
   UPLOAD_RESOURCES = "upload-resources",
   CHANGE_PASSWORD = "change-password",
 }
+
+export enum FILE {
+  MINUTES = "minutes",
+  PROFILE_PICTURES = "profile-pictures",
+  MESSAGES = "messages",
+  OTHERS = "others",
+}

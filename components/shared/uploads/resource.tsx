@@ -9,7 +9,6 @@ import { Status } from "@/packages/hooks/use-file-upload";
 import { pass } from "@/packages/libraries";
 import { Check, FileIcon } from "@/icons";
 import { Upload } from "./upload-icon";
-import { useState } from "react";
 
 interface ResourceProps
   extends Omit<GetInputPropsReturnType, keyof DropzoneProps>,
@@ -39,12 +38,6 @@ export function ResourceUpload({
 }: ResourceProps) {
   const accept = accepts(MIME_TYPES);
 
-  const [files, setFiles] = useState<File[]>([]);
-
-  const handleDrop = (acceptedFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-  };
-
   const pending = (
     <Input.Wrapper
       label={label}
@@ -55,7 +48,7 @@ export function ResourceUpload({
         root: "gap-1.5",
       }}
     >
-      <Dropzone accept={accept} multiple {...props}>
+      <Dropzone accept={accept} {...props}>
         <Stack
           p={24}
           gap={12}
