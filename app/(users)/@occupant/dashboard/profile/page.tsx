@@ -172,7 +172,7 @@ export default function Profile() {
                   label='House Number'
                   disabled
                   classNames={{
-                    input: clsx({ skeleton: isLoading }),
+                    input: clsx("disabled:!bg-gray-2", { skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("house_number")}
                 />
@@ -188,7 +188,7 @@ export default function Profile() {
                   label='Email Address'
                   disabled
                   classNames={{
-                    input: clsx({ skeleton: isLoading }),
+                    input: clsx("disabled:!bg-gray-2", { skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
