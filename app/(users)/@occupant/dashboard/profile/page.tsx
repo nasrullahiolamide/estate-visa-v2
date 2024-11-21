@@ -83,7 +83,7 @@ export default function Profile() {
       email: "",
       phone: "",
       picture: "",
-      estate_name: "",
+      house_number: "",
     },
     validate: yupResolver(profileDetailsSchema),
     validateInputOnBlur: true,
