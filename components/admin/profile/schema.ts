@@ -11,9 +11,9 @@ export const profileDetailsSchema = object({
 
 export const passwordSchema = object({
   curr_password: requiredString,
-  new_password: requiredString.min(6, "Password must be at least 6 characters"),
+  password: requiredString.min(6, "Password must be at least 6 characters"),
   confirm_password: requiredString.oneOf(
-    [ref("new_password")],
-    "Your new password and confirm password do not match"
+    [ref("password")],
+    "Passwords do not match"
   ),
 });

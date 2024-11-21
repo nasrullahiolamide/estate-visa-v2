@@ -43,6 +43,7 @@ export type UpdateProfileData = Partial<{
   password: string;
   confirm_password: string;
   estatename: string;
+  picture: string;
 }>;
 
 export function useFakeProfileData(_?: any, index?: number) {

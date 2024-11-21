@@ -11,6 +11,11 @@ import { formatUserType } from "@/builders/types/login";
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./interface/modals/logout";
 import { ProfileData } from "@/builders/types/profile";
+import { toString } from "lodash";
+import { builder } from "@/builders";
+import { useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { skeleton } from "@/packages/tailwind";
 
 function handleLogout() {
   modals.open({
@@ -21,13 +26,21 @@ function handleLogout() {
 }
 
 export function UserDetails() {
-  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const userId = toString(getCookie(APP.USER_ID));
 
-  const userDetails = {
-    fullName: `${user?.firstname} ${user?.lastname ?? ""}`,
-    userType: formatUserType[user?.roles[0].name],
-    ...user,
-  };
+  const { data: user, isLoading } = useQuery({
+    queryKey: builder.account.profile.get.get(userId),
+    queryFn: () => builder.use().account.profile.get(userId),
+    select: (data) => data,
+  });
+
+  const userDetails = useMemo(() => {
+    return {
+      fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
+      userType: formatUserType[user?.roles[0].name ?? ""],
+      ...user,
+    };
+  }, [user]);
 
   return (
     <Menu
@@ -42,17 +55,33 @@ export function UserDetails() {
           padding: 0,
         },
       }}
+      disabled={isLoading}
     >
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
-          <Avatar src={null} alt={userDetails.fullName} size={45} />
+          <Avatar
+            src={null}
+            alt={userDetails.fullname}
+            size={45}
+            className={clsx({ skeleton: isLoading })}
+          />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
             <Stack gap={1}>
-              <p className='text-primary-text-body font-medium text-sm'>
-                {userDetails.fullName}
+              <p
+                className={clsx("text-primary-text-body font-medium text-sm", {
+                  skeleton: isLoading,
+                })}
+              >
+                {userDetails.fullname}
               </p>
-              <p className='text-xs'>{userDetails.userType}</p>
+              <p
+                className={clsx("text-xs", {
+                  skeleton: isLoading,
+                })}
+              >
+                {userDetails.userType}
+              </p>
             </Stack>
 
             <ArrowDownIcon className='cursor-pointer' />
@@ -73,12 +102,12 @@ export function UserDetails() {
           <Flex align='center' gap={8}>
             <Avatar
               src={userDetails?.picture}
-              alt={userDetails.fullName}
+              alt={userDetails.fullname}
               size={40}
             />
             <Stack gap={1}>
               <p className='text-primary-text-body font-medium'>
-                {userDetails.fullName}
+                {userDetails.fullname}
               </p>
               <p className='text-xs'>{userDetails?.email}</p>
             </Stack>

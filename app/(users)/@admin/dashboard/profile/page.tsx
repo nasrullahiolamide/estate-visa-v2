@@ -26,7 +26,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toString } from "lodash";
 import { useEffect, useMemo } from "react";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { password } from "@/builders/http/auth/password";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -38,19 +37,6 @@ export default function Profile() {
     select: (data) => data,
   });
 
-  const { mutate: updatePassword, isPending: isPasswordUpdating } = useMutation(
-    {
-      mutationFn: builder.use().account.profile.change_password,
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: builder.account.profile.get.get(),
-        });
-        handleSuccess({ message: "Profile updated successfully" });
-      },
-      onError: handleError(),
-    }
-  );
-
   const userDetails = useMemo(() => {
     return {
       fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
@@ -58,6 +44,34 @@ export default function Profile() {
       ...user,
     };
   }, [user]);
+
+  const { mutate: updateProfile, isPending } = useMutation({
+    mutationFn: builder.use().account.profile.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.account.profile.get.get(),
+      });
+      handleSuccess({
+        message: "Profile updated successfully",
+        autoClose: 1500,
+      });
+    },
+    onError: handleError(),
+  });
+
+  const { mutate: updatePassword, isPending: isPasswordUpdating } = useMutation(
+    {
+      mutationFn: builder.use().account.profile.change_password,
+      onSuccess: () => {
+        passwordForm.reset();
+        handleSuccess({
+          message: "Password updated successfully",
+          autoClose: 1500,
+        });
+      },
+      onError: handleError(),
+    }
+  );
 
   const profileDetailsForm = useForm({
     initialValues: {
@@ -73,7 +87,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (user) {
-      profileDetailsForm.initialize({
+      profileDetailsForm.setValues({
         fullname: pass.string(userDetails.fullname),
         username: pass.string(userDetails.username),
         email: pass.string(userDetails.email),
@@ -100,6 +114,21 @@ export default function Profile() {
     },
   });
 
+  function handleProfileSubmit({
+    fullname,
+    username,
+    picture,
+  }: typeof profileDetailsForm.values) {
+    updateProfile({
+      id: userId,
+      data: {
+        fullname,
+        username,
+        picture,
+      },
+    });
+  }
+
   function handlePasswordSubmit({ password }: typeof passwordForm.values) {
     updatePassword({
       id: userId,
@@ -116,7 +145,7 @@ export default function Profile() {
           gap={0}
           className='rounded-2xl bg-primary-background-white'
         >
-          <Form form={profileDetailsForm} onSubmit={() => {}}>
+          <Form form={profileDetailsForm} onSubmit={handleProfileSubmit}>
             <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
               <ProfileImage form={profileDetailsForm} />
               <Divider />
@@ -171,7 +200,7 @@ export default function Profile() {
               <Button
                 type='submit'
                 className='sm:w-fit w-full ml-auto'
-                disabled={!profileDetailsForm.isDirty()}
+                disabled={!profileDetailsForm.isDirty() || isPending}
               >
                 Save Profile
               </Button>

@@ -17,7 +17,7 @@ interface ProfileImageProps {
   form: UseFormReturnType<FormValues, TransformFormValues>;
 }
 
-export function ProfileImage({ url, form }: ProfileImageProps) {
+export function ProfileImage({ form }: ProfileImageProps) {
   const { picture } = form.getValues();
 
   const { preview, handleUpload } = useFileUpload({
@@ -28,8 +28,8 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
       })();
     },
     onSuccess: ({ data }) => {
-      form.clearFieldError("thumbnail_id");
-      form.setFieldValue("thumbnail_id", data.secure_url);
+      form.clearFieldError("picture");
+      form.setFieldValue("picture", data.secure_url);
     },
   });
 
@@ -53,7 +53,7 @@ export function ProfileImage({ url, form }: ProfileImageProps) {
         size={90}
         radius={9999}
         className='bg-gray-2 cursor-pointer'
-        src={picture ?? preview.url ?? "/vectors/image-plus.svg"}
+        src={picture || preview.url || "/vectors/image-plus.svg"}
         alt={preview.name ?? "thumbnail"}
         classNames={{
           image: clsx({

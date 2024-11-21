@@ -14,7 +14,7 @@ const update = function (variables: { id: string; data: UpdateProfileData }) {
 const change_password = function (variables: { id: string; password: string }) {
   const { id, password } = variables;
   return api
-    .put(`/users/change-password/${id}`, password)
+    .put(`/users/change-password/${id}`, { password })
     .then(({ data }) => data);
 };
 
