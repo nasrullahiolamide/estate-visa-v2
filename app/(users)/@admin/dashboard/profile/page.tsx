@@ -22,11 +22,14 @@ import {
 } from "@/components/admin/profile/schema";
 import { FormProvider } from "@/components/admin/profile/form-context";
 import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toString } from "lodash";
 import { useEffect, useMemo } from "react";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { password } from "@/builders/http/auth/password";
 
 export default function Profile() {
+  const queryClient = useQueryClient();
   const userId = toString(getCookie(APP.USER_ID));
 
   const { data: user, isLoading } = useQuery({
@@ -34,6 +37,19 @@ export default function Profile() {
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
   });
+
+  const { mutate: updatePassword, isPending: isPasswordUpdating } = useMutation(
+    {
+      mutationFn: builder.use().account.profile.change_password,
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: builder.account.profile.get.get(),
+        });
+        handleSuccess({ message: "Profile updated successfully" });
+      },
+      onError: handleError(),
+    }
+  );
 
   const userDetails = useMemo(() => {
     return {
@@ -47,7 +63,6 @@ export default function Profile() {
     initialValues: {
       fullname: "",
       username: "",
-      estatename: "",
       email: "",
       phone: "",
       picture: "",
@@ -61,7 +76,6 @@ export default function Profile() {
       profileDetailsForm.initialize({
         fullname: pass.string(userDetails.fullname),
         username: pass.string(userDetails.username),
-        estatename: pass.string(userDetails.estatename),
         email: pass.string(userDetails.email),
         phone: pass.string(userDetails.phone),
         picture: pass.string(userDetails.picture),
@@ -72,19 +86,26 @@ export default function Profile() {
   const passwordForm = useForm({
     initialValues: {
       curr_password: "",
-      new_password: "",
+      password: "",
       confirm_password: "",
     },
     validate: yupResolver(passwordSchema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { new_password, confirm_password } = values;
       return {
-        new_password: cast.string(new_password),
-        confirm_password: cast.string(confirm_password),
+        password: cast.string(values.password),
+        curr_password: cast.string(values.curr_password),
+        confirm_password: cast.string(values.confirm_password),
       };
     },
   });
+
+  function handlePasswordSubmit({ password }: typeof passwordForm.values) {
+    updatePassword({
+      id: userId,
+      password,
+    });
+  }
 
   return (
     <FormProvider form={profileDetailsForm}>
@@ -158,7 +179,7 @@ export default function Profile() {
           </Form>
 
           <Divider />
-          <Form form={passwordForm} onSubmit={() => {}}>
+          <Form form={passwordForm} onSubmit={handlePasswordSubmit}>
             <FlowContainer justify='center' gap={24} className='p-6 md:px-14'>
               <Title order={2} c='purple.9' fz={20} fw={500}>
                 Change Password
@@ -179,7 +200,7 @@ export default function Profile() {
                 <PasswordInput
                   label='New Password'
                   placeholder='**********'
-                  {...passwordForm.getInputProps("new_password")}
+                  {...passwordForm.getInputProps("password")}
                 />
                 <PasswordInput
                   label='Confirm Password'
@@ -187,7 +208,12 @@ export default function Profile() {
                   {...passwordForm.getInputProps("confirm_password")}
                 />
               </SimpleGrid>
-              <Button type='submit' className='sm:w-fit w-full ml-auto'>
+              <Button
+                type='submit'
+                className='sm:w-fit w-full ml-auto'
+                loading={isPasswordUpdating}
+                disabled={!passwordForm.isDirty() || isPasswordUpdating}
+              >
                 Change Password
               </Button>
             </FlowContainer>

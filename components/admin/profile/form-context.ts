@@ -4,7 +4,7 @@ export interface FormValues {
   fullname: string;
   email: string;
   username: string;
-  estatename: string;
+  estatename?: string;
   phone: string;
   picture: string;
 }

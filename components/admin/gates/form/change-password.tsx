@@ -9,7 +9,9 @@ import { builder } from "@/builders";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { object, ref } from "yup";
 import { requiredString } from "@/builders/types/shared";
-import { MODALS } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
+import { toString } from "lodash";
+import { getCookie } from "cookies-next";
 
 export const schema = object({
   password: requiredString,
@@ -20,17 +22,18 @@ export const schema = object({
 });
 
 export function ChangePassword() {
+  const userId = toString(getCookie(APP.USER_ID));
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().gates.edit,
+    mutationFn: builder.use().account.profile.change_password,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.gates.get.get(),
       });
       modals.close(MODALS.CHANGE_PASSWORD);
       handleSuccess({
-        message: "Gate Updated Successfully",
+        message: "Password updated successfully",
       });
     },
     onError: handleError(),
@@ -46,7 +49,10 @@ export function ChangePassword() {
   });
 
   function handleSubmit(values: typeof form.values) {
-    console.log(values);
+    mutate({
+      id: userId,
+      password: values.password,
+    });
   }
 
   return (
