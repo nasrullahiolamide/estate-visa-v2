@@ -76,7 +76,6 @@ export default function Profile() {
       email: "",
       phone: "",
       picture: "",
-      estate_name: "",
     },
     validate: yupResolver(profileDetailsSchema),
     validateInputOnBlur: true,
@@ -91,7 +90,6 @@ export default function Profile() {
       email: pass.string(user.email),
       phone: pass.string(user.phone),
       picture: pass.string(user.picture),
-      estate_name: pass.string(user.estate.name),
     });
   }, [user]);
 
@@ -112,10 +110,18 @@ export default function Profile() {
     },
   });
 
-  function handleProfileSubmit({ picture }: typeof profileDetailsForm.values) {
+  function handleProfileSubmit({
+    picture,
+    username,
+    fullname,
+    phone,
+  }: typeof profileDetailsForm.values) {
     updateProfile({
       id: userId,
       data: {
+        username,
+        fullname,
+        phone,
         picture,
       },
     });
@@ -156,30 +162,14 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label='Estate Name'
-                  disabled
-                  classNames={{
-                    input: clsx({ skeleton: isLoading }),
-                  }}
-                  {...profileDetailsForm.getInputProps("estate_name")}
-                />
-                <TextInput
                   label='Full Name'
-                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("fullname")}
                 />
-
                 <TextInput
                   label='Username'
-                  disabled
-                  placeholder={
-                    !profileDetailsForm.getValues().username && !isLoading
-                      ? "Enter your username"
-                      : ""
-                  }
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
@@ -190,13 +180,12 @@ export default function Profile() {
                   label='Email Address'
                   disabled
                   classNames={{
-                    input: clsx({ skeleton: isLoading }),
+                    input: clsx("disabled:!bg-gray-2", { skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
                 <TextInput
                   label='Phone Number'
-                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}

@@ -126,6 +126,7 @@ export default function Profile() {
               </SimpleGrid>
 
               <Button
+                mt='auto'
                 type='submit'
                 className='sm:w-fit w-full ml-auto'
                 disabled={!profileDetailsForm.isDirty() || isPending}

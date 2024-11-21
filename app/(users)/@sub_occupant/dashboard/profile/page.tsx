@@ -19,7 +19,10 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FormProvider } from "@/components/admin/profile/form-context";
+import {
+  FormProvider,
+  FormValues,
+} from "@/components/admin/profile/form-context";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import {
@@ -66,7 +69,7 @@ export default function Profile() {
     }
   );
 
-  const profileDetailsForm = useForm({
+  const profileDetailsForm = useForm<FormValues>({
     initialValues: {
       fullname: "",
       username: "",
@@ -108,15 +111,17 @@ export default function Profile() {
   });
 
   function handleProfileSubmit({
-    fullname,
-    username,
     picture,
+    username,
+    fullname,
+    phone,
   }: typeof profileDetailsForm.values) {
     updateProfile({
       id: userId,
       data: {
-        fullname,
         username,
+        fullname,
+        phone,
         picture,
       },
     });
@@ -163,14 +168,8 @@ export default function Profile() {
                   }}
                   {...profileDetailsForm.getInputProps("fullname")}
                 />
-
                 <TextInput
                   label='Username'
-                  placeholder={
-                    !profileDetailsForm.getValues().username && !isLoading
-                      ? "Enter your username"
-                      : ""
-                  }
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
@@ -181,13 +180,12 @@ export default function Profile() {
                   label='Email Address'
                   disabled
                   classNames={{
-                    input: clsx({ skeleton: isLoading }),
+                    input: clsx("disabled:!bg-gray-2", { skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
                 <TextInput
                   label='Phone Number'
-                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
