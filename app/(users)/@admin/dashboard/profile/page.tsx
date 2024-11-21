@@ -19,7 +19,10 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FormProvider } from "@/components/admin/profile/form-context";
+import {
+  FormProvider,
+  FormValues,
+} from "@/components/admin/profile/form-context";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import {
@@ -66,13 +69,14 @@ export default function Profile() {
     }
   );
 
-  const profileDetailsForm = useForm({
+  const profileDetailsForm = useForm<FormValues>({
     initialValues: {
       fullname: "",
       username: "",
       email: "",
       phone: "",
       picture: "",
+      estate_name: "",
     },
     validate: yupResolver(profileDetailsSchema),
     validateInputOnBlur: true,
@@ -87,6 +91,7 @@ export default function Profile() {
       email: pass.string(user.email),
       phone: pass.string(user.phone),
       picture: pass.string(user.picture),
+      estate_name: pass.string(user.estate.name),
     });
   }, [user]);
 
@@ -107,16 +112,10 @@ export default function Profile() {
     },
   });
 
-  function handleProfileSubmit({
-    fullname,
-    username,
-    picture,
-  }: typeof profileDetailsForm.values) {
+  function handleProfileSubmit({ picture }: typeof profileDetailsForm.values) {
     updateProfile({
       id: userId,
       data: {
-        fullname,
-        username,
         picture,
       },
     });
@@ -157,7 +156,16 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
+                  label='Estate Name'
+                  disabled
+                  classNames={{
+                    input: clsx({ skeleton: isLoading }),
+                  }}
+                  {...profileDetailsForm.getInputProps("estate_name")}
+                />
+                <TextInput
                   label='Full Name'
+                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
@@ -166,6 +174,7 @@ export default function Profile() {
 
                 <TextInput
                   label='Username'
+                  disabled
                   placeholder={
                     !profileDetailsForm.getValues().username && !isLoading
                       ? "Enter your username"

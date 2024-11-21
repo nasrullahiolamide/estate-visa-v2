@@ -19,7 +19,10 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FormProvider } from "@/components/admin/profile/form-context";
+import {
+  FormProvider,
+  FormValues,
+} from "@/components/admin/profile/form-context";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import {
@@ -30,6 +33,13 @@ import {
 export default function Profile() {
   const queryClient = useQueryClient();
   const userId = toString(getCookie(APP.USER_ID));
+  const occupantId = toString(getCookie(APP.OCCUPANT_ID));
+
+  const { data: houseNumber } = useQuery({
+    queryKey: builder.occupants.id.get.get(),
+    queryFn: () => builder.use().occupants.id.get(occupantId),
+    select: ({ data }) => data.house.houseNumber,
+  });
 
   const { data: user, isLoading } = useQuery({
     queryKey: builder.account.profile.get.get(),
@@ -66,13 +76,14 @@ export default function Profile() {
     }
   );
 
-  const profileDetailsForm = useForm({
+  const profileDetailsForm = useForm<FormValues>({
     initialValues: {
       fullname: "",
       username: "",
       email: "",
       phone: "",
       picture: "",
+      estate_name: "",
     },
     validate: yupResolver(profileDetailsSchema),
     validateInputOnBlur: true,
@@ -87,8 +98,9 @@ export default function Profile() {
       email: pass.string(user.email),
       phone: pass.string(user.phone),
       picture: pass.string(user.picture),
+      house_number: pass.string(houseNumber),
     });
-  }, [user]);
+  }, [user, houseNumber]);
 
   const passwordForm = useForm({
     initialValues: {
@@ -108,15 +120,15 @@ export default function Profile() {
   });
 
   function handleProfileSubmit({
-    fullname,
-    username,
     picture,
+    phone,
+    fullname,
   }: typeof profileDetailsForm.values) {
     updateProfile({
       id: userId,
       data: {
+        phone,
         fullname,
-        username,
         picture,
       },
     });
@@ -157,24 +169,19 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
+                  label='House Number'
+                  disabled
+                  classNames={{
+                    input: clsx({ skeleton: isLoading }),
+                  }}
+                  {...profileDetailsForm.getInputProps("house_number")}
+                />
+                <TextInput
                   label='Full Name'
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("fullname")}
-                />
-
-                <TextInput
-                  label='Username'
-                  placeholder={
-                    !profileDetailsForm.getValues().username && !isLoading
-                      ? "Enter your username"
-                      : ""
-                  }
-                  classNames={{
-                    input: clsx({ skeleton: isLoading }),
-                  }}
-                  {...profileDetailsForm.getInputProps("username")}
                 />
 
                 <TextInput
@@ -187,7 +194,6 @@ export default function Profile() {
                 />
                 <TextInput
                   label='Phone Number'
-                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}

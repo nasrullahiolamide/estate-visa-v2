@@ -4,9 +4,10 @@ export interface FormValues {
   fullname: string;
   email: string;
   username: string;
-  estatename?: string;
   phone: string;
   picture: string;
+  estate_name?: string;
+  house_number?: string;
 }
 
 export type TransformFormValues = (values: FormValues) => FormValues;

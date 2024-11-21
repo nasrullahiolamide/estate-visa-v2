@@ -12,6 +12,7 @@ import {
   FormValues,
   TransformFormValues,
 } from "@/components/admin/profile/form-context";
+import vibrateDevice from "@/packages/libraries/vibrate-device";
 interface ProfileImageProps {
   url?: string;
   isFetching: boolean;
@@ -24,9 +25,11 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
   const { preview, handleUpload, isPending } = useFileUpload({
     key: "profile-pictures",
     onError: () => {
-      handleError({
-        message: "Failed to upload thumbnail",
-      })();
+      vibrateDevice();
+      form.setFieldError(
+        "picture",
+        "This thumbnail didn't get uploaded, please try again"
+      );
     },
     onSuccess: ({ data }) => {
       form.clearFieldError("picture");
@@ -73,12 +76,27 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
         )}
       </Avatar>
 
-      <Button variant='transparent' size='sm' fw={500} p={0} type='button'>
+      <Button
+        variant='transparent'
+        size='sm'
+        fw={500}
+        p={0}
+        disabled={isPending || isFetching}
+        className='disabled:bg-transparent'
+      >
         Edit Profile Picture
       </Button>
-      <Text c='red' fz='sm'>
-        {form.getInputProps("picture").error}
-      </Text>
+      {isPending ? (
+        <Text ta='center' size='xs' c='gray'>
+          Uploading...
+        </Text>
+      ) : (
+        form.errors.picture && (
+          <Text c='red' fz='sm'>
+            {form.getInputProps("picture").error}
+          </Text>
+        )
+      )}
     </Dropzone>
   );
 }
