@@ -21,8 +21,7 @@ export const schema = object({
   ),
 });
 
-export function ChangePassword() {
-  const userId = toString(getCookie(APP.USER_ID));
+export function ChangePassword({ userId }: { userId: string }) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -48,10 +47,12 @@ export function ChangePassword() {
     validateInputOnBlur: true,
   });
 
-  function handleSubmit(values: typeof form.values) {
+  function handleSubmit({ password }: typeof form.values) {
     mutate({
       id: userId,
-      password: values.password,
+      data: {
+        password,
+      },
     });
   }
 

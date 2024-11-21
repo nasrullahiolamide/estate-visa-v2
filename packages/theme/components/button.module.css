@@ -7,10 +7,10 @@
 
   &[data-variant="light"] {
     border: 1px solid var(--mantine-color-accent-light-color);
+  }
 
-    &:disabled {
-      border-color: var(--mantine-color-gray-5);
-    }
+  &:disabled {
+    cursor: not-allowed;
   }
 
   &[data-variant="admin-app-shell"] {

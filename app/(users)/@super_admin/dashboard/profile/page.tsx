@@ -1,6 +1,8 @@
 "use client";
 
 import clsx from "clsx";
+import { toString } from "lodash";
+import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import {
   Button,
@@ -12,21 +14,21 @@ import {
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { APP, cast, pass } from "@/packages/libraries";
+import { builder } from "@/builders";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FormProvider } from "@/components/admin/profile/form-context";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import {
   passwordSchema,
   profileDetailsSchema,
 } from "@/components/admin/profile/schema";
-import { FormProvider } from "@/components/admin/profile/form-context";
-import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
-import { toString } from "lodash";
-import { useEffect, useMemo } from "react";
 
 export default function Profile() {
+  const queryClient = useQueryClient();
   const userId = toString(getCookie(APP.USER_ID));
 
   const { data: user, isLoading } = useQuery({
@@ -35,19 +37,39 @@ export default function Profile() {
     select: (data) => data,
   });
 
-  const userDetails = useMemo(() => {
-    return {
-      fullname: `${user?.firstname} ${user?.lastname ?? ""}`,
-      estatename: user?.estate?.name,
-      ...user,
-    };
-  }, [user]);
+  const { mutate: updateProfile, isPending } = useMutation({
+    mutationFn: builder.use().account.profile.update,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.account.profile.get.get(),
+      });
+      profileDetailsForm.resetDirty();
+      handleSuccess({
+        message: "Profile updated successfully",
+        autoClose: 1500,
+      });
+    },
+    onError: handleError(),
+  });
+
+  const { mutate: updatePassword, isPending: isPasswordUpdating } = useMutation(
+    {
+      mutationFn: builder.use().account.profile.change_password,
+      onSuccess: () => {
+        passwordForm.reset();
+        handleSuccess({
+          message: "Password updated successfully",
+          autoClose: 1500,
+        });
+      },
+      onError: handleError(),
+    }
+  );
 
   const profileDetailsForm = useForm({
     initialValues: {
       fullname: "",
       username: "",
-      estatename: "",
       email: "",
       phone: "",
       picture: "",
@@ -57,34 +79,58 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    if (user) {
-      profileDetailsForm.initialize({
-        fullname: pass.string(userDetails.fullname),
-        username: pass.string(userDetails.username),
-        estatename: pass.string(userDetails.estatename),
-        email: pass.string(userDetails.email),
-        phone: pass.string(userDetails.phone),
-        picture: pass.string(userDetails.picture),
-      });
-    }
+    if (!user) return;
+
+    profileDetailsForm.initialize({
+      fullname: pass.string(user.firstname),
+      username: pass.string(user.username),
+      email: pass.string(user.email),
+      phone: pass.string(user.phone),
+      picture: pass.string(user.picture),
+    });
   }, [user]);
 
   const passwordForm = useForm({
     initialValues: {
-      curr_password: "",
-      new_password: "",
+      oldPassword: "",
+      password: "",
       confirm_password: "",
     },
     validate: yupResolver(passwordSchema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { new_password, confirm_password } = values;
       return {
-        new_password: cast.string(new_password),
-        confirm_password: cast.string(confirm_password),
+        password: cast.string(values.password),
+        oldPassword: cast.string(values.oldPassword),
+        confirm_password: cast.string(values.confirm_password),
       };
     },
   });
+
+  function handleProfileSubmit({
+    fullname,
+    username,
+    picture,
+  }: typeof profileDetailsForm.values) {
+    updateProfile({
+      id: userId,
+      data: {
+        fullname,
+        username,
+        picture,
+      },
+    });
+  }
+
+  function handlePasswordSubmit({
+    password,
+    oldPassword,
+  }: typeof passwordForm.values) {
+    updatePassword({
+      id: userId,
+      data: { oldPassword, password },
+    });
+  }
 
   return (
     <FormProvider form={profileDetailsForm}>
@@ -95,9 +141,9 @@ export default function Profile() {
           gap={0}
           className='rounded-2xl bg-primary-background-white'
         >
-          <Form form={profileDetailsForm} onSubmit={() => {}}>
+          <Form form={profileDetailsForm} onSubmit={handleProfileSubmit}>
             <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
-              <ProfileImage form={profileDetailsForm} />
+              <ProfileImage form={profileDetailsForm} isFetching={isLoading} />
               <Divider />
               <Title order={2} c='purple.9' fz={20} fw={500}>
                 Profile Details
@@ -121,7 +167,9 @@ export default function Profile() {
                 <TextInput
                   label='Username'
                   placeholder={
-                    !userDetails?.username ? "Enter your username" : ""
+                    !profileDetailsForm.getValues().username && !isLoading
+                      ? "Enter your username"
+                      : ""
                   }
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
@@ -150,7 +198,8 @@ export default function Profile() {
               <Button
                 type='submit'
                 className='sm:w-fit w-full ml-auto'
-                disabled={!profileDetailsForm.isDirty()}
+                disabled={!profileDetailsForm.isDirty() || isPending}
+                loading={isPending}
               >
                 Save Profile
               </Button>
@@ -158,7 +207,7 @@ export default function Profile() {
           </Form>
 
           <Divider />
-          <Form form={passwordForm} onSubmit={() => {}}>
+          <Form form={passwordForm} onSubmit={handlePasswordSubmit}>
             <FlowContainer justify='center' gap={24} className='p-6 md:px-14'>
               <Title order={2} c='purple.9' fz={20} fw={500}>
                 Change Password
@@ -174,12 +223,12 @@ export default function Profile() {
                 <PasswordInput
                   label='Current Password'
                   placeholder='**********'
-                  {...passwordForm.getInputProps("curr_password")}
+                  {...passwordForm.getInputProps("oldPassword")}
                 />
                 <PasswordInput
                   label='New Password'
                   placeholder='**********'
-                  {...passwordForm.getInputProps("new_password")}
+                  {...passwordForm.getInputProps("password")}
                 />
                 <PasswordInput
                   label='Confirm Password'
@@ -187,7 +236,12 @@ export default function Profile() {
                   {...passwordForm.getInputProps("confirm_password")}
                 />
               </SimpleGrid>
-              <Button type='submit' className='sm:w-fit w-full ml-auto'>
+              <Button
+                type='submit'
+                className='sm:w-fit w-full ml-auto'
+                loading={isPasswordUpdating}
+                disabled={!passwordForm.isDirty() || isPasswordUpdating}
+              >
                 Change Password
               </Button>
             </FlowContainer>

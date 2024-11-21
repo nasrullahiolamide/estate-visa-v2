@@ -82,7 +82,7 @@ export function GateActions({ id, handlers }: GateActionsProps) {
     modals.open({
       title: "Reset Password",
       modalId: MODALS.CHANGE_PASSWORD,
-      children: <ChangePassword />,
+      children: <ChangePassword userId={id} />,
     });
   };
 

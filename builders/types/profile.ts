@@ -50,13 +50,11 @@ export function useFakeProfileData(_?: any, index?: number) {
   faker.seed(index);
 
   return {
-    id: index ?? faker.number.int({ max: 100 }),
     fullname: faker.person.fullName(),
     username: faker.internet.userName(),
     email: faker.internet.email(),
     phone: faker.phone.number(),
     password: faker.internet.password(),
-    confirm_password: faker.internet.password(),
-    estatename: faker.company.name(),
+    picture: faker.image.avatar(),
   };
 }

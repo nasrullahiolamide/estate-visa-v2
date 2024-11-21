@@ -11,11 +11,15 @@ const update = function (variables: { id: string; data: UpdateProfileData }) {
   return api.put(`/users/${id}`, data).then(({ data }) => data);
 };
 
-const change_password = function (variables: { id: string; password: string }) {
-  const { id, password } = variables;
-  return api
-    .put(`/users/change-password/${id}`, { password })
-    .then(({ data }) => data);
+const change_password = function (variables: {
+  id: string;
+  data: {
+    oldPassword?: string;
+    password: string;
+  };
+}) {
+  const { id, data } = variables;
+  return api.put(`/users/change-password/${id}`, data).then(({ data }) => data);
 };
 
 const change_status = function (variables: { id: string; status: string }) {

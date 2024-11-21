@@ -29,7 +29,7 @@ export function UserDetails() {
   const userId = toString(getCookie(APP.USER_ID));
 
   const { data: user, isLoading } = useQuery({
-    queryKey: builder.account.profile.get.get(userId),
+    queryKey: builder.account.profile.get.get(),
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
   });
@@ -60,28 +60,18 @@ export function UserDetails() {
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
           <Avatar
-            src={null}
+            src={userDetails?.picture}
             alt={userDetails.fullname}
             size={45}
             className={clsx({ skeleton: isLoading })}
           />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
-            <Stack gap={1}>
-              <p
-                className={clsx("text-primary-text-body font-medium text-sm", {
-                  skeleton: isLoading,
-                })}
-              >
+            <Stack gap={1} className={clsx({ skeleton: isLoading })}>
+              <p className={clsx("text-primary-text-body font-medium text-sm")}>
                 {userDetails.fullname}
               </p>
-              <p
-                className={clsx("text-xs", {
-                  skeleton: isLoading,
-                })}
-              >
-                {userDetails.userType}
-              </p>
+              <p className={clsx("text-xs")}>{userDetails.userType}</p>
             </Stack>
 
             <ArrowDownIcon className='cursor-pointer' />

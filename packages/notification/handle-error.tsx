@@ -16,7 +16,10 @@ export function handleError(
 ) {
   return (error?: AxiosError<{ message?: string }>) => {
     const data = error?.response?.data?.message;
-    toast.error(data || message, {
+    const displayMessage = Array.isArray(message) ? message.join(" ") : message;
+    console.log(data);
+
+    toast.error(data || displayMessage, {
       ...props,
     });
     vibrateDevice();
