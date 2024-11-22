@@ -19,6 +19,7 @@ import {
 } from "@/components/layout";
 import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
 import { ChangePassword } from "../form/change-password";
+import { GatesData } from "@/builders/types/gates";
 
 interface GateActionsProps {
   id: string;

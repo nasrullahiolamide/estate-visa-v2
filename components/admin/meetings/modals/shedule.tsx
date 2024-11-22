@@ -178,7 +178,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
     >
       <Form form={form} onSubmit={handleSubmit}>
         <FlowContainer
-          className='bg-primary-background-white sm:overflow-scroll'
+          className='bg-primary-background-white sm:overflow-scroll sm:scrollbar-none'
           type='plain'
           bg='white'
           h={{
@@ -254,7 +254,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
             disabled: isPending,
           }}
           rightButton={{
-            children: isEditing ? "Save Changes" : "Select meeting platform",
+            children: isEditing ? "Save Changes" : "Schedule Meeting",
             type: "submit",
             loading: isPending,
             disabled: isPending,
