@@ -104,6 +104,8 @@ export default function Gates() {
             ...list,
             action: (
               <GateRequestActions
+                status={list.status}
+                data={list}
                 id={list.id}
                 accessCode={list.accessCode}
                 handlers={{
