@@ -233,6 +233,11 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           <Textarea
             label='Note'
             placeholder='Add any additional information here...'
+            styles={{
+              input: {
+                minHeight: 150,
+              },
+            }}
             {...form.getInputProps("notes")}
           />
         </FlowContainer>
