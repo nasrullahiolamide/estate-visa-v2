@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
-import { getCookie } from "cookies-next";
-import { useQuery } from "@tanstack/react-query";
 import { Stack } from "@mantine/core";
 
-import { builder } from "@/builders";
-import { MeetingList, useFakeMeetingsList } from "@/builders/types/meetings";
-import { APP, makePath, PAGES } from "@/packages/libraries";
+import { MeetingList } from "@/builders/types/meetings";
+import { makePath, PAGES } from "@/packages/libraries";
 import { meetingColumns } from "@/columns/for_occupants/meetings";
 
 import { EmptySlot } from "@/components/shared/interface";
