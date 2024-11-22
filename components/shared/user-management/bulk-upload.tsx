@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Button, Flex, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQueryClient } from "@tanstack/react-query";
@@ -8,6 +10,8 @@ import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { ResourceUpload } from "../uploads/resource";
 import { FILE } from "@/packages/libraries/enum";
+import Link from "next/link";
+import { DownloadIcon } from "@/icons";
 
 type StaffListUploadProps = {
   organization_id: number;
@@ -44,19 +48,14 @@ export function BulkUpload(props: StaffListUploadProps) {
 
   const view: Record<PropertyKey, ReactNode> = {
     pending: (
-      <Fragment>
-        <Text span fw={500}>
-          Click here to
-        </Text>{" "}
+      <Button variant='outline' color='gray' rightSection={<DownloadIcon />}>
         <Text
-          component='a'
-          td='underline'
+          component={Link}
           href='https://res.cloudinary.com/techeducratic/raw/upload/v1721248216/uploads/2024/07/17/igv6lzhidxz3e5am8erp.csv'
-          className='text-primary-button-normal'
         >
-          download template
+          Download file format
         </Text>
-      </Fragment>
+      </Button>
     ),
     uploaded: "Uploaded successfully",
     uploading: "Uploading...",
@@ -66,6 +65,7 @@ export function BulkUpload(props: StaffListUploadProps) {
 
   return (
     <Box component='form' onSubmit={handleSubmit(handleUpload)}>
+      <Text className='text-primary-text-subtle'>{view[status]}</Text>
       <ResourceUpload
         accepts={(mime) => [mime.csv]}
         onDrop={handleDrop}
@@ -73,8 +73,8 @@ export function BulkUpload(props: StaffListUploadProps) {
         size={preview.size}
         completed={progress?.completed}
         status={status}
+        supports={["csv", "xls"]}
       />
-      <Text className='text-primary-text-subtle'>{view[status]}</Text>
 
       <Flex gap={12} wrap='wrap'>
         <Button

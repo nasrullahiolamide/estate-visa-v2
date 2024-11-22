@@ -17,12 +17,14 @@ import { Fragment } from "react";
 export default function Overview() {
   const initialAdminData = useFakeAdminDashboardData();
 
-  const { data, isPlaceholderData } = useQuery({
+  const { data, isLoading, isPlaceholderData } = useQuery({
     queryKey: builder.dashboard.admin.get.get(),
     queryFn: () => builder.use().dashboard.admin.get(),
     placeholderData: initialAdminData,
     select: (data) => data,
   });
+
+  if (!data) return null;
 
   return (
     <Fragment>
@@ -42,7 +44,7 @@ export default function Overview() {
             <ServiceRequests />
           </Flex>
           <RecentActivities
-            data={data?.recentActivityFeed ?? []}
+            data={isPlaceholderData ? [] : data?.recentActivityFeed}
             skeleton={isPlaceholderData}
           />
         </Stack>

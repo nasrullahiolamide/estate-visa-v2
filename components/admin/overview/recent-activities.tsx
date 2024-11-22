@@ -5,6 +5,8 @@ import { Avatar, Flex, Stack, Text, Title } from "@mantine/core";
 import { RecentActivityFeed } from "@/builders/types/super-admin-dashboard";
 import { FlowContentContainer } from "@/components/layout";
 import { fromNow } from "@/packages/libraries/formatters";
+import { NoData } from "@/icons";
+import { useEffect, useState } from "react";
 
 interface RecentActivitiesProps {
   data: RecentActivityFeed[];
@@ -14,13 +16,13 @@ interface RecentActivitiesProps {
 const user = null;
 
 export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
-  if (data.length === 0) return null;
-
   return (
     <Stack
       flex={1}
       bg='white'
-      className='rounded-lg backdrop-blur-sm w-full'
+      className={clsx("rounded-lg backdrop-blur-sm w-full", {
+        skeleton,
+      })}
       p={20}
       gap={16}
     >
@@ -47,7 +49,9 @@ export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
             gap={18}
             wrap='nowrap'
             align='center'
-            className={clsx("border-t border-gray-2 h-full ", { skeleton })}
+            className={clsx("border-t border-gray-2 h-full ", {
+              skeleton,
+            })}
             py={16}
           >
             {user ? (

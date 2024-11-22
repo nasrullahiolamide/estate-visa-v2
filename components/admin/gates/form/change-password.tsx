@@ -10,8 +10,6 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { object, ref } from "yup";
 import { requiredString } from "@/builders/types/shared";
 import { APP, MODALS } from "@/packages/libraries";
-import { toString } from "lodash";
-import { getCookie } from "cookies-next";
 
 export const schema = object({
   password: requiredString,
@@ -21,8 +19,8 @@ export const schema = object({
   ),
 });
 
-export function ChangePassword() {
-  const userId = toString(getCookie(APP.USER_ID));
+export function ChangePassword({ userId }: { userId: string }) {
+  // const userId = toString(getCookie(APP.USER_ID));
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
