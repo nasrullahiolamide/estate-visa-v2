@@ -19,8 +19,6 @@ import {
   FlowPagination,
   FlowTable,
   FlowFloatingButtons,
-  useFlowPagination,
-  useFlowState,
 } from "@/components/layout";
 import { toString } from "lodash";
 import clsx from "clsx";
@@ -41,6 +39,7 @@ interface OccupantMeetingTableProps {
 }
 
 export function OccupantMeetingTable({
+  view,
   meetings,
   isLoading,
   empty,
