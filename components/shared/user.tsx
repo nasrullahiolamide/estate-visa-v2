@@ -32,6 +32,7 @@ export function UserDetails() {
     queryKey: builder.account.profile.get.get(),
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
+    enabled: !!userId,
   });
 
   const userDetails = useMemo(() => {

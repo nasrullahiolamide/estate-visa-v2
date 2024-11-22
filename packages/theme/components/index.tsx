@@ -139,11 +139,10 @@ export const components: MantineThemeComponents = {
 
   Textarea: Textarea.extend({
     defaultProps: {
-      size: "lg",
       variant: "default",
       resize: "vertical",
+      minRows: 8,
       autosize: true,
-      h: 160,
     },
     classNames: textarea,
   }),

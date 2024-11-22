@@ -183,7 +183,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           bg='white'
           h={{
             base: "auto",
-            sm: 765,
+            sm: 760,
           }}
         >
           <Stack gap='lg'>
@@ -233,11 +233,6 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           <Textarea
             label='Note'
             placeholder='Add any additional information here...'
-            styles={{
-              input: {
-                minHeight: 150,
-              },
-            }}
             {...form.getInputProps("notes")}
           />
         </FlowContainer>
