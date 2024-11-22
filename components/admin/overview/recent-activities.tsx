@@ -16,6 +16,8 @@ interface RecentActivitiesProps {
 const user = null;
 
 export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
+  if (!data) return null;
+
   return (
     <Stack
       flex={1}
