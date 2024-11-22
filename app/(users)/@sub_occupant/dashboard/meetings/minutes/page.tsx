@@ -36,13 +36,14 @@ export default function MeetingMinutes() {
       />
       <FlowContainer
         type='plain'
-        justify='space-between'
-        className='lg:~p-1/8 bg-primary-text-normal bg-opacity-45'
+        justify='center'
+        className='lg:~px-1/8  bg-primary-text-normal bg-opacity-45'
+        gap={0}
       >
         <Fragment>
-          <Stack className='overflow-auto h-full max-h-[720px] lg:max-h-[665px]'>
+          <Stack className='overflow-auto h-full max-h-[680px] lg:max-h-[700px] ~px-1/8 lg:px-0 lg:pb-3'>
             {true ? (
-              <FlowContentHorizontal className='p-4 sm:p-0'>
+              <FlowContentHorizontal className='p-4 sm:p-0' gap={18}>
                 {Array.from({ length: 18 }).map((_, i) => (
                   <FlowContainer
                     p={24}
@@ -92,13 +93,12 @@ export default function MeetingMinutes() {
             )}
           </Stack>
 
-          <FlowFooter className='lg:rounded-b-2xl bg-white justify-between sm:mt-2'>
+          <FlowFooter className='lg:rounded-b-2xl bg-white justify-between'>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </Fragment>
         <FlowFloatingButtons hasFilterButton filterData={filterOptions} />
-        {/* <SheduleMeeting open={opened} close={closeDrawer} /> */}
       </FlowContainer>
     </Fragment>
   );
