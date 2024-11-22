@@ -1,7 +1,15 @@
 "use client";
 
-import { Fragment } from "react";
-import { useFakeMeetingsList } from "@/builders/types/meetings";
+import { useEffect } from "react";
+import { getCookie } from "cookies-next";
+import { useQuery } from "@tanstack/react-query";
+import { Stack } from "@mantine/core";
+
+import { builder } from "@/builders";
+import { MeetingList, useFakeMeetingsList } from "@/builders/types/meetings";
+import { APP, makePath, PAGES } from "@/packages/libraries";
+import { meetingColumns } from "@/columns/for_occupants/meetings";
+
 import { EmptySlot } from "@/components/shared/interface";
 import {
   FlowContainer,
@@ -9,13 +17,13 @@ import {
   FlowEntriesPerPage,
   FlowFooter,
   FlowPagination,
-  FlowPaper,
   FlowTable,
   FlowFloatingButtons,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
-import { makePath, PAGES } from "@/packages/libraries";
-import { Stack } from "@mantine/core";
-import { meetingColumns } from "@/columns/for_occupants/meetings";
+import { toString } from "lodash";
+import clsx from "clsx";
 
 export const filterOptions = [
   { label: "(A-Z)", value: "a-z" },
@@ -25,21 +33,28 @@ export const filterOptions = [
 ];
 
 interface OccupantMeetingTableProps {
-  view: "scheduled" | "completed" | "cancelled";
+  view?: "scheduled" | "completed" | "cancelled";
+  meetings: MeetingList | undefined;
+  isLoading?: boolean;
+  empty?: boolean;
+  numberOfPages: number;
 }
 
-export function OccupantMeetingTable({}: OccupantMeetingTableProps) {
-  const meetings = useFakeMeetingsList();
-
+export function OccupantMeetingTable({
+  meetings,
+  isLoading,
+  empty,
+  numberOfPages,
+}: OccupantMeetingTableProps) {
   return (
     <FlowContainer type='plain' bg='white' h='100%'>
       <FlowContentContainer>
         <Stack mah={610} className='overflow-auto h-full'>
-          {true ? (
+          {meetings?.data ? (
             <FlowTable
               data={meetings?.data}
               columns={meetingColumns}
-              skeleton={false}
+              skeleton={isLoading}
             />
           ) : (
             <EmptySlot
@@ -49,12 +64,17 @@ export function OccupantMeetingTable({}: OccupantMeetingTableProps) {
           )}
         </Stack>
 
-        <FlowFooter>
+        <FlowFooter
+          className={clsx("flex justify-between", {
+            hidden: empty || numberOfPages <= 1,
+          })}
+        >
           <FlowPagination />
           <FlowEntriesPerPage />
         </FlowFooter>
       </FlowContentContainer>
       <FlowFloatingButtons
+        hidden={empty || isLoading}
         hasFilterButton
         filterData={filterOptions}
         withSecondaryButtons

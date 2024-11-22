@@ -105,6 +105,8 @@ export default function Gates() {
             action: (
               <GateRequestActions
                 id={list.id}
+                status={list.status}
+                data={list}
                 accessCode={list.accessCode}
                 handlers={{
                   onAdd: () => handleGateRequestForm({ modalType: "add" }),

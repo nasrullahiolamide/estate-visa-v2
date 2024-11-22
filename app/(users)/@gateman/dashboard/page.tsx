@@ -73,7 +73,7 @@ export default function Gates() {
   const queryClient = useQueryClient();
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, search, numberOfPages, status } = useFlowState();
 
   const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: builder.use().gates.requests.change_status,
@@ -81,12 +81,12 @@ export default function Gates() {
       handleError(error)();
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.get(),
+      });
       handleSuccess({
         message: "Gate Request Approved Successfully",
         autoClose: 1200,
-      });
-      queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -94,7 +94,8 @@ export default function Gates() {
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
     queryKey: builder.gates.requests.get.get(),
-    queryFn: () => builder.use().gates.requests.get({ page, pageSize, search }),
+    queryFn: () =>
+      builder.use().gates.requests.get({ page, pageSize, search, status }),
     placeholderData: initialGateRequestList,
     select({ page, pageSize, total, data }) {
       return {
@@ -112,8 +113,8 @@ export default function Gates() {
                 size='md'
                 onClick={() => changeStatus({ id, status: "approved" })}
                 loading={isPending}
-                disabled={isPending || status === "approved"}
-                className='disabled:bg-opacity-60'
+                disabled={isPending || status !== "pending"}
+                className='disabled:bg-opacity-30'
               >
                 Approve
               </Button>

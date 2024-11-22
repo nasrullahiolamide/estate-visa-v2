@@ -56,4 +56,6 @@ export { ListIcon } from "./list";
 export { NoData } from "./no-file";
 export { Bull } from "./bull";
 export { CSVIcon } from "./csv-icon";
+export { WhatsAppIcon } from "./whatsapp";
+export { SMSIcon } from "./sms";
 export type { IconType } from "./type";

@@ -91,15 +91,17 @@ export default function Profile() {
           gap={0}
           className='rounded-2xl bg-primary-background-white'
         >
-          <Form form={profileDetailsForm} onSubmit={handleProfileSubmit}>
+          <Form
+            form={profileDetailsForm}
+            onSubmit={handleProfileSubmit}
+            className='h-full'
+          >
             <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
               <ProfileImage form={profileDetailsForm} isFetching={isLoading} />
               <Divider />
-              <Title order={2} c='purple.9' fz={20} fw={500}>
-                Profile Details
-              </Title>
               <SimpleGrid
                 w='100%'
+                h='100%'
                 cols={{
                   base: 1,
                   sm: 2,
@@ -126,9 +128,8 @@ export default function Profile() {
               </SimpleGrid>
 
               <Button
-                mt='auto'
+                mt={20}
                 type='submit'
-                className='sm:w-fit w-full ml-auto'
                 disabled={!profileDetailsForm.isDirty() || isPending}
                 loading={isPending}
               >

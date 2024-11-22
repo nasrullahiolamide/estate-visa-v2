@@ -91,6 +91,7 @@ export enum MODALS {
   WRTIE_MESSAGE = "write-message",
   UPLOAD_RESOURCES = "upload-resources",
   CHANGE_PASSWORD = "change-password",
+  SHARE = "share",
 }
 
 export enum FILE {

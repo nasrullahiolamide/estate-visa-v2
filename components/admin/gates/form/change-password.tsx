@@ -21,7 +21,8 @@ export const schema = object({
   ),
 });
 
-export function ChangePassword({ userId }: { userId: string }) {
+export function ChangePassword() {
+  const userId = toString(getCookie(APP.USER_ID));
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
