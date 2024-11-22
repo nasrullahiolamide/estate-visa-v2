@@ -39,7 +39,7 @@ export function GateForm({
     mutationFn: builder.use().gates.post,
     onSuccess: ({ username }) => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
+        queryKey: builder.gates.get.table.get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
@@ -58,7 +58,7 @@ export function GateForm({
     mutationFn: builder.use().gates.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
+        queryKey: builder.gates.get.table.get(),
       });
       modals.closeAll();
       handleSuccess({

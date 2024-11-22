@@ -53,9 +53,9 @@ export default function Gates() {
   const { page, pageSize, search, numberOfPages } = useFlowState();
 
   const { data: gates, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.get.get(),
+    queryKey: builder.gates.get.table.get(),
     queryFn: () =>
-      builder.use().gates.get({
+      builder.use().gates.get.table({
         id: estateId,
         params: { page, pageSize, search },
       }),

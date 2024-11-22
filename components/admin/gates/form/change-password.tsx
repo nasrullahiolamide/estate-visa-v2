@@ -21,14 +21,10 @@ export const schema = object({
 
 export function ChangePassword({ userId }: { userId: string }) {
   // const userId = toString(getCookie(APP.USER_ID));
-  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().account.profile.change_password,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: builder.gates.get.get(),
-      });
       modals.close(MODALS.CHANGE_PASSWORD);
       handleSuccess({
         message: "Password updated successfully",

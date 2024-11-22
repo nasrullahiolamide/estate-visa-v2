@@ -1,13 +1,17 @@
 import { api } from "@/builders/axios";
 import { FilterParams } from "@/builders/types/filter-params";
-import { GateList, UpdateGateData } from "@/builders/types/gates";
+import { GateList, GatesData, UpdateGateData } from "@/builders/types/gates";
 import { requests } from "./requests";
 
-const get = function (variables: { id: string; params?: FilterParams }) {
+const table = function (variables: { id: string; params?: FilterParams }) {
   const { id, params } = variables;
   return api
     .get<GateList>(`/gates/all/${id}`, { params })
     .then((data) => data.data);
+};
+
+const id = function (id: string) {
+  return api.get<GatesData>(`/gates/${id}`).then((data) => data.data);
 };
 
 const edit = function (variables: { id: string; data: UpdateGateData }) {
@@ -28,7 +32,10 @@ const remove = function (id: string) {
 export const gates = {
   requests,
   post,
-  get,
+  get: {
+    table,
+    id,
+  },
   edit,
   remove,
 };
