@@ -16,7 +16,6 @@ import {
   FlowTable,
   FlowFloatingButtons,
 } from "@/components/layout";
-import { toString } from "lodash";
 import clsx from "clsx";
 
 export const filterOptions = [
