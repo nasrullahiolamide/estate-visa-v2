@@ -33,13 +33,6 @@ interface GateActionsProps {
 export function GateActions({ id, handlers }: GateActionsProps) {
   const queryClient = useQueryClient();
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: builder.gates.get.id.get(),
-  //   queryFn: () => builder.use().gates.get.id(id),
-  //   select: (data) => data,
-  // });
-
-  console.log({ id });
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().gates.remove,
     onError: (error: AxiosError) => {

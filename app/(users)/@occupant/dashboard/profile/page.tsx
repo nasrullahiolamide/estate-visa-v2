@@ -36,7 +36,7 @@ export default function Profile() {
   const occupantId = toString(getCookie(APP.OCCUPANT_ID));
 
   const { data: houseNumber } = useQuery({
-    queryKey: builder.occupants.id.get.get(),
+    queryKey: builder.occupants.id.get.get(occupantId),
     queryFn: () => builder.use().occupants.id.get(occupantId),
     select: ({ data }) => data.house.houseNumber,
   });
