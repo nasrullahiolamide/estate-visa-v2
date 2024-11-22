@@ -58,4 +58,6 @@ export { Bull } from "./bull";
 export { CSVIcon } from "./csv-icon";
 export { WhatsAppIcon } from "./whatsapp";
 export { SMSIcon } from "./sms";
+export { CopyIcon } from "./copy";
+
 export type { IconType } from "./type";

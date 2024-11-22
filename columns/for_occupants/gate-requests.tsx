@@ -1,9 +1,20 @@
-import { Box, Checkbox, Flex, Pill, Stack, Text } from "@mantine/core";
+import {
+  Box,
+  Checkbox,
+  CopyButton,
+  Flex,
+  Pill,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { GateRequestData } from "@/builders/types/gate-requests";
-import { formatDate } from "@/packages/libraries";
+import { cast, formatDate } from "@/packages/libraries";
 import { DATE_FORMAT } from "@/packages/constants/time";
+import { Copy } from "iconsax-react";
+import { CopyIcon } from "@/icons";
+import { handleSuccess } from "@/packages/notification";
 
 const columnHelper = createColumnHelper<Actionable<GateRequestData>>();
 
@@ -36,15 +47,7 @@ export const gateRequestsColumns = [
   }),
 
   columnHelper.accessor("guestName", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Guest Name'
-      />
-    ),
+    header: "Guest Name",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text ta='center' fz={14} className='w-full' children={getValue()} />
@@ -52,15 +55,7 @@ export const gateRequestsColumns = [
   }),
 
   columnHelper.accessor("guestType", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Guest Type'
-      />
-    ),
+    header: "Guest Type",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text ta='center' fz={14} className='w-full' children={getValue()} />
@@ -68,9 +63,7 @@ export const gateRequestsColumns = [
   }),
 
   columnHelper.accessor("visitDate", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Date' />
-    ),
+    header: "Date",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text
@@ -83,15 +76,7 @@ export const gateRequestsColumns = [
   }),
 
   columnHelper.accessor("phoneNo", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Phone No'
-      />
-    ),
+    header: "Phone No",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text ta='center' fz={14} className='w-full' children={getValue()} />
@@ -99,31 +84,31 @@ export const gateRequestsColumns = [
   }),
 
   columnHelper.accessor("accessCode", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Access Code'
-      />
-    ),
+    header: "Access Code",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text
-        ta='center'
-        fz={14}
-        className='w-full'
-        c='blue.8'
-        children={getValue()}
-      />
+      <Flex justify='center' align='center' className='w-full' gap={8}>
+        <Text ta='center' fz={14} c='blue.8' children={getValue()} />
+        <CopyButton value={cast.string(getValue())}>
+          {({ copy }) => (
+            <CopyIcon
+              onClick={() => {
+                copy();
+                handleSuccess({
+                  message: "Access code copied successfully",
+                  autoClose: 1200,
+                });
+              }}
+              width={20}
+            />
+          )}
+        </CopyButton>
+      </Flex>
     ),
   }),
 
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
@@ -150,15 +135,7 @@ export const gateRequestsColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => (
       <Stack gap={5} ta='center' justify='center'>
         {renderValue()}
