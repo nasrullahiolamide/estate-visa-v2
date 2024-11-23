@@ -1,6 +1,8 @@
 "use client";
 
 import clsx from "clsx";
+import { toString } from "lodash";
+import dayjs, { ManipulateType } from "dayjs";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import { Button, Stack, StackProps, Text, Title } from "@mantine/core";
 
@@ -8,9 +10,6 @@ import { TimePad } from "./time-pad";
 import { FlowContainer } from "@/components/layout";
 import { formatDate } from "@/packages/libraries";
 import { HouseData } from "@/builders/types/houses";
-import dayjs, { ManipulateType } from "dayjs";
-import { Fragment } from "react";
-import { toString } from "lodash";
 
 interface CountDownProps extends StackProps {
   house: HouseData | undefined;
