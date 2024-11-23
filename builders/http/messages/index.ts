@@ -35,6 +35,12 @@ const id = function (id: string) {
   return api.get<MessagesData[]>(`/messages/${id}`).then((data) => data.data);
 };
 
+const user = function (params?: FilterParams) {
+  return api
+    .get<MessagesList>(`/messages/user`, { params })
+    .then((data) => data.data);
+};
+
 const remove = function (id: string) {
   return api.delete(`/messages/${id}`);
 };
@@ -44,7 +50,8 @@ export const messages = {
   edit,
   remove,
   get: {
-    table,
     id,
+    table,
+    user,
   },
 };

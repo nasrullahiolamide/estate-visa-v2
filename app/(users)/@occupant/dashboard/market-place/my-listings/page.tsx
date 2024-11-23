@@ -10,22 +10,19 @@ import { makePath, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { Inbox, CarbonRule, AddIcon, ListIcon } from "@/icons";
+
+import { AddIcon, ListIcon } from "@/icons";
 
 import {
   FlowContentHorizontal,
   FlowEntriesPerPage,
   FlowFooter,
   FlowPagination,
-  FlowTabs,
-  FlowTabsPanel,
 } from "@/components/layout";
-import { TotalListings } from "@/components/admin/market-place/listings/total";
 import clsx from "clsx";
 import { Picture, StarRating } from "@/components/shared/interface";
 
-export enum VIEW_TYPES {
+enum VIEW_TYPES {
   TOTAL_LISTINGS = "total-listings",
   PENDING_APPROVALS = "pending-approvals",
   ACTIVE_LISTINGS = "active-listings",

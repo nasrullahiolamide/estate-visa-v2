@@ -4,7 +4,14 @@ import { useState } from "react";
 import { object } from "yup";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { Button, FileButton, Flex, Select, TextInput } from "@mantine/core";
+import {
+  Button,
+  FileButton,
+  Flex,
+  MultiSelect,
+  Select,
+  TextInput,
+} from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
 import { cast, MODALS } from "@/packages/libraries";
@@ -22,7 +29,7 @@ export function OccupantWriteModal() {
 
   const form = useForm({
     initialValues: {
-      to: "",
+      to: [],
       subject: "",
       message: "",
     },
@@ -60,7 +67,7 @@ export function OccupantWriteModal() {
         type='plain'
         bg='white'
       >
-        <Select
+        <MultiSelect
           label='To:'
           withAsterisk
           placeholder='Select recipient'
