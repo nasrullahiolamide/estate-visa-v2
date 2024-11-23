@@ -9,7 +9,6 @@ import {
   FileButton,
   Flex,
   MultiSelect,
-  Select,
   TextInput,
 } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
@@ -46,17 +45,6 @@ export function OccupantWriteModal() {
   });
 
   const handleSubmit = () => {};
-
-  //   const { preview, handleUpload, status, progress } = useFileUpload({
-  //     key: MODALS.ADD_MEETINGS_MINUTES,
-  //     onError: () => {
-  //       toast.error("Failed to upload resource");
-  //     },
-  //     onSuccess: ({ data }) => {
-  //       form.clearFieldError("thumbnail_id");
-  //       form.setFieldValue("upload_id", data?.id);
-  //     },
-  //   });
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
