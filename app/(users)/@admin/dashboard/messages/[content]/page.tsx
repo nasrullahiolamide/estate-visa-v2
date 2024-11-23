@@ -127,8 +127,10 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError({
+        message: "An error occurred while deleting message, please try again",
+      })();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
