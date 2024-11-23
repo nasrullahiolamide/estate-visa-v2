@@ -14,7 +14,21 @@ import {
   UserGroupIcon,
 } from "@/icons";
 
-export function StatisticsOverview() {
+interface StatisticsOverviewProps {
+  totalGateRequests: number;
+  totalServiceRequests: number;
+  totalSubOccupants: number;
+  totalMessages: number;
+  skeleton?: boolean;
+}
+
+export function StatisticsOverview({
+  totalGateRequests,
+  totalServiceRequests,
+  totalSubOccupants,
+  totalMessages,
+  skeleton: isPlaceholderData,
+}: StatisticsOverviewProps) {
   const initialAdminData = useFakeAdminDashboardData();
 
   // const { data, isPlaceholderData } = useQuery({
@@ -35,38 +49,38 @@ export function StatisticsOverview() {
       <StatisticsCard
         icon={AirlineManageGateIcon}
         title='Total Gate Requests'
-        value={initialAdminData?.totalHouses}
-        total={initialAdminData?.totalHouses}
+        value={totalGateRequests}
+        total={totalGateRequests}
         label='Manage Gate Requests'
         href={makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS)}
-        // skeleton={isPlaceholderData}
+        skeleton={isPlaceholderData}
       />
       <StatisticsCard
         icon={UserGroupIcon}
         title='Total Sub-Occupant'
-        value={initialAdminData?.totalHouses}
-        total={initialAdminData?.totalHouses}
+        value={totalSubOccupants}
+        total={totalSubOccupants}
         label='Manage Sub-Occupants'
         href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
-        // skeleton={isPlaceholderData}
+        skeleton={isPlaceholderData}
       />
 
       <StatisticsCard
         icon={TablerMessageIcon}
         title='Total Messages'
-        value={initialAdminData?.totalOccupants}
+        value={totalMessages}
         label='Manage Messages'
         href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
-        // skeleton={isPlaceholderData}
+        skeleton={isPlaceholderData}
       />
 
       <StatisticsCard
         icon={ServiceRequestIcon}
         title='Total Service Requests'
-        value={initialAdminData?.totalSubOccupants}
+        value={totalServiceRequests}
         label='Manage Service Requests'
         href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
-        // skeleton={isPlaceholderData}
+        skeleton={isPlaceholderData}
       />
     </Box>
   );

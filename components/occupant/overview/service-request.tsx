@@ -1,7 +1,9 @@
 "use client";
 
+import { builder } from "@/builders";
 import { FilterRequestsDropdown } from "@/components/admin/overview";
 import { Button, Flex, Stack, Text, Title } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 
 interface ServiceRequestProps {}
@@ -28,9 +30,18 @@ const requests = [
 ];
 
 export function ServiceRequest({}: ServiceRequestProps) {
-  const [period, setPeriod] = useQueryState("sr-prd", {
+  const [status, setStatus] = useQueryState("sr-prd", {
     defaultValue: "week",
   });
+
+  const { data, isPlaceholderData } = useQuery({
+    queryKey: builder.dashboard.occupant.service_requests.get(),
+    queryFn: () => builder.use().dashboard.occupant.service_requests(status),
+    // placeholderData: initialOccupantData,
+    select: (data) => data,
+  });
+
+  console.log(data);
 
   return (
     <Stack
@@ -52,8 +63,8 @@ export function ServiceRequest({}: ServiceRequestProps) {
         <FilterRequestsDropdown
           data={["Week", "6months", "Year"]}
           size='sm'
-          value={period}
-          onFilter={setPeriod}
+          value={status}
+          onFilter={setStatus}
         />
       </Flex>
 
