@@ -47,7 +47,26 @@ export type MinutesData = {
   file: string;
 };
 
-export function useFakeMeetingsData(_?: any, index?: number) {
+export function useFakeMeetingData(_?: any, index?: number): MeetingData {
+  faker.seed(index);
+
+  return {
+    id: index?.toString(),
+    title: faker.word.adjective(),
+    estateId: faker.string.uuid(),
+    date: faker.date.recent(),
+    time: faker.date.recent().toISOString(),
+    location: faker.location.city(),
+    platform: faker.company.name(),
+    venue: faker.location.country(),
+    meetingLink: faker.internet.url(),
+    minutes: faker.lorem.paragraph(),
+    file: faker.system.filePath(),
+    notes: faker.lorem.paragraph(),
+  };
+}
+
+export function useFakeMeetingListData(_?: any, index?: number) {
   faker.seed(index);
 
   const id = index ?? faker.number.int({ max: 100 });
@@ -76,7 +95,7 @@ export function useFakeMeetingsList(): MeetingList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeMeetingsData
+    useFakeMeetingListData
   );
 
   return {

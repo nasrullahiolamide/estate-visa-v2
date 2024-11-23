@@ -45,10 +45,12 @@ export function MeetingMinutesForm({
     queryKey: builder.meetings.get.all.get(),
     queryFn: () => builder.use().meetings.get.all(),
     select: (data) => {
-      return data.map(({ id, title }) => ({
-        value: id ?? "",
-        label: title,
-      }));
+      return data
+        .filter(({ minutes }) => !minutes)
+        .map(({ id, title }) => ({
+          value: id ?? "",
+          label: title,
+        }));
     },
   });
 
@@ -131,6 +133,7 @@ export function MeetingMinutesForm({
           data={meetings}
           placeholder='Select a meeting title'
           disabled={isLoading}
+          nothingFoundMessage='No meetings available, please create one first.'
           withAsterisk
           {...form.getInputProps("title_id")}
         />

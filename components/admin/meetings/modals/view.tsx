@@ -19,7 +19,11 @@ import { formatDate } from "@/packages/libraries";
 import { DATE_FORMAT } from "@/packages/constants/time";
 import { DownloadIcon, FileIcon } from "@/icons";
 import clsx from "clsx";
-import { skeleton } from "@/packages/tailwind";
+import {
+  useFakeMeetingData,
+  useFakeMeetingListData,
+} from "@/builders/types/meetings";
+import { getDownloadableUrl } from "@/packages/libraries/formatters";
 
 interface ViewMeetingProps {
   id: string;
@@ -27,20 +31,16 @@ interface ViewMeetingProps {
   close: () => void;
 }
 export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
-  const { data, isLoading } = useQuery({
+  const initialMeetingData = useFakeMeetingData();
+
+  const { data, isPlaceholderData } = useQuery({
     queryKey: builder.meetings.get.id.get(id),
     queryFn: () => builder.use().meetings.get.id(id),
+    placeholderData: initialMeetingData,
     select: (data) => data,
     enabled: open,
   });
 
-  const getDownloadableUrl = (url: string) => {
-    if (!url.includes("/upload/")) {
-      console.error("Invalid Cloudinary URL");
-      return url;
-    }
-    return url.replace("/upload/", "/upload/fl_attachment/");
-  };
   return (
     <Drawer
       scrollAreaComponent={ScrollAreaAutosize}
@@ -72,27 +72,33 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
       <Divider my={30} />
       <FlowContainer
         className={clsx("bg-primary-background-white sm:overflow-scroll", {
-          skeleton: isLoading,
+          skeleton: isPlaceholderData,
         })}
         type='plain'
         bg='white'
         h={520}
       >
-        <Markdown
-          children={data?.minutes}
-          classNames={{
-            h1: "text-plum-5",
-            h2: "text-plum-5",
-            h3: "text-plum-5",
-            p: "text-primary-text-body",
-          }}
-        />
+        {data?.minutes ? (
+          <Markdown
+            children={data?.minutes}
+            classNames={{
+              h1: "text-plum-5",
+              h2: "text-plum-5",
+              h3: "text-plum-5",
+              p: "text-primary-text-body",
+            }}
+          />
+        ) : (
+          <Text c='gray.5' fz={24} ta='center' mt={30}>
+            No minutes yet
+          </Text>
+        )}
       </FlowContainer>
 
       {data?.file && (
         <Fragment>
           <Divider my={30} />
-          <Stack gap='lg' className={clsx({ skeleton: isLoading })}>
+          <Stack gap='lg' className={clsx({ skeleton: isPlaceholderData })}>
             <Title order={2} c='plum.5' fz={20} fw={500}>
               Attachments
             </Title>
@@ -100,7 +106,9 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
             <Stack
               gap={3}
               p={12}
-              className='border rounded-xl border-primary-border-light'
+              className={clsx("border rounded-xl border-primary-border-light", {
+                skeleton: isPlaceholderData,
+              })}
             >
               <Flex gap={30} align='center' justify='space-between'>
                 <Flex align='center' gap={8}>
@@ -116,7 +124,10 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
                     Sanitation_Review.pdf
                   </Text>
                 </Flex>
-                <a href={getDownloadableUrl(data.file)} download={true}>
+                <a
+                  href={!isPlaceholderData ? getDownloadableUrl(data.file) : ""}
+                  download={true}
+                >
                   <DownloadIcon width={20} className='cursor-pointer' />
                 </a>
               </Flex>
