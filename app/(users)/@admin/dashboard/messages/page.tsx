@@ -81,7 +81,13 @@ export default function Messages() {
           <HeaderOptions
             view={type}
             onClick={handleWriteBroadcastMsg}
-            hidden={noDataAvailable || isPlaceholderData}
+            hidden={
+              noBroadcastMessages
+                ? true
+                : noOccupantMessages
+                ? true
+                : isPlaceholderData
+            }
           />
         }
       />

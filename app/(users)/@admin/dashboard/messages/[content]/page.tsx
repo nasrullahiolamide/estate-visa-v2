@@ -53,8 +53,10 @@ const editMessage = (view: string, data: MessagesData) => {
 };
 
 export default function Page({ params }: PageProps) {
-  const { content } = useMessagesValue(params.content);
-  const { view, id: contentId } = content;
+  const {
+    content: { view, id: contentId },
+  } = useMessagesValue(params.content);
+  // const = content;
 
   const initialMessageData = useFakeMessagesData();
 
@@ -73,7 +75,7 @@ export default function Page({ params }: PageProps) {
   });
   const data = message?.[0];
 
-  console.log(data);
+  console.log(message);
   return (
     <Fragment>
       <AppShellHeader
@@ -81,7 +83,10 @@ export default function Page({ params }: PageProps) {
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
         options={
-          <HeaderOptions content={content} data={data as MessagesData} />
+          <HeaderOptions
+            content={{ view, id: contentId }}
+            data={data as MessagesData}
+          />
         }
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
