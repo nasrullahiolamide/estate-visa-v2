@@ -71,7 +71,9 @@ export default function Messages() {
 
   const noOccupantMessages = data?.occupant_messages?.length === 0;
   const noBroadcastMessages = data?.broadcast_messages?.length === 0;
-  const noDataAvailable = noOccupantMessages && noBroadcastMessages;
+  const noDataAvailable =
+    (type === MESSAGE_TYPE.OCCUPANT && noOccupantMessages) ||
+    (type === MESSAGE_TYPE.BROADCAST && noBroadcastMessages);
 
   return (
     <Fragment>
