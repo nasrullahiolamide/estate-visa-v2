@@ -1,46 +1,88 @@
 "use client";
 
-import { useQueryState } from "nuqs";
-import { Fragment } from "react";
-import { Add } from "iconsax-react";
+import clsx from "clsx";
 
-import { Button, Flex, Stack, Tabs } from "@mantine/core";
+import { Fragment } from "react";
+import { toString } from "lodash";
+import { getCookie } from "cookies-next";
+import { useQueryState } from "nuqs";
+import { Add } from "iconsax-react";
+import { useQuery } from "@tanstack/react-query";
+import { Button, Flex, Tabs } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
-import { MODALS } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { FlowTabs, FlowTabsPanel } from "@/components/layout";
+import { builder } from "@/builders";
+import { useFakeMessagesList } from "@/builders/types/messages";
+import { APP, MODALS } from "@/packages/libraries";
 import { OccupantMessages } from "@/components/admin/messages/occupants";
-import { WriteModal } from "@/components/admin/messages/modals/write";
 import { BroadcastMessages } from "@/components/admin/messages/broadcasts";
-
+import {
+  MESSAGE_TYPE,
+  WriteModal,
+} from "@/components/admin/messages/modals/write";
+import {
+  FlowTabs,
+  FlowTabsPanel,
+  useFlowState,
+  FlowContentContainer,
+  FlowContainer,
+} from "@/components/layout";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { UserFriendsIcon, BroadcastIcon, Inbox } from "@/icons";
-import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 
 export default function Messages() {
-  const [view, setView] = useQueryState("type", {
-    defaultValue: "occupants",
-  });
+  const estateId = toString(getCookie(APP.ESTATE_ID));
+  const initialMeetingList = useFakeMessagesList();
+  const { page, pageSize } = useFlowState();
 
-  const { setContent } = useMessagesValue(view);
+  const [type, setType] = useQueryState("type", {
+    defaultValue: MESSAGE_TYPE.OCCUPANT,
+  });
 
   const handleWriteBroadcastMsg = () => {
     modals.open({
-      title: view === "occupants" ? "Write Message" : "Send Broadcast",
+      title:
+        type === MESSAGE_TYPE.OCCUPANT ? "Write Message" : "Send Broadcast",
       modalId: MODALS.WRITE_BROADCAST_MESSAGE,
-      children: <WriteModal view={view} />,
+      children: <WriteModal view={type} />,
     });
   };
+
+  const { data, isPlaceholderData } = useQuery({
+    queryKey: builder.messages.get.table.get(type),
+    queryFn: () =>
+      builder.use().messages.get.table({
+        estateId,
+        params: { page, pageSize },
+      }),
+    placeholderData: initialMeetingList,
+    select: (data) => {
+      const occupant_messages = data?.messages?.filter(
+        (message) => message.type === MESSAGE_TYPE.OCCUPANT
+      );
+      const broadcast_messages = data?.messages?.filter(
+        (message) => message.type === MESSAGE_TYPE.BROADCAST
+      );
+
+      return { occupant_messages, broadcast_messages };
+    },
+  });
+
+  const noOccupantMessages = data?.occupant_messages?.length === 0;
+  const noBroadcastMessages = data?.broadcast_messages?.length === 0;
+  const noDataAvailable = noOccupantMessages && noBroadcastMessages;
 
   return (
     <Fragment>
       <AppShellHeader
         title='Messages'
         options={
-          <HeaderOptions view={view} onClick={handleWriteBroadcastMsg} />
+          <HeaderOptions
+            view={type}
+            onClick={handleWriteBroadcastMsg}
+            hidden={noDataAvailable || isPlaceholderData}
+          />
         }
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
@@ -50,14 +92,21 @@ export default function Messages() {
           }}
         >
           <FlowTabs
-            value={view}
-            onChange={setView}
-            tabsContainerProps={{ gap: 0 }}
+            value={type}
+            onChange={setType}
+            tabsContainerProps={{
+              gap: 0,
+            }}
+            classNames={{
+              panel: clsx({
+                // "flex justify-center items-center": noDataAvailable,
+              }),
+            }}
           >
             <Flex align='center'>
               <Tabs.List className='w-full'>
                 <Tabs.Tab
-                  value='occupants'
+                  value={MESSAGE_TYPE.OCCUPANT}
                   flex={1}
                   py={18}
                   leftSection={<UserFriendsIcon />}
@@ -65,7 +114,7 @@ export default function Messages() {
                   Occupants
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value='broadcast'
+                  value={MESSAGE_TYPE.BROADCAST}
                   flex={1}
                   py={18}
                   leftSection={<BroadcastIcon />}
@@ -75,11 +124,19 @@ export default function Messages() {
               </Tabs.List>
             </Flex>
 
-            <FlowTabsPanel value='occupants'>
-              <OccupantMessages />
+            <FlowTabsPanel value={MESSAGE_TYPE.OCCUPANT}>
+              <OccupantMessages
+                data={data?.occupant_messages}
+                loading={isPlaceholderData}
+                handleWrite={handleWriteBroadcastMsg}
+              />
             </FlowTabsPanel>
-            <FlowTabsPanel value='broadcast'>
-              <BroadcastMessages />
+            <FlowTabsPanel value={MESSAGE_TYPE.BROADCAST}>
+              <BroadcastMessages
+                data={data?.broadcast_messages}
+                loading={isPlaceholderData}
+                handleWrite={handleWriteBroadcastMsg}
+              />
             </FlowTabsPanel>
           </FlowTabs>
         </FlowContentContainer>
@@ -91,12 +148,13 @@ export default function Messages() {
 interface HeaderOptionsProps {
   view: string;
   onClick: () => void;
+  hidden?: boolean;
 }
 
-function HeaderOptions({ view, onClick }: HeaderOptionsProps) {
+function HeaderOptions({ onClick, view, hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap'>
-      {view === "occupants" ? (
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      {view === MESSAGE_TYPE.OCCUPANT ? (
         <Button fz='sm' size='md' leftSection={<Add />} onClick={onClick}>
           Write a Message
         </Button>

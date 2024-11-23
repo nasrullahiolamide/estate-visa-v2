@@ -6,16 +6,14 @@ import { User, LogoutCurve } from "iconsax-react";
 import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
-import { APP, decryptUri, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { formatUserType } from "@/builders/types/login";
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./interface/modals/logout";
-import { ProfileData } from "@/builders/types/profile";
 import { toString } from "lodash";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { skeleton } from "@/packages/tailwind";
 
 function handleLogout() {
   modals.open({

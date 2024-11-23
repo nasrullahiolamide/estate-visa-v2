@@ -1,7 +1,7 @@
 import { FileIcon, DownloadIcon } from "@/icons";
 import { Box, Center, Flex, Text } from "@mantine/core";
 
-export function Attachments() {
+export function Attachments({ url }: { url: string }) {
   return (
     <Box
       className='border rounded-xl border-primary-border-light bg-primary-background-white'

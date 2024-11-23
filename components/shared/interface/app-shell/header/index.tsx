@@ -21,6 +21,7 @@ import clsx from "clsx";
 import { APP, decryptUri, PAGES } from "@/packages/libraries";
 import { ProfileData } from "@/builders/types/profile";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 interface AppShellHeaderProps {
   title: string;
@@ -36,6 +37,7 @@ export function AppShellHeader({
   showLinks = true,
 }: AppShellHeaderProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const { back } = useRouter();
 
   return (
     <AppShell.Section
@@ -109,8 +111,9 @@ export function AppShellHeader({
           <Flex gap={10} align='start'>
             {backHref && (
               <ActionIcon
-                component={Link}
-                href={backHref}
+                // component={Link}
+                // href={backHref}
+                onClick={back}
                 size={32}
                 variant='app-shell'
                 __vars={{

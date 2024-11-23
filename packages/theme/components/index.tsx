@@ -142,6 +142,7 @@ export const components: MantineThemeComponents = {
       variant: "default",
       resize: "vertical",
       minRows: 8,
+      maxRows: 8,
       autosize: true,
     },
     classNames: textarea,
@@ -180,6 +181,9 @@ export const components: MantineThemeComponents = {
       rightSection: <ArrowDownIcon />,
       classNames: {
         option: "hover:bg-purple-4 text-sm",
+        pill: "text-sm bg-purple-3",
+        pillsList: "text-sm",
+        error: "text-xs",
       },
     },
     classNames: multiSelect,

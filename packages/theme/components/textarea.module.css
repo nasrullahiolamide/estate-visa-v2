@@ -6,6 +6,7 @@
 
     .input {
       font-size: rem(14px);
+      overflow-y: scroll;
 
       &[data-disabled="true"] {
         background-color: white;

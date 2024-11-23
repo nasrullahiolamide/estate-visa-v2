@@ -143,15 +143,15 @@ export function GateRequestActions({
                     <Text fz={20}>Share via</Text>
                     <Flex gap={14}>
                       <a
-                        href={`sms:?&body=${shareText}`}
+                        href={`sms:${data.phoneNo}?&body=${shareText}`}
                         onClick={() => modals.close(MODALS.SHARE)}
                       >
                         <SMSIcon />
                       </a>
                       <a
-                        href={`https://wa.me/?text=${encodeURIComponent(
-                          shareText
-                        )}`}
+                        href={`https://wa.me/${
+                          data.phoneNo
+                        }?text=${encodeURIComponent(shareText)}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         onClick={() => modals.close(MODALS.SHARE)}

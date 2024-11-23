@@ -89,6 +89,7 @@ export enum MODALS {
   FORM_DETAILS = "form-details",
   WRITE_BROADCAST_MESSAGE = "write-broadcast-message",
   WRTIE_MESSAGE = "write-message",
+  EDIT_MESSAGE = "edit-message",
   UPLOAD_RESOURCES = "upload-resources",
   CHANGE_PASSWORD = "change-password",
   SHARE = "share",

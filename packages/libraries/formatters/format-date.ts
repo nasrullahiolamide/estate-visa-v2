@@ -11,8 +11,8 @@ dayjs.extend(relativeTime);
  * @param {string | undefined} format - The custom format (optional). If not provided, "LLL" format will be used.
  * @returns {string | null} - The formatted date string, or null if the input date is invalid.
  */
-export function formatDate(date?: ConfigType, format?: string): string | null {
-  return dayjs(date).isValid() ? dayjs(date).format(format ?? "LLL") : null;
+export function formatDate(date?: ConfigType, format?: string): string {
+  return dayjs(date).isValid() ? dayjs(date).format(format ?? "LLL") : "";
 }
 
 export function fromNow(date: ConfigType): string {
