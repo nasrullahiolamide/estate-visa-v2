@@ -26,7 +26,7 @@ export function TimePad({ moment, period }: TimePadProps) {
       </div>
 
       <Title
-        className='text-center text-sm font-semibold  capitalize leading-snug sm:text-lg'
+        className='text-center text-sm font-semibold leading-snug sm:text-lg'
         order={5}
       >
         {period}

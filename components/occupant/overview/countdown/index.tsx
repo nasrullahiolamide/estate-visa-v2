@@ -10,6 +10,7 @@ import { formatDate } from "@/packages/libraries";
 import { HouseData } from "@/builders/types/houses";
 import dayjs, { ManipulateType } from "dayjs";
 import { Fragment } from "react";
+import { toString } from "lodash";
 
 interface CountDownProps extends StackProps {
   house: HouseData | undefined;
@@ -32,22 +33,12 @@ function calculateDeadline(validityPeriod: string): Date {
 }
 
 const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
-  const months = Math.floor(days / 30);
-  const remainingDays = days % 30;
-  const years = Math.floor(months / 12);
-  const remainingMonths = months % 12;
-  const weeks = Math.floor(remainingDays / 7);
-  const remainingDaysAfterWeeks = remainingDays % 7;
-  console.log({
-    years,
-    months,
-    remainingDays,
-    hours,
-    minutes,
-    seconds,
-  });
+  const years = Math.floor(days / 365);
+  const months = Math.floor((days % 365) / 30);
+  const weeks = Math.floor((days % 365) / 7);
+  const remainingDays = days % 365;
 
-  if (years === 0 && months === 0) {
+  if (years > 0 || months > 0 || weeks > 0) {
     return (
       <div
         className={clsx(
@@ -55,10 +46,10 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
           "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
         )}
       >
-        <TimePad moment={remainingDays} period='Days' />
-        <TimePad moment={hours} period='Hours' />
-        <TimePad moment={minutes} period='Minutes' />
-        <TimePad moment={seconds} period='Seconds' />
+        <TimePad moment={years} period='Year(s)' />
+        <TimePad moment={months} period='Month(s)' />
+        <TimePad moment={weeks} period='Week(s)' />
+        <TimePad moment={remainingDays} period='Day(s)' />
       </div>
     );
   }
@@ -69,19 +60,17 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
         "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
       )}
     >
-      {years > 0 && <TimePad moment={years} period='Years' />}
-      {months > 0 && <TimePad moment={months} period='Months' />}
-      <TimePad moment={remainingDays} period='Days' />
-      <TimePad moment={hours} period='Hours' />
+      <TimePad moment={remainingDays} period='Day(s)' />
+      <TimePad moment={hours} period='Hour(s)' />
+      <TimePad moment={minutes} period='Minute(s)' />
+      <TimePad moment={seconds} period='Second(s)' />
     </div>
   );
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  const deadline = calculateDeadline(house?.validityPeriod ?? "");
-
-  console.log(deadline);
-  let millisecondsTillDeadline = Date.parse(String(deadline));
+  const deadline = calculateDeadline(toString(house?.validityPeriod));
+  let millisecondsTillDeadline = Date.parse(toString(deadline));
 
   return (
     <FlowContainer
