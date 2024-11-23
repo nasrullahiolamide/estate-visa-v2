@@ -48,7 +48,7 @@ export const schema = object({
 
 interface EditModalProps {
   view: string;
-  content: MessagesData;
+  content: MessagesData & { houseIds?: string[] };
 }
 
 export function EditModal({ view, content }: EditModalProps) {
@@ -89,7 +89,7 @@ export function EditModal({ view, content }: EditModalProps) {
 
   const form = useForm({
     initialValues: {
-      houseIds: content.houseIds,
+      houseIds: [""],
       title: content.subject,
       content: content.content,
       attachments: content.attachments,

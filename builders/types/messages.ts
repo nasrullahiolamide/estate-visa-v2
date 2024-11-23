@@ -26,7 +26,7 @@ export type MessagesData = {
   attachments: string[];
   estate: EstatesData;
   house: HouseData;
-  houseIds: string[];
+  // houseIds: string[];
   isRead: boolean;
   createdAt: string;
   updatedAt: string;
@@ -48,7 +48,7 @@ export function useFakeMessagesData(_?: any, index?: number) {
     attachments: faker.helpers.arrayElements(["kl", "l"]),
     estate,
     house,
-    houseIds: [house.id],
+    // houseIds: [house.id],
     isRead: faker.helpers.arrayElement([true, false]),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),

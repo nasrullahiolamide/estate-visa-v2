@@ -54,28 +54,26 @@ const editMessage = (view: string, data: MessagesData) => {
 
 export default function Page({ params }: PageProps) {
   const {
-    content: { view, id: contentId },
+    content: { view, id },
   } = useMessagesValue(params.content);
-  // const = content;
 
   const initialMessageData = useFakeMessagesData();
 
   const { data: message, isPlaceholderData } = useQuery({
-    queryKey: builder.messages.get.id.get(contentId),
-    queryFn: () => builder.use().messages.get.id(contentId),
+    queryKey: builder.messages.get.id.get(id),
+    queryFn: () => builder.use().messages.get.id(id),
     placeholderData: Array.from({ length: 1 }, (_, i) => initialMessageData),
     select: (data) =>
       data.map((item) => {
         const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
         const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
-        const houseIds = item.houseIds.map((id) => id.toString());
+        // const houseIds = item.houseIds.map((id) => id.toString());
         return { ...item, localDate, localTime };
       }),
-    enabled: !!contentId,
+    enabled: !!id,
   });
   const data = message?.[0];
 
-  console.log(message);
   return (
     <Fragment>
       <AppShellHeader
@@ -83,10 +81,7 @@ export default function Page({ params }: PageProps) {
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
         options={
-          <HeaderOptions
-            content={{ view, id: contentId }}
-            data={data as MessagesData}
-          />
+          <HeaderOptions content={{ view, id }} data={data as MessagesData} />
         }
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
