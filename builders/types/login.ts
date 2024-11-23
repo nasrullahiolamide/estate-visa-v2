@@ -21,7 +21,7 @@ export const AvailableDashboards = [
   SuperAdmin,
   Admin,
   Occupant,
-  SubOccupant,
+  // SubOccupant,
   PropertyOwner,
   Gateman,
 ] as Array<string>;
