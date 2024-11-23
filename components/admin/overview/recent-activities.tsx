@@ -6,7 +6,6 @@ import { RecentActivityFeed } from "@/builders/types/super-admin-dashboard";
 import { FlowContentContainer } from "@/components/layout";
 import { fromNow } from "@/packages/libraries/formatters";
 import { NoData } from "@/icons";
-import { useEffect, useState } from "react";
 
 interface RecentActivitiesProps {
   data: RecentActivityFeed[];
@@ -15,9 +14,10 @@ interface RecentActivitiesProps {
 
 const user = null;
 
-export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
-  if (!data) return null;
-
+export function RecentActivities({
+  data = [],
+  skeleton,
+}: RecentActivitiesProps) {
   return (
     <Stack
       flex={1}
@@ -32,10 +32,11 @@ export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
         <Title order={2} className='prose-xl/medium text-primary-text-body'>
           Recent Activity Feed
         </Title>
-
-        <Text c='gray' fz={14}>
-          Showing activities for the last 7 days
-        </Text>
+        {data.length && (
+          <Text c='gray' fz={14}>
+            Showing activities for the last 7 days
+          </Text>
+        )}
       </Stack>
 
       <FlowContentContainer
@@ -44,34 +45,43 @@ export function RecentActivities({ data, skeleton }: RecentActivitiesProps) {
         mah={350}
         className='overflow-scroll'
       >
-        {data.map((activity) => (
-          <Flex
-            key={activity.id}
-            flex={1}
-            gap={18}
-            wrap='nowrap'
-            align='center'
-            className={clsx("border-t border-gray-2 h-full ", {
-              skeleton,
-            })}
-            py={16}
-          >
-            {user ? (
-              <Avatar src={user} radius='xl' size={45} />
-            ) : (
-              <Avatar color='blue.4' radius='xl' size={45}>
-                {/* {user?.name[0]} */}
-                {user}
-              </Avatar>
-            )}
-            <Stack gap={4}>
-              <Text fz={14}>{activity.details}</Text>
-              <Text fz={12} c='gray'>
-                {fromNow(activity.createdAt)}
-              </Text>
-            </Stack>
-          </Flex>
-        ))}
+        {!data.length ? (
+          <Stack gap={0} h={320}>
+            <NoData />
+            <Text ta='center' mb={20}>
+              No Data Available
+            </Text>
+          </Stack>
+        ) : (
+          data.map((activity) => (
+            <Flex
+              key={activity.id}
+              flex={1}
+              gap={18}
+              wrap='nowrap'
+              align='center'
+              className={clsx("border-t border-gray-2 h-full ", {
+                skeleton,
+              })}
+              py={16}
+            >
+              {user ? (
+                <Avatar src={user} radius='xl' size={45} />
+              ) : (
+                <Avatar color='blue.4' radius='xl' size={45}>
+                  {/* {user?.name[0]} */}
+                  {user}
+                </Avatar>
+              )}
+              <Stack gap={4}>
+                <Text fz={14}>{activity.details}</Text>
+                <Text fz={12} c='gray'>
+                  {fromNow(activity.createdAt)}
+                </Text>
+              </Stack>
+            </Flex>
+          ))
+        )}
       </FlowContentContainer>
     </Stack>
   );

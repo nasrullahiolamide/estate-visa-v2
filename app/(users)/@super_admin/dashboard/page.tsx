@@ -90,7 +90,10 @@ export default function Overview() {
               totalUsers={data.totalUsers}
               skeleton={isPlaceholderData}
             />
-            <RecentActivities data={data.recentActivityFeed} />
+            <RecentActivities
+              data={data?.recentActivityFeed}
+              skeleton={isPlaceholderData}
+            />
           </FlowContentHorizontal>
         </Stack>
       </AppShellMain>

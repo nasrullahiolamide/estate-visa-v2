@@ -67,19 +67,22 @@ export default function Page({ params }: PageProps) {
         const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
         const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
         const houseIds = item.houseIds.map((id) => id.toString());
-        return { ...item, localDate, localTime, houseIds };
+        return { ...item, localDate, localTime };
       }),
     enabled: !!contentId,
   });
-  const data = message?.[0] as MessagesData;
+  const data = message?.[0];
 
+  console.log(data);
   return (
     <Fragment>
       <AppShellHeader
         title='Message Details'
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
-        options={<HeaderOptions content={content} data={data} />}
+        options={
+          <HeaderOptions content={content} data={data as MessagesData} />
+        }
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
