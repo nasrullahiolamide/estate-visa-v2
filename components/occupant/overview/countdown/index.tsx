@@ -32,10 +32,12 @@ function calculateDeadline(validityPeriod: string): Date {
 }
 
 const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
-  const years = Math.floor(days / 365);
-  const months = Math.floor((days % 365) / 30);
+  const months = Math.floor(days / 30);
   const remainingDays = days % 30;
-
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+  const weeks = Math.floor(remainingDays / 7);
+  const remainingDaysAfterWeeks = remainingDays % 7;
   console.log({
     years,
     months,
