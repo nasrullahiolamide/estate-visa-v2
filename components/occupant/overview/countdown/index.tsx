@@ -22,8 +22,13 @@ function calculateDeadline(validityPeriod: string): Date {
 
   if (isNaN(duration)) throw new Error("Invalid validity period format.");
 
-  const deadline = dayjs().add(duration, unit as ManipulateType);
-  return deadline.toDate();
+  const deadline = dayjs()
+    .add(duration, unit as ManipulateType)
+    .set("hour", 21)
+    .set("minute", 0)
+    .set("second", 0);
+
+  return new Date(deadline.format("MMMM DD, YYYY HH:mm:ss"));
 }
 
 const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
@@ -31,12 +36,14 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
   const months = Math.floor((days % 365) / 30);
   const remainingDays = days % 30;
 
-  const basic = (
-    <Fragment>
-      <TimePad moment={minutes} period='Minutes' />
-      <TimePad moment={seconds} period='Seconds' />
-    </Fragment>
-  );
+  console.log({
+    years,
+    months,
+    remainingDays,
+    hours,
+    minutes,
+    seconds,
+  });
 
   if (years === 0 && months === 0) {
     return (
@@ -48,7 +55,8 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
       >
         <TimePad moment={remainingDays} period='Days' />
         <TimePad moment={hours} period='Hours' />
-        {basic}
+        <TimePad moment={minutes} period='Minutes' />
+        <TimePad moment={seconds} period='Seconds' />
       </div>
     );
   }
@@ -61,13 +69,16 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
     >
       {years > 0 && <TimePad moment={years} period='Years' />}
       {months > 0 && <TimePad moment={months} period='Months' />}
-      {basic}
+      <TimePad moment={remainingDays} period='Days' />
+      <TimePad moment={hours} period='Hours' />
     </div>
   );
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
   const deadline = calculateDeadline(house?.validityPeriod ?? "");
+
+  console.log(deadline);
   let millisecondsTillDeadline = Date.parse(String(deadline));
 
   return (
