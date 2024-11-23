@@ -32,7 +32,7 @@ export function RecentActivities({
         <Title order={2} className='prose-xl/medium text-primary-text-body'>
           Recent Activity Feed
         </Title>
-        {data.length && (
+        {data.length !== 0 && (
           <Text c='gray' fz={14}>
             Showing activities for the last 7 days
           </Text>

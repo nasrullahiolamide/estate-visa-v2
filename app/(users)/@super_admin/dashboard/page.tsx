@@ -91,7 +91,7 @@ export default function Overview() {
               skeleton={isPlaceholderData}
             />
             <RecentActivities
-              data={data?.recentActivityFeed}
+              data={isPlaceholderData ? [] : data?.recentActivityFeed}
               skeleton={isPlaceholderData}
             />
           </FlowContentHorizontal>
