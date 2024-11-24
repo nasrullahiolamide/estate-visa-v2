@@ -119,7 +119,7 @@ export function OccupantMessages({
               )}
               mih={130}
             >
-              <Flex gap={12} align='center' miw={110} w={350}>
+              <Flex gap={12} align='center' miw={110} maw={350}>
                 <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
                 <Text className='prose-base/bold sm:prose-lg/semi-bold'>
