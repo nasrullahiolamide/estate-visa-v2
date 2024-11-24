@@ -20,6 +20,7 @@ import {
   ClockIcon,
   DoubleMarkIcon,
   EditIcon,
+  EyeIcon,
   ReceivedIcon,
   SentIcon,
   TrashIcon,
@@ -33,6 +34,7 @@ import { id } from "@/builders/http/estates/id";
 import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
 interface OccupantMessagesProps {
   data: MessagesData[] | undefined;
   loading?: boolean;
@@ -119,8 +121,7 @@ export function OccupantMessages({
           const { id, content, subject, updatedAt, tag, isRead } = {
             ...message,
           };
-          // const viewLink = setContent({ id, view: type });
-
+          const viewLink = setContent({ id, view: MESSAGE_TYPE.OCCUPANT });
           const localTime = formatDate(updatedAt, TIME_FORMAT);
           const localDate = formatDate(updatedAt, "MM/DD/YYYY");
 
@@ -160,6 +161,13 @@ export function OccupantMessages({
               <FlowMenu position='bottom-end'>
                 <FlowMenuTarget />
                 <FlowMenuDropdown>
+                  <Menu.Item
+                    leftSection={<EyeIcon width={14} />}
+                    component={Link}
+                    href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES, viewLink)}
+                  >
+                    View more
+                  </Menu.Item>
                   {tag !== "sent" && !isRead && (
                     <Menu.Item leftSection={<DoubleMarkIcon height={20} />}>
                       Mark as read
