@@ -50,11 +50,11 @@ export default function Messages() {
   };
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.messages.get.table.get(),
+    queryKey: builder.messages.get.table.get(type),
     queryFn: () =>
       builder.use().messages.get.table({
         estateId,
-        params: { page, pageSize, type },
+        params: { page, pageSize },
       }),
     placeholderData: initialMeetingList,
     select: (data) => {

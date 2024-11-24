@@ -128,7 +128,7 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ content, data }: HeaderOptionsProps) {
   const { view, id } = content;
-  // const { back } = useRouter();
+  const { back } = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
@@ -146,6 +146,7 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
             ? "Message deleted successfully"
             : "Broadcast deleted successfully",
       });
+      back();
       modals.close(MODALS.CONFIRMATION);
     },
   });

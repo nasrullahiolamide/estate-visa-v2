@@ -31,6 +31,7 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import clsx from "clsx";
+import { vi } from "@faker-js/faker";
 
 interface OccupantMessagesProps {
   data: MessagesData[] | undefined;
@@ -65,7 +66,7 @@ export function OccupantMessages({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(),
+        queryKey: builder.messages.get.table.get(MESSAGE_TYPE.OCCUPANT),
       });
       handleSuccess({
         autoClose: 1200,
