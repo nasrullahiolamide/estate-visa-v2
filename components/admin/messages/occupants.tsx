@@ -28,7 +28,7 @@ import { EditModal } from "./modals/edit";
 import { MESSAGE_TYPE } from "./modals/write";
 import { builder } from "@/builders";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -53,6 +53,8 @@ export function OccupantMessages({
 }: OccupantMessagesProps) {
   const { setContent } = useMessagesValue();
 
+  const queryClient = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
     onError: () => {
@@ -62,6 +64,9 @@ export function OccupantMessages({
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.messages.get.table.get(),
+      });
       handleSuccess({
         autoClose: 1200,
         message: "Message deleted successfully",
