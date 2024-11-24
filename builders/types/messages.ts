@@ -2,6 +2,8 @@ import { es, faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 import { EstatesData, useFakeEstatesData } from "./estates";
 import { HouseData, useFakeHouseData } from "./houses";
+import { ProfileData, useFakeProfileData } from "./profile";
+import { useFakeUserData, User } from "./login";
 
 export type MessagesList = {
   page: string;
@@ -11,10 +13,11 @@ export type MessagesList = {
 };
 
 export type UpdateMessagesData = {
-  title: string;
+  subject?: string;
   content: string;
-  houseIds: string[];
-  estateId: string;
+  title?: string;
+  houseIds?: string[];
+  estateId?: string;
   attachments?: string[];
 };
 
@@ -25,8 +28,10 @@ export type MessagesData = {
   content: string;
   attachments: string[];
   estate: EstatesData;
+  sender: User;
+  recipient: User;
+  tag: string;
   house: HouseData;
-  // houseIds: string[];
   isRead: boolean;
   createdAt: string;
   updatedAt: string;
@@ -39,6 +44,8 @@ export function useFakeMessagesData(_?: any, index?: number) {
 
   const estate = useFakeEstatesData();
   const house = useFakeHouseData();
+  const sender = useFakeUserData();
+  const recipient = useFakeUserData();
 
   return {
     id: faker.string.uuid(),
@@ -47,8 +54,10 @@ export function useFakeMessagesData(_?: any, index?: number) {
     content: faker.lorem.paragraphs(4),
     attachments: faker.helpers.arrayElements(["kl", "l"]),
     estate,
+    sender,
+    recipient,
     house,
-    // houseIds: [house.id],
+    tag: faker.helpers.arrayElement(["sent", "inbox"]),
     isRead: faker.helpers.arrayElement([true, false]),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),

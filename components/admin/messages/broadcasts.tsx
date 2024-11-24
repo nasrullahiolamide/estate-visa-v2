@@ -10,6 +10,7 @@ import { MessagesData, MessagesList } from "@/builders/types/messages";
 import { EmptySlot } from "@/components/shared/interface";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import clsx from "clsx";
+import { Markdown } from "@/components/shared/markdown";
 
 interface BroadcastMessagesProps {
   data: MessagesData[] | undefined;

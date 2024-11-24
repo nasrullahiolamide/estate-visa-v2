@@ -59,5 +59,7 @@ export { CSVIcon } from "./csv-icon";
 export { WhatsAppIcon } from "./whatsapp";
 export { SMSIcon } from "./sms";
 export { CopyIcon } from "./copy";
+export { ReceivedIcon } from "./received";
+export { SentIcon } from "./sent";
 
 export type { IconType } from "./type";

@@ -23,6 +23,7 @@ import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AttachFile, Plane, TrashIcon } from "@/icons";
+import { FlowEditor } from "@/components/layout/flow-editor";
 
 export enum MESSAGE_TYPE {
   OCCUPANT = "occupant",
@@ -85,11 +86,7 @@ export function WriteModal({ view }: WriteModalProps) {
 
   const form = useForm({
     initialValues: {
-      houseIds: [
-        view === MESSAGE_TYPE.OCCUPANT
-          ? houseNumbers?.[0]?.value ?? ""
-          : RECIPIENTS.ALL_HOUSES,
-      ],
+      houseIds: [],
       title: "",
       content: "",
       attachments: [""],
@@ -98,9 +95,8 @@ export function WriteModal({ view }: WriteModalProps) {
     validateInputOnBlur: true,
     transformValues: (values) => {
       const { houseIds, title, content } = values;
-      console.log(houseIds);
       return {
-        houseIds: houseIds.includes(RECIPIENTS.ALL_HOUSES) ? [] : houseIds,
+        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : houseIds,
         title: cast.string(title),
         content: cast.string(content),
       };
@@ -112,7 +108,6 @@ export function WriteModal({ view }: WriteModalProps) {
       ...form.getTransformedValues(),
       estateId,
     };
-    console.log(payload);
     mutate(payload);
   }
 

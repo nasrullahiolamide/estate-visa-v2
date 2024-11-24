@@ -26,23 +26,15 @@ import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AttachFile, ClockIcon, Plane, TrashIcon } from "@/icons";
+import { FlowEditor } from "@/components/layout/flow-editor";
 
 export enum MESSAGE_TYPE {
   OCCUPANT = "occupant",
   BROADCAST = "broadcast",
 }
 
-enum RECIPIENTS {
-  ALL_HOUSES = "All Houses",
-  ALL_ACTIVE_HOUSES = "All Active Houses",
-  ALL_ADMINS = "All Admins",
-}
-
 export const schema = object({
-  houseIds: array()
-    .of(string().required("Recipient is required"))
-    .min(1, "Recipient is required"),
-  title: requiredString,
+  subject: requiredString,
   content: requiredString,
 });
 
@@ -56,6 +48,19 @@ export function EditModal({ view, content }: EditModalProps) {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const [files, setFiles] = useState<File[]>([]);
+
+  const { preview, handleUpload, status, progress } = useFileUpload({
+    key: "messages",
+    onError: () => {
+      toast.error("Failed to upload resource");
+    },
+    onSuccess: ({ data }) => {
+      form.setFieldValue("attachments", [
+        ...form.values.attachments,
+        data.secure_url,
+      ]);
+    },
+  });
 
   const { data: houseNumbers } = useQuery({
     queryKey: builder.houses.list.all.get(),
@@ -73,15 +78,12 @@ export function EditModal({ view, content }: EditModalProps) {
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.edit,
     onSuccess: () => {
-      modals.close(MODALS.WRTIE_MESSAGE);
+      modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.id.get(content.id),
       });
       handleSuccess({
-        message:
-          view === MESSAGE_TYPE.OCCUPANT
-            ? "Message sent to occupants"
-            : "Broadcast sent to all houses",
+        message: "Message updated successfully",
       });
     },
     onError: handleError(),
@@ -89,19 +91,19 @@ export function EditModal({ view, content }: EditModalProps) {
 
   const form = useForm({
     initialValues: {
-      houseIds: [""],
-      title: content.subject,
+      houseIds: [] as string[],
+      subject: content.subject,
       content: content.content,
       attachments: content.attachments,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { houseIds, title, content } = values;
+      const { houseIds, subject, content } = values;
       return {
-        houseIds,
-        title: cast.string(title),
-        content: cast.string(content),
+        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : houseIds,
+        subject,
+        content,
       };
     },
   });
@@ -111,20 +113,9 @@ export function EditModal({ view, content }: EditModalProps) {
       ...form.getTransformedValues(),
       estateId,
     };
-  }
 
-  const { preview, handleUpload, status, progress } = useFileUpload({
-    key: "messages",
-    onError: () => {
-      toast.error("Failed to upload resource");
-    },
-    onSuccess: ({ data }) => {
-      form.setFieldValue("attachments", [
-        ...form.values.attachments,
-        data.secure_url,
-      ]);
-    },
-  });
+    mutate({ id: content.id, data: payload });
+  }
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
@@ -145,8 +136,7 @@ export function EditModal({ view, content }: EditModalProps) {
         ) : (
           <div className='space-y-2'>
             <Title order={2} fz={16}>
-              {view === MESSAGE_TYPE.OCCUPANT ? "From:" : "To:"}{" "}
-              <span>All Houses</span>
+              To: All Houses
             </Title>
             <Flex align='center' gap={4}>
               <ClockIcon width={14} height={14} />
@@ -161,7 +151,7 @@ export function EditModal({ view, content }: EditModalProps) {
         <TextInput
           label='Subject'
           withAsterisk
-          {...form.getInputProps("title")}
+          {...form.getInputProps("subject")}
         />
         <Textarea
           label={
@@ -187,7 +177,7 @@ export function EditModal({ view, content }: EditModalProps) {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.WRITE_BROADCAST_MESSAGE)}
+            onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
             disabled={isPending}
           >
             Discard
@@ -198,7 +188,7 @@ export function EditModal({ view, content }: EditModalProps) {
             disabled={isPending}
             loading={isPending}
           >
-            Save Changes
+            Save
           </Button>
         </Flex>
       </FlowContainer>

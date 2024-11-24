@@ -29,6 +29,7 @@ import {
   WriteModal,
 } from "@/components/admin/messages/modals/write";
 import { EditModal } from "@/components/admin/messages/modals/edit";
+import { useRouter } from "next/navigation";
 
 interface PageProps {
   params: {
@@ -127,6 +128,7 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ content, data }: HeaderOptionsProps) {
   const { view, id } = content;
+  // const { back } = useRouter();
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
@@ -144,7 +146,6 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
             ? "Message deleted successfully"
             : "Broadcast deleted successfully",
       });
-      navigate(makePath(PAGES.DASHBOARD, PAGES.MESSAGES));
       modals.close(MODALS.CONFIRMATION);
     },
   });

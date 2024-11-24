@@ -12,7 +12,7 @@ const post = function (data: UpdateMessagesData) {
 
 const edit = function (variables: { id: string; data: UpdateMessagesData }) {
   const { id, data } = variables;
-  return api.put(`/messages${id}`, data);
+  return api.patch(`/messages/${id}`, data);
 };
 
 const table = function (variables: {
