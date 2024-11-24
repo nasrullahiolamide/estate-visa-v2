@@ -1,8 +1,7 @@
 "use client";
 
-import clsx from "clsx";
 import { Checkbox, Flex, Menu, Stack, Text } from "@mantine/core";
-import { MessagesData, MessagesList } from "@/builders/types/messages";
+import { MessagesData } from "@/builders/types/messages";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
@@ -12,11 +11,9 @@ import {
   FlowMenu,
   FlowMenuDropdown,
   FlowMenuTarget,
-  useFlowPagination,
 } from "@/components/layout";
 import {
   AddIcon,
-  ArrowBack,
   ClockIcon,
   DoubleMarkIcon,
   EditIcon,
@@ -30,11 +27,11 @@ import { modals } from "@mantine/modals";
 import { EditModal } from "./modals/edit";
 import { MESSAGE_TYPE } from "./modals/write";
 import { builder } from "@/builders";
-import { id } from "@/builders/http/estates/id";
-import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import clsx from "clsx";
+
 interface OccupantMessagesProps {
   data: MessagesData[] | undefined;
   loading?: boolean;
@@ -55,19 +52,6 @@ export function OccupantMessages({
   handleWrite,
 }: OccupantMessagesProps) {
   const { setContent } = useMessagesValue();
-
-  const pagination = useFlowPagination();
-
-  // useEffect(() => {
-  //   if (loading) return;
-
-  //   pagination.setPage(data?.page);
-  //   pagination.setTotal(data?.total);
-  //   pagination.setEntriesCount(data?.messages?.length);
-  //   pagination.setPageSize(data?.pageSize);
-  // }, [loading]);
-
-  // const noDataAvailable = data?.messages?.length === 0;
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,

@@ -68,8 +68,8 @@ export default function Page({ params }: PageProps) {
       data.map((item) => {
         const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
         const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
-        // const houseIds = item.houseIds.map((id) => id.toString());
-        return { ...item, localDate, localTime };
+        const houseIds = [item.house.houseNumber];
+        return { ...item, localDate, localTime, houseIds };
       }),
     enabled: !!id,
   });
@@ -182,7 +182,7 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
 
   return (
     <Flex gap={14} wrap='wrap' align='center' justify='center'>
-      {view === MESSAGE_TYPE.OCCUPANT ? (
+      {view === MESSAGE_TYPE.OCCUPANT && data.isRead ? (
         <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
           <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow width={20} />

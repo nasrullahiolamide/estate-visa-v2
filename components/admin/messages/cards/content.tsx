@@ -17,9 +17,21 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
   return (
     <Stack className='w-full h-full p-5 sm:p-7'>
       <div className='space-y-2'>
-        <Title order={2} fz={16}>
-          {view === MESSAGE_TYPE.OCCUPANT ? "From:" : "To:"}{" "}
-          <span>All Houses</span>
+        <Title
+          order={2}
+          fz={16}
+          className={clsx({
+            skeleton,
+          })}
+        >
+          {view === MESSAGE_TYPE.OCCUPANT && data.tag === "sent"
+            ? "From:"
+            : "To:"}{" "}
+          <span>
+            {view === MESSAGE_TYPE.OCCUPANT
+              ? data.house.houseNumber
+              : "All Houses"}
+          </span>
         </Title>
         <Flex
           align='center'
@@ -50,7 +62,7 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
           {data?.subject}
         </Title>
 
-        <FlowContainer p={20} mah={430} mih={250} skeleton={skeleton}>
+        <FlowContainer p={20} mah={430} mih={430} skeleton={skeleton}>
           <Text>{data?.content}</Text>
         </FlowContainer>
       </Stack>

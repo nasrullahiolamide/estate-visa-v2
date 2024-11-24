@@ -12,6 +12,7 @@ import {
   FileButton,
   Flex,
   MultiSelect,
+  Pill,
   Text,
   Textarea,
   TextInput,
@@ -62,7 +63,7 @@ export function EditModal({ view, content }: EditModalProps) {
     },
   });
 
-  const { data: houseNumbers } = useQuery({
+  const { data: houseNumbers, isLoading } = useQuery({
     queryKey: builder.houses.list.all.get(),
     queryFn: () => builder.use().houses.list.all(estateId),
     select: (houses) => {
@@ -91,7 +92,6 @@ export function EditModal({ view, content }: EditModalProps) {
 
   const form = useForm({
     initialValues: {
-      houseIds: [] as string[],
       subject: content.subject,
       content: content.content,
       attachments: content.attachments,
@@ -99,9 +99,8 @@ export function EditModal({ view, content }: EditModalProps) {
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { houseIds, subject, content } = values;
+      const { subject, content } = values;
       return {
-        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : houseIds,
         subject,
         content,
       };
@@ -126,28 +125,28 @@ export function EditModal({ view, content }: EditModalProps) {
         type='plain'
         bg='white'
       >
-        {view === MESSAGE_TYPE.OCCUPANT ? (
-          <MultiSelect
-            label='To:'
-            data={houseNumbers}
-            disabled
-            {...form.getInputProps("houseIds")}
-          />
-        ) : (
-          <div className='space-y-2'>
+        <div className='space-y-2'>
+          {view === MESSAGE_TYPE.OCCUPANT ? (
+            <Title order={2} fz={16}>
+              To:{" "}
+              {content.houseIds?.map((houseId) => (
+                <Pill key={houseId} children={houseId} ml={3} />
+              ))}
+            </Title>
+          ) : (
             <Title order={2} fz={16}>
               To: All Houses
             </Title>
-            <Flex align='center' gap={4}>
-              <ClockIcon width={14} height={14} />
-              <Text className='text-gray-300 space-x-1' fz={12}>
-                <span>{content?.localDate}</span>
-                <span>at</span>
-                <span className='uppercase'>{content?.localTime}</span>
-              </Text>
-            </Flex>
-          </div>
-        )}
+          )}
+          <Flex align='center' gap={4}>
+            <ClockIcon width={14} height={14} />
+            <Text className='text-gray-300 space-x-1' fz={12}>
+              <span>{content?.localDate}</span>
+              <span>at</span>
+              <span className='uppercase'>{content?.localTime}</span>
+            </Text>
+          </Flex>
+        </div>
         <TextInput
           label='Subject'
           withAsterisk
