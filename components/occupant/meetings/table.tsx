@@ -40,11 +40,12 @@ export function OccupantMeetingTable({
   empty,
   numberOfPages,
 }: OccupantMeetingTableProps) {
+  console.log(meetings);
   return (
     <FlowContainer type='plain' bg='white' h='100%'>
       <FlowContentContainer>
         <Stack mah={610} className='overflow-auto h-full'>
-          {meetings?.data ? (
+          {meetings?.data.length ? (
             <FlowTable
               data={meetings?.data}
               columns={meetingColumns}
