@@ -40,7 +40,6 @@ export function OccupantMeetingTable({
   empty,
   numberOfPages,
 }: OccupantMeetingTableProps) {
-  console.log(meetings);
   return (
     <FlowContainer type='plain' bg='white' h='100%'>
       <FlowContentContainer>
@@ -53,7 +52,9 @@ export function OccupantMeetingTable({
             />
           ) : (
             <EmptySlot
-              title='No meetings scheduled yet. Check back soon for upcoming events!'
+              title={`
+                No meetings ${view} yet. Check back soon for updates!
+              `}
               src='meeting'
             />
           )}

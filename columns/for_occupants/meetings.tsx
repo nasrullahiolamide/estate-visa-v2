@@ -38,32 +38,20 @@ export const meetingColumns = [
   columnHelper.accessor("time", {
     header: "Time",
     enableSorting: false,
-    cell: ({ getValue }) => formatDate(getValue(), "LT"),
+    cell: ({ getValue }) => (
+      <Text ta='center' fz={14} tt='uppercase' children={getValue()} />
+    ),
   }),
   columnHelper.accessor("noOfAttendees", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Attendees'
-      />
-    ),
+    header: "Attendees",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text
-        ta='center'
-        fz={14}
-        children={getValue() === 0 ? "-" : getValue()}
-      />
+      <Text ta='center' fz={14} children={getValue() ? "-" : getValue()} />
     ),
   }),
 
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
