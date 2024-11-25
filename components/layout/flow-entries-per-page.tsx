@@ -20,17 +20,18 @@ export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
       gap={10}
       wrap='wrap'
       align='center'
-      className='prose-sm/medium hidden lg:flex'
+      className='prose-sm/medium'
+      // lg:flex
       {...rootProps}
     >
       <Text>Show</Text>
       <Select
-        data={["20", "50", "100"]}
+        data={["10", "30", "50", "100"]}
         value={cast.string(pageSize)}
         onChange={(value) => {
           dispatch({
             type: FlowActionType.SET_PAGE_SIZE,
-            payload: cast.number(value),
+            payload: cast.string(value),
           });
         }}
         size='sm'

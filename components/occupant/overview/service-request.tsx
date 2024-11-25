@@ -66,7 +66,7 @@ export function ServiceRequest({}: ServiceRequestProps) {
       </Flex>
       {data?.length ? (
         <Fragment>
-          <Stack h={400} className='overflow-auto' gap={0}>
+          <Stack mah={400} className='overflow-auto' gap={0}>
             {data?.map((r) => {
               const color: Record<PropertyKey, string> = {
                 approved: "#11A506",

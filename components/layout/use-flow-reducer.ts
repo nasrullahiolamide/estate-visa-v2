@@ -45,7 +45,7 @@ const initialState: FlowState = {
   totalEntryCount: 1,
   search: "",
   numberOfPages: 0,
-  pageSize: 20,
+  pageSize: 10,
   sortBy: "",
   sortOrder: "",
   status: "",

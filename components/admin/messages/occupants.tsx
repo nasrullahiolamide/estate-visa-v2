@@ -34,12 +34,14 @@ interface OccupantMessagesProps {
   data: MessagesData[] | undefined;
   loading?: boolean;
   handleWrite: () => void;
+  recipient?: string;
 }
 
 export function OccupantMessages({
   data,
   loading,
   handleWrite,
+  recipient,
 }: OccupantMessagesProps) {
   const { setContent } = useMessagesValue();
   const queryClient = useQueryClient();
@@ -127,7 +129,7 @@ export function OccupantMessages({
                 <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
                 <Text className='prose-base/bold sm:prose-lg/semi-bold'>
-                  {null}
+                  {recipient}
                 </Text>
               </Flex>
 

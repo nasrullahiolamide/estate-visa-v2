@@ -29,7 +29,7 @@ export function FlowPagination({
   pageProps,
   limitProps,
 }: FlowPaginationProps) {
-  const { page, numberOfPages } = useFlowState();
+  const { page, numberOfPages = 2 } = useFlowState();
 
   return (
     <Flex
@@ -56,10 +56,17 @@ export function FlowPagination({
           </Pagination.Control>
         );
       })}
-      <Pagination.Dots />
-      <Pagination.Control value={numberOfPages} active={page === numberOfPages}>
-        {numberOfPages}
-      </Pagination.Control>
+      {numberOfPages > MAX_CONTROLS && <Pagination.Dots />}
+
+      {numberOfPages > MAX_CONTROLS && (
+        <Pagination.Control
+          value={numberOfPages}
+          active={page === numberOfPages}
+        >
+          {numberOfPages}
+        </Pagination.Control>
+      )}
+
       <Pagination.Next />
     </Flex>
   );

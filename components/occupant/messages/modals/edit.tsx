@@ -1,75 +1,72 @@
 "use client";
 
-import { array, object, string } from "yup";
+import { object } from "yup";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import {
-  Button,
-  Flex,
-  MultiSelect,
-  Select,
-  Textarea,
-  TextInput,
-} from "@mantine/core";
+import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, MODALS } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
+import { MessagesData } from "@/builders/types/messages";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plane, TrashIcon } from "@/icons";
+import { ClockIcon, Plane, TrashIcon } from "@/icons";
 import { UploadAttachments } from "@/components/admin/messages/upload-attachment";
 
 export const schema = object({
-  recipientId: requiredString,
-  title: requiredString,
+  subject: requiredString,
   content: requiredString,
 });
 
-export function WriteModal() {
+interface EditModalProps {
+  content: MessagesData;
+}
+
+export function EditModal({ content }: EditModalProps) {
   const queryClient = useQueryClient();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.post,
+    mutationFn: builder.use().messages.edit,
     onError: handleError(),
     onSuccess: () => {
-      modals.close(MODALS.WRTIE_MESSAGE);
+      modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.user.get(),
+        queryKey: builder.messages.get.id.get(),
       });
       handleSuccess({
-        message: "Message sent successfully",
+        autoClose: 1000,
+        message: "Message updated successfully",
       });
     },
   });
 
   const form = useForm({
     initialValues: {
-      title: "",
-      content: "",
-      recipientId: "",
-      attachments: [""],
+      subject: content.subject,
+      content: content.content,
+      attachments: content.attachments,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { recipientId, title, content } = values;
+      const { subject, content } = values;
       return {
-        recipientId: cast.string(recipientId),
-        title: cast.string(title),
-        content: cast.string(content),
+        subject,
+        content,
       };
     },
   });
 
   function handleSubmit() {
-    mutate({
+    const payload = {
       ...form.getTransformedValues(),
       estateId,
-    });
+    };
+    mutate({ id: content.id, data: payload });
   }
 
   return (
@@ -81,17 +78,24 @@ export function WriteModal() {
         type='plain'
         bg='white'
       >
-        <Select
-          label='To:'
-          withAsterisk
-          placeholder='Select Recipient'
-          data={["Admin", "Sub Admin"]}
-          {...form.getInputProps("recipientId")}
-        />
+        <div className='space-y-2'>
+          <Title order={2} fz={16}>
+            To: Admin
+          </Title>
+
+          <Flex align='center' gap={4}>
+            <ClockIcon width={14} height={14} />
+            <Text className='text-gray-300 space-x-1' fz={12}>
+              <span>{content?.localDate}</span>
+              <span>at</span>
+              <span className='uppercase'>{content?.localTime}</span>
+            </Text>
+          </Flex>
+        </div>
         <TextInput
           label='Subject'
           withAsterisk
-          {...form.getInputProps("title")}
+          {...form.getInputProps("subject")}
         />
         <Textarea
           label={
@@ -113,18 +117,13 @@ export function WriteModal() {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
+            onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
             disabled={isPending}
           >
             Discard
           </Button>
-          <Button
-            type='submit'
-            rightSection={<Plane />}
-            disabled={isPending}
-            loading={isPending}
-          >
-            Send
+          <Button type='submit' disabled={isPending} loading={isPending}>
+            Save Changes
           </Button>
         </Flex>
       </FlowContainer>

@@ -1,84 +1,199 @@
+"use client";
+
+import {
+  AddIcon,
+  ClockIcon,
+  DoubleMarkIcon,
+  EyeIcon,
+  ReceivedIcon,
+  SentIcon,
+  TrashIcon,
+} from "@/icons";
 import {
   FlowContentContainer,
   FlowMenu,
   FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
-import {
-  ArrowBack,
-  ClockIcon,
-  DoubleMarkIcon,
-  EditIcon,
-  TrashIcon,
-} from "@/icons";
-import { useMessagesValue } from "@/packages/hooks/use-messages-value";
+import { TIME_FORMAT } from "@/packages/constants/time";
+import { MessagesData } from "@/builders/types/messages";
+import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
+import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Checkbox, Flex, Menu, Stack, Text } from "@mantine/core";
 
-export function OccupantMessages() {
-  const { setContent } = useMessagesValue();
+import { modals } from "@mantine/modals";
+import { builder } from "@/builders";
+import Link from "next/link";
+import clsx from "clsx";
+
+interface ConversationsProps {
+  data: MessagesData[] | undefined;
+  loading?: boolean;
+  handleWrite: () => void;
+  recipient?: string;
+}
+
+export function Conversations({
+  data,
+  loading,
+  handleWrite,
+  recipient,
+}: ConversationsProps) {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.use().messages.remove,
+    onError: () => {
+      modals.close(MODALS.CONFIRMATION);
+      handleError({
+        message: "An error occurred while deleting message, please try again",
+      })();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.messages.get.user.get(),
+      });
+      handleSuccess({
+        autoClose: 1200,
+        message: "Message deleted successfully",
+      });
+      modals.close(MODALS.CONFIRMATION);
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    modals.open({
+      children: (
+        <ConfirmationModal
+          withTwoButtons
+          title={`Are you sure you want to delete this message`}
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
+          srcProps={{
+            ml: 0,
+          }}
+          secondaryBtnProps={{
+            disabled: isPending,
+          }}
+          primaryBtnProps={{
+            color: "red",
+            loading: isPending,
+            disabled: isPending,
+            onClick: () => mutate(id),
+          }}
+        />
+      ),
+      withCloseButton: false,
+      modalId: MODALS.CONFIRMATION,
+    });
+  };
 
   return (
     <FlowContentContainer mah={680}>
-      {Array.from({ length: 10 }).map((_, i) => {
-        const viewLink = setContent({ id: i.toString(), view: "broadcast" });
-        return (
-          <Flex
-            key={i}
-            align='center'
-            className='flex items-center border-b border-b-gray-3 py-4 px-4 lg:px-8 gap-2'
-            mih={130}
-          >
-            <Flex gap={12} align='center' miw={110} w={350}>
-              <Checkbox size='xs' />
-              {true ? (
-                <ArrowBack width={14} className='text-red-5 rotate-90' />
-              ) : (
-                <ArrowBack className='text-green-5' />
-              )}
-              <Text className='prose-base/bold sm:prose-lg/semi-bold'>H10</Text>
-            </Flex>
+      {data?.length ? (
+        data?.map((message, i) => {
+          const { id, content, subject, updatedAt, tag, isRead } = {
+            ...message,
+          };
+          const localTime = formatDate(updatedAt, TIME_FORMAT);
+          const localDate = formatDate(updatedAt, "MM/DD/YYYY");
 
-            <Stack className='flex-grow' gap={12}>
-              <Text lineClamp={2} fz={14}>
-                <span className='font-bold mr-1'>Meeting Minutes Review.</span>
-                <span className='text-gray-800'>
-                  Lorem ipsum dolor sit amet consectetur. Semper id lacus
-                  pretium tellus feugiat pretium tellus. Lorem ipsum dolor sit
-                  amet consectetur. Semper id lacus pretium tellus feugiat
-                  pretium tellus
-                </span>
-              </Text>
-              <Flex align='center' gap={4}>
-                <ClockIcon width={14} height={14} />
-                <Text className='text-gray-300 space-x-1' fz={12}>
-                  <span>24/07/2024</span>
-                  <span>at</span>
-                  <span>9:00AM</span>
+          return (
+            <Flex
+              key={i}
+              align='center'
+              className={clsx(
+                "flex items-center border-b border-b-gray-3 py-4 px-4 lg:px-8 gap-2",
+                { "lg:!px-4": loading }
+              )}
+              h={130}
+            >
+              <Flex
+                gap={12}
+                align='center'
+                miw={110}
+                w={{
+                  lg: 350,
+                }}
+                className={clsx("h-full", {
+                  "skeleton my-3": loading,
+                })}
+              >
+                <Checkbox size='xs' />
+                {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
+                <Text className='prose-base/bold sm:prose-lg/semi-bold'>
+                  {recipient}
                 </Text>
               </Flex>
-            </Stack>
 
-            <FlowMenu position='bottom-end'>
-              <FlowMenuTarget />
-              <FlowMenuDropdown>
-                <Menu.Item leftSection={<DoubleMarkIcon width={14} />}>
-                  Mark as read
-                </Menu.Item>
-                <Menu.Item leftSection={<EditIcon width={14} />}>
-                  Edit
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Item
-                  color='#CC0404'
-                  leftSection={<TrashIcon width={15} />}
-                >
-                  Delete
-                </Menu.Item>
-              </FlowMenuDropdown>
-            </FlowMenu>
-          </Flex>
-        );
-      })}
+              <Flex
+                gap={12}
+                align='center'
+                className={clsx("h-full w-full", {
+                  "skeleton my-3": loading,
+                })}
+              >
+                <Stack flex={1}>
+                  <Text lineClamp={2} fz={14}>
+                    <span className='font-bold mr-1'>{subject}</span>
+                    <span className='text-gray-800'>{content}</span>
+                  </Text>
+                  <Flex align='center' gap={4}>
+                    <ClockIcon width={14} height={14} />
+                    <Text className='text-gray-300 space-x-1' fz={12}>
+                      <span>{localDate}</span>
+                      <span>at</span>
+                      <span className='uppercase'>{localTime}</span>
+                    </Text>
+                  </Flex>
+                </Stack>
+
+                <FlowMenu position='bottom-end'>
+                  <FlowMenuTarget />
+                  <FlowMenuDropdown>
+                    <Menu.Item
+                      leftSection={<EyeIcon width={14} />}
+                      component={Link}
+                      href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES, id)}
+                    >
+                      View
+                    </Menu.Item>
+                    {tag !== "sent" && !isRead && (
+                      <Menu.Item leftSection={<DoubleMarkIcon height={20} />}>
+                        Mark as read
+                      </Menu.Item>
+                    )}
+                    <Menu.Divider />
+                    <Menu.Item
+                      color='#CC0404'
+                      leftSection={<TrashIcon width={15} />}
+                      onClick={() => handleDelete(id)}
+                    >
+                      Delete
+                    </Menu.Item>
+                  </FlowMenuDropdown>
+                </FlowMenu>
+              </Flex>
+            </Flex>
+          );
+        })
+      ) : (
+        <Stack h={800}>
+          <EmptySlot
+            title='You have no messages yet. Start a conversation to stay connected!'
+            src='no-talk'
+            withButton
+            text='Write Message'
+            btnProps={{
+              leftSection: <AddIcon />,
+              onClick: handleWrite,
+            }}
+          />
+        </Stack>
+      )}
     </FlowContentContainer>
   );
 }
