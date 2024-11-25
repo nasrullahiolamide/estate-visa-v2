@@ -50,7 +50,7 @@ export function useFakeMessagesData(_?: any, index?: number) {
   return {
     id: faker.string.uuid(),
     subject: faker.lorem.words(),
-    type: faker.helpers.arrayElement(["broadcast", "occupants"]),
+    type: faker.helpers.arrayElement(["broadcast", "occupant"]),
     content: faker.lorem.paragraphs(4),
     attachments: faker.helpers.arrayElements(["kl", "l"]),
     estate,

@@ -1,38 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { array, object, string } from "yup";
+import { object } from "yup";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import {
-  Button,
-  FileButton,
-  Flex,
-  MultiSelect,
-  Pill,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, MODALS } from "@/packages/libraries";
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AttachFile, ClockIcon, Plane, TrashIcon } from "@/icons";
-import { FlowEditor } from "@/components/layout/flow-editor";
-
-export enum MESSAGE_TYPE {
-  OCCUPANT = "occupant",
-  BROADCAST = "broadcast",
-}
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ClockIcon, Plane, TrashIcon } from "@/icons";
+import { UploadAttachments } from "../upload-attachment";
+import { MESSAGE_TYPE } from "../enums";
 
 export const schema = object({
   subject: requiredString,
@@ -41,53 +24,29 @@ export const schema = object({
 
 interface EditModalProps {
   view: string;
-  content: MessagesData & { houseIds?: string[] };
+  content: MessagesData;
 }
 
 export function EditModal({ view, content }: EditModalProps) {
   const queryClient = useQueryClient();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
-  const [files, setFiles] = useState<File[]>([]);
-
-  const { preview, handleUpload, status, progress } = useFileUpload({
-    key: "messages",
-    onError: () => {
-      toast.error("Failed to upload resource");
-    },
-    onSuccess: ({ data }) => {
-      form.setFieldValue("attachments", [
-        ...form.values.attachments,
-        data.secure_url,
-      ]);
-    },
-  });
-
-  const { data: houseNumbers, isLoading } = useQuery({
-    queryKey: builder.houses.list.all.get(),
-    queryFn: () => builder.use().houses.list.all(estateId),
-    select: (houses) => {
-      return houses
-        .filter(({ noOfOccupants }) => noOfOccupants > 0)
-        .map(({ id, houseNumber }) => ({
-          value: id,
-          label: houseNumber,
-        }));
-    },
-  });
-
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.edit,
+    onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.id.get(content.id),
+        queryKey: builder.messages.get.id.get(),
       });
       handleSuccess({
-        message: "Message updated successfully",
+        autoClose: 1000,
+        message:
+          view === MESSAGE_TYPE.OCCUPANT
+            ? "Message updated successfully"
+            : "Broadcast updated successfully",
       });
     },
-    onError: handleError(),
   });
 
   const form = useForm({
@@ -112,7 +71,6 @@ export function EditModal({ view, content }: EditModalProps) {
       ...form.getTransformedValues(),
       estateId,
     };
-
     mutate({ id: content.id, data: payload });
   }
 
@@ -128,10 +86,7 @@ export function EditModal({ view, content }: EditModalProps) {
         <div className='space-y-2'>
           {view === MESSAGE_TYPE.OCCUPANT ? (
             <Title order={2} fz={16}>
-              To:{" "}
-              {content.houseIds?.map((houseId) => (
-                <Pill key={houseId} children={houseId} ml={3} />
-              ))}
+              To: {content.house.houseNumber}
             </Title>
           ) : (
             <Title order={2} fz={16}>
@@ -158,11 +113,7 @@ export function EditModal({ view, content }: EditModalProps) {
               <span>
                 Message <span className='text-red-5'>*</span>
               </span>
-              <span className='cursor-pointer'>
-                <FileButton onChange={() => {}} multiple>
-                  {(props) => <AttachFile width={24} {...props} />}
-                </FileButton>
-              </span>
+              <UploadAttachments />
             </Flex>
           }
           placeholder='Type something here...'

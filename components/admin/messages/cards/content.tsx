@@ -4,13 +4,13 @@ import { FlowContainer } from "@/components/layout";
 import { ClockIcon } from "@/icons";
 import { Stack, Title, Flex, Text } from "@mantine/core";
 import { MessagesData } from "@/builders/types/messages";
-import { MESSAGE_TYPE } from "../modals/write";
 import { Attachments } from "./attachments";
+import { MESSAGE_TYPE } from "../enums";
 
 interface MessageContentProps {
   view: string;
   skeleton: boolean;
-  data: MessagesData;
+  data: MessagesData | undefined;
 }
 
 export function MessageContent({ view, skeleton, data }: MessageContentProps) {
@@ -24,12 +24,12 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
             skeleton,
           })}
         >
-          {view === MESSAGE_TYPE.OCCUPANT && data.tag === "sent"
+          {view === MESSAGE_TYPE.OCCUPANT && data?.tag === "sent"
             ? "From:"
             : "To:"}{" "}
           <span>
             {view === MESSAGE_TYPE.OCCUPANT
-              ? data.house.houseNumber
+              ? data?.house.houseNumber
               : "All Houses"}
           </span>
         </Title>
@@ -83,8 +83,3 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
     </Stack>
   );
 }
-
-//     <Text c='gray.5' fz={24} ta='center' mt={30}>
-//       No attachments
-//     </Text>
-//   )

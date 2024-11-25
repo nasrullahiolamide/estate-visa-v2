@@ -27,8 +27,6 @@ export default function Overview() {
     select: (data) => data,
   });
 
-  console.log(data);
-
   return (
     <Fragment>
       <AppShellHeader title='Overview' />

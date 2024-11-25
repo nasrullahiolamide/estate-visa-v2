@@ -1,14 +1,12 @@
 "use client";
 
-import { Fragment } from "react";
-import { AxiosError } from "axios";
+import { Fragment, useEffect } from "react";
 import { Flex, Button } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
 import { TIME_FORMAT } from "@/packages/constants/time";
-import { navigate } from "@/packages/actions";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared";
@@ -24,12 +22,11 @@ import {
   MessagesValue,
   useMessagesValue,
 } from "@/packages/hooks/use-messages-value";
-import {
-  MESSAGE_TYPE,
-  WriteModal,
-} from "@/components/admin/messages/modals/write";
+import { WriteModal } from "@/components/admin/messages/modals/write";
 import { EditModal } from "@/components/admin/messages/modals/edit";
 import { useRouter } from "next/navigation";
+import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
+import { useListState } from "@mantine/hooks";
 
 interface PageProps {
   params: {
@@ -37,7 +34,7 @@ interface PageProps {
   };
 }
 
-const handleWriteBroadcastMsg = (view: string) => {
+const writeMessage = (view: string) => {
   modals.open({
     title: view === MESSAGE_TYPE.OCCUPANT ? "Write Message" : "Send Broadcast",
     modalId: MODALS.WRITE_BROADCAST_MESSAGE,
@@ -54,26 +51,32 @@ const editMessage = (view: string, data: MessagesData) => {
 };
 
 export default function Page({ params }: PageProps) {
-  const {
-    content: { view, id },
-  } = useMessagesValue(params.content);
-
+  const { content } = useMessagesValue(params.content);
   const initialMessageData = useFakeMessagesData();
 
-  const { data: message, isPlaceholderData } = useQuery({
-    queryKey: builder.messages.get.id.get(id),
-    queryFn: () => builder.use().messages.get.id(id),
+  const [state, handlers] = useListState<MessagesData>([]);
+
+  const {
+    data = [],
+    isPlaceholderData,
+    isFetching,
+  } = useQuery({
+    queryKey: builder.messages.get.id.get(content.id),
+    queryFn: () => builder.use().messages.get.id(content.id),
     placeholderData: Array.from({ length: 1 }, (_, i) => initialMessageData),
     select: (data) =>
       data.map((item) => {
         const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
         const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
-        const houseIds = [item.house.houseNumber];
-        return { ...item, localDate, localTime, houseIds };
+        return { ...item, localDate, localTime };
       }),
-    enabled: !!id,
   });
-  const data = message?.[0];
+
+  useEffect(() => {
+    handlers.setState(data);
+  }, [isFetching]);
+
+  console.log(data);
 
   return (
     <Fragment>
@@ -82,7 +85,10 @@ export default function Page({ params }: PageProps) {
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
         options={
-          <HeaderOptions content={{ view, id }} data={data as MessagesData} />
+          <HeaderOptions
+            content={{ view: content.view, id: content.id }}
+            data={state.at(0) as MessagesData}
+          />
         }
       />
       <FlowContainer type='plain' className='lg:~p-1/8'>
@@ -92,11 +98,11 @@ export default function Page({ params }: PageProps) {
           }}
         >
           <FlowPaper>
-            {data ? (
+            {state ? (
               <MessageContent
-                data={data}
+                data={state.at(0)}
                 skeleton={isPlaceholderData}
-                view={view}
+                view={content.view}
               />
             ) : (
               <EmptySlot
@@ -104,13 +110,13 @@ export default function Page({ params }: PageProps) {
                 src='no-talk'
                 withButton
                 text={
-                  view === MESSAGE_TYPE.OCCUPANT
+                  content.view === MESSAGE_TYPE.OCCUPANT
                     ? "Write Message"
                     : "Send a Broadcast"
                 }
                 btnProps={{
                   leftSection: <AddIcon />,
-                  onClick: () => handleWriteBroadcastMsg(view),
+                  onClick: () => writeMessage(content.view),
                 }}
               />
             )}
@@ -182,8 +188,8 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
   };
 
   return (
-    <Flex gap={14} wrap='wrap' align='center' justify='center'>
-      {view === MESSAGE_TYPE.OCCUPANT && data.isRead ? (
+    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={!data}>
+      {view === MESSAGE_TYPE.OCCUPANT && data?.isRead ? (
         <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
           <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow width={20} />

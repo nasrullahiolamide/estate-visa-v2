@@ -1,8 +1,6 @@
-import clsx from "clsx";
-
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Flex, Menu, Stack, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
@@ -114,7 +112,7 @@ export function GateRequestActions({
       data?.occupant
     }' on ${formatDate(data?.visitDate, DATE_FORMAT)} at ${
       data?.visitTime
-    }. Here’s your gate access code: ${
+    }. Here's your gate access code: ${
       data?.accessCode
     }. Please use it when you arrive at the estate. See you soon!`;
 
@@ -149,9 +147,9 @@ export function GateRequestActions({
                         <SMSIcon />
                       </a>
                       <a
-                        href={`https://wa.me/${
+                        href={`https://api.whatsapp.com/send?phone=${
                           data.phoneNo
-                        }?text=${encodeURIComponent(shareText)}`}
+                        }&text=${encodeURIComponent(shareText)}`}
                         target='_blank'
                         rel='noopener noreferrer'
                         onClick={() => modals.close(MODALS.SHARE)}

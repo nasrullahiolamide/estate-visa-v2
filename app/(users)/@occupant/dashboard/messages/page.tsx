@@ -38,13 +38,13 @@ import {
   TrashIcon,
 } from "@/icons";
 import { builder } from "@/builders";
-import { MESSAGE_TYPE } from "@/components/admin/messages/modals/write";
 import { useQuery } from "@tanstack/react-query";
 import { useFakeMessagesList } from "@/builders/types/messages";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 import { EmptySlot } from "@/components/shared/interface";
+import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
 
 const handleWriteMessage = () => {
   modals.open({
@@ -55,7 +55,6 @@ const handleWriteMessage = () => {
 };
 
 export default function Messages() {
-  const estateId = toString(getCookie(APP.ESTATE_ID));
   const initialMeetingList = useFakeMessagesList();
   const pagination = useFlowPagination();
 

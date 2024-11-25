@@ -46,13 +46,18 @@ export function MeetingMinutesForm({
     queryFn: () => builder.use().meetings.get.all(),
     select: (data) => {
       return data
-        .filter(({ minutes }) => !minutes)
+        .filter(({ id, minutes }) => {
+          if (id === meetingId) return true;
+          return !minutes;
+        })
         .map(({ id, title }) => ({
-          value: id ?? "",
+          value: id,
           label: title,
         }));
     },
   });
+
+  console.log(meetings);
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().meetings.minutes,

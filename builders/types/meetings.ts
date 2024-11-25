@@ -27,11 +27,11 @@ export type MeetingListData = {
 };
 
 export type MeetingData = {
-  id?: string;
+  id: string;
   title: string;
   estateId: string;
   date: Date;
-  time: string | null;
+  time: string;
   location: string;
   platform: string;
   venue: string;
@@ -51,7 +51,7 @@ export function useFakeMeetingData(_?: any, index?: number): MeetingData {
   faker.seed(index);
 
   return {
-    id: index?.toString(),
+    id: faker.string.uuid(),
     title: faker.word.adjective(),
     estateId: faker.string.uuid(),
     date: faker.date.recent(),

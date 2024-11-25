@@ -1,8 +1,6 @@
 "use client";
 
-import clsx from "clsx";
-
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { useQueryState } from "nuqs";
@@ -16,10 +14,7 @@ import { useFakeMessagesList } from "@/builders/types/messages";
 import { APP, MODALS } from "@/packages/libraries";
 import { OccupantMessages } from "@/components/admin/messages/occupants";
 import { BroadcastMessages } from "@/components/admin/messages/broadcasts";
-import {
-  MESSAGE_TYPE,
-  WriteModal,
-} from "@/components/admin/messages/modals/write";
+import { WriteModal } from "@/components/admin/messages/modals/write";
 import {
   FlowTabs,
   FlowTabsPanel,
@@ -30,27 +25,28 @@ import {
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { UserFriendsIcon, BroadcastIcon, Inbox } from "@/icons";
+import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
 
 export default function Messages() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const initialMeetingList = useFakeMessagesList();
-  const { page, pageSize } = useFlowState();
 
+  const { page, pageSize } = useFlowState();
   const [type, setType] = useQueryState("type", {
     defaultValue: MESSAGE_TYPE.OCCUPANT,
   });
 
-  const handleWriteBroadcastMsg = () => {
+  const handleModal = () => {
     modals.open({
       title:
         type === MESSAGE_TYPE.OCCUPANT ? "Write Message" : "Send Broadcast",
-      modalId: MODALS.WRITE_BROADCAST_MESSAGE,
+      modalId: MODALS.WRTIE_MESSAGE,
       children: <WriteModal view={type} />,
     });
   };
 
-  const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.messages.get.table.get(type),
+  const { data, isPlaceholderData, refetch } = useQuery({
+    queryKey: builder.messages.get.table.get(),
     queryFn: () =>
       builder.use().messages.get.table({
         estateId,
@@ -64,7 +60,6 @@ export default function Messages() {
       const broadcast_messages = data?.messages?.filter(
         (message) => message.type === MESSAGE_TYPE.BROADCAST
       );
-
       return { occupant_messages, broadcast_messages };
     },
   });
@@ -75,6 +70,10 @@ export default function Messages() {
     (type === MESSAGE_TYPE.OCCUPANT && noOccupantMessages) ||
     (type === MESSAGE_TYPE.BROADCAST && noBroadcastMessages);
 
+  useEffect(() => {
+    refetch();
+  }, [type]);
+
   return (
     <Fragment>
       <AppShellHeader
@@ -82,7 +81,7 @@ export default function Messages() {
         options={
           <HeaderOptions
             view={type}
-            onClick={handleWriteBroadcastMsg}
+            onClick={handleModal}
             hidden={noDataAvailable || isPlaceholderData}
           />
         }
@@ -98,11 +97,6 @@ export default function Messages() {
             onChange={setType}
             tabsContainerProps={{
               gap: 0,
-            }}
-            classNames={{
-              panel: clsx({
-                // "flex justify-center items-center": noDataAvailable,
-              }),
             }}
           >
             <Flex align='center'>
@@ -130,14 +124,14 @@ export default function Messages() {
               <OccupantMessages
                 data={data?.occupant_messages}
                 loading={isPlaceholderData}
-                handleWrite={handleWriteBroadcastMsg}
+                handleWrite={handleModal}
               />
             </FlowTabsPanel>
             <FlowTabsPanel value={MESSAGE_TYPE.BROADCAST}>
               <BroadcastMessages
                 data={data?.broadcast_messages}
                 loading={isPlaceholderData}
-                handleWrite={handleWriteBroadcastMsg}
+                handleWrite={handleModal}
               />
             </FlowTabsPanel>
           </FlowTabs>

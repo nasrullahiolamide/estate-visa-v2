@@ -1,40 +1,20 @@
 "use client";
 
-import { useState } from "react";
-import { toast } from "react-toastify";
 import { array, object, string } from "yup";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import {
-  Button,
-  FileButton,
-  Flex,
-  MultiSelect,
-  Textarea,
-  TextInput,
-} from "@mantine/core";
+import { Button, Flex, MultiSelect, Textarea, TextInput } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { APP, cast, MODALS } from "@/packages/libraries";
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AttachFile, Plane, TrashIcon } from "@/icons";
-import { FlowEditor } from "@/components/layout/flow-editor";
-
-export enum MESSAGE_TYPE {
-  OCCUPANT = "occupant",
-  BROADCAST = "broadcast",
-}
-
-enum RECIPIENTS {
-  ALL_HOUSES = "All Houses",
-  ALL_ACTIVE_HOUSES = "All Active Houses",
-  ALL_ADMINS = "All Admins",
-}
+import { Plane, TrashIcon } from "@/icons";
+import { UploadAttachments } from "../upload-attachment";
+import { MESSAGE_TYPE } from "../enums";
 
 export const schema = object({
   houseIds: array()
@@ -52,8 +32,6 @@ export function WriteModal({ view }: WriteModalProps) {
   const queryClient = useQueryClient();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
-  const [files, setFiles] = useState<File[]>([]);
-
   const { data: houseNumbers } = useQuery({
     queryKey: builder.houses.list.all.get(),
     queryFn: () => builder.use().houses.list.all(estateId),
@@ -69,10 +47,11 @@ export function WriteModal({ view }: WriteModalProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.post,
+    onError: handleError(),
     onSuccess: () => {
-      modals.close(MODALS.WRITE_BROADCAST_MESSAGE);
+      modals.close(MODALS.WRTIE_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(view),
+        queryKey: builder.messages.get.table.get(),
       });
       handleSuccess({
         message:
@@ -81,7 +60,6 @@ export function WriteModal({ view }: WriteModalProps) {
             : "Broadcast sent to all houses",
       });
     },
-    onError: handleError(),
   });
 
   const form = useForm({
@@ -104,25 +82,11 @@ export function WriteModal({ view }: WriteModalProps) {
   });
 
   function handleSubmit() {
-    const payload = {
+    mutate({
       ...form.getTransformedValues(),
       estateId,
-    };
-    mutate(payload);
+    });
   }
-
-  const { preview, handleUpload, status, progress } = useFileUpload({
-    key: "messages",
-    onError: () => {
-      toast.error("Failed to upload resource");
-    },
-    onSuccess: ({ data }) => {
-      form.setFieldValue("attachments", [
-        ...form.values.attachments,
-        data.secure_url,
-      ]);
-    },
-  });
 
   return (
     <Form form={form} onSubmit={handleSubmit}>
@@ -146,7 +110,7 @@ export function WriteModal({ view }: WriteModalProps) {
             label='To:'
             withAsterisk
             placeholder='Recipients'
-            data={[RECIPIENTS.ALL_HOUSES]}
+            data={["All Houses"]}
             {...form.getInputProps("houseIds")}
           />
         )}
@@ -161,11 +125,7 @@ export function WriteModal({ view }: WriteModalProps) {
               <span>
                 Message <span className='text-red-5'>*</span>
               </span>
-              <span className='cursor-pointer'>
-                <FileButton onChange={() => {}} multiple>
-                  {(props) => <AttachFile width={24} {...props} />}
-                </FileButton>
-              </span>
+              <UploadAttachments />
             </Flex>
           }
           placeholder='Type something here...'
@@ -179,7 +139,7 @@ export function WriteModal({ view }: WriteModalProps) {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.WRITE_BROADCAST_MESSAGE)}
+            onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
             disabled={isPending}
           >
             Discard

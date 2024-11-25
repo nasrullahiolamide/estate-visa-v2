@@ -6,11 +6,10 @@ import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 import { formatDate, makePath, PAGES } from "@/packages/libraries";
 
 import { AddIcon, ClockIcon } from "@/icons";
-import { MessagesData, MessagesList } from "@/builders/types/messages";
+import { MessagesData } from "@/builders/types/messages";
 import { EmptySlot } from "@/components/shared/interface";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import clsx from "clsx";
-import { Markdown } from "@/components/shared/markdown";
 
 interface BroadcastMessagesProps {
   data: MessagesData[] | undefined;
@@ -48,13 +47,12 @@ export function BroadcastMessages({
             >
               <Stack
                 gap={8}
-                miw={130}
+                miw={200}
                 w={{
-                  base: 200,
-                  sm: 350,
+                  lg: 350,
                 }}
                 className={clsx("border-r border-r-gray-3 py-4", {
-                  skeleton: loading,
+                  "skeleton my-3": loading,
                 })}
               >
                 <Text fw={500} fz={14}>
@@ -71,9 +69,10 @@ export function BroadcastMessages({
               </Stack>
 
               <Stack
-                className={clsx("flex-grow p-4", {
-                  skeleton: loading,
+                className={clsx("flex-grow py-4", {
+                  "skeleton my-3": loading,
                 })}
+                flex={1}
                 gap={12}
               >
                 <Text fw={500} fz={14}>

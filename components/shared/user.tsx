@@ -7,7 +7,7 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
-import { formatUserType } from "@/builders/types/login";
+import { formatUserType, useFakeUserData } from "@/builders/types/login";
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./interface/modals/logout";
 import { toString } from "lodash";
@@ -25,12 +25,13 @@ function handleLogout() {
 
 export function UserDetails() {
   const userId = toString(getCookie(APP.USER_ID));
+  const initialUser = useFakeUserData();
 
-  const { data: user, isLoading } = useQuery({
+  const { data: user, isPlaceholderData } = useQuery({
     queryKey: builder.account.profile.get.get(),
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
-    enabled: !!userId,
+    placeholderData: initialUser,
   });
 
   const userDetails = useMemo(() => {
@@ -54,7 +55,7 @@ export function UserDetails() {
           padding: 0,
         },
       }}
-      disabled={isLoading}
+      disabled={isPlaceholderData}
     >
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
@@ -62,11 +63,11 @@ export function UserDetails() {
             src={userDetails?.picture}
             alt={userDetails.fullname}
             size={45}
-            className={clsx({ skeleton: isLoading })}
+            className={clsx({ skeleton: isPlaceholderData })}
           />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
-            <Stack gap={1} className={clsx({ skeleton: isLoading })}>
+            <Stack gap={1} className={clsx({ skeleton: isPlaceholderData })}>
               <p className={clsx("text-primary-text-body font-medium text-sm")}>
                 {userDetails.fullname}
               </p>

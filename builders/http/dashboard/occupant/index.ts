@@ -1,5 +1,4 @@
 import { api } from "@/builders/axios";
-import { ServiceRequestData } from "@/builders/types/admin-dashboard";
 import { OccupantDashboard } from "@/builders/types/occupant-dashboard";
 
 const get = function (id: string) {
@@ -8,9 +7,17 @@ const get = function (id: string) {
     .then((data) => data.data);
 };
 
-const service_requests = function (status: string) {
+const service_requests = function (status?: string) {
   return api
-    .get<ServiceRequestData>("/analytics/occupant-dashboard/service-requests", {
+    .get<
+      {
+        id: string;
+        serviceType: string;
+        preferredTime: string;
+        status: string;
+        updatedAt: string;
+      }[]
+    >("/analytics/occupant-dashboard/service-requests", {
       params: { status },
     })
     .then((data) => data.data);

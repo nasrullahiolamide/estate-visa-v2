@@ -16,7 +16,6 @@ import {
   AddIcon,
   ClockIcon,
   DoubleMarkIcon,
-  EditIcon,
   EyeIcon,
   ReceivedIcon,
   SentIcon,
@@ -24,14 +23,12 @@ import {
 } from "@/icons";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
 import { modals } from "@mantine/modals";
-import { EditModal } from "./modals/edit";
-import { MESSAGE_TYPE } from "./modals/write";
+import { MESSAGE_TYPE } from "./enums";
 import { builder } from "@/builders";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import clsx from "clsx";
-import { vi } from "@faker-js/faker";
 
 interface OccupantMessagesProps {
   data: MessagesData[] | undefined;
@@ -39,34 +36,25 @@ interface OccupantMessagesProps {
   handleWrite: () => void;
 }
 
-const editMessage = (view: string, data: MessagesData) => {
-  modals.open({
-    title: "Edit Message",
-    modalId: MODALS.EDIT_MESSAGE,
-    children: <EditModal view={view} content={data} />,
-  });
-};
-
 export function OccupantMessages({
   data,
   loading,
   handleWrite,
 }: OccupantMessagesProps) {
   const { setContent } = useMessagesValue();
-
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
     onError: () => {
+      modals.close(MODALS.CONFIRMATION);
       handleError({
         message: "An error occurred while deleting message, please try again",
       })();
-      modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(MESSAGE_TYPE.OCCUPANT),
+        queryKey: builder.messages.get.table.get(),
       });
       handleSuccess({
         autoClose: 1200,
@@ -121,68 +109,76 @@ export function OccupantMessages({
               align='center'
               className={clsx(
                 "flex items-center border-b border-b-gray-3 py-4 px-4 lg:px-8 gap-2",
-                { "loading lg:!px-4": loading }
+                { "lg:!px-4": loading }
               )}
-              mih={130}
+              h={130}
             >
-              <Flex gap={12} align='center' miw={110} maw={350}>
+              <Flex
+                gap={12}
+                align='center'
+                miw={110}
+                w={{
+                  lg: 350,
+                }}
+                className={clsx("h-full", {
+                  "skeleton my-3": loading,
+                })}
+              >
                 <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
                 <Text className='prose-base/bold sm:prose-lg/semi-bold'>
-                  {44}
+                  {null}
                 </Text>
               </Flex>
 
-              <Stack className='flex-grow' gap={12}>
-                <Text lineClamp={2} fz={14}>
-                  <span className='font-bold mr-1'>{subject}</span>
-                  <span className='text-gray-800'>{content}</span>
-                </Text>
-                <Flex align='center' gap={4}>
-                  <ClockIcon width={14} height={14} />
-                  <Text className='text-gray-300 space-x-1' fz={12}>
-                    <span>{localDate}</span>
-                    <span>at</span>
-                    <span className='uppercase'>{localTime}</span>
+              <Flex
+                gap={12}
+                align='center'
+                className={clsx("h-full w-full", {
+                  "skeleton my-3": loading,
+                })}
+              >
+                <Stack flex={1}>
+                  <Text lineClamp={2} fz={14}>
+                    <span className='font-bold mr-1'>{subject}</span>
+                    <span className='text-gray-800'>{content}</span>
                   </Text>
-                </Flex>
-              </Stack>
+                  <Flex align='center' gap={4}>
+                    <ClockIcon width={14} height={14} />
+                    <Text className='text-gray-300 space-x-1' fz={12}>
+                      <span>{localDate}</span>
+                      <span>at</span>
+                      <span className='uppercase'>{localTime}</span>
+                    </Text>
+                  </Flex>
+                </Stack>
 
-              <FlowMenu position='bottom-end'>
-                <FlowMenuTarget />
-                <FlowMenuDropdown>
-                  <Menu.Item
-                    leftSection={<EyeIcon width={14} />}
-                    component={Link}
-                    href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES, viewLink)}
-                  >
-                    View more
-                  </Menu.Item>
-                  {tag !== "sent" && !isRead && (
-                    <Menu.Item leftSection={<DoubleMarkIcon height={20} />}>
-                      Mark as read
-                    </Menu.Item>
-                  )}
-                  {tag === "sent" && (
+                <FlowMenu position='bottom-end'>
+                  <FlowMenuTarget />
+                  <FlowMenuDropdown>
                     <Menu.Item
-                      leftSection={<EditIcon width={14} />}
-                      onClick={() =>
-                        editMessage(MESSAGE_TYPE.OCCUPANT, message)
-                      }
+                      leftSection={<EyeIcon width={14} />}
+                      component={Link}
+                      href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES, viewLink)}
                     >
-                      Edit
+                      View
                     </Menu.Item>
-                  )}
-                  <Menu.Divider />
-                  <Menu.Item
-                    color='#CC0404'
-                    leftSection={<TrashIcon width={15} />}
-                    onClick={() => handleDelete(id)}
-                  >
-                    Delete
-                  </Menu.Item>
-                </FlowMenuDropdown>
-              </FlowMenu>
+                    {tag !== "sent" && !isRead && (
+                      <Menu.Item leftSection={<DoubleMarkIcon height={20} />}>
+                        Mark as read
+                      </Menu.Item>
+                    )}
+                    <Menu.Divider />
+                    <Menu.Item
+                      color='#CC0404'
+                      leftSection={<TrashIcon width={15} />}
+                      onClick={() => handleDelete(id)}
+                    >
+                      Delete
+                    </Menu.Item>
+                  </FlowMenuDropdown>
+                </FlowMenu>
+              </Flex>
             </Flex>
           );
         })

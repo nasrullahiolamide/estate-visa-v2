@@ -2,52 +2,35 @@
 
 import { builder } from "@/builders";
 import { FilterRequestsDropdown } from "@/components/admin/overview";
+import { NoData } from "@/icons";
+import { fromNow } from "@/packages/libraries/formatters";
 import { Button, Flex, Stack, Text, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
+import { Fragment, useEffect } from "react";
+
+import clsx from "clsx";
 
 interface ServiceRequestProps {}
 
-const requests = [
-  {
-    id: 1,
-    service: "Plumbing",
-    status: "approved",
-    time: "12 minutes ago",
-  },
-  {
-    id: 2,
-    service: "Electrical",
-    status: "pending",
-    time: "1 hour ago",
-  },
-  {
-    id: 3,
-    service: "Cleaning",
-    status: "declined",
-    time: "2 hours ago",
-  },
-];
-
 export function ServiceRequest({}: ServiceRequestProps) {
   const [status, setStatus] = useQueryState("sr-prd", {
-    defaultValue: "week",
+    defaultValue: "",
   });
 
-  const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.occupant.service_requests.get(),
+  const { data, isLoading } = useQuery({
+    queryKey: builder.dashboard.occupant.service_requests.get(status),
     queryFn: () => builder.use().dashboard.occupant.service_requests(status),
-    // placeholderData: initialOccupantData,
     select: (data) => data,
   });
-
-  console.log(data);
 
   return (
     <Stack
       flex={1}
       bg='white'
-      className='rounded-lg backdrop-blur-sm w-full'
+      className={clsx("rounded-lg backdrop-blur-sm w-full", {
+        skeleton: isLoading,
+      })}
       p={20}
       gap={16}
     >
@@ -61,51 +44,76 @@ export function ServiceRequest({}: ServiceRequestProps) {
           </Text>
         </Stack>
         <FilterRequestsDropdown
-          data={["Week", "6months", "Year"]}
+          data={[
+            { label: "All", value: "" },
+            {
+              label: "Approved",
+              value: "approved",
+            },
+            {
+              label: "Pending",
+              value: "pending",
+            },
+            {
+              label: "Declined",
+              value: "declined",
+            },
+          ]}
           size='sm'
           value={status}
           onFilter={setStatus}
         />
       </Flex>
+      {data?.length ? (
+        <Fragment>
+          <Stack h={400} className='overflow-auto' gap={0}>
+            {data?.map((r) => {
+              const color: Record<PropertyKey, string> = {
+                approved: "#11A506",
+                pending: "#969921",
+                declined: "#CC0404",
+              };
 
-      <Stack mah={400} className='overflow-auto' gap={0}>
-        {requests.map((r, index) => {
-          const color: Record<PropertyKey, string> = {
-            approved: "#11A506",
-            pending: "#969921",
-            declined: "#CC0404",
-          };
+              return (
+                <Flex
+                  key={r.id}
+                  gap={18}
+                  wrap='nowrap'
+                  align='center'
+                  justify='space-between'
+                  className='border-t border-gray-2'
+                  py={16}
+                >
+                  <Stack gap={10}>
+                    <Text fz={14}>
+                      You requested for{" "}
+                      <span className='capitalize'>{r.serviceType}</span>{" "}
+                      service
+                    </Text>
+                    <Text fz={12} c='gray'>
+                      {fromNow(r.updatedAt)}
+                    </Text>
+                  </Stack>
 
-          return (
-            <Flex
-              key={index}
-              flex={1}
-              gap={18}
-              wrap='nowrap'
-              align='center'
-              justify='space-between'
-              className='border-t border-gray-2 h-full '
-              py={16}
-            >
-              <Stack gap={10}>
-                <Text fz={14}>You requested for a plumbing service</Text>
-                <Text fz={12} c='gray'>
-                  12 minutes ago
-                </Text>
-              </Stack>
-
-              <Button
-                bg={color[r.status]}
-                className='capitalize'
-                miw={130}
-                size='sm'
-              >
-                {r.status}
-              </Button>
-            </Flex>
-          );
-        })}
-      </Stack>
+                  <Button
+                    bg={color[r.status]}
+                    className='capitalize'
+                    miw={130}
+                    size='sm'
+                  >
+                    {r.status}
+                  </Button>
+                </Flex>
+              );
+            })}
+          </Stack>
+        </Fragment>
+      ) : (
+        <Stack gap={0} h={400}>
+          <NoData />
+          <Text ta='center'>No Data Available</Text>
+        </Stack>
+      )}
     </Stack>
   );
 }
