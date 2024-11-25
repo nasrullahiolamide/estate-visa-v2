@@ -219,7 +219,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
 
       <FilterDropdown
-        label='All'
+        label=''
         icon={<Inbox />}
         data={[
           { label: "All", value: "all" },

@@ -20,7 +20,9 @@ const id = function (id: string) {
   return api.get<MeetingData>(`/meetings/${id}`).then((data) => data.data);
 };
 
-const schedule = function (data: MeetingData) {
+const schedule = function (
+  data: Omit<MeetingData, "id" | "minutes" | "file" | "createdAt" | "updatedAt">
+) {
   return api.post("/meetings", data);
 };
 
