@@ -34,8 +34,39 @@ export interface MessagesData {
   estate: EstatesData;
   house: HouseData;
   sender: User;
+  parent: ParentData;
   localDate: string;
   localTime: string;
+}
+
+type ParentData = {
+  id: string;
+  subject: string;
+  type: string;
+  content: string;
+  attachments: string[];
+  createdAt: string;
+  updatedAt: string;
+  isRead: boolean;
+  house: HouseData;
+};
+
+function useFakeParentData() {
+  const house = useFakeHouseData();
+
+  const parent: ParentData = {
+    id: faker.string.uuid(),
+    subject: faker.lorem.words(),
+    type: faker.helpers.arrayElement(["broadcast", "occupant"]),
+    content: faker.lorem.paragraphs(4),
+    attachments: faker.helpers.arrayElements(["kl", "l"]),
+    createdAt: faker.date.recent().toISOString(),
+    updatedAt: faker.date.recent().toISOString(),
+    isRead: faker.helpers.arrayElement([true, false]),
+    house,
+  };
+
+  return parent;
 }
 
 export function useFakeMessagesData(_?: any, index?: number) {
@@ -44,6 +75,7 @@ export function useFakeMessagesData(_?: any, index?: number) {
   const estate = useFakeEstatesData();
   const house = useFakeHouseData();
   const sender = useFakeUserData();
+  const parent = useFakeParentData();
 
   const message: MessagesData = {
     id: faker.string.uuid(),
@@ -60,6 +92,7 @@ export function useFakeMessagesData(_?: any, index?: number) {
     estate,
     sender,
     house,
+    parent,
     responses: [],
   };
 

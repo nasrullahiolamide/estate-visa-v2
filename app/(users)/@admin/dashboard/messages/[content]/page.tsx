@@ -61,6 +61,13 @@ export default function Page({ params }: PageProps) {
     select: (data) => data,
   });
 
+  const recipient =
+    content.view === MESSAGE_TYPE.OCCUPANT
+      ? data.at(0)?.parent?.house?.houseNumber ??
+        data.at(0)?.house?.houseNumber ??
+        ""
+      : "All houses";
+
   return (
     <Fragment>
       <AppShellHeader
@@ -71,6 +78,7 @@ export default function Page({ params }: PageProps) {
           <HeaderOptions
             content={{ view: content.view, id: content.id }}
             data={data.at(0) as MessagesData}
+            hidden={isPlaceholderData || !data.length}
           />
         }
       />
@@ -84,13 +92,10 @@ export default function Page({ params }: PageProps) {
             {data.length ? (
               <MessageContent
                 isAdmin
+                isResponse={data.at(0)?.parent && true}
                 data={data.at(0) as MessagesData}
                 skeleton={isPlaceholderData}
-                recipient={
-                  content.view === MESSAGE_TYPE.OCCUPANT
-                    ? data.at(0)?.house?.houseNumber ?? ""
-                    : "All houses"
-                }
+                recipient={recipient}
               />
             ) : (
               <EmptySlot
@@ -118,9 +123,10 @@ export default function Page({ params }: PageProps) {
 interface HeaderOptionsProps {
   content: MessagesValue;
   data: MessagesData;
+  hidden: boolean;
 }
 
-function HeaderOptions({ content, data }: HeaderOptionsProps) {
+function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   const { view, id } = content;
   const { back } = useRouter();
 
@@ -176,8 +182,9 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
   };
 
   return (
-    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={!data}>
-      {/* {view === MESSAGE_TYPE.OCCUPANT && data?.isRead ? (
+    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={hidden}>
+      {(view === MESSAGE_TYPE.OCCUPANT && data?.responses.length) ||
+      data.parent ? (
         <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
           <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow width={20} />
@@ -196,8 +203,7 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
             <span className='hidden sm:inline'> Edit Message</span>
           </Flex>
         </Button>
-      )} */}
-
+      )}
       <Button
         fz='sm'
         size='md'

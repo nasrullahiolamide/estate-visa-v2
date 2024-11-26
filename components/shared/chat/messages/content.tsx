@@ -13,12 +13,14 @@ interface MessageContentProps {
   data: MessagesData;
   recipient: string;
   isAdmin?: boolean;
+  isResponse?: boolean;
 }
 
 export function MessageContent({
   skeleton,
   data,
   recipient,
+  isResponse,
   isAdmin = false,
 }: MessageContentProps) {
   const localDate = formatDate(data?.updatedAt, "MM/DD/YYYY");
@@ -37,7 +39,8 @@ export function MessageContent({
               skeleton,
             })}
           >
-            {data?.tag === "inbox" ? "From:" : "To:"} <span>{recipient}</span>
+            {data?.tag === "inbox" || isResponse ? "From:" : "To:"}{" "}
+            <span>{recipient}</span>
           </Title>
           <Flex
             align='center'
@@ -101,6 +104,7 @@ export function MessageContent({
                 skeleton={skeleton}
                 data={response}
                 recipient={recipient}
+                isResponse
               />
             ))}
         </Stack>
