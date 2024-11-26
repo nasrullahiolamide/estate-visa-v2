@@ -16,8 +16,7 @@ export function handleError(
 ) {
   return (error?: AxiosError<{ message?: string }>) => {
     const data = error?.response?.data?.message;
-    const displayMessage = Array.isArray(message) ? message.join(" ") : message;
-    console.log(data);
+    const displayMessage = Array.isArray(data) ? data.join(" ") : data;
 
     toast.error(data || displayMessage, {
       ...props,

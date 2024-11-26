@@ -99,8 +99,6 @@ export default function SubOccupants() {
 
   const noDataAvailable = subOccupants?.data.length === 0;
 
-  console.log(subOccupants?.data);
-
   return (
     <Fragment>
       <AppShellHeader
@@ -137,11 +135,7 @@ export default function SubOccupants() {
               />
             )}
           </FlowPaper>
-          <FlowFooter
-            className={clsx("flex justify-between", {
-              hidden: noDataAvailable || numberOfPages <= 1,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>

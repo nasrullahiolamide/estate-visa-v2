@@ -167,11 +167,7 @@ export default function Houses() {
             )}
           </FlowPaper>
 
-          <FlowFooter
-            className={clsx("flex", {
-              hidden: noDataAvailable || numberOfPages <= 1,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>

@@ -158,11 +158,7 @@ export default function Meetings() {
               />
             )}
           </FlowPaper>
-          <FlowFooter
-            className={clsx("flex justify-between", {
-              hidden: noDataAvailable || numberOfPages <= 1,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>

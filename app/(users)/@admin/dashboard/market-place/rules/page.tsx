@@ -128,7 +128,7 @@ export default function MarketRules() {
 
           <FlowFooter
             className={clsx("flex", {
-              // hidden: noDataAvailable || numberOfPages <= 1,
+              // hidden: noDataAvailable
               hidden: false,
             })}
           >

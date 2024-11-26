@@ -2,12 +2,6 @@
 
 import clsx from "clsx";
 
-import { Fragment, useEffect } from "react";
-import { MODALS } from "@/packages/libraries";
-import { modals } from "@mantine/modals";
-import { Button, Flex, Title } from "@mantine/core";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import {
   FlowEntriesPerPage,
   FlowFooter,
@@ -17,26 +11,21 @@ import {
   useFlowState,
   useFlowPagination,
 } from "@/components/layout";
-import { Inbox, AddIcon } from "@/icons";
+import { Inbox } from "@/icons";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
+import { Fragment, useEffect } from "react";
+import { Flex, Title } from "@mantine/core";
 import { useFakeMessagesList } from "@/builders/types/messages";
-import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
-import { WriteModal } from "@/components/occupant/messages/modals/write";
-import { Conversations } from "@/components/occupant/messages/conversation";
-
-const handleWriteMessage = () => {
-  modals.open({
-    title: "Write Message",
-    modalId: MODALS.WRTIE_MESSAGE,
-    children: <WriteModal />,
-  });
-};
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { Conversations } from "@/components/shared/chat/messages/conversation";
 
 export default function Messages() {
   const initialMeetingList = useFakeMessagesList();
   const pagination = useFlowPagination();
-  const { page, pageSize, numberOfPages } = useFlowState();
+  const { page, pageSize } = useFlowState();
 
   const { data, isPlaceholderData } = useQuery({
     queryKey: builder.messages.get.user.get(),
@@ -47,7 +36,6 @@ export default function Messages() {
       }),
     placeholderData: initialMeetingList,
     select: (data) => {
-      console.log(data);
       return {
         ...data,
         messages: data?.messages?.filter(
@@ -83,25 +71,18 @@ export default function Messages() {
           }}
         >
           {!noDataAvailable && (
-            <Title order={2} c='plum.5' fw={500} className='p-4 lg:p-8'>
+            <Title order={2} c='plum.5' fw={500} className='p-4 lg:p-6 lg:pb-0'>
               Conversations between You and the Estate Management
             </Title>
           )}
           <FlowContentContainer mah={680}>
-            <Conversations
-              data={data?.messages}
-              loading={isPlaceholderData}
-              handleWrite={handleWriteMessage}
-              recipient=''
-            />
+            <Conversations data={data?.messages} loading={isPlaceholderData} />
           </FlowContentContainer>
         </FlowContentContainer>
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            {
-              hidden: noDataAvailable || numberOfPages <= 1,
-            }
+            { hidden: noDataAvailable || isPlaceholderData }
           )}
         >
           <FlowPagination />
@@ -114,16 +95,9 @@ export default function Messages() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <Button
-        fz='sm'
-        size='md'
-        leftSection={<AddIcon />}
-        onClick={handleWriteMessage}
-      >
-        Write Message
-      </Button>
+    <Flex gap={14} wrap='wrap' hidden={hidden} align='center'>
       <FilterDropdown
+        label='View'
         icon={<Inbox />}
         data={[
           { label: "All", value: "all" },

@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import { ElementType } from "react";
 
-type BtnProps<T extends ElementType = "a"> = ButtonProps & {
+export type BtnProps<T extends ElementType = "a"> = ButtonProps & {
   href?: string;
   onClick?: () => void;
 } & PolymorphicComponentProps<T>;
@@ -27,6 +27,7 @@ type EmptySlotProps = BoxProps & {
     | "meeting"
     | "no-sound";
   title: string;
+  withButton?: boolean;
 } & (
     | {
         withButton: true;

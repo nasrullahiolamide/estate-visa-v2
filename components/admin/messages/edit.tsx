@@ -1,91 +1,77 @@
 "use client";
 
-import { array, object, string } from "yup";
+import { object } from "yup";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { Button, Flex, MultiSelect, Textarea, TextInput } from "@mantine/core";
+import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, MODALS } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Plane, TrashIcon } from "@/icons";
-import { UploadAttachments } from "../upload-attachment";
-import { MESSAGE_TYPE } from "../enums";
+import { MessagesData } from "@/builders/types/messages";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ClockIcon, Plane, TrashIcon } from "@/icons";
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
+import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
 
 export const schema = object({
-  houseIds: array()
-    .of(string().required("Recipient is required"))
-    .min(1, "Recipient is required"),
-  title: requiredString,
+  subject: requiredString,
   content: requiredString,
 });
 
-interface WriteModalProps {
+interface EditModalProps {
   view: string;
+  content: MessagesData;
 }
 
-export function WriteModal({ view }: WriteModalProps) {
+export function EditModal({ view, content }: EditModalProps) {
   const queryClient = useQueryClient();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
-  const { data: houseNumbers } = useQuery({
-    queryKey: builder.houses.list.all.get(),
-    queryFn: () => builder.use().houses.list.all(estateId),
-    select: (houses) => {
-      return houses
-        .filter(({ noOfOccupants }) => noOfOccupants > 0)
-        .map(({ id, houseNumber }) => ({
-          value: id,
-          label: houseNumber,
-        }));
-    },
-  });
-
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.post,
+    mutationFn: builder.use().messages.edit,
     onError: handleError(),
     onSuccess: () => {
-      modals.close(MODALS.WRTIE_MESSAGE);
+      modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(),
+        queryKey: builder.messages.get.id.get(),
       });
       handleSuccess({
+        autoClose: 1000,
         message:
           view === MESSAGE_TYPE.OCCUPANT
-            ? "Message sent to occupants"
-            : "Broadcast sent to all houses",
+            ? "Message updated successfully"
+            : "Broadcast updated successfully",
       });
     },
   });
 
   const form = useForm({
     initialValues: {
-      houseIds: [],
-      title: "",
-      content: "",
-      attachments: [""],
+      subject: content.subject,
+      content: content.content,
+      attachments: content.attachments,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const { houseIds, title, content } = values;
+      const { subject, content } = values;
       return {
-        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : houseIds,
-        title: cast.string(title),
-        content: cast.string(content),
+        subject,
+        content,
       };
     },
   });
 
   function handleSubmit() {
-    mutate({
+    const payload = {
       ...form.getTransformedValues(),
       estateId,
-    });
+    };
+    mutate({ id: content.id, data: payload });
   }
 
   return (
@@ -97,27 +83,29 @@ export function WriteModal({ view }: WriteModalProps) {
         type='plain'
         bg='white'
       >
-        {view === MESSAGE_TYPE.OCCUPANT ? (
-          <MultiSelect
-            label='To:'
-            withAsterisk
-            placeholder='Recipients(Houses)'
-            data={houseNumbers}
-            {...form.getInputProps("houseIds")}
-          />
-        ) : (
-          <MultiSelect
-            label='To:'
-            withAsterisk
-            placeholder='Recipients'
-            data={["All Houses"]}
-            {...form.getInputProps("houseIds")}
-          />
-        )}
+        <div className='space-y-2'>
+          {view === MESSAGE_TYPE.OCCUPANT ? (
+            <Title order={2} fz={16}>
+              To: {content.house.houseNumber}
+            </Title>
+          ) : (
+            <Title order={2} fz={16}>
+              To: All Houses
+            </Title>
+          )}
+          <Flex align='center' gap={4}>
+            <ClockIcon width={14} height={14} />
+            <Text className='text-gray-300 space-x-1' fz={12}>
+              <span>{content?.localDate}</span>
+              <span>at</span>
+              <span className='uppercase'>{content?.localTime}</span>
+            </Text>
+          </Flex>
+        </div>
         <TextInput
           label='Subject'
           withAsterisk
-          {...form.getInputProps("title")}
+          {...form.getInputProps("subject")}
         />
         <Textarea
           label={
@@ -139,7 +127,7 @@ export function WriteModal({ view }: WriteModalProps) {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
+            onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
             disabled={isPending}
           >
             Discard
@@ -150,7 +138,7 @@ export function WriteModal({ view }: WriteModalProps) {
             disabled={isPending}
             loading={isPending}
           >
-            Send
+            Save
           </Button>
         </Flex>
       </FlowContainer>

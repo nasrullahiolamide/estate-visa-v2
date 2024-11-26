@@ -8,21 +8,19 @@ import { useListState } from "@mantine/hooks";
 import { Flex, Button } from "@mantine/core";
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
-import { TIME_FORMAT } from "@/packages/constants/time";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { makePath, MODALS, PAGES } from "@/packages/libraries";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/admin/shared";
-import { MessageContent } from "@/components/admin/messages/cards/content";
-import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
+import { CurlyBackArrrow, TrashIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowPaper,
 } from "@/components/layout";
-import { WriteModal } from "@/components/admin/messages/modals/write";
-import { EditModal } from "@/components/admin/messages/modals/edit";
-import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
+import { ReplyModal } from "@/components/occupant/messages/reply";
+import { MessageContent } from "@/components/shared/chat/messages/content";
+import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 
 interface PageProps {
   params: {
@@ -30,24 +28,18 @@ interface PageProps {
   };
 }
 
-const writeMessage = (view: string) => {
+const replyMessage = (data: MessagesData) => {
   modals.open({
-    title: "Write Message",
-    modalId: MODALS.WRITE_BROADCAST_MESSAGE,
-    children: <WriteModal view={view} />,
-  });
-};
-
-const editMessage = (view: string, data: MessagesData) => {
-  modals.open({
-    title: "Edit Message",
-    modalId: MODALS.EDIT_MESSAGE,
-    children: <EditModal view={view} content={data} />,
+    title: "Reply Message",
+    modalId: MODALS.REPLY_MESSAGE,
+    children: <ReplyModal content={data} />,
   });
 };
 
 export default function Page({ params }: PageProps) {
-  const contentId = params.content;
+  const {
+    content: { id },
+  } = useMessagesValue(params.content);
   const [state, handlers] = useListState<MessagesData>([]);
   const initialMessageData = useFakeMessagesData();
 
@@ -56,15 +48,10 @@ export default function Page({ params }: PageProps) {
     isPlaceholderData,
     isFetching,
   } = useQuery({
-    queryKey: builder.messages.get.id.get(contentId),
-    queryFn: () => builder.use().messages.get.id(contentId),
+    queryKey: builder.messages.get.id.get(id),
+    queryFn: () => builder.use().messages.get.id(id),
     placeholderData: Array.from({ length: 1 }, () => initialMessageData),
-    select: (data) =>
-      data.map((item) => {
-        const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
-        const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
-        return { ...item, localDate, localTime };
-      }),
+    select: (data) => data,
   });
 
   useEffect(() => {
@@ -85,23 +72,21 @@ export default function Page({ params }: PageProps) {
             root: "rounded-none lg:rounded-2xl bg-white",
           }}
         >
-          <FlowPaper>
+          <FlowPaper
+            containerProps={{
+              my: 20,
+            }}
+          >
             {state ? (
               <MessageContent
-                data={state.at(0)}
+                data={state.at(0) as MessagesData}
+                recipient='Admin'
                 skeleton={isPlaceholderData}
-                view={MESSAGE_TYPE.OCCUPANT}
               />
             ) : (
               <EmptySlot
-                title='Message not found. Start a conversation to stay connected!'
+                title='Message not found. This Message may have been deleted or does not exist'
                 src='no-talk'
-                withButton
-                text='Write Message'
-                btnProps={{
-                  leftSection: <AddIcon />,
-                  onClick: () => writeMessage(MESSAGE_TYPE.OCCUPANT),
-                }}
               />
             )}
           </FlowPaper>
@@ -166,27 +151,17 @@ function HeaderOptions({ data }: HeaderOptionsProps) {
 
   return (
     <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={!data}>
-      {data?.tag === "inbox" ? (
-        <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
-          <Flex className='flex items-center gap-2'>
-            <CurlyBackArrrow width={20} />
-            <span className='hidden sm:inline'> Reply Message</span>
-          </Flex>
-        </Button>
-      ) : (
-        <Button
-          fz='sm'
-          size='md'
-          variant='outline'
-          onClick={() => editMessage(MESSAGE_TYPE.OCCUPANT, data)}
-        >
-          <Flex className='flex items-center gap-2'>
-            <EditIcon width={18} />
-            <span className='hidden sm:inline'> Edit Message</span>
-          </Flex>
-        </Button>
-      )}
-
+      <Button
+        fz='sm'
+        size='md'
+        variant='outline'
+        onClick={() => replyMessage(data)}
+      >
+        <Flex className='flex items-center gap-2'>
+          <CurlyBackArrrow />
+          <span className='hidden sm:inline'> Reply Message</span>
+        </Flex>
+      </Button>
       <Button
         fz='sm'
         size='md'
@@ -196,7 +171,7 @@ function HeaderOptions({ data }: HeaderOptionsProps) {
       >
         <Flex className='flex items-center gap-2'>
           <TrashIcon width={18} />
-          <span className='hidden sm:inline'>Delete</span>
+          <span className='hidden sm:inline'>Delete Message</span>
         </Flex>
       </Button>
     </Flex>

@@ -1,50 +1,60 @@
 "use client";
 
-import { Checkbox, Flex, Menu, Stack, Text } from "@mantine/core";
-import { MessagesData } from "@/builders/types/messages";
-import { TIME_FORMAT } from "@/packages/constants/time";
-import { useMessagesValue } from "@/packages/hooks/use-messages-value";
-import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
-
+import { ClockIcon, EyeIcon, ReceivedIcon, SentIcon, TrashIcon } from "@/icons";
 import {
   FlowContentContainer,
   FlowMenu,
   FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
-import {
-  AddIcon,
-  ClockIcon,
-  DoubleMarkIcon,
-  EyeIcon,
-  ReceivedIcon,
-  SentIcon,
-  TrashIcon,
-} from "@/icons";
+import { TIME_FORMAT } from "@/packages/constants/time";
+import { MessagesData } from "@/builders/types/messages";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
-import { modals } from "@mantine/modals";
-import { MESSAGE_TYPE } from "./enums";
-import { builder } from "@/builders";
+import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Checkbox, Flex, Menu, Stack, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { builder } from "@/builders";
 import Link from "next/link";
 import clsx from "clsx";
+import { BtnProps } from "@/components/shared/interface/empty-slot";
+import { useMessagesValue } from "@/packages/hooks/use-messages-value";
+import { MESSAGE_TYPE } from "../types";
 
-interface OccupantMessagesProps {
+type ConversationProps = {
   data: MessagesData[] | undefined;
   loading?: boolean;
-  handleWrite: () => void;
   recipient?: string;
-}
+  isAdmin?: boolean;
+} & (
+  | {
+      isAdmin: true;
+      emptyProps: {
+        title: string;
+        text: string;
+        btnProps: BtnProps;
+      };
+    }
+  | {
+      isAdmin?: false;
+      emptyProps?: {
+        title: string;
+        text: string;
+        btnProps: BtnProps;
+      };
+    }
+);
 
-export function OccupantMessages({
+export function Conversations({
   data,
   loading,
-  handleWrite,
+  isAdmin,
+  emptyProps,
   recipient,
-}: OccupantMessagesProps) {
-  const { setContent } = useMessagesValue();
+}: ConversationProps) {
   const queryClient = useQueryClient();
+  const { setContent } = useMessagesValue();
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().messages.remove,
@@ -56,7 +66,7 @@ export function OccupantMessages({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(),
+        queryKey: builder.messages.get.user.get(),
       });
       handleSuccess({
         autoClose: 1200,
@@ -98,19 +108,20 @@ export function OccupantMessages({
     <FlowContentContainer mah={680}>
       {data?.length ? (
         data?.map((message, i) => {
-          const { id, content, subject, updatedAt, tag, isRead } = {
-            ...message,
-          };
+          const { id, content, subject, updatedAt, tag } = { ...message };
           const viewLink = setContent({ id, view: MESSAGE_TYPE.OCCUPANT });
+
           const localTime = formatDate(updatedAt, TIME_FORMAT);
           const localDate = formatDate(updatedAt, "MM/DD/YYYY");
+
+          console.log(message);
 
           return (
             <Flex
               key={i}
               align='center'
               className={clsx(
-                "flex items-center border-b border-b-gray-3 py-4 px-4 lg:px-8 gap-2",
+                "flex items-center border-b border-b-gray-3 p-4 lg:px-8 gap-2",
                 { "lg:!px-4": loading }
               )}
               h={130}
@@ -128,8 +139,10 @@ export function OccupantMessages({
               >
                 <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
-                <Text className='prose-base/bold sm:prose-lg/semi-bold'>
-                  {recipient}
+                <Text className='prose-base/bold sm:prose-lg/semi-bold capitalize'>
+                  {/* {sender?.roles[0].name} */}
+                  {/* {message?.house?.houseNumber ? "You" : null} */}
+                  {/* {recipient} */}
                 </Text>
               </Flex>
 
@@ -155,7 +168,7 @@ export function OccupantMessages({
                   </Flex>
                 </Stack>
 
-                <FlowMenu position='bottom-end'>
+                <FlowMenu position='bottom-end' withArrow={false}>
                   <FlowMenuTarget />
                   <FlowMenuDropdown>
                     <Menu.Item
@@ -165,18 +178,18 @@ export function OccupantMessages({
                     >
                       View
                     </Menu.Item>
-                    {tag !== "sent" && !isRead && (
+                    {/* {tag !== "sent" && !isRead && (
                       <Menu.Item leftSection={<DoubleMarkIcon height={20} />}>
                         Mark as read
                       </Menu.Item>
-                    )}
+                    )} */}
                     <Menu.Divider />
                     <Menu.Item
                       color='#CC0404'
                       leftSection={<TrashIcon width={15} />}
                       onClick={() => handleDelete(id)}
                     >
-                      Delete
+                      Delete Message
                     </Menu.Item>
                   </FlowMenuDropdown>
                 </FlowMenu>
@@ -187,13 +200,15 @@ export function OccupantMessages({
       ) : (
         <Stack h={900}>
           <EmptySlot
-            title='You have no messages yet. Start a conversation to stay connected!'
             src='no-talk'
-            withButton
-            text='Write Message'
+            title={
+              emptyProps?.title ||
+              "You have no messages yet. Check back later for updates!"
+            }
+            withButton={isAdmin}
+            text={emptyProps?.text || ""}
             btnProps={{
-              leftSection: <AddIcon />,
-              onClick: handleWrite,
+              ...emptyProps?.btnProps,
             }}
           />
         </Stack>

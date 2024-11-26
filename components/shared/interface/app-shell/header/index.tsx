@@ -108,7 +108,7 @@ export function AppShellHeader({
           py={18}
           mih={78}
         >
-          <Flex gap={10} align='start'>
+          <Flex gap={10} align='center'>
             {backHref && (
               <ActionIcon
                 // component={Link}

@@ -4,8 +4,8 @@ import { FlowContainer } from "@/components/layout";
 import { ClockIcon } from "@/icons";
 import { Stack, Title, Flex, Text } from "@mantine/core";
 import { MessagesData } from "@/builders/types/messages";
-import { Attachments } from "./attachments";
-import { MESSAGE_TYPE } from "../enums";
+import { Attachments } from "@/components/shared/chat/attachments";
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
 
 interface MessageContentProps {
   view: string;

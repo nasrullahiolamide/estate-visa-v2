@@ -125,11 +125,7 @@ export default function SubOccupants() {
               />
             )}
           </FlowPaper>
-          <FlowFooter
-            className={clsx("flex", {
-              hidden: noDataAvailable || numberOfPages <= 1,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>

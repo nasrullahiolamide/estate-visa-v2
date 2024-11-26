@@ -14,37 +14,32 @@ import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon, Plane, TrashIcon } from "@/icons";
-import { UploadAttachments } from "../upload-attachment";
-import { MESSAGE_TYPE } from "../enums";
+import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
 
 export const schema = object({
   subject: requiredString,
   content: requiredString,
 });
 
-interface EditModalProps {
-  view: string;
+interface ReplyModalProps {
   content: MessagesData;
 }
 
-export function EditModal({ view, content }: EditModalProps) {
+export function ReplyModal({ content }: ReplyModalProps) {
   const queryClient = useQueryClient();
-  const estateId = toString(getCookie(APP.ESTATE_ID));
+  const senderId = toString(getCookie(APP.USER_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.edit,
+    mutationFn: builder.use().messages.reply,
     onError: handleError(),
     onSuccess: () => {
-      modals.close(MODALS.EDIT_MESSAGE);
+      modals.close(MODALS.REPLY_MESSAGE);
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.id.get(),
       });
       handleSuccess({
         autoClose: 1000,
-        message:
-          view === MESSAGE_TYPE.OCCUPANT
-            ? "Message updated successfully"
-            : "Broadcast updated successfully",
+        message: "Message sent successfully",
       });
     },
   });
@@ -52,8 +47,8 @@ export function EditModal({ view, content }: EditModalProps) {
   const form = useForm({
     initialValues: {
       subject: content.subject,
-      content: content.content,
-      attachments: content.attachments,
+      content: "",
+      attachments: null,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
@@ -69,7 +64,7 @@ export function EditModal({ view, content }: EditModalProps) {
   function handleSubmit() {
     const payload = {
       ...form.getTransformedValues(),
-      estateId,
+      senderId,
     };
     mutate({ id: content.id, data: payload });
   }
@@ -84,15 +79,9 @@ export function EditModal({ view, content }: EditModalProps) {
         bg='white'
       >
         <div className='space-y-2'>
-          {view === MESSAGE_TYPE.OCCUPANT ? (
-            <Title order={2} fz={16}>
-              To: {content.house.houseNumber}
-            </Title>
-          ) : (
-            <Title order={2} fz={16}>
-              To: All Houses
-            </Title>
-          )}
+          <Title order={2} fz={16}>
+            To: Admin
+          </Title>
           <Flex align='center' gap={4}>
             <ClockIcon width={14} height={14} />
             <Text className='text-gray-300 space-x-1' fz={12}>
@@ -104,6 +93,7 @@ export function EditModal({ view, content }: EditModalProps) {
         </div>
         <TextInput
           label='Subject'
+          disabled
           withAsterisk
           {...form.getInputProps("subject")}
         />
@@ -127,7 +117,7 @@ export function EditModal({ view, content }: EditModalProps) {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
+            onClick={() => modals.close(MODALS.REPLY_MESSAGE)}
             disabled={isPending}
           >
             Discard
@@ -138,7 +128,7 @@ export function EditModal({ view, content }: EditModalProps) {
             disabled={isPending}
             loading={isPending}
           >
-            Save
+            Send
           </Button>
         </Flex>
       </FlowContainer>

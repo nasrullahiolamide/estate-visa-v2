@@ -52,18 +52,19 @@ export function OccupantMeetingTable({
             />
           ) : (
             <EmptySlot
-              title={`
-                No meetings ${view} yet. Check back soon for updates!
-              `}
+              title={` No meetings ${view} yet. Check back soon for updates!`}
               src='meeting'
             />
           )}
         </Stack>
 
         <FlowFooter
-          className={clsx("flex justify-between", {
-            hidden: empty || numberOfPages <= 1,
-          })}
+          className={clsx(
+            "flex justify-between bg-white border-t border-primary-border-light",
+            {
+              hidden: empty,
+            }
+          )}
         >
           <FlowPagination />
           <FlowEntriesPerPage />

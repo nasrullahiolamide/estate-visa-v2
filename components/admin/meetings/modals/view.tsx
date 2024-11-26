@@ -71,28 +71,24 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
       </Stack>
       <Divider my={30} />
       <FlowContainer
-        className={clsx("bg-primary-background-white sm:overflow-scroll", {
-          skeleton: isPlaceholderData,
-        })}
+        className={clsx(
+          "bg-primary-background-white sm:overflow-scroll h-full sm:h-[520px]",
+          {
+            skeleton: isPlaceholderData,
+          }
+        )}
         type='plain'
         bg='white'
-        h={520}
       >
-        {data?.minutes ? (
-          <Markdown
-            children={data?.minutes}
-            classNames={{
-              h1: "text-plum-5",
-              h2: "text-plum-5",
-              h3: "text-plum-5",
-              p: "text-primary-text-body",
-            }}
-          />
-        ) : (
-          <Text c='gray.5' fz={24} ta='center' mt={30}>
-            No minutes yet
-          </Text>
-        )}
+        <Markdown
+          children={data?.minutes}
+          classNames={{
+            h1: "text-plum-5",
+            h2: "text-plum-5",
+            h3: "text-plum-5",
+            p: "text-primary-text-body",
+          }}
+        />
       </FlowContainer>
 
       {data?.file && (

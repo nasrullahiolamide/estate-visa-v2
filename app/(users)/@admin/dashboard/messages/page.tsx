@@ -1,31 +1,34 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
 import { toString } from "lodash";
+import { Add } from "iconsax-react";
 import { getCookie } from "cookies-next";
 import { useQueryState } from "nuqs";
-import { Add } from "iconsax-react";
+import { modals } from "@mantine/modals";
+import { Fragment, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Flex, Tabs } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
 import { useFakeMessagesList } from "@/builders/types/messages";
 import { APP, MODALS } from "@/packages/libraries";
-import { OccupantMessages } from "@/components/admin/messages/occupants";
-import { BroadcastMessages } from "@/components/admin/messages/broadcasts";
-import { WriteModal } from "@/components/admin/messages/modals/write";
 import {
   FlowTabs,
   FlowTabsPanel,
   useFlowState,
   FlowContentContainer,
   FlowContainer,
+  FlowEntriesPerPage,
+  FlowFooter,
+  FlowPagination,
 } from "@/components/layout";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { WriteModal } from "@/components/admin/messages/write";
+import { Conversations } from "@/components/shared/chat/messages/conversation";
+import { Announcements } from "@/components/shared/chat/notice-board/conversation";
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
 import { UserFriendsIcon, BroadcastIcon, Inbox } from "@/icons";
-import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
+import clsx from "clsx";
 
 export default function Messages() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
@@ -121,21 +124,48 @@ export default function Messages() {
             </Flex>
 
             <FlowTabsPanel value={MESSAGE_TYPE.OCCUPANT}>
-              <OccupantMessages
+              <Conversations
+                isAdmin
                 data={data?.occupant_messages}
                 loading={isPlaceholderData}
-                handleWrite={handleModal}
+                emptyProps={{
+                  title:
+                    "You have no messages yet. Start a conversation to stay connected!",
+                  text: "Write a Message",
+                  btnProps: {
+                    leftSection: <Add />,
+                    onClick: handleModal,
+                  },
+                }}
               />
             </FlowTabsPanel>
             <FlowTabsPanel value={MESSAGE_TYPE.BROADCAST}>
-              <BroadcastMessages
+              <Announcements
+                isAdmin
                 data={data?.broadcast_messages}
                 loading={isPlaceholderData}
-                handleWrite={handleModal}
+                emptyProps={{
+                  title:
+                    "You have no broadcast messages yet. Check back later for updates!",
+                  text: "Send a Broadcast",
+                  btnProps: {
+                    leftSection: <Add />,
+                    onClick: handleModal,
+                  },
+                }}
               />
             </FlowTabsPanel>
           </FlowTabs>
         </FlowContentContainer>
+        <FlowFooter
+          className={clsx(
+            "flex bg-white justify-between lg:rounded-b-2xl mt-2",
+            { hidden: noDataAvailable || isPlaceholderData }
+          )}
+        >
+          <FlowPagination />
+          <FlowEntriesPerPage />
+        </FlowFooter>
       </FlowContainer>
     </Fragment>
   );

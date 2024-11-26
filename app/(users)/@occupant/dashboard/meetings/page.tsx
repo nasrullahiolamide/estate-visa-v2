@@ -117,6 +117,7 @@ export default function Minutes() {
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
+                empty={noDataAvailable || isPlaceholderData}
               />
             </FlowTabsPanel>
             <FlowTabsPanel value='completed'>
@@ -125,6 +126,7 @@ export default function Minutes() {
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
+                empty={noDataAvailable || isPlaceholderData}
               />
             </FlowTabsPanel>
             <FlowTabsPanel value='cancelled'>
@@ -133,6 +135,7 @@ export default function Minutes() {
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
+                empty={noDataAvailable || isPlaceholderData}
               />
             </FlowTabsPanel>
           </FlowTabs>

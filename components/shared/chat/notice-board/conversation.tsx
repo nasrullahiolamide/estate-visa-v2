@@ -6,31 +6,26 @@ import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 import { formatDate, makePath, PAGES } from "@/packages/libraries";
 
 import { AddIcon, ClockIcon } from "@/icons";
-import { MessagesData } from "@/builders/types/messages";
 import { EmptySlot } from "@/components/shared/interface";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import clsx from "clsx";
+import { ConversationProps } from "../types";
 
-interface BroadcastMessagesProps {
-  data: MessagesData[] | undefined;
-  loading?: boolean;
-  handleWrite: () => void;
-}
+type AnnouncementsProps = ConversationProps;
 
-export function BroadcastMessages({
+export function Announcements({
   data,
   loading,
-  handleWrite,
-}: BroadcastMessagesProps) {
+  emptyProps,
+  isAdmin,
+}: AnnouncementsProps) {
   const { setContent } = useMessagesValue();
 
   return (
-    <FlowContentContainer mah={680}>
+    <FlowContentContainer mah={670}>
       {data?.length ? (
         data?.map((message, i) => {
-          const { content, subject, updatedAt, id, type } = {
-            ...message,
-          };
+          const { content, subject, updatedAt, id, type } = message;
 
           const viewLink = setContent({ id, view: type });
           const localTime = formatDate(updatedAt, TIME_FORMAT);
@@ -95,13 +90,15 @@ export function BroadcastMessages({
       ) : (
         <Stack h={900}>
           <EmptySlot
-            title='You have no broadcast yet. Start a conversation to stay connected!'
             src='no-talk'
-            withButton
-            text='Send a Broadcast'
+            title={
+              emptyProps?.title ||
+              "You have no messages yet. Check back later for updates!"
+            }
+            withButton={isAdmin}
+            text={emptyProps?.text || ""}
             btnProps={{
-              leftSection: <AddIcon />,
-              onClick: handleWrite,
+              ...emptyProps?.btnProps,
             }}
           />
         </Stack>

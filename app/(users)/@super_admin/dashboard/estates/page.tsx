@@ -94,7 +94,7 @@ export default function Estates() {
     },
   });
 
-  console.log(estates);
+  const noDataAvailable = estates?.data.length === 0;
   useEffect(() => {
     if (isPlaceholderData) return;
 
@@ -138,17 +138,13 @@ export default function Estates() {
             )}
           </FlowPaper>
 
-          <FlowFooter
-            className={clsx("flex", {
-              hidden: estates?.data.length === 0 || numberOfPages <= 1,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
-        {estates?.data.length !== 0 && (
+        {!noDataAvailable && (
           <FlowFloatingButtons
             withPrimaryButon
             withSecondaryButtons

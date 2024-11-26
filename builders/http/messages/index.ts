@@ -15,6 +15,19 @@ const edit = function (variables: { id: string; data: UpdateMessagesData }) {
   return api.patch(`/messages/${id}`, data);
 };
 
+const reply = function (variables: {
+  id: string;
+  data: {
+    subject: string;
+    content: string;
+    attachments?: string[];
+    senderId: string;
+  };
+}) {
+  const { id, data } = variables;
+  return api.post(`/messages/${id}/reply`, data);
+};
+
 const table = function (variables: {
   estateId: string;
   params?: FilterParams<
@@ -49,6 +62,7 @@ export const messages = {
   post,
   edit,
   remove,
+  reply,
   get: {
     id,
     table,

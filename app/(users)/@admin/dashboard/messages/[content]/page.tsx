@@ -6,13 +6,12 @@ import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
-import { TIME_FORMAT } from "@/packages/constants/time";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
 import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
-import { MessageContent } from "@/components/admin/messages/cards/content";
+
 import {
   FlowContainer,
   FlowContentContainer,
@@ -22,11 +21,12 @@ import {
   MessagesValue,
   useMessagesValue,
 } from "@/packages/hooks/use-messages-value";
-import { WriteModal } from "@/components/admin/messages/modals/write";
-import { EditModal } from "@/components/admin/messages/modals/edit";
+import { WriteModal } from "@/components/admin/messages/write";
+import { EditModal } from "@/components/admin/messages/edit";
 import { useRouter } from "next/navigation";
-import { MESSAGE_TYPE } from "@/components/admin/messages/enums";
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
 import { useListState } from "@mantine/hooks";
+import { MessageContent } from "@/components/shared/chat/messages/content";
 
 interface PageProps {
   params: {
@@ -54,29 +54,12 @@ export default function Page({ params }: PageProps) {
   const { content } = useMessagesValue(params.content);
   const initialMessageData = useFakeMessagesData();
 
-  const [state, handlers] = useListState<MessagesData>([]);
-
-  const {
-    data = [],
-    isPlaceholderData,
-    isFetching,
-  } = useQuery({
+  const { data = [], isPlaceholderData } = useQuery({
     queryKey: builder.messages.get.id.get(content.id),
     queryFn: () => builder.use().messages.get.id(content.id),
     placeholderData: Array.from({ length: 1 }, (_, i) => initialMessageData),
-    select: (data) =>
-      data.map((item) => {
-        const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
-        const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
-        return { ...item, localDate, localTime };
-      }),
+    select: (data) => data,
   });
-
-  useEffect(() => {
-    handlers.setState(data);
-  }, [isFetching]);
-
-  console.log(data);
 
   return (
     <Fragment>
@@ -87,7 +70,7 @@ export default function Page({ params }: PageProps) {
         options={
           <HeaderOptions
             content={{ view: content.view, id: content.id }}
-            data={state.at(0) as MessagesData}
+            data={data.at(0) as MessagesData}
           />
         }
       />
@@ -98,11 +81,10 @@ export default function Page({ params }: PageProps) {
           }}
         >
           <FlowPaper>
-            {state ? (
+            {data.length ? (
               <MessageContent
-                data={state.at(0)}
+                data={data.at(0) as MessagesData}
                 skeleton={isPlaceholderData}
-                view={content.view}
               />
             ) : (
               <EmptySlot
@@ -189,7 +171,7 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
 
   return (
     <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={!data}>
-      {view === MESSAGE_TYPE.OCCUPANT && data?.isRead ? (
+      {/* {view === MESSAGE_TYPE.OCCUPANT && data?.isRead ? (
         <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
           <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow width={20} />
@@ -208,7 +190,7 @@ function HeaderOptions({ content, data }: HeaderOptionsProps) {
             <span className='hidden sm:inline'> Edit Message</span>
           </Flex>
         </Button>
-      )}
+      )} */}
 
       <Button
         fz='sm'
