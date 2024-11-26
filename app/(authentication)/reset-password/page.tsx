@@ -26,11 +26,13 @@ const schema = object({
   password: string().when("reset_password", {
     is: false,
     then: (schema) => schema.notRequired(),
-    otherwise: (schema) => schema.required("Password is required"),
-    // .matches(
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%.^&*])[A-Za-z\d!@#$%.^&*]{6,}$/,
-    //   "Password must contain at least 6 characters, one uppercase, one lowercase, one number, and one special character (!@#$%.^&*)"
-    // ),
+    otherwise: (schema) =>
+      schema
+        .required("Password is required")
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%.^&*])[A-Za-z\d!@#$%.^&*]{6,}$/,
+          "Password is not strong enough, please include at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
+        ),
   }),
   confirm_password: string()
     .oneOf([ref("password")], "Passwords must match")
