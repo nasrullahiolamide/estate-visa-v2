@@ -60,7 +60,7 @@ export default function Messages() {
     queryFn: () =>
       builder.use().messages.get.table({
         estateId,
-        params: { page, pageSize },
+        params: { page, pageSize, type },
       }),
     placeholderData: initialMeetingList,
     select: (data) => {
