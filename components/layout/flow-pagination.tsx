@@ -29,7 +29,7 @@ export function FlowPagination({
   pageProps,
   limitProps,
 }: FlowPaginationProps) {
-  const { page, numberOfPages = 2 } = useFlowState();
+  const { page, numberOfPages } = useFlowState();
 
   return (
     <Flex
@@ -43,7 +43,7 @@ export function FlowPagination({
       {...rootProps}
       className='prose-sm/medium'
     >
-      <Pagination.Previous />
+      {/* <Pagination.Previous />
       {Array.from({ length: numberOfPages }, (_, index) => {
         if (index > 2) return null;
         return (
@@ -67,7 +67,26 @@ export function FlowPagination({
         </Pagination.Control>
       )}
 
-      <Pagination.Next />
+      <Pagination.Next /> */}
+
+      <Pagination.Previous {...previousButtonProps} />
+
+      <Flex
+        gap={1}
+        fw={500}
+        className='text-primary-text-subtle'
+        {...innerProps}
+      >
+        <Text span className='text-primary-text-body' {...pageProps}>
+          {page}
+        </Text>
+        <Text span>/</Text>
+        <Text span {...limitProps}>
+          {numberOfPages}
+        </Text>
+      </Flex>
+
+      <Pagination.Next {...nextButtonProps} />
     </Flex>
   );
 }

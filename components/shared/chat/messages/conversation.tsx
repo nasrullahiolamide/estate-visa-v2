@@ -105,7 +105,7 @@ export function Conversations({
   };
 
   return (
-    <FlowContentContainer mah={680}>
+    <FlowContentContainer mah={600}>
       {data?.length ? (
         data?.map((message, i) => {
           const { id, content, subject, updatedAt, tag } = { ...message };
@@ -194,7 +194,7 @@ export function Conversations({
           );
         })
       ) : (
-        <Stack h={900}>
+        <Stack h={800}>
           <EmptySlot
             src='no-talk'
             title={

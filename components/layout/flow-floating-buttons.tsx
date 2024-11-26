@@ -92,7 +92,7 @@ export function FlowFloatingButtons({
     <Stack
       style={{
         position: "fixed",
-        bottom: 100,
+        bottom: 95,
         right: 12,
         zIndex: 10,
       }}

@@ -5,7 +5,7 @@ import { Add } from "iconsax-react";
 import { getCookie } from "cookies-next";
 import { useQueryState } from "nuqs";
 import { modals } from "@mantine/modals";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Flex, Tabs } from "@mantine/core";
 import { builder } from "@/builders";
@@ -20,6 +20,7 @@ import {
   FlowEntriesPerPage,
   FlowFooter,
   FlowPagination,
+  FlowFloatingButtons,
 } from "@/components/layout";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
@@ -49,7 +50,13 @@ export default function Messages() {
   };
 
   const { data, isPlaceholderData, refetch } = useQuery({
-    queryKey: builder.messages.get.table.get(),
+    queryKey: builder.messages.get.table.get({
+      params: {
+        page,
+        pageSize,
+        type,
+      },
+    }),
     queryFn: () =>
       builder.use().messages.get.table({
         estateId,
@@ -72,10 +79,6 @@ export default function Messages() {
   const noDataAvailable =
     (type === MESSAGE_TYPE.OCCUPANT && noOccupantMessages) ||
     (type === MESSAGE_TYPE.BROADCAST && noBroadcastMessages);
-
-  useEffect(() => {
-    refetch();
-  }, [type]);
 
   return (
     <Fragment>
@@ -166,6 +169,16 @@ export default function Messages() {
           <FlowPagination />
           <FlowEntriesPerPage />
         </FlowFooter>
+        <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
+          withPrimaryButon
+          primaryButton={{
+            icon: "add",
+            btnProps: {
+              onClick: handleModal,
+            },
+          }}
+        />
       </FlowContainer>
     </Fragment>
   );

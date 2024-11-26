@@ -62,7 +62,7 @@ export function WriteModal({ view }: WriteModalProps) {
 
   const form = useForm({
     initialValues: {
-      houseIds: [],
+      houseIds: "",
       title: "",
       content: "",
       attachments: [""],
@@ -72,7 +72,7 @@ export function WriteModal({ view }: WriteModalProps) {
     transformValues: (values) => {
       const { houseIds, title, content } = values;
       return {
-        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : houseIds,
+        houseIds: view === MESSAGE_TYPE.BROADCAST ? [] : [houseIds],
         title: cast.string(title),
         content: cast.string(content),
       };

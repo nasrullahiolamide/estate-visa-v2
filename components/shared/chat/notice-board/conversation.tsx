@@ -88,7 +88,7 @@ export function Announcements({
           );
         })
       ) : (
-        <Stack h={900}>
+        <Stack h={800}>
           <EmptySlot
             src='no-talk'
             title={
