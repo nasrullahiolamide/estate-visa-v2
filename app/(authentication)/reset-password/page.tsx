@@ -16,23 +16,20 @@ import { requiredString } from "@/builders/types/shared";
 
 const schema = object({
   email: string().email("Invalid email address"),
-  // email: string()
-  //   .email("Invalid email address")
-  //   .when("reset_password", {
-  //     is: false,
-  //     then: (schema) => schema.notRequired(),
-  //     otherwise: (schema) => schema.required("Email is required"),
-  //   }),
   password: string().when("reset_password", {
     is: false,
     then: (schema) => schema.notRequired(),
     otherwise: (schema) =>
       schema
         .required("Password is required")
+        .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+        .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .matches(/\d/, "Password must contain at least one number")
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%.^&*])[A-Za-z\d!@#$%.^&*]{6,}$/,
-          "Password is not strong enough, please include at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character"
-        ),
+          /[!@#$%.^&*]/,
+          "Password must contain at least one special character"
+        )
+        .min(6, "Password must be at least 6 characters long"),
   }),
   confirm_password: string()
     .oneOf([ref("password")], "Passwords must match")
