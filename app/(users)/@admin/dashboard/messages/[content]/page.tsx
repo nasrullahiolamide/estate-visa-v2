@@ -83,6 +83,7 @@ export default function Page({ params }: PageProps) {
           <FlowPaper>
             {data.length ? (
               <MessageContent
+                isAdmin
                 data={data.at(0) as MessagesData}
                 skeleton={isPlaceholderData}
                 recipient={

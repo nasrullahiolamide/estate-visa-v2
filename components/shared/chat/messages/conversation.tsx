@@ -114,8 +114,6 @@ export function Conversations({
           const localTime = formatDate(updatedAt, TIME_FORMAT);
           const localDate = formatDate(updatedAt, "MM/DD/YYYY");
 
-          console.log(message);
-
           return (
             <Flex
               key={i}
@@ -140,9 +138,7 @@ export function Conversations({
                 <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
                 <Text className='prose-base/bold sm:prose-lg/semi-bold capitalize'>
-                  {/* {sender?.roles[0].name} */}
-                  {/* {message?.house?.houseNumber ? "You" : null} */}
-                  {/* {recipient} */}
+                  {isAdmin ? message.house?.houseNumber : "Admin"}
                 </Text>
               </Flex>
 

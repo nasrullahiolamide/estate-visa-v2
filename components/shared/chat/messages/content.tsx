@@ -12,12 +12,14 @@ interface MessageContentProps {
   skeleton: boolean;
   data: MessagesData;
   recipient: string;
+  isAdmin?: boolean;
 }
 
 export function MessageContent({
   skeleton,
   data,
   recipient,
+  isAdmin = false,
 }: MessageContentProps) {
   const localDate = formatDate(data?.updatedAt, "MM/DD/YYYY");
   const localTime = formatDate(data?.updatedAt, TIME_FORMAT);
@@ -26,7 +28,7 @@ export function MessageContent({
 
   return (
     <Stack className='w-full' gap={0} component='article'>
-      <Stack className='p-5 sm:p-7 pb-0 sm:pb-0'>
+      <Stack className='p-5 sm:p-7'>
         <div className='space-y-2'>
           <Title
             order={2}
@@ -35,8 +37,7 @@ export function MessageContent({
               skeleton,
             })}
           >
-            {data?.responses.length || data?.tag === "inbox" ? "From:" : "To:"}{" "}
-            <span>{recipient}</span>
+            {data?.tag === "inbox" ? "From:" : "To:"} <span>{recipient}</span>
           </Title>
           <Flex
             align='center'
@@ -99,7 +100,7 @@ export function MessageContent({
                 key={response.id}
                 skeleton={skeleton}
                 data={response}
-                recipient='Admin'
+                recipient={recipient}
               />
             ))}
         </Stack>
