@@ -11,7 +11,6 @@ import {
   useFlowState,
   useFlowPagination,
 } from "@/components/layout";
-import { Inbox } from "@/icons";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
 import { Fragment, useEffect } from "react";
@@ -96,7 +95,7 @@ export default function Messages() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} wrap='wrap' hidden={hidden} align='center'>
-      <FilterDropdown
+      {/* <FilterDropdown
         label='View'
         icon={<Inbox />}
         data={[
@@ -104,7 +103,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
           { label: "Inbox", value: "inbox" },
           { label: "Sent", value: "sent" },
         ]}
-      />
+      /> */}
       <FilterDropdown
         label='Filter'
         data={[

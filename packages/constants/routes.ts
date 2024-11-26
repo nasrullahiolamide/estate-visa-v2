@@ -1,4 +1,4 @@
-import { Gateman } from './../../builders/types/login';
+import { Gateman } from "./../../builders/types/login";
 import { makePath, PAGES } from "@/packages/libraries";
 import { SVGProps } from "react";
 import {
