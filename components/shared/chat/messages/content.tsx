@@ -11,14 +11,18 @@ import { formatDate } from "@/packages/libraries";
 interface MessageContentProps {
   skeleton: boolean;
   data: MessagesData;
-  recipient?: string;
+  recipient: string;
 }
 
-export function MessageContent({ skeleton, data }: MessageContentProps) {
+export function MessageContent({
+  skeleton,
+  data,
+  recipient,
+}: MessageContentProps) {
   const localDate = formatDate(data?.updatedAt, "MM/DD/YYYY");
   const localTime = formatDate(data?.updatedAt, TIME_FORMAT);
 
-  const recipient = data?.tag === "inbox" ? "Admin" : "All Houses";
+  // const recipient = data?.tag === "inbox" ? "Admin" : "All Houses";
 
   return (
     <Stack className='w-full' gap={0} component='article'>

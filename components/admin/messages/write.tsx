@@ -5,7 +5,7 @@ import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { Button, Flex, MultiSelect, Textarea, TextInput } from "@mantine/core";
+import { Button, Flex, Select, Textarea, TextInput } from "@mantine/core";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { APP, cast, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
@@ -17,9 +17,7 @@ import { UploadAttachments } from "../../shared/chat/attachments/upload";
 import { MESSAGE_TYPE } from "../../shared/chat/types";
 
 export const schema = object({
-  houseIds: array()
-    .of(string().required("Recipient is required"))
-    .min(1, "Recipient is required"),
+  houseIds: requiredString,
   title: requiredString,
   content: requiredString,
 });
@@ -98,7 +96,7 @@ export function WriteModal({ view }: WriteModalProps) {
         bg='white'
       >
         {view === MESSAGE_TYPE.OCCUPANT ? (
-          <MultiSelect
+          <Select
             label='To:'
             withAsterisk
             placeholder='Recipients(Houses)'
@@ -106,7 +104,7 @@ export function WriteModal({ view }: WriteModalProps) {
             {...form.getInputProps("houseIds")}
           />
         ) : (
-          <MultiSelect
+          <Select
             label='To:'
             withAsterisk
             placeholder='Recipients'

@@ -85,6 +85,11 @@ export default function Page({ params }: PageProps) {
               <MessageContent
                 data={data.at(0) as MessagesData}
                 skeleton={isPlaceholderData}
+                recipient={
+                  content.view === MESSAGE_TYPE.OCCUPANT
+                    ? data.at(0)?.house?.houseNumber ?? ""
+                    : "All houses"
+                }
               />
             ) : (
               <EmptySlot
