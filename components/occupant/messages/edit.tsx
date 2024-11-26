@@ -14,7 +14,7 @@ import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon, Plane, TrashIcon } from "@/icons";
-import { UploadAttachments } from "@/components/admin/messages/upload-attachment";
+import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
 
 export const schema = object({
   subject: requiredString,
