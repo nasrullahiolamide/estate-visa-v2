@@ -196,7 +196,7 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   const replyMessage = () => {
     modals.open({
       title: "Reply Message",
-      modalId: MODALS.WRTIE_MESSAGE,
+      modalId: MODALS.REPLY_MESSAGE,
       children: <ReplyModal content={data} />,
     });
   };

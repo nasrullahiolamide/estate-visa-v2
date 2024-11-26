@@ -49,7 +49,7 @@ export default function Messages() {
     });
   };
 
-  const { data, isPlaceholderData, refetch } = useQuery({
+  const { data, isPlaceholderData } = useQuery({
     queryKey: builder.messages.get.table.get({
       params: {
         page,

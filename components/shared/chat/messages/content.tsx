@@ -39,7 +39,9 @@ export function MessageContent({
               skeleton,
             })}
           >
-            {data?.tag === "inbox" || isResponse ? "From:" : "To:"}{" "}
+            {data?.tag === "inbox" || (!isAdmin && isResponse)
+              ? "From:"
+              : "To:"}{" "}
             <span>{recipient}</span>
           </Title>
           <Flex

@@ -27,7 +27,10 @@ export default function Messages() {
   const { page, pageSize } = useFlowState();
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.messages.get.user.get(),
+    queryKey: builder.messages.get.user.get({
+      page,
+      pageSize,
+    }),
     queryFn: () =>
       builder.use().messages.get.user({
         page,
