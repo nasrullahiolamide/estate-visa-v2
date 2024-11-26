@@ -40,7 +40,7 @@ export default function Messages() {
     defaultValue: MESSAGE_TYPE.OCCUPANT,
   });
 
-  const handleModal = () => {
+  const writeMessage = () => {
     modals.open({
       title:
         type === MESSAGE_TYPE.OCCUPANT ? "Write Message" : "Send Broadcast",
@@ -87,7 +87,7 @@ export default function Messages() {
         options={
           <HeaderOptions
             view={type}
-            onClick={handleModal}
+            onClick={writeMessage}
             hidden={noDataAvailable || isPlaceholderData}
           />
         }
@@ -137,7 +137,7 @@ export default function Messages() {
                   text: "Write a Message",
                   btnProps: {
                     leftSection: <Add />,
-                    onClick: handleModal,
+                    onClick: writeMessage,
                   },
                 }}
               />
@@ -153,7 +153,7 @@ export default function Messages() {
                   text: "Send a Broadcast",
                   btnProps: {
                     leftSection: <Add />,
-                    onClick: handleModal,
+                    onClick: writeMessage,
                   },
                 }}
               />
@@ -175,7 +175,7 @@ export default function Messages() {
           primaryButton={{
             icon: "add",
             btnProps: {
-              onClick: handleModal,
+              onClick: writeMessage,
             },
           }}
         />

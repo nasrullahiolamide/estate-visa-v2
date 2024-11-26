@@ -14,7 +14,7 @@ import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClockIcon, Plane, TrashIcon } from "@/icons";
-import { UploadAttachments } from "../../shared/chat/attachments/upload";
+import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
 
 export const schema = object({
   subject: requiredString,
@@ -30,16 +30,16 @@ export function ReplyModal({ content }: ReplyModalProps) {
   const senderId = toString(getCookie(APP.USER_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.edit,
+    mutationFn: builder.use().messages.reply,
     onError: handleError(),
     onSuccess: () => {
-      modals.close(MODALS.EDIT_MESSAGE);
+      modals.close(MODALS.REPLY_MESSAGE);
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.id.get(),
       });
       handleSuccess({
         autoClose: 1000,
-        message: "Message updated successfully",
+        message: "Message sent successfully",
       });
     },
   });
@@ -47,8 +47,8 @@ export function ReplyModal({ content }: ReplyModalProps) {
   const form = useForm({
     initialValues: {
       subject: content.subject,
-      content: content.content,
-      attachments: content.attachments,
+      content: "",
+      attachments: null,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
@@ -80,7 +80,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
       >
         <div className='space-y-2'>
           <Title order={2} fz={16}>
-            To: Admin
+            To: {content.parent.house.houseNumber}
           </Title>
           <Flex align='center' gap={4}>
             <ClockIcon width={14} height={14} />
@@ -93,6 +93,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
         </div>
         <TextInput
           label='Subject'
+          disabled
           withAsterisk
           {...form.getInputProps("subject")}
         />
@@ -116,7 +117,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
             color='red'
             variant='outline'
             leftSection={<TrashIcon />}
-            onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
+            onClick={() => modals.close(MODALS.REPLY_MESSAGE)}
             disabled={isPending}
           >
             Discard
@@ -127,7 +128,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
             disabled={isPending}
             loading={isPending}
           >
-            Save
+            Send
           </Button>
         </Flex>
       </FlowContainer>

@@ -7,7 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { makePath, MODALS, PAGES } from "@/packages/libraries";
+import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
 import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
@@ -27,6 +27,8 @@ import { useRouter } from "next/navigation";
 import { MESSAGE_TYPE } from "@/components/shared/chat/types";
 import { useListState } from "@mantine/hooks";
 import { MessageContent } from "@/components/shared/chat/messages/content";
+import { ReplyModal } from "@/components/admin/messages/reply";
+import { TIME_FORMAT } from "@/packages/constants/time";
 
 interface PageProps {
   params: {
@@ -58,7 +60,17 @@ export default function Page({ params }: PageProps) {
     queryKey: builder.messages.get.id.get(content.id),
     queryFn: () => builder.use().messages.get.id(content.id),
     placeholderData: Array.from({ length: 1 }, (_, i) => initialMessageData),
-    select: (data) => data,
+    select: (data) =>
+      data.map((item) => {
+        const localDate = formatDate(item?.updatedAt, "MM/DD/YYYY");
+        const localTime = formatDate(item?.updatedAt, TIME_FORMAT);
+
+        return {
+          ...item,
+          localDate,
+          localTime,
+        };
+      }),
   });
 
   const recipient =
@@ -181,11 +193,19 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
     });
   };
 
+  const replyMessage = () => {
+    modals.open({
+      title: "Reply Message",
+      modalId: MODALS.WRTIE_MESSAGE,
+      children: <ReplyModal content={data} />,
+    });
+  };
+
   return (
     <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={hidden}>
       {(view === MESSAGE_TYPE.OCCUPANT && data?.responses.length) ||
       data.parent ? (
-        <Button fz='sm' size='md' variant='outline' onClick={() => {}}>
+        <Button fz='sm' size='md' variant='outline' onClick={replyMessage}>
           <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow width={20} />
             <span className='hidden sm:inline'> Reply Message</span>
