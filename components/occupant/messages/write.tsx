@@ -20,7 +20,7 @@ import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Plane, TrashIcon } from "@/icons";
-import { UploadAttachments } from "@/components/admin/messages/upload-attachment";
+import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
 
 export const schema = object({
   recipientId: requiredString,
