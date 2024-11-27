@@ -38,6 +38,8 @@ export function ResourceUpload({
 }: ResourceProps) {
   const accept = accepts(MIME_TYPES);
 
+  const MAX_SIZE = 5 * 1024 * 1024;
+
   const pending = (
     <Input.Wrapper
       label={label}
@@ -48,7 +50,7 @@ export function ResourceUpload({
         root: "gap-1.5",
       }}
     >
-      <Dropzone accept={accept} {...props}>
+      <Dropzone accept={accept} {...props} maxSize={MAX_SIZE}>
         <Stack
           p={24}
           gap={12}
@@ -76,6 +78,10 @@ export function ResourceUpload({
 
             <Text hidden={!supports.length} fz={12}>
               {supports.join(", ").toLocaleUpperCase()}
+            </Text>
+
+            <Text fz={12} className='text-primary-text-subtle'>
+              Max file size: {prettyBytes(MAX_SIZE)}
             </Text>
           </Stack>
         </Stack>
