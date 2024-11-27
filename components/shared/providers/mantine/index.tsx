@@ -68,6 +68,7 @@ export function CustomMantineProvider({ children }: MantineProviderProps) {
                 icon: <CancelCircleIcon />,
               },
               size: "md",
+              maw: "90vw",
             }}
           >
             <DrawersProvider>{children}</DrawersProvider>

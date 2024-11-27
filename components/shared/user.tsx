@@ -30,7 +30,7 @@ export function UserDetails() {
   const initialUser = useFakeUserData();
 
   const { data: user, isLoading } = useSuspenseQuery({
-    queryKey: builder.account.profile.get.get(),
+    queryKey: builder.account.profile.get.get(userId),
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
     // placeholderData: initialUser,

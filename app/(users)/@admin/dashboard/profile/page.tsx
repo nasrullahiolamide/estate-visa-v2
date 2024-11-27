@@ -4,6 +4,8 @@ import clsx from "clsx";
 import { toString } from "lodash";
 import { useEffect } from "react";
 import { getCookie } from "cookies-next";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import {
   Button,
   Divider,
@@ -13,22 +15,23 @@ import {
   Title,
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { APP, cast, pass } from "@/packages/libraries";
-import { builder } from "@/builders";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { builder } from "@/builders";
+import { APP, cast, pass } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+
 import {
   FormProvider,
   FormValues,
 } from "@/components/admin/profile/form-context";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import {
   passwordSchema,
   profileDetailsSchema,
 } from "@/components/admin/profile/schema";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -135,7 +138,11 @@ export default function Profile() {
     <FormProvider form={profileDetailsForm}>
       <AppShellHeader title='My Profile' />
 
-      <FlowContainer gap={32} className='p-5 sm:p-8'>
+      <FlowContainer
+        gap={32}
+        className='p-5 sm:mx-auto w-full'
+        maw={MAX_SCREEN_WIDTH}
+      >
         <FlowContainer
           gap={0}
           className='rounded-2xl bg-primary-background-white'

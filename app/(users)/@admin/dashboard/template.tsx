@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none'
+          className='scrollbar-none ~pt-2\1/8'
         >
           <Stack gap={8}>
             {ADMIN_ROUTES.map((link, index) => (

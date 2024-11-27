@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none'
+          className='scrollbar-none ~pt-2/14'
         >
           <Stack gap={8}>
             {GATEMAN_ROUTES.map((link, index) => (

@@ -54,7 +54,14 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
       onDrop={handleUpload}
     >
       <Avatar
-        size={90}
+        w={{
+          base: 90,
+          sm: 120,
+        }}
+        h={{
+          base: 90,
+          sm: 120,
+        }}
         radius={9999}
         className='bg-gray-2 cursor-pointer'
         src={

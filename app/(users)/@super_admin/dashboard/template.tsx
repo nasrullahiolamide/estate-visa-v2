@@ -14,7 +14,12 @@ import {
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP, decryptUri } from "@/packages/libraries";
-import { GATEMAN_ROUTES, OCCUPANT_ROUTES, SUB_OCCUPANT_ROUTES, SUPER_ADMIN_ROUTES } from "@/packages/constants/routes";
+import {
+  GATEMAN_ROUTES,
+  OCCUPANT_ROUTES,
+  SUB_OCCUPANT_ROUTES,
+  SUPER_ADMIN_ROUTES,
+} from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 
@@ -63,7 +68,7 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none'
+          className='scrollbar-none ~pt-2/14'
         >
           <Stack gap={8}>
             {SUPER_ADMIN_ROUTES.map((link, index) => (
