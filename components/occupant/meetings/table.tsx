@@ -1,12 +1,15 @@
 "use client";
 
+import clsx from "clsx";
+
+import { useState } from "react";
+
 import { Menu, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
 import { MeetingList } from "@/builders/types/meetings";
 import { makePath, PAGES } from "@/packages/libraries";
-import { MeetingColumns } from "@/columns/for_admins/meetings";
 
-import { EmptySlot } from "@/components/shared/interface";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -18,10 +21,11 @@ import {
   FlowMenu,
   FlowMenuTarget,
 } from "@/components/layout";
-import clsx from "clsx";
 import { ViewMeeting } from "@/components/admin/meetings/modals/view";
-import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
+import { EmptySlot } from "@/components/shared/interface";
+
+import { meetingColumns } from "@/columns/for_occupants/meetings";
+import { MeetingColumns } from "@/columns/for_admins/meetings";
 
 export const filterOptions = [
   { label: "(A-Z)", value: "a-z" },
@@ -73,11 +77,19 @@ export function OccupantMeetingTable({
       <FlowContentContainer>
         <Stack mah={610} className='overflow-auto h-full'>
           {meetings?.data.length ? (
-            <FlowTable
-              data={ActionableData}
-              columns={MeetingColumns}
-              skeleton={isLoading}
-            />
+            view === "completed" ? (
+              <FlowTable
+                data={ActionableData}
+                columns={MeetingColumns}
+                skeleton={isLoading}
+              />
+            ) : (
+              <FlowTable
+                data={meetings?.data}
+                columns={meetingColumns}
+                skeleton={isLoading}
+              />
+            )
           ) : (
             <EmptySlot
               title={` No meetings ${view} yet. Check back soon for updates!`}
