@@ -20,6 +20,7 @@ import {
   FlowFloatingButtons,
   FlowMenu,
   FlowMenuTarget,
+  FlowMenuDropdown,
 } from "@/components/layout";
 import { ViewMeeting } from "@/components/admin/meetings/modals/view";
 import { EmptySlot } from "@/components/shared/interface";
@@ -59,14 +60,16 @@ export function OccupantMeetingTable({
       action: (
         <FlowMenu disabled={meeting.status !== "completed"}>
           <FlowMenuTarget />
-          <Menu.Item
-            onClick={() => {
-              setMeetingId(meeting.id);
-              openDrawer();
-            }}
-          >
-            View Meeting Minutes
-          </Menu.Item>
+          <FlowMenuDropdown>
+            <Menu.Item
+              onClick={() => {
+                setMeetingId(meeting.id);
+                openDrawer();
+              }}
+            >
+              View Meeting Minutes
+            </Menu.Item>
+          </FlowMenuDropdown>
         </FlowMenu>
       ),
     };
