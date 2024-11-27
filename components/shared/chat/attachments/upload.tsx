@@ -1,3 +1,5 @@
+"use client";
+
 import { AttachFile } from "@/icons";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { FileButton } from "@mantine/core";
@@ -12,13 +14,15 @@ export function UploadAttachments() {
     onError: () => {
       toast.error("Failed to upload resource");
     },
-    onSuccess: ({ data }) => {},
+    onSuccess: ({ data }) => {
+      console.log(data);
+    },
   });
 
   return (
     <span className='cursor-pointer'>
-      <FileButton onChange={() => {}} multiple>
-        {(props) => <AttachFile width={24} {...props} />}
+      <FileButton multiple onChange={setFiles}>
+        {(props) => <AttachFile width={20} {...props} />}
       </FileButton>
     </span>
   );

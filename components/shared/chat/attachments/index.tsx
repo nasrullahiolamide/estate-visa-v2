@@ -1,7 +1,12 @@
 import { FileIcon, DownloadIcon } from "@/icons";
 import { Box, Center, Flex, Text } from "@mantine/core";
 
-export function Attachments({ url }: { url: string }) {
+interface AttachmentsProps {
+  files: string[];
+  url: string;
+}
+
+export function Attachments({ url, files }: AttachmentsProps) {
   return (
     <Box
       className='border rounded-xl border-primary-border-light bg-primary-background-white'
@@ -26,6 +31,11 @@ export function Attachments({ url }: { url: string }) {
           onClick={() => console.log("Downloaded")}
         />
       </Flex>
+      {/* <ul>
+        {files.map((file, index) => (
+          <li key={index}>{file.name}</li>
+        ))}
+      </ul>{" "} */}
     </Box>
   );
 }

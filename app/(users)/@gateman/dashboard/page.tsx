@@ -30,6 +30,7 @@ import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { modals } from "@mantine/modals";
 import { AxiosError } from "axios";
+import dayjs from "dayjs";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -102,25 +103,27 @@ export default function Gates() {
         page,
         pageSize,
         total,
-        data: data.map(({ id, status, ...list }) => {
-          return {
-            ...list,
-            id,
-            status,
-            action: (
-              <Button
-                fz='sm'
-                size='md'
-                onClick={() => changeStatus({ id, status: "approved" })}
-                loading={isPending}
-                disabled={isPending || status !== "pending"}
-                className='disabled:bg-opacity-30'
-              >
-                Approve
-              </Button>
-            ),
-          };
-        }),
+        data: data
+          .filter((request) => !dayjs(request.visitDate).isAfter(dayjs()))
+          .map(({ id, status, ...list }) => {
+            return {
+              ...list,
+              id,
+              status,
+              action: (
+                <Button
+                  fz='sm'
+                  size='md'
+                  onClick={() => changeStatus({ id, status: "approved" })}
+                  loading={isPending}
+                  disabled={isPending || status !== "pending"}
+                  className='disabled:bg-opacity-30'
+                >
+                  Approve
+                </Button>
+              ),
+            };
+          }),
       };
     },
   });

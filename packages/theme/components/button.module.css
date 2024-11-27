@@ -14,9 +14,9 @@
   }
 
   &[data-variant="admin-app-shell"] {
-    --button-height: var(--button-height-md);
-    --button-padding-x: var(--button-padding-x-md);
-    --button-fz: var(--mantine-font-size-md);
+    --button-height: var(--button-height-sm);
+    --button-padding-x: var(--button-padding-x-sm);
+    --button-fz: var(--mantine-font-size-sm);
     font-size: var(--mantine-font-size-sm);
   }
 

@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { User, LogoutCurve } from "iconsax-react";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 import { modals } from "@mantine/modals";
 import { Avatar, Flex, Menu, Stack } from "@mantine/core";

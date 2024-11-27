@@ -57,5 +57,6 @@
 
   .label {
     width: fit-content;
+    font-size: rem(14);
   }
 }

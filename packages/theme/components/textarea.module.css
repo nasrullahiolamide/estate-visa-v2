@@ -5,7 +5,7 @@
     gap: rem(6);
 
     .input {
-      font-size: rem(14px);
+      font-size: rem(14);
       overflow-y: scroll;
 
       &[data-disabled="true"] {

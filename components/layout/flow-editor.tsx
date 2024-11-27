@@ -3,7 +3,9 @@
 import { Flex, Input, Stack, TextInputProps } from "@mantine/core";
 import { GetInputPropsReturnType } from "@mantine/form/lib/types";
 import { Link, RichTextEditor } from "@mantine/tiptap";
+
 import { useEditor } from "@tiptap/react";
+
 import { FlowContentContainer } from "./flow-content-container";
 import { FlowPaper } from "./flow-paper";
 
@@ -79,7 +81,7 @@ export function FlowEditor(props: FlowEditorProps) {
       label={label}
       component={Stack}
       classNames={{
-        label: "prose-base/regular text-primary-text-body",
+        label: "prose-sm/regular text-primary-text-body",
         root: "gap-1.5",
       }}
     >

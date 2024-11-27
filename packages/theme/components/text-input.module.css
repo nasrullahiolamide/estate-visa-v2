@@ -26,9 +26,12 @@
       background-color: white;
       color: black;
     }
+
+    font-size: rem(14);
   }
 
   .label {
     width: fit-content;
+    font-size: rem(14);
   }
 }
