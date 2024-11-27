@@ -2,7 +2,7 @@ import { FileIcon, DownloadIcon } from "@/icons";
 import { Box, Center, Flex, Text } from "@mantine/core";
 
 interface AttachmentsProps {
-  files: string[];
+  files?: string[];
   url: string;
 }
 

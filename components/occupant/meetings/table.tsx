@@ -1,10 +1,10 @@
 "use client";
 
-import { Stack } from "@mantine/core";
+import { Menu, Stack } from "@mantine/core";
 
 import { MeetingList } from "@/builders/types/meetings";
 import { makePath, PAGES } from "@/packages/libraries";
-import { meetingColumns } from "@/columns/for_occupants/meetings";
+import { MeetingColumns } from "@/columns/for_admins/meetings";
 
 import { EmptySlot } from "@/components/shared/interface";
 import {
@@ -15,8 +15,13 @@ import {
   FlowPagination,
   FlowTable,
   FlowFloatingButtons,
+  FlowMenu,
+  FlowMenuTarget,
 } from "@/components/layout";
 import clsx from "clsx";
+import { ViewMeeting } from "@/components/admin/meetings/modals/view";
+import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 
 export const filterOptions = [
   { label: "(A-Z)", value: "a-z" },
@@ -39,14 +44,38 @@ export function OccupantMeetingTable({
   isLoading,
   empty,
 }: OccupantMeetingTableProps) {
+  const [opened, { open: openDrawer, close: closeDrawer }] =
+    useDisclosure(false);
+
+  const [meetingId, setMeetingId] = useState("");
+
+  const ActionableData = meetings?.data.map((meeting) => {
+    return {
+      ...meeting,
+      action: (
+        <FlowMenu disabled={meeting.status !== "completed"}>
+          <FlowMenuTarget />
+          <Menu.Item
+            onClick={() => {
+              setMeetingId(meeting.id);
+              openDrawer();
+            }}
+          >
+            View Meeting Minutes
+          </Menu.Item>
+        </FlowMenu>
+      ),
+    };
+  });
+
   return (
     <FlowContainer type='plain' bg='white' h='100%'>
       <FlowContentContainer>
         <Stack mah={610} className='overflow-auto h-full'>
           {meetings?.data.length ? (
             <FlowTable
-              data={meetings?.data}
-              columns={meetingColumns}
+              data={ActionableData}
+              columns={MeetingColumns}
               skeleton={isLoading}
             />
           ) : (
@@ -82,6 +111,7 @@ export function OccupantMeetingTable({
           { icon: "filter", filterData: filterOptions },
         ]}
       />
+      <ViewMeeting open={opened} close={closeDrawer} id={meetingId} />
     </FlowContainer>
   );
 }
