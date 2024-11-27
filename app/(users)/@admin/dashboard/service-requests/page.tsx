@@ -158,8 +158,7 @@ export default function ServiceRequest() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          hasFilterButton
-          filterData={filterOptions}
+          buttons={[{ icon: "filter", filterData: filterOptions }]}
         />
       </FlowContainer>
     </Fragment>

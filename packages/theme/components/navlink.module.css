@@ -15,7 +15,7 @@
     background-color: var(--nl-bg);
 
     &:hover {
-      --nl-bg: var(--purple-4);
+      --nl-bg: var(--purple-2);
       --nl-color: var(--accent-7);
 
       font-weight: var(--nl-wgt);

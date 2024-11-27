@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { toString } from "lodash";
 import { builder } from "@/builders";
 import { getCookie } from "cookies-next";
-import { useFakeUserData } from "@/builders/types/login";
 import { useQuery } from "@tanstack/react-query";
 import { SVGProps, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
@@ -35,7 +34,7 @@ export type NavLinkType = Array<{
   icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
 }>;
 
-export function Links() {
+export function NavigationLinks() {
   const userId = toString(getCookie(APP.USER_ID));
 
   const [links, setLinks] = useState<NavLinkType>([]);
@@ -101,7 +100,7 @@ export function Links() {
             href={item.href}
             flex={1}
             label={
-              <Flex gap={10} align='center' justify='center' py={8}>
+              <Flex gap={5} align='center' justify='center'>
                 <item.icon width={20} />
                 <Box>{item.title}</Box>
               </Flex>

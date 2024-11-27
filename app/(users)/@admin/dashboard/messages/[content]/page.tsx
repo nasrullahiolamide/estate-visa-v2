@@ -203,7 +203,8 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
 
   return (
     <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={hidden}>
-      {(view === MESSAGE_TYPE.OCCUPANT && data?.responses.length) ||
+      {view === MESSAGE_TYPE.OCCUPANT &&
+      data?.responses.length &&
       data.parent ? (
         <Button fz='sm' size='md' variant='outline' onClick={replyMessage}>
           <Flex className='flex items-center gap-2'>

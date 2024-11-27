@@ -1,5 +1,5 @@
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { Flex, FlexProps } from "@mantine/core";
+import { AppShell, Flex, FlexProps } from "@mantine/core";
 import clsx from "clsx";
 
 interface AppShellMainProps extends FlexProps {
@@ -13,8 +13,9 @@ export function AppShellMain({
   ...props
 }: AppShellMainProps) {
   return (
-    <Flex
+    <AppShell.Section
       component='main'
+      flex={1}
       className={clsx(
         "bg-primary-background-dark ~px-5/20 sm:~px-1/8",
         "overflow-auto scrollbar-none",
@@ -22,7 +23,6 @@ export function AppShellMain({
           "py-5": layout === "full",
         }
       )}
-      flex={1}
     >
       <Flex
         mx='auto'
@@ -38,6 +38,6 @@ export function AppShellMain({
       >
         {children}
       </Flex>
-    </Flex>
+    </AppShell.Section>
   );
 }

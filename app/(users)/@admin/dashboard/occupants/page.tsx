@@ -160,17 +160,7 @@ export default function Occupants() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handleOccupantForm({ modalType: "add" }),
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
@@ -183,6 +173,13 @@ export default function Occupants() {
               icon: "upload",
               btnProps: {
                 onClick: () => {},
+              },
+            },
+            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleOccupantForm({ modalType: "add" }),
               },
             },
           ]}

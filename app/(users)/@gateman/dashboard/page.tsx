@@ -174,15 +174,16 @@ export default function Gates() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
                 onClick: () => {},
               },
+            },
+            {
+              icon: "filter",
+              filterData: filterOptions,
             },
           ]}
         />

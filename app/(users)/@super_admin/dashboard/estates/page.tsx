@@ -146,19 +146,16 @@ export default function Estates() {
 
         {!noDataAvailable && (
           <FlowFloatingButtons
-            withPrimaryButon
-            withSecondaryButtons
-            hasFilterButton
-            filterData={filterOptions}
-            primaryButton={{
-              icon: "add",
-              btnProps: {
-                onClick: AddNewEstates,
-              },
-            }}
-            secondaryButtons={[
+            buttons={[
               {
                 icon: "download",
+                btnProps: {
+                  onClick: AddNewEstates,
+                },
+              },
+              { icon: "filter", filterData: filterOptions },
+              {
+                icon: "add",
                 btnProps: {
                   onClick: AddNewEstates,
                 },

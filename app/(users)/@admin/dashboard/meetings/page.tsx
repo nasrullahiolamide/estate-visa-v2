@@ -166,21 +166,21 @@ export default function Meetings() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          hasFilterButton
-          withSecondaryButtons
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: scheduleMeeting,
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "clock",
               btnProps: {
                 onClick: () => handleMinuteForm({ formType: "add" }),
+              },
+            },
+            {
+              icon: "filter",
+              filterData: filterOptions,
+            },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: scheduleMeeting,
               },
             },
           ]}

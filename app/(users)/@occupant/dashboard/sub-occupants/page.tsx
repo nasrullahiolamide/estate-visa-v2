@@ -143,14 +143,18 @@ export default function SubOccupants() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
                 onClick: () => console.log("Downloaded"),
+              },
+            },
+            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleSubOccupantForm({ modalType: "add" }),
               },
             },
           ]}

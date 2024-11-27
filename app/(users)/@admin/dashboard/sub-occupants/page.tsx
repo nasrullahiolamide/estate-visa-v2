@@ -133,10 +133,7 @@ export default function SubOccupants() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
@@ -145,6 +142,7 @@ export default function SubOccupants() {
                 disabled: isDownloading,
               },
             },
+            { icon: "filter", filterData: filterOptions },
           ]}
         />
       </FlowContainer>

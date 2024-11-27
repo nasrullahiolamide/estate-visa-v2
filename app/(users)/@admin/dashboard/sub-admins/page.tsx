@@ -161,19 +161,16 @@ export default function SubAdmins() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterData}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: handleAddSubAdmin,
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
+              btnProps: {
+                onClick: handleAddSubAdmin,
+              },
+            },
+            { icon: "filter", filterData },
+            {
+              icon: "add",
               btnProps: {
                 onClick: handleAddSubAdmin,
               },

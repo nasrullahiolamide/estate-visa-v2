@@ -140,21 +140,19 @@ export default function Gates() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handleGateForm({ modalType: "add" }),
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
                 onClick: () => {},
+              },
+            },
+
+            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleGateForm({ modalType: "add" }),
               },
             },
           ]}

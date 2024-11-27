@@ -140,15 +140,15 @@ export default function MarketRules() {
         <FlowFloatingButtons
           // hidden={noDataAvailable || isPlaceholderData}
           hidden={false}
-          withPrimaryButon
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handleMarketRuleForm(),
+          buttons={[
+            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleMarketRuleForm(),
+              },
             },
-          }}
+          ]}
         />
       </FlowContainer>
     </Fragment>

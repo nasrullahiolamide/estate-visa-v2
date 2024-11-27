@@ -182,17 +182,7 @@ export default function PropertyOwners() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handlePropertyOwnerForm({ modalType: "add" }),
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
@@ -205,6 +195,13 @@ export default function PropertyOwners() {
               icon: "upload",
               btnProps: {
                 onClick: () => {},
+              },
+            },
+            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handlePropertyOwnerForm({ modalType: "add" }),
               },
             },
           ]}

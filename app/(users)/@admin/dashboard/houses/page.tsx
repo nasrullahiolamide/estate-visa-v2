@@ -175,17 +175,7 @@ export default function Houses() {
 
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          withSecondaryButtons
-          hasFilterButton
-          filterData={filterOptions}
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: () => handleHouseForm({ modalType: "add" }),
-            },
-          }}
-          secondaryButtons={[
+          buttons={[
             {
               icon: "download",
               btnProps: {
@@ -198,6 +188,16 @@ export default function Houses() {
               icon: "upload",
               btnProps: {
                 onClick: () => {},
+              },
+            },
+            {
+              icon: "filter",
+              filterData: filterOptions,
+            },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleHouseForm({ modalType: "add" }),
               },
             },
           ]}

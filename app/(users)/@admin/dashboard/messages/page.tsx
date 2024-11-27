@@ -171,13 +171,14 @@ export default function Messages() {
         </FlowFooter>
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
-          withPrimaryButon
-          primaryButton={{
-            icon: "add",
-            btnProps: {
-              onClick: writeMessage,
+          buttons={[
+            {
+              icon: "add",
+              btnProps: {
+                onClick: writeMessage,
+              },
             },
-          }}
+          ]}
         />
       </FlowContainer>
     </Fragment>

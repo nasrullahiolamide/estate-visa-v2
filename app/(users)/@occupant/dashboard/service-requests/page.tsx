@@ -176,7 +176,9 @@ export default function ServiceRequest() {
           </FlowFooter>
         </FlowContentContainer>
 
-        <FlowFloatingButtons hasFilterButton filterData={filterOptions} />
+        <FlowFloatingButtons
+          buttons={[{ icon: "filter", filterData: filterOptions }]}
+        />
       </FlowContainer>
     </Fragment>
   );

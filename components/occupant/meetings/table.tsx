@@ -72,10 +72,7 @@ export function OccupantMeetingTable({
       </FlowContentContainer>
       <FlowFloatingButtons
         hidden={empty || isLoading}
-        hasFilterButton
-        filterData={filterOptions}
-        withSecondaryButtons
-        secondaryButtons={[
+        buttons={[
           {
             icon: "notes",
             btnProps: {
@@ -83,6 +80,7 @@ export function OccupantMeetingTable({
               href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS, PAGES.MINUTES),
             },
           },
+          { icon: "filter", filterData: filterOptions },
         ]}
       />
     </FlowContainer>

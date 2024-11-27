@@ -1,19 +1,21 @@
 import clsx from "clsx";
 import Link from "next/link";
 
+import { useMemo } from "react";
+import { toString } from "lodash";
 import { getCookie } from "cookies-next";
 import { User, LogoutCurve } from "iconsax-react";
-import { Avatar, Flex, Menu, Stack } from "@mantine/core";
-import { modals } from "@mantine/modals";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
-import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { modals } from "@mantine/modals";
+import { Avatar, Flex, Menu, Stack } from "@mantine/core";
+
+import { builder } from "@/builders";
 import { formatUserType, useFakeUserData } from "@/builders/types/login";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./interface/modals/logout";
-import { toString } from "lodash";
-import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
 
 function handleLogout() {
   modals.open({
@@ -27,11 +29,11 @@ export function UserDetails() {
   const userId = toString(getCookie(APP.USER_ID));
   const initialUser = useFakeUserData();
 
-  const { data: user, isPlaceholderData } = useQuery({
+  const { data: user, isLoading } = useSuspenseQuery({
     queryKey: builder.account.profile.get.get(),
     queryFn: () => builder.use().account.profile.get(userId),
     select: (data) => data,
-    placeholderData: initialUser,
+    // placeholderData: initialUser,
   });
 
   const userDetails = useMemo(() => {
@@ -55,22 +57,20 @@ export function UserDetails() {
           padding: 0,
         },
       }}
-      disabled={isPlaceholderData}
+      disabled={isLoading}
     >
       <Menu.Target>
         <Flex align='center' gap={8} className='cursor-pointer'>
           <Avatar
             src={userDetails?.picture}
             alt={userDetails.fullname}
-            size={45}
-            className={clsx({ skeleton: isPlaceholderData })}
+            size={35}
+            className={clsx({ skeleton: isLoading })}
           />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
-            <Stack gap={1} className={clsx({ skeleton: isPlaceholderData })}>
-              <p className={clsx("text-primary-text-body font-medium text-sm")}>
-                {userDetails.fullname}
-              </p>
+            <Stack gap={1} className={clsx({ skeleton: isLoading })}>
+              <p className={clsx("prose-sm/medium")}>{userDetails.fullname}</p>
               <p className={clsx("text-xs")}>{userDetails.userType}</p>
             </Stack>
 
@@ -96,7 +96,7 @@ export function UserDetails() {
               size={40}
             />
             <Stack gap={1}>
-              <p className='text-primary-text-body font-medium'>
+              <p className='text-primary-text-body prose-sm/medium'>
                 {userDetails.fullname}
               </p>
               <p className='text-xs'>{userDetails?.email}</p>

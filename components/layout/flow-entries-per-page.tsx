@@ -24,8 +24,12 @@ export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
       // lg:flex
       {...rootProps}
     >
-      <Text>Show</Text>
+      <Text fz={14}>Show</Text>
       <Select
+        size='sm'
+        searchable={false}
+        clearable={false}
+        rightSection={<ArrowDown2 size={14} />}
         data={["10", "30", "50", "100"]}
         value={cast.string(pageSize)}
         onChange={(value) => {
@@ -34,10 +38,6 @@ export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
             payload: cast.string(value),
           });
         }}
-        size='sm'
-        searchable={false}
-        clearable={false}
-        rightSection={<ArrowDown2 size={14} />}
         classNames={{
           input: "bg-gray-1",
         }}
@@ -45,7 +45,7 @@ export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
           width: 75,
         }}
       />
-      <Text>entries</Text>
+      <Text fz={14}>entries</Text>
     </Flex>
   );
 }

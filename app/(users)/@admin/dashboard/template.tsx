@@ -15,10 +15,8 @@ import {
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP, decryptUri } from "@/packages/libraries";
 import { ADMIN_ROUTES } from "@/packages/constants/routes";
-import { Bull, EstateVisaLogo } from "@/icons";
+import { EstateVisaLogo } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
-import { RotatingLogo } from "@/components/shared/interface/rotating-logo";
-import { EstateVisaLogo2 } from "@/icons/estate-visa-logo copy";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -31,7 +29,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 280 : 95,
+        width: opened ? 240 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}
@@ -42,16 +40,16 @@ export default function Template({ children }: TemplateProps) {
       }}
     >
       <AppShell.Navbar
+        withBorder={false}
+        py={28}
+        px={opened ? 0 : 12}
         style={{
           alignItems: opened ? "unset" : "center",
         }}
-        px={opened ? 0 : 12}
-        py={32}
-        withBorder={false}
       >
         <AppShell.Section>
           <Center>
-            <EstateVisaLogo height={120} width={120} />
+            <EstateVisaLogo height={80} width={80} />
           </Center>
 
           {user.estate && (
@@ -65,9 +63,9 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none pt-8'
+          className='scrollbar-none'
         >
-          <Stack gap={12}>
+          <Stack gap={8}>
             {ADMIN_ROUTES.map((link, index) => (
               <AppShellButton
                 key={index}

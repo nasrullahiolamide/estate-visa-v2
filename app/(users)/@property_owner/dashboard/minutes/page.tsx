@@ -97,7 +97,9 @@ export default function MeetingMinutes() {
             <FlowEntriesPerPage />
           </FlowFooter>
         </Fragment>
-        <FlowFloatingButtons hasFilterButton filterData={filterOptions} />
+        <FlowFloatingButtons
+          buttons={[{ icon: "filter", filterData: filterOptions }]}
+        />
         {/* <SheduleMeeting open={opened} close={closeDrawer} /> */}
       </FlowContainer>
     </Fragment>
