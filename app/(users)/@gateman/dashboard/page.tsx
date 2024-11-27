@@ -105,6 +105,7 @@ export default function Gates() {
         total,
         data: data
           .filter((request) => !dayjs(request.visitDate).isAfter(dayjs()))
+          .sort((a, b) => b.status.localeCompare(a.status))
           .map(({ id, status, ...list }) => {
             return {
               ...list,

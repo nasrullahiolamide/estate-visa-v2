@@ -10,7 +10,6 @@ import {
   ServiceRequestsData,
   useFakeServiceRequestsList,
 } from "@/builders/types/service-requests";
-import { serviceRequestsColumns } from "@/columns/for_occupants/service-requests";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -30,6 +29,7 @@ import clsx from "clsx";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
 import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
+import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
 
 const filterOptions = [
   { label: "Date", value: "date" },

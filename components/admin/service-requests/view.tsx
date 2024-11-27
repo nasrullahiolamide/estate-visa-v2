@@ -58,7 +58,6 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         type='plain'
         bg='white'
         gap={15}
-        h={520}
       >
         <TextInput
           label='House Number'

@@ -38,7 +38,6 @@ export function OccupantMeetingTable({
   meetings,
   isLoading,
   empty,
-  numberOfPages,
 }: OccupantMeetingTableProps) {
   return (
     <FlowContainer type='plain' bg='white' h='100%'>
