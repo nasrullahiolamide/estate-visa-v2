@@ -12,7 +12,6 @@ import { Actionable } from "@/builders/types/table";
 import { GateRequestData } from "@/builders/types/gate-requests";
 import { cast, formatDate } from "@/packages/libraries";
 import { DATE_FORMAT } from "@/packages/constants/time";
-import { Copy } from "iconsax-react";
 import { CopyIcon } from "@/icons";
 import { handleSuccess } from "@/packages/notification";
 
