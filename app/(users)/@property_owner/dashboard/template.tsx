@@ -15,8 +15,9 @@ import {
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP, decryptUri } from "@/packages/libraries";
 import {
+  GATEMAN_ROUTES,
   OCCUPANT_ROUTES,
-  PROPERTY_OWNER_ROUTES,
+  SUB_OCCUPANT_ROUTES,
 } from "@/packages/constants/routes";
 import { EstateVisaLogo } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
@@ -32,7 +33,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 280 : 95,
+        width: opened ? 240 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}
@@ -43,17 +44,18 @@ export default function Template({ children }: TemplateProps) {
       }}
     >
       <AppShell.Navbar
+        withBorder={false}
+        py={28}
+        px={opened ? 0 : 12}
         style={{
           alignItems: opened ? "unset" : "center",
         }}
-        px={opened ? 0 : 12}
-        py={32}
-        withBorder={false}
       >
         <AppShell.Section>
           <Center>
-            <EstateVisaLogo height={120} width={120} />
-          </Center>{" "}
+            <EstateVisaLogo height={80} width={80} />
+          </Center>
+
           {user.estate && (
             <Title mt={10} ta='center' fw={700} c='purple.9'>
               {user.estate.name} Estate
@@ -65,10 +67,10 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none pt-8'
+          className='scrollbar-none'
         >
-          <Stack gap={12}>
-            {PROPERTY_OWNER_ROUTES.map((link, index) => (
+          <Stack gap={8}>
+            {SUB_OCCUPANT_ROUTES.map((link, index) => (
               <AppShellButton
                 key={index}
                 leftSection={<link.icon />}

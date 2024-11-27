@@ -57,15 +57,17 @@ export function CustomMantineProvider({ children }: MantineProviderProps) {
             modalProps={{
               centered: true,
               classNames: {
-                title: "prose-xl/medium text-primary-text-body",
+                title:
+                  "prose-lg/medium sm:prose-xl/medium text-primary-text-body",
                 overlay: "bg-black bg-opacity-45 blur-4",
-                content: "p-2 sm:p-5 flex flex-col gap-[0.6rem]",
+                content: "p-2 sm:p-5 flex flex-col",
+                body: "p-2",
+                header: "p-2",
               },
               closeButtonProps: {
                 icon: <CancelCircleIcon />,
               },
-              overlayProps: { backgroundOpacity: 0.5, blur: 4 },
-              size: "lg",
+              size: "md",
             }}
           >
             <DrawersProvider>{children}</DrawersProvider>

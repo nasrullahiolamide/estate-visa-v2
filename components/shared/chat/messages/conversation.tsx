@@ -152,7 +152,9 @@ export function Conversations({
                 <Stack flex={1}>
                   <Text lineClamp={2} fz={14}>
                     <span className='font-bold mr-1'>{subject}</span>
-                    <span className='text-gray-800'>{content}</span>
+                    <span className='text-gray-800'>
+                      {content.replace(/<[^>]*>/g, "").trim()}
+                    </span>
                   </Text>
                   <Flex align='center' gap={4}>
                     <ClockIcon width={14} height={14} />
@@ -194,7 +196,7 @@ export function Conversations({
           );
         })
       ) : (
-        <Stack h={800}>
+        <Stack h={760}>
           <EmptySlot
             src='no-talk'
             title={

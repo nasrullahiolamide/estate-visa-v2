@@ -3,18 +3,23 @@
 import { object } from "yup";
 import { toString } from "lodash";
 import { getCookie } from "cookies-next";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { modals } from "@mantine/modals";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { Button, Flex, Text, Textarea, TextInput, Title } from "@mantine/core";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, MODALS } from "@/packages/libraries";
+
 import { handleSuccess, handleError } from "@/packages/notification";
-import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
 import { MessagesData } from "@/builders/types/messages";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ClockIcon, Plane, TrashIcon } from "@/icons";
+import { APP, MODALS } from "@/packages/libraries";
+import { builder } from "@/builders";
+
 import { UploadAttachments } from "@/components/shared/chat/attachments/upload";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { ClockIcon, Plane, TrashIcon } from "@/icons";
+import { FlowEditor } from "@/components/layout/flow-editor";
 
 export const schema = object({
   subject: requiredString,
@@ -69,6 +74,8 @@ export function ReplyModal({ content }: ReplyModalProps) {
     mutate({ id: content.id, data: payload });
   }
 
+  console.log(content);
+
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
@@ -80,7 +87,8 @@ export function ReplyModal({ content }: ReplyModalProps) {
       >
         <div className='space-y-2'>
           <Title order={2} fz={16}>
-            To: {content.parent.house.houseNumber}
+            To:{" "}
+            {content.house?.houseNumber || content.parent?.house.houseNumber}
           </Title>
           <Flex align='center' gap={4}>
             <ClockIcon width={14} height={14} />
@@ -97,7 +105,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
           withAsterisk
           {...form.getInputProps("subject")}
         />
-        <Textarea
+        <FlowEditor
           label={
             <Flex align='center' justify='space-between'>
               <span>
@@ -111,8 +119,9 @@ export function ReplyModal({ content }: ReplyModalProps) {
           {...form.getInputProps("content")}
         />
 
-        <Flex justify='space-between' mt={10}>
+        <Flex mt={10} gap='md'>
           <Button
+            flex={1}
             type='button'
             color='red'
             variant='outline'
@@ -123,6 +132,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
             Discard
           </Button>
           <Button
+            flex={1}
             type='submit'
             rightSection={<Plane />}
             disabled={isPending}

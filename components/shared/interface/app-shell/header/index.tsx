@@ -74,7 +74,7 @@ export function AppShellHeader({
           gap={36}
           align='center'
           justify='space-between'
-          className='~px-1/8 py-3'
+          className='~px-1/8 py-2'
         >
           <Flex align='center' gap={6} hiddenFrom='lg'>
             <EstateVisaLogo height={45} width={45} />
@@ -109,9 +109,10 @@ export function AppShellHeader({
 
         <Flex
           gap={20}
+          py={12}
           align='center'
           justify='space-between'
-          className={clsx("~px-1/8 ~py-1/4 hidden lg:flex", {
+          className={clsx("~px-1/8 hidden lg:flex", {
             "!flex": !showLinks,
           })}
         >

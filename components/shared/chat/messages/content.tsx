@@ -1,12 +1,15 @@
 import clsx from "clsx";
 
-import { FlowContainer } from "@/components/layout";
 import { ClockIcon } from "@/icons";
 import { Stack, Title, Flex, Text } from "@mantine/core";
-import { MessagesData } from "@/builders/types/messages";
+
 import { Attachments } from "@/components/shared/chat/attachments";
+import { FlowContainer } from "@/components/layout";
+
+import { MessagesData } from "@/builders/types/messages";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import { formatDate } from "@/packages/libraries";
+import { Markdown } from "../../markdown";
 
 interface MessageContentProps {
   skeleton: boolean;
@@ -72,7 +75,7 @@ export function MessageContent({
           </Title>
 
           <FlowContainer p={20} mah={430} mih={150} skeleton={skeleton}>
-            <Text>{data?.content}</Text>
+            <Markdown>{data?.content}</Markdown>
           </FlowContainer>
         </Stack>
 

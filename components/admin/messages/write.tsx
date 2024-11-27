@@ -15,6 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plane, TrashIcon } from "@/icons";
 import { UploadAttachments } from "../../shared/chat/attachments/upload";
 import { MESSAGE_TYPE } from "../../shared/chat/types";
+import { FlowEditor } from "@/components/layout/flow-editor";
 
 export const schema = object({
   houseIds: requiredString,
@@ -117,7 +118,7 @@ export function WriteModal({ view }: WriteModalProps) {
           withAsterisk
           {...form.getInputProps("title")}
         />
-        <Textarea
+        <FlowEditor
           label={
             <Flex align='center' justify='space-between'>
               <span>
@@ -131,8 +132,9 @@ export function WriteModal({ view }: WriteModalProps) {
           {...form.getInputProps("content")}
         />
 
-        <Flex justify='space-between' mt={10}>
+        <Flex gap='md' mt={10}>
           <Button
+            flex={1}
             type='button'
             color='red'
             variant='outline'
@@ -143,6 +145,7 @@ export function WriteModal({ view }: WriteModalProps) {
             Discard
           </Button>
           <Button
+            flex={1}
             type='submit'
             rightSection={<Plane />}
             disabled={isPending}

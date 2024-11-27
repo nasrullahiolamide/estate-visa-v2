@@ -1,13 +1,15 @@
 "use client";
 
-import { toString } from "lodash";
 import { Add } from "iconsax-react";
-import { getCookie } from "cookies-next";
-import { useQueryState } from "nuqs";
-import { modals } from "@mantine/modals";
 import { Fragment } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { toString } from "lodash";
+import { useQueryState } from "nuqs";
+import { getCookie } from "cookies-next";
+
 import { Button, Flex, Tabs } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+
 import { builder } from "@/builders";
 import { useFakeMessagesList } from "@/builders/types/messages";
 import { APP, MODALS } from "@/packages/libraries";
@@ -29,6 +31,7 @@ import { Conversations } from "@/components/shared/chat/messages/conversation";
 import { Announcements } from "@/components/shared/chat/notice-board/conversation";
 import { MESSAGE_TYPE } from "@/components/shared/chat/types";
 import { UserFriendsIcon, BroadcastIcon, Inbox } from "@/icons";
+
 import clsx from "clsx";
 
 export default function Messages() {
@@ -108,17 +111,17 @@ export default function Messages() {
             <Flex align='center'>
               <Tabs.List className='w-full'>
                 <Tabs.Tab
-                  value={MESSAGE_TYPE.OCCUPANT}
                   flex={1}
                   py={18}
+                  value={MESSAGE_TYPE.OCCUPANT}
                   leftSection={<UserFriendsIcon />}
                 >
                   Occupants
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value={MESSAGE_TYPE.BROADCAST}
                   flex={1}
                   py={18}
+                  value={MESSAGE_TYPE.BROADCAST}
                   leftSection={<BroadcastIcon />}
                 >
                   BroadCast
