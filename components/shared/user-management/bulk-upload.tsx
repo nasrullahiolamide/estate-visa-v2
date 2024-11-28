@@ -42,7 +42,6 @@ export function BulkUpload(props: StaffListUploadProps) {
       handleSuccess({
         message: "CSV file uploaded successfully",
       });
-
       handleClose();
     },
   });
@@ -52,9 +51,11 @@ export function BulkUpload(props: StaffListUploadProps) {
       <Button
         variant='outline'
         color='gray'
-        w='100%'
         my={15}
-        className='flex items-center justify-between'
+        className='w-full'
+        classNames={{
+          label: "flex items-center justify-between w-full text-primary-body",
+        }}
       >
         <Text
           component={Link}
@@ -62,8 +63,7 @@ export function BulkUpload(props: StaffListUploadProps) {
         >
           Download file format
         </Text>
-
-        <DownloadIcon />
+        <DownloadIcon color='var(--accent-7)' className='ml-auto' />
       </Button>
     ),
     uploaded: "Uploaded successfully",
@@ -74,7 +74,9 @@ export function BulkUpload(props: StaffListUploadProps) {
 
   return (
     <Box component='form' onSubmit={handleSubmit(handleUpload)}>
-      <Text className='text-primary-text-subtle'>{view[status]}</Text>
+      <Text className='text-primary-text-subtle' mb={15}>
+        {view[status]}
+      </Text>
       <ResourceUpload
         accepts={(mime) => [mime.csv]}
         onDrop={handleDrop}
@@ -83,6 +85,7 @@ export function BulkUpload(props: StaffListUploadProps) {
         completed={progress?.completed}
         status={status}
         supports={["csv", "xls"]}
+        multiple={false}
       />
 
       <Flex gap={12} wrap='wrap' mt={30}>
@@ -98,7 +101,7 @@ export function BulkUpload(props: StaffListUploadProps) {
           flex={1}
           miw='fit-content'
           type='submit'
-          disabled={isPending}
+          disabled={isPending || status === "dropped"}
           loading={isPending}
         >
           Confirm

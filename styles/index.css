@@ -26,6 +26,7 @@
 .recharts-legend-item-text {
   color: var(--primary-text-subtle) !important;
 }
+
 * {
   scroll-behavior: smooth;
 }
