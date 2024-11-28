@@ -88,34 +88,30 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
 
   return (
     <Stack gap={10}>
-      {data?.length && (
+      {data && (
         <Fragment>
           <FlowContentHorizontal breakpoint='200' mah={200}>
-            {data
-              ?.sort((a, b) => a.name.localeCompare(b.name))
-              .map((item) => (
-                <Flex
-                  key={item.id}
-                  gap={8}
-                  align='center'
-                  component='ul'
-                  className='group cursor-pointer list-disc'
-                  onClick={() => mutate(item.id)}
-                >
-                  {/* <Tooltip label='Click to delete' position='top-start' fz={12}> */}
-                  <li className='text-sm group-hover:text-red-7'>
-                    {isDeleting ? <Loader size={12} /> : item.name}
-                  </li>
-                  {/* </Tooltip> */}
-                  {type !== "house_types" && (
-                    <TrashIcon
-                      width={12}
-                      height={12}
-                      className='group-hover:inline hidden cursor-pointer'
-                    />
-                  )}
-                </Flex>
-              ))}
+            {data.map((item) => (
+              <Flex
+                key={item.id}
+                gap={8}
+                align='center'
+                component='ul'
+                className='group cursor-pointer list-disc'
+                onClick={() => mutate(item.id)}
+              >
+                <li className='text-sm group-hover:text-red-7'>
+                  {isDeleting ? <Loader size={12} /> : item.name}
+                </li>
+                {(type !== "house_types" || !isDeleting) && (
+                  <TrashIcon
+                    width={12}
+                    height={12}
+                    className='group-hover:inline hidden cursor-pointer'
+                  />
+                )}
+              </Flex>
+            ))}
           </FlowContentHorizontal>
           <Divider my={10} />
         </Fragment>
