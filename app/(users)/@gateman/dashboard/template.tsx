@@ -29,7 +29,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 240 : 95,
+        width: opened ? 270 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}
@@ -49,7 +49,7 @@ export default function Template({ children }: TemplateProps) {
       >
         <AppShell.Section>
           <Center>
-            <EstateVisaLogo height={80} width={80} />
+            <EstateVisaLogo height={90} width={90} />
           </Center>
 
           {user.estate && (
@@ -63,7 +63,7 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none ~pt-2/14'
+          className='scrollbar-none'
         >
           <Stack gap={8}>
             {GATEMAN_ROUTES.map((link, index) => (

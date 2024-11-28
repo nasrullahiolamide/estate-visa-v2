@@ -25,3 +25,4 @@ export { FlowTitle } from "./flow-title";
 export { useFlowPagination } from "./use-flow-pagination";
 export { FlowFloatingButtons } from "./flow-floating-buttons";
 export { FlowTableActions } from "./flow-table-actions";
+export { FlowPhoneInput } from "./flow-phone-input";

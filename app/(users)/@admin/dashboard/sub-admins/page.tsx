@@ -64,7 +64,7 @@ const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
 export default function SubAdmins() {
   const initialSubAdminList = useFakeSubAdminList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
   const {
     estate: { id: estateId },
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));

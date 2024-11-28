@@ -51,8 +51,14 @@ export default function Estates() {
   const pagination = useFlowPagination();
 
   const { setEstate } = useEstateValue();
-  const { page, pageSize, search, numberOfPages, sortBy, sortOrder } =
-    useFlowState();
+  const {
+    page,
+    pageSize,
+    query: search,
+    numberOfPages,
+    sortBy,
+    sortOrder,
+  } = useFlowState();
 
   const { data: estates, isPlaceholderData } = useQuery({
     queryKey: builder.estates.get.get(),

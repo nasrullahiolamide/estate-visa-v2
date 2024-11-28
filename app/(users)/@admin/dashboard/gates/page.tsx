@@ -50,7 +50,7 @@ export default function Gates() {
   const pagination = useFlowPagination();
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
 
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: gates, isPlaceholderData } = useQuery({
     queryKey: builder.gates.get.table.get(),

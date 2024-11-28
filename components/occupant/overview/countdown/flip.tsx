@@ -30,7 +30,7 @@ export function Flip({ time }: FlipProps) {
       <ClockFace
         className='clump:rounded-t-[clamp(.4rem,2vw,.75rem)] rounded-t-xl'
         style={{
-          borderBlockEnd: "1.5px solid #353535",
+          // borderBlockEnd: "1.5px solid #353535",
           transformOrigin: "center bottom",
           alignContent: "start",
           alignSelf: "start",
@@ -49,7 +49,7 @@ export function Flip({ time }: FlipProps) {
           rotateX: 0,
         }}
         style={{
-          borderBlockEnd: "1.5px solid #353535",
+          // borderBlockEnd: "1.5px solid #353535",
           boxShadow: "0 -2px 2px -2px black",
           transformOrigin: "center bottom",
           alignContent: "start",
@@ -60,7 +60,7 @@ export function Flip({ time }: FlipProps) {
       <ClockFace
         className='clump:rounded-b-[clamp(.4rem,2vw,.75rem)] rounded-b-xl'
         style={{
-          borderBlockStart: "1.5px solid #353535",
+          // borderBlockStart: "1.5px solid #353535",
           transformOrigin: "center top",
           alignContent: "end",
           alignSelf: "end",
@@ -81,7 +81,7 @@ export function Flip({ time }: FlipProps) {
           rotateX: 90,
         }}
         style={{
-          borderBlockStart: "1.5px solid #353535",
+          // borderBlockStart: "1.5px solid #353535",
           boxShadow: "0 2px 2px -2px black",
           alignSelf: "end",
           transformOrigin: "center top",

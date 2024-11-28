@@ -32,6 +32,8 @@ import {
   profileDetailsSchema,
 } from "@/components/admin/profile/schema";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { PhoneInput } from "react-international-phone";
+import { FlowPhoneInput } from "@/components/layout";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -201,9 +203,9 @@ export default function Profile() {
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
-                <TextInput
+
+                <FlowPhoneInput
                   label='Phone Number'
-                  disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}

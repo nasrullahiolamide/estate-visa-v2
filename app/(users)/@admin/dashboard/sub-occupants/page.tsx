@@ -51,7 +51,7 @@ const handleSubOccupantForm = ({ data }: SubOccupantsFormProps) => {
 export default function SubOccupants() {
   const initialSubOccupantsList = useFakeSubOccupantsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().sub_occupants.download,

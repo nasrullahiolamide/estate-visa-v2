@@ -63,7 +63,7 @@ export function AppShellHeader({
       }}
     >
       <Stack
-        maw={MAX_SCREEN_WIDTH}
+        // maw={MAX_SCREEN_WIDTH}
         mx='auto'
         component='section'
         justify='space-between'
@@ -86,9 +86,9 @@ export function AppShellHeader({
           </Flex>
 
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
-            <SearchEstate />
-            <Flex gap={12} align='center'>
-              <Center
+            {/* <SearchEstate /> */}
+            <Flex gap={12} align='center' ml='auto'>
+              {/* <Center
                 h={36}
                 w={36}
                 bg='purple.4'
@@ -99,7 +99,7 @@ export function AppShellHeader({
                 <Indicator processing color='red' size={10} withBorder>
                   <BellIcon width={18} />
                 </Indicator>
-              </Center>
+              </Center> */}
               <UserDetails />
             </Flex>
           </Flex>
@@ -109,7 +109,7 @@ export function AppShellHeader({
 
         <Flex
           gap={20}
-          py={12}
+          py={16}
           align='center'
           justify='space-between'
           className={clsx("~px-1/8 hidden lg:flex", {

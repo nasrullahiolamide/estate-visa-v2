@@ -101,11 +101,11 @@ export const ADMIN_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
     icon: ServiceRequestIcon,
   },
-  {
-    title: "Market Place",
-    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
-    icon: MarketPlaceIcon,
-  },
+  // {
+  //   title: "Market Place",
+  //   href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
+  //   icon: MarketPlaceIcon,
+  // },
 ];
 
 export const OCCUPANT_ROUTES = [
@@ -140,11 +140,11 @@ export const OCCUPANT_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
     icon: ServiceRequestIcon,
   },
-  {
-    title: "Market Place",
-    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
-    icon: MarketPlaceIcon,
-  },
+  // {
+  //   title: "Market Place",
+  //   href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
+  //   icon: MarketPlaceIcon,
+  // },
 ];
 
 export const SUB_OCCUPANT_ROUTES = [
@@ -169,9 +169,9 @@ export const SUB_OCCUPANT_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
     icon: ServiceRequestIcon,
   },
-  {
-    title: "Market Place",
-    href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
-    icon: MarketPlaceIcon,
-  },
+  // {
+  //   title: "Market Place",
+  //   href: makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE),
+  //   icon: MarketPlaceIcon,
+  // },
 ];

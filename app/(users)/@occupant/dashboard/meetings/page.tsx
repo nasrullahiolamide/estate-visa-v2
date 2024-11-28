@@ -36,10 +36,12 @@ export default function Minutes() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const initialMeetingList = useFakeMeetingsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get(view),
+    queryKey: builder.meetings.get.table.get({
+      status: view,
+    }),
     queryFn: () =>
       builder.use().meetings.get.table({
         estateId,

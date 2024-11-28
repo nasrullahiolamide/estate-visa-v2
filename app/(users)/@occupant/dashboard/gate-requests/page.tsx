@@ -88,11 +88,20 @@ export default function Gates() {
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
 
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.requests.get.get(),
-    queryFn: () => builder.use().gates.requests.get({ page, pageSize, search }),
+    queryKey: builder.gates.requests.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
+    queryFn: () =>
+      builder
+        .use()
+        .gates.requests.get({ page, pageSize, search, sortBy, sortOrder }),
     placeholderData: initialGateRequestList,
     select({ page, pageSize, total, data }) {
       return {

@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 
 import { PropsWithChildren } from "react";
@@ -10,11 +11,11 @@ import "@mantine/tiptap/styles.css";
 import "@mantine/spotlight/styles.layer.css";
 
 import "react-toastify/dist/ReactToastify.css";
+import "react-international-phone/style.css";
 
 import "@/styles/accent.scss";
 import "@/styles/index.css";
 import "@/packages/variables/index.css";
-import Script from "next/script";
 
 type LayoutProps = PropsWithChildren<{}>;
 

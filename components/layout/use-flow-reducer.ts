@@ -5,7 +5,7 @@ export type FlowState = {
   page: number;
   entriesPerPage: number;
   totalEntryCount: number;
-  search: string;
+  query: string;
   numberOfPages: number;
   pageSize: number;
   sortBy?: string;
@@ -19,7 +19,7 @@ export enum FlowActionType {
   SET_ENTRIES_PER_PAGE = "SET_ENTRIES_PER_PAGE",
   SET_ENTRIES_COUNT_ON_CURRENT_PAGE = "SET_ENTRIES_COUNT_ON_CURRENT_PAGE",
   SET_TOTAL_ENTRY_COUNT = "SET_TOTAL_ENTRY_COUNT",
-  SET_SEARCH = "SET_SEARCH",
+  SET_SEARCH_QUERY = "SET_SEARCH_QUERY",
   SET_PAGE_SIZE = "SET_PAGE_SIZE",
   SET_FILTER = "SET_FILTER",
 }
@@ -28,7 +28,7 @@ export type FlowAction =
   | { type: FlowActionType.SET_PAGE; payload: number }
   | { type: FlowActionType.SET_ENTRIES_PER_PAGE; payload: number }
   | { type: FlowActionType.SET_TOTAL_ENTRY_COUNT; payload: number }
-  | { type: FlowActionType.SET_SEARCH; payload: string }
+  | { type: FlowActionType.SET_SEARCH_QUERY; payload: string }
   | { type: FlowActionType.SET_PAGE_SIZE; payload: number }
   | {
       type: FlowActionType.SET_FILTER;
@@ -43,7 +43,7 @@ const initialState: FlowState = {
   page: 1,
   entriesPerPage: 10,
   totalEntryCount: 1,
-  search: "",
+  query: "",
   numberOfPages: 0,
   pageSize: 10,
   sortBy: "",
@@ -73,8 +73,8 @@ function reducer(state: FlowState, action: FlowAction): FlowState {
         totalEntryCount: action.payload,
         numberOfPages: getNumberOfPages(action.payload, state.pageSize),
       };
-    case FlowActionType.SET_SEARCH:
-      return { ...state, search: action.payload };
+    case FlowActionType.SET_SEARCH_QUERY:
+      return { ...state, query: action.payload };
 
     case FlowActionType.SET_FILTER:
       return {

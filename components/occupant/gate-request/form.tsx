@@ -4,22 +4,26 @@ import dayjs from "dayjs";
 
 import { getCookie } from "cookies-next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { DatePickerInput } from "@mantine/dates";
 import { modals } from "@mantine/modals";
+
 import { builder } from "@/builders";
 import {
   GateRequestData,
   UpdateGateRequestData,
 } from "@/builders/types/gate-requests";
-import { APP, cast, formatDate, MODALS, pass } from "@/packages/libraries";
+import { APP, cast, formatDate, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
+
 import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
 import { schema } from "./schema";
+import { FlowPhoneInput } from "@/components/layout";
 
 export type GateRequestFormProps = {
   data?: GateRequestData;
@@ -118,9 +122,8 @@ export function GateRequestForm({
           withAsterisk
           {...form.getInputProps("guestType")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
-          placeholder="Enter guest's phone number"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phoneNo")}

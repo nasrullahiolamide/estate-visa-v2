@@ -1,19 +1,25 @@
 "use client";
 
-import clsx from "clsx";
+import dayjs from "dayjs";
 
+import { AxiosError } from "axios";
 import { Fragment, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
+
 import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
+import { DownloadIcon } from "@/icons";
+
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon } from "@/icons";
-
 import {
   FlowContainer,
   FlowContentContainer,
@@ -26,11 +32,6 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { modals } from "@mantine/modals";
-import { AxiosError } from "axios";
-import dayjs from "dayjs";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -74,7 +75,14 @@ export default function Gates() {
   const queryClient = useQueryClient();
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages, status } = useFlowState();
+  const {
+    page,
+    pageSize,
+    query: search,
+    status,
+    sortBy,
+    sortOrder,
+  } = useFlowState();
 
   const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: builder.use().gates.requests.change_status,
@@ -94,9 +102,23 @@ export default function Gates() {
   });
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.requests.get.get(),
+    queryKey: builder.gates.requests.get.get({
+      page,
+      pageSize,
+      search,
+      status,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
-      builder.use().gates.requests.get({ page, pageSize, search, status }),
+      builder.use().gates.requests.get({
+        page,
+        pageSize,
+        search,
+        status,
+        sortBy,
+        sortOrder,
+      }),
     placeholderData: initialGateRequestList,
     select({ page, pageSize, total, data }) {
       return {
@@ -104,7 +126,7 @@ export default function Gates() {
         pageSize,
         total,
         data: data
-          .filter((request) => !dayjs(request.visitDate).isAfter(dayjs()))
+          .filter((request) => dayjs(request.visitDate).isSame(dayjs()))
           .sort((a, b) => b.status.localeCompare(a.status))
           .map(({ id, status, ...list }) => {
             return {
@@ -164,7 +186,7 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title='You have no gate requests yet. You’ll surely get one soon!'
+                title="You have no gate requests for today yet. You'll surely get one soon!"
                 src='question'
               />
             )}

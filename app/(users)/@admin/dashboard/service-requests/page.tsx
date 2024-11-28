@@ -82,7 +82,7 @@ function handleView(details: ServiceRequestsData) {
 export default function ServiceRequest() {
   const initialServiceRequests = useFakeServiceRequestsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
     queryKey: builder.service_requests.get.get(),

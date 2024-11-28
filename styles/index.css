@@ -5,6 +5,7 @@
 
 :root {
   --chart-background: #f2f4f7;
+
   --top-text-color: #000;
   --top-selected-color: var(--blue-7);
   --clock-wrapper-bg: #fff;
@@ -19,11 +20,12 @@
   --meridiem-bg-color: var(--gray-2);
   --numbers-font-size-reg: 1.1rem;
 
-  .recharts-legend-item-text {
-    color: var(--primary-text-subtle) !important;
-  }
+  --react-international-phone-border-color: var(--mantine-color-gray-4);
 }
 
+.recharts-legend-item-text {
+  color: var(--primary-text-subtle) !important;
+}
 * {
   scroll-behavior: smooth;
 }

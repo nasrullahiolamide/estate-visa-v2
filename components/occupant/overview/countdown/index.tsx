@@ -24,20 +24,33 @@ function calculateDeadline(validityPeriod: string): Date {
 
   const deadline = dayjs()
     .add(duration, unit as ManipulateType)
-    .set("hour", 21)
-    .set("minute", 0)
-    .set("second", 0);
+    .startOf("day");
 
   return new Date(deadline.format("MMMM DD, YYYY HH:mm:ss"));
 }
 
-const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
-  const years = Math.floor(days / 365);
-  const months = Math.floor((days % 365) / 30);
-  const weeks = Math.floor((days % 365) / 7);
-  const remainingDays = days % 365;
+const renderer: CountdownRendererFn = ({
+  days,
+  hours,
+  minutes,
+  seconds,
+  total,
+}) => {
+  const now = dayjs();
+  const targetDate = dayjs().add(total, "millisecond");
 
-  if (years > 0 || months > 0 || weeks > 0) {
+  const years = targetDate.diff(now, "year");
+  const afterYears = now.add(years, "year");
+
+  const months = targetDate.diff(afterYears, "month");
+  const afterMonths = afterYears.add(months, "month");
+
+  const weeks = targetDate.diff(afterMonths, "week");
+  const afterWeeks = afterMonths.add(weeks, "week");
+
+  const calc_days = targetDate.diff(afterWeeks, "day");
+
+  if (months > 0 && weeks > 0) {
     return (
       <div
         className={clsx(
@@ -45,13 +58,16 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
           "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
         )}
       >
-        <TimePad moment={years} period='Year(s)' />
-        <TimePad moment={months} period='Month(s)' />
-        <TimePad moment={weeks} period='Week(s)' />
-        <TimePad moment={remainingDays} period='Day(s)' />
+        {years > 0 && (
+          <TimePad moment={years} period={years > 1 ? "Years" : "Year"} />
+        )}
+        <TimePad moment={months} period={months > 1 ? "Months" : "Month"} />
+        <TimePad moment={weeks} period={weeks > 1 ? "Weeks" : "Week"} />
+        <TimePad moment={calc_days} period={calc_days > 1 ? "Days" : "Day"} />
       </div>
     );
   }
+
   return (
     <div
       className={clsx(
@@ -59,10 +75,10 @@ const renderer: CountdownRendererFn = ({ days, hours, minutes, seconds }) => {
         "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
       )}
     >
-      <TimePad moment={remainingDays} period='Day(s)' />
-      <TimePad moment={hours} period='Hour(s)' />
-      <TimePad moment={minutes} period='Minute(s)' />
-      <TimePad moment={seconds} period='Second(s)' />
+      <TimePad moment={days} period={days > 1 ? "Days" : "Day"} />
+      <TimePad moment={hours} period={hours > 1 ? "Hours" : "Hour"} />
+      <TimePad moment={minutes} period={minutes > 1 ? "Minutes" : "Minute"} />
+      <TimePad moment={seconds} period={seconds > 1 ? "Seconds" : "Second"} />
     </div>
   );
 };
@@ -88,7 +104,7 @@ export function CountDown({ house, skeleton, ...props }: CountDownProps) {
         mb={24}
         className='clump:text-[clamp(4rem,6vw,5rem)] text-2xl'
       >
-        Subscription Validty
+        Subscription Validity
       </Title>
       <Countdown renderer={renderer} date={millisecondsTillDeadline} />
       <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>

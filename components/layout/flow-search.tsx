@@ -17,7 +17,7 @@ interface FlowSearchProps extends TextInputProps {}
 export function FlowSearch(props: FlowSearchProps) {
   const [showSearchField, setShowSearchField] = useState(false);
 
-  const { search } = useFlowState();
+  const { query: search } = useFlowState();
   const dispatch = useFlowDispatch();
 
   const ref = useClickOutside(() => {
@@ -37,7 +37,7 @@ export function FlowSearch(props: FlowSearchProps) {
         value={search}
         onChange={(event) => {
           dispatch({
-            type: FlowActionType.SET_SEARCH,
+            type: FlowActionType.SET_SEARCH_QUERY,
             payload: event.currentTarget.value,
           });
         }}

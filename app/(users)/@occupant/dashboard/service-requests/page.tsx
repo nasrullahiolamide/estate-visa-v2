@@ -86,15 +86,32 @@ const handleRequestForm = ({
 export default function ServiceRequest() {
   const initialServiceRequestList = useFakeServiceRequestsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const {
+    page,
+    pageSize,
+    query: search,
+    sortBy,
+    sortOrder,
+    status,
+  } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.service_requests.get.get(),
+    queryKey: builder.service_requests.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+      status,
+    }),
     queryFn: () =>
       builder.use().service_requests.get({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
+        status,
       }),
     placeholderData: initialServiceRequestList,
     select({ total, page, data, pageSize }) {

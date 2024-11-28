@@ -76,7 +76,7 @@ const handleMarketRuleForm = () => {
 export default function MarketRules() {
   const initialMarketRulesList = useFakeMarketRulesList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const dataToDisplay = initialMarketRulesList.data.map((data) => ({
     ...data,

@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
+
 import {
   MantineProvider,
   ColorSchemeScript,
@@ -9,14 +10,10 @@ import {
 } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
+
 import { DrawersProvider } from "@/components/shared/interface";
+import { CancelCircleIcon } from "@/icons";
 import { theme } from "../theme";
-import { CancelCircleIcon, SearchIcon } from "@/icons";
-import { Spotlight } from "@mantine/spotlight";
-import { getAuthorizedUser } from "@/packages/actions";
-import { spotLightActions } from "@/packages/actions/spotlight";
-import { getCookie } from "cookies-next";
-import { APP, USER_TYPE } from "@/packages/libraries";
 
 interface MantineProviderProps {
   children: ReactNode;
@@ -60,14 +57,14 @@ export function CustomMantineProvider({ children }: MantineProviderProps) {
                 title:
                   "prose-lg/medium sm:prose-xl/medium text-primary-text-body",
                 overlay: "bg-black bg-opacity-45 blur-4",
-                content: "p-2 sm:p-5 flex flex-col",
-                body: "p-2",
-                header: "p-2",
+                content: "px-2 sm:px-5 pb-2 sm:pb-5 flex flex-col",
+                body: "p-2 sm:p-5 !pt-0",
+                header: "py-6",
               },
               closeButtonProps: {
                 icon: <CancelCircleIcon />,
               },
-              size: "md",
+              size: "lg",
             }}
           >
             <DrawersProvider>{children}</DrawersProvider>

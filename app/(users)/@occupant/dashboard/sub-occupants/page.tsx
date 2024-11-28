@@ -51,15 +51,23 @@ const handleSubOccupantForm = ({ data, modalType }: SubOccupantsFormProps) => {
 export default function SubOccupants() {
   const initialSubOccupantsList = useFakeSubOccupantsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_occupants.get.get(),
+    queryKey: builder.sub_occupants.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().sub_occupants.get({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
       }),
     placeholderData: initialSubOccupantsList,
     select({ total, page, data, pageSize }) {

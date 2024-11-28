@@ -53,7 +53,7 @@ const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
 export default function Occupants() {
   const initialOccupantsList = useFakeOccupantsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().occupants.download,

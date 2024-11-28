@@ -68,7 +68,7 @@ const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
 export default function Houses() {
   const initialHousesList = useFakeHousesList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().houses.download,

@@ -69,7 +69,7 @@ const handlePropertyOwnerForm = ({
 export default function PropertyOwners() {
   const initialPropertyOwnersList = useFakePropertyOwnersList();
   const pagination = useFlowPagination();
-  const { page, pageSize, search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().property_owners.download,

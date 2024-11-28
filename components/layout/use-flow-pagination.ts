@@ -19,7 +19,7 @@ export function useFlowPagination() {
       });
     },
     setSearch: (search: string = "") => {
-      dispatch({ type: FlowActionType.SET_SEARCH, payload: search });
+      dispatch({ type: FlowActionType.SET_SEARCH_QUERY, payload: search });
     },
     setEntriesCount: (count: number = 0) => {
       dispatch({

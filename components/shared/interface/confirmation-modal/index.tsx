@@ -63,7 +63,7 @@ export function ConfirmationModal({
 
   return (
     <Fragment>
-      <Stack py={10} gap={24}>
+      <Stack p={10} gap={24}>
         {src && (
           <Emblem image={`/sprites/${src}.gif`} h={110} ml={40} {...srcProps} />
         )}
@@ -91,7 +91,7 @@ export function ConfirmationModal({
             {btnText}
           </Button>
         ) : (
-          <Flex justify='center' gap={15} mt={20} wrap='wrap'>
+          <Flex justify='center' gap={20} mt={20} wrap='wrap'>
             <Button
               w='fit-content'
               variant='outline'
