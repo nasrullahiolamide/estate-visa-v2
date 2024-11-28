@@ -12,6 +12,7 @@ import { ResourceUpload } from "../uploads/resource";
 import { FILE } from "@/packages/libraries/enum";
 import Link from "next/link";
 import { DownloadIcon } from "@/icons";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 
 type StaffListUploadProps = {
   organization_id: number;
@@ -48,7 +49,13 @@ export function BulkUpload(props: StaffListUploadProps) {
 
   const view: Record<PropertyKey, ReactNode> = {
     pending: (
-      <Button variant='outline' color='gray' rightSection={<DownloadIcon />}>
+      <Button
+        variant='outline'
+        color='gray'
+        rightSection={<DownloadIcon />}
+        w='100%'
+        my={15}
+      >
         <Text
           component={Link}
           href='https://res.cloudinary.com/techeducratic/raw/upload/v1721248216/uploads/2024/07/17/igv6lzhidxz3e5am8erp.csv'
@@ -76,7 +83,7 @@ export function BulkUpload(props: StaffListUploadProps) {
         supports={["csv", "xls"]}
       />
 
-      <Flex gap={12} wrap='wrap'>
+      <Flex gap={12} wrap='wrap' mt={30}>
         <Button
           flex={1}
           miw='fit-content'
@@ -97,20 +104,4 @@ export function BulkUpload(props: StaffListUploadProps) {
       </Flex>
     </Box>
   );
-}
-function useFileUpload<T>(arg0: {
-  key: any;
-  form: StaffListUploadProps;
-  onError: any;
-  onSuccess(): void;
-}): {
-  status: any;
-  preview: any;
-  progress: any;
-  isPending: any;
-  handleUpload: any;
-  handleDrop: any;
-  handleSubmit: any;
-} {
-  throw new Error("Function not implemented.");
 }
