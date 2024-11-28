@@ -72,7 +72,7 @@ export function ConfirmationModal({
             <Text ta='center' className='prose-xl/medium'>
               {title}
             </Text>
-            <Text ta='center' className='prose-lg/regular' component='p'>
+            <Text ta='center' className='prose-base/regular' component='p'>
               {description}
             </Text>
           </>

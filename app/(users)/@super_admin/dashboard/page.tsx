@@ -1,12 +1,11 @@
 "use client";
 
 import { Fragment } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Stack } from "@mantine/core";
 
 import { RecentActivities } from "@/components/admin/overview";
 import { FlowContentHorizontal } from "@/components/layout";
-
 import {
   StatisticsOverview,
   PercentageOfUsers,
@@ -16,8 +15,9 @@ import {
   AppShellHeader,
   AppShellMain,
 } from "@/components/shared/interface/app-shell";
-import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
+
+import { builder } from "@/builders";
 import { useFakeSuperAdminDashboardData } from "@/builders/types/super-admin-dashboard";
 
 export default function Overview() {

@@ -141,8 +141,6 @@ export default function Gates() {
 
   const noDataAvailable = gateRequests?.data.length === 0;
 
-  console.log({ gateRequests });
-
   return (
     <Fragment>
       <AppShellHeader

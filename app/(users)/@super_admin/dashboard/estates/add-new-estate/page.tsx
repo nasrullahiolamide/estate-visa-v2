@@ -38,38 +38,26 @@ export default function Page() {
       location: "",
       numberOfHouses: "",
       owner: "",
-      username: "",
       email: "",
       phone: "",
-      password: "",
       serviceRequestTypes: [],
       houseTypes: [],
-      interests: [],
+      interests: ["Residence Management", "Access Request"],
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
   });
 
   function handleSubmit() {
-    const {
-      owner,
-      username,
-      email,
-      phone,
-      password,
-      numberOfHouses,
-      ...values
-    } = form.getValues();
+    const { owner, email, phone, numberOfHouses, ...values } = form.getValues();
 
     const payload = {
       ...values,
       numberOfHouses: cast.number(numberOfHouses),
       managerDetails: {
         owner,
-        username,
         email,
         phone,
-        password,
       },
     };
 

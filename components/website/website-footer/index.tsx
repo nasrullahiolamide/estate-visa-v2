@@ -11,12 +11,16 @@ import {
   LinkedInIcon,
   XIcon,
 } from "@/icons";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 
 export function WebsiteFooter() {
   return (
-    <>
+    <Flex>
       <Stack
         component='footer'
+        w='100%'
+        maw={MAX_SCREEN_WIDTH}
+        mx='auto'
         mt='auto'
         fz={14}
         className='lg:p-16 md:p-8 py-12 px-5 lg:pb-10 justify-evenly'
@@ -144,6 +148,6 @@ export function WebsiteFooter() {
           </Flex>
         </div>
       </Stack>
-    </>
+    </Flex>
   );
 }

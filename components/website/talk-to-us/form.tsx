@@ -8,6 +8,8 @@ import { requiredString } from "@/builders/types/shared";
 import { array, object } from "yup";
 import { modals } from "@mantine/modals";
 import { ConfirmationModal } from "@/components/shared/interface";
+import { useQuery } from "@tanstack/react-query";
+import { builder } from "@/builders";
 
 export const schema = object({
   full_name: requiredString,
@@ -24,6 +26,14 @@ export const schema = object({
 });
 
 export function TalkToUsForm() {
+  const { data } = useQuery({
+    queryKey: builder.estates.options.interests.get.get(),
+    queryFn: () => builder.use().estates.options.interests.get(),
+    select: (data) => {
+      return data.map((item) => ({ value: item.id, label: item.name }));
+    },
+  });
+
   const form = useForm({
     initialValues: {
       full_name: "",
@@ -143,12 +153,7 @@ export function TalkToUsForm() {
           {...form.getInputProps("no_of_occupants")}
         />
         <MultiSelect
-          data={[
-            "Access Request",
-            "Service Request",
-            "Market Place",
-            "Residence Management",
-          ]}
+          data={data}
           label='Interests'
           withAsterisk
           placeholder='What are you interested in?'

@@ -48,21 +48,6 @@ export function ManagementProfile() {
           disabled={form.getValues().action === "view"}
           {...form.getInputProps("phone")}
         />
-
-        <TextInput
-          label='Username'
-          placeholder='Enter the estate owner username'
-          withAsterisk
-          disabled={form.getValues().action === "view"}
-          {...form.getInputProps("username")}
-        />
-        <PasswordInput
-          label='Password'
-          placeholder='**********'
-          withAsterisk
-          disabled={form.getValues().action === "view"}
-          {...form.getInputProps("password")}
-        />
       </SimpleGrid>
     </Fragment>
   );

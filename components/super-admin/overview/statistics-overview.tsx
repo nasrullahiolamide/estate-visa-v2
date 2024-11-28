@@ -32,7 +32,7 @@ export function StatisticsOverview({
         title='Total Estates'
         value={totalEstates}
         total={totalEstates}
-        label='Manage Houses'
+        label='Manage Estates'
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
         skeleton={skeleton}
       />
@@ -42,7 +42,6 @@ export function StatisticsOverview({
         title='Total Estate Owners'
         value={totalEstateOwners}
         label='Manage Estate Owners'
-        href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
         skeleton={skeleton}
       />
 

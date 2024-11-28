@@ -1,1 +1,1 @@
-export const MAX_SCREEN_WIDTH = 1520;
+export const MAX_SCREEN_WIDTH = 1960;

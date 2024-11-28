@@ -3,19 +3,19 @@ import { OptionsData } from "@/builders/types/shared";
 
 const get = function () {
   return api
-    .get<OptionsData[]>("/estates/house-types")
+    .get<OptionsData[]>("/estates/service-requests")
     .then(({ data }) => data);
 };
 
 const post = function (data: { name: string; description: string }) {
-  return api.post("/estates/house-types", data);
+  return api.post("/estates/service-requests", data);
 };
 
 const remove = function (id: string) {
-  return api.delete(`/estates/house-types/${id}`);
+  return api.delete(`/estates/service-requests/${id}`);
 };
 
-export const house_types = {
+export const service_requests = {
   get,
   post,
   remove,

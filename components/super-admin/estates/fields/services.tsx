@@ -1,75 +1,155 @@
-import { Checkbox, Stack } from "@mantine/core";
-import { Fragment } from "react";
-import { useFormContext } from "../form-context";
-import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
-import { serviceRequests } from "../data";
 import clsx from "clsx";
+
+import { Fragment } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Checkbox, Flex, Stack, Button } from "@mantine/core";
+import { useFormContext } from "../form-context";
+
+// import { serviceRequests } from "../data";
+
+import { builder } from "@/builders";
+import { useFakeOptionsData } from "@/builders/types/shared";
+import { EditIcon } from "@/icons";
+import { modals } from "@mantine/modals";
+import { MODALS } from "@/packages/libraries";
+import { CheckboxEditForm } from "../actions/types";
 
 export function Services() {
   const form = useFormContext();
+  const initialValues = useFakeOptionsData();
 
-  // const { data: serviceRequests } = useQuery({
-  //   queryKey: builder.estates.house_types.get(),
-  //   queryFn: () => builder.use().estates.house_types.get(),
-  //   select: (data) => data,
-  // });
-
-  const { data: serviceTypes, isLoading: serviceTypesLoading } = useQuery({
-    queryKey: builder.estates.service_types.get.get(),
-    queryFn: () => builder.use().estates.service_types.get(),
+  const { data: interests, isLoading: interestsLoading } = useQuery({
+    queryKey: builder.estates.options.interests.get.get(),
+    queryFn: () => builder.use().estates.options.interests.get(),
     select: (data) => data,
   });
 
+  const { data: serviceRequests, isPlaceholderData: isServiceRequests } =
+    useQuery({
+      queryKey: builder.estates.options.service_requests.get.get(),
+      queryFn: () => builder.use().estates.options.service_requests.get(),
+      placeholderData: Array.from({ length: 5 }, () => initialValues),
+      select: (data) => data,
+    });
+
+  const handleEditModal = (type: "interests" | "service_requests") => {
+    modals.open({
+      modalId: MODALS.FORM_DETAILS,
+      title: type === "interests" ? "Interests" : "Service Requests",
+      children: <CheckboxEditForm type={type} />,
+    });
+  };
+
   return (
     <Fragment>
-      <Checkbox.Group
-        label='Service Requests'
-        withAsterisk
-        classNames={{
-          label: "mb-2",
-          error: "mt-3",
-        }}
-        {...form.getInputProps("serviceRequestTypes")}
-      >
-        <Stack p={14} className='border border-gray-4 rounded-lg'>
-          {serviceRequests?.map((request) => (
-            <Checkbox
-              key={request}
-              variant='outline'
-              size='sm'
-              label={request}
-              value={request}
-              className={clsx({ skeleton: serviceTypesLoading })}
-              disabled={form.getValues().action === "view"}
-            />
-          ))}
-        </Stack>
-      </Checkbox.Group>
+      <Fragment>
+        {serviceRequests?.length ? (
+          <Checkbox.Group
+            label={
+              <Flex
+                gap={8}
+                align='center'
+                className='justify-between sm:justify-start'
+              >
+                <span>
+                  Service Requests <span className='text-red-5'>*</span>
+                </span>
+                <EditIcon
+                  width={15}
+                  height={15}
+                  color='var(--blue-8)'
+                  className='group-hover:inline hidden cursor-pointer'
+                  onClick={() => handleEditModal("service_requests")}
+                />
+              </Flex>
+            }
+            classNames={{
+              label: "mb-2 w-full",
+              error: "mt-3",
+              root: "group",
+            }}
+            {...form.getInputProps("serviceRequestTypes")}
+          >
+            <Stack p={14} className='border border-gray-4 rounded-lg'>
+              {serviceRequests?.map((request) => (
+                <Checkbox
+                  key={request.id}
+                  variant='outline'
+                  size='sm'
+                  label={request.name}
+                  value={request.id}
+                  className={clsx({ skeleton: isServiceRequests })}
+                  disabled={form.getValues().action === "view"}
+                />
+              ))}
+            </Stack>
+          </Checkbox.Group>
+        ) : (
+          <Stack p={14} className='border border-gray-4 rounded-lg'>
+            <Button
+              variant='subtle'
+              onClick={() => handleEditModal("service_requests")}
+            >
+              Add Service Requests
+            </Button>
+          </Stack>
+        )}
+      </Fragment>
 
-      <Checkbox.Group
-        label='Service Types'
-        withAsterisk
-        classNames={{
-          label: "mb-2",
-          error: "mt-3",
-        }}
-        {...form.getInputProps("interests")}
-      >
-        <Stack p={14} className='border border-gray-4 rounded-lg'>
-          {serviceTypes?.map((type) => (
-            <Checkbox
-              key={type.id}
-              variant='outline'
-              size='sm'
-              label={type.name}
-              value={type.name}
-              className={clsx({ skeleton: serviceTypesLoading })}
-              disabled={form.getValues().action === "view"}
-            />
-          ))}
-        </Stack>
-      </Checkbox.Group>
+      <Fragment>
+        {interests?.length ? (
+          <Checkbox.Group
+            label={
+              <Flex
+                gap={8}
+                align='center'
+                className='justify-between sm:justify-start'
+              >
+                <span>
+                  Interests <span className='text-red-5'>*</span>
+                </span>
+                <EditIcon
+                  width={15}
+                  height={15}
+                  color='var(--blue-8)'
+                  className='group-hover:inline hidden cursor-pointer'
+                  onClick={() => handleEditModal("interests")}
+                />
+              </Flex>
+            }
+            classNames={{
+              label: "mb-2 w-full",
+              error: "mt-3",
+              root: "group",
+            }}
+            {...form.getInputProps("serviceRequestTypes")}
+          >
+            <Stack p={14} className='border border-gray-4 rounded-lg'>
+              {interests?.map((interest) => (
+                <Checkbox
+                  key={interest.id}
+                  variant='outline'
+                  size='sm'
+                  label={interest.name}
+                  value={interest.name}
+                  checked={form.getValues().interests.includes(interest.name)}
+                  className={clsx({ skeleton: interestsLoading })}
+                  disabled={form.getValues().action === "view"}
+                />
+              ))}
+            </Stack>
+          </Checkbox.Group>
+        ) : (
+          <Stack p={14} className='border border-gray-4 rounded-lg'>
+            <Button
+              onClick={() => handleEditModal("interests")}
+              variant='subtle'
+            >
+              Add Interests
+            </Button>
+          </Stack>
+        )}
+      </Fragment>
     </Fragment>
   );
 }

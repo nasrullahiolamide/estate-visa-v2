@@ -27,7 +27,6 @@ import { useFakeEstateList } from "@/builders/types/estates";
 import { useFlowState } from "@/components/layout";
 import { useQuery } from "@tanstack/react-query";
 import { EstateActions } from "@/components/super-admin/estates/actions";
-import clsx from "clsx";
 
 const filterOptions = [
   { label: "A - Z", value: "A-Z" },
@@ -51,17 +50,16 @@ export default function Estates() {
   const pagination = useFlowPagination();
 
   const { setEstate } = useEstateValue();
-  const {
-    page,
-    pageSize,
-    query: search,
-    numberOfPages,
-    sortBy,
-    sortOrder,
-  } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: estates, isPlaceholderData } = useQuery({
-    queryKey: builder.estates.get.get(),
+    queryKey: builder.estates.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().estates.get({
         page,

@@ -49,69 +49,72 @@ export function Services() {
       component='section'
       id='features'
     >
-      <Tag>FEATURES</Tag>
-      <Flex
-        component='section'
-        direction='column'
-        ta='center'
-        align='center'
-        justify='center'
-        c='white'
-        mx='auto'
-        mt={10}
-        gap={20}
-        maw={MAX_SCREEN_WIDTH}
-      >
-        <Title component='h2' className='sm:prose-4xl/bold prose-2xl/bold'>
-          Comprehensive Services for Effective
-          <br className='hidden lg:block' /> Estate Management
-        </Title>
-        <Text className='text-base'>
-          Our platform empowers users to manage their properties while fostering
-          a collaborative community environment.
-        </Text>
-      </Flex>
-      <Box
-        component='section'
-        className='grid gap-8 mt-10'
-        style={{
-          gridTemplateColumns: "repeat(auto-fill,minmax(min(370px,100%),1fr))",
-          gridAutoRows: "1fr",
-        }}
-      >
-        {details.map((detail) => (
-          <Stack
-            component='article'
-            key={detail.title}
-            bg='blue.5'
-            className='p-8 sm:p-12 rounded-xl'
-            c='white'
-            data-aos='fade-up'
-          >
-            <Box
-              component='figure'
-              bg='white'
-              p={5}
-              className='rounded-xl w-fit s'
-            >
-              <img
-                src={`/sprites/${detail.src}.gif`}
-                alt={detail.title}
-                className='w-12 h-12'
-              />
-            </Box>
+      <Stack maw={MAX_SCREEN_WIDTH} mx='auto' w='100%'>
+        <Tag>FEATURES</Tag>
+        <Flex
+          component='section'
+          direction='column'
+          ta='center'
+          align='center'
+          justify='center'
+          c='white'
+          mx='auto'
+          mt={10}
+          gap={20}
+        >
+          <Title component='h2' className='sm:prose-4xl/bold prose-2xl/bold'>
+            Comprehensive Services for Effective
+            <br className='hidden lg:block' /> Estate Management
+          </Title>
+          <Text className='text-base'>
+            Our platform empowers users to manage their properties while
+            fostering a collaborative community environment.
+          </Text>
+        </Flex>
 
-            <Stack mt='auto'>
-              <Title component='h3' fw={700} className='prose-xl/medium'>
-                {detail.title}
-              </Title>
-              <Text className='prose-base sm:prose-lg'>
-                {detail.description}
-              </Text>
+        <Box
+          component='section'
+          className='grid gap-8 mt-10 items-center'
+          style={{
+            gridTemplateColumns:
+              "repeat(auto-fill,minmax(min(370px,100%),1fr))",
+            gridAutoRows: "1fr",
+          }}
+        >
+          {details.map((detail) => (
+            <Stack
+              component='article'
+              key={detail.title}
+              bg='blue.5'
+              className='p-8 sm:p-12 rounded-xl'
+              c='white'
+              data-aos='fade-up'
+            >
+              <Box
+                component='figure'
+                bg='white'
+                p={5}
+                className='rounded-xl w-fit s'
+              >
+                <img
+                  src={`/sprites/${detail.src}.gif`}
+                  alt={detail.title}
+                  className='w-12 h-12'
+                />
+              </Box>
+
+              <Stack mt='auto'>
+                <Title component='h3' fw={700} className='prose-xl/medium'>
+                  {detail.title}
+                </Title>
+                <Text className='prose-base sm:prose-lg'>
+                  {detail.description}
+                </Text>
+              </Stack>
             </Stack>
-          </Stack>
-        ))}
-      </Box>
+          ))}
+        </Box>
+      </Stack>
     </Stack>
   );
 }

@@ -16,10 +16,8 @@ export type ManagerDetails = {
   owner: string;
   firstname?: string;
   lastname?: string;
-  username: string;
   email: string;
   phone: string;
-  password: string;
 };
 
 export type EstateList = {

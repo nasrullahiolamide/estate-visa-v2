@@ -5,6 +5,7 @@ import { interests } from "./interests";
 import { UpdateEstateData, EstateList } from "@/builders/types/estates";
 import { FilterParams } from "@/builders/types/filter-params";
 import { id } from "./id";
+import { service_requests } from "./service-requests_options";
 
 const get = function (params?: FilterParams) {
   return api.get<EstateList>("/estates", { params }).then(({ data }) => data);
@@ -18,7 +19,10 @@ export const estates = {
   id,
   get,
   post,
-  house_types,
-  service_types,
-  interests,
+  options: {
+    house_types,
+    service_types,
+    service_requests,
+    interests,
+  },
 };

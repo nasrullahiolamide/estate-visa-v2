@@ -1,6 +1,7 @@
 import { api } from "@/builders/axios";
 import { FilterParams } from "@/builders/types/filter-params";
 import {
+  GateRequestData,
   GateRequestList,
   UpdateGateRequestData,
 } from "@/builders/types/gate-requests";
@@ -12,7 +13,9 @@ const get = function (params?: FilterParams) {
 };
 
 const post = function (data: UpdateGateRequestData) {
-  return api.post("/gate-requests", data);
+  return api
+    .post<GateRequestData>("/gate-requests", data)
+    .then((data) => data.data);
 };
 
 const edit = function (variables: { id: string; data: UpdateGateRequestData }) {

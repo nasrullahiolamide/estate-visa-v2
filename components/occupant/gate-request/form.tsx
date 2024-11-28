@@ -24,6 +24,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
 import { schema } from "./schema";
 import { FlowPhoneInput } from "@/components/layout";
+import { handleShare } from "./actions";
 
 export type GateRequestFormProps = {
   data?: GateRequestData;
@@ -40,14 +41,15 @@ export function GateRequestForm({
 
   const { mutate: addRequest, isPending } = useMutation({
     mutationFn: builder.use().gates.requests.post,
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: builder.gates.requests.get.get(),
       });
-      modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
         message: "Gate Request Added Successfully",
       });
+      modals.close(MODALS.FORM_DETAILS);
+      handleShare(data);
     },
     onError: handleError(),
   });

@@ -5,10 +5,8 @@ export type FormValues = {
   location: string;
   numberOfHouses: string;
   owner: string;
-  username: string;
   email: string;
   phone: string;
-  password: string;
   houseTypes: string[];
   serviceRequestTypes: string[];
   interests: string[];

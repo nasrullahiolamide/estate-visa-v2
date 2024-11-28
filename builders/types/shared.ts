@@ -83,3 +83,12 @@ export type OptionsData = {
   name: string;
   description: string;
 };
+
+export function useFakeOptionsData(_?: any, index?: number): OptionsData {
+  faker.seed(index);
+  return {
+    id: faker.string.uuid(),
+    name: faker.commerce.productName(),
+    description: faker.commerce.product(),
+  };
+}

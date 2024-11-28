@@ -107,66 +107,6 @@ export function GateRequestActions({
     });
   };
 
-  const handleShare = () => {
-    const shareText = `Hi! I have scheduled your visit to house '${
-      data?.occupant
-    }' on ${formatDate(data?.visitDate, DATE_FORMAT)} at ${
-      data?.visitTime
-    }. Here's your gate access code: ${
-      data?.accessCode
-    }. Please use it when you arrive at the estate. See you soon!`;
-
-    modals.open({
-      title: "Share Code",
-      modalId: MODALS.CONFIRMATION,
-      children: (
-        <ConfirmationModal
-          title='Gate Request Generated!'
-          description='Share the generated code to your guest immediately via SMS or WhatsApp.'
-          src='share'
-          btnText='Share Now'
-          srcProps={{
-            ml: 0,
-            h: 130,
-          }}
-          btnProps={{
-            color: "blue",
-            onClick: () => {
-              modals.close(MODALS.CONFIRMATION);
-              modals.open({
-                withCloseButton: false,
-                modalId: MODALS.SHARE,
-                children: (
-                  <Stack align='center' justify='center' ta='center' gap={20}>
-                    <Text fz={20}>Share via</Text>
-                    <Flex gap={14}>
-                      <a
-                        href={`sms:${data.phoneNo}?&body=${shareText}`}
-                        onClick={() => modals.close(MODALS.SHARE)}
-                      >
-                        <SMSIcon />
-                      </a>
-                      <a
-                        href={`https://api.whatsapp.com/send?phone=${
-                          data.phoneNo
-                        }&text=${encodeURIComponent(shareText)}`}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        onClick={() => modals.close(MODALS.SHARE)}
-                      >
-                        <WhatsAppIcon />
-                      </a>
-                    </Flex>
-                  </Stack>
-                ),
-              });
-            },
-          }}
-        />
-      ),
-    });
-  };
-
   const Actions: Record<PropertyKey, ReactNode> = {
     pending: (
       <FlowMenu>
@@ -180,7 +120,7 @@ export function GateRequestActions({
           </Menu.Item>
           <Menu.Item
             leftSection={<ShareIcon width={14} />}
-            onClick={handleShare}
+            onClick={() => handleShare(data)}
           >
             Share Request
           </Menu.Item>
@@ -220,3 +160,69 @@ export function GateRequestActions({
 
   return Actions[status];
 }
+
+export const handleShare = (data: GateRequestData) => {
+  const shareText = `Hi! I have scheduled your visit to house '${
+    data?.occupant
+  }' on ${formatDate(data?.visitDate, DATE_FORMAT)} at ${
+    data?.visitTime
+  }. Here's your gate access code: ${
+    data?.accessCode
+  }. Please use it when you arrive at the estate. See you soon!`;
+
+  modals.open({
+    title: "Share Code",
+    modalId: MODALS.CONFIRMATION,
+    children: (
+      <ConfirmationModal
+        title='Gate Request Generated!'
+        description='Share the generated code to your guest immediately via SMS or WhatsApp.'
+        src='share'
+        btnText='Share Now'
+        srcProps={{
+          ml: 0,
+          h: 130,
+        }}
+        btnProps={{
+          color: "blue",
+          onClick: () => {
+            modals.close(MODALS.CONFIRMATION);
+            modals.open({
+              withCloseButton: false,
+              modalId: MODALS.SHARE,
+              children: (
+                <Stack
+                  align='center'
+                  justify='center'
+                  ta='center'
+                  gap={20}
+                  py={20}
+                >
+                  <Text fz={20}>Share via</Text>
+                  <Flex gap={14}>
+                    <a
+                      href={`sms:${data.phoneNo}?&body=${shareText}`}
+                      onClick={() => modals.close(MODALS.SHARE)}
+                    >
+                      <SMSIcon />
+                    </a>
+                    <a
+                      href={`https://api.whatsapp.com/send?phone=${
+                        data.phoneNo
+                      }&text=${encodeURIComponent(shareText)}`}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      onClick={() => modals.close(MODALS.SHARE)}
+                    >
+                      <WhatsAppIcon />
+                    </a>
+                  </Flex>
+                </Stack>
+              ),
+            });
+          },
+        }}
+      />
+    ),
+  });
+};
