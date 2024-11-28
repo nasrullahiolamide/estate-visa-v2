@@ -159,6 +159,8 @@ export default function Gates() {
     },
   });
 
+  console.log(gateRequests);
+
   useEffect(() => {
     if (isPlaceholderData) return;
 
