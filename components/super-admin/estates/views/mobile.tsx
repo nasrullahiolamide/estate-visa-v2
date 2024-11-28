@@ -21,7 +21,7 @@ import { TrashIcon } from "@/icons";
 const content: StepContent<FormValues> = {
   0: ["name", "location", "numberOfHouses", "interests", "serviceRequestTypes"],
   1: ["houseTypes"],
-  2: ["owner", "phone", "email", "username", "password"],
+  2: ["owner", "phone", "email"],
 };
 
 interface MobileProps extends ViewProps {}

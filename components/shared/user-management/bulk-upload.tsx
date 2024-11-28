@@ -52,9 +52,9 @@ export function BulkUpload(props: StaffListUploadProps) {
       <Button
         variant='outline'
         color='gray'
-        rightSection={<DownloadIcon />}
         w='100%'
         my={15}
+        className='flex items-center justify-between'
       >
         <Text
           component={Link}
@@ -62,6 +62,8 @@ export function BulkUpload(props: StaffListUploadProps) {
         >
           Download file format
         </Text>
+
+        <DownloadIcon />
       </Button>
     ),
     uploaded: "Uploaded successfully",
