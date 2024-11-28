@@ -10,6 +10,7 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import {
   Stack,
   TextInput,
+  Text,
   Flex,
   Button,
   Divider,
@@ -20,6 +21,7 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import clsx from "clsx";
 import { Fragment, useRef } from "react";
 import { object } from "yup";
 
@@ -97,12 +99,15 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
                 gap={8}
                 align='center'
                 component='ul'
-                className='group cursor-pointer list-disc'
                 onClick={() => mutate(item.id)}
+                aria-disabled={isDeleting}
+                className={clsx("cursor-pointer list-disc", {
+                  group: !isDeleting,
+                })}
               >
-                <li className='text-sm group-hover:text-red-7'>
+                <Text className='text-sm group-hover:text-red-7' component='li'>
                   {isDeleting ? <Loader size={12} /> : item.name}
-                </li>
+                </Text>
                 {(type !== "house_types" || !isDeleting) && (
                   <TrashIcon
                     width={12}
