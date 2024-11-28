@@ -1,19 +1,29 @@
+"use client";
+
 import { Fragment } from "react";
-import { getCookie } from "cookies-next";
 import { Search02Icon } from "hugeicons-react";
 
 import { Button, Flex, Text } from "@mantine/core";
-import { Spotlight, spotlight } from "@mantine/spotlight";
-
-import { spotLightActions } from "@/packages/actions/spotlight";
-import { APP, encode } from "@/packages/libraries";
+import {
+  Spotlight,
+  spotlight,
+  SpotlightActionData,
+  SpotlightProps,
+} from "@mantine/spotlight";
 
 import { SearchIcon } from "@/icons";
 import clsx from "clsx";
 
-export function SearchEstate() {
-  const userType = getCookie(APP.USER_TYPE);
+interface SearchEstateProps extends SpotlightProps {
+  actions: SpotlightActionData[];
+  placeholder?: string;
+}
 
+export function SearchTable({
+  actions,
+  placeholder,
+  ...props
+}: SearchEstateProps) {
   return (
     <Fragment>
       <Button
@@ -34,7 +44,7 @@ export function SearchEstate() {
       >
         <Flex align='center' justify='space-between' className='w-full'>
           <Text fz={14} c='dimmed'>
-            Search
+            Search Table
           </Text>
           <Text
             p={8}
@@ -61,34 +71,18 @@ export function SearchEstate() {
         <Search02Icon />
       </Button>
 
-      {userType && (
-        <Spotlight
-          highlightQuery
-          limit={5}
-          nothingFound='Nothing found...'
-          shortcut={["mod + K", "mod + P", "/"]}
-          actions={spotLightActions[encode(userType)]}
-          searchProps={{
-            leftSection: <SearchIcon />,
-            placeholder: "Search for anything...",
-          }}
-        />
-      )}
+      <Spotlight
+        highlightQuery
+        limit={5}
+        nothingFound='Nothing found...'
+        shortcut={["mod + K", "mod + P", "/"]}
+        actions={actions}
+        searchProps={{
+          leftSection: <SearchIcon />,
+          placeholder: placeholder || "Search for anything...",
+        }}
+        {...props}
+      />
     </Fragment>
   );
-}
-
-{
-  /* <Center
-                h={36}
-                w={36}
-                bg='purple.4'
-                className='rounded-full cursor-pointer'
-                component={Link}
-                href={PAGES.NOTIFICATIONS}
-              >
-                <Indicator processing color='red' size={10} withBorder>
-                  <BellIcon width={18} />
-                </Indicator>
-              </Center> */
 }

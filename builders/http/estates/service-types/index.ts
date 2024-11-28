@@ -7,12 +7,12 @@ const get = function () {
     .then(({ data }) => data);
 };
 
-const post = function (data: OptionsData) {
+const post = function (data: { name: string; description: string }) {
   return api.post("/estates/service-types", data);
 };
 
 const remove = function (id: string) {
-  return api.delete(`/estates/service-types/${id}`);
+  return api.delete(`/estates/service-type/${id}`);
 };
 
 export const service_types = {

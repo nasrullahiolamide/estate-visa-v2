@@ -3,6 +3,7 @@
 import {
   ActionIcon,
   AppShell,
+  Box,
   Center,
   Divider,
   Flex,
@@ -25,22 +26,41 @@ import { NavigationLinks } from "./links";
 
 import clsx from "clsx";
 import Link from "next/link";
+import { SearchTable } from "@/components/shared/search-table";
+import { ReactNode } from "react";
+import { SpotlightActionData } from "@mantine/spotlight";
 
-interface AppShellHeaderProps {
+type AppShellHeaderProps = {
   title: string;
   backHref?: string;
   options?: JSX.Element;
   showLinks?: boolean;
-}
+  withSearch?: boolean;
+} & (
+  | {
+      withSearch: true;
+      searchProps: {
+        actions: SpotlightActionData[];
+        placeholder?: string;
+      };
+    }
+  | {
+      withSearch?: false;
+      searchProps?: {
+        actions: SpotlightActionData[];
+        placeholder?: string;
+      };
+    }
+);
 
 export function AppShellHeader({
   title,
   backHref,
-  options,
-  showLinks = true,
+  ...props
 }: AppShellHeaderProps) {
-  const { back } = useRouter();
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const { options, showLinks = true, withSearch, searchProps } = props;
+  const { back } = useRouter();
 
   const heading = (
     <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold'>
@@ -54,13 +74,13 @@ export function AppShellHeader({
       pos='sticky'
       bg='white'
       component='header'
+      style={{
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+      }}
       className={clsx(
         "border-l border-primary-text-normal z-50",
         "bg-primary-background-white backdrop-blur-2xl"
       )}
-      style={{
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-      }}
     >
       <Stack
         maw={MAX_SCREEN_WIDTH}
@@ -86,20 +106,15 @@ export function AppShellHeader({
           </Flex>
 
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
-            {/* <SearchEstate /> */}
+            {withSearch && (
+              <Box hiddenFrom='lg'>
+                <SearchTable
+                  actions={searchProps.actions}
+                  placeholder={searchProps.placeholder}
+                />
+              </Box>
+            )}
             <Flex gap={12} align='center' ml='auto'>
-              {/* <Center
-                h={36}
-                w={36}
-                bg='purple.4'
-                className='rounded-full cursor-pointer'
-                component={Link}
-                href={PAGES.NOTIFICATIONS}
-              >
-                <Indicator processing color='red' size={10} withBorder>
-                  <BellIcon width={18} />
-                </Indicator>
-              </Center> */}
               <UserDetails />
             </Flex>
           </Flex>

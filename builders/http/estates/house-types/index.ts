@@ -12,7 +12,7 @@ const post = function (data: { name: string; description: string }) {
 };
 
 const remove = function (id: string) {
-  return api.delete(`/estates/house-types/${id}`);
+  return api.delete(`/estates/house-type/${id}`);
 };
 
 export const house_types = {

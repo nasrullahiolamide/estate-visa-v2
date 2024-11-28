@@ -14,7 +14,7 @@ import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
 
-import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
+import { gateRequestsColumns } from "@/columns/for_gateman/gate-requests";
 import { DownloadIcon } from "@/icons";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
@@ -32,6 +32,7 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { SearchTable } from "@/components/shared/search-table";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -131,8 +132,7 @@ export default function Gates() {
               dayjs(request.visitDate).isAfter(dayjs().startOf("day")) &&
               dayjs(request.visitDate).isBefore(dayjs().endOf("day"))
           )
-          .sort((a, b) => b.status.localeCompare(a.status))
-          .map(({ id, status, ...list }) => {
+          .map(({ id, status, ...list }, _, arr) => {
             return {
               ...list,
               id,
@@ -142,9 +142,7 @@ export default function Gates() {
                   fz='sm'
                   size='md'
                   onClick={() => changeStatus({ id, status: "approved" })}
-                  loading={
-                    isPending && gateRequests?.data.some((req) => req.id === id)
-                  }
+                  loading={isPending && arr.some((req) => req.id === id)}
                   disabled={
                     isPending || status === "approved" || status === "cancelled"
                   }
@@ -158,8 +156,6 @@ export default function Gates() {
       };
     },
   });
-
-  console.log(gateRequests);
 
   useEffect(() => {
     if (isPlaceholderData) return;
@@ -176,6 +172,11 @@ export default function Gates() {
     <Fragment>
       <AppShellHeader
         title='Gate Request'
+        withSearch
+        searchProps={{
+          actions: [],
+          placeholder: "Search for gate request...",
+        }}
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
@@ -231,6 +232,7 @@ export default function Gates() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <SearchTable actions={[]} placeholder='Search for gate request...' />
       <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'

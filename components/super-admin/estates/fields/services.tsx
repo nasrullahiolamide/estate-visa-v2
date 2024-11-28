@@ -26,13 +26,13 @@ export function Services() {
 
   const { data: serviceRequests, isPlaceholderData: isServiceRequests } =
     useQuery({
-      queryKey: builder.estates.options.service_requests.get.get(),
-      queryFn: () => builder.use().estates.options.service_requests.get(),
+      queryKey: builder.estates.options.service_types.get.get(),
+      queryFn: () => builder.use().estates.options.service_types.get(),
       placeholderData: Array.from({ length: 5 }, () => initialValues),
       select: (data) => data,
     });
 
-  const handleEditModal = (type: "interests" | "service_requests") => {
+  const handleEditModal = (type: "interests" | "service_types") => {
     modals.open({
       modalId: MODALS.FORM_DETAILS,
       title: type === "interests" ? "Interests" : "Service Requests",
@@ -59,7 +59,7 @@ export function Services() {
                   height={15}
                   color='var(--blue-8)'
                   className='group-hover:inline hidden cursor-pointer'
-                  onClick={() => handleEditModal("service_requests")}
+                  onClick={() => handleEditModal("service_types")}
                 />
               </Flex>
             }
@@ -88,7 +88,7 @@ export function Services() {
           <Stack p={14} className='border border-gray-4 rounded-lg'>
             <Button
               variant='subtle'
-              onClick={() => handleEditModal("service_requests")}
+              onClick={() => handleEditModal("service_types")}
             >
               Add Service Requests
             </Button>

@@ -16,7 +16,7 @@ import { Fragment, useRef } from "react";
 import { object } from "yup";
 
 interface CheckboxEditFormProps {
-  type: "interests" | "service_requests" | "house_types";
+  type: "interests" | "service_types" | "house_types";
 }
 
 const schema = object({
@@ -117,7 +117,7 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
               Add New{" "}
               {type === "interests"
                 ? "Interest"
-                : type === "service_requests"
+                : type === "service_types"
                 ? "Service Request"
                 : "House Type"}
             </Title>

@@ -10,7 +10,7 @@ const post = function (data: { name: string; description: string }) {
 };
 
 const remove = function (id: string) {
-  return api.delete(`/estates/interests/${id}`);
+  return api.delete(`/estates/interest/${id}`);
 };
 
 export const interests = {

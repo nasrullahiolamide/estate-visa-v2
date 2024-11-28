@@ -2,9 +2,7 @@ import {
   Flex,
   FlexProps,
   Pagination,
-  PaginationControl,
   PaginationEdgeProps,
-  PaginationNext,
   Text,
   TextProps,
 } from "@mantine/core";
@@ -34,6 +32,17 @@ export function FlowPagination({
   const { page, numberOfPages } = useFlowState();
   const pagination = useFlowPagination();
 
+  const handleNextClick = () => {
+    if (page < numberOfPages) {
+      pagination.setPage((page + 1).toString());
+    }
+  };
+
+  const handlePreviousClick = () => {
+    if (page > 1) {
+      pagination.setPage((page - 1).toString());
+    }
+  };
   return (
     <Flex
       size='sm'
@@ -43,7 +52,11 @@ export function FlowPagination({
       gap={10}
       {...rootProps}
     >
-      <Pagination.Previous {...previousButtonProps} />
+      <Pagination.Previous
+        onClick={handlePreviousClick}
+        disabled={page <= 1}
+        {...previousButtonProps}
+      />
 
       <Flex
         gap={1}
@@ -61,66 +74,10 @@ export function FlowPagination({
       </Flex>
 
       <Pagination.Next
+        onClick={handleNextClick}
+        disabled={page >= numberOfPages}
         {...nextButtonProps}
-        onClick={() => pagination.setPage(cast.string(page + 1))}
       />
     </Flex>
   );
 }
-
-// <Flex
-//   size='sm'
-//   component={Pagination.Root}
-//   total={numberOfPages}
-//   siblings={3}
-//   boundaries={1}
-//   align='center'
-//   gap={10}
-//   {...rootProps}
-//   className='prose-sm/medium'
-// >
-//   {/* <Pagination.Previous />
-//   {Array.from({ length: numberOfPages }, (_, index) => {
-//     if (index > 2) return null;
-//     return (
-//       <Pagination.Control
-//         key={index}
-//         value={index + 1}
-//         active={index + 1 === page}
-//       >
-//         {index + 1}
-//       </Pagination.Control>
-//     );
-//   })}
-//   {numberOfPages > MAX_CONTROLS && <Pagination.Dots />}
-
-//   {numberOfPages > MAX_CONTROLS && (
-//     <Pagination.Control
-//       value={numberOfPages}
-//       active={page === numberOfPages}
-//     >
-//       {numberOfPages}
-//     </Pagination.Control>
-//   )}
-
-//   <Pagination.Next /> */}
-
-//   <Pagination.Previous {...previousButtonProps} />
-
-//   <Flex
-//     gap={1}
-//     fw={500}
-//     className='text-primary-text-subtle'
-//     {...innerProps}
-//   >
-//     <Text span className='text-primary-text-body' {...pageProps}>
-//       {page}
-//     </Text>
-//     <Text span>/</Text>
-//     <Text span {...limitProps}>
-//       {numberOfPages}
-//     </Text>
-//   </Flex>
-
-//   <Pagination.Next {...nextButtonProps} />
-// </Flex>
