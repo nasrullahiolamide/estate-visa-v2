@@ -20,7 +20,5 @@ export const schema = object({
   serviceRequestTypes: array()
     .of(string())
     .min(1, "At least one service request is required."),
-  interests: array()
-    .of(string())
-    .min(1, "At least one service type is required."),
+  interests: array().of(string()).min(1, "At least one interests is required."),
 });

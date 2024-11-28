@@ -106,7 +106,7 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
                 })}
               >
                 <Text className='text-sm group-hover:text-red-7' component='li'>
-                  {isDeleting ? <Loader size={12} /> : item.name}
+                  {item.name}
                 </Text>
                 {(type !== "house_types" || !isDeleting) && (
                   <TrashIcon

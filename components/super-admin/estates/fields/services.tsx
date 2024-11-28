@@ -120,7 +120,7 @@ export function Services() {
               error: "mt-3",
               root: "group",
             }}
-            {...form.getInputProps("serviceRequestTypes")}
+            {...form.getInputProps("interests")}
           >
             <Stack p={14} className='border border-gray-4 rounded-lg'>
               {interests?.map((interest) => (
