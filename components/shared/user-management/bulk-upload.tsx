@@ -14,8 +14,7 @@ import { DownloadIcon } from "@/icons";
 import { Files, useFileUpload } from "@/packages/hooks/use-file-upload";
 
 import Papa from "papaparse";
-import { occupants } from "@/builders/http/occupants";
-import { occupantsColumns } from "@/columns/for_admins/occupants";
+import { occupantsColumns } from "@/columns/for_uploads/occupants";
 import {
   FlowContentContainer,
   FlowPaper,
@@ -119,9 +118,9 @@ export function BulkUpload(props: StaffListUploadProps) {
   return (
     <FlowStateProvider>
       <Box component='form' onSubmit={handleSubmit(handleUpload)}>
-        <Text className='text-primary-text-subtle' mb={15}>
+        <Box className='text-primary-text-subtle' mb={15}>
           {view[status]}
-        </Text>
+        </Box>
         <ResourceUpload
           accepts={(mime) => [mime.csv, mime.xlsx, mime.xls]}
           onDrop={handleDrop}
@@ -136,6 +135,7 @@ export function BulkUpload(props: StaffListUploadProps) {
         <Flex gap={12} wrap='wrap' mt={30}>
           <Button
             flex={1}
+            color={status === "pending" ? "gray" : "red"}
             miw='fit-content'
             variant='default'
             onClick={handleClose}
