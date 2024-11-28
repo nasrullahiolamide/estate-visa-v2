@@ -229,5 +229,6 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     handleDrop,
     handleSubmit,
     handlePreview,
+    setStatus,
   };
 }

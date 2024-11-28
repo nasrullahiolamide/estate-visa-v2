@@ -31,9 +31,6 @@ type StaffListUploadProps = {
 export function BulkUpload(props: StaffListUploadProps) {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [parsedData, setParsedData] = useState<any[]>([]);
-  const [status, setStatus] = useState<
-    "pending" | "uploaded" | "uploading" | "dropped" | "error" | "waiting"
-  >("pending");
 
   const queryClient = useQueryClient();
 
@@ -43,13 +40,11 @@ export function BulkUpload(props: StaffListUploadProps) {
 
   const requiredFields = ["name", "email", "age"];
 
-  function handleParsing([file]: Files) {
+  function handleDrop([file]: Files) {
     if (!file) return;
 
-    setUploadedFile(file);
     Papa.parse(file, {
       header: true,
-
       complete: (result) => {
         const missingFields = requiredFields.filter(
           (field) => !result.meta.fields?.includes(field)
@@ -63,19 +58,20 @@ export function BulkUpload(props: StaffListUploadProps) {
           })();
         }
 
-        setStatus("waiting");
+        setUploadedFile(file);
         setParsedData(result.data);
+        setStatus("dropped");
       },
     });
   }
 
   const {
-    status: uploadStatus,
+    status,
+    setStatus,
     preview,
     progress,
     isPending,
     handleUpload,
-    handleDrop,
     handleSubmit,
   } = useFileUpload<StaffListUploadProps>({
     key: FILE.OTHERS,
@@ -106,18 +102,18 @@ export function BulkUpload(props: StaffListUploadProps) {
         <DownloadIcon color='var(--accent-7)' className='ml-auto' />
       </Button>
     ),
-    uploaded: "Uploaded successfully",
-    uploading: "Uploading...",
-    await: "Awaiting upload...",
-    error: "An error occurred. Please try again",
     dropped: (
       <FlowContentContainer
-        mah={300}
+        mah={500}
         className='rounded-none lg:rounded-2xl bg-white w-full'
       >
         <FlowTable data={parsedData} columns={occupantsColumns} />
       </FlowContentContainer>
     ),
+    uploaded: "Uploaded successfully",
+    uploading: "Uploading...",
+    await: "Awaiting upload...",
+    error: "An error occurred. Please try again",
   };
 
   return (
@@ -127,13 +123,13 @@ export function BulkUpload(props: StaffListUploadProps) {
           {view[status]}
         </Text>
         <ResourceUpload
-          accepts={(mime) => [mime.csv]}
-          onDrop={handleParsing}
+          accepts={(mime) => [mime.csv, mime.xlsx, mime.xls]}
+          onDrop={handleDrop}
           name={preview.name}
           size={preview.size}
           completed={progress?.completed}
-          status={uploadStatus}
-          supports={["csv", "xls"]}
+          status={status}
+          supports={["csv", "xlsx"]}
           multiple={false}
         />
 
