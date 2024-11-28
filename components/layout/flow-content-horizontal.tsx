@@ -17,7 +17,7 @@ export function FlowContentHorizontal({
     <Flex
       display='grid'
       flex={1}
-      className={clsx("grid gap-6 overflow-scroll", className)}
+      className={clsx("grid gap-6 overflow-auto", className)}
       style={{
         gridTemplateColumns: `repeat(auto-fill,minmax(min(${breakpoint}px,100%),1fr))`,
         gridAutoRows: "1fr",

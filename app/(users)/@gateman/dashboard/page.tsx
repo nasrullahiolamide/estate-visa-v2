@@ -126,7 +126,11 @@ export default function Gates() {
         pageSize,
         total,
         data: data
-          .filter((request) => dayjs(request.visitDate).isSame(dayjs()))
+          .filter(
+            (request) =>
+              dayjs(request.visitDate).isAfter(dayjs().startOf("day")) &&
+              dayjs(request.visitDate).isBefore(dayjs().endOf("day"))
+          )
           .sort((a, b) => b.status.localeCompare(a.status))
           .map(({ id, status, ...list }) => {
             return {
