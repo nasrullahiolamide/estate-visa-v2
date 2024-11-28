@@ -101,7 +101,7 @@ export function BulkUpload(props: StaffListUploadProps) {
           flex={1}
           miw='fit-content'
           type='submit'
-          disabled={isPending || status === "dropped"}
+          disabled={isPending || status === "pending"}
           loading={isPending}
         >
           Confirm
