@@ -65,10 +65,8 @@ export default function Page({ params }: PageProps) {
       location: "",
       numberOfHouses: "",
       owner: "",
-      username: "",
       email: "",
       phone: "",
-      password: "",
       serviceRequestTypes: [],
       houseTypes: [],
       interests: [],
@@ -103,9 +101,7 @@ export default function Page({ params }: PageProps) {
         pass.string(type)
       ),
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
-      username: pass.string(manager?.username),
       email: pass.string(manager?.email),
-      password: pass.string(manager?.password),
       action: actionType,
     });
   }, [estates, isPlaceholderData]);
@@ -115,26 +111,16 @@ export default function Page({ params }: PageProps) {
   const btnText = isViewing ? "Edit Estate" : "Save Changes";
 
   function handleSubmit() {
-    const {
-      owner,
-      username,
-      email,
-      phone,
-      password,
-      numberOfHouses,
-      action,
-      ...values
-    } = form.getValues();
+    const { owner, email, phone, numberOfHouses, action, ...values } =
+      form.getValues();
 
     const data = {
       ...values,
       numberOfHouses: cast.number(numberOfHouses),
       managerDetails: {
         owner,
-        username,
         email,
         phone,
-        password,
       },
     };
 
