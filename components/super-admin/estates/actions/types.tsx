@@ -7,7 +7,15 @@ import { TrashIcon } from "@/icons";
 import { MODALS } from "@/packages/libraries";
 
 import { handleError, handleSuccess } from "@/packages/notification";
-import { Stack, TextInput, Flex, Button, Divider, Title } from "@mantine/core";
+import {
+  Stack,
+  TextInput,
+  Flex,
+  Button,
+  Divider,
+  Title,
+  Loader,
+} from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 
@@ -51,7 +59,10 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
     mutationFn: builder.use().estates.options[type].remove,
     onError: handleError(),
     onSuccess: () => {
-      form.reset();
+      handleSuccess({
+        message: "Deleted successfully",
+        autoClose: 500,
+      });
       queryClient.invalidateQueries({
         queryKey: builder.estates.options[type].get.get(),
       });
@@ -93,7 +104,7 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
                 >
                   {/* <Tooltip label='Click to delete' position='top-start' fz={12}> */}
                   <li className='text-sm group-hover:text-red-7'>
-                    {item.name}
+                    {isDeleting ? <Loader size={12} /> : item.name}
                   </li>
                   {/* </Tooltip> */}
                   {type !== "house_types" && (

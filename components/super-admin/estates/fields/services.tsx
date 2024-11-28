@@ -24,13 +24,11 @@ export function Services() {
     select: (data) => data,
   });
 
-  const { data: serviceRequests, isPlaceholderData: isServiceRequests } =
-    useQuery({
-      queryKey: builder.estates.options.service_types.get.get(),
-      queryFn: () => builder.use().estates.options.service_types.get(),
-      placeholderData: Array.from({ length: 5 }, () => initialValues),
-      select: (data) => data,
-    });
+  const { data: serviceRequests, isLoading: isServiceRequests } = useQuery({
+    queryKey: builder.estates.options.service_types.get.get(),
+    queryFn: () => builder.use().estates.options.service_types.get(),
+    select: (data) => data,
+  });
 
   const handleEditModal = (type: "interests" | "service_types") => {
     modals.open({
