@@ -64,8 +64,9 @@ export function UserDetails() {
           <Avatar
             src={userDetails?.picture}
             alt={userDetails.fullname}
-            size={35}
-            className={clsx({ skeleton: isLoading })}
+            className={clsx("w-9 h-9 sm:w-12 sm:h-12 rounded-full", {
+              skeleton: isLoading,
+            })}
           />
 
           <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>

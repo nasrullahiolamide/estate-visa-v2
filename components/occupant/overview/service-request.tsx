@@ -47,16 +47,16 @@ export function ServiceRequest({}: ServiceRequestProps) {
           data={[
             { label: "All", value: "" },
             {
-              label: "Approved",
-              value: "approved",
+              label: "In Progress",
+              value: "in-progress",
             },
             {
               label: "Pending",
               value: "pending",
             },
             {
-              label: "Declined",
-              value: "declined",
+              label: "Completed",
+              value: "completed",
             },
           ]}
           size='sm'
@@ -69,9 +69,9 @@ export function ServiceRequest({}: ServiceRequestProps) {
           <Stack mah={400} className='overflow-auto' gap={0}>
             {data?.map((r) => {
               const color: Record<PropertyKey, string> = {
-                approved: "#11A506",
+                completed: "#11A506",
                 pending: "#969921",
-                declined: "#CC0404",
+                "in-progress": "var(--blue-4)",
               };
 
               return (

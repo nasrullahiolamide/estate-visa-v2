@@ -18,6 +18,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 
 import { schema } from "../../occupants/schema";
 import { activateAccount, suspendAccount } from "../actions";
+import { FlowPhoneInput } from "@/components/layout";
 
 export type PropertyOwnerFormProps = {
   data?: PropertyOwnersData;
@@ -132,7 +133,7 @@ export function PropertyOwnerForm({
           withAsterisk
           {...form.getInputProps("email")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           disabled={isViewing}
           withAsterisk

@@ -13,9 +13,9 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri } from "@/packages/libraries";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import { GATEMAN_ROUTES } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/icons";
+import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -29,7 +29,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 270 : 95,
+        width: opened ? 260 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}
@@ -66,15 +66,12 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none'
         >
           <Stack gap={8}>
-            {GATEMAN_ROUTES.map((link, index) => (
-              <AppShellButton
-                key={index}
-                leftSection={<link.icon />}
-                href={link.href}
-                label={link.title}
-                opened={opened}
-              />
-            ))}
+            <AppShellButton
+              leftSection={<GroupDiscussionIcon />}
+              href={makePath(PAGES.DASHBOARD)}
+              label={"Gate Requests"}
+              opened={opened}
+            />
           </Stack>
         </AppShell.Section>
       </AppShell.Navbar>

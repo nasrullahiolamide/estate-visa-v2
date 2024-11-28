@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import fileDownload from "js-file-download";
 
 import { Add } from "iconsax-react";
@@ -69,7 +68,7 @@ const handlePropertyOwnerForm = ({
 export default function PropertyOwners() {
   const initialPropertyOwnersList = useFakePropertyOwnersList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().property_owners.download,
@@ -81,12 +80,20 @@ export default function PropertyOwners() {
   });
 
   const { data: propertyOwners, isPlaceholderData } = useQuery({
-    queryKey: builder.property_owners.get.get(),
+    queryKey: builder.property_owners.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().property_owners.get({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
       }),
     placeholderData: initialPropertyOwnersList,
     select({ total, page, data, pageSize }) {
@@ -230,7 +237,7 @@ function HeaderOptions({
         leftSection={<Add />}
         onClick={() => handlePropertyOwnerForm({ modalType: "add" })}
       >
-        Add New Occupant
+        Add
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button variant='outline' fz='sm' size='md' leftSection={<UploadIcon />}>

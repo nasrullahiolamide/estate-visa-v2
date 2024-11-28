@@ -1,7 +1,7 @@
 "use client";
 
 import { object } from "yup";
-import { concat } from "lodash";
+import { concat, toString } from "lodash";
 import { toast } from "react-toastify";
 import { modals } from "@mantine/modals";
 import { Button, Select, TextInput } from "@mantine/core";
@@ -21,7 +21,8 @@ import {
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
-import { FILE } from "@/packages/libraries/enum";
+import { APP, FILE } from "@/packages/libraries/enum";
+import { getCookie } from "cookies-next";
 
 const schema = object({
   title_id: requiredString,
@@ -40,10 +41,11 @@ export function MeetingMinutesForm({
   data,
 }: MeetingMinutesFormProps) {
   const queryClient = useQueryClient();
+  const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { data: meetings, isLoading } = useQuery({
     queryKey: builder.meetings.get.all.get(),
-    queryFn: () => builder.use().meetings.get.all(),
+    queryFn: () => builder.use().meetings.get.all(estateId),
     select: (data) => {
       return data
         .filter(({ id, minutes }) => {
@@ -128,7 +130,7 @@ export function MeetingMinutesForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='bg-primary-background-white h-[550px] sm:h-full overflow-scroll sm:justify-center'
+        className='bg-primary-background-white h-[550px] sm:h-full overflow-y-scroll sm:justify-center sm:scrollbar-none'
         gap={18}
         type='plain'
         bg='white'

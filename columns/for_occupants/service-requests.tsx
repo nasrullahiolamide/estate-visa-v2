@@ -11,14 +11,22 @@ export const serviceRequestsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()} // Select all rows on page
-        indeterminate={table.getIsSomePageRowsSelected()}
-        onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
-      />
+      <Flex justify='center' className='w-full'>
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()} // Select all rows on page
+          indeterminate={table.getIsSomePageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
+          classNames={{
+            root: "justify-center",
+          }}
+        />
+      </Flex>
     ),
     cell: ({ row }) => (
       <Checkbox
+        classNames={{
+          body: "justify-center",
+        }}
         checked={row.getIsSelected()} // Check if the row is selected
         disabled={!row.getCanSelect()} // Disable if row selection is not allowed
         onChange={row.getToggleSelectedHandler()} // Toggles selection for individual row
@@ -60,8 +68,8 @@ export const serviceRequestsColumns = [
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
         pending: { color: "#969921", bg: "#feffd7" },
-        declined: { color: "red", bg: "red.1" },
-        approved: { color: "green", bg: "green.1" },
+        "in-progress": { color: "red", bg: "red.1" },
+        completed: { color: "green", bg: "green.1" },
       };
 
       return (
@@ -69,8 +77,8 @@ export const serviceRequestsColumns = [
           <Pill
             ta='center'
             tt='capitalize'
-            c={colors[value.toLowerCase()].color}
-            bg={colors[value.toLowerCase()].bg}
+            c={colors[value?.toLowerCase()]?.color || "gray"}
+            bg={colors[value?.toLowerCase()]?.bg || "gray.1"}
             fw={500}
             children={value}
             size='sm'

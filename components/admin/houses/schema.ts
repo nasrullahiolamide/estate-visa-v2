@@ -1,5 +1,5 @@
 import { requiredString } from "@/builders/types/shared";
-import { number, object, string } from "yup";
+import { number, object } from "yup";
 
 export const schema = object({
   streetName: requiredString,
@@ -11,12 +11,12 @@ export const schema = object({
     then: (schema) =>
       schema
         .required("This field is required. Please enter the duration.")
-        .min(2, "Duration must be at least 2 months")
-        .max(120, "Duration cannot exceed 120 months"),
+        .min(1, "Duration must be at least 2 months")
+        .max(24, "Duration cannot exceed 120 months"),
     otherwise: (schema) =>
       schema
         .required("This field is required. Please enter the duration.")
         .min(1, "Duration must be at least 1 year")
-        .max(10, "Duration cannot exceed 10 years"),
+        .max(2, "Duration cannot exceed 10 years"),
   }),
 });

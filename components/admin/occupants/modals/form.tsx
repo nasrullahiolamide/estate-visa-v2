@@ -21,6 +21,7 @@ import { FormProvider } from "../context";
 import { ConfirmOccupant, ConfirmPropertyOwner } from "./confirmation";
 import { activateAccount, suspendAccount } from "../actions";
 import { toString } from "lodash";
+import { FlowPhoneInput } from "@/components/layout";
 
 type ViewId = "occupants" | "property-owners";
 
@@ -56,7 +57,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
       return house
         .filter(({ noOfOccupants, id }) => {
           if (modalType === "add") {
-            return noOfOccupants !== 1;
+            return noOfOccupants! <= 1;
           } else {
             return noOfOccupants !== 1 || id === data?.house.id;
           }
@@ -150,7 +151,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
           withAsterisk
           {...form.getInputProps("email")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           disabled={isViewing}
           withAsterisk

@@ -15,7 +15,7 @@ import { APP, cast, MODALS } from "@/packages/libraries";
 import { handleSuccess, handleError } from "@/packages/notification";
 
 import { schema } from "../schema";
-import { FlowContainer } from "@/components/layout";
+import { FlowContainer, FlowPhoneInput } from "@/components/layout";
 
 export function AddSubAdmins() {
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
@@ -107,7 +107,7 @@ export function AddSubAdmins() {
           withAsterisk
           {...form.getInputProps("email")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           withAsterisk
           {...form.getInputProps("phone")}

@@ -61,7 +61,20 @@ export function ServiceRequests() {
           Service Request
         </Text>
         <FilterRequestsDropdown
-          data={["week", "6months", "year"]}
+          data={[
+            {
+              label: "Week",
+              value: "week",
+            },
+            {
+              label: "6 months",
+              value: "6months",
+            },
+            {
+              label: "Year",
+              value: "year",
+            },
+          ]}
           ml='auto'
           value={period}
           onFilter={setPeriod}

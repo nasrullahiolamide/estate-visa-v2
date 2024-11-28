@@ -35,7 +35,7 @@ export function FilterRequestsDropdown({
         <Button
           variant='outline'
           size='sm'
-          fz={14}
+          fz='sm'
           color='gray.10'
           rightSection={<ArrowDownIcon width={14} />}
           className='capitalize'
@@ -56,7 +56,7 @@ export function FilterRequestsDropdown({
                   key={filterItem}
                   onClick={() => onFilter(filterItem)}
                   className={clsx(
-                    "hover:bg-purple-4 rounded-none p-3 capitalize",
+                    "hover:bg-purple-2 rounded-none p-3 capitalize",
                     value === filterItem && "bg-purple-4"
                   )}
                   classNames={{
@@ -68,9 +68,9 @@ export function FilterRequestsDropdown({
                 >
                   {value === filterItem && <Mark width={10} height={10} />}
                   {typeof item === "string" ? (
-                    <Text>{item}</Text>
+                    <Text fz='sm'>{item}</Text>
                   ) : (
-                    <Text>{item.label}</Text>
+                    <Text fz='sm'>{item.label}</Text>
                   )}
                 </Menu.Item>
                 {i !== data.length - 1 && <Divider />}

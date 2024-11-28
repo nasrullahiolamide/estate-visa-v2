@@ -14,6 +14,7 @@ import { handleSuccess, handleError } from "@/packages/notification";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { toString } from "lodash";
+import { FlowPhoneInput } from "@/components/layout";
 
 export interface SubOccupantsFormProps {
   data?: SubOccupantsData;
@@ -117,7 +118,7 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
           disabled={isViewing}
           {...form.getInputProps("email")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           disabled={isViewing}
           {...form.getInputProps("phone")}

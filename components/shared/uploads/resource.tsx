@@ -46,7 +46,7 @@ export function ResourceUpload({
       withAsterisk={withAsterisk}
       component={Stack}
       classNames={{
-        label: "prose-base/regular text-primary-text-body",
+        label: "prose-sm/regular text-primary-text-body",
         root: "gap-1.5",
       }}
     >
@@ -69,7 +69,7 @@ export function ResourceUpload({
           </Dropzone.Reject>
 
           <Stack gap={10} align='center' ta='center'>
-            <Text>
+            <Text fz={14}>
               <span className='text-primary-button-normal font-medium'>
                 Click here to upload
               </span>{" "}

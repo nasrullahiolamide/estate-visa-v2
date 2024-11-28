@@ -13,9 +13,20 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri } from "@/packages/libraries";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import { ADMIN_ROUTES } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/icons";
+import {
+  AdministratorIcon,
+  DashboardIcon,
+  EstateVisaLogo,
+  GateIcon,
+  GroupDiscussionIcon,
+  HousesIcon,
+  ServiceRequestIcon,
+  TablerMessageIcon,
+  UserFriendsIcon,
+  UserGroupIcon,
+} from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -57,25 +68,76 @@ export default function Template({ children }: TemplateProps) {
               {user.estate.name} Estate
             </Title>
           )}
-        </AppShell.Section>
-        <Divider mt={24} />
+          <Divider mt={24} />
 
-        <AppShell.Section
-          grow
-          component={ScrollArea}
-          className='scrollbar-none ~pt-2\1/8'
-        >
-          <Stack gap={8}>
-            {ADMIN_ROUTES.map((link, index) => (
+          <AppShell.Section
+            grow
+            component={ScrollArea}
+            className='scrollbar-none ~pt-2\1/8'
+          >
+            <Stack gap={8}>
               <AppShellButton
-                key={index}
-                leftSection={<link.icon />}
-                href={link.href}
-                label={link.title}
+                leftSection={<DashboardIcon />}
+                href={PAGES.DASHBOARD}
+                label={"Overview"}
                 opened={opened}
               />
-            ))}
-          </Stack>
+              <AppShellButton
+                leftSection={<AdministratorIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.SUB_ADMINS)}
+                label={"Sub Admins"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<UserGroupIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.PROPERTY_OWNERS)}
+                label={"Property Owners"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<UserFriendsIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS)}
+                label={"Occupants"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<UserGroupIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
+                label={"Sub Occupants"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<HousesIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.HOUSES)}
+                label={"Houses"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<GateIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
+                label={"Gates"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<TablerMessageIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
+                label={"Messages"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<GroupDiscussionIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
+                label={"Meetings"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<ServiceRequestIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
+                label={"Service Requests"}
+                opened={opened}
+              />
+            </Stack>
+          </AppShell.Section>
         </AppShell.Section>
       </AppShell.Navbar>
 

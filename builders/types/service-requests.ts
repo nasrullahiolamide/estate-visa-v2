@@ -45,7 +45,7 @@ export function useFakeServiceRequestsData(_?: any, index?: number) {
     serviceType: "Cleaning",
     preferredTime: "Morning",
     urgencyLevel: faker.helpers.arrayElement(["Low", "Medium", "High"]),
-    status: faker.helpers.arrayElement(["pending", "declined", "approved"]),
+    status: faker.helpers.arrayElement(["pending", "in-progress", "completed"]),
     contractor: faker.person.fullName(),
     description: faker.lorem.paragraph(),
     image: faker.image.url(),

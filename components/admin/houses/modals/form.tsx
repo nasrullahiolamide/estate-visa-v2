@@ -72,8 +72,8 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   // Fetch house types
   const { data: houseTypes } = useQuery({
-    queryKey: builder.estates.house_types.get.get(),
-    queryFn: () => builder.use().estates.house_types.get(),
+    queryKey: builder.estates.options.house_types.get.get(),
+    queryFn: () => builder.use().estates.options.house_types.get(),
     select: (data) => {
       return data.map((type) => ({
         value: type.id,
@@ -245,6 +245,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
             type='number'
             disabled={isViewing}
             withAsterisk
+            min={1}
             placeholder={`Enter the validity period in ${
               form.getValues().durationType
             }`}

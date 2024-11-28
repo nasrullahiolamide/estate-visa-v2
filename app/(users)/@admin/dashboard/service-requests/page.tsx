@@ -32,7 +32,7 @@ import { ServiceRequestActions } from "@/components/admin/service-requests/actio
 import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
 
 const filterOptions = [
-  { label: "Date", value: "date" },
+  // { label: "Date", value: "date" },
   {
     label: "Service Type",
     value: "service-type",
@@ -82,15 +82,32 @@ function handleView(details: ServiceRequestsData) {
 export default function ServiceRequest() {
   const initialServiceRequests = useFakeServiceRequestsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const {
+    page,
+    pageSize,
+    query: search,
+    sortBy,
+    sortOrder,
+    status,
+  } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.service_requests.get.get(),
+    queryKey: builder.service_requests.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+      status,
+    }),
     queryFn: () =>
       builder.use().service_requests.get({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
+        status,
       }),
     placeholderData: initialServiceRequests,
     select({ total, page, data, pageSize }) {

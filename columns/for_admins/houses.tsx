@@ -1,4 +1,4 @@
-import { Center, Checkbox, Pill, Text } from "@mantine/core";
+import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Actionable } from "@/builders/types/table";
 import { HouseData } from "@/builders/types/houses";
@@ -9,14 +9,22 @@ export const housesColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()} // Select all rows on page
-        indeterminate={table.getIsSomePageRowsSelected()}
-        onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
-      />
+      <Flex justify='center' className='w-full'>
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()} // Select all rows on page
+          indeterminate={table.getIsSomePageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
+          classNames={{
+            root: "justify-center",
+          }}
+        />
+      </Flex>
     ),
     cell: ({ row }) => (
       <Checkbox
+        classNames={{
+          body: "justify-center",
+        }}
         checked={row.getIsSelected()} // Check if the row is selected
         disabled={!row.getCanSelect()} // Disable if row selection is not allowed
         onChange={row.getToggleSelectedHandler()} // Toggles selection for individual row

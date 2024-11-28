@@ -10,6 +10,7 @@ import { modals } from "@mantine/modals";
 import { ConfirmationModal } from "@/components/shared/interface";
 import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
+import { FlowPhoneInput } from "@/components/layout";
 
 export const schema = object({
   full_name: requiredString,
@@ -118,7 +119,7 @@ export function TalkToUsForm() {
           withAsterisk
           {...form.getInputProps("password")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           placeholder='Enter your phone number'
           withAsterisk

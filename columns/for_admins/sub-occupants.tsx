@@ -1,4 +1,4 @@
-import { Checkbox, Pill, Text } from "@mantine/core";
+import { Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { SubOccupantsData } from "@/builders/types/sub-occupants";
 
@@ -8,14 +8,22 @@ export const subOccupantsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()} // Select all rows on page
-        indeterminate={table.getIsSomePageRowsSelected()}
-        onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
-      />
+      <Flex justify='center' className='w-full'>
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()} // Select all rows on page
+          indeterminate={table.getIsSomePageRowsSelected()}
+          onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
+          classNames={{
+            root: "justify-center",
+          }}
+        />
+      </Flex>
     ),
     cell: ({ row }) => (
       <Checkbox
+        classNames={{
+          body: "justify-center",
+        }}
         checked={row.getIsSelected()} // Check if the row is selected
         disabled={!row.getCanSelect()} // Disable if row selection is not allowed
         onChange={row.getToggleSelectedHandler()} // Toggles selection for individual row

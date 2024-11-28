@@ -20,6 +20,7 @@ import { schema } from "../schema";
 import { ProfileData } from "@/builders/types/profile";
 import { getCookie } from "cookies-next";
 import { activateAccount, suspendAccount } from "../actions";
+import { FlowPhoneInput } from "@/components/layout";
 
 interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
   edit: boolean;
@@ -100,7 +101,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
           withAsterisk
           {...form.getInputProps("fullname")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Phone Number'
           disabled={!form.getValues().edit_details}
           withAsterisk

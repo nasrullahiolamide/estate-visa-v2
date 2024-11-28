@@ -39,7 +39,11 @@ export function DownloadDropdown({
       </Menu.Target>
 
       <Menu.Dropdown miw={180} className='p-0' {...dropDownProps}>
-        <Menu.Label fz='sm' fw={500} className='p-4'>
+        <Menu.Label
+          fz='sm'
+          fw={500}
+          className='p-3 bg-purple-4 text-primary-text-body'
+        >
           Download as
         </Menu.Label>
         {data.map((item, i) => (
@@ -47,7 +51,7 @@ export function DownloadDropdown({
             <Menu.Item
               key={item}
               onClick={() => console.log(item)}
-              className={clsx("hover:bg-purple-4 rounded-none p-4 border-t")}
+              className={clsx("hover:bg-purple-2 rounded-none p-3 border-t")}
               classNames={{
                 itemLabel: clsx("flex items-center gap-3"),
               }}

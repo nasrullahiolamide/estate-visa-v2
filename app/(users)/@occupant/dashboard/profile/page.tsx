@@ -29,6 +29,7 @@ import {
   passwordSchema,
   profileDetailsSchema,
 } from "@/components/admin/profile/schema";
+import { FlowPhoneInput } from "@/components/layout";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -192,7 +193,7 @@ export default function Profile() {
                   }}
                   {...profileDetailsForm.getInputProps("email")}
                 />
-                <TextInput
+                <FlowPhoneInput
                   label='Phone Number'
                   classNames={{
                     input: clsx({ skeleton: isLoading }),

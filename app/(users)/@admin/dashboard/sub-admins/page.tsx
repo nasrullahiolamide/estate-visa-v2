@@ -64,13 +64,19 @@ const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
 export default function SubAdmins() {
   const initialSubAdminList = useFakeSubAdminList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
   const {
     estate: { id: estateId },
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const { data: subAdmins, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_admins.get.get(),
+    queryKey: builder.sub_admins.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().sub_admins.get({
         id: estateId,
@@ -78,6 +84,8 @@ export default function SubAdmins() {
           page,
           pageSize,
           search,
+          sortBy,
+          sortOrder,
         },
       }),
     placeholderData: initialSubAdminList,

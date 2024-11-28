@@ -10,6 +10,7 @@ export function handleSuccess({
   ...props
 }: HandleSuccessProps = {}) {
   toast.success(message, {
+    autoClose: 1000,
     ...props,
   });
 }

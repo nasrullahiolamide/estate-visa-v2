@@ -4,6 +4,7 @@ import { useFormContext } from "../form-context";
 import { usePathname } from "next/navigation";
 import { PAGES } from "@/packages/libraries";
 import { useEstateValue } from "@/packages/hooks/use-estate-query";
+import { FlowPhoneInput } from "@/components/layout";
 
 export function ManagementProfile() {
   const form = useFormContext();
@@ -41,7 +42,7 @@ export function ManagementProfile() {
           disabled={form.getValues().action === "view"}
           {...form.getInputProps("email")}
         />
-        <TextInput
+        <FlowPhoneInput
           label='Estate Phone Number'
           placeholder="Enter the estate owner's phone number"
           withAsterisk

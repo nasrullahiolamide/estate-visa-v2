@@ -63,7 +63,7 @@ export function AppShellHeader({
       }}
     >
       <Stack
-        // maw={MAX_SCREEN_WIDTH}
+        maw={MAX_SCREEN_WIDTH}
         mx='auto'
         component='section'
         justify='space-between'

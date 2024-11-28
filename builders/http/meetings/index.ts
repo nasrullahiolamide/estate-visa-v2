@@ -12,7 +12,7 @@ const table = function (params?: FilterParams<{ estateId: string }>) {
     .then((data) => data.data);
 };
 
-const all = function () {
+const all = function (id: string) {
   return api.get<MeetingData[]>(`/meetings/all`).then((data) => data.data);
 };
 

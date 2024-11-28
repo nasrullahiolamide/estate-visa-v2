@@ -7,7 +7,7 @@ import {
   FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
-import { DoubleMarkIcon } from "@/icons";
+import { DoubleMarkIcon, EyeIcon } from "@/icons";
 import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -48,26 +48,38 @@ export function ServiceRequestActions({
     pending: (
       <Fragment>
         <Menu.Item
-          color='blue.7'
+          color='green.7'
           leftSection={<DoubleMarkIcon width={14} />}
-          onClick={() => mutate({ id, status: "approved" })}
+          onClick={() => mutate({ id, status: "completed" })}
         >
-          Approve Request
+          Set as Completed
         </Menu.Item>
 
         <Menu.Item
-          color='red.7'
+          color='blue.7'
           leftSection={<DoubleMarkIcon width={14} />}
-          onClick={() => mutate({ id, status: "declined" })}
+          onClick={() => mutate({ id, status: "in-progress" })}
         >
-          Decline Request
+          Set as In Progress
         </Menu.Item>
+      </Fragment>
+    ),
+
+    "in-progress": (
+      <Fragment>
+        <Menu.Item leftSection={<EyeIcon width={14} />}>View Details</Menu.Item>
+      </Fragment>
+    ),
+
+    completed: (
+      <Fragment>
+        <Menu.Item leftSection={<EyeIcon width={14} />}>View Details</Menu.Item>
       </Fragment>
     ),
   };
 
   return (
-    <FlowMenu disabled={status !== "pending"}>
+    <FlowMenu>
       <FlowMenuTarget />
       <FlowMenuDropdown>{render[status]}</FlowMenuDropdown>
     </FlowMenu>

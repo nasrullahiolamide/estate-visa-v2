@@ -45,7 +45,6 @@ const schema = object({
   title: requiredString,
   date: requiredString,
   time: requiredString,
-  venue: requiredString,
 });
 
 const MeetingPlaceholder: Record<PropertyKey, string> = {
@@ -67,6 +66,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
       });
       handleSuccess({
         message: "Meeting Scheduled Successfully",
+        autoClose: 1000,
       });
       form.reset();
       closeDrawer();

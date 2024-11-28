@@ -4,7 +4,7 @@ import { builder } from "@/builders";
 import { useFakeAdminDashboardData } from "@/builders/types/admin-dashboard";
 import {
   AccessRequests,
-  RecentActivities,
+  // RecentActivities,
   ServiceRequests,
   StatisticsOverview,
 } from "@/components/admin/overview";
@@ -43,10 +43,10 @@ export default function Overview() {
             <AccessRequests />
             <ServiceRequests />
           </Flex>
-          <RecentActivities
+          {/* <RecentActivities
             data={isPlaceholderData ? [] : data?.recentActivityFeed}
             skeleton={isPlaceholderData}
-          />
+          /> */}
         </Stack>
       </AppShellMain>
     </Fragment>
