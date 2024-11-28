@@ -142,8 +142,12 @@ export default function Gates() {
                   fz='sm'
                   size='md'
                   onClick={() => changeStatus({ id, status: "approved" })}
-                  loading={isPending}
-                  disabled={isPending || status !== "pending"}
+                  loading={
+                    isPending && gateRequests?.data.some((req) => req.id === id)
+                  }
+                  disabled={
+                    isPending || status === "approved" || status === "cancelled"
+                  }
                   className='disabled:bg-opacity-30'
                 >
                   Approve
