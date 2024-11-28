@@ -36,6 +36,7 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -65,10 +66,18 @@ const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
   });
 };
 
+const bulkUpload = () => {
+  modals.open({
+    title: "Bulk Upload of Houses",
+    modalId: MODALS.UPLOAD_RESOURCES,
+    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
+  });
+};
+
 export default function Houses() {
   const initialHousesList = useFakeHousesList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().houses.download,
@@ -80,12 +89,20 @@ export default function Houses() {
   });
 
   const { data: houses, isPlaceholderData } = useQuery({
-    queryKey: builder.houses.list.table.get(),
+    queryKey: builder.houses.list.table.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().houses.list.table({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
       }),
     placeholderData: initialHousesList,
     select({ total, page, data, pageSize }) {
@@ -187,7 +204,7 @@ export default function Houses() {
             {
               icon: "upload",
               btnProps: {
-                onClick: () => {},
+                onClick: bulkUpload,
               },
             },
             {
@@ -229,7 +246,13 @@ function HeaderOptions({
         Add New House
       </Button>
       <FilterDropdown data={filterOptions} />
-      <Button variant='outline' fz='sm' size='md' leftSection={<UploadIcon />}>
+      <Button
+        variant='outline'
+        fz='sm'
+        size='md'
+        leftSection={<UploadIcon />}
+        onClick={bulkUpload}
+      >
         Bulk Upload
       </Button>
       <Button

@@ -39,6 +39,7 @@ import {
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
+import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
 
 const filterOptions = [
   { label: "Recently Added", value: "Recent" },
@@ -51,6 +52,14 @@ const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
     title: modalType === "add" ? "Add New Occupant" : "Occupant Details",
     modalId: MODALS.FORM_DETAILS,
     children: <OccupantsForm data={data} modalType={modalType} />,
+  });
+};
+
+const bulkUpload = () => {
+  modals.open({
+    title: "Bulk Upload of Property Owners",
+    modalId: MODALS.UPLOAD_RESOURCES,
+    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
   });
 };
 
@@ -201,7 +210,7 @@ export default function PropertyOwners() {
             {
               icon: "upload",
               btnProps: {
-                onClick: () => {},
+                onClick: bulkUpload,
               },
             },
             { icon: "filter", filterData: filterOptions },
@@ -240,7 +249,13 @@ function HeaderOptions({
         Add
       </Button>
       <FilterDropdown data={filterOptions} />
-      <Button variant='outline' fz='sm' size='md' leftSection={<UploadIcon />}>
+      <Button
+        variant='outline'
+        fz='sm'
+        size='md'
+        leftSection={<UploadIcon />}
+        onClick={bulkUpload}
+      >
         Bulk Upload
       </Button>
       <Button

@@ -35,6 +35,7 @@ import {
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
+import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -50,10 +51,18 @@ const handleOccupantForm = ({ data, modalType }: OccupantsFormProps) => {
   });
 };
 
+const bulkUpload = () => {
+  modals.open({
+    title: "Bulk Upload of Occupants",
+    modalId: MODALS.UPLOAD_RESOURCES,
+    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
+  });
+};
+
 export default function Occupants() {
   const initialOccupantsList = useFakeOccupantsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().occupants.download,
@@ -65,12 +74,20 @@ export default function Occupants() {
   });
 
   const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get(),
+    queryKey: builder.occupants.get.get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().occupants.get({
         page,
         pageSize,
         search,
+        sortBy,
+        sortOrder,
       }),
     placeholderData: initialOccupantsList,
     select({ total, page, data, pageSize }) {
@@ -172,7 +189,7 @@ export default function Occupants() {
             {
               icon: "upload",
               btnProps: {
-                onClick: () => {},
+                onClick: bulkUpload,
               },
             },
             { icon: "filter", filterData: filterOptions },
@@ -211,7 +228,13 @@ function HeaderOptions({
         Add New Occupant
       </Button>
       <FilterDropdown data={filterOptions} />
-      <Button variant='outline' fz='sm' size='md' leftSection={<UploadIcon />}>
+      <Button
+        variant='outline'
+        fz='sm'
+        size='md'
+        leftSection={<UploadIcon />}
+        onClick={bulkUpload}
+      >
         Bulk Upload
       </Button>
       <Button
