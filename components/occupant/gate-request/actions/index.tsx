@@ -142,6 +142,20 @@ export function GateRequestActions({
       </FlowMenu>
     ),
 
+    approved: (
+      <FlowMenu>
+        <FlowMenuTarget />
+        <FlowMenuDropdown>
+          <Menu.Item
+            color='#CC0404'
+            leftSection={<TrashIcon width={15} />}
+            onClick={handleDelete}
+          >
+            Delete
+          </Menu.Item>
+        </FlowMenuDropdown>
+      </FlowMenu>
+    ),
     cancelled: (
       <FlowMenu>
         <FlowMenuTarget />
