@@ -1,25 +1,15 @@
 import { setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
 
-import { decryptUri, encode, encryptUri } from "../encryption";
-import { APP, PAGES, TOKEN } from "../enum";
+import { encode, encryptUri } from "../encryption";
+import { APP, TOKEN } from "../enum";
 import { LoginResponseData } from "@/builders/types/login";
+import { PAID_FEATURES } from "@/packages/constants/data";
 
 interface HandleLogin extends LoginResponseData {
   access_token: string;
   user_type: string;
 }
-
-const PAID_FEATURES = [
-  {
-    name: "Market Place",
-    href: PAGES.MARKET_PLACE,
-  },
-  {
-    name: "Service Requests",
-    href: PAGES.SERVICE_REQUESTS,
-  },
-];
 
 export const cookieOptions = {
   secure: true,
@@ -35,7 +25,7 @@ export function handleLogin({
   user_type,
 }: HandleLogin) {
   const encryptedUser = encryptUri(user);
-  const { firstname, lastname, id: uid, email, estate } = { ...user };
+  const { firstname, id: uid, email, estate } = { ...user };
 
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
@@ -88,8 +78,6 @@ export function handleLogin({
 
     try {
       const encodedFeatureFlags = encryptUri(JSON.stringify(featureFlags));
-
-      console.log({ encodedFeatureFlags });
 
       setCookie(APP.FEATURE_FLAG, encodedFeatureFlags, {
         ...cookieOptions,

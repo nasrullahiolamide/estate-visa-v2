@@ -8,13 +8,6 @@ import { getCookie } from "cookies-next";
 import { useQuery } from "@tanstack/react-query";
 import { SVGProps, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import {
-  APP,
-  decryptUri,
-  makePath,
-  PAGES,
-  USER_TYPE,
-} from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import {
   ADMIN_ROUTES,
@@ -26,6 +19,7 @@ import {
   SUB_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
 import { getFeatureFlag } from "@/packages/libraries/auth";
+import { APP, makePath, PAGES, USER_TYPE } from "@/packages/libraries";
 
 const view: Record<PropertyKey, NavLinkType> = {
   [USER_TYPE.ADMIN]: ADMIN_ROUTES,
@@ -42,8 +36,6 @@ export type NavLinkType = Array<{
   href: string;
   icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
 }>;
-
-type FeatureFlag = Record<string, string[]>;
 
 export function NavigationLinks() {
   const userId = toString(getCookie(APP.USER_ID));
@@ -99,8 +91,8 @@ export function NavigationLinks() {
             ? pathname === PAGES.DASHBOARD
             : pathname.startsWith(toString(item.href));
 
-        const isRestricted = flags.some((flag) => flag === item.href);
-        if (isRestricted) return null;
+        if (flags.some((flag) => makePath(PAGES.DASHBOARD, flag) === item.href))
+          return null;
 
         return (
           <NavLink
@@ -111,7 +103,7 @@ export function NavigationLinks() {
             active={isActive}
             variant='admin-app-shell-mobile'
             component={Link}
-            href={makePath(PAGES.DASHBOARD, item.href)}
+            href={item.href}
             flex={1}
             label={
               <Flex gap={5} align='center' justify='center'>

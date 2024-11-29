@@ -1,16 +1,18 @@
 "use client";
 
-import { Button, MultiSelect, PasswordInput, TextInput } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { cast, MODALS } from "@/packages/libraries";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { requiredString } from "@/builders/types/shared";
 import { array, object } from "yup";
+
 import { modals } from "@mantine/modals";
-import { ConfirmationModal } from "@/components/shared/interface";
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { Button, MultiSelect, PasswordInput, TextInput } from "@mantine/core";
+
+import { requiredString } from "@/builders/types/shared";
+import { cast, MODALS } from "@/packages/libraries";
+import { SERVICE_TYPES } from "@/packages/constants/data";
+
 import { FlowPhoneInput } from "@/components/layout";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { ConfirmationModal } from "@/components/shared/interface";
 
 export const schema = object({
   full_name: requiredString,
@@ -27,14 +29,6 @@ export const schema = object({
 });
 
 export function TalkToUsForm() {
-  const { data } = useQuery({
-    queryKey: builder.estates.options.interests.get.get(),
-    queryFn: () => builder.use().estates.options.interests.get(),
-    select: (data) => {
-      return data.map((item) => ({ value: item.id, label: item.name }));
-    },
-  });
-
   const form = useForm({
     initialValues: {
       full_name: "",
@@ -154,7 +148,7 @@ export function TalkToUsForm() {
           {...form.getInputProps("no_of_occupants")}
         />
         <MultiSelect
-          data={data}
+          data={SERVICE_TYPES}
           label='Interests'
           withAsterisk
           placeholder='What are you interested in?'

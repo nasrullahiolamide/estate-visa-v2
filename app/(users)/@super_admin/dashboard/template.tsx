@@ -13,14 +13,8 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri } from "@/packages/libraries";
-import {
-  GATEMAN_ROUTES,
-  OCCUPANT_ROUTES,
-  SUB_OCCUPANT_ROUTES,
-  SUPER_ADMIN_ROUTES,
-} from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/icons";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
+import { DashboardIcon, EstateIcon, EstateVisaLogo } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -68,18 +62,28 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none ~pt-2/14'
+          className='scrollbar-none ~pt-2/8'
         >
           <Stack gap={8}>
-            {SUPER_ADMIN_ROUTES.map((link, index) => (
-              <AppShellButton
-                key={index}
-                leftSection={<link.icon />}
-                href={link.href}
-                label={link.title}
-                opened={opened}
-              />
-            ))}
+            <AppShellButton
+              leftSection={<DashboardIcon />}
+              href={PAGES.DASHBOARD}
+              label={"Overview"}
+              opened={opened}
+            />
+            <AppShellButton
+              leftSection={<EstateIcon />}
+              href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
+              label={"Estates"}
+              opened={opened}
+            />
+
+            <AppShellButton
+              leftSection={<DashboardIcon />}
+              href={PAGES.DASHBOARD}
+              label={"Overview"}
+              opened={opened}
+            />
           </Stack>
         </AppShell.Section>
       </AppShell.Navbar>
