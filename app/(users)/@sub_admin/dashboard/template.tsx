@@ -13,35 +13,35 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
-import { OCCUPANT_ROUTES } from "@/packages/constants/routes";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
-  AirlineManageGateIcon,
+  AdministratorIcon,
   DashboardIcon,
   EstateVisaLogo,
+  GateIcon,
   GroupDiscussionIcon,
-  NoticeBoardIcon,
+  HousesIcon,
   ServiceRequestIcon,
-  TablerMessageIcon,
+  UserFriendsIcon,
   UserGroupIcon,
 } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
-import { usePathname } from "next/navigation";
 import { navigate } from "@/packages/actions";
 import { useEffect } from "react";
-
-import Swal from "sweetalert2";
+import { usePathname } from "next/navigation";
 import { toString } from "lodash";
 
+import Swal from "sweetalert2";
+
 type TemplateProps = React.PropsWithChildren<{}>;
-type FeatureFlag = Record<string, string[]>;
+type FetureFlag = Record<string, string[]>;
 
 export default function Template({ children }: TemplateProps) {
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const pathname = usePathname();
 
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
-  const featureFlags: FeatureFlag = JSON.parse(
+  const featureFlags: FetureFlag = JSON.parse(
     toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
   );
 
@@ -71,7 +71,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 240 : 95,
+        width: opened ? 250 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}
@@ -104,7 +104,7 @@ export default function Template({ children }: TemplateProps) {
           <AppShell.Section
             grow
             component={ScrollArea}
-            className='scrollbar-none ~pt-2/14'
+            className='scrollbar-none ~pt-2\1/8'
           >
             <Stack gap={8}>
               <AppShellButton
@@ -113,28 +113,11 @@ export default function Template({ children }: TemplateProps) {
                 label={"Overview"}
                 opened={opened}
               />
+
               <AppShellButton
-                leftSection={<AirlineManageGateIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS)}
-                label={"Gate Requests"}
-                opened={opened}
-              />
-              {/* <AppShellButton
-                leftSection={<TablerMessageIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
-                label={"Messages"}
-                opened={opened}
-              />
-              <AppShellButton
-                leftSection={<NoticeBoardIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
-                label={"Notice Board"}
-                opened={opened}
-              /> */}
-              <AppShellButton
-                leftSection={<GroupDiscussionIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
-                label={"Meetings"}
+                leftSection={<UserFriendsIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS)}
+                label={"Occupants"}
                 opened={opened}
               />
               <AppShellButton
@@ -143,6 +126,31 @@ export default function Template({ children }: TemplateProps) {
                 label={"Sub Occupants"}
                 opened={opened}
               />
+              <AppShellButton
+                leftSection={<HousesIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.HOUSES)}
+                label={"Houses"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<GateIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
+                label={"Gates"}
+                opened={opened}
+              />
+              {/* <AppShellButton
+                leftSection={<TablerMessageIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
+                label={"Messages"}
+                opened={opened}
+              /> */}
+              <AppShellButton
+                leftSection={<GroupDiscussionIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
+                label={"Meetings"}
+                opened={opened}
+              />
+
               {!featureFlags.flags.includes(PAGES.SERVICE_REQUESTS) && (
                 <AppShellButton
                   leftSection={<ServiceRequestIcon />}

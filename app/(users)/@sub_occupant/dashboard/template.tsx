@@ -13,17 +13,13 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
-import { OCCUPANT_ROUTES } from "@/packages/constants/routes";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
   AirlineManageGateIcon,
   DashboardIcon,
   EstateVisaLogo,
   GroupDiscussionIcon,
-  NoticeBoardIcon,
   ServiceRequestIcon,
-  TablerMessageIcon,
-  UserGroupIcon,
 } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 import { usePathname } from "next/navigation";
@@ -119,12 +115,7 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gate Requests"}
                 opened={opened}
               />
-              {/* <AppShellButton
-                leftSection={<TablerMessageIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
-                label={"Messages"}
-                opened={opened}
-              />
+              {/* 
               <AppShellButton
                 leftSection={<NoticeBoardIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
@@ -135,12 +126,6 @@ export default function Template({ children }: TemplateProps) {
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
                 label={"Meetings"}
-                opened={opened}
-              />
-              <AppShellButton
-                leftSection={<UserGroupIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
-                label={"Sub Occupants"}
                 opened={opened}
               />
               {!featureFlags.flags.includes(PAGES.SERVICE_REQUESTS) && (

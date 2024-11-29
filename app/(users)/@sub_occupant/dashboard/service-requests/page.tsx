@@ -1,16 +1,15 @@
 "use client";
 
+import clsx from "clsx";
 import { Fragment, useEffect } from "react";
-import { Flex } from "@mantine/core";
+import { Button, Flex } from "@mantine/core";
 
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { ProfileData } from "@/builders/types/profile";
-import {
-  ServiceRequestsData,
-  useFakeServiceRequestsList,
-} from "@/builders/types/service-requests";
+import { useFakeServiceRequestsList } from "@/builders/types/service-requests";
+import { serviceRequestsColumns } from "@/columns/for_occupants/service-requests";
+import { AddIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -24,21 +23,17 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { modals } from "@mantine/modals";
-import { ViewServiceRequest } from "@/components/admin/service-requests/view";
-import { APP, decryptUri, encode, MODALS, PAGES } from "@/packages/libraries";
-
+import { MODALS } from "@/packages/libraries";
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
-import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
-import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
-import { navigate } from "@/packages/actions";
-import { getCookie } from "cookies-next";
-
-import clsx from "clsx";
-import Swal from "sweetalert2";
+import { ServieRequestActions } from "@/components/occupant/service-requests/actions";
+import {
+  ServiceRequestForm,
+  ServiceRequestFormProps,
+} from "@/components/occupant/service-requests/form";
 
 const filterOptions = [
-  // { label: "Date", value: "date" },
+  { label: "Date", value: "date" },
   {
     label: "Service Type",
     value: "service-type",
@@ -67,7 +62,7 @@ const filterOptions = [
       },
       {
         label: "In Progress",
-        value: "in-progress",
+        value: "pending",
       },
       {
         label: "Completed",
@@ -77,16 +72,19 @@ const filterOptions = [
   },
 ];
 
-function handleView(details: ServiceRequestsData) {
+const handleRequestForm = ({
+  data,
+  modalType = "add",
+}: ServiceRequestFormProps) => {
   modals.open({
-    title: "Service Request",
-    children: <ViewServiceRequest {...details} />,
+    title: modalType === "add" ? "Generate Request" : "Request Generated",
     modalId: MODALS.FORM_DETAILS,
+    children: <ServiceRequestForm data={data} modalType={modalType} />,
   });
-}
+};
 
 export default function ServiceRequest() {
-  const initialServiceRequests = useFakeServiceRequestsList();
+  const initialServiceRequestList = useFakeServiceRequestsList();
   const pagination = useFlowPagination();
   const {
     page,
@@ -115,7 +113,7 @@ export default function ServiceRequest() {
         sortOrder,
         status,
       }),
-    placeholderData: initialServiceRequests,
+    placeholderData: initialServiceRequestList,
     select({ total, page, data, pageSize }) {
       return {
         total,
@@ -124,7 +122,15 @@ export default function ServiceRequest() {
         data: data.map((list) => {
           return {
             ...list,
-            action: <ServiceRequestActions id={list.id} status={list.status} />,
+            action: (
+              <ServieRequestActions
+                id={list.id}
+                status={list.status}
+                onEdit={() =>
+                  handleRequestForm({ modalType: "edit", data: list })
+                }
+              />
+            ),
           };
         }),
       };
@@ -163,12 +169,20 @@ export default function ServiceRequest() {
                 data={serviceRequests.data}
                 columns={serviceRequestsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={(data) => handleView(data)}
               />
             ) : (
               <EmptySlot
                 title='You have no service requests yet. Check back later for updates!'
                 src='question'
+                withButton
+                text='Send Request'
+                btnProps={{
+                  leftSection: <AddIcon />,
+                  onClick: () =>
+                    handleRequestForm({
+                      modalType: "add",
+                    }),
+                }}
               />
             )}
           </FlowPaper>
@@ -180,7 +194,6 @@ export default function ServiceRequest() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable || isPlaceholderData}
           buttons={[{ icon: "filter", filterData: filterOptions }]}
         />
       </FlowContainer>
@@ -191,7 +204,14 @@ export default function ServiceRequest() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      {/* <SearchTable /> */}
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={() => handleRequestForm({ modalType: "add" })}
+      >
+        Send Request
+      </Button>
       <FilterDropdown data={filterOptions} />
     </Flex>
   );

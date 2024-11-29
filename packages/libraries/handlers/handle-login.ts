@@ -1,10 +1,8 @@
 import { setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
 
-import { decrypt, decryptUri, encode, encryptUri } from "../encryption";
-import { APP, TOKEN } from "../enum";
-import { string } from "mathjs";
-import { ProfileData } from "@/builders/types/profile";
+import { decryptUri, encode, encryptUri } from "../encryption";
+import { APP, PAGES, TOKEN } from "../enum";
 import { LoginResponseData } from "@/builders/types/login";
 
 interface HandleLogin extends LoginResponseData {
@@ -12,7 +10,16 @@ interface HandleLogin extends LoginResponseData {
   user_type: string;
 }
 
-const ESSENTIAL_FEATURES = ["Residence Management", "Access Request"];
+const PAID_FEATURES = [
+  {
+    name: "Market Place",
+    href: PAGES.MARKET_PLACE,
+  },
+  {
+    name: "Service Requests",
+    href: PAGES.SERVICE_REQUESTS,
+  },
+];
 
 export const cookieOptions = {
   secure: true,
@@ -29,13 +36,29 @@ export function handleLogin({
 }: HandleLogin) {
   const encryptedUser = encryptUri(user);
   const { firstname, lastname, id: uid, email, estate } = { ...user };
-  const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;
+
+  const userInterests = user.estate.interests;
 
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
     payload: string,
     signature: string
   ];
+
+  if (userInterests) {
+    const featureFlags = PAID_FEATURES.filter(
+      (feature) => !userInterests.includes(feature.name)
+    ).map((feature) => feature.href);
+
+    setCookie(
+      APP.FEATURE_FLAG,
+      encryptUri(JSON.stringify({ flags: featureFlags })),
+      {
+        ...cookieOptions,
+        sameSite: "lax",
+      }
+    );
+  }
 
   setCookie(APP.USER_DATA, encryptedUser, cookieOptions);
 
@@ -47,18 +70,6 @@ export function handleLogin({
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {
-      ...cookieOptions,
-      sameSite: "lax",
-      encode,
-    });
-  }
-
-  if (
-    user.estate.interests.some((interest) =>
-      ESSENTIAL_FEATURES.includes(interest)
-    )
-  ) {
-    setCookie(APP.FEATURE_FLAG, "true", {
       ...cookieOptions,
       sameSite: "lax",
       encode,
@@ -100,3 +111,5 @@ export function handleLogin({
     });
   }
 }
+
+// const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;

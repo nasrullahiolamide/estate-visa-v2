@@ -8,7 +8,13 @@ import { getCookie } from "cookies-next";
 import { useQuery } from "@tanstack/react-query";
 import { SVGProps, useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { APP, PAGES, USER_TYPE } from "@/packages/libraries";
+import {
+  APP,
+  decryptUri,
+  makePath,
+  PAGES,
+  USER_TYPE,
+} from "@/packages/libraries";
 import { Box, Flex, NavLink } from "@mantine/core";
 import {
   ADMIN_ROUTES,
@@ -17,10 +23,12 @@ import {
   PROPERTY_OWNER_ROUTES,
   SUB_OCCUPANT_ROUTES,
   SUPER_ADMIN_ROUTES,
+  SUB_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
 
 const view: Record<PropertyKey, NavLinkType> = {
   [USER_TYPE.ADMIN]: ADMIN_ROUTES,
+  [USER_TYPE.SUB_ADMIN]: SUB_ADMIN_ROUTES,
   [USER_TYPE.SUPER_ADMIN]: SUPER_ADMIN_ROUTES,
   [USER_TYPE.OCCUPANT]: OCCUPANT_ROUTES,
   [USER_TYPE.PROPERTY_OWNER]: PROPERTY_OWNER_ROUTES,
@@ -34,8 +42,14 @@ export type NavLinkType = Array<{
   icon: ({ ...props }: SVGProps<SVGSVGElement>) => JSX.Element;
 }>;
 
+type FeatureFlag = Record<string, string[]>;
+
 export function NavigationLinks() {
   const userId = toString(getCookie(APP.USER_ID));
+
+  const featureFlags: FeatureFlag = JSON.parse(
+    toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
+  );
 
   const [links, setLinks] = useState<NavLinkType>([]);
   const activeLinkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
@@ -51,7 +65,6 @@ export function NavigationLinks() {
   useEffect(() => {
     if (user) {
       const userType = user.roles[0].name;
-      console.log(userType);
       setLinks(view[userType]);
     }
   }, [user, isLoading]);
@@ -88,6 +101,10 @@ export function NavigationLinks() {
             ? pathname === PAGES.DASHBOARD
             : pathname.startsWith(toString(item.href));
 
+        const isRestricted = featureFlags.flags?.includes(item.href);
+
+        if (isRestricted) return null;
+
         return (
           <NavLink
             key={index}
@@ -97,7 +114,7 @@ export function NavigationLinks() {
             active={isActive}
             variant='admin-app-shell-mobile'
             component={Link}
-            href={item.href}
+            href={makePath(PAGES.DASHBOARD, item.href)}
             flex={1}
             label={
               <Flex gap={5} align='center' justify='center'>

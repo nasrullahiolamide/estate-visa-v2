@@ -74,7 +74,7 @@ export function AccessRequests() {
         />
       </Flex>
       {data?.noData ? (
-        <Stack gap={0}>
+        <Stack gap={0} h={250}>
           <NoData />
           <Text ta='center'>No Data Available</Text>
         </Stack>

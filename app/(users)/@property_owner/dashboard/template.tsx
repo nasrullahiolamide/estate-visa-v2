@@ -13,13 +13,14 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri } from "@/packages/libraries";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
   GATEMAN_ROUTES,
   OCCUPANT_ROUTES,
+  PROPERTY_OWNER_ROUTES,
   SUB_OCCUPANT_ROUTES,
 } from "@/packages/constants/routes";
-import { EstateVisaLogo } from "@/icons";
+import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -70,15 +71,13 @@ export default function Template({ children }: TemplateProps) {
           className='scrollbar-none'
         >
           <Stack gap={8}>
-            {SUB_OCCUPANT_ROUTES.map((link, index) => (
-              <AppShellButton
-                key={index}
-                leftSection={<link.icon />}
-                href={link.href}
-                label={link.title}
-                opened={opened}
-              />
-            ))}
+            <AppShellButton
+              leftSection={<GroupDiscussionIcon />}
+              href={makePath(PAGES.DASHBOARD)}
+              label={"Meetings"}
+              opened={opened}
+            />
+            ;
           </Stack>
         </AppShell.Section>
       </AppShell.Navbar>

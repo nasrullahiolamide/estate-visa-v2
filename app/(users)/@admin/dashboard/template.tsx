@@ -13,8 +13,7 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
-import { ADMIN_ROUTES } from "@/packages/constants/routes";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
   AdministratorIcon,
   DashboardIcon,
@@ -23,19 +22,50 @@ import {
   GroupDiscussionIcon,
   HousesIcon,
   ServiceRequestIcon,
-  TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
 } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
+import { navigate } from "@/packages/actions";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { toString } from "lodash";
+
+import Swal from "sweetalert2";
 
 type TemplateProps = React.PropsWithChildren<{}>;
+type FetureFlag = Record<string, string[]>;
 
 export default function Template({ children }: TemplateProps) {
-  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
-  const fFlag = getCookie(APP.FEATURE_FLAG, { encode });
+  const pathname = usePathname();
+
+  const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const featureFlags: FetureFlag = JSON.parse(
+    toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
+  );
+
   const opened = boolean(collapsedNav ?? true);
+  const isRestricted = featureFlags.flags?.some((flag) =>
+    pathname.includes(flag)
+  );
+
+  useEffect(() => {
+    if (isRestricted) {
+      Swal.fire({
+        icon: "error",
+        title: "Permission Denied",
+        text: "You do not have access to this feature.",
+        confirmButtonColor: "var(--blue-8)",
+        confirmButtonText: "Go to Dashboard",
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        allowEscapeKey: false,
+      }).then(() => {
+        navigate(PAGES.DASHBOARD);
+      });
+    }
+  }, [pathname, navigate]);
 
   return (
     <AppShell
@@ -132,7 +162,7 @@ export default function Template({ children }: TemplateProps) {
                 opened={opened}
               />
 
-              {!fFlag && (
+              {!featureFlags.flags.includes(PAGES.SERVICE_REQUESTS) && (
                 <AppShellButton
                   leftSection={<ServiceRequestIcon />}
                   href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}

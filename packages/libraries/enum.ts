@@ -24,6 +24,7 @@ export enum APP {
 export enum USER_TYPE {
   SUPER_ADMIN = "super-admin",
   ADMIN = "admin",
+  SUB_ADMIN = "sub-admin",
   OCCUPANT = "principal-occupant",
   SUB_OCCUPANT = "sub-occupant",
   PROPERTY_OWNER = "property-owner",
