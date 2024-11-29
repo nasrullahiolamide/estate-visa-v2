@@ -225,7 +225,11 @@ export default function Gates() {
             )}
           </FlowPaper>
 
-          <FlowFooter visible={isPlaceholderData} ta='center' justify='center'>
+          <FlowFooter
+            visible={noDataAvailable || isPlaceholderData}
+            ta='center'
+            justify='center'
+          >
             <FlowEntriesPerPage options={["10", "50", "100", "200"]} />
           </FlowFooter>
         </FlowContentContainer>
@@ -265,6 +269,7 @@ function HeaderOptions({
         placeholder="Search by code, e.g. '1234'"
         type='number'
         title='Gate Request'
+        hidden={hidden}
       />
       <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
