@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
+import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
 import { ADMIN_ROUTES } from "@/packages/constants/routes";
 import {
   AdministratorIcon,
@@ -34,6 +34,7 @@ type TemplateProps = React.PropsWithChildren<{}>;
 export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
+  const fFlag = getCookie(APP.FEATURE_FLAG, { encode });
   const opened = boolean(collapsedNav ?? true);
 
   return (
@@ -118,24 +119,27 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gates"}
                 opened={opened}
               />
-              <AppShellButton
+              {/* <AppShellButton
                 leftSection={<TablerMessageIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
                 label={"Messages"}
                 opened={opened}
-              />
+              /> */}
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
                 label={"Meetings"}
                 opened={opened}
               />
-              <AppShellButton
-                leftSection={<ServiceRequestIcon />}
-                href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
-                label={"Service Requests"}
-                opened={opened}
-              />
+
+              {!fFlag && (
+                <AppShellButton
+                  leftSection={<ServiceRequestIcon />}
+                  href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
+                  label={"Service Requests"}
+                  opened={opened}
+                />
+              )}
             </Stack>
           </AppShell.Section>
         </AppShell.Section>

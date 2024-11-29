@@ -1,10 +1,9 @@
 "use client";
 
-import clsx from "clsx";
 import { Fragment } from "react";
 import { AxiosError } from "axios";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Button, Flex, TextInput } from "@mantine/core";
 import { modals } from "@mantine/modals";

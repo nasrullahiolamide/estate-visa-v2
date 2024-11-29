@@ -12,6 +12,8 @@ interface HandleLogin extends LoginResponseData {
   user_type: string;
 }
 
+const ESSENTIAL_FEATURES = ["Residence Management", "Access Request"];
+
 export const cookieOptions = {
   secure: true,
   maxAge: 60 * 60 * 4,
@@ -51,7 +53,19 @@ export function handleLogin({
     });
   }
 
-  if (email) setCookie(APP.USERNAME, email);
+  if (
+    user.estate.interests.some((interest) =>
+      ESSENTIAL_FEATURES.includes(interest)
+    )
+  ) {
+    setCookie(APP.FEATURE_FLAG, "true", {
+      ...cookieOptions,
+      sameSite: "lax",
+      encode,
+    });
+  }
+
+  setCookie(APP.USERNAME, email);
 
   if (firstname) {
     setCookie(APP.FULL_NAME, firstname, {

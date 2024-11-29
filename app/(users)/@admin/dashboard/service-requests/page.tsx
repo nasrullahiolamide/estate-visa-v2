@@ -6,6 +6,7 @@ import { Flex } from "@mantine/core";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
+import { ProfileData } from "@/builders/types/profile";
 import {
   ServiceRequestsData,
   useFakeServiceRequestsList,
@@ -24,12 +25,17 @@ import {
 } from "@/components/layout";
 import { modals } from "@mantine/modals";
 import { ViewServiceRequest } from "@/components/admin/service-requests/view";
-import { MODALS } from "@/packages/libraries";
-import clsx from "clsx";
+import { APP, decryptUri, encode, MODALS, PAGES } from "@/packages/libraries";
+
 import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
 import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
 import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
+import { navigate } from "@/packages/actions";
+import { getCookie } from "cookies-next";
+
+import clsx from "clsx";
+import Swal from "sweetalert2";
 
 const filterOptions = [
   // { label: "Date", value: "date" },
@@ -80,6 +86,9 @@ function handleView(details: ServiceRequestsData) {
 }
 
 export default function ServiceRequest() {
+  const fFlag = getCookie(APP.FEATURE_FLAG, { encode });
+  if (!fFlag) return null;
+
   const initialServiceRequests = useFakeServiceRequestsList();
   const pagination = useFlowPagination();
   const {
@@ -135,6 +144,31 @@ export default function ServiceRequest() {
   }, [isPlaceholderData]);
 
   const noDataAvailable = serviceRequests?.data.length === 0;
+
+  useEffect(() => {
+    if (!fFlag) {
+      Swal.fire({
+        icon: "error",
+        title: "Permission Denied",
+        text: "You do not have access to this feature.",
+        confirmButtonColor: "var(--blue-8)",
+        confirmButtonText: "Go to Dashboard",
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        allowEscapeKey: false,
+        backdrop: `
+          rgba(0,0,0,0.4)
+          url("/images/nyan-cat.gif")
+          left top
+          no-repeat
+        `,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate(PAGES.DASHBOARD);
+        }
+      });
+    }
+  }, [fFlag]);
 
   return (
     <Fragment>
