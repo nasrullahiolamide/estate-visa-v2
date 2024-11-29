@@ -3,10 +3,10 @@
 import dayjs from "dayjs";
 
 import { AxiosError } from "axios";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Button, Flex } from "@mantine/core";
+import { Box, Button, Flex, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
@@ -25,14 +25,17 @@ import {
   FlowContentContainer,
   FlowEntriesPerPage,
   FlowFooter,
-  FlowPagination,
+  FlowCurrentPage,
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
+  FlowSearch,
 } from "@/components/layout";
 import { SearchTable } from "@/components/shared/search-table";
+import { debounce } from "lodash";
+import { SpotlightActionData } from "@mantine/spotlight";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -76,6 +79,8 @@ export default function Gates() {
   const queryClient = useQueryClient();
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
+
+  const [actions, setActions] = useState<SpotlightActionData[]>([]);
   const {
     page,
     pageSize,
@@ -127,11 +132,7 @@ export default function Gates() {
         pageSize,
         total,
         data: data
-          .filter(
-            (request) =>
-              dayjs(request.visitDate).isAfter(dayjs().startOf("day")) &&
-              dayjs(request.visitDate).isBefore(dayjs().endOf("day"))
-          )
+          .filter((request) => dayjs(request.visitDate).isSame(dayjs(), "day"))
           .map(({ id, status, ...list }, _, arr) => {
             return {
               ...list,
@@ -166,7 +167,7 @@ export default function Gates() {
     pagination.setPageSize(gateRequests?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = gateRequests?.data.length === 0;
+  const noDataAvailable = !gateRequests?.data.length;
 
   return (
     <Fragment>
@@ -178,7 +179,10 @@ export default function Gates() {
           placeholder: "Search for gate request...",
         }}
         options={
-          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+          <HeaderOptions
+            isLoading={isPlaceholderData}
+            hidden={noDataAvailable}
+          />
         }
       />
 
@@ -197,20 +201,24 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title="You have no gate requests for today yet. You'll surely get one soon!"
+                title={
+                  search
+                    ? "Gate Request not found"
+                    : "You have no gate requests for today yet. You'll surely get one soon!"
+                }
                 src='question'
               />
             )}
           </FlowPaper>
 
-          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
-            <FlowPagination />
+          <FlowFooter visible={isPlaceholderData}>
+            <FlowCurrentPage />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable || isPlaceholderData}
+          hidden={noDataAvailable}
           buttons={[
             {
               icon: "download",
@@ -229,19 +237,28 @@ export default function Gates() {
   );
 }
 
-function HeaderOptions({ hidden }: { hidden: boolean }) {
+function HeaderOptions({
+  hidden,
+  isLoading,
+}: {
+  hidden?: boolean;
+  isLoading?: boolean;
+}) {
+  const { query } = useFlowState();
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <SearchTable actions={[]} placeholder='Search for gate request...' />
-      <FilterDropdown data={filterOptions} />
-      <Button
-        variant='outline'
-        fz='sm'
-        size='md'
-        leftSection={<DownloadIcon />}
-      >
-        Download Table
-      </Button>
+    <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
+      <FlowSearch isLoading={isLoading} />
+      <Flex hidden={hidden || isLoading} gap={14}>
+        <FilterDropdown data={filterOptions} />
+        <Button
+          variant='outline'
+          fz='sm'
+          size='md'
+          leftSection={<DownloadIcon />}
+        >
+          Download Table
+        </Button>
+      </Flex>
     </Flex>
   );
 }

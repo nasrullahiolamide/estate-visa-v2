@@ -29,6 +29,7 @@ import Link from "next/link";
 import { SearchTable } from "@/components/shared/search-table";
 import { ReactNode } from "react";
 import { SpotlightActionData } from "@mantine/spotlight";
+import { FlowSearch } from "@/components/layout";
 
 type AppShellHeaderProps = {
   title: string;
@@ -107,14 +108,11 @@ export function AppShellHeader({
 
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
             {withSearch && (
-              <Box hiddenFrom='lg'>
-                <SearchTable
-                  actions={searchProps.actions}
-                  placeholder={searchProps.placeholder}
-                />
+              <Box hiddenFrom='lg' className='flex items-center'>
+                <FlowSearch />
               </Box>
             )}
-            <Flex gap={12} align='center' ml='auto'>
+            <Flex gap={12} align='center' className='lg:ml-auto'>
               <UserDetails />
             </Flex>
           </Flex>

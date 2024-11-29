@@ -13,6 +13,8 @@ import {
 
 import { SearchIcon } from "@/icons";
 import clsx from "clsx";
+import { debounce } from "lodash";
+import { useFlowPagination, useFlowState } from "../layout";
 
 interface SearchEstateProps extends SpotlightProps {
   actions: SpotlightActionData[];
@@ -24,6 +26,12 @@ export function SearchTable({
   placeholder,
   ...props
 }: SearchEstateProps) {
+  const pagination = useFlowPagination();
+  const { query } = useFlowState();
+  const handleQueryChange = debounce((search) => {
+    pagination.setSearch(search);
+  }, 300);
+
   return (
     <Fragment>
       <Button
@@ -77,6 +85,8 @@ export function SearchTable({
         nothingFound='Nothing found...'
         shortcut={["mod + K", "mod + P", "/"]}
         actions={actions}
+        query={query}
+        onQueryChange={handleQueryChange}
         searchProps={{
           leftSection: <SearchIcon />,
           placeholder: placeholder || "Search for anything...",

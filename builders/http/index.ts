@@ -12,6 +12,7 @@ import { service_requests } from "./service-requests";
 import { sub_admins } from "./sub-admins";
 import { sub_occupants } from "./sub-occupants";
 import { upload } from "./upload";
+import { templates } from "./templates";
 
 export const http = {
   auth,
@@ -28,4 +29,5 @@ export const http = {
   service_requests,
   meetings,
   messages,
+  templates,
 };

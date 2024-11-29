@@ -55,6 +55,7 @@ export function FlowPagination({
       <Pagination.Previous
         onClick={handlePreviousClick}
         disabled={page <= 1}
+        className='disabled:cursor-not-allowed'
         {...previousButtonProps}
       />
 
@@ -76,6 +77,7 @@ export function FlowPagination({
       <Pagination.Next
         onClick={handleNextClick}
         disabled={page >= numberOfPages}
+        className='disabled:cursor-not-allowed'
         {...nextButtonProps}
       />
     </Flex>
