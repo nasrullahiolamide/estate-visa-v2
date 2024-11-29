@@ -6,7 +6,7 @@ import {
   Text,
   Modal,
 } from "@mantine/core";
-import { useClickOutside } from "@mantine/hooks";
+import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { Form, useForm } from "@mantine/form";
 
 import { SearchIcon } from "@/icons";
@@ -17,12 +17,14 @@ import { FlowActionType } from "./use-flow-reducer";
 import clsx from "clsx";
 
 export type FlowSearchProps = TextInputProps & {
-  isLoading?: boolean;
+  isloading?: boolean;
   title: string;
 };
 
 export function FlowSearch(props: FlowSearchProps) {
   const [showSearchField, setShowSearchField] = useState(false);
+  const [opened, { open, close }] = useDisclosure(showSearchField);
+
   const dispatch = useFlowDispatch();
 
   const ref = useClickOutside(() => {
@@ -53,11 +55,10 @@ export function FlowSearch(props: FlowSearchProps) {
     }
   }, [form.values.query]);
 
-  return showSearchField ? (
-    <FocusTrap active>
-      <Modal opened={showSearchField} onClose={close} title={props.title}>
-        {/* Modal content */}
-        <Form form={form} onSubmit={handleSubmit} ref={ref}>
+  return opened ? (
+    <Modal opened={opened} onClose={close} title={props.title}>
+      <Form form={form} onSubmit={handleSubmit}>
+        <FocusTrap active>
           <TextInput
             fz='sm'
             placeholder='Search table'
@@ -70,8 +71,11 @@ export function FlowSearch(props: FlowSearchProps) {
               <ActionIcon
                 variant='transparent'
                 className='w-full h-full rounded-tr-none rounded-br-none'
-                onClick={() => handleSubmit(form.values)}
-                disabled={props.isLoading}
+                onClick={() => {
+                  handleSubmit(form.values);
+                  close();
+                }}
+                disabled={props.isloading}
               >
                 <Text fw={600} fz={15}>
                   Search
@@ -81,13 +85,16 @@ export function FlowSearch(props: FlowSearchProps) {
             {...props}
             {...form.getInputProps("query")}
           />
-        </Form>
-      </Modal>
-    </FocusTrap>
+        </FocusTrap>
+      </Form>
+    </Modal>
   ) : (
     <ActionIcon
       variant='transparent'
-      onClick={() => setShowSearchField(!showSearchField)}
+      onClick={() => {
+        setShowSearchField(!showSearchField);
+        open();
+      }}
       className={clsx("lg-border lg:border-blue-8 lg:w-12 lg:h-[42px]")}
     >
       <SearchIcon

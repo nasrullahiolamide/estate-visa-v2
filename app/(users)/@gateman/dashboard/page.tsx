@@ -10,7 +10,7 @@ import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
+import { cast, MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import {
   GateRequestData,
@@ -182,7 +182,7 @@ export default function Gates() {
         title='Gate Request'
         withSearch
         searchProps={{
-          actions: [],
+          isloading: isPlaceholderData,
           placeholder: "Search by code, e.g. '1234'",
           title: "Gate Request",
           type: "number",
@@ -257,7 +257,7 @@ function HeaderOptions({
   return (
     <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
       <FlowSearch
-        isLoading={isLoading}
+        isloading={cast.string(isLoading)}
         placeholder="Search by code, e.g. '1234'"
         type='number'
         title='Gate Request'

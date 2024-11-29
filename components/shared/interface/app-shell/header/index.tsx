@@ -38,15 +38,11 @@ type AppShellHeaderProps = {
 } & (
   | {
       withSearch: true;
-      searchProps: {
-        actions: SpotlightActionData[];
-      } & FlowSearchProps;
+      searchProps: FlowSearchProps;
     }
   | {
       withSearch?: false;
-      searchProps?: {
-        actions: SpotlightActionData[];
-      } & FlowSearchProps;
+      searchProps?: FlowSearchProps;
     }
 );
 
@@ -105,10 +101,7 @@ export function AppShellHeader({
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
             {withSearch && (
               <Box hiddenFrom='lg' className='flex items-center'>
-                <FlowSearch
-                  placeholder={searchProps.placeholder}
-                  {...searchProps}
-                />
+                <FlowSearch {...searchProps} />
               </Box>
             )}
             <Flex gap={12} align='center' className='lg:ml-auto'>
