@@ -26,7 +26,7 @@ export default function Overview() {
     toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
   );
 
-  const isRestricted = featureFlags.flags.includes(PAGES.SERVICE_REQUESTS);
+  const isRestricted = featureFlags?.flags?.includes(PAGES.SERVICE_REQUESTS);
 
   const { data, isPlaceholderData } = useQuery({
     queryKey: builder.dashboard.admin.get.get(),

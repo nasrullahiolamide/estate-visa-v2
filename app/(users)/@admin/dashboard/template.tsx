@@ -46,7 +46,7 @@ export default function Template({ children }: TemplateProps) {
   );
 
   const opened = boolean(collapsedNav ?? true);
-  const isRestricted = featureFlags.flags?.some((flag) =>
+  const isRestricted = featureFlags?.flags?.some((flag) =>
     pathname.includes(flag)
   );
 
@@ -162,7 +162,7 @@ export default function Template({ children }: TemplateProps) {
                 opened={opened}
               />
 
-              {!featureFlags.flags.includes(PAGES.SERVICE_REQUESTS) && (
+              {!featureFlags?.flags?.includes(PAGES.SERVICE_REQUESTS) && (
                 <AppShellButton
                   leftSection={<ServiceRequestIcon />}
                   href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}

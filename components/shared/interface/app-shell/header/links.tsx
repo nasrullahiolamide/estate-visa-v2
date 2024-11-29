@@ -96,12 +96,16 @@ export function NavigationLinks() {
       hiddenFrom='lg'
     >
       {links.map((item, index) => {
+        let isRestricted;
+
         const isActive =
           item.href === PAGES.DASHBOARD
             ? pathname === PAGES.DASHBOARD
             : pathname.startsWith(toString(item.href));
 
-        const isRestricted = featureFlags.flags?.includes(item.href);
+        if (featureFlags) {
+          isRestricted = featureFlags.flags?.includes(item.href);
+        }
 
         if (isRestricted) return null;
 
