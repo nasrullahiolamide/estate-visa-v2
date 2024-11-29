@@ -36,7 +36,7 @@ export function ViewGateRequest({ id, status, ...data }: ViewGateRequestProps) {
         message: "Gate Request Approved Successfully",
         autoClose: 1200,
       });
-      modals.close(MODALS.CONFIRMATION);
+      modals.close(MODALS.FORM_DETAILS);
     },
   });
 
