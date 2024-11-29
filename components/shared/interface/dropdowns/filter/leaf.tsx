@@ -4,16 +4,37 @@ import { ArrowDownIcon } from "@/icons";
 import { Menu, RenderTreeNodePayload, Flex } from "@mantine/core";
 import clsx from "clsx";
 
-interface LeafProps extends RenderTreeNodePayload {}
+interface LeafProps extends RenderTreeNodePayload {
+  child_value?: string;
+}
 
-export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
+const SORT_ORDER_OPTIONS = ["a-z", "z-a", "recent"];
+
+export function Leaf({
+  node,
+  expanded,
+  hasChildren,
+  child_value,
+  ...props
+}: LeafProps) {
   const dispatch = useFlowDispatch();
 
   const handleFilter = () => {
+    if (node.children?.length) return;
+
+    const key =
+      node.value === "status"
+        ? "status"
+        : SORT_ORDER_OPTIONS.includes(node.value)
+        ? "sortOrder"
+        : "sortBy";
+
+    const value = node.value;
+
     dispatch({
       type: FlowActionType.SET_FILTER,
       payload: {
-        sortBy: node.value,
+        [key]: value,
       },
     });
   };
@@ -29,7 +50,6 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
     >
       <Menu
         position='right-start'
-        trigger='hover'
         openDelay={100}
         closeDelay={400}
         offset={20}
@@ -45,7 +65,7 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
             {node.children && (
               <ArrowDownIcon
                 style={{
-                  transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
+                  transform: "rotate(270deg)",
                   transition: "transform 0.2s",
                 }}
               />
@@ -61,6 +81,7 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
                 node={childNode}
                 expanded={expanded}
                 hasChildren={hasChildren}
+                child_value={childNode.value}
                 {...props}
               />
             ))}
@@ -70,34 +91,3 @@ export function Leaf({ node, expanded, hasChildren, ...props }: LeafProps) {
     </Menu.Item>
   );
 }
-
-// <Menu.Item
-//   closeMenuOnClick={!hasChildren}
-//   miw={150}
-//   {...elementProps}
-//   className={clsx("hover:bg-gray-1 rounded-none p-4", {
-//     "!bg-purple-4": expanded,
-//   })}
-// >
-//   <Text
-//     size='md'
-//     fz={14}
-//     c='gray.11'
-//     // className='flex items-center gap-4 justify-between sm:justify-start'
-//     className='flex items-center justify-between'
-//   >
-//     <span>{node.label}</span>
-//     {hasChildren && (
-//       <ArrowDownIcon
-//         // className={clsx("rotate-0 sm:rotate-90  order-2 sm:order-1", {
-//         className={clsx("-rotate-90", {
-//           "-rotate-180": expanded,
-//         })}
-//         style={{
-//           transition: "transform 0.2s",
-//         }}
-//       />
-//     )}
-//     {/* <span className='order-1 sm:order-2'>{node.label}</span> */}
-//   </Text>
-// </Menu.Item>
