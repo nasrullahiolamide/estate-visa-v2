@@ -11,6 +11,7 @@ type FilterDropdownProps = MenuProps & {
   data: FilterData;
   icon?: JSX.Element | ReactNode;
   style?: React.CSSProperties;
+  hidden?: boolean;
 } & (
     | {
         showLabel?: true;
@@ -41,6 +42,7 @@ export function FilterDropdown({
               size='md'
               leftSection={Icon}
               rightSection={<ArrowDownIcon />}
+              hidden={props.hidden}
             >
               {label}
             </Button>
@@ -53,13 +55,18 @@ export function FilterDropdown({
                 variant='outline'
                 bg='white'
                 p={0}
+                hidden={props.hidden}
               >
                 {Icon}
               </Button>
             </Tooltip>
           )}
         </Menu.Target>
-        <Menu.Dropdown className='z-20 p-0 overflow-hidden' variant='action'>
+        <Menu.Dropdown
+          className='z-20 p-0 overflow-hidden'
+          variant='action'
+          hidden={props.hidden}
+        >
           <Tree
             data={data}
             selectOnClick

@@ -1,11 +1,13 @@
 import { Flex, FlexProps, Text, TextProps } from "@mantine/core";
 import { useFlowState } from "./flow-context";
+import { Fragment } from "react";
 
 type FlowCurrentPageProps = {
   rootProps?: FlexProps;
   pageProps?: TextProps;
   countProps?: TextProps;
   totalProps?: TextProps;
+  showTotal?: boolean;
 };
 
 export function FlowCurrentPage({
@@ -13,6 +15,7 @@ export function FlowCurrentPage({
   pageProps,
   countProps,
   totalProps,
+  showTotal = true,
 }: FlowCurrentPageProps) {
   const { page, entriesPerPage, totalEntryCount } = useFlowState();
 
@@ -22,6 +25,8 @@ export function FlowCurrentPage({
       className='prose-sm/medium text-primary-text-caption'
       {...rootProps}
     >
+      <Text span>Results: </Text>
+
       <Text span {...pageProps}>
         {entriesPerPage > 0 ? page : 0}
       </Text>
@@ -29,10 +34,14 @@ export function FlowCurrentPage({
       <Text span {...countProps}>
         {entriesPerPage}
       </Text>
-      <Text span> of </Text>
-      <Text span {...totalProps}>
-        {totalEntryCount}
-      </Text>
+      {showTotal && (
+        <Fragment>
+          <Text span> of </Text>
+          <Text span {...totalProps}>
+            {totalEntryCount}
+          </Text>
+        </Fragment>
+      )}
     </Flex>
   );
 }

@@ -57,7 +57,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
       return house
         .filter(({ noOfOccupants, id }) => {
           if (modalType === "add") {
-            return noOfOccupants! <= 1;
+            return noOfOccupants < 1;
           } else {
             return noOfOccupants !== 1 || id === data?.house.id;
           }

@@ -3,16 +3,19 @@
 import dayjs from "dayjs";
 
 import { AxiosError } from "axios";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { Box, Button, Flex, Stack } from "@mantine/core";
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { useFakeGateRequestList } from "@/builders/types/gate-requests";
+import {
+  GateRequestData,
+  useFakeGateRequestList,
+} from "@/builders/types/gate-requests";
 
 import { gateRequestsColumns } from "@/columns/for_gateman/gate-requests";
 import { DownloadIcon } from "@/icons";
@@ -25,7 +28,6 @@ import {
   FlowContentContainer,
   FlowEntriesPerPage,
   FlowFooter,
-  FlowCurrentPage,
   FlowPaper,
   FlowTable,
   FlowFloatingButtons,
@@ -33,9 +35,7 @@ import {
   useFlowState,
   FlowSearch,
 } from "@/components/layout";
-import { SearchTable } from "@/components/shared/search-table";
-import { debounce } from "lodash";
-import { SpotlightActionData } from "@mantine/spotlight";
+import { ViewGateRequest } from "@/components/gateman";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -80,7 +80,6 @@ export default function Gates() {
   const initialGateRequestList = useFakeGateRequestList();
   const pagination = useFlowPagination();
 
-  const [actions, setActions] = useState<SpotlightActionData[]>([]);
   const {
     page,
     pageSize,
@@ -89,6 +88,14 @@ export default function Gates() {
     sortBy,
     sortOrder,
   } = useFlowState();
+
+  function handleView(details: GateRequestData) {
+    modals.open({
+      title: "Gate Request",
+      children: <ViewGateRequest {...details} />,
+      modalId: MODALS.FORM_DETAILS,
+    });
+  }
 
   const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: builder.use().gates.requests.change_status,
@@ -141,7 +148,7 @@ export default function Gates() {
               action: (
                 <Button
                   fz='sm'
-                  size='md'
+                  size='sm'
                   onClick={() => changeStatus({ id, status: "approved" })}
                   loading={isPending && arr.some((req) => req.id === id)}
                   disabled={
@@ -177,6 +184,7 @@ export default function Gates() {
         searchProps={{
           actions: [],
           placeholder: "Search by code...",
+          type: "number",
         }}
         options={
           <HeaderOptions
@@ -198,6 +206,7 @@ export default function Gates() {
                 data={gateRequests.data}
                 columns={gateRequestsColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(details) => handleView(details)}
               />
             ) : (
               <EmptySlot
@@ -211,9 +220,8 @@ export default function Gates() {
             )}
           </FlowPaper>
 
-          <FlowFooter visible={isPlaceholderData}>
-            <FlowCurrentPage />
-            <FlowEntriesPerPage />
+          <FlowFooter visible={isPlaceholderData} ta='center' justify='center'>
+            <FlowEntriesPerPage options={["10", "50", "100", "200"]} />
           </FlowFooter>
         </FlowContentContainer>
 
@@ -247,7 +255,11 @@ function HeaderOptions({
   const { query } = useFlowState();
   return (
     <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
-      <FlowSearch isLoading={isLoading} placeholder='Search by code...' />
+      <FlowSearch
+        isLoading={isLoading}
+        placeholder='Search by code...'
+        type='number'
+      />
       <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
         <Button

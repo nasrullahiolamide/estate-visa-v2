@@ -9,6 +9,7 @@ import {
   Flex,
   Indicator,
   Stack,
+  TextInputProps,
   Title,
 } from "@mantine/core";
 import { APP, decryptUri, PAGES } from "@/packages/libraries";
@@ -19,15 +20,11 @@ import { ProfileData } from "@/builders/types/profile";
 import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 
-import { ArrowBack, BellIcon, EstateVisaLogo } from "@/icons";
-import { SearchEstate } from "@/components/shared/search-estate";
+import { ArrowBack, EstateVisaLogo } from "@/icons";
 import { UserDetails } from "@/components/shared/user";
 import { NavigationLinks } from "./links";
 
 import clsx from "clsx";
-import Link from "next/link";
-import { SearchTable } from "@/components/shared/search-table";
-import { ReactNode } from "react";
 import { SpotlightActionData } from "@mantine/spotlight";
 import { FlowSearch } from "@/components/layout";
 
@@ -43,14 +40,14 @@ type AppShellHeaderProps = {
       searchProps: {
         actions: SpotlightActionData[];
         placeholder?: string;
-      };
+      } & TextInputProps;
     }
   | {
       withSearch?: false;
       searchProps?: {
         actions: SpotlightActionData[];
         placeholder?: string;
-      };
+      } & TextInputProps;
     }
 );
 
@@ -109,7 +106,10 @@ export function AppShellHeader({
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
             {withSearch && (
               <Box hiddenFrom='lg' className='flex items-center'>
-                <FlowSearch placeholder={searchProps.placeholder} />
+                <FlowSearch
+                  placeholder={searchProps.placeholder}
+                  {...searchProps}
+                />
               </Box>
             )}
             <Flex gap={12} align='center' className='lg:ml-auto'>

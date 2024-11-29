@@ -43,6 +43,7 @@ type FlowFloatingButtonsProps = StackProps & { buttons: Button[] };
 
 export function FlowFloatingButtons({
   buttons,
+  hidden,
   ...containerProps
 }: FlowFloatingButtonsProps) {
   const [visible, setVisible] = useState(false);
@@ -84,6 +85,7 @@ export function FlowFloatingButtons({
                     showLabel={false}
                     data={filterData as FilterData}
                     style={styles}
+                    hidden={hidden}
                   />
                 ) : (
                   <Button
@@ -96,6 +98,7 @@ export function FlowFloatingButtons({
                     className='shadow-lg'
                     style={styles}
                     {...btnProps}
+                    hidden={icon !== IconType.UPLOAD ? hidden : false}
                   >
                     {view[icon]}
                   </Button>

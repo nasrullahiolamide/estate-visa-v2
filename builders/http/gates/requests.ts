@@ -12,6 +12,12 @@ const get = function (params?: FilterParams) {
     .then((data) => data.data);
 };
 
+const id = function (id: string) {
+  return api
+    .get<GateRequestData>(`/gate-requests/${id}`)
+    .then((data) => data.data);
+};
+
 const post = function (data: UpdateGateRequestData) {
   return api
     .post<GateRequestData>("/gate-requests", data)
@@ -34,6 +40,7 @@ const remove = function (id: string) {
 
 export const requests = {
   get,
+  id,
   edit,
   change_status,
   post,

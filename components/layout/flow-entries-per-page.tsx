@@ -9,9 +9,13 @@ type FlowEntriesPerPageProps = {
   pageProps?: TextProps;
   countProps?: TextProps;
   totalProps?: TextProps;
+  options?: string[];
 };
 
-export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
+export function FlowEntriesPerPage({
+  rootProps,
+  options = ["10", "30", "50", "100"],
+}: FlowEntriesPerPageProps) {
   const { pageSize } = useFlowState();
   const dispatch = useFlowDispatch();
 
@@ -30,7 +34,7 @@ export function FlowEntriesPerPage({ rootProps }: FlowEntriesPerPageProps) {
         searchable={false}
         clearable={false}
         rightSection={<ArrowDown2 size={14} />}
-        data={["10", "30", "50", "100"]}
+        data={options}
         value={cast.string(pageSize)}
         onChange={(value) => {
           dispatch({

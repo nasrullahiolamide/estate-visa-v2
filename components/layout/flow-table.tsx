@@ -67,7 +67,7 @@ export function FlowTable<T>({
   });
 
   useEffect(() => {
-    setPage(cast.number(pagination.pageIndex));
+    setPage(cast.string(pagination.pageIndex));
   }, [pagination.pageIndex]);
 
   const table = useReactTable({
@@ -159,9 +159,6 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
             "sticky left-0 ": header.column.getIsPinned() === "left",
           }
         )}
-        style={{
-          boxShadow: header.column.getIsPinned() === "left" ? shadow : "none",
-        }}
         colSpan={header.colSpan}
       >
         {header.isPlaceholder ? null : (
@@ -199,7 +196,7 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
 // Table Row Component
 interface TableRowProps<T> {
   row: Row<T>;
-  skeleton: any;
+  skeleton?: boolean;
   bgColor: string;
   onRowClick?: (props: any) => void;
 }
@@ -212,8 +209,9 @@ const TableRow = <T,>({
   return (
     <Table.Tr
       key={row.id}
+      fz={13}
       className={clsx(
-        "hover:bg-blue-50 px-6 sm:py-4 cursor-pointer w-fit text-center capitalize"
+        "hover:bg-blue-5 px-6 sm:py-4 cursor-pointer w-fit text-center capitalize group"
       )}
       onClick={() => onRowClick && onRowClick(row.original)}
     >
@@ -221,17 +219,21 @@ const TableRow = <T,>({
         const isActionButtonCell = cell.column.id === "action";
         return (
           <Table.Td
-            fz={14}
+            fz={13}
             key={cell.id}
             pos='sticky'
             onClick={(e) =>
               isActionButtonCell ? handleClickPropagation(e) : null
             }
-            className={clsx("px-6 sm:py-4 w-fit", bgColor, {
-              skeleton,
-              "fixed z-[4] left-0 shadow-xl":
-                cell.column.getIsPinned() === "left",
-            })}
+            className={clsx(
+              "px-6 sm:py-4 w-fit group-hover:bg-purple-2",
+              bgColor,
+              {
+                skeleton,
+                "fixed z-[4] left-0 shadow-xl":
+                  cell.column.getIsPinned() === "left",
+              }
+            )}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </Table.Td>

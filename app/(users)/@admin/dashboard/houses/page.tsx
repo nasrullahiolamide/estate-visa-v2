@@ -241,16 +241,17 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} wrap='wrap'>
       <Button
         fz='sm'
         size='md'
         leftSection={<Add />}
         onClick={() => handleHouseForm({ modalType: "add" })}
+        hidden={hidden}
       >
         Add New House
       </Button>
-      <FilterDropdown data={filterOptions} />
+      <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
         variant='outline'
         fz='sm'
@@ -268,6 +269,7 @@ function HeaderOptions({
         onClick={onDownload}
         loading={isDownloading}
         disabled={isDownloading}
+        hidden={hidden}
       >
         Download Table
       </Button>

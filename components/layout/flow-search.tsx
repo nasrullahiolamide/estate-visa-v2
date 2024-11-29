@@ -3,6 +3,7 @@ import {
   FocusTrap,
   TextInput,
   TextInputProps,
+  Text,
 } from "@mantine/core";
 import { useClickOutside } from "@mantine/hooks";
 import { Form, useForm } from "@mantine/form";
@@ -68,7 +69,8 @@ export function FlowSearch(props: FlowSearchProps) {
               onClick={() => handleSubmit(form.values)}
               disabled={props.isLoading}
             >
-              <SearchIcon color='white' />
+              {/* <SearchIcon color='white' /> */}
+              <Text>Search</Text>
             </ActionIcon>
           }
           {...props}
