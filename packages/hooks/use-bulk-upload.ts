@@ -69,7 +69,7 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
 };
 
 export type Files = (FileWithPath | undefined)[];
-export type ImportCategory = "houses";
+export type ImportCategory = "houses" | "occupants" | "property_owners";
 export type Status = "dropped" | "uploading" | "uploaded" | "pending" | "error";
 
 export function useBulkUpload<FormValues extends Record<string, unknown>>({

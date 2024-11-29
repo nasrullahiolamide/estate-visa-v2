@@ -5,6 +5,7 @@ import {
   PropertyOwnersList,
   UpdateProperyOwnerData,
 } from "@/builders/types/property-owners";
+import { OnUploadProgress } from "@/packages/hooks/use-on-upload-progress";
 
 const get = function (params?: FilterParams) {
   return api
@@ -21,9 +22,33 @@ const download = function () {
     .get<Blob>("/property-owners/download", { responseType: "blob" })
     .then((data) => data.data);
 };
+
+const upload = function (variables: {
+  formData: FormData;
+  onUploadProgress?: OnUploadProgress;
+}) {
+  const { formData, onUploadProgress } = variables;
+  return api
+    .post("/property-owners/import", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress,
+    })
+    .then((data) => data);
+};
+
+const template = function () {
+  return api
+    .get<Blob>("/downloads/template", { responseType: "blob" })
+    .then((data) => data.data);
+};
+
 export const property_owners = {
   id,
   get,
   post,
   download,
+  upload,
+  template,
 };
