@@ -3,6 +3,7 @@ import { faker } from "@faker-js/faker";
 
 export const SuperAdmin = USER_TYPE.SUPER_ADMIN;
 export const Admin = USER_TYPE.ADMIN;
+export const SubAdmin = USER_TYPE.SUB_ADMIN;
 export const Occupant = USER_TYPE.OCCUPANT;
 export const SubOccupant = USER_TYPE.SUB_OCCUPANT;
 export const PropertyOwner = USER_TYPE.PROPERTY_OWNER;
@@ -10,6 +11,7 @@ export const Gateman = USER_TYPE.GATEMAN;
 
 export const formatUserType: Record<PropertyKey, string> = {
   [USER_TYPE.ADMIN]: "Estate Owner",
+  [USER_TYPE.SUB_ADMIN]: "Sub Admin",
   [USER_TYPE.SUPER_ADMIN]: "Super Admin",
   [USER_TYPE.OCCUPANT]: "Occupant",
   [USER_TYPE.SUB_OCCUPANT]: "Sub Occupant",
@@ -20,8 +22,9 @@ export const formatUserType: Record<PropertyKey, string> = {
 export const AvailableDashboards = [
   SuperAdmin,
   Admin,
+  SubAdmin,
   Occupant,
-  // SubOccupant,
+  SubOccupant,
   PropertyOwner,
   Gateman,
 ] as Array<string>;
