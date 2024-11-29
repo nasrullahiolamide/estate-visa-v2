@@ -157,7 +157,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
     form.initialize({
       houseNumber: pass.string(houseNumber),
-      houseTypeId: pass.string(houseType.id),
+      houseTypeId: pass.string(houseType?.id),
       streetName: pass.string(streetName),
       status: pass.string(status),
       duration: pass.string(validityPeriod.split(" ")[0]),
