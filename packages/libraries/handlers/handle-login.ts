@@ -37,28 +37,11 @@ export function handleLogin({
   const encryptedUser = encryptUri(user);
   const { firstname, lastname, id: uid, email, estate } = { ...user };
 
-  const userInterests = user.estate.interests;
-
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
     payload: string,
     signature: string
   ];
-
-  if (userInterests) {
-    const featureFlags = PAID_FEATURES.filter(
-      (feature) => !userInterests.includes(feature.name)
-    ).map((feature) => feature.href);
-
-    setCookie(
-      APP.FEATURE_FLAG,
-      encryptUri(JSON.stringify({ flags: featureFlags })),
-      {
-        ...cookieOptions,
-        sameSite: "lax",
-      }
-    );
-  }
 
   setCookie(APP.USER_DATA, encryptedUser, cookieOptions);
 
@@ -97,6 +80,20 @@ export function handleLogin({
       ...cookieOptions,
       sameSite: "lax",
     });
+
+    const userInterests = user.estate.interests;
+    const featureFlags = PAID_FEATURES.filter(
+      (feature) => !userInterests.includes(feature.name)
+    ).map((feature) => feature.href);
+
+    setCookie(
+      APP.FEATURE_FLAG,
+      encryptUri(JSON.stringify({ flags: featureFlags })),
+      {
+        ...cookieOptions,
+        sameSite: "lax",
+      }
+    );
   }
 
   if (occupant) {
