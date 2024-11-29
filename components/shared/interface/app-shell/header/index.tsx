@@ -27,6 +27,7 @@ import { NavigationLinks } from "./links";
 import clsx from "clsx";
 import { SpotlightActionData } from "@mantine/spotlight";
 import { FlowSearch } from "@/components/layout";
+import { FlowSearchProps } from "@/components/layout/flow-search";
 
 type AppShellHeaderProps = {
   title: string;
@@ -39,15 +40,13 @@ type AppShellHeaderProps = {
       withSearch: true;
       searchProps: {
         actions: SpotlightActionData[];
-        placeholder?: string;
-      } & TextInputProps;
+      } & FlowSearchProps;
     }
   | {
       withSearch?: false;
       searchProps?: {
         actions: SpotlightActionData[];
-        placeholder?: string;
-      } & TextInputProps;
+      } & FlowSearchProps;
     }
 );
 

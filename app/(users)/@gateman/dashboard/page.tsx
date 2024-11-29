@@ -183,7 +183,8 @@ export default function Gates() {
         withSearch
         searchProps={{
           actions: [],
-          placeholder: "Search by code...",
+          placeholder: "Search by code, e.g. '1234'",
+          title: "Gate Request",
           type: "number",
         }}
         options={
@@ -257,8 +258,9 @@ function HeaderOptions({
     <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
       <FlowSearch
         isLoading={isLoading}
-        placeholder='Search by code...'
+        placeholder="Search by code, e.g. '1234'"
         type='number'
+        title='Gate Request'
       />
       <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
