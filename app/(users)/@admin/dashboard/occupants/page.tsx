@@ -36,6 +36,7 @@ import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
 import { FILE } from "@/packages/libraries/enum";
+import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -55,7 +56,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Occupants",
     modalId: MODALS.UPLOAD_RESOURCES,
-    // children: <BulkUpload  />,
+    children: <BulkUpload type='occupants' />,
   });
 };
 
