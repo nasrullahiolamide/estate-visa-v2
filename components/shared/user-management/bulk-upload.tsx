@@ -24,7 +24,6 @@ import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import fileDownload from "js-file-download";
 import { handleMantineError } from "@/packages/notification/handle-error";
-import { AxiosError } from "axios";
 
 type BulkUploadProps = {
   estateId?: string;
