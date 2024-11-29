@@ -157,7 +157,7 @@ export default function ServiceRequest() {
                 data={serviceRequests.data}
                 columns={serviceRequestsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleView}
+                onRowClick={(data) => handleView(data)}
               />
             ) : (
               <EmptySlot

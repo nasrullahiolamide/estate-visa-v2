@@ -6,6 +6,7 @@ import {
   HousesList,
 } from "@/builders/types/houses";
 import { FilterParams } from "@/builders/types/filter-params";
+import { OnUploadProgress } from "@/packages/hooks/use-on-upload-progress";
 
 const table = function (params?: FilterParams) {
   return api.get<HousesList>("/houses", { params }).then((data) => data.data);
@@ -25,10 +26,33 @@ const download = function () {
     .then((data) => data.data);
 };
 
+const upload = function (variables: {
+  formData: FormData;
+  onUploadProgress?: OnUploadProgress;
+}) {
+  const { formData, onUploadProgress } = variables;
+  return api
+    .post("/houses/import", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      onUploadProgress,
+    })
+    .then((data) => data);
+};
+
+const template = function () {
+  return api
+    .get<Blob>("/houses/template", { responseType: "blob" })
+    .then((data) => data.data);
+};
+
 export const houses = {
   id,
   post,
   download,
+  upload,
+  template,
   list: {
     table,
     all,

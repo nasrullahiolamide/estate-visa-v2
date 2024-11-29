@@ -33,6 +33,7 @@ import {
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
+import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -56,7 +57,7 @@ export default function SubOccupants() {
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().sub_occupants.download,
     onSuccess: (data) => {
-      const filename = useFilename("houses", data.type as MIME_TYPE);
+      const filename = useFilename([FILE.HOUSES], data.type as MIME_TYPE);
       fileDownload(data, filename);
     },
     onError: handleError(),

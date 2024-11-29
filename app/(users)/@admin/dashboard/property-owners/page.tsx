@@ -40,6 +40,7 @@ import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
   { label: "Recently Added", value: "Recent" },
@@ -59,7 +60,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Property Owners",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
+    children: <BulkUpload type={FILE.HOUSES} />,
   });
 };
 
@@ -82,7 +83,10 @@ export default function PropertyOwners() {
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().property_owners.download,
     onSuccess: (data) => {
-      const filename = useFilename("property-owners", data.type as MIME_TYPE);
+      const filename = useFilename(
+        [FILE.PROPERTY_OWNERS],
+        data.type as MIME_TYPE
+      );
       fileDownload(data, filename);
     },
     onError: handleError(),

@@ -35,7 +35,7 @@ import {
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { handleError } from "@/packages/notification";
-import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -55,7 +55,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Occupants",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
+    // children: <BulkUpload  />,
   });
 };
 
@@ -67,7 +67,7 @@ export default function Occupants() {
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().occupants.download,
     onSuccess: (data) => {
-      const filename = useFilename("occupants", data.type as MIME_TYPE);
+      const filename = useFilename([FILE.OCCUPANTS], data.type as MIME_TYPE);
       fileDownload(data, filename);
     },
     onError: handleError(),

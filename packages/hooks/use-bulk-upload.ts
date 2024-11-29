@@ -8,6 +8,8 @@ import { pass } from "@/packages/libraries";
 
 import { useOnUploadProgress } from "./use-on-upload-progress";
 import { Thumbnail } from "@/builders/types/shared";
+import { AxiosError } from "axios";
+import { handleMantineError } from "../notification/handle-error";
 
 export type Upload = {
   data: UploadData;
@@ -59,44 +61,26 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
    * @type {Categories}
    * @default "others"
    */
-  key?: Categories;
-
+  key: ImportCategory;
   /**
    * The form to use for the upload
    */
   form?: FormValues;
-
-  mutationFn?: MutationFunction;
 };
 
 export type Files = (FileWithPath | undefined)[];
-export type Categories = "minutes" | "profile-pictures" | "messages" | "others";
+export type ImportCategory = "houses";
 export type Status = "dropped" | "uploading" | "uploaded" | "pending" | "error";
 
-export function useFileUpload<FormValues extends Record<string, unknown>>({
+export function useBulkUpload<FormValues extends Record<string, unknown>>({
   key,
-  thumbnail,
-  onError,
   onSuccess,
   onDrop,
   onUpload,
   form,
 }: UseFileUploadProps<FormValues>) {
-  const [status, setStatus] = useState<Status>(
-    thumbnail ? "uploaded" : "pending"
-  );
+  const [status, setStatus] = useState<Status>("pending");
   const { progress, onUploadProgress } = useOnUploadProgress();
-
-  /**
-   * Destructure the thumbnail object
-   * @type {Thumbnail}
-   */
-  const {
-    original_filename: file_name,
-    secure_url: file_url,
-    bytes: file_size,
-    resource_type: file_type,
-  } = { ...thumbnail };
 
   /**
    * Created as a state to hold the files to upload
@@ -107,17 +91,20 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    * Created as a state to hold the file preview
    */
   const [preview, setPreview] = useState<Partial<FilePreview>>({
-    name: file_name,
-    url: file_url,
-    size: file_size,
-    type: file_type,
+    name: "",
+    url: "",
+    size: 0,
+    type: "",
   });
 
   const { mutate, isPending, isIdle, isPaused } = useMutation({
     onSuccess,
     mutationKey: builder.upload.get(key),
-    mutationFn: builder.use().upload,
-    onError,
+    mutationFn: builder.use()[key]?.upload,
+    onError(error: AxiosError) {
+      handleMantineError()(error);
+      setStatus("error");
+    },
   });
 
   /**
@@ -186,10 +173,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     };
 
     formData.append("file", file);
-    formData.append("type", key);
-    Object.entries({ ...form }).forEach(([key, value]) => {
-      formData.append(key, pass.string(value));
-    });
+    form?.estateId && formData.append("estateId", pass.string(form?.estateId));
 
     mutate(payload, {
       onSettled() {
@@ -198,7 +182,8 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
       onSuccess() {
         setStatus("uploaded");
       },
-      onError() {
+      onError(error) {
+        console.log("error", error);
         setStatus("error");
       },
     });
@@ -231,6 +216,5 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     handleDrop,
     handleSubmit,
     handlePreview,
-    setStatus,
   };
 }

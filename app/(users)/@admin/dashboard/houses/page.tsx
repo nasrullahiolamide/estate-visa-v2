@@ -11,7 +11,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFakeHousesList } from "@/builders/types/houses";
-import { MODALS } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleError } from "@/packages/notification";
 import { useFilename } from "@/packages/hooks/use-file-name";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
@@ -37,6 +37,8 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { toString } from "lodash";
+import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -58,6 +60,14 @@ const filterOptions = [
   },
 ];
 
+const bulkUpload = () => {
+  modals.open({
+    title: "Bulk Upload of Houses",
+    modalId: MODALS.UPLOAD_RESOURCES,
+    children: <BulkUpload type='houses' />,
+  });
+};
+
 const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
   modals.open({
     title: modalType === "add" ? "Add New House" : "House Details",
@@ -66,23 +76,18 @@ const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
   });
 };
 
-const bulkUpload = () => {
-  modals.open({
-    title: "Bulk Upload of Houses",
-    modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload organization_id={0} upload_type={"Staff Records"} />,
-  });
-};
-
 export default function Houses() {
   const initialHousesList = useFakeHousesList();
   const pagination = useFlowPagination();
+
+  const estateId = toString(APP.ESTATE_ID);
+
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().houses.download,
     onSuccess: (data) => {
-      const filename = useFilename("houses", data.type as MIME_TYPE);
+      const filename = useFilename([FILE.HOUSES], data.type as MIME_TYPE);
       fileDownload(data, filename);
     },
     onError: handleError(),

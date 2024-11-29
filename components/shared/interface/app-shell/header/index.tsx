@@ -109,7 +109,7 @@ export function AppShellHeader({
           <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
             {withSearch && (
               <Box hiddenFrom='lg' className='flex items-center'>
-                <FlowSearch />
+                <FlowSearch placeholder={searchProps.placeholder} />
               </Box>
             )}
             <Flex gap={12} align='center' className='lg:ml-auto'>
