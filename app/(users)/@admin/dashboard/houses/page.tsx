@@ -174,6 +174,9 @@ export default function Houses() {
                 data={houses.data}
                 columns={housesColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleHouseForm({ id: data.id, modalType: "view" })
+                }
               />
             ) : (
               <EmptySlot

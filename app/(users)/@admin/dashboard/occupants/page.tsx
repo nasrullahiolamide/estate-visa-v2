@@ -154,7 +154,9 @@ export default function Occupants() {
                 data={occupants.data}
                 columns={occupantsColumns}
                 skeleton={isPlaceholderData}
-                // onRowClick={handleOccupantForm}
+                onRowClick={(data) =>
+                  handleOccupantForm({ data, modalType: "view" })
+                }
               />
             ) : (
               <EmptySlot

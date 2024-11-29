@@ -175,6 +175,9 @@ export default function PropertyOwners() {
                 data={propertyOwners.data}
                 columns={propertyOwnersColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handlePropertyOwnerForm({ data, modalType: "view" })
+                }
               />
             ) : (
               <EmptySlot
