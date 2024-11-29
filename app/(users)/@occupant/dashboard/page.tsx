@@ -9,6 +9,7 @@ import {
   CountDown,
 } from "@/components/occupant/overview";
 import { APP, decryptUri, PAGES } from "@/packages/libraries";
+import { getFeatureFlag } from "@/packages/libraries/auth";
 
 import { Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
@@ -28,11 +29,8 @@ export default function Overview() {
     select: (data) => data,
   });
 
-  const featureFlags: FeatureFlag = JSON.parse(
-    toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
-  );
-
-  const isRestricted = featureFlags.flags.includes(PAGES.SERVICE_REQUESTS);
+  const flags = getFeatureFlag();
+  const isRestricted = flags.includes(PAGES.SERVICE_REQUESTS);
 
   return (
     <Fragment>

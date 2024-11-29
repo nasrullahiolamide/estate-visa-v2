@@ -25,6 +25,7 @@ import {
   SUPER_ADMIN_ROUTES,
   SUB_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
+import { getFeatureFlag } from "@/packages/libraries/auth";
 
 const view: Record<PropertyKey, NavLinkType> = {
   [USER_TYPE.ADMIN]: ADMIN_ROUTES,
@@ -46,8 +47,7 @@ type FeatureFlag = Record<string, string[]>;
 
 export function NavigationLinks() {
   const userId = toString(getCookie(APP.USER_ID));
-
-  const featureFlags: FeatureFlag = decryptUri(getCookie(APP.FEATURE_FLAG));
+  const flags = getFeatureFlag();
 
   const [links, setLinks] = useState<NavLinkType>([]);
   const activeLinkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
@@ -94,17 +94,12 @@ export function NavigationLinks() {
       hiddenFrom='lg'
     >
       {links.map((item, index) => {
-        let isRestricted;
-
         const isActive =
           item.href === PAGES.DASHBOARD
             ? pathname === PAGES.DASHBOARD
             : pathname.startsWith(toString(item.href));
 
-        if (featureFlags) {
-          isRestricted = featureFlags.flags?.includes(item.href);
-        }
-
+        const isRestricted = flags.some((flag) => flag === item.href);
         if (isRestricted) return null;
 
         return (

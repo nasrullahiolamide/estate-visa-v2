@@ -1,4 +1,6 @@
-import { USER_TYPE } from "./enum";
+import { getCookie } from "cookies-next";
+import { decryptUri } from "./encryption";
+import { APP, USER_TYPE } from "./enum";
 
 export function isAdmin(userType: string) {
   return USER_TYPE.ADMIN.endsWith(userType);
@@ -25,4 +27,24 @@ export function isPropertyOwner(userType: string) {
 
 export function isGateMan(userType: string) {
   return USER_TYPE.GATEMAN.endsWith(userType);
+}
+
+export function isSubAdmin(userType: string) {
+  return USER_TYPE.SUB_ADMIN.endsWith(userType);
+}
+
+export function getFeatureFlag() {
+  let featureFlags: string[] = [];
+
+  try {
+    const cookieValue = getCookie(APP.FEATURE_FLAG) || "[]";
+    featureFlags = JSON.parse(
+      decryptUri(cookieValue) as unknown as string
+    ) as string[];
+  } catch (error) {
+    console.error("Error parsing FEATURE_FLAG cookie:", error);
+    featureFlags = [];
+  }
+
+  return featureFlags;
 }

@@ -10,6 +10,7 @@ import {
 } from "@/components/admin/overview";
 import { AppShellHeader, AppShellMain } from "@/components/admin/shared";
 import { decryptUri, APP, PAGES } from "@/packages/libraries";
+import { getFeatureFlag } from "@/packages/libraries/auth";
 
 import { Stack, Flex } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
@@ -22,11 +23,8 @@ type FetureFlag = Record<string, string[]>;
 export default function Overview() {
   const initialAdminData = useFakeAdminDashboardData();
 
-  const featureFlags: FetureFlag = JSON.parse(
-    toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
-  );
-
-  const isRestricted = featureFlags?.flags?.includes(PAGES.SERVICE_REQUESTS);
+  const flags = getFeatureFlag();
+  const isRestricted = flags.some((flag) => flag === PAGES.SERVICE_REQUESTS);
 
   const { data, isPlaceholderData } = useQuery({
     queryKey: builder.dashboard.admin.get.get(),

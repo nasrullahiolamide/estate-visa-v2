@@ -86,14 +86,18 @@ export function handleLogin({
       (feature) => !userInterests.includes(feature.name)
     ).map((feature) => feature.href);
 
-    setCookie(
-      APP.FEATURE_FLAG,
-      encryptUri(JSON.stringify({ flags: featureFlags })),
-      {
+    try {
+      const encodedFeatureFlags = encryptUri(JSON.stringify(featureFlags));
+
+      console.log({ encodedFeatureFlags });
+
+      setCookie(APP.FEATURE_FLAG, encodedFeatureFlags, {
         ...cookieOptions,
         sameSite: "lax",
-      }
-    );
+      });
+    } catch (error) {
+      console.error("Error encoding FEATURE_FLAG cookie:", error);
+    }
   }
 
   if (occupant) {
