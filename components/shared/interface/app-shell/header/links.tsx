@@ -47,9 +47,7 @@ type FeatureFlag = Record<string, string[]>;
 export function NavigationLinks() {
   const userId = toString(getCookie(APP.USER_ID));
 
-  const featureFlags: FeatureFlag = JSON.parse(
-    toString(decryptUri(getCookie(APP.FEATURE_FLAG)))
-  );
+  const featureFlags: FeatureFlag = decryptUri(getCookie(APP.FEATURE_FLAG));
 
   const [links, setLinks] = useState<NavLinkType>([]);
   const activeLinkRefs = useRef<Array<HTMLAnchorElement | null>>([]);
