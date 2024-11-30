@@ -163,11 +163,6 @@ export const SUB_OCCUPANT_ROUTES = [
     icon: AirlineManageGateIcon,
   },
   {
-    title: "Notice Board",
-    href: makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
-    icon: NoticeBoardIcon,
-  },
-  {
     title: "Service Requests",
     href: makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS),
     icon: ServiceRequestIcon,
