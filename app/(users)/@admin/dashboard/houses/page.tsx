@@ -182,11 +182,14 @@ export default function Houses() {
               <EmptySlot
                 title='No houses added yet. Start by adding a house to manage!'
                 src='house'
-                withButton
-                text='Add New House'
-                btnProps={{
-                  leftSection: <Add />,
+                withDoubleButton
+                primaryText='Add New House'
+                secondaryText='Bulk Upload'
+                primaryBtnProps={{
                   onClick: () => handleHouseForm({ modalType: "add" }),
+                }}
+                secondaryBtnProps={{
+                  onClick: bulkUpload,
                 }}
               />
             )}
@@ -244,17 +247,16 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} wrap='wrap' hidden={hidden}>
       <Button
         fz='sm'
         size='md'
         leftSection={<Add />}
         onClick={() => handleHouseForm({ modalType: "add" })}
-        hidden={hidden}
       >
         Add New House
       </Button>
-      <FilterDropdown data={filterOptions} hidden={hidden} />
+      <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'
         fz='sm'
@@ -272,7 +274,6 @@ function HeaderOptions({
         onClick={onDownload}
         loading={isDownloading}
         disabled={isDownloading}
-        hidden={hidden}
       >
         Download Table
       </Button>

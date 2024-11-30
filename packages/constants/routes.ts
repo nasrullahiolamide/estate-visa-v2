@@ -135,7 +135,7 @@ export const OCCUPANT_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   {
     title: "Gate Requests",
-    href: (PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
+    href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
     icon: AirlineManageGateIcon,
   },
   {
@@ -159,7 +159,7 @@ export const SUB_OCCUPANT_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   {
     title: "Gate Requests",
-    href: (PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
+    href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
     icon: AirlineManageGateIcon,
   },
   {
