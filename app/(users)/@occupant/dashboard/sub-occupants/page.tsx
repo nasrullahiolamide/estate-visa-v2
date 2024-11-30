@@ -128,7 +128,9 @@ export default function SubOccupants() {
                 data={subOccupants.data}
                 columns={ActionSubOccupantsColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={() => handleSubOccupantForm({ modalType: "view" })}
+                onRowClick={(data) =>
+                  handleSubOccupantForm({ modalType: "view", data })
+                }
               />
             ) : (
               <EmptySlot
