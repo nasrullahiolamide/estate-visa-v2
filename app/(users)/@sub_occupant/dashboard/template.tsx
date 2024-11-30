@@ -19,6 +19,7 @@ import {
   DashboardIcon,
   EstateVisaLogo,
   GroupDiscussionIcon,
+  NoticeBoardIcon,
   ServiceRequestIcon,
 } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
@@ -114,13 +115,13 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gate Requests"}
                 opened={opened}
               />
-              {/* 
+
               <AppShellButton
                 leftSection={<NoticeBoardIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
                 label={"Notice Board"}
                 opened={opened}
-              /> */}
+              />
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}

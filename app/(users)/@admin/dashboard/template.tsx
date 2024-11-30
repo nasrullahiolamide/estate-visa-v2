@@ -22,6 +22,7 @@ import {
   GroupDiscussionIcon,
   HousesIcon,
   ServiceRequestIcon,
+  TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
 } from "@/icons";
@@ -146,12 +147,12 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gates"}
                 opened={opened}
               />
-              {/* <AppShellButton
+              <AppShellButton
                 leftSection={<TablerMessageIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
                 label={"Messages"}
                 opened={opened}
-              /> */}
+              />
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}

@@ -84,11 +84,11 @@ export const ADMIN_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.GATES),
     icon: GateIcon,
   },
-  // {
-  //   title: "Messages",
-  //   href: (PAGES.DASHBOARD, PAGES.MESSAGES),
-  //   icon: TablerMessageIcon,
-  // },
+  {
+    title: "Messages",
+    href: (PAGES.DASHBOARD, PAGES.MESSAGES),
+    icon: TablerMessageIcon,
+  },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
@@ -129,11 +129,11 @@ export const SUB_ADMIN_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.GATES),
     icon: GateIcon,
   },
-  // {
-  //   title: "Messages",
-  //   href: (PAGES.DASHBOARD, PAGES.MESSAGES),
-  //   icon: TablerMessageIcon,
-  // },
+  {
+    title: "Messages",
+    href: (PAGES.DASHBOARD, PAGES.MESSAGES),
+    icon: TablerMessageIcon,
+  },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),

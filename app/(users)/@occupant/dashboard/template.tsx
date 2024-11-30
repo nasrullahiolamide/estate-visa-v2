@@ -19,7 +19,9 @@ import {
   DashboardIcon,
   EstateVisaLogo,
   GroupDiscussionIcon,
+  NoticeBoardIcon,
   ServiceRequestIcon,
+  TablerMessageIcon,
   UserGroupIcon,
 } from "@/icons";
 import { ProfileData } from "@/builders/types/profile";
@@ -113,7 +115,7 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gate Requests"}
                 opened={opened}
               />
-              {/* <AppShellButton
+              <AppShellButton
                 leftSection={<TablerMessageIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
                 label={"Messages"}
@@ -124,7 +126,7 @@ export default function Template({ children }: TemplateProps) {
                 href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
                 label={"Notice Board"}
                 opened={opened}
-              /> */}
+              />
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
