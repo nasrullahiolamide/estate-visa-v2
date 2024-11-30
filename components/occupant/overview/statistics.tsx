@@ -65,7 +65,7 @@ export function StatisticsOverview({
         skeleton={isPlaceholderData}
       />
 
-      <StatisticsCard
+      {/* <StatisticsCard
         icon={TablerMessageIcon}
         title='Total Messages'
         value={totalMessages}
@@ -73,7 +73,7 @@ export function StatisticsOverview({
         label='Manage Messages'
         href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         skeleton={isPlaceholderData}
-      />
+      /> */}
 
       <StatisticsCard
         icon={ServiceRequestIcon}
