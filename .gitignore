@@ -47,4 +47,4 @@ certificates
 **/public/worker-*.js.map
 
 #README files
-README-ignore.md
+/README-ignore.md
