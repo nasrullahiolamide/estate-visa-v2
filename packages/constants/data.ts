@@ -13,7 +13,7 @@ export const PAID_FEATURES = [
     href: PAGES.MARKET_PLACE,
   },
   {
-    name: "Service Requests",
+    name: "Service Request",
     href: PAGES.SERVICE_REQUESTS,
   },
 ];

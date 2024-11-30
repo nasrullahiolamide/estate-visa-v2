@@ -169,6 +169,9 @@ export default function ServiceRequest() {
                 data={serviceRequests.data}
                 columns={serviceRequestsColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleRequestForm({ modalType: "edit", data })
+                }
               />
             ) : (
               <EmptySlot

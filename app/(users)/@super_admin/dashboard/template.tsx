@@ -77,13 +77,6 @@ export default function Template({ children }: TemplateProps) {
               label={"Estates"}
               opened={opened}
             />
-
-            <AppShellButton
-              leftSection={<DashboardIcon />}
-              href={PAGES.DASHBOARD}
-              label={"Overview"}
-              opened={opened}
-            />
           </Stack>
         </AppShell.Section>
       </AppShell.Navbar>

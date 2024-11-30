@@ -22,6 +22,7 @@ import {
   FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
+  FlowSearch,
 } from "@/components/layout";
 import { modals } from "@mantine/modals";
 import { ViewServiceRequest } from "@/components/admin/service-requests/view";
@@ -146,6 +147,10 @@ export default function ServiceRequest() {
     <Fragment>
       <AppShellHeader
         title='Service Request'
+        withSearch
+        searchProps={{
+          title: "Service Request",
+        }}
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
@@ -191,7 +196,7 @@ export default function ServiceRequest() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      {/* <SearchTable /> */}
+      <FlowSearch title='Service Request' />
       <FilterDropdown data={filterOptions} />
     </Flex>
   );
