@@ -66,6 +66,7 @@ export function FlowFloatingButtons({
         zIndex: 10,
       }}
       hiddenFrom='lg'
+      hidden={hidden}
       {...containerProps}
     >
       <Stack justify='center' align='center'>
