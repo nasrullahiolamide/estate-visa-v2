@@ -195,16 +195,23 @@ export function Conversations({
             </Flex>
           );
         })
+      ) : !isAdmin ? (
+        <Stack h={760}>
+          <EmptySlot
+            src='no-talk'
+            title={"You have no messages yet. Check back later for updates!"}
+          />
+        </Stack>
       ) : (
         <Stack h={760}>
           <EmptySlot
             src='no-talk'
             title={
               emptyProps?.title ||
-              "You have no messages yet. Check back later for updates!"
+              "You have no messages yet. Start a conversation to stay connected!"
             }
-            withButton={isAdmin}
-            text={emptyProps?.text || ""}
+            withButton
+            text={emptyProps?.text}
             btnProps={{
               ...emptyProps?.btnProps,
             }}
