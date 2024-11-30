@@ -169,7 +169,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
   return (
     <Drawer
       scrollAreaComponent={ScrollAreaAutosize}
-      title={"Shedule meeting"}
+      title={"Schedule meeting"}
       onClose={() => {
         form.reset();
         closeDrawer();

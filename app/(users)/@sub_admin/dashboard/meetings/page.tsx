@@ -163,7 +163,7 @@ export default function Meetings() {
                 title='You have no meetings yet. Schedule one to get started!'
                 src='meeting'
                 withButton
-                text='Shedule Meeting'
+                text='Schedule Meeting'
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: scheduleMeeting,
