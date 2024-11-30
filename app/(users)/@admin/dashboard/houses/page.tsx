@@ -254,7 +254,6 @@ function HeaderOptions({
 }: HeaderOptionsProps) {
   return (
     <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Houses' placeholder='Search houses...' />
       <Button
         fz='sm'
         size='md'
@@ -263,6 +262,7 @@ function HeaderOptions({
       >
         Add New House
       </Button>
+      <FlowSearch title='Houses' placeholder='Search houses...' />
       <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'

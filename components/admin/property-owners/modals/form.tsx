@@ -118,6 +118,7 @@ export function PropertyOwnerForm({
           label='House Number'
           placeholder='Select House Number'
           disabled={isViewing}
+          searchable
           withAsterisk
           {...form.getInputProps("houseId")}
         />

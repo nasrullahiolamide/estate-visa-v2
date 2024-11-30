@@ -136,6 +136,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
           label='House Number'
           placeholder='Select House Number'
           disabled={isViewing}
+          searchable
           withAsterisk
           {...form.getInputProps("houseId")}
         />

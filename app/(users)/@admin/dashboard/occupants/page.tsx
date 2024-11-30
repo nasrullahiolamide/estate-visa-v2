@@ -233,7 +233,6 @@ function HeaderOptions({
 }: HeaderOptionsProps) {
   return (
     <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Occupants' placeholder='Search occupants...' />
       <Button
         fz='sm'
         size='md'
@@ -242,6 +241,7 @@ function HeaderOptions({
       >
         Add New Occupant
       </Button>
+      <FlowSearch title='Occupants' placeholder='Search occupants...' />
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
         variant='outline'

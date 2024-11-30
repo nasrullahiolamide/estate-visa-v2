@@ -198,6 +198,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           label='House Type'
           nothingFoundMessage='No house types found'
           disabled={isViewing || (modalType !== "add" && isLoading)}
+          searchable
           withAsterisk
           {...form.getInputProps("houseTypeId")}
         />
