@@ -67,7 +67,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       bg='accent.12'
       navbar={{
-        width: opened ? 240 : 95,
+        width: opened ? 260 : 95,
         breakpoint: "lg",
         collapsed: { mobile: true },
       }}

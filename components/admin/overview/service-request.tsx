@@ -116,7 +116,7 @@ export function ServiceRequests() {
           </Flex>
         </Fragment>
       ) : (
-        <Stack gap={0} h={320}>
+        <Stack gap={0} h={250}>
           <NoData />
           <Text ta='center'>No Data Available</Text>
         </Stack>
