@@ -41,7 +41,7 @@ export function StatisticsOverview({
       <StatisticsCard
         icon={UserFriendsIcon}
         title='Total Occupants'
-        value={totalOccupants}
+        total={totalOccupants}
         label='Manage Occupants'
         href={makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS)}
         skeleton={isPlaceholderData}
@@ -50,7 +50,7 @@ export function StatisticsOverview({
       <StatisticsCard
         icon={UserGroupIcon}
         title='Total Sub-Occupants'
-        value={totalSubOccupants}
+        total={totalSubOccupants}
         label='Manage Sub-Occupants'
         href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
         skeleton={isPlaceholderData}
@@ -59,7 +59,7 @@ export function StatisticsOverview({
       <StatisticsCard
         icon={GateIcon}
         title='Total Gates'
-        value={totalGates}
+        total={totalGates}
         label='Manage Gates'
         href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
         skeleton={isPlaceholderData}

@@ -60,7 +60,7 @@ export function StatisticsCard({
         )}
       </Stack>
       <Text fz={40} fw={500}>
-        {numerator ?? total ?? "-"}
+        {numerator || total || "-"}
 
         {denominator && (
           <Text span fw={500} fz={24} c='gray.7'>

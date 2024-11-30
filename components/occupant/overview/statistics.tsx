@@ -69,6 +69,7 @@ export function StatisticsOverview({
         icon={TablerMessageIcon}
         title='Total Messages'
         value={totalMessages}
+        total={totalMessages}
         label='Manage Messages'
         href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         skeleton={isPlaceholderData}
@@ -78,6 +79,7 @@ export function StatisticsOverview({
         icon={ServiceRequestIcon}
         title='Total Service Requests'
         value={totalServiceRequests}
+        total={totalServiceRequests}
         label='Manage Service Requests'
         href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
         skeleton={isPlaceholderData}
