@@ -21,45 +21,18 @@ export function AddSubAdmins() {
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
-  const [isCopied, setIsCopied] = useState(false);
-
   const { mutate, isPending } = useMutation({
     mutationFn: builder.use().sub_admins.post,
-    onSuccess: (data) => {
-      // TODO: Delete later
-      const password = data.password;
-      const handleCopy = () => {
-        navigator.clipboard.writeText(password ?? "");
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 3000);
-      };
-      toast.warning(
-        <div>
-          <p>This is a temporary message.</p>
-          <p>Sub Admin has been created successfully.</p>
-          <div className='flex mt-3 items-center justify-center'>
-            <p>
-              Use this password to login: <strong>{password}</strong>
-            </p>
-            <button
-              onClick={handleCopy}
-              style={{ marginInline: "10px", cursor: "pointer" }}
-            >
-              {isCopied ? "Copied!" : <Copy size={24} />}
-            </button>
-          </div>
-        </div>
-      );
-      /////////////
-
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.sub_admins.get.get(),
       });
 
       modals.close(MODALS.ADD_SUB_ADMIN);
-      // handleSuccess({
-      //   message: "Sub-Admin Added Successfully",
-      // });
+      handleSuccess({
+        message: "Sub-Admin Added Successfully",
+        autoClose: 500,
+      });
     },
     onError: handleError(),
   });
