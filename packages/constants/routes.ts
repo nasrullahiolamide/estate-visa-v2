@@ -84,11 +84,11 @@ export const ADMIN_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.GATES),
     icon: GateIcon,
   },
-  {
-    title: "Messages",
-    href: (PAGES.DASHBOARD, PAGES.MESSAGES),
-    icon: TablerMessageIcon,
-  },
+  // {
+  //   title: "Messages",
+  //   href: (PAGES.DASHBOARD, PAGES.MESSAGES),
+  //   icon: TablerMessageIcon,
+  // },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
@@ -129,11 +129,11 @@ export const SUB_ADMIN_ROUTES = [
     href: makePath(PAGES.DASHBOARD, PAGES.GATES),
     icon: GateIcon,
   },
-  {
-    title: "Messages",
-    href: (PAGES.DASHBOARD, PAGES.MESSAGES),
-    icon: TablerMessageIcon,
-  },
+  // {
+  //   title: "Messages",
+  //   href: (PAGES.DASHBOARD, PAGES.MESSAGES),
+  //   icon: TablerMessageIcon,
+  // },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
@@ -158,16 +158,16 @@ export const OCCUPANT_ROUTES = [
     href: (PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
     icon: AirlineManageGateIcon,
   },
-  {
-    title: "Messages",
-    href: (PAGES.DASHBOARD, PAGES.MESSAGES),
-    icon: TablerMessageIcon,
-  },
-  {
-    title: "Notice Board",
-    href: (PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
-    icon: NoticeBoardIcon,
-  },
+  // {
+  //   title: "Messages",
+  //   href: (PAGES.DASHBOARD, PAGES.MESSAGES),
+  //   icon: TablerMessageIcon,
+  // },
+  // {
+  //   title: "Notice Board",
+  //   href: (PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
+  //   icon: NoticeBoardIcon,
+  // },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
@@ -197,11 +197,11 @@ export const SUB_OCCUPANT_ROUTES = [
     href: (PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
     icon: AirlineManageGateIcon,
   },
-  {
-    title: "Notice Board",
-    href: (PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
-    icon: NoticeBoardIcon,
-  },
+  // {
+  //   title: "Notice Board",
+  //   href: (PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
+  //   icon: NoticeBoardIcon,
+  // },
   {
     title: "Meetings",
     href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),

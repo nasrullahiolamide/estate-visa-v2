@@ -115,18 +115,18 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gate Requests"}
                 opened={opened}
               />
-              <AppShellButton
+              {/* <AppShellButton
                 leftSection={<TablerMessageIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
                 label={"Messages"}
                 opened={opened}
-              />
-              <AppShellButton
+              /> */}
+              {/* <AppShellButton
                 leftSection={<NoticeBoardIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
                 label={"Notice Board"}
                 opened={opened}
-              />
+              /> */}
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
