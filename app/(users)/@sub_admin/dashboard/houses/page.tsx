@@ -35,6 +35,7 @@ import {
   FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
+  FlowSearch,
 } from "@/components/layout";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
 import { toString } from "lodash";
@@ -153,6 +154,11 @@ export default function Houses() {
     <Fragment>
       <AppShellHeader
         title='Houses'
+        withSearch
+        searchProps={{
+          title: "Houses",
+          placeholder: "Search houses...",
+        }}
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -248,6 +254,7 @@ function HeaderOptions({
 }: HeaderOptionsProps) {
   return (
     <Flex gap={14} wrap='wrap' hidden={hidden}>
+      <FlowSearch title='Houses' placeholder='Search houses...' />
       <Button
         fz='sm'
         size='md'

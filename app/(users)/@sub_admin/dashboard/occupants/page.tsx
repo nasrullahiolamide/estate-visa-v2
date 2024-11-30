@@ -31,6 +31,7 @@ import {
   FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
+  FlowSearch,
 } from "@/components/layout";
 import { MIME_TYPE } from "@/builders/types/shared";
 import { useFilename } from "@/packages/hooks/use-file-name";
@@ -133,6 +134,11 @@ export default function Occupants() {
     <Fragment>
       <AppShellHeader
         title='Occupants'
+        withSearch
+        searchProps={{
+          placeholder: "Search occupants...",
+          title: "Occupants",
+        }}
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -227,6 +233,7 @@ function HeaderOptions({
 }: HeaderOptionsProps) {
   return (
     <Flex gap={14} wrap='wrap' hidden={hidden}>
+      <FlowSearch title='Occupants' placeholder='Search occupants...' />
       <Button
         fz='sm'
         size='md'
