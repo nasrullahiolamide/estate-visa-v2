@@ -146,7 +146,7 @@ export default function SubAdmins() {
                 data={subAdmins.data}
                 columns={subAdminListColumns}
                 skeleton={isPlaceholderData}
-                onRowClick={handleViewEdit}
+                onRowClick={(data) => handleViewEdit(data)}
               />
             ) : (
               <EmptySlot

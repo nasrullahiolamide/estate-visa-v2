@@ -13,7 +13,10 @@ import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
 import { subOccupantsColumns } from "@/columns/for_admins/sub-occupants";
 import { DownloadIcon } from "@/icons";
-import { useFakeSubOccupantsList } from "@/builders/types/sub-occupants";
+import {
+  SubOccupantsData,
+  useFakeSubOccupantsList,
+} from "@/builders/types/sub-occupants";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -41,7 +44,7 @@ const filterOptions = [
   { label: "Name(Z-A)", value: "z-a" },
 ];
 
-const handleSubOccupantForm = ({ data }: SubOccupantsFormProps) => {
+const handleSubOccupantForm = (data: SubOccupantsData) => {
   modals.open({
     title: "Sub Occupant Details",
     modalId: MODALS.FORM_DETAILS,
@@ -52,7 +55,7 @@ const handleSubOccupantForm = ({ data }: SubOccupantsFormProps) => {
 export default function SubOccupants() {
   const initialSubOccupantsList = useFakeSubOccupantsList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
     mutationFn: builder.use().sub_occupants.download,
@@ -64,12 +67,18 @@ export default function SubOccupants() {
   });
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_occupants.get.get(),
+    queryKey: builder.sub_occupants.get.get({
+      page,
+      pageSize,
+      search,
+      sortOrder,
+    }),
     queryFn: () =>
       builder.use().sub_occupants.get({
         page,
         pageSize,
         search,
+        sortOrder,
       }),
     placeholderData: initialSubOccupantsList,
     select({ total, page, data, pageSize }) {
@@ -118,6 +127,7 @@ export default function SubOccupants() {
                 data={subOccupants.data}
                 columns={subOccupantsColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) => handleSubOccupantForm(data)}
               />
             ) : (
               <EmptySlot

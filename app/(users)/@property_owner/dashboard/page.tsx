@@ -39,7 +39,12 @@ export default function Minutes() {
   const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get(view),
+    queryKey: builder.meetings.get.table.get({
+      page,
+      pageSize,
+      search,
+      status: view,
+    }),
     queryFn: () =>
       builder.use().meetings.get.table({
         estateId,

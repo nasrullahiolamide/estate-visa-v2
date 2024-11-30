@@ -162,6 +162,9 @@ export default function Gates() {
                 data={gateRequests.data}
                 columns={gateRequestsColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleGateRequestForm({ modalType: "view", data })
+                }
               />
             ) : (
               <EmptySlot

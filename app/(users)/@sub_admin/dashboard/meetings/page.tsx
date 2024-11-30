@@ -70,12 +70,25 @@ export default function Meetings() {
 
   const { meetingProps, scheduleMeeting, editMeeting } =
     useMeetingDrawer(false);
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const { page, pageSize, query: search, status, sortOrder } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get(),
+    queryKey: builder.meetings.get.table.get({
+      page,
+      pageSize,
+      status,
+      sortOrder,
+      search,
+    }),
     queryFn: () =>
-      builder.use().meetings.get.table({ estateId, page, pageSize, search }),
+      builder.use().meetings.get.table({
+        estateId,
+        page,
+        pageSize,
+        search,
+        status,
+        sortOrder,
+      }),
     placeholderData: initialMeetingList,
     select({ total, page, data, pageSize }) {
       return {
