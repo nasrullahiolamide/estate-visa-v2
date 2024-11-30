@@ -17,8 +17,8 @@ import { useFilename } from "@/packages/hooks/use-file-name";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { HousesActions } from "@/components/sub-admin/houses/actions";
-import { housesColumns } from "@/columns/for_sub_admins/houses";
+import { HousesActions } from "@/components/admin/houses/actions";
+import { housesColumns } from "@/columns/for_admins/houses";
 import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   HouseForm,
@@ -37,6 +37,7 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { toString } from "lodash";
 import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
@@ -79,6 +80,8 @@ export default function Houses() {
   const initialHousesList = useFakeHousesList();
   const pagination = useFlowPagination();
 
+  const estateId = toString(APP.ESTATE_ID);
+
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
@@ -117,11 +120,14 @@ export default function Houses() {
             ...list,
             action: (
               <HousesActions
-                data={list}
+                id={list.id}
+                isActive={list.status.toLowerCase() === "active"}
                 handlers={{
                   onAdd: () => handleHouseForm({ modalType: "add" }),
                   onView: () =>
                     handleHouseForm({ id: list.id, modalType: "view" }),
+                  onEdit: () =>
+                    handleHouseForm({ id: list.id, modalType: "edit" }),
                 }}
               />
             ),
@@ -176,11 +182,14 @@ export default function Houses() {
               <EmptySlot
                 title='No houses added yet. Start by adding a house to manage!'
                 src='house'
-                withButton
-                text='Add New House'
-                btnProps={{
-                  leftSection: <Add />,
+                withDoubleButton
+                primaryText='Add New House'
+                secondaryText='Bulk Upload'
+                primaryBtnProps={{
                   onClick: () => handleHouseForm({ modalType: "add" }),
+                }}
+                secondaryBtnProps={{
+                  onClick: bulkUpload,
                 }}
               />
             )}
@@ -238,17 +247,16 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} wrap='wrap' hidden={hidden}>
       <Button
         fz='sm'
         size='md'
         leftSection={<Add />}
         onClick={() => handleHouseForm({ modalType: "add" })}
-        hidden={hidden}
       >
         Add New House
       </Button>
-      <FilterDropdown data={filterOptions} hidden={hidden} />
+      <FilterDropdown data={filterOptions} />
       <Button
         variant='outline'
         fz='sm'
@@ -266,7 +274,6 @@ function HeaderOptions({
         onClick={onDownload}
         loading={isDownloading}
         disabled={isDownloading}
-        hidden={hidden}
       >
         Download Table
       </Button>

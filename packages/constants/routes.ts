@@ -159,13 +159,13 @@ export const SUB_OCCUPANT_ROUTES = [
   { title: "Overview", href: PAGES.DASHBOARD, icon: DashboardIcon },
   {
     title: "Gate Requests",
-    href: (PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
+    href: makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS),
     icon: AirlineManageGateIcon,
   },
   {
-    title: "Meetings",
-    href: makePath(PAGES.DASHBOARD, PAGES.MEETINGS),
-    icon: GroupDiscussionIcon,
+    title: "Notice Board",
+    href: makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD),
+    icon: NoticeBoardIcon,
   },
   {
     title: "Service Requests",

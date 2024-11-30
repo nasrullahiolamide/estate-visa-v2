@@ -5,7 +5,6 @@ import {
   Button,
   ButtonProps,
   Stack,
-  Text,
   Title,
 } from "@mantine/core";
 import Image from "next/image";
@@ -39,6 +38,22 @@ type EmptySlotProps = BoxProps & {
         text?: string;
         btnProps?: BtnProps;
       }
+  ) &
+  (
+    | {
+        withDoubleButton: true;
+        primaryText: string;
+        secondaryText: string;
+        primaryBtnProps: BtnProps;
+        secondaryBtnProps: BtnProps;
+      }
+    | {
+        withDoubleButton?: false;
+        primaryText?: string;
+        secondaryText?: string;
+        primaryBtnProps?: BtnProps;
+        secondaryBtnProps?: BtnProps;
+      }
   );
 
 export function EmptySlot({
@@ -47,6 +62,11 @@ export function EmptySlot({
   withButton,
   text,
   btnProps,
+  withDoubleButton,
+  primaryText,
+  secondaryText,
+  primaryBtnProps,
+  secondaryBtnProps,
   ...props
 }: EmptySlotProps) {
   return (
@@ -92,6 +112,14 @@ export function EmptySlot({
         </Stack>
 
         {withButton && <Button {...btnProps}>{text}</Button>}
+        {withDoubleButton && (
+          <Stack gap={10}>
+            <Button {...primaryBtnProps}>{primaryText}</Button>
+            <Button variant='outline' {...secondaryBtnProps}>
+              {secondaryText}
+            </Button>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );

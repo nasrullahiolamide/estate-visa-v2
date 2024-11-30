@@ -154,17 +154,24 @@ export default function Occupants() {
                 data={occupants.data}
                 columns={occupantsColumns}
                 skeleton={isPlaceholderData}
-                // onRowClick={handleOccupantForm}
+                onRowClick={(data) =>
+                  handleOccupantForm({ data, modalType: "view" })
+                }
               />
             ) : (
               <EmptySlot
                 title='There are no occupants yet. Add one to get started!'
                 src='person-minus'
-                withButton
-                text='Add New Occupant'
-                btnProps={{
+                withDoubleButton
+                primaryText='Add New Occupant'
+                secondaryText='Bulk Upload'
+                primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () => handleOccupantForm({ modalType: "add" }),
+                }}
+                secondaryBtnProps={{
+                  leftSection: <UploadIcon />,
+                  onClick: bulkUpload,
                 }}
               />
             )}
@@ -219,13 +226,12 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} wrap='wrap' hidden={hidden}>
       <Button
         fz='sm'
         size='md'
         leftSection={<Add />}
         onClick={() => handleOccupantForm({ modalType: "add" })}
-        hidden={hidden}
       >
         Add New Occupant
       </Button>
@@ -247,7 +253,6 @@ function HeaderOptions({
         onClick={onDownload}
         loading={isDownloading}
         disabled={isDownloading}
-        hidden={hidden}
       >
         Download Table
       </Button>
