@@ -17,8 +17,8 @@ import { useFilename } from "@/packages/hooks/use-file-name";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EmptySlot } from "@/components/shared/interface";
-import { HousesActions } from "@/components/admin/houses/actions";
-import { housesColumns } from "@/columns/for_admins/houses";
+import { HousesActions } from "@/components/sub-admin/houses/actions";
+import { housesColumns } from "@/columns/for_sub_admins/houses";
 import { DownloadIcon, UploadIcon } from "@/icons";
 import {
   HouseForm,
@@ -37,7 +37,6 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
-import { toString } from "lodash";
 import { FILE } from "@/packages/libraries/enum";
 
 const filterOptions = [
@@ -80,8 +79,6 @@ export default function Houses() {
   const initialHousesList = useFakeHousesList();
   const pagination = useFlowPagination();
 
-  const estateId = toString(APP.ESTATE_ID);
-
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
@@ -120,14 +117,11 @@ export default function Houses() {
             ...list,
             action: (
               <HousesActions
-                id={list.id}
-                isActive={list.status.toLowerCase() === "active"}
+                data={list}
                 handlers={{
                   onAdd: () => handleHouseForm({ modalType: "add" }),
                   onView: () =>
                     handleHouseForm({ id: list.id, modalType: "view" }),
-                  onEdit: () =>
-                    handleHouseForm({ id: list.id, modalType: "edit" }),
                 }}
               />
             ),
@@ -174,6 +168,9 @@ export default function Houses() {
                 data={houses.data}
                 columns={housesColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleHouseForm({ id: data.id, modalType: "view" })
+                }
               />
             ) : (
               <EmptySlot
