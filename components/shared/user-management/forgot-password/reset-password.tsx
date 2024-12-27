@@ -29,7 +29,6 @@ export function ResetPassword() {
       token,
     };
 
-    console.log(payload);
     mutate(payload);
   }
 

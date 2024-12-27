@@ -19,6 +19,7 @@ export enum APP {
   ESTATE_ID = "eID",
   HOUSE_ID = "hID",
   FEATURE_FLAG = "sFg",
+  ONBOARDED = "oBd",
 }
 
 export enum USER_TYPE {
