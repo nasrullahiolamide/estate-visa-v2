@@ -2,27 +2,27 @@
 
 import Link from "next/link";
 
-import { useSearchParams } from "next/navigation";
-import { Fragment, useEffect } from "react";
-import { getCookie } from "cookies-next";
-import { boolean, object } from "yup";
-import { useMutation } from "@tanstack/react-query";
-import { navigate } from "@/packages/actions";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { APP, handleLogin, PAGES } from "@/packages/libraries";
 import { builder } from "@/builders";
 import { AvailableDashboards, LoginResponseData } from "@/builders/types/login";
 import { requiredString } from "@/builders/types/shared";
-import { Form, useForm, yupResolver } from "@mantine/form";
+import { navigate } from "@/packages/actions";
+import { APP, handleLogin, PAGES } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import {
-  Button,
-  Text,
-  Stack,
-  TextInput,
-  PasswordInput,
   Box,
+  Button,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
 } from "@mantine/core";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { useMutation } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { toString } from "lodash";
+import { useSearchParams } from "next/navigation";
+import { Fragment, useEffect } from "react";
+import { boolean, object } from "yup";
 
 const schema = object({
   username: requiredString,

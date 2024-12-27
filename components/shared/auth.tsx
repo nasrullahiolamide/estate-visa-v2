@@ -36,11 +36,11 @@ export function Auth({ children }: AuthProps) {
           mih={550}
           className='w-full rounded-3xl px-5 py-10 sm:px-10'
         >
-          <Flex justify='center'>
+          <Flex justify='center' data-aos='fade-in'>
             <EstateVisaLogo />
           </Flex>
 
-          <Stack flex={1} mt={15}>
+          <Stack flex={1} mt={15} data-aos='fade-left'>
             {children}
           </Stack>
         </Box>

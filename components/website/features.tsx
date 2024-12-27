@@ -14,6 +14,7 @@ export function Features() {
       className='py-8 lg:px-16 md:px-8 px-2 overflow-scroll w-full lg:scrollbar-none sm:justify-center'
       mx='auto'
       gap={20}
+      data-aos='fade-in'
     >
       {data.map((item, index) => (
         <Flex

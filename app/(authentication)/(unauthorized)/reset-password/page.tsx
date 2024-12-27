@@ -1,17 +1,17 @@
 "use client";
 
-import { APP } from "@/packages/libraries";
-import { Stack } from "@mantine/core";
-import { yupResolver } from "@mantine/form";
-import { getCookie } from "cookies-next";
-import { object, ref, string } from "yup";
 import {
   FormProvider,
   useForm,
 } from "@/components/shared/user-management/forgot-password/form-context";
 import { RequestTOKEN } from "@/components/shared/user-management/forgot-password/request-token";
 import { ResetPassword } from "@/components/shared/user-management/forgot-password/reset-password";
+import { APP } from "@/packages/libraries";
+import { Stack } from "@mantine/core";
+import { yupResolver } from "@mantine/form";
+import { getCookie } from "cookies-next";
 import { useSearchParams } from "next/navigation";
+import { object, ref, string } from "yup";
 
 const schema = object({
   email: string().email("Invalid email address"),

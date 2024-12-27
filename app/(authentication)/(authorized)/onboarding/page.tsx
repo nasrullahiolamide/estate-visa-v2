@@ -71,7 +71,7 @@ export default function Onboarding() {
       </Stack>
 
       <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
-        <Stack data-aos='fade-left' gap={8}>
+        <Stack gap={8}>
           <Stack gap={25}>
             <PasswordInput
               id='password'

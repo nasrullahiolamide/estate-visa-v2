@@ -1,7 +1,7 @@
-import { Flex, Box, Text, Button, Title, Stack } from "@mantine/core";
+import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
+import { Flex, Stack, Text, Title } from "@mantine/core";
 import { Picture } from "../shared/interface";
 import { Features } from "./features";
-import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { TalkToUsButton } from "./talk-to-us/button";
 
 export function HeroSection() {
@@ -24,6 +24,7 @@ export function HeroSection() {
                 sm: 50,
                 xl: 60,
               }}
+              data-aos='fade-down'
             >
               Simplifying Estate Management <br className='hidden lg:block' />
               for Owners and Residents.
@@ -37,14 +38,14 @@ export function HeroSection() {
               lh={1.5}
               maw={800}
               w='100%'
+              data-aos='fade-in'
             >
               From property oversight to resident communication, our platform
               empowers estate owners and admins to manage operations seamlessly
               while providing occupants with a smooth living experience.
             </Text>
           </div>
-
-          <TalkToUsButton px={60} />
+          <TalkToUsButton px={60} data-aos='fade-in' />
           <Features />
         </Stack>
       </Flex>
@@ -56,6 +57,7 @@ export function HeroSection() {
         mah={500}
         src='/images/device-mockups.png'
         className='hidden md:block'
+        data-aos='zoom-in'
       />
       <Picture
         my={20}
@@ -63,6 +65,7 @@ export function HeroSection() {
         width='90%'
         src='/images/mockup-dashboard.png'
         className='block md:hidden'
+        data-aos='fade-up'
       />
     </Stack>
   );
