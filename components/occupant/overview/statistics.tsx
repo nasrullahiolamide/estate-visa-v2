@@ -2,9 +2,6 @@
 
 import { Box } from "@mantine/core";
 
-import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
-import { useFakeAdminDashboardData } from "@/builders/types/admin-dashboard";
 import { makePath, PAGES } from "@/packages/libraries";
 import { StatisticsCard } from "@/components/admin/shared";
 import {
@@ -29,15 +26,6 @@ export function StatisticsOverview({
   totalMessages,
   skeleton: isPlaceholderData,
 }: StatisticsOverviewProps) {
-  const initialAdminData = useFakeAdminDashboardData();
-
-  // const { data, isPlaceholderData } = useQuery({
-  //   queryKey: builder.dashboard.admin.get.get(),
-  //   queryFn: () => builder.use().dashboard.admin.get(),
-  //   placeholderData: initialAdminData,
-  //   select: (data) => data,
-  // });
-
   return (
     <Box
       className='grid gap-6'

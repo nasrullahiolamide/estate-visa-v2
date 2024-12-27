@@ -16,8 +16,8 @@ export function Services() {
   const form = useFormContext();
 
   const { data: serviceRequests, isLoading: isServiceRequests } = useQuery({
-    queryKey: builder.estates.options.service_types.get.get(),
-    queryFn: () => builder.use().estates.options.service_types.get(),
+    queryKey: builder.estates.options.service_types.get.$get(),
+    queryFn: () => builder.$use.estates.options.service_types.get(),
     select: (data) => data,
   });
 

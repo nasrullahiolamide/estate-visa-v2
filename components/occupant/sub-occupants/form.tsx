@@ -27,10 +27,10 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   const queryClient = useQueryClient();
 
   const { mutate: addSubOccupant, isPending } = useMutation({
-    mutationFn: builder.use().occupants.post,
+    mutationFn: builder.$use.occupants.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_occupants.get.get(),
+        queryKey: builder.sub_occupants.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
@@ -41,10 +41,10 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   });
 
   const { mutate: updateSubOccupant, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().sub_occupants.edit,
+    mutationFn: builder.$use.sub_occupants.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_occupants.get.get(),
+        queryKey: builder.sub_occupants.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({

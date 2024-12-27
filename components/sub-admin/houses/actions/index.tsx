@@ -49,7 +49,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
   const { id } = { ...data };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().houses.id.remove,
+    mutationFn: builder.$use.houses.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -60,7 +60,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

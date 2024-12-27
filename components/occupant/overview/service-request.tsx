@@ -19,8 +19,8 @@ export function ServiceRequest({}: ServiceRequestProps) {
   });
 
   const { data, isLoading } = useQuery({
-    queryKey: builder.dashboard.occupant.service_requests.get(status),
-    queryFn: () => builder.use().dashboard.occupant.service_requests(status),
+    queryKey: builder.dashboard.occupant.service_requests.$get(status),
+    queryFn: () => builder.$use.dashboard.occupant.service_requests(status),
     select: (data) => data,
   });
 

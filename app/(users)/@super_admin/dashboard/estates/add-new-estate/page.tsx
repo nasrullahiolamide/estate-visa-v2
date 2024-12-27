@@ -22,7 +22,7 @@ import {
 
 export default function Page() {
   const { mutate: addNewEstate, isPending } = useMutation({
-    mutationFn: builder.use().estates.post,
+    mutationFn: builder.$use.estates.post,
     onSuccess: () => {
       navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
       handleSuccess({

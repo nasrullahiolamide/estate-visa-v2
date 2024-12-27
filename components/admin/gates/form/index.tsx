@@ -36,10 +36,10 @@ export function GateForm({
 
   // Add gate mutation
   const { mutate: addGate, isPending } = useMutation({
-    mutationFn: builder.use().gates.post,
+    mutationFn: builder.$use.gates.post,
     onSuccess: ({ username }) => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.table.get(),
+        queryKey: builder.gates.get.table.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
@@ -55,10 +55,10 @@ export function GateForm({
 
   // Update gate mutation
   const { mutate: updateGate, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().gates.edit,
+    mutationFn: builder.$use.gates.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.table.get(),
+        queryKey: builder.gates.get.table.$get(),
       });
       modals.closeAll();
       handleSuccess({

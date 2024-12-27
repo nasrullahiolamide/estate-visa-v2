@@ -23,8 +23,8 @@ export default function Overview() {
   const initialOccupantData = useFakeOccupantDashboard();
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.occupant.get.get(),
-    queryFn: () => builder.use().dashboard.occupant.get(userId),
+    queryKey: builder.dashboard.occupant.get.$get(),
+    queryFn: () => builder.$use.dashboard.occupant.get(userId),
     placeholderData: initialOccupantData,
     select: (data) => data,
   });

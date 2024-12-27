@@ -23,13 +23,13 @@ export function ViewGateRequest({ id, status, ...data }: ViewGateRequestProps) {
   const queryClient = useQueryClient();
 
   const { mutate: changeStatus, isPending } = useMutation({
-    mutationFn: builder.use().gates.requests.change_status,
+    mutationFn: builder.$use.gates.requests.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       handleSuccess({
         message: "Gate Request Approved Successfully",

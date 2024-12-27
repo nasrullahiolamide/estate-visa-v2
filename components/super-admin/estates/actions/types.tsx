@@ -37,13 +37,13 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
   const queryClient = useQueryClient();
 
   const { data } = useQuery({
-    queryKey: builder.estates.options[type].get.get(),
-    queryFn: () => builder.use().estates.options[type].get(),
+    queryKey: builder.estates.options[type].get.$get(),
+    queryFn: () => builder.$use.estates.options[type].get(),
     select: (data) => data,
   });
 
   const { mutate: update, isPending } = useMutation({
-    mutationFn: builder.use().estates.options[type].post,
+    mutationFn: builder.$use.estates.options[type].post,
     onError: handleError(),
     onSuccess: () => {
       form.reset();
@@ -52,13 +52,13 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
         autoClose: 500,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.estates.options[type].get.get(),
+        queryKey: builder.estates.options[type].get.$get(),
       });
     },
   });
 
   const { mutate, isPending: isDeleting } = useMutation({
-    mutationFn: builder.use().estates.options[type].remove,
+    mutationFn: builder.$use.estates.options[type].remove,
     onError: handleError(),
     onSuccess: () => {
       handleSuccess({
@@ -66,7 +66,7 @@ export function CheckboxEditForm({ type }: CheckboxEditFormProps) {
         autoClose: 500,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.estates.options[type].get.get(),
+        queryKey: builder.estates.options[type].get.$get(),
       });
     },
   });

@@ -13,7 +13,7 @@ export function ResetPassword() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().auth.password.change,
+    mutationFn: builder.$use.auth.password.change,
     onError: handleError(),
     onSuccess: () => {
       handleSuccess({

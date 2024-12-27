@@ -1030,12 +1030,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.3.1.tgz#c72a5c76a9fbaf3488e231b13dc52c0da7bab42a"
   integrity sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==
 
-"@ibnlanre/builder@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@ibnlanre/builder/-/builder-0.0.2.tgz#05b1377449070bc95135fefcbab8db1e27931643"
-  integrity sha512-vJY9uRpg6wJPuEHrhX1h5RTkbT0Y2ChNsdzPNsG/DrVdh5twihLxSeblPNcI5pDb7tL7rCFFG71uwvak/c1EBA==
-  dependencies:
-    "@ibnlanre/types" "^0.3.0"
+"@ibnlanre/builder@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@ibnlanre/builder/-/builder-1.0.1.tgz#3ccb101e68f3a26fca019c88f1522c3edeafe78d"
+  integrity sha512-DdaKey03/f2YwrXyn/QebT8nzZFvDQC1BpQzcT0wXZ6ePI7ZuJcA6GFP1KGEeDprPq0F+z3X2Xb0V1090qCGow==
 
 "@ibnlanre/cipher@^2.3.0":
   version "2.3.0"
@@ -1046,11 +1044,6 @@
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@ibnlanre/signals/-/signals-0.0.8.tgz#d0244da47b94d4c12195756b6d518041d6cea444"
   integrity sha512-ERCGgYCthhTgekTy86vkGcfmEoEKw2NjPvE0xknq9p3BqeBc3of39NoZO2wBcUK3kEMR4xgTXOcmGpKqhAPi5A==
-
-"@ibnlanre/types@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@ibnlanre/types/-/types-0.3.0.tgz#8d0d43a5e215f107acb1bea04100584d9093718d"
-  integrity sha512-gkIwzM90GnchPT/bXzu11Ri8c07GxqERVnCW9pHpXhdf9PvKN9ArSgMMdWxH1BC1WrhYjMGbQiPjgCtbh7qmZQ==
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"

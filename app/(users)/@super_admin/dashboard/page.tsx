@@ -26,8 +26,8 @@ export default function Overview() {
   const timeFilter = useSearchParams().get("time-filter") || "Week";
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.super_admin.get.get(timeFilter),
-    queryFn: () => builder.use().dashboard.super_admin.get({ timeFilter }),
+    queryKey: builder.dashboard.super_admin.get.$get(timeFilter),
+    queryFn: () => builder.$use.dashboard.super_admin.get({ timeFilter }),
     placeholderData: initialSuperAdminData,
     select: (data) => {
       const { userPercentage } = { ...data };

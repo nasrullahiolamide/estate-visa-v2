@@ -34,7 +34,7 @@ export function GateActions({ id, handlers }: GateActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().gates.remove,
+    mutationFn: builder.$use.gates.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -45,7 +45,7 @@ export function GateActions({ id, handlers }: GateActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.gates.get.table.get(),
+        queryKey: builder.gates.get.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

@@ -15,7 +15,7 @@ export function RequestTOKEN() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().auth.password.forgot,
+    mutationFn: builder.$use.auth.password.forgot,
     onError: handleError(),
     onSuccess: ({ data }) => {
       handleSuccess({

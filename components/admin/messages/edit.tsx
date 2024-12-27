@@ -32,12 +32,12 @@ export function EditModal({ view, content }: EditModalProps) {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.edit,
+    mutationFn: builder.$use.messages.edit,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.id.get(),
+        queryKey: builder.messages.get.id.$get(),
       });
       handleSuccess({
         autoClose: 1000,

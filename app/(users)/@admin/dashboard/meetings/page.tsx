@@ -73,7 +73,7 @@ export default function Meetings() {
   const { page, pageSize, query: search, status, sortOrder } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get({
+    queryKey: builder.meetings.get.table.$get({
       page,
       pageSize,
       status,
@@ -81,7 +81,7 @@ export default function Meetings() {
       search,
     }),
     queryFn: () =>
-      builder.use().meetings.get.table({
+      builder.$use.meetings.get.table({
         estateId,
         page,
         pageSize,

@@ -23,7 +23,7 @@ export function ChangePassword({ userId }: { userId: string }) {
   // const userId = toString(getCookie(APP.USER_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().account.profile.change_password,
+    mutationFn: builder.$use.account.profile.change_password,
     onSuccess: () => {
       modals.close(MODALS.CHANGE_PASSWORD);
       handleSuccess({

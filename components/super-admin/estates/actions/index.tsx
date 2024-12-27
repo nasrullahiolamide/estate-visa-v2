@@ -28,7 +28,7 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().estates.id.remove,
+    mutationFn: builder.$use.estates.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -39,7 +39,7 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
         delay: 500,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.estates.get.get(),
+        queryKey: builder.estates.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

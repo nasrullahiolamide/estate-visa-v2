@@ -71,7 +71,7 @@ export function SubAdminActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().sub_admins.id.remove,
+    mutationFn: builder.$use.sub_admins.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -82,7 +82,7 @@ export function SubAdminActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.sub_admins.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

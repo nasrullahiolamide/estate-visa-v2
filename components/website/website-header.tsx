@@ -18,8 +18,7 @@ import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { builder } from "@/builders";
-import { useFakeUserData } from "@/builders/types/login";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { APP, PAGES } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/icons/estate-visa-logo";
@@ -74,8 +73,8 @@ export function WebsiteHeader() {
   const [isAdmin, setisAdmin] = useState(false);
 
   const { data: user, isLoading } = useQuery({
-    queryKey: builder.account.profile.get.get(userId),
-    queryFn: () => builder.use().account.profile.get(userId),
+    queryKey: builder.account.profile.get.$get(userId),
+    queryFn: () => builder.$use.account.profile.get(userId),
     select: (data) => data,
     enabled: !!userId,
   });

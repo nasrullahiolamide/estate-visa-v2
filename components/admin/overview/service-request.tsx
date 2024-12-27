@@ -26,8 +26,8 @@ export function ServiceRequests() {
   });
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.service_requests.get(period),
-    queryFn: () => builder.use().dashboard.admin.service_requests({ period }),
+    queryKey: builder.dashboard.admin.service_requests.$get(period),
+    queryFn: () => builder.$use.dashboard.admin.service_requests({ period }),
     placeholderData: initialServiceRequests,
     select: (data) => {
       const transformedData = data.map((item) => {

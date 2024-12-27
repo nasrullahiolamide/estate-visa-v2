@@ -24,8 +24,8 @@ export default function Overview() {
   const isRestricted = flags.some((flag) => flag === PAGES.SERVICE_REQUESTS);
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.get.get(),
-    queryFn: () => builder.use().dashboard.admin.get(),
+    queryKey: builder.dashboard.admin.get.$get(),
+    queryFn: () => builder.$use.dashboard.admin.get(),
     placeholderData: initialAdminData,
     select: (data) => data,
   });

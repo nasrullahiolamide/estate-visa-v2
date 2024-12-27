@@ -66,7 +66,7 @@ export default function Occupants() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().occupants.download,
+    mutationFn: builder.$use.occupants.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.OCCUPANTS], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -75,7 +75,7 @@ export default function Occupants() {
   });
 
   const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get({
+    queryKey: builder.occupants.get.$get({
       page,
       pageSize,
       search,
@@ -83,7 +83,7 @@ export default function Occupants() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().occupants.get({
+      builder.$use.occupants.get({
         page,
         pageSize,
         search,

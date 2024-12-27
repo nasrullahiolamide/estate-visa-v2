@@ -44,7 +44,7 @@ export function GateRequestActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().gates.requests.remove,
+    mutationFn: builder.$use.gates.requests.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -55,14 +55,14 @@ export function GateRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
   });
 
   const { mutate: changeStatus } = useMutation({
-    mutationFn: builder.use().gates.requests.change_status,
+    mutationFn: builder.$use.gates.requests.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -73,7 +73,7 @@ export function GateRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

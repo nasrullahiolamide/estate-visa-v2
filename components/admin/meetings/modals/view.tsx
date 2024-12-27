@@ -34,8 +34,8 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
   const initialMeetingData = useFakeMeetingData();
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.id.get(id),
-    queryFn: () => builder.use().meetings.get.id(id),
+    queryKey: builder.meetings.get.id.$get(id),
+    queryFn: () => builder.$use.meetings.get.id(id),
     placeholderData: initialMeetingData,
     select: (data) => data,
     enabled: open,

@@ -14,8 +14,8 @@ export function HouseTypes() {
   const form = useFormContext();
 
   const { data, isLoading } = useQuery({
-    queryKey: builder.estates.options.house_types.get.get(),
-    queryFn: () => builder.use().estates.options.house_types.get(),
+    queryKey: builder.estates.options.house_types.get.$get(),
+    queryFn: () => builder.$use.estates.options.house_types.get(),
     select: (data) => data,
   });
 

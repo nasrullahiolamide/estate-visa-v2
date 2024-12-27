@@ -42,7 +42,6 @@ export function getFeatureFlag() {
       decryptUri(cookieValue) as unknown as string
     ) as string[];
   } catch (error) {
-    // console.error("Error parsing FEATURE_FLAG cookie:", error);
     featureFlags = [];
   }
 

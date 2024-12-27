@@ -40,16 +40,16 @@ export default function Profile() {
   const userId = toString(getCookie(APP.USER_ID));
 
   const { data: user, isLoading } = useQuery({
-    queryKey: builder.account.profile.get.get(),
-    queryFn: () => builder.use().account.profile.get(userId),
+    queryKey: builder.account.profile.get.$get(),
+    queryFn: () => builder.$use.account.profile.get(userId),
     select: (data) => data,
   });
 
   const { mutate: updateProfile, isPending } = useMutation({
-    mutationFn: builder.use().account.profile.update,
+    mutationFn: builder.$use.account.profile.update,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.account.profile.get.get(),
+        queryKey: builder.account.profile.get.$get(),
       });
       profileDetailsForm.resetDirty();
       handleSuccess({
@@ -62,7 +62,7 @@ export default function Profile() {
 
   const { mutate: updatePassword, isPending: isPasswordUpdating } = useMutation(
     {
-      mutationFn: builder.use().account.profile.change_password,
+      mutationFn: builder.$use.account.profile.change_password,
       onSuccess: () => {
         passwordForm.reset();
         handleSuccess({

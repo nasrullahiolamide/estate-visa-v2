@@ -35,17 +35,17 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   // Fetch house data
   const { data, isLoading } = useQuery({
-    queryKey: builder.houses.id.get.get(id),
-    queryFn: () => builder.use().houses.id.get(id),
+    queryKey: builder.houses.id.get.$get(id),
+    queryFn: () => builder.$use.houses.id.get(id),
     select: (data) => data,
   });
 
   // Add  house
   const { mutate: addHouse, isPending: isAdding } = useMutation({
-    mutationFn: builder.use().houses.post,
+    mutationFn: builder.$use.houses.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -57,10 +57,10 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   // Update house
   const { mutate: updateHouse, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().houses.id.edit,
+    mutationFn: builder.$use.houses.id.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -72,8 +72,8 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   // Fetch house types
   const { data: houseTypes } = useQuery({
-    queryKey: builder.estates.options.house_types.get.get(),
-    queryFn: () => builder.use().estates.options.house_types.get(),
+    queryKey: builder.estates.options.house_types.get.$get(),
+    queryFn: () => builder.$use.estates.options.house_types.get(),
     select: (data) => {
       return data.map((type) => ({
         value: type.id,

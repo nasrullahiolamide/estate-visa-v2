@@ -35,10 +35,10 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().sub_admins.id.put,
+    mutationFn: builder.$use.sub_admins.id.put,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.sub_admins.get.$get(),
       });
       modals.close(MODALS.VIEW_EDIT_SUB_ADMIN);
       handleSuccess({

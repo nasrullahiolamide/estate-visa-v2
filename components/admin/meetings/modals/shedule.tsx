@@ -59,10 +59,10 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
   const { isDrawerOpened, closeDrawer, data, isEditing } = props;
 
   const { mutate: scheduleMeeting, isPending } = useMutation({
-    mutationFn: builder.use().meetings.schedule,
+    mutationFn: builder.$use.meetings.schedule,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.$get(),
       });
       handleSuccess({
         message: "Meeting Scheduled Successfully",

@@ -32,8 +32,8 @@ export function WriteModal({ view }: WriteModalProps) {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { data: houseNumbers } = useQuery({
-    queryKey: builder.houses.list.all.get(),
-    queryFn: () => builder.use().houses.list.all(estateId),
+    queryKey: builder.houses.list.all.$get(),
+    queryFn: () => builder.$use.houses.list.all(estateId),
     select: (houses) => {
       return houses
         .filter(({ noOfOccupants }) => noOfOccupants > 0)
@@ -45,12 +45,12 @@ export function WriteModal({ view }: WriteModalProps) {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.post,
+    mutationFn: builder.$use.messages.post,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.WRTIE_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.table.get(),
+        queryKey: builder.messages.get.table.$get(),
       });
       handleSuccess({
         message:

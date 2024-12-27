@@ -60,7 +60,7 @@ export function PropertyOwnerActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().property_owners.id.remove,
+    mutationFn: builder.$use.property_owners.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -71,7 +71,7 @@ export function PropertyOwnerActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.property_owners.get.get(),
+        queryKey: builder.property_owners.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

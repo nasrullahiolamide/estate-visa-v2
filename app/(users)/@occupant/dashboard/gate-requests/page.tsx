@@ -91,7 +91,7 @@ export default function Gates() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.requests.get.get({
+    queryKey: builder.gates.requests.get.$get({
       page,
       pageSize,
       search,
@@ -99,9 +99,13 @@ export default function Gates() {
       sortOrder,
     }),
     queryFn: () =>
-      builder
-        .use()
-        .gates.requests.get({ page, pageSize, search, sortBy, sortOrder }),
+      builder.$use.gates.requests.get({
+        page,
+        pageSize,
+        search,
+        sortBy,
+        sortOrder,
+      }),
     placeholderData: initialGateRequestList,
     select({ page, pageSize, total, data }) {
       return {

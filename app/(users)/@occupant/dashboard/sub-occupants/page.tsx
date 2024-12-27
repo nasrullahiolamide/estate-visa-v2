@@ -54,7 +54,7 @@ export default function SubOccupants() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_occupants.get.get({
+    queryKey: builder.sub_occupants.get.$get({
       page,
       pageSize,
       search,
@@ -62,7 +62,7 @@ export default function SubOccupants() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().sub_occupants.get({
+      builder.$use.sub_occupants.get({
         page,
         pageSize,
         search,

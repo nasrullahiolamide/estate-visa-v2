@@ -49,14 +49,14 @@ const handleAddSubAdmin = () => {
   modals.open({
     title: "Add New Sub Admin",
     children: <AddSubAdmins />,
-    modalId: MODALS.ADD_SUB_ADMIN,
+    modalId: MODALS.ADD_DETAILS,
   });
 };
 
 const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
   modals.open({
     title: "Sub Admin Details",
-    modalId: MODALS.VIEW_EDIT_SUB_ADMIN,
+    modalId: MODALS.FORM_DETAILS,
     children: <ViewSubAdmins {...details} edit={edit} />,
   });
 };
@@ -70,7 +70,7 @@ export default function SubAdmins() {
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const { data: subAdmins, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_admins.get.get({
+    queryKey: builder.sub_admins.get.$get({
       page,
       pageSize,
       search,
@@ -78,7 +78,7 @@ export default function SubAdmins() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().sub_admins.get({
+      builder.$use.sub_admins.get({
         id: estateId,
         params: {
           page,

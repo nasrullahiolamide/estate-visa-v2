@@ -40,7 +40,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
 
   // Delete Meeting
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().meetings.remove,
+    mutationFn: builder.$use.meetings.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -51,7 +51,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -59,7 +59,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
 
   // Change Meeting Status
   const { mutate: changeStatus } = useMutation({
-    mutationFn: builder.use().meetings.change_status,
+    mutationFn: builder.$use.meetings.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -70,7 +70,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

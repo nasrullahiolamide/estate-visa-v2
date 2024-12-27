@@ -12,10 +12,10 @@ export function ConfirmOccupant() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.post,
+    mutationFn: builder.$use.occupants.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -61,10 +61,10 @@ export function ConfirmPropertyOwner() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.post,
+    mutationFn: builder.$use.occupants.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
       handleSuccess({

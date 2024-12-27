@@ -99,8 +99,8 @@ export function useBulkUpload<FormValues extends Record<string, unknown>>({
 
   const { mutate, isPending, isIdle, isPaused } = useMutation({
     onSuccess,
-    mutationKey: builder.upload.get(key),
-    mutationFn: builder.use()[key]?.upload,
+    mutationKey: builder.upload.$get(key),
+    mutationFn: builder.$use[key]?.upload,
     onError(error: AxiosError) {
       handleMantineError()(error);
       setStatus("error");

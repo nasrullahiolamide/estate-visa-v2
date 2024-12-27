@@ -57,7 +57,7 @@ export function Conversations({
   const { setContent } = useMessagesValue();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.remove,
+    mutationFn: builder.$use.messages.remove,
     onError: () => {
       modals.close(MODALS.CONFIRMATION);
       handleError({
@@ -66,7 +66,7 @@ export function Conversations({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.user.get(),
+        queryKey: builder.messages.get.user.$get(),
       });
       handleSuccess({
         autoClose: 1200,

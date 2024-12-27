@@ -6,6 +6,9 @@
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
   "icons": [
     {
       "src": "./android-chrome-192x192.png",
@@ -16,6 +19,31 @@
       "src": "./android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "../images/home-screenshot.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "label": "Home - Estate Visa"
+    },
+    {
+      "src": "../images/login-screenshot.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "label": "Login - Estate Visa"
+    },
+    {
+      "src": "../images/dashboard-screenshot.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "label": "Dashboard - Estate Visa"
     }
   ]
 }

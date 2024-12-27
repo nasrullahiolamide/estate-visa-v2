@@ -35,12 +35,12 @@ export function ReplyModal({ content }: ReplyModalProps) {
   const senderId = toString(getCookie(APP.USER_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.reply,
+    mutationFn: builder.$use.messages.reply,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.REPLY_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.id.get(),
+        queryKey: builder.messages.get.id.$get(),
       });
       handleSuccess({
         autoClose: 1000,

@@ -59,7 +59,7 @@ export function OccupantActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.id.remove,
+    mutationFn: builder.$use.occupants.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -70,7 +70,7 @@ export function OccupantActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

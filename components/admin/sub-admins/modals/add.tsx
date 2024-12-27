@@ -22,10 +22,10 @@ export function AddSubAdmins() {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().sub_admins.post,
+    mutationFn: builder.$use.sub_admins.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.sub_admins.get.$get(),
       });
 
       modals.close(MODALS.ADD_SUB_ADMIN);

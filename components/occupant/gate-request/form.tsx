@@ -40,10 +40,10 @@ export function GateRequestForm({
   const queryClient = useQueryClient();
 
   const { mutate: addRequest, isPending } = useMutation({
-    mutationFn: builder.use().gates.requests.post,
+    mutationFn: builder.$use.gates.requests.post,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       handleSuccess({
         message: "Gate Request Added Successfully",
@@ -55,10 +55,10 @@ export function GateRequestForm({
   });
 
   const { mutate: updateRequest, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().gates.requests.edit,
+    mutationFn: builder.$use.gates.requests.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
       handleSuccess({

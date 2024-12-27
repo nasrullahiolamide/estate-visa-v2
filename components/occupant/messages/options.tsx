@@ -30,7 +30,7 @@ export function HeaderOptions({ data, view }: HeaderOptionsProps) {
   const { back } = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.remove,
+    mutationFn: builder.$use.messages.remove,
     onError: () => {
       handleError({
         message: `An error occurred while deleting ${

@@ -46,8 +46,8 @@ export function NavigationLinks() {
   const pathname = usePathname();
 
   const { data: user, isLoading } = useQuery({
-    queryKey: builder.account.profile.get.get(userId),
-    queryFn: () => builder.use().account.profile.get(userId),
+    queryKey: builder.account.profile.get.$get(userId),
+    queryFn: () => builder.$use.account.profile.get(userId),
     select: (data) => data,
     enabled: !!userId,
   });

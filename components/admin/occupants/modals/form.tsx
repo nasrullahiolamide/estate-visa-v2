@@ -37,10 +37,10 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
   const queryClient = useQueryClient();
 
   const { mutate: updateOccupant, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().occupants.id.edit,
+    mutationFn: builder.$use.occupants.id.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -51,8 +51,8 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
   });
 
   const { data: houseNumbers } = useQuery({
-    queryKey: builder.houses.list.all.get(estateId),
-    queryFn: () => builder.use().houses.list.all(estateId),
+    queryKey: builder.houses.list.all.$get(estateId),
+    queryFn: () => builder.$use.houses.list.all(estateId),
     select: (house) => {
       return house
         .filter(({ noOfOccupants, id }) => {

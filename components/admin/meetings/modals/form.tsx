@@ -44,8 +44,8 @@ export function MeetingMinutesForm({
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { data: meetings, isLoading } = useQuery({
-    queryKey: builder.meetings.get.all.get(),
-    queryFn: () => builder.use().meetings.get.all(estateId),
+    queryKey: builder.meetings.get.all.$get(),
+    queryFn: () => builder.$use.meetings.get.all(estateId),
     select: (data) => {
       return data
         .filter(({ id, minutes }) => {
@@ -62,10 +62,10 @@ export function MeetingMinutesForm({
   console.log(meetings);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().meetings.minutes,
+    mutationFn: builder.$use.meetings.minutes,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.$get(),
       });
       handleSuccess({
         message: isEditing

@@ -39,7 +39,7 @@ export function BulkUpload(props: BulkUploadProps) {
   }
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use()[props.type]?.template,
+    mutationFn: builder.$use[props.type]?.template,
     onSuccess: (data) => {
       const filename = useFilename(
         [props.type, "template"],
@@ -71,7 +71,7 @@ export function BulkUpload(props: BulkUploadProps) {
         message: "CSV file uploaded successfully",
       });
       queryClient.invalidateQueries({
-        queryKey: builder[props.type].get(),
+        queryKey: builder[props.type].$get(),
       });
       handleClose();
     },

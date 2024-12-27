@@ -27,7 +27,7 @@ export function ServiceRequestActions({
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: builder.use().service_requests.id.change_status,
+    mutationFn: builder.$use.service_requests.id.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -38,7 +38,7 @@ export function ServiceRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

@@ -32,10 +32,10 @@ export function PropertyOwnerForm({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().property_owners.post,
+    mutationFn: builder.$use.property_owners.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.property_owners.get.get(),
+        queryKey: builder.property_owners.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -46,10 +46,10 @@ export function PropertyOwnerForm({
   });
 
   const { mutate: updateOccupant, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().property_owners.id.put,
+    mutationFn: builder.$use.property_owners.id.put,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.property_owners.get.get(),
+        queryKey: builder.property_owners.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -60,8 +60,8 @@ export function PropertyOwnerForm({
   });
 
   const { data: houseNumbers } = useQuery({
-    queryKey: builder.houses.list.all.get(estateId),
-    queryFn: () => builder.use().houses.list.all(estateId),
+    queryKey: builder.houses.list.all.$get(estateId),
+    queryFn: () => builder.$use.houses.list.all(estateId),
     select: (data) => {
       return data.map((house) => ({
         value: house.id,

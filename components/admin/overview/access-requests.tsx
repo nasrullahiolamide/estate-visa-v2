@@ -21,8 +21,8 @@ export function AccessRequests() {
   });
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.access_requests.get(period),
-    queryFn: () => builder.use().dashboard.admin.access_requests({ period }),
+    queryKey: builder.dashboard.admin.access_requests.$get(period),
+    queryFn: () => builder.$use.dashboard.admin.access_requests({ period }),
     placeholderData: initialAccessRequest,
     select: (data) => {
       const approvedPercentage = Math.floor(data.approvedPercentage);

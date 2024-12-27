@@ -94,8 +94,8 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
 
   const { mutate, isPending, isIdle, isPaused } = useMutation({
     onSuccess,
-    mutationKey: builder.upload.get(key),
-    mutationFn: builder.use().upload,
+    mutationKey: builder.upload.$get(key),
+    mutationFn: builder.$use.upload,
     onError,
   });
 

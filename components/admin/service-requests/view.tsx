@@ -26,13 +26,13 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
 
   // Fetch data
   const { data, isLoading } = useQuery({
-    queryKey: builder.service_requests.id.get.get(id),
-    queryFn: () => builder.use().service_requests.id.get(id),
+    queryKey: builder.service_requests.id.get.$get(id),
+    queryFn: () => builder.$use.service_requests.id.get(id),
     select: (data) => data,
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().service_requests.id.change_status,
+    mutationFn: builder.$use.service_requests.id.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.FORM_DETAILS);
@@ -43,7 +43,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
     },

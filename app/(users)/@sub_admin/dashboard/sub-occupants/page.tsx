@@ -58,7 +58,7 @@ export default function SubOccupants() {
   const { page, pageSize, query: search, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().sub_occupants.download,
+    mutationFn: builder.$use.sub_occupants.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.HOUSES], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -67,14 +67,14 @@ export default function SubOccupants() {
   });
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_occupants.get.get({
+    queryKey: builder.sub_occupants.get.$get({
       page,
       pageSize,
       search,
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().sub_occupants.get({
+      builder.$use.sub_occupants.get({
         page,
         pageSize,
         search,

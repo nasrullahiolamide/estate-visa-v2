@@ -26,17 +26,6 @@ import { toString } from "lodash";
 
 const schema = object({
   username: requiredString,
-  // .test(
-  //   "email-or-gate-username",
-  //   "This field must be a valid email or a gate-username.",
-  //   (value) => {
-  //     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //     const gateUsernamePattern = /^[a-zA-Z0-9_-]+(?:-[a-zA-Z0-9_-]+)*$/;
-
-  //     return emailPattern.test(value) || gateUsernamePattern.test(value);
-  //   }
-  // )
-  // password: requiredString.min(6, "Password must be at least 6 characters."),
   password: requiredString,
   remember_me: boolean().notRequired(),
 });
@@ -67,7 +56,7 @@ export default function Page() {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().auth.login,
+    mutationFn: builder.$use.auth.login,
     onSuccess: ({ data }) => {
       function loginCallback(data: LoginResponseData) {
         const { user } = { ...data };

@@ -39,18 +39,18 @@ export default function Page({ params }: PageProps) {
   } = useEstateValue(params.estate);
 
   const { data: estates, isPlaceholderData } = useQuery({
-    queryKey: builder.estates.id.get.get(estateId),
-    queryFn: () => builder.use().estates.id.get(toString(estateId)),
+    queryKey: builder.estates.id.get.$get(estateId),
+    queryFn: () => builder.$use.estates.id.get(toString(estateId)),
     placeholderData: initialEstateData,
     enabled: !!estateId,
   });
 
   const { mutate: editEstate, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().estates.id.put,
+    mutationFn: builder.$use.estates.id.put,
     onSuccess: () => {
       navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
       queryClient.invalidateQueries({
-        queryKey: builder.estates.get.get(),
+        queryKey: builder.estates.get.$get(),
       });
       handleSuccess({
         message: "Estate Updated Successfully",

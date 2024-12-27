@@ -56,7 +56,7 @@ export default function Estates() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: estates, isPlaceholderData } = useQuery({
-    queryKey: builder.estates.get.get({
+    queryKey: builder.estates.get.$get({
       page,
       pageSize,
       search,
@@ -64,7 +64,7 @@ export default function Estates() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().estates.get({
+      builder.$use.estates.get({
         page,
         pageSize,
         search,

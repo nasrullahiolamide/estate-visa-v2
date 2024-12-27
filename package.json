@@ -11,7 +11,7 @@
   "dependencies": {
     "@designbycode/tailwindcss-text-stroke": "^1.2.1",
     "@faker-js/faker": "^8.4.1",
-    "@ibnlanre/builder": "^0.0.2",
+    "@ibnlanre/builder": "^1.0.1",
     "@ibnlanre/cipher": "^2.3.0",
     "@ibnlanre/signals": "^0.0.8",
     "@mantine/charts": "^7.13.1",

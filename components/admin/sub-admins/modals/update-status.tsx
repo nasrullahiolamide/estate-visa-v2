@@ -18,10 +18,10 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
   const queryClient = useQueryClient();
   console.log(status);
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().account.profile.change_status,
+    mutationFn: builder.$use.account.profile.change_status,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.sub_admins.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
       handleSuccess({

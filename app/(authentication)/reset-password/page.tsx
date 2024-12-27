@@ -12,7 +12,6 @@ import {
 import { RequestTOKEN } from "@/components/shared/user-management/forgot-password/request-token";
 import { ResetPassword } from "@/components/shared/user-management/forgot-password/reset-password";
 import { useSearchParams } from "next/navigation";
-import { requiredString } from "@/builders/types/shared";
 
 const schema = object({
   email: string().email("Invalid email address"),

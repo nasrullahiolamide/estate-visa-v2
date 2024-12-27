@@ -33,10 +33,10 @@ export function ServiceRequestForm({
   const queryClient = useQueryClient();
 
   const { mutate: generateRequest, isPending } = useMutation({
-    mutationFn: builder.use().service_requests.post,
+    mutationFn: builder.$use.service_requests.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       handleSuccess({
         message: "Request Generated Added Successfully",
@@ -47,10 +47,10 @@ export function ServiceRequestForm({
   });
 
   const { mutate: updateRequest, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().service_requests.id.edit,
+    mutationFn: builder.$use.service_requests.id.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       handleSuccess({
         message: "Request Generated Updated Successfully",

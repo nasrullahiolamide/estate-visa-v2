@@ -17,10 +17,10 @@ export function UpdateStatus({ id, status }: UpdateStatusProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().houses.id.change_status,
+    mutationFn: builder.$use.houses.id.change_status,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
       handleSuccess({

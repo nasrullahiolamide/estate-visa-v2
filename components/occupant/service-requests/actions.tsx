@@ -39,7 +39,7 @@ export function ServieRequestActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().service_requests.id.remove,
+    mutationFn: builder.$use.service_requests.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -50,14 +50,14 @@ export function ServieRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
   });
 
   const { mutate: changeStatus } = useMutation({
-    mutationFn: builder.use().service_requests.id.change_status,
+    mutationFn: builder.$use.service_requests.id.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -68,7 +68,7 @@ export function ServieRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },

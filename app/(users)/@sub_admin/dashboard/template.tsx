@@ -15,7 +15,6 @@ import {
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
-  AdministratorIcon,
   DashboardIcon,
   EstateVisaLogo,
   GateIcon,
@@ -30,13 +29,11 @@ import { ProfileData } from "@/builders/types/profile";
 import { navigate } from "@/packages/actions";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { toString } from "lodash";
 
 import Swal from "sweetalert2";
 import { getFeatureFlag } from "@/packages/libraries/auth";
 
 type TemplateProps = React.PropsWithChildren<{}>;
-type FetureFlag = Record<string, string[]>;
 
 export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
@@ -136,6 +133,12 @@ export default function Template({ children }: TemplateProps) {
                 leftSection={<GateIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
                 label={"Gates"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<TablerMessageIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
+                label={"Messages"}
                 opened={opened}
               />
               <AppShellButton

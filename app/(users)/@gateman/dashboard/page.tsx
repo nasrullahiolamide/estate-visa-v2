@@ -98,13 +98,13 @@ export default function Gates() {
   }
 
   const { mutate: changeStatus, isPending } = useMutation({
-    mutationFn: builder.use().gates.requests.change_status,
+    mutationFn: builder.$use.gates.requests.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       handleSuccess({
         message: "Gate Request Approved Successfully",
@@ -115,7 +115,7 @@ export default function Gates() {
   });
 
   const { data: gateRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.requests.get.get({
+    queryKey: builder.gates.requests.get.$get({
       page,
       pageSize,
       search,
@@ -124,7 +124,7 @@ export default function Gates() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().gates.requests.get({
+      builder.$use.gates.requests.get({
         page,
         pageSize,
         search,

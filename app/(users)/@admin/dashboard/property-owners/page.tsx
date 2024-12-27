@@ -81,7 +81,7 @@ export default function PropertyOwners() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().property_owners.download,
+    mutationFn: builder.$use.property_owners.download,
     onSuccess: (data) => {
       const filename = useFilename(
         [FILE.PROPERTY_OWNERS],
@@ -93,7 +93,7 @@ export default function PropertyOwners() {
   });
 
   const { data: propertyOwners, isPlaceholderData } = useQuery({
-    queryKey: builder.property_owners.get.get({
+    queryKey: builder.property_owners.get.$get({
       page,
       pageSize,
       search,
@@ -101,7 +101,7 @@ export default function PropertyOwners() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().property_owners.get({
+      builder.$use.property_owners.get({
         page,
         pageSize,
         search,

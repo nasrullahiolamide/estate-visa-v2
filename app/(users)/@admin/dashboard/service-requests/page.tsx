@@ -99,7 +99,7 @@ export default function ServiceRequest() {
   } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.service_requests.get.get({
+    queryKey: builder.service_requests.get.$get({
       page,
       pageSize,
       search,
@@ -108,7 +108,7 @@ export default function ServiceRequest() {
       status,
     }),
     queryFn: () =>
-      builder.use().service_requests.get({
+      builder.$use.service_requests.get({
         page,
         pageSize,
         search,

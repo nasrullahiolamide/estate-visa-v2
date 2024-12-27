@@ -85,7 +85,7 @@ export default function Houses() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().houses.download,
+    mutationFn: builder.$use.houses.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.HOUSES], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -94,7 +94,7 @@ export default function Houses() {
   });
 
   const { data: houses, isPlaceholderData } = useQuery({
-    queryKey: builder.houses.list.table.get({
+    queryKey: builder.houses.list.table.$get({
       page,
       pageSize,
       search,
@@ -102,7 +102,7 @@ export default function Houses() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().houses.list.table({
+      builder.$use.houses.list.table({
         page,
         pageSize,
         search,

@@ -33,12 +33,12 @@ export function WriteModal() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.post,
+    mutationFn: builder.$use.messages.post,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.WRTIE_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.user.get(),
+        queryKey: builder.messages.get.user.$get(),
       });
       handleSuccess({
         message: "Message sent successfully",
