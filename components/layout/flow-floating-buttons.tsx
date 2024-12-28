@@ -58,29 +58,29 @@ export function FlowFloatingButtons({
 
   return (
     <Stack
-      id='fc_frame'
+      id="fc_frame"
       style={{
         position: "absolute",
         bottom: 95,
         right: 12,
         zIndex: 10,
       }}
-      hiddenFrom='lg'
+      hiddenFrom="lg"
       hidden={hidden}
       {...containerProps}
     >
-      <Stack justify='center' align='center'>
+      <Stack justify="center" align="center">
         {buttons?.map(({ icon, btnProps, filterData }, index) => (
           <Transition
             key={icon}
             mounted={visible}
-            transition='slide-up'
+            transition="slide-up"
             duration={300}
-            timingFunction='ease'
+            timingFunction="ease"
             enterDelay={index * 50}
           >
             {(styles) => (
-              <Tooltip label={icon} tt='capitalize' fz={14}>
+              <Tooltip label={icon} tt="capitalize" fz={14}>
                 {icon === IconType.FILTER ? (
                   <FilterDropdown
                     showLabel={false}
@@ -90,13 +90,13 @@ export function FlowFloatingButtons({
                   />
                 ) : (
                   <Button
-                    radius='md'
+                    radius="md"
                     w={40}
                     h={40}
                     p={0}
-                    variant='outline'
-                    bg='white'
-                    className='shadow-lg'
+                    variant="outline"
+                    bg="white"
+                    className="shadow-lg"
                     style={styles}
                     {...btnProps}
                     hidden={icon !== IconType.UPLOAD ? hidden : false}
@@ -111,11 +111,11 @@ export function FlowFloatingButtons({
       </Stack>
 
       <Button
-        radius='xl'
+        radius="xl"
         w={50}
         h={50}
         p={0}
-        className='shadow-lg'
+        className="shadow-lg"
         onClick={() => setVisible((prev) => !prev)}
       >
         {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}

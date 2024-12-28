@@ -26,7 +26,7 @@ export default function Template({ children }: TemplateProps) {
 
   return (
     <AppShell
-      bg='accent.12'
+      bg="accent.12"
       navbar={{
         width: opened ? 260 : 95,
         breakpoint: "lg",
@@ -52,7 +52,7 @@ export default function Template({ children }: TemplateProps) {
           </Center>
 
           {user.estate && (
-            <Title mt={10} ta='center' fw={700} c='purple.9'>
+            <Title mt={10} ta="center" fw={700} c="purple.9">
               {user.estate.name} Estate
             </Title>
           )}
@@ -62,7 +62,7 @@ export default function Template({ children }: TemplateProps) {
         <AppShell.Section
           grow
           component={ScrollArea}
-          className='scrollbar-none ~pt-2/8'
+          className="scrollbar-none ~pt-2/8"
         >
           <Stack gap={8}>
             <AppShellButton
@@ -81,8 +81,8 @@ export default function Template({ children }: TemplateProps) {
         </AppShell.Section>
       </AppShell.Navbar>
 
-      <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
-        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
+      <AppShell.Main component={Flex} h="100dvh" className="overflow-auto">
+        <Stack gap={0} flex={1} className="bg-primary-text-normal">
           {children}
         </Stack>
       </AppShell.Main>

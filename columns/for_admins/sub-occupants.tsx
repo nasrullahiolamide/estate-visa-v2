@@ -8,7 +8,7 @@ export const subOccupantsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -46,7 +46,7 @@ export const subOccupantsColumns = [
     cell: ({ getValue }) => {
       const value = getValue();
       return (
-        <Text fz={14} c='blue.7'>
+        <Text fz={14} c="blue.7">
           {value}
         </Text>
       );

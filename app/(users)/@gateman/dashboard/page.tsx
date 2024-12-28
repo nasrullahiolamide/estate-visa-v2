@@ -142,7 +142,7 @@ export default function Gates() {
           .filter(
             (request) =>
               dayjs(request.visitDate).isAfter(dayjs().startOf("day")) &&
-              dayjs(request.visitDate).isBefore(dayjs().endOf("day"))
+              dayjs(request.visitDate).isBefore(dayjs().endOf("day")),
           )
           .map(({ id, status, ...list }, _, arr) => {
             return {
@@ -151,14 +151,14 @@ export default function Gates() {
               status,
               action: (
                 <Button
-                  fz='sm'
-                  size='sm'
+                  fz="sm"
+                  size="sm"
                   onClick={() => changeStatus({ id, status: "approved" })}
                   loading={isPending && arr.some((req) => req.id === id)}
                   disabled={
                     isPending || status === "approved" || status === "cancelled"
                   }
-                  className='disabled:bg-opacity-30'
+                  className="disabled:bg-opacity-30"
                 >
                   Approve
                 </Button>
@@ -183,7 +183,7 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Gate Request'
+        title="Gate Request"
         withSearch
         searchProps={{
           isloading: isPlaceholderData,
@@ -199,7 +199,7 @@ export default function Gates() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -220,15 +220,15 @@ export default function Gates() {
                     ? "Gate Request not found"
                     : "You have no gate requests for today yet. You'll surely get one soon!"
                 }
-                src='question'
+                src="question"
               />
             )}
           </FlowPaper>
 
           <FlowFooter
             visible={noDataAvailable || isPlaceholderData}
-            ta='center'
-            justify='center'
+            ta="center"
+            justify="center"
           >
             <FlowEntriesPerPage options={["10", "50", "100", "200"]} />
           </FlowFooter>
@@ -263,20 +263,20 @@ function HeaderOptions({
 }) {
   const { query } = useFlowState();
   return (
-    <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
+    <Flex gap={14} wrap="wrap" align="center" hidden={!query && isLoading}>
       <FlowSearch
         isloading={cast.string(isLoading)}
         placeholder="Search by code, e.g. '1234'"
-        type='number'
-        title='Gate Request'
+        type="number"
+        title="Gate Request"
         hidden={hidden}
       />
       <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
         <Button
-          variant='outline'
-          fz='sm'
-          size='md'
+          variant="outline"
+          fz="sm"
+          size="md"
           leftSection={<DownloadIcon />}
         >
           Download Table

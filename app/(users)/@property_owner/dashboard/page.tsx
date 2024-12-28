@@ -71,12 +71,12 @@ export default function Minutes() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Meetings'
+        title="Meetings"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -87,10 +87,10 @@ export default function Minutes() {
             onChange={setView}
             tabsContainerProps={{ gap: 0 }}
           >
-            <Flex align='center'>
-              <Tabs.List className='w-full'>
+            <Flex align="center">
+              <Tabs.List className="w-full">
                 <Tabs.Tab
-                  value='scheduled'
+                  value="scheduled"
                   flex={1}
                   py={18}
                   leftSection={<HourglassIcon />}
@@ -98,7 +98,7 @@ export default function Minutes() {
                   Scheduled
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value='completed'
+                  value="completed"
                   flex={1}
                   py={18}
                   leftSection={<CheckIcon />}
@@ -106,7 +106,7 @@ export default function Minutes() {
                   Completed
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value='cancelled'
+                  value="cancelled"
                   flex={1}
                   py={18}
                   leftSection={<CancelCircleIcon />}
@@ -116,25 +116,25 @@ export default function Minutes() {
               </Tabs.List>
             </Flex>
 
-            <FlowTabsPanel value='scheduled'>
+            <FlowTabsPanel value="scheduled">
               <OccupantMeetingTable
-                view='scheduled'
+                view="scheduled"
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
               />
             </FlowTabsPanel>
-            <FlowTabsPanel value='completed'>
+            <FlowTabsPanel value="completed">
               <OccupantMeetingTable
-                view='completed'
+                view="completed"
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
               />
             </FlowTabsPanel>
-            <FlowTabsPanel value='cancelled'>
+            <FlowTabsPanel value="cancelled">
               <OccupantMeetingTable
-                view='cancelled'
+                view="cancelled"
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
@@ -153,11 +153,11 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <FilterDropdown label='Filter' data={filterOptions} />
+    <Flex gap={14} hidden={hidden} wrap="wrap">
+      <FilterDropdown label="Filter" data={filterOptions} />
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<NotesIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS, PAGES.MINUTES)}

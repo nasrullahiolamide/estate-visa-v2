@@ -32,9 +32,9 @@ export function MessageContent({
   // const recipient = data?.tag === "inbox" ? "Admin" : "All Houses";
 
   return (
-    <Stack className='w-full' gap={0} component='article'>
-      <Stack className='p-5 sm:p-7'>
-        <div className='space-y-2'>
+    <Stack className="w-full" gap={0} component="article">
+      <Stack className="p-5 sm:p-7">
+        <div className="space-y-2">
           <Title
             order={2}
             fz={16}
@@ -46,17 +46,17 @@ export function MessageContent({
             <span>{recipient}</span>
           </Title>
           <Flex
-            align='center'
+            align="center"
             gap={4}
             className={clsx({
               skeleton,
             })}
           >
             <ClockIcon width={14} height={14} />
-            <Text className='text-gray-300 space-x-1' fz={12}>
+            <Text className="text-gray-300 space-x-1" fz={12}>
               <span>{localDate}</span>
               <span>at</span>
-              <span className='uppercase'>{localTime}</span>
+              <span className="uppercase">{localTime}</span>
             </Text>
           </Flex>
         </div>
@@ -64,7 +64,7 @@ export function MessageContent({
         <Stack>
           <Title
             order={2}
-            c='plum.5'
+            c="plum.5"
             fz={20}
             fw={500}
             className={clsx({
@@ -86,7 +86,7 @@ export function MessageContent({
               skeleton,
             })}
           >
-            <Title order={2} c='plum.5' fz={20} fw={500}>
+            <Title order={2} c="plum.5" fz={20} fw={500}>
               Attachments
             </Title>
             <Attachments url={""} />
@@ -94,12 +94,12 @@ export function MessageContent({
         )}
       </Stack>
       {data?.responses && (
-        <Stack gap={0} className='sm:pl-5'>
+        <Stack gap={0} className="sm:pl-5">
           {data?.responses
             .sort(
               (a, b) =>
                 new Date(a.updatedAt).getTime() -
-                new Date(b.updatedAt).getTime()
+                new Date(b.updatedAt).getTime(),
             )
             .map((response) => (
               <MessageContent

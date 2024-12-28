@@ -21,47 +21,47 @@ export function ProductCard({}: ProductCardProps) {
   return (
     <Stack
       p={18}
-      className='rounded-xl bg-white cursor-pointer'
+      className="rounded-xl bg-white cursor-pointer"
       onClick={handleProductDetail}
     >
       <Picture
-        src='https://via.placeholder.com/300'
+        src="https://via.placeholder.com/300"
         h={150}
-        w='100%'
-        alt='product'
-        className='rounded-lg'
-        objectFit='cover'
+        w="100%"
+        alt="product"
+        className="rounded-lg"
+        objectFit="cover"
       />
 
-      <Stack gap='xs'>
-        <Flex justify='space-between' gap={10}>
-          <Text fw={500} size='lg'>
+      <Stack gap="xs">
+        <Flex justify="space-between" gap={10}>
+          <Text fw={500} size="lg">
             Original Nike Sneakers
           </Text>
           <Pill
-            c='white'
-            radius='sm'
-            bg='green.10'
+            c="white"
+            radius="sm"
+            bg="green.10"
             ml={8}
-            className='capitalize'
+            className="capitalize"
           >
             New Arrival
           </Pill>
         </Flex>
-        <Text fw={700} size='xl'>
+        <Text fw={700} size="xl">
           ₦20,000
         </Text>
-        <Text size='sm' color='violet' mt={-5}>
+        <Text size="sm" color="violet" mt={-5}>
           House A10
         </Text>
-        <StarRating className='!justify-start' />
+        <StarRating className="!justify-start" />
       </Stack>
 
-      <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
-        <Button variant='outline' color='gray' size='sm' fz={13} flex={1}>
+      <Flex wrap="wrap" justify="space-between" mt="auto" gap={35}>
+        <Button variant="outline" color="gray" size="sm" fz={13} flex={1}>
           Reject
         </Button>
-        <Button color='blue' size='sm' fz={13} flex={1}>
+        <Button color="blue" size="sm" fz={13} flex={1}>
           Approve
         </Button>
       </Flex>

@@ -2,10 +2,10 @@ import { Fragment } from "react";
 
 import { MODALS } from "@/packages/libraries";
 
-import { modals } from "@mantine/modals";
-import { ConfirmationModal } from "@/components/shared/interface";
 import { builder } from "@/builders";
-import { handleSuccess, handleError } from "@/packages/notification";
+import { ConfirmationModal } from "@/components/shared/interface";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ConfirmOccupantProps {
@@ -16,7 +16,6 @@ interface ConfirmOccupantProps {
 
 export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
   const queryClient = useQueryClient();
-  console.log(status);
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.account.profile.change_status,
     onSuccess: () => {
@@ -40,8 +39,8 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
         withTwoButtons
         src={status === "active" ? "success" : "disable"}
         title={title}
-        primaryBtnText='Yes, proceed'
-        secondaryBtnText='No'
+        primaryBtnText="Yes, proceed"
+        secondaryBtnText="No"
         srcProps={{
           ml: 0,
           h: 90,

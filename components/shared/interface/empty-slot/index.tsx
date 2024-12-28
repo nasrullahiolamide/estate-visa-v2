@@ -73,18 +73,18 @@ export function EmptySlot({
     <Stack
       gap={20}
       maw={540}
-      h='100%'
-      className='self-center'
-      justify='center'
-      align='center'
-      mx='auto'
+      h="100%"
+      className="self-center"
+      justify="center"
+      align="center"
+      mx="auto"
       p={10}
     >
       {src && (
-        <Box component='figure' className='grid-set'>
+        <Box component="figure" className="grid-set">
           <Box
-            bg='accent.9'
-            className='mix-blend-lighten size-full'
+            bg="accent.9"
+            className="mix-blend-lighten size-full"
             {...props}
           />
           <Image
@@ -96,16 +96,16 @@ export function EmptySlot({
         </Box>
       )}
 
-      <Stack gap={30} justify='center' align='center'>
-        <Stack gap={8} ta='center'>
+      <Stack gap={30} justify="center" align="center">
+        <Stack gap={8} ta="center">
           <Title
             fz={{
               base: "20",
               sm: "25",
             }}
             fw={400}
-            className='text-primary-text-body'
-            c='#938BB7'
+            className="text-primary-text-body"
+            c="#938BB7"
           >
             {title}
           </Title>
@@ -115,7 +115,7 @@ export function EmptySlot({
         {withDoubleButton && (
           <Stack gap={10}>
             <Button {...primaryBtnProps}>{primaryText}</Button>
-            <Button variant='outline' {...secondaryBtnProps}>
+            <Button variant="outline" {...secondaryBtnProps}>
               {secondaryText}
             </Button>
           </Stack>

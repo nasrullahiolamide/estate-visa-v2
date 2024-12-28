@@ -148,13 +148,13 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Gate Request'
+        title="Gate Request"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -172,10 +172,10 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title='You have no gate requests yet. Create one to get started!'
-                src='question'
+                title="You have no gate requests yet. Create one to get started!"
+                src="question"
                 withButton
-                text='Send New Request'
+                text="Send New Request"
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () => handleGateRequestForm({ modalType: "add" }),
@@ -214,10 +214,10 @@ export default function Gates() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handleGateRequestForm({ modalType: "add" })}
       >
@@ -225,9 +225,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
       >
         Download Table

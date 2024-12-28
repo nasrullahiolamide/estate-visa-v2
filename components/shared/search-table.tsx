@@ -38,10 +38,10 @@ export function SearchTable({
         miw={300}
         pl={12}
         pr={4}
-        size='md'
-        bg='white'
-        color='gray.3'
-        variant='outline'
+        size="md"
+        bg="white"
+        color="gray.3"
+        variant="outline"
         onClick={spotlight.open}
         leftSection={<SearchIcon width={18} />}
         classNames={{
@@ -50,8 +50,8 @@ export function SearchTable({
           inner: "w-full",
         }}
       >
-        <Flex align='center' justify='space-between' className='w-full'>
-          <Text fz={14} c='dimmed'>
+        <Flex align="center" justify="space-between" className="w-full">
+          <Text fz={14} c="dimmed">
             Search Table
           </Text>
           <Text
@@ -61,7 +61,7 @@ export function SearchTable({
             className={clsx(
               "border border-gray-3",
               "rounded-md",
-              "bg-primary-background-subtle text-primary-text-body"
+              "bg-primary-background-subtle text-primary-text-body",
             )}
           >
             Ctrl + K
@@ -71,9 +71,9 @@ export function SearchTable({
 
       <Button
         px={6}
-        c='gray.10'
-        hiddenFrom='lg'
-        variant='transparent'
+        c="gray.10"
+        hiddenFrom="lg"
+        variant="transparent"
         onClick={spotlight.open}
       >
         <Search02Icon />
@@ -82,7 +82,7 @@ export function SearchTable({
       <Spotlight
         highlightQuery
         limit={5}
-        nothingFound='Nothing found...'
+        nothingFound="Nothing found..."
         shortcut={["mod + K", "mod + P", "/"]}
         actions={actions}
         query={query}

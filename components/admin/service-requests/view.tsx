@@ -54,13 +54,13 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
   return (
     <Fragment>
       <FlowContainer
-        className='bg-primary-background-white overflow-scroll'
-        type='plain'
-        bg='white'
+        className="bg-primary-background-white overflow-scroll"
+        type="plain"
+        bg="white"
         gap={15}
       >
         <TextInput
-          label='House Number'
+          label="House Number"
           value={data?.occupant.house.houseNumber}
           disabled
           classNames={{
@@ -70,7 +70,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Account Type'
+          label="Account Type"
           value={accountType}
           disabled
           classNames={{
@@ -80,7 +80,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Phone Number'
+          label="Phone Number"
           disabled
           value={data?.occupant.user.phone}
           classNames={{
@@ -90,7 +90,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Service Type'
+          label="Service Type"
           disabled
           value={data?.serviceType}
           classNames={{
@@ -100,7 +100,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Date'
+          label="Date"
           disabled
           value={formatDate(data?.createdAt, DATE_FORMAT) ?? ""}
           classNames={{
@@ -110,7 +110,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Preferred Time'
+          label="Preferred Time"
           disabled
           value={data?.preferredTime}
           classNames={{
@@ -120,7 +120,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          label='Urgency Level'
+          label="Urgency Level"
           disabled
           value={data?.urgencyLevel}
           classNames={{
@@ -130,7 +130,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <Textarea
-          label='Brief Description'
+          label="Brief Description"
           disabled
           value={data?.description}
           classNames={{
@@ -140,8 +140,8 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
           }}
         />
         <TextInput
-          className='capitalize'
-          label='Status'
+          className="capitalize"
+          label="Status"
           disabled
           value={data?.status}
           classNames={{
@@ -152,28 +152,28 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
         />
       </FlowContainer>
       {status === "pending" ? (
-        <Flex mt={20} gap={10} className='flex-col sm:flex-row'>
+        <Flex mt={20} gap={10} className="flex-col sm:flex-row">
           <Button
-            color='red'
-            variant='outline'
-            className='sm:flex-1'
+            color="red"
+            variant="outline"
+            className="sm:flex-1"
             disabled={isPending}
-            children='Decline Request'
+            children="Decline Request"
             onClick={() => mutate({ id, status: "declined" })}
           />
           <Button
-            className='sm:flex-1'
+            className="sm:flex-1"
             onClick={() => mutate({ id, status: "approved" })}
             disabled={isPending}
-            children='Approve Request'
+            children="Approve Request"
           />
         </Flex>
       ) : (
         <Button
           mt={20}
-          w='100%'
+          w="100%"
           onClick={() => modals.close(MODALS.FORM_DETAILS)}
-          children='Close'
+          children="Close"
         />
       )}
     </Fragment>

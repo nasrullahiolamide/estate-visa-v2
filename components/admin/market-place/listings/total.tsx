@@ -8,9 +8,9 @@ export function TotalListings() {
         base: "auto",
         lg: 615,
       }}
-      breakpoint='320'
+      breakpoint="320"
       gap={24}
-      className='p-3 lg:px-0'
+      className="p-3 lg:px-0"
     >
       {Array.from({ length: 10 }).map((_, index) => (
         <ProductCard key={index} />

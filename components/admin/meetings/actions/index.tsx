@@ -81,10 +81,10 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this meeting?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this meeting?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -123,7 +123,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -157,7 +157,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           )}
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -181,13 +181,13 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
             closeMenuOnClick={false}
             leftSection={<EditIcon width={14} />}
           >
-            <FlowMenu position='right-start' withArrow={false} offset={45}>
+            <FlowMenu position="right-start" withArrow={false} offset={45}>
               <Menu.Target>
-                <Text fz={14} w='100%'>
+                <Text fz={14} w="100%">
                   Edit Status
                 </Text>
               </Menu.Target>
-              <FlowMenuDropdown variant='action'>
+              <FlowMenuDropdown variant="action">
                 <Menu.Item
                   onClick={() => changeStatus({ id, status: "completed" })}
                 >
@@ -204,7 +204,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >

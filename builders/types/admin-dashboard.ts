@@ -82,7 +82,7 @@ export function useFakeAdminDashboardData(): AdminDashboardData {
     totalSubOccupants: faker.number.int({ min: 1, max: 100 }),
     recentActivityFeed: Array.from(
       { length: faker.number.int({ min: 3, max: 100 }) },
-      useFakeRecentActivityFeedData
+      useFakeRecentActivityFeedData,
     ),
   };
 }

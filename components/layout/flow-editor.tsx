@@ -92,7 +92,7 @@ export function FlowEditor(props: FlowEditorProps) {
           control: "border-none rounded-none",
           content: clsx(
             "[&_ul]:list-disc [&_ul]:list-outside",
-            "[&_ol]:list-decimal [&_ol]:list-outside"
+            "[&_ol]:list-decimal [&_ol]:list-outside",
           ),
         }}
       >
@@ -102,7 +102,7 @@ export function FlowEditor(props: FlowEditorProps) {
           </FlowPaper>
         </FlowContentContainer>
 
-        <Flex align='center' gap={8} px='md' py='sm' wrap='wrap'>
+        <Flex align="center" gap={8} px="md" py="sm" wrap="wrap">
           <RichTextEditor.Bold />
           <RichTextEditor.Italic />
           <RichTextEditor.Underline />

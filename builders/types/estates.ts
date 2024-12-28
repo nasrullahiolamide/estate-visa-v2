@@ -75,7 +75,7 @@ export function useFakeEstatesData(_?: any, index?: number): EstatesData {
     location: faker.location.country(),
     interests: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      () => faker.commerce.department()
+      () => faker.commerce.department(),
     ),
   };
 }
@@ -102,7 +102,7 @@ export function useFakeSingleEstateData(_?: any, index?: number): SingleEstate {
       username: faker.internet.userName(),
       phone: faker.phone.number(),
       password: faker.internet.password(),
-    })
+    }),
   );
 
   const houseTypes = Array.from(
@@ -111,7 +111,7 @@ export function useFakeSingleEstateData(_?: any, index?: number): SingleEstate {
       id: faker.string.uuid(),
       name: faker.commerce.productName(),
       description: faker.commerce.product(),
-    })
+    }),
   );
 
   return {
@@ -121,11 +121,11 @@ export function useFakeSingleEstateData(_?: any, index?: number): SingleEstate {
     phone: faker.phone.number(),
     interests: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      () => faker.commerce.department()
+      () => faker.commerce.department(),
     ),
     serviceRequestTypes: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      () => faker.commerce.product()
+      () => faker.commerce.product(),
     ),
     numberOfHouses: faker.number.int({ min: 10, max: 80 }),
     manager,
@@ -139,7 +139,7 @@ export function useFakeEstateList(): EstateList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 7 }) },
-    useFakeEstatesData
+    useFakeEstatesData,
   );
 
   return {

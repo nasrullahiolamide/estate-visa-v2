@@ -14,13 +14,11 @@ export function UploadAttachments() {
     onError: () => {
       toast.error("Failed to upload resource");
     },
-    onSuccess: ({ data }) => {
-      console.log(data);
-    },
+    onSuccess: ({ data }) => {},
   });
 
   return (
-    <span className='cursor-pointer'>
+    <span className="cursor-pointer">
       <FileButton multiple onChange={setFiles}>
         {(props) => <AttachFile width={20} {...props} />}
       </FileButton>

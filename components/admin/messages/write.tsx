@@ -90,54 +90,54 @@ export function WriteModal({ view }: WriteModalProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         {view === MESSAGE_TYPE.OCCUPANT ? (
           <Select
-            label='To:'
+            label="To:"
             withAsterisk
-            placeholder='Recipients(Houses)'
+            placeholder="Recipients(Houses)"
             data={houseNumbers}
             {...form.getInputProps("houseIds")}
           />
         ) : (
           <Select
-            label='To:'
+            label="To:"
             withAsterisk
-            placeholder='Recipients'
+            placeholder="Recipients"
             data={["All Houses"]}
             {...form.getInputProps("houseIds")}
           />
         )}
         <TextInput
-          label='Subject'
+          label="Subject"
           withAsterisk
           {...form.getInputProps("title")}
         />
         <FlowEditor
           label={
-            <Flex align='center' justify='space-between'>
+            <Flex align="center" justify="space-between">
               <span>
-                Message <span className='text-red-5'>*</span>
+                Message <span className="text-red-5">*</span>
               </span>
               <UploadAttachments />
             </Flex>
           }
-          placeholder='Type something here...'
+          placeholder="Type something here..."
           rightSection={<Plane />}
           {...form.getInputProps("content")}
         />
 
-        <Flex gap='md' mt={10}>
+        <Flex gap="md" mt={10}>
           <Button
             flex={1}
-            type='button'
-            color='red'
-            variant='outline'
+            type="button"
+            color="red"
+            variant="outline"
             leftSection={<TrashIcon />}
             onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
             disabled={isPending}
@@ -146,7 +146,7 @@ export function WriteModal({ view }: WriteModalProps) {
           </Button>
           <Button
             flex={1}
-            type='submit'
+            type="submit"
             rightSection={<Plane />}
             disabled={isPending}
             loading={isPending}

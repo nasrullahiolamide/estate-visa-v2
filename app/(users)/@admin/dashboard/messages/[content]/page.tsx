@@ -75,15 +75,15 @@ export default function Page({ params }: PageProps) {
 
   const recipient =
     content.view === MESSAGE_TYPE.OCCUPANT
-      ? data.at(0)?.parent?.house?.houseNumber ??
+      ? (data.at(0)?.parent?.house?.houseNumber ??
         data.at(0)?.house?.houseNumber ??
-        ""
+        "")
       : "All houses";
 
   return (
     <Fragment>
       <AppShellHeader
-        title='Message Details'
+        title="Message Details"
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
         options={
@@ -94,7 +94,7 @@ export default function Page({ params }: PageProps) {
           />
         }
       />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -111,8 +111,8 @@ export default function Page({ params }: PageProps) {
               />
             ) : (
               <EmptySlot
-                title='Message not found. Start a conversation to stay connected!'
-                src='no-talk'
+                title="Message not found. Start a conversation to stay connected!"
+                src="no-talk"
                 withButton
                 text={
                   content.view === MESSAGE_TYPE.OCCUPANT
@@ -171,9 +171,9 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
           title={`Are you sure you want to delete this ${
             view === MESSAGE_TYPE.OCCUPANT ? "message" : "broadcast"
           }?`}
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -202,39 +202,39 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   };
 
   return (
-    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={hidden}>
+    <Flex gap={14} wrap="wrap" align="center" justify="center" hidden={hidden}>
       {view === MESSAGE_TYPE.OCCUPANT ||
       data?.responses.length ||
       data.parent ? (
-        <Button fz='sm' size='md' variant='outline' onClick={replyMessage}>
-          <Flex className='flex items-center gap-2'>
+        <Button fz="sm" size="md" variant="outline" onClick={replyMessage}>
+          <Flex className="flex items-center gap-2">
             <CurlyBackArrrow />
-            <span className='hidden sm:inline'> Reply Message</span>
+            <span className="hidden sm:inline"> Reply Message</span>
           </Flex>
         </Button>
       ) : (
         <Button
-          fz='sm'
-          size='md'
-          variant='outline'
+          fz="sm"
+          size="md"
+          variant="outline"
           onClick={() => editMessage(view, data)}
         >
-          <Flex className='flex items-center gap-2'>
+          <Flex className="flex items-center gap-2">
             <EditIcon width={18} />
-            <span className='hidden sm:inline'> Edit Message</span>
+            <span className="hidden sm:inline"> Edit Message</span>
           </Flex>
         </Button>
       )}
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         onClick={handleDelete}
-        color='#CC0404'
+        color="#CC0404"
       >
-        <Flex className='flex items-center gap-2'>
+        <Flex className="flex items-center gap-2">
           <TrashIcon width={18} />
-          <span className='hidden sm:inline'>Delete</span>
+          <span className="hidden sm:inline">Delete</span>
         </Flex>
       </Button>
     </Flex>

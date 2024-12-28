@@ -21,12 +21,12 @@ export function AppShellButton({ opened, ...props }: ButtonProps) {
   return opened ? (
     <NavLink
       active={isActive}
-      variant='admin-app-shell'
+      variant="admin-app-shell"
       component={Link}
       {...props}
     />
   ) : (
-    <ActionIcon variant='app-shell' data-active={isActive} size={48}>
+    <ActionIcon variant="app-shell" data-active={isActive} size={48}>
       {props.leftSection}
     </ActionIcon>
   );

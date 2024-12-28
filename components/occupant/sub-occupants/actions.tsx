@@ -56,10 +56,10 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this sub-occupant?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this sub-occupant?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -102,7 +102,7 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -111,10 +111,10 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
-        <FlowToolTip icon='View' onClick={handlers.onView} />
-        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
+        <FlowToolTip icon="View" onClick={handlers.onView} />
+        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

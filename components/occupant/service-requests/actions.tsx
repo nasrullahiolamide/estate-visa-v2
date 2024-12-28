@@ -79,10 +79,10 @@ export function ServieRequestActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this request?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this request?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -104,7 +104,7 @@ export function ServieRequestActions({
 
   return (
     <Fragment>
-      <FlowMenu withArrow={false} position='bottom-end'>
+      <FlowMenu withArrow={false} position="bottom-end">
         <FlowMenuTarget />
         <FlowMenuDropdown>
           {(status === STATUS.PENDING || status === STATUS.IN_PROGESS) && (
@@ -121,7 +121,7 @@ export function ServieRequestActions({
             </Menu.Item>
           )}
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >

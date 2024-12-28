@@ -21,17 +21,17 @@ export function FlowPaper({
   return (
     <Flex
       flex={1}
-      component='article'
-      pos='relative'
+      component="article"
+      pos="relative"
       className={clsx(className, {
         "rounded-2xl bg-white": border,
       })}
       {...container}
     >
       <Flex
-        className='scrollbar-none size-full'
-        component='section'
-        pos='absolute'
+        className="scrollbar-none size-full"
+        component="section"
+        pos="absolute"
         style={{
           alignItems: border ? "center" : "flex-start",
           overflow: "auto",

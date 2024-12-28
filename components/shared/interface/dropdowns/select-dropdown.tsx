@@ -27,9 +27,9 @@ export function Select({ data, dropDownProps, ...props }: SelectProps) {
     <Menu>
       <Menu.Target>
         <Button
-          variant='outline'
-          size='md'
-          color='gray.10'
+          variant="outline"
+          size="md"
+          color="gray.10"
           rightSection={<ArrowDown2 size={14} />}
           {...props}
         >
@@ -37,7 +37,7 @@ export function Select({ data, dropDownProps, ...props }: SelectProps) {
         </Button>
       </Menu.Target>
 
-      <Menu.Dropdown miw={180} className='p-0' {...dropDownProps}>
+      <Menu.Dropdown miw={180} className="p-0" {...dropDownProps}>
         {data.map((item, i) => (
           <Fragment key={item}>
             <Menu.Item
@@ -45,12 +45,12 @@ export function Select({ data, dropDownProps, ...props }: SelectProps) {
               onClick={() => setSelected(item)}
               className={clsx(
                 "hover:bg-purple-4 rounded-none p-4",
-                selected === item && "bg-purple-4"
+                selected === item && "bg-purple-4",
               )}
               classNames={{
                 itemLabel: clsx(
                   "flex items-center gap-3",
-                  selected === item && "font-medium"
+                  selected === item && "font-medium",
                 ),
               }}
             >

@@ -84,10 +84,10 @@ export function GateRequestActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this gate request?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this gate request?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -132,7 +132,7 @@ export function GateRequestActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -147,7 +147,7 @@ export function GateRequestActions({
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -161,7 +161,7 @@ export function GateRequestActions({
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -189,10 +189,10 @@ export const handleShare = (data: GateRequestData) => {
     modalId: MODALS.CONFIRMATION,
     children: (
       <ConfirmationModal
-        title='Gate Request Generated!'
-        description='Share the generated code to your guest immediately via SMS or WhatsApp.'
-        src='share'
-        btnText='Share Now'
+        title="Gate Request Generated!"
+        description="Share the generated code to your guest immediately via SMS or WhatsApp."
+        src="share"
+        btnText="Share Now"
         srcProps={{
           ml: 0,
           h: 130,
@@ -206,9 +206,9 @@ export const handleShare = (data: GateRequestData) => {
               modalId: MODALS.SHARE,
               children: (
                 <Stack
-                  align='center'
-                  justify='center'
-                  ta='center'
+                  align="center"
+                  justify="center"
+                  ta="center"
                   gap={20}
                   py={20}
                 >
@@ -224,8 +224,8 @@ export const handleShare = (data: GateRequestData) => {
                       href={`https://api.whatsapp.com/send?phone=${
                         data.phoneNo
                       }&text=${encodeURIComponent(shareText)}`}
-                      target='_blank'
-                      rel='noopener noreferrer'
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => modals.close(MODALS.SHARE)}
                     >
                       <WhatsAppIcon />

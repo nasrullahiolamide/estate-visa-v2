@@ -27,15 +27,15 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: LayoutProps) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body>
-        <main className='scrollbar-none'>
+        <main className="scrollbar-none">
           <Providers>{children}</Providers>
         </main>
         <Script
-          id='floating-btn_sdk'
-          src='/scripts/floating-btn-sdk.js'
-          strategy='afterInteractive'
+          id="floating-btn_sdk"
+          src="/scripts/floating-btn-sdk.js"
+          strategy="afterInteractive"
           async
         />
       </body>

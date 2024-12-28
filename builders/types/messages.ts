@@ -104,7 +104,7 @@ export function useFakeMessagesList(): MessagesList {
 
   const messages = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeMessagesData
+    useFakeMessagesData,
   );
 
   return {

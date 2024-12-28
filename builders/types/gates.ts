@@ -54,11 +54,11 @@ export function useFakeGatesData(_?: any, index?: number) {
     phone: faker.phone.number(),
     interests: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      () => faker.lorem.word()
+      () => faker.lorem.word(),
     ),
     serviceRequestTypes: Array.from(
       { length: faker.number.int({ min: 1, max: 5 }) },
-      () => faker.lorem.word()
+      () => faker.lorem.word(),
     ),
     numberOfHouses: faker.number.int({ min: 1, max: 100 }),
     createdAt: faker.date.past().toISOString(),
@@ -80,7 +80,7 @@ export function useFakeGatesData(_?: any, index?: number) {
 
 export const fakeGateData = Array.from(
   { length: faker.number.int({ min: 3, max: 100 }) },
-  useFakeGatesData
+  useFakeGatesData,
 );
 
 export function useFakeGatesList() {
@@ -88,7 +88,7 @@ export function useFakeGatesList() {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeGatesData
+    useFakeGatesData,
   );
 
   return {

@@ -42,7 +42,7 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
     return (
       <Box
         ref={ref}
-        component='picture'
+        component="picture"
         style={{
           aspectRatio: "1",
           position: "relative",
@@ -64,12 +64,12 @@ export const Picture = forwardRef<HTMLImageElement, PictureProps>(
           blurDataURL={blurDataURL}
           unoptimized={unoptimized}
           overrideSrc={overrideSrc}
-          className='rounded-lg'
+          className="rounded-lg"
           style={{
             objectFit,
           }}
         />
       </Box>
     );
-  }
+  },
 );

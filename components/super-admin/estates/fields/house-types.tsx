@@ -34,17 +34,17 @@ export function HouseTypes() {
           label={
             <Flex
               gap={8}
-              align='center'
-              className='justify-between sm:justify-start'
+              align="center"
+              className="justify-between sm:justify-start"
             >
               <span>
-                House Types <span className='text-red-5'>*</span>
+                House Types <span className="text-red-5">*</span>
               </span>
               <EditIcon
                 width={15}
                 height={15}
-                color='var(--blue-8)'
-                className='group-hover:inline hidden cursor-pointer'
+                color="var(--blue-8)"
+                className="group-hover:inline hidden cursor-pointer"
                 onClick={handleEditModal}
               />
             </Flex>
@@ -58,7 +58,7 @@ export function HouseTypes() {
         >
           <Stack
             p={14}
-            className='border border-gray-4 rounded-lg lg:grid lg:gap-6'
+            className="border border-gray-4 rounded-lg lg:grid lg:gap-6"
             style={{
               gridTemplateColumns: `repeat(auto-fill,minmax(min(350px,100%),1fr))`,
               gridAutoRows: "1fr",
@@ -67,8 +67,8 @@ export function HouseTypes() {
             {data?.map((type) => (
               <Checkbox
                 key={type.id}
-                variant='outline'
-                size='sm'
+                variant="outline"
+                size="sm"
                 label={type.name}
                 value={type.id}
                 className={clsx({ skeleton: isLoading })}
@@ -78,8 +78,8 @@ export function HouseTypes() {
           </Stack>
         </Checkbox.Group>
       ) : (
-        <Stack p={14} className='border border-gray-4 rounded-lg'>
-          <Button variant='subtle' onClick={handleEditModal}>
+        <Stack p={14} className="border border-gray-4 rounded-lg">
+          <Button variant="subtle" onClick={handleEditModal}>
             Add House Types
           </Button>
         </Stack>

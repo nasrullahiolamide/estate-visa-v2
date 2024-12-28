@@ -15,7 +15,7 @@ export const schema = object({
   password: requiredString,
   confirm_password: requiredString.oneOf(
     [ref("password")],
-    "Passwords do not match"
+    "Passwords do not match",
   ),
 });
 
@@ -54,25 +54,25 @@ export function ChangePassword({ userId }: { userId: string }) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <PasswordInput
-          label='New Password'
-          placeholder='********'
+          label="New Password"
+          placeholder="********"
           withAsterisk
           {...form.getInputProps("password")}
         />
         <PasswordInput
-          label='Confirm Password'
-          placeholder='********'
+          label="Confirm Password"
+          placeholder="********"
           withAsterisk
           {...form.getInputProps("confirm_password")}
         />
-        <Button mt={10} type='submit' loading={isPending} disabled={isPending}>
+        <Button mt={10} type="submit" loading={isPending} disabled={isPending}>
           Save Changes
         </Button>
       </FlowContainer>

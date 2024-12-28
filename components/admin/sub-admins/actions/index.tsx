@@ -42,8 +42,8 @@ export function activateAccount(id: string) {
     children: (
       <UpdateStatus
         id={id}
-        title='Are you sure you want to activate this account?'
-        status='active'
+        title="Are you sure you want to activate this account?"
+        status="active"
       />
     ),
   });
@@ -56,8 +56,8 @@ export function suspendAccount(id: string) {
     children: (
       <UpdateStatus
         id={id}
-        title='Are you sure you want to disable this account?'
-        status='suspended'
+        title="Are you sure you want to disable this account?"
+        status="suspended"
       />
     ),
   });
@@ -93,10 +93,10 @@ export function SubAdminActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this Sub Admin?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this Sub Admin?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -127,7 +127,7 @@ export function SubAdminActions({
         <FlowMenuDropdown>
           {isActive ? (
             <Menu.Item
-              color='#969921'
+              color="#969921"
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >
@@ -135,7 +135,7 @@ export function SubAdminActions({
             </Menu.Item>
           ) : (
             <Menu.Item
-              color='#11A506'
+              color="#11A506"
               leftSection={<ActivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -156,7 +156,7 @@ export function SubAdminActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -165,15 +165,15 @@ export function SubAdminActions({
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
         {isActive ? (
-          <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
+          <FlowToolTip icon="Suspend" onClick={() => suspendAccount(id)} />
         ) : (
-          <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
+          <FlowToolTip icon="Activate" onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon='View' onClick={handlers.onView} />
-        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+        <FlowToolTip icon="View" onClick={handlers.onView} />
+        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

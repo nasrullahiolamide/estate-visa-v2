@@ -28,21 +28,21 @@ export function DownloadDropdown({
   return (
     <Menu position={position}>
       <Menu.Target>
-        <Button variant='transparent' size='md' {...props}>
+        <Button variant="transparent" size="md" {...props}>
           <DownloadIcon
-            color='#3944BC'
-            className='cursor-pointer'
+            color="#3944BC"
+            className="cursor-pointer"
             width={20}
             height={20}
           />
         </Button>
       </Menu.Target>
 
-      <Menu.Dropdown miw={180} className='p-0' {...dropDownProps}>
+      <Menu.Dropdown miw={180} className="p-0" {...dropDownProps}>
         <Menu.Label
-          fz='sm'
+          fz="sm"
           fw={500}
-          className='p-3 bg-purple-4 text-primary-text-body'
+          className="p-3 bg-purple-4 text-primary-text-body"
         >
           Download as
         </Menu.Label>

@@ -1,25 +1,26 @@
 "use client";
 
-import Link from "next/link";
-import clsx from "clsx";
-import { toString } from "lodash";
 import { builder } from "@/builders";
-import { getCookie } from "cookies-next";
-import { useQuery } from "@tanstack/react-query";
-import { SVGProps, useEffect, useState, useRef } from "react";
-import { usePathname } from "next/navigation";
-import { Box, Flex, NavLink } from "@mantine/core";
 import {
   ADMIN_ROUTES,
   GATEMAN_ROUTES,
   OCCUPANT_ROUTES,
   PROPERTY_OWNER_ROUTES,
+  SUB_ADMIN_ROUTES,
   SUB_OCCUPANT_ROUTES,
   SUPER_ADMIN_ROUTES,
-  SUB_ADMIN_ROUTES,
 } from "@/packages/constants/routes";
-import { getFeatureFlag } from "@/packages/libraries/auth";
 import { APP, makePath, PAGES, USER_TYPE } from "@/packages/libraries";
+import { getFeatureFlag } from "@/packages/libraries/auth";
+import { Box, Flex, NavLink } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
+import { usePathname } from "next/navigation";
+import { SVGProps, useEffect, useRef, useState } from "react";
+
+import clsx from "clsx";
+import Link from "next/link";
 
 const view: Record<PropertyKey, NavLinkType> = {
   [USER_TYPE.ADMIN]: ADMIN_ROUTES,
@@ -63,7 +64,7 @@ export function NavigationLinks() {
     const activeIndex = links.findIndex((item) =>
       item.href === PAGES.DASHBOARD
         ? pathname === PAGES.DASHBOARD
-        : pathname.startsWith(toString(item.href))
+        : pathname.startsWith(toString(item.href)),
     );
 
     if (activeIndex !== -1 && activeLinkRefs.current[activeIndex]) {
@@ -77,13 +78,13 @@ export function NavigationLinks() {
 
   return (
     <Flex
-      align='center'
-      justify='space-between'
+      align="center"
+      justify="space-between"
       gap={20}
       className={clsx("lg:~px-1/8 overflow-x-auto scrollbar-none", {
         skeleton: isLoading,
       })}
-      hiddenFrom='lg'
+      hiddenFrom="lg"
     >
       {links.map((item, index) => {
         const isActive =
@@ -101,12 +102,12 @@ export function NavigationLinks() {
               activeLinkRefs.current[index] = el;
             }}
             active={isActive}
-            variant='admin-app-shell-mobile'
+            variant="admin-app-shell-mobile"
             component={Link}
             href={item.href}
             flex={1}
             label={
-              <Flex gap={5} align='center' justify='center'>
+              <Flex gap={5} align="center" justify="center">
                 <item.icon width={20} />
                 <Box>{item.title}</Box>
               </Flex>

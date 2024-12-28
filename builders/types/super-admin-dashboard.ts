@@ -72,7 +72,7 @@ export function useFakeSuperAdminDashboardData(): SuperAdminDashboardData {
     },
     recentActivityFeed: Array.from(
       { length: faker.number.int({ min: 3, max: 7 }) },
-      useFakeRecentActivityFeedData
+      useFakeRecentActivityFeedData,
     ),
   };
 }

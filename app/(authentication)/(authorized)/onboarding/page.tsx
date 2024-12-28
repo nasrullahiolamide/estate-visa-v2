@@ -20,7 +20,7 @@ const schema = object({
     .matches(/\d/, "Password must contain at least one number")
     .matches(
       /[!@#$%.^&*]/,
-      "Password must contain at least one special character"
+      "Password must contain at least one special character",
     )
     .min(6, "Password must be at least 6 characters long"),
 
@@ -55,41 +55,39 @@ export default function Onboarding() {
       password,
       oldPassword: "",
     };
-
-    console.log(payload);
   }
 
   return (
     <Stack gap={40}>
-      <Stack gap={8} justify='center' align='center'>
-        <h2 className='text-2xl font-medium text-center text-primary-text-body'>
+      <Stack gap={8} justify="center" align="center">
+        <h2 className="text-2xl font-medium text-center text-primary-text-body">
           Let&apos;s get you onboarded
         </h2>
-        <Text className='text-sm text-center text-primary-text-body'>
+        <Text className="text-sm text-center text-primary-text-body">
           Please change your password to continue.
         </Text>
       </Stack>
 
-      <Box component={Form} form={form} onSubmit={handleSubmit} w='100%'>
+      <Box component={Form} form={form} onSubmit={handleSubmit} w="100%">
         <Stack gap={8}>
           <Stack gap={25}>
             <PasswordInput
-              id='password'
-              label='New Password'
-              type='password'
-              placeholder='Enter your new password'
+              id="password"
+              label="New Password"
+              type="password"
+              placeholder="Enter your new password"
               {...form.getInputProps("password")}
             />
             <PasswordInput
-              id='confirm_password'
-              label='Confirm Password'
-              type='password'
-              placeholder='Re-enter your new password'
+              id="confirm_password"
+              label="Confirm Password"
+              type="password"
+              placeholder="Re-enter your new password"
               {...form.getInputProps("confirm_password")}
             />
             <Flex gap={15} mt={20}>
               <Button
-                variant='outline'
+                variant="outline"
                 flex={1}
                 component={Link}
                 href={PAGES.DASHBOARD}
@@ -97,10 +95,10 @@ export default function Onboarding() {
                 Skip for now
               </Button>
               <Button
-                type='submit'
+                type="submit"
                 loading={isPending}
                 disabled={isPending}
-                className='text-primary-button-surface'
+                className="text-primary-button-surface"
                 flex={1}
               >
                 Save new password

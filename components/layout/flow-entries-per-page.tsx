@@ -22,15 +22,15 @@ export function FlowEntriesPerPage({
   return (
     <Flex
       gap={10}
-      wrap='wrap'
-      align='center'
-      className='prose-sm/medium'
+      wrap="wrap"
+      align="center"
+      className="prose-sm/medium"
       // lg:flex
       {...rootProps}
     >
       <Text fz={14}>Show</Text>
       <Select
-        size='sm'
+        size="sm"
         searchable={false}
         clearable={false}
         rightSection={<ArrowDown2 size={14} />}

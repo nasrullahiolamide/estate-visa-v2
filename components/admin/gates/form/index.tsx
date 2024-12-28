@@ -106,15 +106,15 @@ export function GateForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Stack gap={0}>
           <TextInput
-            label='Gate Name'
+            label="Gate Name"
             placeholder="Enter the gate's name"
             disabled={isViewing}
             withAsterisk
@@ -124,7 +124,7 @@ export function GateForm({
             {...form.getInputProps("name")}
           />
           {name && (
-            <Text fz={14} c='yellow.8' mt={5}>
+            <Text fz={14} c="yellow.8" mt={5}>
               Gate username {isViewing ? "is" : "will be"}{" "}
               <strong>{gateUsername}</strong>
             </Text>
@@ -133,21 +133,21 @@ export function GateForm({
         {isAdding && (
           <Stack gap={0}>
             <PasswordInput
-              label='Gate Password'
-              placeholder='********'
+              label="Gate Password"
+              placeholder="********"
               disabled={isViewing}
               withAsterisk
               {...form.getInputProps("password")}
             />
             {!form.errors.password && (
-              <Text fz={14} c='yellow.8' mt={5}>
+              <Text fz={14} c="yellow.8" mt={5}>
                 This is the password required to approve gate requests
               </Text>
             )}
           </Stack>
         )}
         <TextInput
-          label='Gate Location'
+          label="Gate Location"
           placeholder="Enter the gate's location"
           disabled={isViewing}
           withAsterisk
@@ -164,7 +164,7 @@ export function GateForm({
               label: "Closed",
             },
           ]}
-          label='Gate Status'
+          label="Gate Status"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("status")}
@@ -172,7 +172,7 @@ export function GateForm({
         {isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -180,7 +180,7 @@ export function GateForm({
         ) : isEditing ? (
           <Button
             mt={10}
-            type='submit'
+            type="submit"
             loading={isUpdating}
             disabled={isUpdating}
           >
@@ -189,7 +189,7 @@ export function GateForm({
         ) : (
           <Button
             mt={10}
-            type='submit'
+            type="submit"
             loading={isPending}
             disabled={isPending}
           >

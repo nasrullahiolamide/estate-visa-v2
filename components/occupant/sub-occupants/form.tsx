@@ -102,31 +102,31 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={15}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <TextInput
-          label='Full Name'
+          label="Full Name"
           disabled={isViewing}
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label='Email Address'
+          label="Email Address"
           disabled={isViewing}
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label='Phone Number'
+          label="Phone Number"
           disabled={isViewing}
           {...form.getInputProps("phone")}
         />
 
         <Select
           data={RELATIONSHIP_OPTIONS}
-          label='Relationship'
+          label="Relationship"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("relationshipToMain")}
@@ -135,7 +135,7 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
         {isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -143,7 +143,7 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
         ) : isEditing ? (
           <Button
             mt={10}
-            type='submit'
+            type="submit"
             loading={isUpdating}
             disabled={isUpdating}
           >
@@ -152,7 +152,7 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
         ) : (
           <Button
             mt={10}
-            type='submit'
+            type="submit"
             loading={isPending}
             disabled={isPending}
           >

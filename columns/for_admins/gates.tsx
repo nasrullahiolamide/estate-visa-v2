@@ -9,7 +9,7 @@ export const gatesColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -36,11 +36,11 @@ export const gatesColumns = [
   columnHelper.accessor("name", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Gate Name'
+        className="w-full"
+        children="Gate Name"
       />
     ),
     enableSorting: false,
@@ -49,7 +49,7 @@ export const gatesColumns = [
       const location = row.original.location;
 
       return (
-        <Stack gap={5} ta='center'>
+        <Stack gap={5} ta="center">
           <Text fw={500} children={name} />
           <Text fz={14} children={location} />
         </Stack>
@@ -59,7 +59,7 @@ export const gatesColumns = [
 
   columnHelper.accessor("status", {
     header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+      <Text ta="center" fw={600} fz={14} className="w-full" children="Status" />
     ),
     enableSorting: false,
     cell: ({ getValue }) => {
@@ -67,15 +67,15 @@ export const gatesColumns = [
       const isActive = value.toLowerCase() === "open";
 
       return (
-        <Box ta='center'>
+        <Box ta="center">
           <Pill
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
             children={value}
-            className='capitalize'
-            size='sm'
-            ta='center'
+            className="capitalize"
+            size="sm"
+            ta="center"
           />
         </Box>
       );
@@ -84,11 +84,11 @@ export const gatesColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

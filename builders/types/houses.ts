@@ -66,7 +66,7 @@ export function useFakeHousesList(): HousesList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeHouseData
+    useFakeHouseData,
   );
 
   return {

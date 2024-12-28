@@ -1,26 +1,26 @@
 "use client";
 
-import clsx from "clsx";
-import { modals } from "@mantine/modals";
-import { Button, Flex, Select, TextInput } from "@mantine/core";
+import { Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import clsx from "clsx";
 
 import { builder } from "@/builders";
 import {
   SubAdminListData,
   UpdateSubAdminData,
 } from "@/builders/types/sub-admins";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { APP, cast, decryptUri, MODALS } from "@/packages/libraries";
-import { FormButtons } from "@/components/shared/interface";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { FormButtons } from "@/components/shared/interface";
+import { APP, cast, decryptUri, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { schema } from "../schema";
 import { ProfileData } from "@/builders/types/profile";
+import { FlowPhoneInput } from "@/components/layout";
 import { getCookie } from "cookies-next";
 import { activateAccount, suspendAccount } from "../actions";
-import { FlowPhoneInput } from "@/components/layout";
+import { schema } from "../schema";
 
 interface ViewSubAdminsProps extends Omit<SubAdminListData, "edit"> {
   edit: boolean;
@@ -40,7 +40,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
       queryClient.invalidateQueries({
         queryKey: builder.sub_admins.get.$get(),
       });
-      modals.close(MODALS.VIEW_EDIT_SUB_ADMIN);
+      modals.close(MODALS.FORM_DETAILS);
       handleSuccess({
         message: "Sub-Admin Edited Successfully",
       });
@@ -89,20 +89,20 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <TextInput
-          label='Full Name'
+          label="Full Name"
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <FlowPhoneInput
-          label='Phone Number'
+          label="Phone Number"
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("phone")}
@@ -120,7 +120,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             },
           ]}
           disabled={!isEditing}
-          label='Account Status'
+          label="Account Status"
           {...form.getInputProps("status")}
         />
 
@@ -143,7 +143,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
               isActive
                 ? "hover:bg-red-1 border-red-4"
                 : "hover:bg-green-1 border-green-9",
-              "bg-opacity-9"
+              "bg-opacity-9",
             ),
           }}
           rightButton={{

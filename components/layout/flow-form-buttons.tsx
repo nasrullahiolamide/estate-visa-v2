@@ -47,18 +47,18 @@ export function FlowFormButtons({
   return (
     <Box>
       <Divider />
-      <Flex gap={20} px={32} py={20} wrap='wrap' {...containerProps}>
+      <Flex gap={20} px={32} py={20} wrap="wrap" {...containerProps}>
         <Button
-          miw='fit-content'
+          miw="fit-content"
           flex={1}
-          variant='default'
-          type='button'
+          variant="default"
+          type="button"
           {...leftProps}
         >
           {leftLabel}
         </Button>
 
-        <Button type='submit' miw='fit-content' flex={1} {...rightProps}>
+        <Button type="submit" miw="fit-content" flex={1} {...rightProps}>
           {rightLabel}
         </Button>
       </Flex>

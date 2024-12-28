@@ -25,12 +25,12 @@ export const housesColumns = [
     header: "Sub Occupant",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+      <Text ta="center" fz={14} className="w-full" children={getValue()} />
     ),
   }),
   columnHelper.accessor("status", {
     header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
+      <Text ta="center" fw={600} fz={14} className="w-full" children="Status" />
     ),
     enableSorting: false,
     cell: ({ getValue }) => {
@@ -43,9 +43,9 @@ export const housesColumns = [
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
-            className='capitalize'
+            className="capitalize"
             children={value}
-            size='sm'
+            size="sm"
           />
         </Center>
       );

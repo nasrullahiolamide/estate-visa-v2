@@ -11,7 +11,7 @@ export const MeetingColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -48,14 +48,14 @@ export const MeetingColumns = [
     header: "Time",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='uppercase' children={getValue()} />
+      <Text ta="center" fz={14} className="uppercase" children={getValue()} />
     ),
   }),
   columnHelper.accessor("noOfAttendees", {
     header: "Attendees",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta='center' fz={14} children={getValue() ? getValue() : "--"} />
+      <Text ta="center" fz={14} children={getValue() ? getValue() : "--"} />
     ),
   }),
 
@@ -72,15 +72,15 @@ export const MeetingColumns = [
       };
 
       return (
-        <Box ta='center'>
+        <Box ta="center">
           <Pill
-            ta='center'
+            ta="center"
             c={colors[value.toLowerCase()].color}
             bg={colors[value.toLowerCase()].bg}
             fw={500}
             children={value}
-            size='sm'
-            className='capitalize'
+            size="sm"
+            className="capitalize"
           />
         </Box>
       );
@@ -89,11 +89,11 @@ export const MeetingColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

@@ -48,7 +48,7 @@ export function ServiceRequestActions({
     pending: (
       <Fragment>
         <Menu.Item
-          color='green.7'
+          color="green.7"
           leftSection={<DoubleMarkIcon width={14} />}
           onClick={() => mutate({ id, status: "completed" })}
         >
@@ -56,7 +56,7 @@ export function ServiceRequestActions({
         </Menu.Item>
 
         <Menu.Item
-          color='blue.7'
+          color="blue.7"
           leftSection={<DoubleMarkIcon width={14} />}
           onClick={() => mutate({ id, status: "in-progress" })}
         >

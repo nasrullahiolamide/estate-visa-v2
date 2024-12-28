@@ -56,7 +56,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Occupants",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload type='occupants' />,
+    children: <BulkUpload type="occupants" />,
   });
 };
 
@@ -132,7 +132,7 @@ export default function Occupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Occupants'
+        title="Occupants"
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -142,7 +142,7 @@ export default function Occupants() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -160,11 +160,11 @@ export default function Occupants() {
               />
             ) : (
               <EmptySlot
-                title='There are no occupants yet. Add one to get started!'
-                src='person-minus'
+                title="There are no occupants yet. Add one to get started!"
+                src="person-minus"
                 withDoubleButton
-                primaryText='Add New Occupant'
-                secondaryText='Bulk Upload'
+                primaryText="Add New Occupant"
+                secondaryText="Bulk Upload"
                 primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () => handleOccupantForm({ modalType: "add" }),
@@ -226,10 +226,10 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap' hidden={hidden}>
+    <Flex gap={14} wrap="wrap" hidden={hidden}>
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handleOccupantForm({ modalType: "add" })}
       >
@@ -237,18 +237,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

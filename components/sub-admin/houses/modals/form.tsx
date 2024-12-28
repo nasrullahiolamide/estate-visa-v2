@@ -119,7 +119,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   const eligibilityPeriod = dayjs()
     .add(
       form.getTransformedValues().duration,
-      form.getValues().durationType as ManipulateType
+      form.getValues().durationType as ManipulateType,
     )
     .format(DATE_FORMAT);
 
@@ -169,14 +169,14 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   return (
     <Form form={form}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <TextInput
-          label='Street Name'
+          label="Street Name"
           disabled={isViewing}
           withAsterisk
           classNames={{
@@ -185,7 +185,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           {...form.getInputProps("streetName")}
         />
         <TextInput
-          label='House Number'
+          label="House Number"
           disabled={isViewing}
           withAsterisk
           classNames={{
@@ -195,14 +195,14 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         />
         <Select
           data={houseTypes}
-          label='House Type'
-          nothingFoundMessage='No house types found'
+          label="House Type"
+          nothingFoundMessage="No house types found"
           disabled={isViewing || (modalType !== "add" && isLoading)}
           withAsterisk
           {...form.getInputProps("houseTypeId")}
         />
         <Select
-          label='Status'
+          label="Status"
           fz={14}
           disabled={isViewing || (modalType !== "add" && isLoading)}
           data={[
@@ -220,29 +220,29 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
         <Stack gap={12}>
           <Radio.Group
-            name='duration'
-            label='House Validity Period'
-            description='Select the validity period for the house'
+            name="duration"
+            label="House Validity Period"
+            description="Select the validity period for the house"
             withAsterisk
             {...form.getInputProps("durationType")}
           >
-            <Group mt='xs'>
+            <Group mt="xs">
               <Radio
-                value='months'
-                label='Month'
-                variant='outline'
+                value="months"
+                label="Month"
+                variant="outline"
                 disabled={isViewing}
               />
               <Radio
-                value='years'
-                label='Year'
-                variant='outline'
+                value="years"
+                label="Year"
+                variant="outline"
                 disabled={isViewing}
               />
             </Group>
           </Radio.Group>
           <TextInput
-            type='number'
+            type="number"
             disabled={isViewing}
             withAsterisk
             min={1}
@@ -258,7 +258,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           {form.getValues().duration && !form.errors.duration && (
             <Text
               fz={14}
-              c='yellow.8'
+              c="yellow.8"
               children={`Eligibility ends on ${eligibilityPeriod}`}
             />
           )}
@@ -267,7 +267,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         {isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -275,7 +275,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         ) : (
           <Button
             mt={10}
-            type='button'
+            type="button"
             loading={isAdding || isUpdating}
             disabled={isAdding || isUpdating}
             onClick={handleSubmit}

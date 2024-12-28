@@ -98,7 +98,7 @@ export default function Page({ params }: PageProps) {
       interests: interests?.map((interest) => pass.string(interest)),
       phone: pass.string(phone),
       serviceRequestTypes: serviceRequestTypes?.map((type) =>
-        pass.string(type)
+        pass.string(type),
       ),
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       email: pass.string(manager?.email),
@@ -131,10 +131,10 @@ export default function Page({ params }: PageProps) {
   return (
     <Fragment>
       <AppShellHeader
-        title='Estate Details'
+        title="Estate Details"
         backHref={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
       />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         {estates ? (
           <FormProvider form={form}>
             <FlowContentContainer
@@ -144,7 +144,7 @@ export default function Page({ params }: PageProps) {
                 }),
               }}
             >
-              <Form form={form} className='h-full flex'>
+              <Form form={form} className="h-full flex">
                 <DesktopView
                   onSubmit={handleSubmit}
                   isSubmitting={isUpdating}
@@ -160,17 +160,17 @@ export default function Page({ params }: PageProps) {
           </FormProvider>
         ) : (
           <EmptySlot
-            title='No Estate Found. Start by adding an estate to manage!'
-            src='house'
+            title="No Estate Found. Start by adding an estate to manage!"
+            src="house"
             withButton
-            text='Add Estate'
+            text="Add Estate"
             btnProps={{
               leftSection: <AddIcon />,
               component: "a",
               href: makePath(
                 PAGES.DASHBOARD,
                 PAGES.ESTATES,
-                PAGES.ADD_NEW_ESTATE
+                PAGES.ADD_NEW_ESTATE,
               ),
             }}
           />

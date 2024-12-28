@@ -26,7 +26,7 @@ const schema = object({
         .matches(/\d/, "Password must contain at least one number")
         .matches(
           /[!@#$%.^&*]/,
-          "Password must contain at least one special character"
+          "Password must contain at least one special character",
         )
         .min(6, "Password must be at least 6 characters long"),
   }),

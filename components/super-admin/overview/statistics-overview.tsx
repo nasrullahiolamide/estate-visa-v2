@@ -21,7 +21,7 @@ export function StatisticsOverview({
 }: StatisticsOverviewProps) {
   return (
     <Box
-      className='grid gap-6'
+      className="grid gap-6"
       style={{
         gridTemplateColumns: "repeat(auto-fill,minmax(min(350px,100%),1fr))",
         gridAutoRows: "1fr",
@@ -29,27 +29,27 @@ export function StatisticsOverview({
     >
       <StatisticsCard
         icon={EstateIcon}
-        title='Total Estates'
+        title="Total Estates"
         value={totalEstates}
         total={totalEstates}
-        label='Manage Estates'
+        label="Manage Estates"
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
         skeleton={skeleton}
       />
 
       <StatisticsCard
         icon={UserIcon}
-        title='Total Estate Owners'
+        title="Total Estate Owners"
         value={totalEstateOwners}
-        label='Manage Estate Owners'
+        label="Manage Estate Owners"
         skeleton={skeleton}
       />
 
       <StatisticsCard
         icon={UserIcon}
-        title='Total Users'
+        title="Total Users"
         value={totalUsers}
-        label='Manage Users'
+        label="Manage Users"
         skeleton={skeleton}
       />
     </Box>

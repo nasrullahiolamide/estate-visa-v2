@@ -95,12 +95,12 @@ export default function MarketRules() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Market Rules'
+        title="Market Rules"
         backHref={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE)}
         options={<HeaderOptions />}
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -115,10 +115,10 @@ export default function MarketRules() {
               />
             ) : (
               <EmptySlot
-                title='You have no rules in the market place yet, add a new rule to get started.'
-                src='marketplace'
+                title="You have no rules in the market place yet, add a new rule to get started."
+                src="marketplace"
                 withButton
-                text='Add New Rule'
+                text="Add New Rule"
                 btnProps={{
                   leftSection: <AddIcon />,
                 }}
@@ -157,10 +157,10 @@ export default function MarketRules() {
 
 function HeaderOptions({ hidden }: { hidden?: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<AddIcon />}
         onClick={handleMarketRuleForm}
       >

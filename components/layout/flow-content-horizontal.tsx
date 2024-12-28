@@ -15,7 +15,7 @@ export function FlowContentHorizontal({
 }: FlowContentHorizontalProps) {
   return (
     <Flex
-      display='grid'
+      display="grid"
       flex={1}
       className={clsx("grid gap-6 overflow-auto", className)}
       style={{

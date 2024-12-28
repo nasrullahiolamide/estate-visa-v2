@@ -9,7 +9,7 @@ export function TalkToUsButton({ ...props }: TalkToUsButtonProps) {
     <Button
       component={Link}
       href={PAGES.TALK_TO_US}
-      variant='primary'
+      variant="primary"
       {...props}
     >
       Talk to us

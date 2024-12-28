@@ -18,19 +18,19 @@ type TagProps = FlexProps & {
 export function Tag({ children, withIcon, icon, ...props }: TagProps) {
   return (
     <Flex
-      className='rounded-full w-fit'
+      className="rounded-full w-fit"
       py={8}
       px={48}
-      align='center'
+      align="center"
       gap={4}
-      c='accent.10'
-      bg='purple.4'
-      mx='auto'
+      c="accent.10"
+      bg="purple.4"
+      mx="auto"
       mt={20}
       {...props}
     >
       {/* {withIcon && <icon />} */}
-      <span className='text-sm font-bold'>{children}</span>
+      <span className="text-sm font-bold">{children}</span>
     </Flex>
   );
 }

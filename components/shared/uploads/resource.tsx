@@ -54,33 +54,33 @@ export function ResourceUpload({
         <Stack
           p={24}
           gap={12}
-          align='center'
-          className=' border-dashed border rounded-md cursor-pointer border-primary-border-light bg-primary-background-white'
+          align="center"
+          className=" border-dashed border rounded-md cursor-pointer border-primary-border-light bg-primary-background-white"
           flex={1}
         >
           <Dropzone.Accept>
-            <Upload color='accent' />
+            <Upload color="accent" />
           </Dropzone.Accept>
           <Dropzone.Idle>
-            <Upload color='gray' />
+            <Upload color="gray" />
           </Dropzone.Idle>
           <Dropzone.Reject>
-            <Upload color='gray' />
+            <Upload color="gray" />
           </Dropzone.Reject>
 
-          <Stack gap={10} align='center' ta='center'>
+          <Stack gap={10} align="center" ta="center">
             <Text fz={14}>
-              <span className='text-primary-button-normal font-medium'>
+              <span className="text-primary-button-normal font-medium">
                 Click here to upload
               </span>{" "}
-              <span className='text-primary-text-subtle'>or drag and drop</span>
+              <span className="text-primary-text-subtle">or drag and drop</span>
             </Text>
 
             <Text hidden={!supports.length} fz={12}>
               {supports.join(", ").toLocaleUpperCase()}
             </Text>
 
-            <Text fz={12} className='text-primary-text-subtle'>
+            <Text fz={12} className="text-primary-text-subtle">
               Max file size: {prettyBytes(MAX_SIZE)}
             </Text>
           </Stack>
@@ -95,8 +95,8 @@ export function ResourceUpload({
     status === "error"
       ? "red.9"
       : status === "uploaded"
-      ? "accent.9"
-      : "gray.4";
+        ? "accent.9"
+        : "gray.4";
 
   const checkColor =
     status === "error" ? "red.9" : status === "uploaded" ? "green.9" : "gray.4";
@@ -105,8 +105,8 @@ export function ResourceUpload({
     status === "error"
       ? "red.4"
       : status === "uploaded"
-      ? "accent.4"
-      : "gray.2";
+        ? "accent.4"
+        : "gray.2";
 
   const upload = (
     <Flex
@@ -127,27 +127,27 @@ export function ResourceUpload({
         p={6}
         bg={background}
         c={color}
-        className='border-4 rounded-full border-accent-2 size-8'
+        className="border-4 rounded-full border-accent-2 size-8"
       >
         <FileIcon />
       </Center>
 
       <Stack flex={1} gap={4}>
         <Stack gap={3}>
-          <Flex gap={30} align='center' justify='space-between'>
-            <Text fz={14} className='text-primary-text-body'>
+          <Flex gap={30} align="center" justify="space-between">
+            <Text fz={14} className="text-primary-text-body">
               {name}
             </Text>
             <Center
               p={3}
-              c='white'
+              c="white"
               bg={checkColor}
-              className='rounded-full size-4'
+              className="rounded-full size-4"
             >
               <Check />
             </Center>
           </Flex>
-          <Text fz={14} className='text-primary-text-subtle'>
+          <Text fz={14} className="text-primary-text-subtle">
             {prettyBytes(pass.number(size))}
           </Text>
         </Stack>

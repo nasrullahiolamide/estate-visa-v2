@@ -21,7 +21,10 @@ const id = function (id: string) {
 };
 
 const schedule = function (
-  data: Omit<MeetingData, "id" | "minutes" | "file" | "createdAt" | "updatedAt">
+  data: Omit<
+    MeetingData,
+    "id" | "minutes" | "file" | "createdAt" | "updatedAt"
+  >,
 ) {
   return api.post("/meetings", data);
 };

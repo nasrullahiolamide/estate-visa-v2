@@ -23,7 +23,7 @@ export function StatisticsOverview({
 }: StatisticsOverviewProps) {
   return (
     <Box
-      className='grid gap-6'
+      className="grid gap-6"
       style={{
         gridTemplateColumns: "repeat(auto-fill,minmax(min(350px,100%),1fr))",
         gridAutoRows: "1fr",
@@ -31,39 +31,39 @@ export function StatisticsOverview({
     >
       <StatisticsCard
         icon={HousesIcon}
-        title='Total Houses'
+        title="Total Houses"
         value={totalHouses}
-        label='Manage Houses'
+        label="Manage Houses"
         href={makePath(PAGES.DASHBOARD, PAGES.HOUSES)}
         skeleton={isPlaceholderData}
       />
 
       <StatisticsCard
         icon={UserFriendsIcon}
-        title='Total Occupants'
+        title="Total Occupants"
         value={totalOccupants}
         total={totalOccupants}
-        label='Manage Occupants'
+        label="Manage Occupants"
         href={makePath(PAGES.DASHBOARD, PAGES.OCCUPANTS)}
         skeleton={isPlaceholderData}
       />
 
       <StatisticsCard
         icon={UserGroupIcon}
-        title='Total Sub-Occupants'
+        title="Total Sub-Occupants"
         value={totalSubOccupants}
         total={totalSubOccupants}
-        label='Manage Sub-Occupants'
+        label="Manage Sub-Occupants"
         href={makePath(PAGES.DASHBOARD, PAGES.SUB_OCCUPANTS)}
         skeleton={isPlaceholderData}
       />
 
       <StatisticsCard
         icon={GateIcon}
-        title='Total Gates'
+        title="Total Gates"
         value={totalGates}
         total={totalGates}
-        label='Manage Gates'
+        label="Manage Gates"
         href={makePath(PAGES.DASHBOARD, PAGES.GATES)}
         skeleton={isPlaceholderData}
       />

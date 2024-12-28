@@ -56,10 +56,10 @@ export function GateActions({ id, handlers }: GateActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this gate?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this gate?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -116,7 +116,7 @@ export function GateActions({ id, handlers }: GateActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -125,14 +125,14 @@ export function GateActions({ id, handlers }: GateActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
-        <FlowToolTip icon='View' onClick={handlers.onView} />
-        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
+        <FlowToolTip icon="View" onClick={handlers.onView} />
+        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
         <FlowToolTip
-          icon='Password'
+          icon="Password"
           onClick={handleResetPassword}
-          label='Reset Password'
+          label="Reset Password"
         />
       </Flex>
     </Fragment>

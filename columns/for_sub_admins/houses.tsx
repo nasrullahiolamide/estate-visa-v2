@@ -9,7 +9,7 @@ export const housesColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -63,9 +63,9 @@ export const housesColumns = [
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
-            className='capitalize'
+            className="capitalize"
             children={value}
-            size='sm'
+            size="sm"
           />
         </Center>
       );
@@ -74,11 +74,11 @@ export const housesColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

@@ -9,7 +9,7 @@ interface ClockFaceProps extends HTMLMotionProps<"span"> {
 
 function _ClockFace(
   { value, className, style, ...props }: ClockFaceProps,
-  ref: ForwardedRef<HTMLSpanElement>
+  ref: ForwardedRef<HTMLSpanElement>,
 ) {
   return (
     <motion.span
@@ -17,7 +17,7 @@ function _ClockFace(
       className={clsx(
         "clump:py-[clamp(0.3rem,3vw,1rem)] py-4",
         "bg-blue-8",
-        className
+        className,
       )}
       style={{
         gridArea: "1/1",
@@ -37,5 +37,5 @@ function _ClockFace(
 }
 
 export const ClockFace = forwardRef<HTMLSpanElement, ClockFaceProps>(
-  _ClockFace
+  _ClockFace,
 );

@@ -32,9 +32,8 @@ export default async function Layout({
   ),
   request,
 }: LayoutProps) {
-  const { isAuthorized, userType, nextRoute } = await getAuthorizedUser(
-    request
-  );
+  const { isAuthorized, userType, nextRoute } =
+    await getAuthorizedUser(request);
 
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,

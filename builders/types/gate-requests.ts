@@ -47,7 +47,7 @@ export function useFakeGateRequestsData(_?: any, index?: number) {
 
   const occupant = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeOccupantsData
+    useFakeOccupantsData,
   );
 
   return {
@@ -67,7 +67,7 @@ export function useFakeGateRequestsData(_?: any, index?: number) {
 
 export const fakeGateData = Array.from(
   { length: faker.number.int({ min: 3, max: 100 }) },
-  useFakeGateRequestsData
+  useFakeGateRequestsData,
 );
 
 export function useFakeGateRequestList() {
@@ -75,7 +75,7 @@ export function useFakeGateRequestList() {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeGateRequestsData
+    useFakeGateRequestsData,
   );
 
   return {

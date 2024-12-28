@@ -10,7 +10,7 @@ export const subAdminListColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -51,7 +51,7 @@ export const subAdminListColumns = [
     cell: ({ getValue }) => {
       const value = getValue();
       return (
-        <Text fz={14} c='blue.7'>
+        <Text fz={14} c="blue.7">
           {value}
         </Text>
       );
@@ -62,12 +62,12 @@ export const subAdminListColumns = [
     cell: ({ getValue }) => {
       const value = getValue();
       return value ? (
-        <Flex ta='center' className='flex-row sm:flex-col' gap={25}>
+        <Flex ta="center" className="flex-row sm:flex-col" gap={25}>
           <Text fz={14}>{dayjs(value).format("DD/MM/YYYY")}</Text>
           <Text fz={14}>{dayjs(value).format("h:mm A")}</Text>
         </Flex>
       ) : (
-        <Text fz={14} ta='center'>
+        <Text fz={14} ta="center">
           --
         </Text>
       );
@@ -87,9 +87,9 @@ export const subAdminListColumns = [
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
-            className='capitalize'
+            className="capitalize"
             children={value}
-            size='sm'
+            size="sm"
           />
         </Center>
       );
@@ -98,11 +98,11 @@ export const subAdminListColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

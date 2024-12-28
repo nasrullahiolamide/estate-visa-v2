@@ -22,12 +22,12 @@ export function PercentageOfUsers({
   return (
     <Stack
       flex={1}
-      bg='white'
+      bg="white"
       className={clsx("rounded-lg backdrop-blur-sm w-full", { skeleton })}
       p={20}
       gap={16}
     >
-      <Text fw={500} fz='lg'>
+      <Text fw={500} fz="lg">
         Percentage of users
       </Text>
 

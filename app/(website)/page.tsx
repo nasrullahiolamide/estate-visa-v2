@@ -15,10 +15,10 @@ export default function HomePage() {
   return (
     <Stack gap={0}>
       <Box
-        display='grid'
-        className='lg:gap-20 md:gap-8 gap-6'
-        w='100%'
-        mx='auto'
+        display="grid"
+        className="lg:gap-20 md:gap-8 gap-6"
+        w="100%"
+        mx="auto"
       >
         <WebsiteHeader />
       </Box>

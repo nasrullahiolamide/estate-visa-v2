@@ -40,7 +40,7 @@ export function ServiceRequests() {
       });
 
       const hasData = transformedData.some(
-        (item) => item.Approved > 0 || item.Pending > 0 || item.Declined > 0
+        (item) => item.Approved > 0 || item.Pending > 0 || item.Declined > 0,
       );
 
       return hasData ? transformedData : [];
@@ -49,7 +49,7 @@ export function ServiceRequests() {
 
   return (
     <Stack
-      bg='white'
+      bg="white"
       className={clsx("rounded-lg backdrop-blur-sm w-full", {
         skeleton: isPlaceholderData,
       })}
@@ -57,7 +57,7 @@ export function ServiceRequests() {
       gap={16}
     >
       <Group>
-        <Text fw={500} size='lg'>
+        <Text fw={500} size="lg">
           Service Request
         </Text>
         <FilterRequestsDropdown
@@ -75,7 +75,7 @@ export function ServiceRequests() {
               value: "year",
             },
           ]}
-          ml='auto'
+          ml="auto"
           value={period}
           onFilter={setPeriod}
         />
@@ -85,8 +85,8 @@ export function ServiceRequests() {
           <BarChart
             h={300}
             data={data ?? []}
-            dataKey='day'
-            type='stacked'
+            dataKey="day"
+            type="stacked"
             series={[
               { name: "Approved", color: "#11A506" },
               { name: "Pending", color: "#969921" },
@@ -97,18 +97,18 @@ export function ServiceRequests() {
               animationDuration: 1000,
             }}
           />
-          <Flex justify='space-between' align='center' mt='auto'>
+          <Flex justify="space-between" align="center" mt="auto">
             <Group>
-              <Flex align='center' gap={14}>
-                <Indicator color='#11A506' />
+              <Flex align="center" gap={14}>
+                <Indicator color="#11A506" />
                 <Text fz={14}>Approved</Text>
               </Flex>
-              <Flex align='center' gap={14}>
-                <Indicator color='#969921' />
+              <Flex align="center" gap={14}>
+                <Indicator color="#969921" />
                 <Text fz={14}>Pending</Text>
               </Flex>
-              <Flex align='center' gap={14}>
-                <Indicator color='#EF5DA8' />
+              <Flex align="center" gap={14}>
+                <Indicator color="#EF5DA8" />
                 <Text fz={14}>Declined</Text>
               </Flex>
             </Group>
@@ -118,7 +118,7 @@ export function ServiceRequests() {
       ) : (
         <Stack gap={0} h={250}>
           <NoData />
-          <Text ta='center'>No Data Available</Text>
+          <Text ta="center">No Data Available</Text>
         </Stack>
       )}
     </Stack>

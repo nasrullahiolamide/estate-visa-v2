@@ -50,10 +50,10 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this estate?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this estate?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -95,7 +95,7 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -104,18 +104,18 @@ export function EstateActions({ id, editLink, viewLink }: EstateActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
         <FlowToolTip
-          icon='View'
+          icon="View"
           component={Link}
           href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, viewLink)}
         />
         <FlowToolTip
-          icon='Edit'
+          icon="Edit"
           component={Link}
           href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, editLink)}
         />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

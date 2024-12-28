@@ -43,21 +43,21 @@ export function MultipleResourceUpload({
 
   const renderFile = (
     { name, size, status, progress }: FilePreview,
-    index: number
+    index: number,
   ) => {
     const color =
       status === "error"
         ? "red.9"
         : status === "uploaded"
-        ? "accent.9"
-        : "gray.4";
+          ? "accent.9"
+          : "gray.4";
 
     const background =
       status === "error"
         ? "red.4"
         : status === "uploaded"
-        ? "accent.4"
-        : "gray.2";
+          ? "accent.4"
+          : "gray.2";
 
     return (
       <Flex
@@ -67,7 +67,7 @@ export function MultipleResourceUpload({
         className={clsx("border rounded-md bg-primary-background-subtle", {
           "border-red-9": status === "error",
           "border-primary-border-light": ["uploading", "uploaded"].includes(
-            status
+            status,
           ),
         })}
       >
@@ -75,29 +75,29 @@ export function MultipleResourceUpload({
           p={6}
           bg={background}
           c={color}
-          className='border-4 rounded-full border-accent-2 size-8'
+          className="border-4 rounded-full border-accent-2 size-8"
         >
           <FileIcon />
         </Center>
 
         <Stack flex={1} gap={4}>
           <Stack gap={3}>
-            <Flex gap={30} align='center' justify='space-between'>
-              <Text fz={14} className='text-primary-text-body'>
+            <Flex gap={30} align="center" justify="space-between">
+              <Text fz={14} className="text-primary-text-body">
                 {name}
               </Text>
               {status === "uploaded" && (
                 <Center
                   p={3}
-                  c='white'
-                  bg='green.9'
-                  className='rounded-full size-4'
+                  c="white"
+                  bg="green.9"
+                  className="rounded-full size-4"
                 >
                   <Check />
                 </Center>
               )}
             </Flex>
-            <Text fz={14} className='text-primary-text-subtle'>
+            <Text fz={14} className="text-primary-text-subtle">
               {prettyBytes(size)}
             </Text>
           </Stack>
@@ -127,26 +127,26 @@ export function MultipleResourceUpload({
         <Stack
           p={24}
           gap={12}
-          align='center'
-          className='border-dashed border rounded-md cursor-pointer border-primary-border-light bg-primary-background-white'
+          align="center"
+          className="border-dashed border rounded-md cursor-pointer border-primary-border-light bg-primary-background-white"
           flex={1}
         >
           <Dropzone.Accept>
-            <Upload color='accent' />
+            <Upload color="accent" />
           </Dropzone.Accept>
           <Dropzone.Idle>
-            <Upload color='gray' />
+            <Upload color="gray" />
           </Dropzone.Idle>
           <Dropzone.Reject>
-            <Upload color='red' />
+            <Upload color="red" />
           </Dropzone.Reject>
 
-          <Stack gap={10} align='center' ta='center'>
+          <Stack gap={10} align="center" ta="center">
             <Text>
-              <span className='text-primary-button-normal font-medium'>
+              <span className="text-primary-button-normal font-medium">
                 Click here to upload
               </span>{" "}
-              <span className='text-primary-text-subtle'>or drag and drop</span>
+              <span className="text-primary-text-subtle">or drag and drop</span>
             </Text>
             <Text hidden={!supports.length} fz={12}>
               {supports.join(", ").toLocaleUpperCase()}

@@ -26,8 +26,8 @@ export function Leaf({
       node.value === "status"
         ? "status"
         : SORT_ORDER_OPTIONS.includes(node.value)
-        ? "sortOrder"
-        : "sortBy";
+          ? "sortOrder"
+          : "sortBy";
 
     const value = node.value;
 
@@ -49,7 +49,7 @@ export function Leaf({
       onClick={handleFilter}
     >
       <Menu
-        position='right-start'
+        position="right-start"
         openDelay={100}
         closeDelay={400}
         offset={20}
@@ -57,9 +57,9 @@ export function Leaf({
       >
         <Menu.Target>
           <Flex
-            align='center'
-            justify='space-between'
-            className='w-full h-full'
+            align="center"
+            justify="space-between"
+            className="w-full h-full"
           >
             <span>{node.label}</span>
             {node.children && (
@@ -74,7 +74,7 @@ export function Leaf({
         </Menu.Target>
 
         {hasChildren && (
-          <Menu.Dropdown variant='action' className='p-0 overflow-hidden'>
+          <Menu.Dropdown variant="action" className="p-0 overflow-hidden">
             {node.children?.map((childNode) => (
               <Leaf
                 key={childNode.value}

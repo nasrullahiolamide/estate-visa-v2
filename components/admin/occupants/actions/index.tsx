@@ -39,7 +39,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='active' />,
+    children: <UpdateStatus id={id} status="active" />,
   });
 }
 
@@ -47,7 +47,7 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='suspended' />,
+    children: <UpdateStatus id={id} status="suspended" />,
   });
 }
 
@@ -81,10 +81,10 @@ export function OccupantActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this occupant?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this occupant?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -115,7 +115,7 @@ export function OccupantActions({
         <FlowMenuDropdown>
           {isActive ? (
             <Menu.Item
-              color='#969921'
+              color="#969921"
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -123,7 +123,7 @@ export function OccupantActions({
             </Menu.Item>
           ) : (
             <Menu.Item
-              color='#11A506'
+              color="#11A506"
               leftSection={<ActivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >
@@ -144,7 +144,7 @@ export function OccupantActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -153,15 +153,15 @@ export function OccupantActions({
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
-        <FlowToolTip icon='View' onClick={handlers.onView} />
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
+        <FlowToolTip icon="View" onClick={handlers.onView} />
         {isActive ? (
-          <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
+          <FlowToolTip icon="Suspend" onClick={() => suspendAccount(id)} />
         ) : (
-          <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
+          <FlowToolTip icon="Activate" onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

@@ -69,43 +69,43 @@ export default function Messages() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
       <FlowContainer
-        type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        type="plain"
+        className="lg:~px-1/8 lg:py-4 justify-between"
       >
         <FlowContentHorizontal
           mah={{
             base: "auto",
             lg: 700,
           }}
-          breakpoint='320'
+          breakpoint="320"
           gap={24}
-          className='p-3 lg:p-0'
+          className="p-3 lg:p-0"
         >
           {Array.from({ length: 18 }).map((_, i) => (
-            <Stack p={18} className='rounded-xl bg-white cursor-pointer'>
+            <Stack p={18} className="rounded-xl bg-white cursor-pointer">
               <Picture
-                src='https://via.placeholder.com/300'
+                src="https://via.placeholder.com/300"
                 h={150}
-                w='100%'
-                alt='product'
-                className='rounded-lg'
-                objectFit='cover'
+                w="100%"
+                alt="product"
+                className="rounded-lg"
+                objectFit="cover"
               />
 
               <Stack gap={10}>
                 <Text fw={500}>Original Nike Sneakers</Text>
-                <Text fw={700} size='lg'>
+                <Text fw={700} size="lg">
                   ₦20,000
                 </Text>
-                <StarRating className='!justify-start' />
-                <Text size='sm' color='violet'>
+                <StarRating className="!justify-start" />
+                <Text size="sm" color="violet">
                   House A10
                 </Text>
                 <Text
-                  c='blue.7'
-                  className='underline cursor-pointer'
+                  c="blue.7"
+                  className="underline cursor-pointer"
                   mt={15}
                   fz={13}
                 >
@@ -120,7 +120,7 @@ export default function Messages() {
             "flex bg-white justify-between sm:rounded-b-2xl mt-2",
             {
               hidden: false,
-            }
+            },
           )}
         >
           <FlowPagination />
@@ -133,21 +133,21 @@ export default function Messages() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />}>
+    <Flex gap={14} wrap="wrap">
+      <Button fz="sm" size="md" leftSection={<AddIcon />}>
         Add Product
       </Button>
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         leftSection={<ListIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MY_LISTINGS)}
       >
         My Listings
       </Button>
-      <FilterDropdown label='Filter' data={filterOptions} />
+      <FilterDropdown label="Filter" data={filterOptions} />
     </Flex>
   );
 }

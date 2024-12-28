@@ -12,9 +12,9 @@ export function TimePad({ moment, period }: TimePadProps) {
   const time = zeroPad(moment);
 
   return (
-    <Stack align='center' ta='center' gap={10}>
+    <Stack align="center" ta="center" gap={10}>
       <div
-        className='grid grid-flow-col gap-[3px]'
+        className="grid grid-flow-col gap-[3px]"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${time.length}, auto)`,
@@ -26,7 +26,7 @@ export function TimePad({ moment, period }: TimePadProps) {
       </div>
 
       <Title
-        className='text-center text-sm font-semibold leading-snug sm:text-lg'
+        className="text-center text-sm font-semibold leading-snug sm:text-lg"
         order={5}
       >
         {period}

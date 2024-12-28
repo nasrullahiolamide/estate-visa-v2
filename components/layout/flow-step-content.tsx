@@ -4,7 +4,7 @@ interface FlowStepContentProps extends StackProps {}
 
 export function FlowStepContent({ children, ...props }: FlowStepContentProps) {
   return (
-    <Stack className='h-full w-full' {...props}>
+    <Stack className="h-full w-full" {...props}>
       {children}
     </Stack>
   );

@@ -42,8 +42,8 @@ export function UpdateStatus({ id, status }: ConfirmOccupantProps) {
         title={`Are you sure you want to ${
           status === "active" ? "activate" : "disable"
         } this account?`}
-        primaryBtnText='Yes, proceed'
-        secondaryBtnText='No'
+        primaryBtnText="Yes, proceed"
+        secondaryBtnText="No"
         srcProps={{
           ml: 0,
           h: 90,

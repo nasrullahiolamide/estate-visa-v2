@@ -1,27 +1,26 @@
 "use client";
 
-import clsx from "clsx";
-import { ReactNode } from "react";
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
+import clsx from "clsx";
 
-import { getCookie } from "cookies-next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 
-import { APP, MODALS, pass } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { OccupantsData } from "@/builders/types/occupants";
-import { FormButtons } from "@/components/shared/interface";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { FormButtons } from "@/components/shared/interface";
+import { APP, MODALS, pass } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 
-import { schema } from "../schema";
-import { FormProvider } from "../context";
-import { ConfirmOccupant, ConfirmPropertyOwner } from "./confirmation";
-import { activateAccount, suspendAccount } from "../actions";
-import { toString } from "lodash";
 import { FlowPhoneInput } from "@/components/layout";
+import { toString } from "lodash";
+import { activateAccount, suspendAccount } from "../actions";
+import { FormProvider } from "../context";
+import { schema } from "../schema";
+import { ConfirmOccupant, ConfirmPropertyOwner } from "./confirmation";
 
 type ViewId = "occupants" | "property-owners";
 
@@ -98,8 +97,6 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
       status,
     };
 
-    console.log(updatedData);
-
     isEditing
       ? updateOccupant({ id: toString(data?.id), data: updatedData })
       : modals.open({
@@ -124,35 +121,35 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
           data={houseNumbers}
-          nothingFoundMessage='No available house numbers'
-          label='House Number'
-          placeholder='Select House Number'
+          nothingFoundMessage="No available house numbers"
+          label="House Number"
+          placeholder="Select House Number"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("houseId")}
         />
         <TextInput
-          label='Full Name'
+          label="Full Name"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label='Email Address'
+          label="Email Address"
           disabled={isEditing || isViewing}
           withAsterisk
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label='Phone Number'
+          label="Phone Number"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phone")}
@@ -168,7 +165,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
               label: "Suspended",
             },
           ]}
-          label='Status'
+          label="Status"
           disabled={isViewing}
           {...form.getInputProps("status")}
         />
@@ -190,7 +187,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
                 isActive
                   ? "hover:bg-red-1 border-red-4"
                   : "hover:bg-green-1 border-green-9",
-                "bg-opacity-9"
+                "bg-opacity-9",
               ),
             }}
             rightButton={{
@@ -203,13 +200,13 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
         ) : isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
           </Button>
         ) : (
-          <Button mt={10} type='submit'>
+          <Button mt={10} type="submit">
             Add New Occupant
           </Button>
         )}

@@ -6,6 +6,6 @@ export const schema = object({
   fullname: requiredString,
   phone: requiredString,
   email: requiredString.email(
-    "Invalid email. Please enter a valid email address."
+    "Invalid email. Please enter a valid email address.",
   ),
 });

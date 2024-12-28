@@ -113,8 +113,8 @@ export default function Estates() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Estates' options={<HeaderOptions />} />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <AppShellHeader title="Estates" options={<HeaderOptions />} />
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -129,16 +129,16 @@ export default function Estates() {
               />
             ) : (
               <EmptySlot
-                title='No estate added yet. Start by adding an estate to manage!'
-                src='house'
+                title="No estate added yet. Start by adding an estate to manage!"
+                src="house"
                 withButton
-                text='Add Estate'
+                text="Add Estate"
                 btnProps={{
                   leftSection: <AddIcon />,
                   href: makePath(
                     PAGES.DASHBOARD,
                     PAGES.ESTATES,
-                    PAGES.ADD_NEW_ESTATE
+                    PAGES.ADD_NEW_ESTATE,
                   ),
                 }}
               />
@@ -179,8 +179,8 @@ function HeaderOptions() {
   return (
     <Flex gap={14}>
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<AddIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE)}
@@ -189,9 +189,9 @@ function HeaderOptions() {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         leftSection={<DownloadIcon />}
       >
         Download Table

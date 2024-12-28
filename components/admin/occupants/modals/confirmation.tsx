@@ -31,10 +31,10 @@ export function ConfirmOccupant() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=' Is this occupant a property owner?'
-      description='A property owner is the main owner of the apartment.'
-      primaryBtnText='Yes, proceed'
-      secondaryBtnText='No'
+      title=" Is this occupant a property owner?"
+      description="A property owner is the main owner of the apartment."
+      primaryBtnText="Yes, proceed"
+      secondaryBtnText="No"
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,
@@ -80,10 +80,10 @@ export function ConfirmPropertyOwner() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=' Is this occupant a property owner?'
-      description='A property owner is the main owner of the apartment.'
-      primaryBtnText='Yes, proceed'
-      secondaryBtnText='No'
+      title=" Is this occupant a property owner?"
+      description="A property owner is the main owner of the apartment."
+      primaryBtnText="Yes, proceed"
+      secondaryBtnText="No"
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,

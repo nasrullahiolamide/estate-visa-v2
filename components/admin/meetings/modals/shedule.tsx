@@ -124,7 +124,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
     if (location === Location.Physical) {
       return (
         <TextInput
-          label='Venue'
+          label="Venue"
           withAsterisk
           {...form.getInputProps("venue")}
         />
@@ -135,14 +135,14 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
       return (
         <>
           <Select
-            label='Platform'
-            placeholder='Select meeting platform'
+            label="Platform"
+            placeholder="Select meeting platform"
             data={["Zoom", "Google Meet", "WhatsApp"]}
             withAsterisk
             {...form.getInputProps("platform")}
           />
           <TextInput
-            label='Meeting Link'
+            label="Meeting Link"
             placeholder={
               MeetingPlaceholder[form.getValues().platform] ??
               "Select meeting platform"
@@ -153,8 +153,8 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           />
           {location === Location.Hybrid && (
             <TextInput
-              label='Physical Venue'
-              placeholder='E.g. Conference Room, Office'
+              label="Physical Venue"
+              placeholder="E.g. Conference Room, Office"
               withAsterisk
               {...form.getInputProps("venue")}
             />
@@ -178,49 +178,49 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
     >
       <Form form={form} onSubmit={handleSubmit}>
         <FlowContainer
-          className='bg-primary-background-white sm:overflow-scroll sm:scrollbar-none'
-          type='plain'
-          bg='white'
+          className="bg-primary-background-white sm:overflow-scroll sm:scrollbar-none"
+          type="plain"
+          bg="white"
           h={{
             base: "auto",
             sm: 760,
           }}
         >
-          <Stack gap='lg'>
-            <Title order={2} c='plum.5' fz={20} fw={500}>
+          <Stack gap="lg">
+            <Title order={2} c="plum.5" fz={20} fw={500}>
               Meeting Details
             </Title>
             <TextInput
-              label='Meeting Title'
+              label="Meeting Title"
               withAsterisk
               {...form.getInputProps("title")}
             />
 
-            <Flex gap={15} className='flex-col sm:flex-row' pos='relative'>
+            <Flex gap={15} className="flex-col sm:flex-row" pos="relative">
               <DatePickerInput
-                label='Date'
+                label="Date"
                 minDate={new Date()}
-                valueFormat='YYYY-MM-DD'
+                valueFormat="YYYY-MM-DD"
                 withAsterisk
                 flex={1}
                 {...form.getInputProps("date")}
               />
               <TimePickerInput
-                label='Time'
+                label="Time"
                 withAsterisk
                 {...form.getInputProps("time")}
               />
             </Flex>
           </Stack>
           <Divider my={30} />
-          <Stack gap='lg'>
-            <Title order={2} c='plum.5' fz={20} fw={500}>
+          <Stack gap="lg">
+            <Title order={2} c="plum.5" fz={20} fw={500}>
               Location Details
             </Title>
 
             <Select
-              label='Location'
-              placeholder='Select meeting location'
+              label="Location"
+              placeholder="Select meeting location"
               data={["Physical", "Virtual", "Hybrid"]}
               withAsterisk
               {...form.getInputProps("location")}
@@ -231,8 +231,8 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
           <Divider my={30} />
 
           <Textarea
-            label='Note'
-            placeholder='Add any additional information here...'
+            label="Note"
+            placeholder="Add any additional information here..."
             {...form.getInputProps("notes")}
           />
         </FlowContainer>
@@ -246,7 +246,7 @@ export function SheduleMeeting({ ...props }: SheduleMeetingProps) {
             c: "red",
             className:
               "hover:bg-red-1 border-red-4 bg-opacity-9 disabled:cursor-not-allowed disabled:opacity-9",
-            leftSection: <TrashIcon width='18px' />,
+            leftSection: <TrashIcon width="18px" />,
             onClick: () => {
               form.reset();
               closeDrawer();

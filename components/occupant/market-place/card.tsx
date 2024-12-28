@@ -21,30 +21,30 @@ export function ProductCard({}: ProductCardProps) {
   return (
     <Stack
       p={18}
-      className='rounded-xl bg-white cursor-pointer'
+      className="rounded-xl bg-white cursor-pointer"
       onClick={handleProductDetail}
     >
       <Picture
-        src='https://via.placeholder.com/300'
+        src="https://via.placeholder.com/300"
         h={150}
-        w='100%'
-        alt='product'
-        className='rounded-lg'
-        objectFit='cover'
+        w="100%"
+        alt="product"
+        className="rounded-lg"
+        objectFit="cover"
       />
 
-      <Stack gap='xs'>
-        <Text fw={500} size='lg'>
+      <Stack gap="xs">
+        <Text fw={500} size="lg">
           Original Nike Sneakers
         </Text>
-        <Text fw={700} size='xl'>
+        <Text fw={700} size="xl">
           ₦20,000
         </Text>
-        <StarRating className='!justify-start' />
-        <Text size='sm' color='violet' mt={-5}>
+        <StarRating className="!justify-start" />
+        <Text size="sm" color="violet" mt={-5}>
           House A10
         </Text>
-        <Text c='blue.7' className='underline cursor-pointer' mt={10}>
+        <Text c="blue.7" className="underline cursor-pointer" mt={10}>
           View Details
         </Text>
       </Stack>

@@ -106,35 +106,35 @@ export function PropertyOwnerForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
           data={houseNumbers}
-          nothingFoundMessage='No house numbers found'
-          label='House Number'
-          placeholder='Select House Number'
+          nothingFoundMessage="No house numbers found"
+          label="House Number"
+          placeholder="Select House Number"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("houseId")}
         />
         <TextInput
-          label='Full Name'
+          label="Full Name"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label='Email Address'
+          label="Email Address"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label='Phone Number'
+          label="Phone Number"
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phone")}
@@ -150,7 +150,7 @@ export function PropertyOwnerForm({
               label: "Suspended",
             },
           ]}
-          label='Status'
+          label="Status"
           disabled={isViewing}
           {...form.getInputProps("status")}
         />
@@ -172,7 +172,7 @@ export function PropertyOwnerForm({
                 isActive
                   ? "hover:bg-red-1 border-red-4"
                   : "hover:bg-green-1 border-green-9",
-                "bg-opacity-9"
+                "bg-opacity-9",
               ),
             }}
             rightButton={{
@@ -185,7 +185,7 @@ export function PropertyOwnerForm({
         ) : isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -193,7 +193,7 @@ export function PropertyOwnerForm({
         ) : (
           <Button
             mt={10}
-            type='submit'
+            type="submit"
             loading={isPending}
             disabled={isPending}
           >

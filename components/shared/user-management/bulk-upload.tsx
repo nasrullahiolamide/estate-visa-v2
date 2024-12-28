@@ -43,7 +43,7 @@ export function BulkUpload(props: BulkUploadProps) {
     onSuccess: (data) => {
       const filename = useFilename(
         [props.type, "template"],
-        data.type as MIME_TYPE
+        data.type as MIME_TYPE,
       );
       fileDownload(data, filename);
     },
@@ -80,10 +80,10 @@ export function BulkUpload(props: BulkUploadProps) {
   const view: Record<PropertyKey, ReactNode> = {
     pending: (
       <Button
-        variant='outline'
-        color='gray'
+        variant="outline"
+        color="gray"
         my={15}
-        className='w-full'
+        className="w-full"
         classNames={{
           label:
             "flex items-center justify-between w-full text-primary-body text-sm",
@@ -93,7 +93,7 @@ export function BulkUpload(props: BulkUploadProps) {
         onClick={() => download()}
       >
         <Text>Download file format</Text>
-        <DownloadIcon color='var(--accent-7)' className='ml-auto' />
+        <DownloadIcon color="var(--accent-7)" className="ml-auto" />
       </Button>
     ),
 
@@ -105,8 +105,8 @@ export function BulkUpload(props: BulkUploadProps) {
 
   return (
     <FlowStateProvider>
-      <Box component='form' onSubmit={handleSubmit(handleUpload)}>
-        <Text className='text-primary-text-subtle' mb={15}>
+      <Box component="form" onSubmit={handleSubmit(handleUpload)}>
+        <Text className="text-primary-text-subtle" mb={15}>
           {view[status]}
         </Text>
         <ResourceUpload
@@ -120,22 +120,22 @@ export function BulkUpload(props: BulkUploadProps) {
           multiple={false}
         />
 
-        <Flex gap={12} wrap='wrap' mt={30}>
+        <Flex gap={12} wrap="wrap" mt={30}>
           <Button
             flex={1}
-            fz='sm'
+            fz="sm"
             color={status === "pending" ? "gray" : "red"}
-            miw='fit-content'
-            variant='default'
+            miw="fit-content"
+            variant="default"
             onClick={handleClose}
           >
             Cancel
           </Button>
           <Button
             flex={1}
-            fz='sm'
-            miw='fit-content'
-            type='submit'
+            fz="sm"
+            miw="fit-content"
+            type="submit"
             disabled={isPending || status === "pending"}
             loading={isPending}
           >

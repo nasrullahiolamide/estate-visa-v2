@@ -146,7 +146,7 @@ export default function ServiceRequest() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Service Request'
+        title="Service Request"
         withSearch
         searchProps={{
           title: "Service Request",
@@ -156,7 +156,7 @@ export default function ServiceRequest() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -172,8 +172,8 @@ export default function ServiceRequest() {
               />
             ) : (
               <EmptySlot
-                title='You have no service requests yet. Check back later for updates!'
-                src='question'
+                title="You have no service requests yet. Check back later for updates!"
+                src="question"
               />
             )}
           </FlowPaper>
@@ -195,8 +195,8 @@ export default function ServiceRequest() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <FlowSearch title='Service Request' />
+    <Flex gap={14} hidden={hidden} wrap="wrap">
+      <FlowSearch title="Service Request" />
       <FilterDropdown data={filterOptions} />
     </Flex>
   );

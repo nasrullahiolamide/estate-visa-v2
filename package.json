@@ -119,9 +119,6 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,html}": [
-      "biome lint --write",
-      "biome format --write"
-    ]
+    "*.{js,jsx,ts,tsx,html}": ["biome lint --write", "biome format --write"]
   }
 }

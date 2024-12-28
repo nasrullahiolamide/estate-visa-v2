@@ -52,28 +52,28 @@ export const estatesColumns = [
       if (!interests) return null;
       const greaterThanOne = interests.length > 1;
       return (
-        <Menu offset={2} position='bottom-end' closeOnItemClick={false}>
+        <Menu offset={2} position="bottom-end" closeOnItemClick={false}>
           <Menu.Target>
             <Button
-              size='sm'
+              size="sm"
               fz={14}
               p={0}
-              c='gray.12'
-              variant='transparent'
+              c="gray.12"
+              variant="transparent"
               rightSection={
-                greaterThanOne && <ArrowDownIcon className='ml-3' />
+                greaterThanOne && <ArrowDownIcon className="ml-3" />
               }
             >
               {interests.length > 1 ? `${interests.at(0)}...` : interests.at(0)}
             </Button>
           </Menu.Target>
           {greaterThanOne && (
-            <Menu.Dropdown variant='action' className=''>
+            <Menu.Dropdown variant="action" className="">
               {interests.map((interest, i) => (
                 <Fragment key={interest}>
-                  <Menu.Item className='py-2 bg-transparent cursor-auto'>
+                  <Menu.Item className="py-2 bg-transparent cursor-auto">
                     <Text fz={13}>
-                      <span className='mr-2'>{i + 1}.</span>
+                      <span className="mr-2">{i + 1}.</span>
                       <span>{interest}</span>
                     </Text>
                   </Menu.Item>

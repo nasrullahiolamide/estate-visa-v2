@@ -31,30 +31,30 @@ export function StatisticsCard({
   return (
     <Flex
       p={24}
-      align='center'
-      justify='space-between'
-      component='article'
-      bg='white'
+      align="center"
+      justify="space-between"
+      component="article"
+      bg="white"
       className={clsx("rounded-lg shadow-md items-start w-full", {
         skeleton: skeleton,
       })}
     >
       <Stack>
         <Box
-          bg='blue.7'
-          c='white'
+          bg="blue.7"
+          c="white"
           p={18}
-          className='rounded-full w-fit'
-          component='figure'
+          className="rounded-full w-fit"
+          component="figure"
         >
           <Icon height={30} width={30} />
         </Box>
 
-        <Title component='h3' order={3} className='prose-lg/medium text-end'>
+        <Title component="h3" order={3} className="prose-lg/medium text-end">
           {title}
         </Title>
         {href && (
-          <Link href={href} className='text-accent-6 text-sm mt-auto underline'>
+          <Link href={href} className="text-accent-6 text-sm mt-auto underline">
             {label}
           </Link>
         )}
@@ -63,7 +63,7 @@ export function StatisticsCard({
         {numerator || total || "0"}
 
         {denominator && (
-          <Text span fw={500} fz={24} c='gray.7'>
+          <Text span fw={500} fz={24} c="gray.7">
             /{denominator}
           </Text>
         )}

@@ -85,7 +85,7 @@ export default function PropertyOwners() {
     onSuccess: (data) => {
       const filename = useFilename(
         [FILE.PROPERTY_OWNERS],
-        data.type as MIME_TYPE
+        data.type as MIME_TYPE,
       );
       fileDownload(data, filename);
     },
@@ -153,7 +153,7 @@ export default function PropertyOwners() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Property Owners'
+        title="Property Owners"
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -163,7 +163,7 @@ export default function PropertyOwners() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -181,10 +181,10 @@ export default function PropertyOwners() {
               />
             ) : (
               <EmptySlot
-                title='There are no occupants yet. Add one to get started!'
-                src='person-minus'
+                title="There are no occupants yet. Add one to get started!"
+                src="person-minus"
                 withDoubleButton
-                primaryText='Add New Occupant'
+                primaryText="Add New Occupant"
                 primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () =>
@@ -193,7 +193,7 @@ export default function PropertyOwners() {
                       viewId: "property-owners",
                     }),
                 }}
-                secondaryText='Bulk Upload'
+                secondaryText="Bulk Upload"
                 secondaryBtnProps={{
                   onClick: bulkUpload,
                 }}
@@ -250,10 +250,10 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap='wrap' hidden={hidden}>
+    <Flex gap={14} wrap="wrap" hidden={hidden}>
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handlePropertyOwnerForm({ modalType: "add" })}
       >
@@ -261,18 +261,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}
