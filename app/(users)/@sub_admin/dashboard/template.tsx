@@ -66,13 +66,11 @@ export default function Template({ children }: TemplateProps) {
     }
   }, [pathname]);
 
-  console.log({ openedNav });
-
   return (
     <AppShell
       navbar={{
-        width: opened ? 260 : 95,
-        collapsed: { desktop: false, mobile: !openedNav },
+        width: opened ? 270 : 95,
+        collapsed: { mobile: !openedNav },
         breakpoint: "lg",
       }}
       styles={{

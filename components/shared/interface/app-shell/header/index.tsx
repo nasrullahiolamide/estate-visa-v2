@@ -23,6 +23,7 @@ import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 
 import clsx from "clsx";
+import { Fragment, useEffect } from "react";
 
 type AppShellHeaderProps = {
   title: string;
@@ -59,89 +60,97 @@ export function AppShellHeader({
   };
 
   const heading = (
-    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0'>
+    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-6'>
       {title}
     </h1>
   );
 
+  useEffect(() => {
+    if (openedNav) {
+      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
+    }
+  }, [pathname]);
+
   return (
-    <AppShell.Section
-      top={0}
-      pos='sticky'
-      component='header'
-      style={{
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-        zIndex: 120,
-      }}
-      className={clsx("border-l border-gray-2 bg-primary-background-white")}
-    >
-      <Stack
-        maw={MAX_SCREEN_WIDTH}
-        mx='auto'
-        component='section'
-        justify='space-between'
-        flex={1}
-        gap={0}
+    <Fragment>
+      <AppShell.Section
+        top={0}
+        pos='sticky'
+        component='header'
+        style={{
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          zIndex: 120,
+        }}
+        className={clsx("border-l border-gray-2 bg-primary-background-white")}
       >
-        <Flex
-          gap={36}
-          align='center'
+        <Stack
+          maw={MAX_SCREEN_WIDTH}
+          mx='auto'
+          component='section'
           justify='space-between'
-          className='~px-1/8 py-2'
+          flex={1}
+          gap={0}
         >
-          <Flex align='center' gap={6} hiddenFrom='lg'>
-            <Burger
-              opened={openedNav}
-              onClick={toggle}
-              hiddenFrom='lg'
-              size='sm'
-            />
-            <EstateVisaLogo height={45} width={45} />
-            {user.estate && (
-              <Title fw={500} c='purple.10' order={2}>
-                {user.estate.name} Estate
-              </Title>
-            )}
-          </Flex>
-          <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
-            {withSearch && (
-              <Box hiddenFrom='lg' className='flex items-center'>
-                <FlowSearch {...searchProps} />
-              </Box>
-            )}
-            <Flex gap={12} align='center' className='lg:ml-auto'>
-              <UserDetails />
+          <Flex
+            gap={36}
+            align='center'
+            justify='space-between'
+            className='~px-1/8 py-2'
+          >
+            <Flex align='center' gap={6} hiddenFrom='lg'>
+              <Burger
+                opened={openedNav}
+                onClick={toggle}
+                hiddenFrom='lg'
+                size='sm'
+              />
+              <EstateVisaLogo height={45} width={45} />
+              {user.estate && (
+                <Title fw={500} c='purple.10' order={2}>
+                  {user.estate.name} Estate
+                </Title>
+              )}
+            </Flex>
+            <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
+              {withSearch && (
+                <Box hiddenFrom='lg' className='flex items-center'>
+                  <FlowSearch {...searchProps} />
+                </Box>
+              )}
+              <Flex gap={12} align='center' className='lg:ml-auto'>
+                <UserDetails />
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
 
-        <Divider className='border-gray-2' />
+          <Divider className='border-gray-2' />
 
-        <Flex
-          gap={20}
-          py={16}
-          align='center'
-          justify='space-between'
-          className={clsx("px-1/8", { "hidden lg:flex": openedNav })}
-        >
-          <Flex gap={3} align='center'>
-            {pathname !== PAGES.DASHBOARD && (
-              <ActionIcon
-                onClick={back}
-                size={32}
-                variant='app-shell'
-                __vars={{
-                  "--ai-color": "var(--primary-text-body)",
-                }}
-              >
-                <ArrowBack />
-              </ActionIcon>
-            )}
-            {heading}
+          <Flex
+            gap={20}
+            py={16}
+            align='center'
+            justify='space-between'
+            className={clsx("px-1/8", { "hidden lg:flex": openedNav })}
+          >
+            <Flex gap={3} align='center'>
+              {pathname !== PAGES.DASHBOARD && (
+                <ActionIcon
+                  onClick={back}
+                  size={32}
+                  variant='app-shell'
+                  __vars={{
+                    "--ai-color": "var(--primary-text-body)",
+                  }}
+                >
+                  <ArrowBack />
+                </ActionIcon>
+              )}
+              {heading}
+            </Flex>
+            <Box className='hidden sm:block'>{options}</Box>
           </Flex>
-          <Box className='hidden sm:block'>{options}</Box>
-        </Flex>
-      </Stack>
-    </AppShell.Section>
+        </Stack>
+      </AppShell.Section>
+    </Fragment>
   );
 }
