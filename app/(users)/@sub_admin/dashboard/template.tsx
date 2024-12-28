@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  AppShell,
-  Center,
-  Divider,
-  Flex,
-  ScrollArea,
-  Stack,
-  Title,
-} from "@mantine/core";
-import { getCookie } from "cookies-next";
-import { boolean } from "mathjs";
-
 import { ProfileData } from "@/builders/types/profile";
+import { useFlowState } from "@/components/layout";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import {
   DashboardIcon,
@@ -27,10 +16,21 @@ import {
 } from "@/icons";
 import { navigate } from "@/packages/actions";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
+import { getFeatureFlag } from "@/packages/libraries/auth";
+import {
+  AppShell,
+  Center,
+  Divider,
+  Flex,
+  ScrollArea,
+  Stack,
+  Title,
+} from "@mantine/core";
+import clsx from "clsx";
+import { getCookie } from "cookies-next";
+import { boolean } from "mathjs";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-
-import { getFeatureFlag } from "@/packages/libraries/auth";
 
 import Swal from "sweetalert2";
 
@@ -42,6 +42,8 @@ export default function Template({ children }: TemplateProps) {
   const opened = boolean(collapsedNav ?? true);
   const pathname = usePathname();
   const flags = getFeatureFlag();
+
+  const { openedNav } = useFlowState();
 
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
@@ -64,12 +66,13 @@ export default function Template({ children }: TemplateProps) {
     }
   }, [pathname]);
 
+  console.log({ openedNav });
+
   return (
     <AppShell
-      bg="accent.12"
       navbar={{
         width: opened ? 260 : 95,
-        collapsed: { desktop: true },
+        collapsed: { desktop: false, mobile: !openedNav },
         breakpoint: "lg",
       }}
       styles={{
@@ -87,21 +90,28 @@ export default function Template({ children }: TemplateProps) {
         }}
       >
         <AppShell.Section>
-          <Center>
-            <EstateVisaLogo height={80} width={80} />
-          </Center>
+          <Stack
+            gap={0}
+            className={clsx({
+              "hidden lg:flex": openedNav,
+            })}
+          >
+            <Center>
+              <EstateVisaLogo height={80} width={80} />
+            </Center>
 
-          {user.estate && (
-            <Title mt={10} ta="center" fw={700} c="purple.9">
-              {user.estate.name} Estate
-            </Title>
-          )}
-          <Divider mt={24} />
+            {user.estate && (
+              <Title mt={10} ta='center' fw={700} c='purple.9'>
+                {user.estate.name} Estate
+              </Title>
+            )}
+            <Divider mt={24} />
+          </Stack>
 
           <AppShell.Section
             grow
             component={ScrollArea}
-            className="scrollbar-none ~pt-2\1/8"
+            className={clsx("scrollbar-none ~pt-1/8", { "mt-12": openedNav })}
           >
             <Stack gap={8}>
               <AppShellButton
@@ -161,8 +171,8 @@ export default function Template({ children }: TemplateProps) {
         </AppShell.Section>
       </AppShell.Navbar>
 
-      <AppShell.Main component={Flex} h="100dvh" className="overflow-auto">
-        <Stack gap={0} flex={1} className="bg-primary-text-normal">
+      <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
+        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
           {children}
         </Stack>
       </AppShell.Main>

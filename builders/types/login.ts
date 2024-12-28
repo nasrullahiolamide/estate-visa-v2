@@ -35,6 +35,7 @@ export type LoginResponseData = {
   refresh_token: string;
   user: User;
   occupant: Occupant;
+  has_completed_onboarding?: boolean;
 };
 
 export type Estate = {

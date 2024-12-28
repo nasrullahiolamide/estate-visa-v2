@@ -61,6 +61,7 @@ export enum PAGES {
   ESTATES = "/estates",
   ADD_NEW_ESTATE = "/add-new-estate",
   NOT_FOUND = "/404",
+  ONBOARDING = "/onboarding",
 }
 
 export enum MODALS {
