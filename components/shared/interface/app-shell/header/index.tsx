@@ -60,7 +60,7 @@ export function AppShellHeader({
   };
 
   const heading = (
-    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-6'>
+    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0'>
       {title}
     </h1>
   );
@@ -130,7 +130,7 @@ export function AppShellHeader({
             py={16}
             align='center'
             justify='space-between'
-            className={clsx("px-1/8", { "hidden lg:flex": openedNav })}
+            className={clsx("~px-1/8", { "hidden lg:flex": openedNav })}
           >
             <Flex gap={3} align='center'>
               {pathname !== PAGES.DASHBOARD && (

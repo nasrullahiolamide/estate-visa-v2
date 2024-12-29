@@ -1,6 +1,7 @@
 "use client";
 
 import { ProfileData } from "@/builders/types/profile";
+import { useFlowState } from "@/components/layout";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import {
   AdministratorIcon,
@@ -26,6 +27,7 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
+import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 import { usePathname } from "next/navigation";
@@ -38,9 +40,10 @@ export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
-
   const pathname = usePathname();
   const flags = getFeatureFlag();
+
+  const { openedNav } = useFlowState();
 
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
@@ -65,12 +68,10 @@ export default function Template({ children }: TemplateProps) {
 
   return (
     <AppShell
-      bg="accent.12"
-      header={{ height: 60 }}
       navbar={{
-        width: opened ? 260 : 95,
-        breakpoint: "sm",
-        collapsed: { desktop: true },
+        width: opened ? 270 : 95,
+        collapsed: { mobile: !openedNav },
+        breakpoint: "lg",
       }}
       styles={{
         navbar: {
@@ -87,21 +88,28 @@ export default function Template({ children }: TemplateProps) {
         }}
       >
         <AppShell.Section>
-          <Center>
-            <EstateVisaLogo height={80} width={80} />
-          </Center>
+          <Stack
+            gap={0}
+            className={clsx({
+              "hidden lg:flex": openedNav,
+            })}
+          >
+            <Center>
+              <EstateVisaLogo height={80} width={80} />
+            </Center>
 
-          {user.estate && (
-            <Title mt={10} ta="center" fw={700} c="purple.9">
-              {user.estate.name} Estate
-            </Title>
-          )}
-          <Divider mt={24} />
+            {user.estate && (
+              <Title mt={10} ta='center' fw={700} c='purple.9'>
+                {user.estate.name} Estate
+              </Title>
+            )}
+            <Divider mt={24} />
+          </Stack>
 
           <AppShell.Section
             grow
             component={ScrollArea}
-            className="scrollbar-none ~pt-2\1/8"
+            className={clsx("scrollbar-none ~pt-1/8", { "mt-12": openedNav })}
           >
             <Stack gap={8}>
               <AppShellButton
@@ -171,8 +179,8 @@ export default function Template({ children }: TemplateProps) {
           </AppShell.Section>
         </AppShell.Section>
       </AppShell.Navbar>
-      <AppShell.Main component={Flex} h="100dvh" className="overflow-auto">
-        <Stack gap={0} flex={1} className="bg-primary-text-normal">
+      <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
+        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
           {children}
         </Stack>
       </AppShell.Main>

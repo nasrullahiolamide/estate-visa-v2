@@ -1,22 +1,22 @@
 "use client";
 
-import { Button, Select, TextInput } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { cast } from "@/packages/libraries";
-import { object, string } from "yup";
 import { FlowEditor } from "@/components/layout/flow-editor";
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
-import { toast } from "react-toastify";
-import { concat } from "lodash";
+import { ResourceUpload } from "@/components/shared/uploads/resource";
+import { CalenderIcon } from "@/icons";
+import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { cast } from "@/packages/libraries";
+import { Button, Select, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import {
   MS_EXCEL_MIME_TYPE,
   MS_WORD_MIME_TYPE,
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
-import { DatePickerInput } from "@mantine/dates";
-import { CalenderIcon } from "@/icons";
-import { ResourceUpload } from "@/components/shared/uploads/resource";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { concat } from "lodash";
+import { toast } from "react-toastify";
+import { object, string } from "yup";
 
 const requiredString = string().required("This is a required field.");
 
@@ -53,7 +53,7 @@ export function MarketRuleForm() {
 
   const handleSubmit = () => {};
 
-  const { preview, handleUpload, status, progress } = useFileUpload({
+  const { previews, handleUpload, onDelete } = useMultipleFileUpload({
     key: "others",
     onError: () => {
       toast.error("Failed to upload resource");
@@ -68,46 +68,44 @@ export function MarketRuleForm() {
     <Form form={form} onSubmit={() => {}}>
       <FlowContainer
         p={0}
-        className="bg-primary-background-white h-[600px] overflow-scroll"
+        className='bg-primary-background-white h-[600px] overflow-scroll'
         gap={18}
-        type="plain"
+        type='plain'
       >
         <TextInput
-          label="Rule Title"
-          placeholder="Enter the title of the rule"
+          label='Rule Title'
+          placeholder='Enter the title of the rule'
           withAsterisk
           {...form.getInputProps("ruleTitle")}
         />
         <FlowEditor
-          label="Content"
-          placeholder="Type something here..."
+          label='Content'
+          placeholder='Type something here...'
           withAsterisk
           {...form.getInputProps("content")}
         />
 
         <DatePickerInput
-          label="Date"
+          label='Date'
           rightSection={<CalenderIcon />}
           withAsterisk
           //   {...form.getInputProps("date")}
         />
         <ResourceUpload
-          label="Upload File"
-          name={preview.name}
-          size={preview.size}
+          label='Upload File'
           supports={["pdf", "ppt", "doc"]}
           accepts={() => {
             return concat(PDF_MIME_TYPE, MS_EXCEL_MIME_TYPE, MS_WORD_MIME_TYPE);
           }}
-          completed={progress?.completed}
+          previews={previews}
+          onDelete={onDelete}
           onDrop={handleUpload}
-          status={status}
           multiple
           {...form.getInputProps("upload_id")}
         />
 
         <Select
-          label="Applies To:"
+          label='Applies To:'
           //   disabled={isViewing}
           data={[
             {
@@ -126,7 +124,7 @@ export function MarketRuleForm() {
           {...form.getInputProps("applies_to")}
         />
         <Select
-          label="Status"
+          label='Status'
           //   disabled={isViewing}
           data={[
             {
@@ -141,7 +139,7 @@ export function MarketRuleForm() {
           {...form.getInputProps("status")}
         />
       </FlowContainer>
-      <Button mt={25} type="submit" onClick={handleSubmit} w="100%">
+      <Button mt={25} type='submit' onClick={handleSubmit} w='100%'>
         Save
       </Button>
     </Form>

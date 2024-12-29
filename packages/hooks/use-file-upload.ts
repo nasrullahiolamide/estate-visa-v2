@@ -6,8 +6,8 @@ import { builder } from "@/builders";
 import { UploadData } from "@/builders/types/upload";
 import { pass } from "@/packages/libraries";
 
-import { useOnUploadProgress } from "./use-on-upload-progress";
 import { Thumbnail } from "@/builders/types/shared";
+import { useOnUploadProgress } from "./use-on-upload-progress";
 
 export type Upload = {
   data: UploadData;
@@ -141,6 +141,11 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     return preview;
   };
 
+  const handleDelete = function () {
+    setPreview({});
+    setFile(undefined);
+  };
+
   /**
    * Handles the form submission in a scenario where the file is dropped
    * but not uploaded. The state of the file is saved in `upload` and
@@ -231,6 +236,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
     handleDrop,
     handleSubmit,
     handlePreview,
+    handleDelete,
     setStatus,
   };
 }
