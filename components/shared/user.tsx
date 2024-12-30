@@ -18,7 +18,6 @@ import { ConfirmLogout } from "./interface/modals/logout";
 function handleLogout() {
   modals.open({
     children: <ConfirmLogout />,
-    withCloseButton: false,
     modalId: MODALS.CONFIRMATION,
   });
 }
@@ -110,7 +109,7 @@ export function UserDetails() {
           My Profile
         </Menu.Item>
         <Menu.Item
-          bg='purple.4'
+          bg='red.1'
           color='red'
           leftSection={<LogoutCurve size={18} />}
           onClick={handleLogout}

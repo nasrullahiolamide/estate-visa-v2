@@ -24,7 +24,7 @@ interface ResourceUploadProps
     DropzoneProps {
   accepts: (mime: MIME) => MIME_TYPE[];
   onDelete: (url: string) => void;
-  previews: FilePreview[];
+  previews: Partial<FilePreview>[];
   label?: string;
   supports?: string[];
   withAsterisk?: boolean;
@@ -95,8 +95,14 @@ export function ResourceUpload({
     </Input.Wrapper>
   );
 
-  const upload = (file: FilePreview) => {
-    const { name, size, url, status, completed } = file;
+  const upload = (file: Partial<FilePreview>) => {
+    const {
+      name = "",
+      size = "",
+      url = "",
+      status = "",
+      completed = "",
+    } = file;
 
     const color =
       status === "error"
@@ -114,19 +120,23 @@ export function ResourceUpload({
 
     return (
       <Flex
-        key={url}
         pos='relative'
+        key={url}
         p={16}
         gap={14}
-        className={clsx("border rounded-md bg-primary-background-subtle", {
-          "border-red-9": status === "error",
-          "border-primary-border-light": [
-            "pending",
-            "dropped",
-            "uploading",
-            "uploaded",
-          ].includes(status),
-        })}
+        miw={280}
+        className={clsx(
+          "border rounded-md bg-primary-background-subtle w-full z-50",
+          {
+            "border-red-9": status === "error",
+            "border-primary-border-light": [
+              "pending",
+              "dropped",
+              "uploading",
+              "uploaded",
+            ].includes(status),
+          }
+        )}
       >
         <Tooltip label='Remove' position='top'>
           <Center
@@ -186,7 +196,11 @@ export function ResourceUpload({
   return (
     <Fragment>
       {previews.length === 0 || props.multiple ? pending : null}
-      {previews.map(upload)}
+      {previews.length > 0 && (
+        <Flex gap={10} mih={120} className='overflow-scroll w-full h-full py-4'>
+          {previews.map(upload)}
+        </Flex>
+      )}
     </Fragment>
   );
 }

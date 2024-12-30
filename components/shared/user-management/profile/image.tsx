@@ -4,13 +4,13 @@ import {
   FormValues,
   TransformFormValues,
 } from "@/components/admin/profile/form-context";
-import vibrateDevice from "@/packages/libraries/vibrate-device";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { Avatar, Button, Flex, Loader, Text } from "@mantine/core";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { UseFormReturnType } from "@mantine/form";
 import { concat } from "lodash";
 
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import vibrateDevice from "@/packages/libraries/vibrate-device";
 import clsx from "clsx";
 interface ProfileImageProps {
   url?: string;
@@ -66,9 +66,9 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
         src={
           isPending || isFetching
             ? null
-            : picture || previews[0].url || "/vectors/image-plus.svg"
+            : picture || previews[0]?.url || "/vectors/image-plus.svg"
         }
-        alt={previews[0].name ?? "thumbnail"}
+        alt={previews[0]?.name ?? "thumbnail"}
         classNames={{
           image: clsx({
             "p-4": !picture,

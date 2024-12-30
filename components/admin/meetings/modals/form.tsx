@@ -121,7 +121,7 @@ export function MeetingMinutesForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='bg-primary-background-white h-[550px] sm:h-full overflow-y-scroll sm:justify-center sm:scrollbar-none'
+        className='bg-primary-background-white max-h-[650px] overflow-y-scroll sm:scrollbar-none'
         gap={18}
         type='plain'
         bg='white'

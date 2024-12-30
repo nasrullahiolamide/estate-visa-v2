@@ -147,7 +147,7 @@ export function AppShellHeader({
               )}
               {heading}
             </Flex>
-            <Box className='hidden sm:block'>{options}</Box>
+            <Box className='hidden lg:block'>{options}</Box>
           </Flex>
         </Stack>
       </AppShell.Section>

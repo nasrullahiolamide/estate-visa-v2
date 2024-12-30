@@ -65,7 +65,7 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
    * The thumbnail to display
    * @type {Thumbnail}
    */
-  thumbnail?: Partial<Thumbnail> | null;
+  thumbnail?: Thumbnail | null;
 
   /**
    * The key type to use for the upload
@@ -140,14 +140,18 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
   /**
    * Created as a state to hold the file previews
    */
-  const [previews, setPreviews] = useState<Partial<FilePreview>[]>([
-    {
-      name: file_name,
-      url: file_url,
-      size: file_size,
-      type: file_type,
-    },
-  ]);
+  const [previews, setPreviews] = useState<Partial<FilePreview>[]>(
+    key === "profile-pictures"
+      ? [
+          {
+            name: file_name,
+            url: file_url,
+            size: file_size,
+            type: file_type,
+          },
+        ]
+      : []
+  );
 
   const { mutateAsync, isPending, isIdle, isPaused } = useMutation<
     Upload,
