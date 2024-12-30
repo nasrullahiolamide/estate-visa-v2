@@ -4,7 +4,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
 import { CalenderIcon } from "@/icons";
-import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { cast } from "@/packages/libraries";
 import { Button, Select, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -53,7 +53,7 @@ export function MarketRuleForm() {
 
   const handleSubmit = () => {};
 
-  const { previews, handleUpload, onDelete } = useMultipleFileUpload({
+  const { previews, handleUpload, onDelete } = useFileUpload({
     key: "others",
     onError: () => {
       toast.error("Failed to upload resource");

@@ -6,7 +6,7 @@ import { requiredString } from "@/builders/types/shared";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
-import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { cast } from "@/packages/libraries";
 import { APP, FILE } from "@/packages/libraries/enum";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -97,7 +97,7 @@ export function MeetingMinutesForm({
     onDelete,
     handleUpload,
     isPending: isUploading,
-  } = useMultipleFileUpload({
+  } = useFileUpload({
     key: FILE.MINUTES,
     onError: () => {
       toast.error("Some files failed to upload, please try again.");

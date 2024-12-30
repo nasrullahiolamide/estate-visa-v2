@@ -13,7 +13,7 @@ import { MIME_TYPE } from "@/builders/types/shared";
 import { FlowStateProvider } from "@/components/layout";
 import { ImportCategory } from "@/packages/hooks/use-bulk-upload";
 import { useFilename } from "@/packages/hooks/use-file-name";
-import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { MODALS } from "@/packages/libraries";
 import { APP } from "@/packages/libraries/enum";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -56,7 +56,7 @@ export function BulkUpload(props: BulkUploadProps) {
     isPending,
     handleUpload,
     handleSubmit,
-  } = useMultipleFileUpload<BulkUploadProps>({
+  } = useFileUpload<BulkUploadProps>({
     key: props.type,
     form: { ...props, estateId },
     onError() {

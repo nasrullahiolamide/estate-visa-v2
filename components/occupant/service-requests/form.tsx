@@ -9,7 +9,7 @@ import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
-import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -74,7 +74,7 @@ export function ServiceRequestForm({
     validateInputOnBlur: true,
   });
 
-  const { previews, handleUpload, onDelete } = useMultipleFileUpload({
+  const { previews, handleUpload, onDelete } = useFileUpload({
     key: "others",
     onError: () => {
       toast.error("Failed to upload resource");

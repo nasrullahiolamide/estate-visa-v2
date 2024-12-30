@@ -1,6 +1,6 @@
 import { MIME, MIME_TYPE } from "@/builders/types/shared";
 import { Check, FileIcon, TrashIcon } from "@/icons";
-import { FilePreview } from "@/packages/hooks/use-multiple-file-upload";
+import { FilePreview } from "@/packages/hooks/use-file-upload";
 import { pass } from "@/packages/libraries";
 import {
   Center,

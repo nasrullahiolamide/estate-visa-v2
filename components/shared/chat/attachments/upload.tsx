@@ -1,7 +1,7 @@
 "use client";
 
 import { AttachFile } from "@/icons";
-import { useMultipleFileUpload } from "@/packages/hooks/use-multiple-file-upload";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { FileButton } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 export function UploadAttachments() {
   const [files, setFiles] = useState<File[]>([]);
 
-  const { previews, handleUpload, status, progress } = useMultipleFileUpload({
+  const { previews, handleUpload, status, progress } = useFileUpload({
     key: "messages",
     onError: () => {
       toast.error("Failed to upload resource");
