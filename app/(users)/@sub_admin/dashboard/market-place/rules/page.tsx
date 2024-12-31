@@ -24,10 +24,11 @@ import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { AddIcon } from "@/icons";
-import { makePath, MODALS, PAGES } from "@/packages/libraries";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { Fragment, useEffect } from "react";
 
