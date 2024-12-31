@@ -166,6 +166,9 @@ export default function MarketRules() {
                 data={marketRules.data}
                 columns={marketRuleColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleMarketRuleForm({ viewId: "view", ...data })
+                }
               />
             ) : (
               <EmptySlot
