@@ -1,28 +1,21 @@
-import clsx from "clsx";
-
-import { Fragment } from "react";
-import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Flex, Menu } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { ConfirmationModal } from "@/components/shared/interface";
 import {
   FlowMenu,
-  FlowMenuTarget,
   FlowMenuDropdown,
+  FlowMenuTarget,
   FlowToolTip,
 } from "@/components/layout";
-import {
-  ActivateIcon,
-  DeactivateIcon,
-  EditIcon,
-  EyeIcon,
-  TrashIcon,
-} from "@/icons";
+import { ConfirmationModal } from "@/components/shared/interface";
+import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Flex, Menu } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { Fragment } from "react";
+
+import clsx from "clsx";
 
 interface MarketRuleActionsProps {
   id: string;
@@ -59,10 +52,10 @@ export function MarketRuleActions({ id, handlers }: MarketRuleActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this rule?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this rule?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -105,7 +98,7 @@ export function MarketRuleActions({ id, handlers }: MarketRuleActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -114,10 +107,10 @@ export function MarketRuleActions({ id, handlers }: MarketRuleActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
-        <FlowToolTip icon="View" onClick={handlers.onView} />
-        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
-        <FlowToolTip icon="Delete" onClick={handleDelete} />
+      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
+        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
+        <FlowToolTip icon='Delete' onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

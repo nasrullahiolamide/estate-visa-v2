@@ -1,30 +1,27 @@
 "use client";
 
-import dayjs from "dayjs";
-
-import { getCookie } from "cookies-next";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { Button, Select, TextInput } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { DatePickerInput } from "@mantine/dates";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
 import {
   GateRequestData,
   UpdateGateRequestData,
 } from "@/builders/types/gate-requests";
-import { APP, cast, formatDate, MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
-import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
-import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
-
+import { FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
-import { schema } from "./schema";
-import { FlowPhoneInput } from "@/components/layout";
+import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
+import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
+import { APP, cast, formatDate, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Select, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { handleShare } from "./actions";
+import { schema } from "./schema";
+
+import dayjs from "dayjs";
 
 export type GateRequestFormProps = {
   data?: GateRequestData;
@@ -104,14 +101,14 @@ export function GateRequestForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <TextInput
-          label="Guest Name"
+          label='Guest Name'
           placeholder="Enter guest's name"
           disabled={isViewing}
           withAsterisk
@@ -119,20 +116,20 @@ export function GateRequestForm({
         />
         <Select
           data={RELATIONSHIP_OPTIONS}
-          label="Guest Type"
+          label='Guest Type'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("guestType")}
         />
         <FlowPhoneInput
-          label="Phone Number"
+          label='Phone Number'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phoneNo")}
         />
 
         <DatePickerInput
-          label="Date of Visit"
+          label='Date of Visit'
           minDate={new Date()}
           disabled={isViewing}
           valueFormat={DATE_FORMAT}
@@ -140,14 +137,14 @@ export function GateRequestForm({
           {...form.getInputProps("visitDate")}
         />
         <TimePickerInput
-          label="Time of Visit"
+          label='Time of Visit'
           withAsterisk
           {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
           <Button
             mt={10}
-            type="button"
+            type='button'
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -155,7 +152,7 @@ export function GateRequestForm({
         ) : isEditing ? (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isUpdating}
             disabled={isUpdating}
           >
@@ -164,7 +161,7 @@ export function GateRequestForm({
         ) : (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isPending}
             disabled={isPending}
           >

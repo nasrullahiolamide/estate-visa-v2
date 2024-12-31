@@ -15,6 +15,7 @@ const change_password = function (variables: {
   data: {
     oldPassword?: string;
     password: string;
+    isOnboarded?: boolean;
   };
 }) {
   const { id, data } = variables;

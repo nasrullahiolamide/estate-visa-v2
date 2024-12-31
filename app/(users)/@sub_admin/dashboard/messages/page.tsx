@@ -1,36 +1,34 @@
 "use client";
 
-import { Add } from "iconsax-react";
-import { Fragment } from "react";
-import { toString } from "lodash";
-import { useQueryState } from "nuqs";
-import { getCookie } from "cookies-next";
-
-import { Button, Flex, Tabs } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useQuery } from "@tanstack/react-query";
-
 import { builder } from "@/builders";
 import { useFakeMessagesList } from "@/builders/types/messages";
-import { APP, MODALS } from "@/packages/libraries";
+import { WriteModal } from "@/components/admin/messages/write";
 import {
+  FlowContainer,
+  FlowContentContainer,
+  FlowEntriesPerPage,
+  FlowFloatingButtons,
+  FlowFooter,
+  FlowPagination,
   FlowTabs,
   FlowTabsPanel,
   useFlowState,
-  FlowContentContainer,
-  FlowContainer,
-  FlowEntriesPerPage,
-  FlowFooter,
-  FlowPagination,
-  FlowFloatingButtons,
 } from "@/components/layout";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { WriteModal } from "@/components/admin/messages/write";
 import { Conversations } from "@/components/shared/chat/messages/conversation";
 import { Announcements } from "@/components/shared/chat/notice-board/conversation";
 import { MESSAGE_TYPE } from "@/components/shared/chat/types";
-import { UserFriendsIcon, BroadcastIcon, Inbox } from "@/icons";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
+import { BroadcastIcon, Inbox, UserFriendsIcon } from "@/icons";
+import { APP, MODALS } from "@/packages/libraries";
+import { Button, Flex, Tabs } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { Add } from "iconsax-react";
+import { toString } from "lodash";
+import { useQueryState } from "nuqs";
+import { Fragment } from "react";
 
 import clsx from "clsx";
 
@@ -68,10 +66,10 @@ export default function Messages() {
     placeholderData: initialMeetingList,
     select: (data) => {
       const occupant_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.OCCUPANT,
+        (message) => message.type === MESSAGE_TYPE.OCCUPANT
       );
       const broadcast_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.BROADCAST,
+        (message) => message.type === MESSAGE_TYPE.BROADCAST
       );
       return { occupant_messages, broadcast_messages };
     },
@@ -86,7 +84,7 @@ export default function Messages() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Messages"
+        title='Messages'
         options={
           <HeaderOptions
             view={type}
@@ -95,7 +93,7 @@ export default function Messages() {
           />
         }
       />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -108,8 +106,8 @@ export default function Messages() {
               gap: 0,
             }}
           >
-            <Flex align="center">
-              <Tabs.List className="w-full">
+            <Flex align='center'>
+              <Tabs.List className='w-full'>
                 <Tabs.Tab
                   flex={1}
                   py={18}
@@ -166,7 +164,7 @@ export default function Messages() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData },
+            { hidden: noDataAvailable || isPlaceholderData }
           )}
         >
           <FlowPagination />
@@ -196,18 +194,18 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ onClick, view, hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       {view === MESSAGE_TYPE.OCCUPANT ? (
-        <Button fz="sm" size="md" leftSection={<Add />} onClick={onClick}>
+        <Button fz='sm' size='md' leftSection={<Add />} onClick={onClick}>
           Write a Message
         </Button>
       ) : (
-        <Button fz="sm" size="md" leftSection={<Add />} onClick={onClick}>
+        <Button fz='sm' size='md' leftSection={<Add />} onClick={onClick}>
           Send a Broadcast
         </Button>
       )}
       <FilterDropdown
-        label="All"
+        label='All'
         icon={<Inbox />}
         data={[
           { label: "All", value: "all" },
@@ -216,7 +214,7 @@ function HeaderOptions({ onClick, view, hidden }: HeaderOptionsProps) {
         ]}
       />
       <FilterDropdown
-        label="Filter"
+        label='Filter'
         data={[
           { label: "Recently Added", value: "recent" },
           { label: "Street Name(A-Z)", value: "a-z" },

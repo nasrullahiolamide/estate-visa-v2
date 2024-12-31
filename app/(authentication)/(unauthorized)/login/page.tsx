@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { builder } from "@/builders";
 import { AvailableDashboards, LoginResponseData } from "@/builders/types/login";
 import { requiredString } from "@/builders/types/shared";
@@ -23,6 +21,8 @@ import { toString } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect } from "react";
 import { boolean, object } from "yup";
+
+import Link from "next/link";
 
 const schema = object({
   username: requiredString,
@@ -59,7 +59,7 @@ export default function Page() {
     mutationFn: builder.$use.auth.login,
     onSuccess: ({ data }) => {
       function loginCallback(data: LoginResponseData) {
-        const { user, has_completed_onboarding = false } = { ...data };
+        const { user } = { ...data };
         const user_type = user.roles[0].name;
         const isDashboardAvailable = AvailableDashboards.includes(user_type);
 
@@ -74,7 +74,7 @@ export default function Page() {
           user_type,
           ...data,
         });
-        navigate(has_completed_onboarding ? PAGES.DASHBOARD : PAGES.ONBOARDING);
+        navigate(user.isOnboarded ? PAGES.DASHBOARD : PAGES.ONBOARDING);
         handleSuccess({ message: "You have successfully logged in." });
       }
 

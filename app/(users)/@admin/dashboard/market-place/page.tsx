@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useQueryState } from "nuqs";
 import { Fragment } from "react";
 
-import { Button, Flex, Tabs } from "@mantine/core";
-import { makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { CarbonRule } from "@/icons";
+import { makePath, PAGES } from "@/packages/libraries";
+import { Button, Flex, Tabs } from "@mantine/core";
 
 import {
   FlowEntriesPerPage,
@@ -20,7 +20,6 @@ import {
   FlowTabs,
   FlowTabsPanel,
 } from "@/components/layout";
-import { TotalListings } from "@/components/admin/market-place/listings/total";
 
 enum VIEW_TYPES {
   TOTAL_LISTINGS = "total-listings",
@@ -69,8 +68,8 @@ export default function Messages() {
 
   return (
     <Fragment>
-      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl",
@@ -82,10 +81,10 @@ export default function Messages() {
             tabsContainerProps={{ gap: 0 }}
           >
             <Flex
-              align="center"
-              className="overflow-scroll w-full bg-white  sticky top-0 z-40"
+              align='center'
+              className='overflow-scroll w-full bg-white  sticky top-0 z-40'
             >
-              <Tabs.List className="w-full flex-nowrap">
+              <Tabs.List className='w-full flex-nowrap'>
                 <Tabs.Tab value={VIEW_TYPES.TOTAL_LISTINGS} flex={1} py={20}>
                   Total Listings (100)
                 </Tabs.Tab>
@@ -109,7 +108,8 @@ export default function Messages() {
             </Flex>
 
             <FlowTabsPanel value={VIEW_TYPES.TOTAL_LISTINGS}>
-              <TotalListings />
+              {/* <TotalListings /> */}
+              <></>
             </FlowTabsPanel>
             <FlowTabsPanel value={VIEW_TYPES.PENDING_APPROVALS}>
               <></>
@@ -141,17 +141,17 @@ export default function Messages() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap="wrap">
+    <Flex gap={14} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<CarbonRule />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MARKET_RULES)}
       >
         Market Rules
       </Button>
-      <FilterDropdown label="Filter" data={filterOptions} />
+      <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
   );
 }

@@ -1,50 +1,45 @@
 "use client";
 
-import Link from "next/link";
-
-import { useQueryState } from "nuqs";
-import { Fragment } from "react";
-
-import { Button, Flex, Tabs } from "@mantine/core";
-import { makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { FlowContentContainer } from "@/components/layout/flow-content-container";
-import { CarbonRule } from "@/icons";
-
+import { builder } from "@/builders";
+import { ProductStatus, useFakeProductList } from "@/builders/types/products";
+import { Listings } from "@/components/admin/market-place/listings";
 import {
   FlowEntriesPerPage,
   FlowFooter,
   FlowPagination,
+  FlowSearch,
   FlowTabs,
   FlowTabsPanel,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
-import { TotalListings } from "@/components/admin/market-place/listings/total";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { FlowContentContainer } from "@/components/layout/flow-content-container";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { CarbonRule } from "@/icons";
+import { APP, makePath, PAGES } from "@/packages/libraries";
+import { Button, Flex, Tabs } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
 
-enum VIEW_TYPES {
-  TOTAL_LISTINGS = "total-listings",
-  PENDING_APPROVALS = "pending-approvals",
-  ACTIVE_LISTINGS = "active-listings",
-  REPORTED_LISTINGS = "reported-listings",
-  SUSPENDED_LISTINGS = "suspended-listings",
-}
+import { useQueryState } from "nuqs";
+import { Fragment, useEffect } from "react";
+
+import { PRODUCT_CATEGORIES, PRODUCT_VIEW } from "@/packages/constants/data";
+import clsx from "clsx";
+import { toString } from "lodash";
+import Link from "next/link";
+import { getCookie } from "cookies-next";
 
 const filterOptions = [
-  { label: "Recent", value: "recent" },
+  { label: "Recent", value: "Recent" },
   {
     label: "Category",
     value: "category",
-    children: [
-      {
-        label: "Active",
-        value: "active",
-      },
-      {
-        label: "Suspended",
-        value: "suspended",
-      },
-    ],
+    children: PRODUCT_CATEGORIES.map((category) => ({
+      label: category,
+      value: category,
+    })),
   },
   {
     label: "Seller",
@@ -62,18 +57,62 @@ const filterOptions = [
   },
 ];
 
-export default function Messages() {
-  const [view, setView] = useQueryState("type", {
-    defaultValue: VIEW_TYPES.TOTAL_LISTINGS,
+export default function MarketPlace() {
+  const initialProductList = useFakeProductList();
+  const pagination = useFlowPagination();
+  const estateId = toString(getCookie(APP.ESTATE_ID));
+
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
+  const [view, setView] = useQueryState("view", {
+    defaultValue: PRODUCT_VIEW.ALL,
   });
+
+  const { data: products, isPlaceholderData } = useQuery({
+    queryKey: builder.products.get.$get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
+    queryFn: () =>
+      builder.$use.products.get({
+        page,
+        pageSize,
+        search,
+        sortBy,
+        sortOrder,
+        estateId,
+      }),
+    placeholderData: initialProductList,
+    select: (data) => data,
+  });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(products?.page);
+    pagination.setTotal(getListing(view)?.length);
+    pagination.setEntriesCount(getListing(view)?.length);
+    pagination.setPageSize(products?.pageSize);
+  }, [isPlaceholderData]);
+
+  const getListing = (status: ProductStatus) => {
+    const data = products?.data;
+    return status === PRODUCT_VIEW.ALL
+      ? data
+      : data?.filter((product) => product.status === status);
+  };
+
+  const noDataAvailable = getListing(view)?.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
-            root: "rounded-none lg:rounded-2xl",
+            root: "rounded-none lg:rounded-2xl bg-white",
           }}
         >
           <FlowTabs
@@ -82,58 +121,49 @@ export default function Messages() {
             tabsContainerProps={{ gap: 0 }}
           >
             <Flex
-              align="center"
-              className="overflow-scroll w-full bg-white  sticky top-0 z-40"
+              align='center'
+              className='overflow-scroll w-full bg-white  sticky top-0 z-40'
             >
-              <Tabs.List className="w-full flex-nowrap">
-                <Tabs.Tab value={VIEW_TYPES.TOTAL_LISTINGS} flex={1} py={20}>
-                  Total Listings (100)
-                </Tabs.Tab>
-                <Tabs.Tab value={VIEW_TYPES.PENDING_APPROVALS} flex={1} py={20}>
-                  Pending Approvals (20)
-                </Tabs.Tab>
-                <Tabs.Tab value={VIEW_TYPES.ACTIVE_LISTINGS} flex={1} py={20}>
-                  Active Listings (20)
-                </Tabs.Tab>
-                <Tabs.Tab value={VIEW_TYPES.REPORTED_LISTINGS} flex={1} py={20}>
-                  Reported Listings (20)
-                </Tabs.Tab>
-                <Tabs.Tab
-                  value={VIEW_TYPES.SUSPENDED_LISTINGS}
-                  flex={1}
-                  py={18}
-                >
-                  Suspended Listings
-                </Tabs.Tab>
+              <Tabs.List className='w-full flex-nowrap'>
+                {Object.values(PRODUCT_VIEW).map((type) => (
+                  <Tabs.Tab value={type} flex={1} py={20} tt='capitalize'>
+                    {type === PRODUCT_VIEW.PENDING_APPROVALS
+                      ? type.replace("-", " ")
+                      : `${type} Listings `}
+                    ({getListing(type)?.length})
+                  </Tabs.Tab>
+                ))}
               </Tabs.List>
             </Flex>
 
-            <FlowTabsPanel value={VIEW_TYPES.TOTAL_LISTINGS}>
-              <TotalListings />
-            </FlowTabsPanel>
-            <FlowTabsPanel value={VIEW_TYPES.PENDING_APPROVALS}>
-              <></>
-            </FlowTabsPanel>
-            <FlowTabsPanel value={VIEW_TYPES.ACTIVE_LISTINGS}>
-              <></>
-            </FlowTabsPanel>
-            <FlowTabsPanel value={VIEW_TYPES.REPORTED_LISTINGS}>
-              <></>
-            </FlowTabsPanel>
-            <FlowTabsPanel value={VIEW_TYPES.SUSPENDED_LISTINGS}>
-              <></>
+            <FlowTabsPanel value={view}>
+              {noDataAvailable ? (
+                <EmptySlot
+                  src='marketplace'
+                  title={`There are no ${view.replace(
+                    "-",
+                    " "
+                  )} products yet. Check back later for updates!`}
+                />
+              ) : (
+                <Listings
+                  data={getListing(view)}
+                  skeleton={isPlaceholderData}
+                />
+              )}
             </FlowTabsPanel>
           </FlowTabs>
-
-          <FlowFooter
-          // className={clsx("flex bg-white space-between", {
-          //   hidden: false,
-          // })}
-          >
-            <FlowPagination />
-            <FlowEntriesPerPage />
-          </FlowFooter>
         </FlowContentContainer>
+
+        <FlowFooter
+          className={clsx(
+            "flex bg-white justify-between lg:rounded-b-2xl mt-2",
+            { hidden: noDataAvailable || isPlaceholderData }
+          )}
+        >
+          <FlowPagination />
+          <FlowEntriesPerPage />
+        </FlowFooter>
       </FlowContainer>
     </Fragment>
   );
@@ -141,17 +171,18 @@ export default function Messages() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap="wrap">
+    <Flex gap={14} wrap='wrap'>
+      <FlowSearch title='Market Place' />
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<CarbonRule />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MARKET_RULES)}
       >
         Market Rules
       </Button>
-      <FilterDropdown label="Filter" data={filterOptions} />
+      {/* <FilterDropdown label='Filter' data={filterOptions} /> */}
     </Flex>
   );
 }

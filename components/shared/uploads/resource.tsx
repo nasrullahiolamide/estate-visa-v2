@@ -40,6 +40,7 @@ export function ResourceUpload({
   error,
   supports = [],
   previews = [],
+  maxSize = MAX_SIZE,
   ...props
 }: ResourceUploadProps) {
   const accept = accepts(MIME_TYPES);
@@ -85,7 +86,7 @@ export function ResourceUpload({
             </Text>
 
             <Text fz={12} className='text-primary-text-subtle'>
-              Max file size: {prettyBytes(MAX_SIZE)}
+              Max file size: {prettyBytes(maxSize)}
             </Text>
           </Stack>
         </Stack>
@@ -197,9 +198,16 @@ export function ResourceUpload({
     <Fragment>
       {previews.length === 0 || props.multiple ? pending : null}
       {previews.length > 0 && (
-        <Flex gap={10} mih={120} className='overflow-scroll w-full h-full py-4'>
-          {previews.map(upload)}
-        </Flex>
+        <Stack gap={0}>
+          <Text fz={14}>{previews.length} file(s) uploaded</Text>
+          <Flex
+            gap={10}
+            mih={120}
+            className='overflow-scroll w-full h-full py-4'
+          >
+            {previews.map(upload)}
+          </Flex>
+        </Stack>
       )}
     </Fragment>
   );

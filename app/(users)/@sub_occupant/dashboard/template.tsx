@@ -8,6 +8,7 @@ import {
   DashboardIcon,
   EstateVisaLogo,
   GroupDiscussionIcon,
+  MarketPlaceIcon,
   NoticeBoardIcon,
   ServiceRequestIcon,
 } from "@/icons";
@@ -139,6 +140,14 @@ export default function Template({ children }: TemplateProps) {
                   leftSection={<ServiceRequestIcon />}
                   href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
                   label={"Service Requests"}
+                  opened={opened}
+                />
+              )}
+              {!flags.includes(PAGES.MARKET_PLACE) && (
+                <AppShellButton
+                  leftSection={<MarketPlaceIcon />}
+                  href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE)}
+                  label={"Market Place"}
                   opened={opened}
                 />
               )}

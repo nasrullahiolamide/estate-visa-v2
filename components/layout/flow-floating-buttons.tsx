@@ -11,7 +11,13 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 
-import { ClockIcon, DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
+import {
+  ClockIcon,
+  DownloadIcon,
+  ListIcon,
+  NotesIcon,
+  UploadIcon,
+} from "@/icons";
 import { FilterData, FilterDropdown } from "../shared/interface/dropdowns";
 
 import { Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
@@ -24,8 +30,16 @@ enum IconType {
   ADD = "add",
   NOTES = "notes",
   CLOCK = "clock",
+  LIST = "list",
 }
-type Icon = "upload" | "download" | "add" | "notes" | "clock" | "filter";
+type Icon =
+  | "upload"
+  | "download"
+  | "add"
+  | "notes"
+  | "clock"
+  | "filter"
+  | "list";
 
 type Button = {
   icon: Icon;
@@ -54,6 +68,7 @@ export function FlowFloatingButtons({
     [IconType.UPLOAD]: <UploadIcon width={15} height={15} />,
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,
     [IconType.CLOCK]: <ClockIcon width={20} height={20} />,
+    [IconType.LIST]: <ListIcon width={20} height={20} />,
   };
 
   return (

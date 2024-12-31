@@ -1,12 +1,12 @@
 import { api } from "@/builders/axios";
-import { id } from "./id";
+import { FilterParams } from "@/builders/types/filter-params";
 import {
   BulkUpdateHouseData,
   HouseData,
   HousesList,
 } from "@/builders/types/houses";
-import { FilterParams } from "@/builders/types/filter-params";
 import { OnUploadProgress } from "@/packages/hooks/use-on-upload-progress";
+import { id } from "./id";
 
 const table = function (params?: FilterParams) {
   return api.get<HousesList>("/houses", { params }).then((data) => data.data);

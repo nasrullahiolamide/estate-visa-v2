@@ -76,6 +76,7 @@ export enum MODALS {
   UPLOAD_RESOURCES = "upload-resources",
   CHANGE_PASSWORD = "change-password",
   SHARE = "share",
+  CONTACT_US = "contact-us",
 }
 
 export enum FILE {

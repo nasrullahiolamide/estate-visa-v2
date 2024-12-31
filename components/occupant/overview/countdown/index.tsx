@@ -1,15 +1,15 @@
 "use client";
 
-import clsx from "clsx";
-import { toString } from "lodash";
-import dayjs, { ManipulateType } from "dayjs";
-import Countdown, { CountdownRendererFn } from "react-countdown";
 import { Button, Stack, StackProps, Text, Title } from "@mantine/core";
+import clsx from "clsx";
+import dayjs, { ManipulateType } from "dayjs";
+import { toString } from "lodash";
+import Countdown, { CountdownRendererFn } from "react-countdown";
 
-import { TimePad } from "./time-pad";
+import { HouseData } from "@/builders/types/houses";
 import { FlowContainer } from "@/components/layout";
 import { formatDate } from "@/packages/libraries";
-import { HouseData } from "@/builders/types/houses";
+import { TimePad } from "./time-pad";
 
 interface CountDownProps extends StackProps {
   house: HouseData | undefined;
@@ -55,7 +55,7 @@ const renderer: CountdownRendererFn = ({
       <div
         className={clsx(
           "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
+          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
         )}
       >
         {years > 0 && (
@@ -72,7 +72,7 @@ const renderer: CountdownRendererFn = ({
     <div
       className={clsx(
         "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
+        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
       )}
     >
       <TimePad moment={days} period={days > 1 ? "Days" : "Day"} />
@@ -91,29 +91,29 @@ export function CountDown({ house, skeleton, ...props }: CountDownProps) {
     <FlowContainer
       py={84}
       px={16}
-      type="plain"
+      type='plain'
       gap={15}
-      bg="white"
+      bg='white'
       {...props}
       className={clsx({ skeleton })}
     >
       <Title
         order={2}
         fw={600}
-        ta="center"
+        ta='center'
         mb={24}
-        className="clump:text-[clamp(4rem,6vw,5rem)] text-2xl"
+        className='clump:text-[clamp(4rem,6vw,5rem)] text-2xl'
       >
         Subscription Validity
       </Title>
-      <Countdown renderer={renderer} date={millisecondsTillDeadline} />
-      <Stack mx="auto" mt={24} gap={24} ta="center" px={24}>
+      <Countdown renderer={renderer} date={deadline} autoStart />
+      <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>
         {millisecondsTillDeadline > Date.now() ? (
-          <Text c="gray.8">
+          <Text c='gray.8'>
             Renew subscription by {formatDate(deadline, "LL")}.
           </Text>
         ) : (
-          <Text c="red.8">
+          <Text c='red.8'>
             Your subscription has expired since {formatDate(deadline, "LL")}.
           </Text>
         )}

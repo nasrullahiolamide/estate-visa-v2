@@ -9,7 +9,7 @@ import {
   GateIcon,
   GroupDiscussionIcon,
   HousesIcon,
-  ServiceRequestIcon,
+  MarketPlaceIcon,
   TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
@@ -156,11 +156,11 @@ export default function Template({ children }: TemplateProps) {
                 opened={opened}
               />
 
-              {!flags.includes(PAGES.SERVICE_REQUESTS) && (
+              {!flags.includes(PAGES.MARKET_PLACE) && (
                 <AppShellButton
-                  leftSection={<ServiceRequestIcon />}
-                  href={makePath(PAGES.DASHBOARD, PAGES.SERVICE_REQUESTS)}
-                  label={"Service Requests"}
+                  leftSection={<MarketPlaceIcon />}
+                  href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE)}
+                  label={"Market Place"}
                   opened={opened}
                 />
               )}
