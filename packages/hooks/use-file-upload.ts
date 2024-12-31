@@ -1,13 +1,18 @@
+import { builder } from "@/builders";
+import { Thumbnail } from "@/builders/types/shared";
+import { UploadData } from "@/builders/types/upload";
 import { FileWithPath } from "@mantine/dropzone";
 import { MutationFunction, useMutation } from "@tanstack/react-query";
+
+import { AxiosError } from "axios";
 import { FormEvent, useState } from "react";
 
-import { builder } from "@/builders";
-import { UploadData } from "@/builders/types/upload";
-import { pass } from "@/packages/libraries";
-
-import { useOnUploadProgress } from "./use-on-upload-progress";
-import { Thumbnail } from "@/builders/types/shared";
+import { pass } from "../libraries";
+import { handleMantineError } from "../notification/handle-error";
+import {
+  OnUploadProgress,
+  useOnUploadProgress,
+} from "./use-on-upload-progress";
 
 export type Upload = {
   data: UploadData;
@@ -18,7 +23,15 @@ export type FilePreview = {
   size: number;
   type: string;
   url: string;
+  status: Status;
+  completed?: number;
 };
+
+interface HandlePreviewProps {
+  file: FileWithPath;
+  status: Status;
+  completed?: number;
+}
 
 type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
   /**
@@ -52,7 +65,7 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
    * The thumbnail to display
    * @type {Thumbnail}
    */
-  thumbnail?: Partial<Thumbnail> | null;
+  thumbnail?: Thumbnail | null;
 
   /**
    * The key type to use for the upload
@@ -67,25 +80,46 @@ type UseFileUploadProps<FormValues extends Record<string, unknown>> = {
   form?: FormValues;
 
   mutationFn?: MutationFunction;
+
+  /**
+   * Whether to allow multiple uploads
+   * @default false
+   * @type {boolean}
+   */
+  multiple?: boolean;
 };
 
-export type Files = (FileWithPath | undefined)[];
-export type Categories = "minutes" | "profile-pictures" | "messages" | "others";
+type MutateProps = {
+  formData: FormData;
+  onUploadProgress: OnUploadProgress;
+};
+
+export type Files = FileWithPath[];
 export type Status = "dropped" | "uploading" | "uploaded" | "pending" | "error";
+export type Categories =
+  | "minutes"
+  | "profile-pictures"
+  | "messages"
+  | "others"
+  | "houses"
+  | "occupants"
+  | "bulk-upload";
 
 export function useFileUpload<FormValues extends Record<string, unknown>>({
   key,
   thumbnail,
-  onError,
   onSuccess,
-  onDrop,
+  onError,
   onUpload,
+  onDrop,
   form,
 }: UseFileUploadProps<FormValues>) {
+  const isBulkUpload = key === "houses" || key === "occupants";
+
+  const { progress, onUploadProgress } = useOnUploadProgress();
   const [status, setStatus] = useState<Status>(
     thumbnail ? "uploaded" : "pending"
   );
-  const { progress, onUploadProgress } = useOnUploadProgress();
 
   /**
    * Destructure the thumbnail object
@@ -104,20 +138,36 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
   const [file, setFile] = useState<FileWithPath>();
 
   /**
-   * Created as a state to hold the file preview
+   * Created as a state to hold the file previews
    */
-  const [preview, setPreview] = useState<Partial<FilePreview>>({
-    name: file_name,
-    url: file_url,
-    size: file_size,
-    type: file_type,
-  });
+  const [previews, setPreviews] = useState<Partial<FilePreview>[]>(
+    key === "profile-pictures"
+      ? [
+          {
+            name: file_name,
+            url: file_url,
+            size: file_size,
+            type: file_type,
+          },
+        ]
+      : []
+  );
 
-  const { mutate, isPending, isIdle, isPaused } = useMutation({
+  const { mutateAsync, isPending, isIdle, isPaused } = useMutation<
+    Upload,
+    unknown,
+    MutateProps
+  >({
     onSuccess,
-    mutationKey: builder.upload.get(key),
-    mutationFn: builder.use().upload,
-    onError,
+    mutationKey: builder.upload.$get(key),
+    mutationFn: ({ formData, onUploadProgress }) =>
+      isBulkUpload
+        ? builder.$use[key]?.upload({ formData, onUploadProgress })
+        : builder.$use?.upload({ formData, onUploadProgress }),
+    onError(error: unknown) {
+      const axiosError = error as AxiosError;
+      isBulkUpload ? handleMantineError(axiosError) : onError?.();
+    },
   });
 
   /**
@@ -126,19 +176,22 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    * @param file
    * @returns void
    */
-  const handlePreview = function (file: FileWithPath) {
-    setFile(file);
 
+  const handlePreview = ({
+    file,
+    status,
+    completed,
+  }: HandlePreviewProps): FilePreview => {
     const url = URL.createObjectURL(file);
-    const preview = {
+    setFile(file);
+    return {
       name: file.name,
       size: file.size,
       type: file.type,
       url,
+      status,
+      completed,
     };
-
-    setPreview(preview);
-    return preview;
   };
 
   /**
@@ -162,46 +215,101 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
   const handleSubmit = function (callback: (files: Files) => void) {
     return (evt: FormEvent<HTMLFormElement>) => {
       evt.preventDefault();
-      callback([file]);
+      console.log(file);
+      if (file) {
+        callback([file]);
+      }
     };
   };
 
   /**
-   * Handles the file upload process. The file is passed to the callback
-   * function, which is expectedly `onUpload`. The file is also previewed
-   * before it is uploaded.
+   * Handles the file preview status update process.
+   *
+   * @param url
+   * @param status
+   */
+
+  const updatePreviewStatus = (url: string, status: Status) => {
+    setPreviews((prev) =>
+      prev.map((p) => (p.url === url ? { ...p, status } : p))
+    );
+    setStatus(status);
+  };
+
+  /**
+   * Handles the file deletion process.
+   *
+   * @param url
+   */
+  const onDelete = (url: string) => {
+    setPreviews((prev) => prev.filter((preview) => preview.url !== url));
+  };
+
+  /**
+   * FormData creation process. The form data is created with the file
+   * and the form data to be sent to the server for processing.
+   *
+   * @param file
+   * @returns FormData
+   */
+  const createFormData = (file: File) => {
+    if (!key) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    form?.estateId
+      ? formData.append("estateId", pass.string(form?.estateId))
+      : formData.append("type", key);
+
+    Object.entries({ ...form }).forEach(([key, value]) => {
+      formData.append(key, pass.string(value));
+    });
+    return formData;
+  };
+
+  /**
+   * Handles the multiple file upload process. The files are passed to the
+   * callback function, which is expectedly `onUpload`. The files are
+   * also previewed before they are uploaded.
+   *
    *
    * @param files
    * @returns void
    */
-  const handleUpload = ([file]: Files) => {
-    if (!file || !key) return;
+
+  const handleUpload = async (files: Files) => {
     setStatus("uploading");
 
-    const formData = new FormData();
-    const preview = handlePreview(file);
-    const payload = {
-      formData,
-      onUploadProgress,
-    };
+    for (const file of files) {
+      setFile(file);
+      const formData = createFormData(file) as FormData;
 
-    formData.append("file", file);
-    formData.append("type", key);
-    Object.entries({ ...form }).forEach(([key, value]) => {
-      formData.append(key, pass.string(value));
-    });
+      const preview = handlePreview({
+        file,
+        status: "uploading",
+        completed: progress?.completed,
+      });
 
-    mutate(payload, {
-      onSettled() {
+      isBulkUpload
+        ? setPreviews([preview])
+        : setPreviews((prev) => [...prev, preview]);
+
+      const payload = {
+        formData,
+        onUploadProgress,
+      };
+
+      try {
         onUpload?.(preview);
-      },
-      onSuccess() {
-        setStatus("uploaded");
-      },
-      onError() {
-        setStatus("error");
-      },
-    });
+        await mutateAsync(payload, {
+          onSettled: () => onUpload?.(preview),
+          onSuccess: () => updatePreviewStatus(preview.url, "uploaded"),
+          onError: () => updatePreviewStatus(preview.url, "error"),
+        });
+      } catch {
+        updatePreviewStatus(preview.url, "error");
+      }
+    }
   };
 
   /**
@@ -214,20 +322,27 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
    */
   const handleDrop = ([file]: Files) => {
     if (!file) return;
-
     setStatus("dropped");
-    const preview = handlePreview(file);
+
+    const preview = handlePreview({
+      file,
+      status,
+    });
+
+    setPreviews([preview]);
     onDrop?.(preview);
   };
 
   return {
-    preview,
+    file,
+    previews,
     progress,
-    status,
     isIdle,
     isPending,
-    isPaused,
     handleUpload,
+    onDelete,
+    status,
+    isPaused,
     handleDrop,
     handleSubmit,
     handlePreview,

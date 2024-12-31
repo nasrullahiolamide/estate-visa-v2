@@ -1,28 +1,24 @@
 "use client";
 
-import { object } from "yup";
-import { concat, toString } from "lodash";
-import { toast } from "react-toastify";
-import { modals } from "@mantine/modals";
-import { Button, Select, TextInput } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
 import { builder } from "@/builders";
-import { requiredString } from "@/builders/types/shared";
 import { MinutesData } from "@/builders/types/meetings";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { cast } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { requiredString } from "@/builders/types/shared";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
-import {
-  MS_EXCEL_MIME_TYPE,
-  MS_WORD_MIME_TYPE,
-  PDF_MIME_TYPE,
-} from "@mantine/dropzone";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { cast } from "@/packages/libraries";
 import { APP, FILE } from "@/packages/libraries/enum";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Select, TextInput } from "@mantine/core";
+import { MS_WORD_MIME_TYPE, PDF_MIME_TYPE } from "@mantine/dropzone";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
+import { concat, toString } from "lodash";
+import { toast } from "react-toastify";
+import { object } from "yup";
 
 const schema = object({
   title_id: requiredString,
@@ -44,8 +40,8 @@ export function MeetingMinutesForm({
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { data: meetings, isLoading } = useQuery({
-    queryKey: builder.meetings.get.all.get(),
-    queryFn: () => builder.use().meetings.get.all(estateId),
+    queryKey: builder.meetings.get.all.$get(),
+    queryFn: () => builder.$use.meetings.get.all(estateId),
     select: (data) => {
       return data
         .filter(({ id, minutes }) => {
@@ -59,13 +55,11 @@ export function MeetingMinutesForm({
     },
   });
 
-  console.log(meetings);
-
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().meetings.minutes,
+    mutationFn: builder.$use.meetings.minutes,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.meetings.get.table.get(),
+        queryKey: builder.meetings.get.table.$get(),
       });
       handleSuccess({
         message: isEditing
@@ -99,18 +93,15 @@ export function MeetingMinutesForm({
   });
 
   const {
-    preview,
+    previews,
+    onDelete,
     handleUpload,
-    status,
-    progress,
     isPending: isUploading,
   } = useFileUpload({
     key: FILE.MINUTES,
-
     onError: () => {
-      toast.error("Failed to upload resource");
+      toast.error("Some files failed to upload, please try again.");
     },
-
     onSuccess: ({ data }) => {
       form.clearFieldError("file");
       form.setFieldValue("file", data?.secure_url);
@@ -130,52 +121,50 @@ export function MeetingMinutesForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='bg-primary-background-white h-[550px] sm:h-full overflow-y-scroll sm:justify-center sm:scrollbar-none'
+        className="bg-primary-background-white max-h-[650px] overflow-y-scroll sm:scrollbar-none"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
-          label='Meeting Title'
+          label="Meeting Title"
           data={meetings}
-          placeholder='Select a meeting title'
+          placeholder="Select a meeting title"
           disabled={isLoading}
-          nothingFoundMessage='No meetings available, please create one first.'
+          nothingFoundMessage="No meetings available, please create one first."
           withAsterisk
           {...form.getInputProps("title_id")}
         />
         <TextInput
-          type='number'
-          label='Number of Attendees'
-          placeholder='Enter the number of attendees'
+          type="number"
+          label="Number of Attendees"
+          placeholder="Enter the number of attendees"
           withAsterisk
           {...form.getInputProps("noOfAttendees")}
         />
         <FlowEditor
-          label='Write Meeting Minutes'
-          placeholder='Type something here...'
+          label="Write Meeting Minutes"
+          placeholder="Type something here..."
           {...form.getInputProps("minutes")}
         />
 
         <ResourceUpload
-          label='Upload File'
-          name={preview.name}
-          size={preview.size}
-          supports={["pdf", "ppt", "doc"]}
-          accepts={() => {
-            return concat(PDF_MIME_TYPE, MS_EXCEL_MIME_TYPE, MS_WORD_MIME_TYPE);
-          }}
-          completed={progress?.completed}
+          label="Upload File"
+          supports={["pdf", "doc"]}
+          previews={previews}
           onDrop={handleUpload}
-          status={status}
+          onDelete={onDelete}
           multiple={false}
+          accepts={() => {
+            return concat(PDF_MIME_TYPE, MS_WORD_MIME_TYPE);
+          }}
           {...form.getInputProps("file")}
         />
       </FlowContainer>
       <Button
         mt={20}
-        w='100%'
-        type='submit'
+        w="100%"
+        type="submit"
         disabled={isPending || isUploading}
         loading={isPending}
       >

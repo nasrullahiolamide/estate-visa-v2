@@ -8,10 +8,10 @@ interface FlowProgressProps {
 export function FlowProgress({ active, total }: FlowProgressProps) {
   return (
     <Progress
-      radius='xs'
+      radius="xs"
       size={4}
       value={Math.max(25, (active / total) * 100)}
-      bg='transparent'
+      bg="transparent"
       color={"var(--green-9)"}
       animated
       transitionDuration={200}

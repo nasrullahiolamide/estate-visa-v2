@@ -54,7 +54,7 @@ export default function SubOccupants() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { data: subOccupants, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_occupants.get.get({
+    queryKey: builder.sub_occupants.get.$get({
       page,
       pageSize,
       search,
@@ -62,7 +62,7 @@ export default function SubOccupants() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().sub_occupants.get({
+      builder.$use.sub_occupants.get({
         page,
         pageSize,
         search,
@@ -110,13 +110,13 @@ export default function SubOccupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Sub-Occupants'
+        title="Sub-Occupants"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -134,10 +134,10 @@ export default function SubOccupants() {
               />
             ) : (
               <EmptySlot
-                title='There are no sub-occupants yet. Add one to get started!'
-                src='person-minus'
+                title="There are no sub-occupants yet. Add one to get started!"
+                src="person-minus"
                 withButton
-                text='Add Sub-Occupant'
+                text="Add Sub-Occupant"
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () => handleSubOccupantForm({ modalType: "add" }),
@@ -176,10 +176,10 @@ export default function SubOccupants() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<AddIcon />}
         onClick={() => handleSubOccupantForm({ modalType: "add" })}
       >
@@ -187,9 +187,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
       >
         Download Table

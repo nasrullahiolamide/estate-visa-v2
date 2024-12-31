@@ -21,7 +21,7 @@ export function VerticalLine(props: VerticalLineProps) {
   const verticalSize = useTransform(
     scrollYProgress,
     [0, 1],
-    ["100% 0%", "100% 100%"]
+    ["100% 0%", "100% 100%"],
   );
 
   const style = useMemo(() => {
@@ -46,11 +46,11 @@ export function VerticalLine(props: VerticalLineProps) {
     <motion.hr
       ref={targetRef}
       variants={variants}
-      initial='initial'
+      initial="initial"
       style={style}
       className={clsx(
         "sm:hidden block w-0.5 h-24 border-t-0 mx-auto",
-        props.className
+        props.className,
       )}
     />
   );

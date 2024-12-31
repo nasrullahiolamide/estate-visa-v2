@@ -1,7 +1,23 @@
 "use client";
 
-import { getCookie } from "cookies-next";
-import { boolean } from "mathjs";
+import { ProfileData } from "@/builders/types/profile";
+import { useFlowState } from "@/components/layout";
+import { AppShellButton } from "@/components/shared/interface/app-shell/button";
+import {
+  AdministratorIcon,
+  DashboardIcon,
+  EstateVisaLogo,
+  GateIcon,
+  GroupDiscussionIcon,
+  HousesIcon,
+  MarketPlaceIcon,
+  ServiceRequestIcon,
+  UserFriendsIcon,
+  UserGroupIcon,
+} from "@/icons";
+import { navigate } from "@/packages/actions";
+import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
+import { getFeatureFlag } from "@/packages/libraries/auth";
 import {
   AppShell,
   Center,
@@ -11,28 +27,12 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-
-import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
-import {
-  AdministratorIcon,
-  DashboardIcon,
-  EstateVisaLogo,
-  GateIcon,
-  GroupDiscussionIcon,
-  HousesIcon,
-  ServiceRequestIcon,
-  TablerMessageIcon,
-  UserFriendsIcon,
-  UserGroupIcon,
-} from "@/icons";
-import { ProfileData } from "@/builders/types/profile";
-import { navigate } from "@/packages/actions";
-import { useEffect } from "react";
+import clsx from "clsx";
+import { getCookie } from "cookies-next";
+import { boolean } from "mathjs";
 import { usePathname } from "next/navigation";
-
+import { useEffect } from "react";
 import Swal from "sweetalert2";
-import { getFeatureFlag } from "@/packages/libraries/auth";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -40,9 +40,10 @@ export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
-
   const pathname = usePathname();
   const flags = getFeatureFlag();
+
+  const { openedNav } = useFlowState();
 
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
@@ -67,11 +68,10 @@ export default function Template({ children }: TemplateProps) {
 
   return (
     <AppShell
-      bg='accent.12'
       navbar={{
-        width: opened ? 260 : 95,
+        width: opened ? 270 : 95,
+        collapsed: { mobile: !openedNav },
         breakpoint: "lg",
-        collapsed: { mobile: true },
       }}
       styles={{
         navbar: {
@@ -88,21 +88,28 @@ export default function Template({ children }: TemplateProps) {
         }}
       >
         <AppShell.Section>
-          <Center>
-            <EstateVisaLogo height={80} width={80} />
-          </Center>
+          <Stack
+            gap={0}
+            className={clsx({
+              "hidden lg:flex": openedNav,
+            })}
+          >
+            <Center>
+              <EstateVisaLogo height={80} width={80} />
+            </Center>
 
-          {user.estate && (
-            <Title mt={10} ta='center' fw={700} c='purple.9'>
-              {user.estate.name} Estate
-            </Title>
-          )}
-          <Divider mt={24} />
+            {user.estate && (
+              <Title mt={10} ta='center' fw={700} c='purple.9'>
+                {user.estate.name} Estate
+              </Title>
+            )}
+            <Divider mt={24} />
+          </Stack>
 
           <AppShell.Section
             grow
             component={ScrollArea}
-            className='scrollbar-none ~pt-2\1/8'
+            className={clsx("scrollbar-none ~pt-1/8", { "mt-12": openedNav })}
           >
             <Stack gap={8}>
               <AppShellButton
@@ -147,6 +154,12 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gates"}
                 opened={opened}
               />
+              {/* <AppShellButton
+                leftSection={<TablerMessageIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
+                label={"Messages"}
+                opened={opened}
+              /> */}
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
@@ -162,11 +175,19 @@ export default function Template({ children }: TemplateProps) {
                   opened={opened}
                 />
               )}
+
+              {!flags.includes(PAGES.MARKET_PLACE) && (
+                <AppShellButton
+                  leftSection={<MarketPlaceIcon />}
+                  href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE)}
+                  label={"Market Place"}
+                  opened={opened}
+                />
+              )}
             </Stack>
           </AppShell.Section>
         </AppShell.Section>
       </AppShell.Navbar>
-
       <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
         <Stack gap={0} flex={1} className='bg-primary-text-normal'>
           {children}

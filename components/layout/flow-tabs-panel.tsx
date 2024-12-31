@@ -18,6 +18,6 @@ export const FlowTabsPanel = createPolymorphicComponent<
           {children}
         </Tabs.Panel>
       );
-    }
-  )
+    },
+  ),
 );

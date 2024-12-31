@@ -1,19 +1,24 @@
 "use client";
 
-import { Fragment, useEffect, useState } from "react";
 import {
-  Stack,
   Button,
-  Transition,
   ButtonProps,
-  MenuProps,
-  StackProps,
   PolymorphicComponentProps,
+  Stack,
+  StackProps,
   Tooltip,
+  Transition,
 } from "@mantine/core";
+import { useState } from "react";
 
-import { FilterDropdown, FilterData } from "../shared/interface/dropdowns";
-import { ClockIcon, DownloadIcon, NotesIcon, UploadIcon } from "@/icons";
+import {
+  ClockIcon,
+  DownloadIcon,
+  ListIcon,
+  NotesIcon,
+  UploadIcon,
+} from "@/icons";
+import { FilterData, FilterDropdown } from "../shared/interface/dropdowns";
 
 import { Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import { ElementType, ReactNode } from "react";
@@ -25,13 +30,22 @@ enum IconType {
   ADD = "add",
   NOTES = "notes",
   CLOCK = "clock",
+  LIST = "list",
 }
-type Icon = "upload" | "download" | "add" | "notes" | "clock" | "filter";
+type Icon =
+  | "upload"
+  | "download"
+  | "add"
+  | "notes"
+  | "clock"
+  | "filter"
+  | "list";
 
 type Button = {
   icon: Icon;
   filterData?: FilterData;
   btnProps?: BtnProps;
+  label?: string;
 };
 
 type BtnProps<T extends ElementType = "a"> = ButtonProps & {
@@ -54,33 +68,34 @@ export function FlowFloatingButtons({
     [IconType.UPLOAD]: <UploadIcon width={15} height={15} />,
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,
     [IconType.CLOCK]: <ClockIcon width={20} height={20} />,
+    [IconType.LIST]: <ListIcon width={20} height={20} />,
   };
 
   return (
     <Stack
-      id='fc_frame'
+      id="fc_frame"
       style={{
         position: "absolute",
         bottom: 95,
         right: 12,
         zIndex: 10,
       }}
-      hiddenFrom='lg'
+      hiddenFrom="lg"
       hidden={hidden}
       {...containerProps}
     >
-      <Stack justify='center' align='center'>
-        {buttons?.map(({ icon, btnProps, filterData }, index) => (
+      <Stack justify="center" align="center">
+        {buttons?.map(({ icon, btnProps, filterData, label }, index) => (
           <Transition
             key={icon}
             mounted={visible}
-            transition='slide-up'
+            transition="slide-up"
             duration={300}
-            timingFunction='ease'
+            timingFunction="ease"
             enterDelay={index * 50}
           >
             {(styles) => (
-              <Tooltip label={icon} tt='capitalize' fz={14}>
+              <Tooltip label={label ?? icon} tt="capitalize" fz={14}>
                 {icon === IconType.FILTER ? (
                   <FilterDropdown
                     showLabel={false}
@@ -90,13 +105,13 @@ export function FlowFloatingButtons({
                   />
                 ) : (
                   <Button
-                    radius='md'
+                    radius="md"
                     w={40}
                     h={40}
                     p={0}
-                    variant='outline'
-                    bg='white'
-                    className='shadow-lg'
+                    variant="outline"
+                    bg="white"
+                    className="shadow-lg"
                     style={styles}
                     {...btnProps}
                     hidden={icon !== IconType.UPLOAD ? hidden : false}
@@ -111,11 +126,11 @@ export function FlowFloatingButtons({
       </Stack>
 
       <Button
-        radius='xl'
+        radius="xl"
         w={50}
         h={50}
         p={0}
-        className='shadow-lg'
+        className="shadow-lg"
         onClick={() => setVisible((prev) => !prev)}
       >
         {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}

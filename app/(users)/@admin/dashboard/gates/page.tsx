@@ -53,9 +53,9 @@ export default function Gates() {
   const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: gates, isPlaceholderData } = useQuery({
-    queryKey: builder.gates.get.table.get(),
+    queryKey: builder.gates.get.table.$get(),
     queryFn: () =>
-      builder.use().gates.get.table({
+      builder.$use.gates.get.table({
         id: estateId,
         params: { page, pageSize, search },
       }),
@@ -99,13 +99,13 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Gates'
+        title="Gates"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -123,10 +123,10 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title='No gates have been added yet. Add a gate to begin managing access!'
-                src='gate'
+                title="No gates have been added yet. Add a gate to begin managing access!"
+                src="gate"
                 withButton
-                text='Add New Gate'
+                text="Add New Gate"
                 btnProps={{
                   leftSection: <Add />,
                   onClick: () => handleGateForm({ modalType: "add" }),
@@ -167,10 +167,10 @@ export default function Gates() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handleGateForm({ modalType: "add" })}
       >
@@ -178,9 +178,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
       >
         Download Table

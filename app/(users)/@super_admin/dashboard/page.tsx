@@ -26,19 +26,19 @@ export default function Overview() {
   const timeFilter = useSearchParams().get("time-filter") || "Week";
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.super_admin.get.get(timeFilter),
-    queryFn: () => builder.use().dashboard.super_admin.get({ timeFilter }),
+    queryKey: builder.dashboard.super_admin.get.$get(timeFilter),
+    queryFn: () => builder.$use.dashboard.super_admin.get({ timeFilter }),
     placeholderData: initialSuperAdminData,
     select: (data) => {
       const { userPercentage } = { ...data };
       const occupantsPercentage = Math.floor(
-        userPercentage.occupantsPercentage
+        userPercentage.occupantsPercentage,
       );
       const estateOwnersPercentage = Math.floor(
-        userPercentage.estateOwnersPercentage
+        userPercentage.estateOwnersPercentage,
       );
       const subOccupantsPercentage = Math.floor(
-        userPercentage.subOccupantsPercentage
+        userPercentage.subOccupantsPercentage,
       );
 
       return {
@@ -73,10 +73,10 @@ export default function Overview() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Overview' />
+      <AppShellHeader title="Overview" />
 
-      <AppShellMain layout='default'>
-        <Stack gap={35} w='100%'>
+      <AppShellMain layout="default">
+        <Stack gap={35} w="100%">
           <StatisticsOverview
             totalEstates={data.totalEstates}
             totalEstateOwners={data.totalEstateOwners}

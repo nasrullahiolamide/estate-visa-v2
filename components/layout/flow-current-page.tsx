@@ -22,7 +22,7 @@ export function FlowCurrentPage({
   return (
     <Flex
       gap={2}
-      className='prose-sm/medium text-primary-text-caption'
+      className="prose-sm/medium text-primary-text-caption"
       {...rootProps}
     >
       <Text span>Results: </Text>

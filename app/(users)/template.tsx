@@ -1,10 +1,10 @@
 "use client";
 
-import { PropsWithChildren, Suspense } from "react";
 import { usePathname } from "next/navigation";
+import { PropsWithChildren, Suspense } from "react";
 
-import { SuspenseOverlay } from "@/components/shared/suspense-overlay";
 import { FlowStateProvider } from "@/components/layout/flow-context";
+import { SuspenseOverlay } from "@/components/shared/suspense-overlay";
 import { GENERAL_ROUTES } from "@/packages/constants/routes";
 
 type TemplateProps = PropsWithChildren<{}>;

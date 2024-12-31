@@ -42,9 +42,9 @@ export const occupantsColumns = [
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
-            className='capitalize'
+            className="capitalize"
             children={value}
-            size='sm'
+            size="sm"
           />
         </Center>
       );

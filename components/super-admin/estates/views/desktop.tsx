@@ -14,11 +14,11 @@ interface DesktopProps extends ViewProps {}
 export function DesktopView({ onSubmit, isSubmitting, btnText }: DesktopProps) {
   return (
     <FlowContainer
-      className='hidden lg:flex rounded-2xl'
-      justify='center'
+      className="hidden lg:flex rounded-2xl"
+      justify="center"
       gap={18}
-      type='plain'
-      bg='white'
+      type="plain"
+      bg="white"
     >
       <BasicInfo />
       <HouseTypes />
@@ -26,7 +26,7 @@ export function DesktopView({ onSubmit, isSubmitting, btnText }: DesktopProps) {
       <Divider my={20} />
       <ManagementProfile />
       <Button
-        type='submit'
+        type="submit"
         mt={25}
         onClick={onSubmit}
         loading={isSubmitting}

@@ -31,7 +31,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='active' />,
+    children: <UpdateStatus id={id} status="active" />,
   });
 }
 
@@ -39,7 +39,7 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='suspended' />,
+    children: <UpdateStatus id={id} status="suspended" />,
   });
 }
 
@@ -49,7 +49,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
   const { id } = { ...data };
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().houses.id.remove,
+    mutationFn: builder.$use.houses.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -60,7 +60,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -83,7 +83,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
           </Menu.Item>
           {!data.occupantName && (
             <Menu.Item
-              color='#969921'
+              color="#969921"
               leftSection={<DeactivateIcon width={13} />}
               onClick={handlers.onAdd}
             >
@@ -94,7 +94,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
           <Menu.Divider />
           {isActive ? (
             <Menu.Item
-              color='#969921'
+              color="#969921"
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -102,7 +102,7 @@ export function HousesActions({ handlers, data }: HousesActionsProps) {
             </Menu.Item>
           ) : (
             <Menu.Item
-              color='#11A506'
+              color="#11A506"
               leftSection={<ActivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >

@@ -49,14 +49,14 @@ const handleAddSubAdmin = () => {
   modals.open({
     title: "Add New Sub Admin",
     children: <AddSubAdmins />,
-    modalId: MODALS.ADD_SUB_ADMIN,
+    modalId: MODALS.ADD_DETAILS,
   });
 };
 
 const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
   modals.open({
     title: "Sub Admin Details",
-    modalId: MODALS.VIEW_EDIT_SUB_ADMIN,
+    modalId: MODALS.FORM_DETAILS,
     children: <ViewSubAdmins {...details} edit={edit} />,
   });
 };
@@ -70,7 +70,7 @@ export default function SubAdmins() {
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
 
   const { data: subAdmins, isPlaceholderData } = useQuery({
-    queryKey: builder.sub_admins.get.get({
+    queryKey: builder.sub_admins.get.$get({
       page,
       pageSize,
       search,
@@ -78,7 +78,7 @@ export default function SubAdmins() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().sub_admins.get({
+      builder.$use.sub_admins.get({
         id: estateId,
         params: {
           page,
@@ -128,13 +128,13 @@ export default function SubAdmins() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Sub Admins'
+        title="Sub Admins"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -150,10 +150,10 @@ export default function SubAdmins() {
               />
             ) : (
               <EmptySlot
-                title='There are no sub-admins here yet. Add one to get started!'
-                src='person-minus'
+                title="There are no sub-admins here yet. Add one to get started!"
+                src="person-minus"
                 withButton
-                text='Add Sub-Admin'
+                text="Add Sub-Admin"
                 btnProps={{
                   leftSection: <Add />,
                   onClick: handleAddSubAdmin,
@@ -194,8 +194,8 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden}>
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={handleAddSubAdmin}
       >
@@ -203,9 +203,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterData} />
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         leftSection={<DownloadIcon />}
       >
         Download Table

@@ -22,7 +22,7 @@ import {
 
 export default function Page() {
   const { mutate: addNewEstate, isPending } = useMutation({
-    mutationFn: builder.use().estates.post,
+    mutationFn: builder.$use.estates.post,
     onSuccess: () => {
       navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES));
       handleSuccess({
@@ -67,26 +67,26 @@ export default function Page() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Estate Details'
+        title="Estate Details"
         backHref={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
       />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FormProvider form={form}>
           <FlowContentContainer
             classNames={{
               root: clsx("rounded-xl bg-white lg:p-12 m-4 p-6 ", {}),
             }}
           >
-            <Form form={form} className='h-full flex'>
+            <Form form={form} className="h-full flex">
               <DesktopView
                 onSubmit={handleSubmit}
                 isSubmitting={isPending}
-                btnText='Add Estate'
+                btnText="Add Estate"
               />
               <MobileView
                 onSubmit={handleSubmit}
                 isSubmitting={isPending}
-                btnText='Add Estate'
+                btnText="Add Estate"
               />
             </Form>
           </FlowContentContainer>

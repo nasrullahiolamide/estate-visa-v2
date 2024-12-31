@@ -7,10 +7,10 @@ type AuthProps = PropsWithChildren<{}>;
 export function Auth({ children }: AuthProps) {
   return (
     <Flex
-      h='100vh'
-      pos='relative'
-      align='center'
-      justify='center'
+      h="100vh"
+      pos="relative"
+      align="center"
+      justify="center"
       style={{
         backgroundImage: "url('/images/skyscrapers.png')",
         backgroundSize: "cover",
@@ -29,18 +29,18 @@ export function Auth({ children }: AuthProps) {
           zIndex: 2,
         }}
       />
-      <Stack className='z-10 w-full mx-4' justify='center' align='center'>
+      <Stack className="z-10 w-full mx-4" justify="center" align="center">
         <Box
-          bg='white'
+          bg="white"
           maw={600}
           mih={550}
-          className='w-full rounded-3xl px-5 py-10 sm:px-10'
+          className="w-full rounded-3xl px-5 py-10 sm:px-10"
         >
-          <Flex justify='center'>
+          <Flex justify="center" data-aos="fade-in">
             <EstateVisaLogo />
           </Flex>
 
-          <Stack flex={1} mt={15}>
+          <Stack flex={1} mt={15} data-aos="fade-left">
             {children}
           </Stack>
         </Box>

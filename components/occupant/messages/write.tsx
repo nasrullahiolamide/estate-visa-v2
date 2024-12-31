@@ -33,12 +33,12 @@ export function WriteModal() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.post,
+    mutationFn: builder.$use.messages.post,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.WRTIE_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.user.get(),
+        queryKey: builder.messages.get.user.$get(),
       });
       handleSuccess({
         message: "Message sent successfully",
@@ -75,43 +75,43 @@ export function WriteModal() {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
-          label='To:'
+          label="To:"
           withAsterisk
-          placeholder='Select Recipient'
+          placeholder="Select Recipient"
           data={["Admin", "Sub Admin"]}
           {...form.getInputProps("recipientId")}
         />
         <TextInput
-          label='Subject'
+          label="Subject"
           withAsterisk
           {...form.getInputProps("title")}
         />
         <Textarea
           label={
-            <Flex align='center' justify='space-between'>
+            <Flex align="center" justify="space-between">
               <span>
-                Message <span className='text-red-5'>*</span>
+                Message <span className="text-red-5">*</span>
               </span>
               <UploadAttachments />
             </Flex>
           }
-          placeholder='Type something here...'
+          placeholder="Type something here..."
           rightSection={<Plane />}
           {...form.getInputProps("content")}
         />
 
-        <Flex justify='space-between' mt={10}>
+        <Flex justify="space-between" mt={10}>
           <Button
-            type='button'
-            color='red'
-            variant='outline'
+            type="button"
+            color="red"
+            variant="outline"
             leftSection={<TrashIcon />}
             onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
             disabled={isPending}
@@ -119,7 +119,7 @@ export function WriteModal() {
             Discard
           </Button>
           <Button
-            type='submit'
+            type="submit"
             rightSection={<Plane />}
             disabled={isPending}
             loading={isPending}

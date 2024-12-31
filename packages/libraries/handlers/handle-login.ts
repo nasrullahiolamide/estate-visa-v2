@@ -1,10 +1,10 @@
 import { setCookie } from "cookies-next";
 import { OptionsType } from "cookies-next/lib/types";
 
-import { encode, encryptUri } from "../encryption";
-import { APP, TOKEN } from "../enum";
 import { LoginResponseData } from "@/builders/types/login";
 import { PAID_FEATURES } from "@/packages/constants/data";
+import { encode, encryptUri } from "../encryption";
+import { APP, TOKEN } from "../enum";
 
 interface HandleLogin extends LoginResponseData {
   access_token: string;
@@ -25,7 +25,7 @@ export function handleLogin({
   user_type,
 }: HandleLogin) {
   const encryptedUser = encryptUri(user);
-  const { firstname, id: uid, email, estate } = { ...user };
+  const { firstname, id: uid, email, estate, isOnboarded } = { ...user };
 
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
@@ -40,6 +40,7 @@ export function handleLogin({
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
   setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
+  setCookie(APP.USERNAME, email);
 
   if (user_type) {
     setCookie(APP.USER_TYPE, user_type, {
@@ -49,7 +50,12 @@ export function handleLogin({
     });
   }
 
-  setCookie(APP.USERNAME, email);
+  if (isOnboarded) {
+    setCookie(APP.ONBOARDED, "true", {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+  }
 
   if (firstname) {
     setCookie(APP.FULL_NAME, firstname, {

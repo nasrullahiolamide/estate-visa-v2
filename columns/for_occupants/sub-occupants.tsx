@@ -9,7 +9,7 @@ export const ActionSubOccupantsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -40,41 +40,41 @@ export const ActionSubOccupantsColumns = [
   columnHelper.accessor("user.phone", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Phone Number'
+        className="w-full"
+        children="Phone Number"
       />
     ),
     enableSorting: false,
     cell: ({ getValue }) => {
-      return <Text fz={14} c='blue.7' ta='center' children={getValue()} />;
+      return <Text fz={14} c="blue.7" ta="center" children={getValue()} />;
     },
   }),
   columnHelper.accessor("relationshipToMain", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Relationship'
+        className="w-full"
+        children="Relationship"
       />
     ),
     enableSorting: false,
     cell: ({ getValue }) => {
-      return <Text fz={14} ta='center' children={getValue()} />;
+      return <Text fz={14} ta="center" children={getValue()} />;
     },
   }),
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

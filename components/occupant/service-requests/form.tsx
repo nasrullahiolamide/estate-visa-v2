@@ -1,22 +1,22 @@
 "use client";
 
-import { modals } from "@mantine/modals";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { APP, MODALS } from "@/packages/libraries";
 import { Button, Select, Textarea } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { APP, cast, MODALS } from "@/packages/libraries";
-import { FlowContainer } from "@/components/layout/flow-container";
+import { modals } from "@mantine/modals";
 
-import { schema } from "./schema";
-import { getCookie } from "cookies-next";
 import { builder } from "@/builders";
-import { handleSuccess, handleError } from "@/packages/notification";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ServiceRequestsData } from "@/builders/types/service-requests";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
-import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
-import { toast } from "react-toastify";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { concat, toString } from "lodash";
+import { toast } from "react-toastify";
+import { schema } from "./schema";
 
 export interface ServiceRequestFormProps {
   data?: ServiceRequestsData;
@@ -33,10 +33,10 @@ export function ServiceRequestForm({
   const queryClient = useQueryClient();
 
   const { mutate: generateRequest, isPending } = useMutation({
-    mutationFn: builder.use().service_requests.post,
+    mutationFn: builder.$use.service_requests.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       handleSuccess({
         message: "Request Generated Added Successfully",
@@ -47,10 +47,10 @@ export function ServiceRequestForm({
   });
 
   const { mutate: updateRequest, isPending: isUpdating } = useMutation({
-    mutationFn: builder.use().service_requests.id.edit,
+    mutationFn: builder.$use.service_requests.id.edit,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       handleSuccess({
         message: "Request Generated Updated Successfully",
@@ -74,12 +74,7 @@ export function ServiceRequestForm({
     validateInputOnBlur: true,
   });
 
-  const {
-    preview,
-    handleUpload,
-    status: fileStatus,
-    progress,
-  } = useFileUpload({
+  const { previews, handleUpload, onDelete } = useFileUpload({
     key: "others",
     onError: () => {
       toast.error("Failed to upload resource");
@@ -107,15 +102,15 @@ export function ServiceRequestForm({
   return (
     <Form form={form}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={20}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
-          label='Service Type'
-          placeholder='Select Service Type'
+          label="Service Type"
+          placeholder="Select Service Type"
           withAsterisk
           data={[
             { value: "cleaning", label: "Cleaning" },
@@ -125,8 +120,8 @@ export function ServiceRequestForm({
           {...form.getInputProps("serviceType")}
         />
         <Select
-          label='Preferred Time'
-          placeholder='Choose Preferred Time'
+          label="Preferred Time"
+          placeholder="Choose Preferred Time"
           withAsterisk
           data={[
             { value: "morning", label: "Morning" },
@@ -136,8 +131,8 @@ export function ServiceRequestForm({
           {...form.getInputProps("preferredTime")}
         />
         <Select
-          label='Urgency Level'
-          placeholder='Select Urgency Level'
+          label="Urgency Level"
+          placeholder="Select Urgency Level"
           withAsterisk
           data={[
             { value: "low", label: "Low" },
@@ -147,31 +142,28 @@ export function ServiceRequestForm({
           {...form.getInputProps("urgencyLevel")}
         />
         <Textarea
-          label='Brief Description'
-          placeholder='Type Something...'
+          label="Brief Description"
+          placeholder="Type Something..."
           disabled={isViewing}
           draggable={false}
           {...form.getInputProps("description")}
         />
         <ResourceUpload
-          label='Image (optional)'
-          name={preview.name}
-          size={preview.size}
+          label="Image (optional)"
           supports={["img(png, jpg, jpeg)"]}
           accepts={() => {
             return concat(IMAGE_MIME_TYPE);
           }}
-          completed={progress?.completed}
+          previews={previews}
           onDrop={handleUpload}
-          status={fileStatus}
-          multiple
+          onDelete={onDelete}
           {...form.getInputProps("image")}
         />
 
         {isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit

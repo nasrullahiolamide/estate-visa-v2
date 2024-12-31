@@ -1,18 +1,17 @@
-import { ElementType, Fragment } from "react";
 import { MODALS } from "@/packages/libraries";
+import { ElementType, Fragment } from "react";
 
-import {
-  Button,
-  Text,
-  Stack,
-  Flex,
-  BoxProps,
-  ButtonProps,
-  FlexProps,
-  ModalProps,
-  PolymorphicComponentProps,
-} from "@mantine/core";
 import { Emblem } from "@/components/shared/interface";
+import {
+  BoxProps,
+  Button,
+  ButtonProps,
+  Flex,
+  FlexProps,
+  PolymorphicComponentProps,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { modals } from "@mantine/modals";
 
 type BtnProps<T extends ElementType = "a"> = ButtonProps & {
@@ -21,7 +20,16 @@ type BtnProps<T extends ElementType = "a"> = ButtonProps & {
 } & PolymorphicComponentProps<T>;
 
 type ConfirmationModalProps = BoxProps & {
-  src?: "delete" | "success" | "disable" | "logout" | "share";
+  src?:
+    | "delete"
+    | "success"
+    | "disable"
+    | "logout"
+    | "share"
+    | "exit"
+    | "sad"
+    | "warning"
+    | "hour-glass";
   srcProps?: FlexProps;
   title: string;
   description?: string;

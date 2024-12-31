@@ -1,49 +1,47 @@
 "use client";
 
-import Link from "next/link";
-
-import { useQueryState } from "nuqs";
-import { Fragment } from "react";
-
-import { Button, Flex, Stack, Text } from "@mantine/core";
-import { makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { AddIcon, ListIcon } from "@/icons";
-
+import { builder } from "@/builders";
+import { ProductData, useFakeProductList } from "@/builders/types/products";
 import {
   FlowContentHorizontal,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
+  FlowSearch,
+  useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
-import clsx from "clsx";
-import { Picture, StarRating } from "@/components/shared/interface";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { AddProduct } from "@/components/occupant/market-place/add-product";
+import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { AddIcon, ListIcon } from "@/icons";
+import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
+import { Fragment, useEffect } from "react";
 
-enum VIEW_TYPES {
-  TOTAL_LISTINGS = "total-listings",
-  PENDING_APPROVALS = "pending-approvals",
-  ACTIVE_LISTINGS = "active-listings",
-  REPORTED_LISTINGS = "reported-listings",
-  SUSPENDED_LISTINGS = "suspended-listings",
-}
+import { ProductCard } from "@/components/shared/interface/cards/product";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
+
+import clsx from "clsx";
+import Link from "next/link";
 
 const filterOptions = [
   { label: "Recent", value: "recent" },
   {
     label: "Category",
     value: "category",
-    children: [
-      {
-        label: "Active",
-        value: "active",
-      },
-      {
-        label: "Suspended",
-        value: "suspended",
-      },
-    ],
+    children: PRODUCT_CATEGORIES.map((category) => ({
+      label: category,
+      value: category,
+    })),
   },
   {
     label: "Seller",
@@ -61,79 +59,173 @@ const filterOptions = [
   },
 ];
 
-export default function Messages() {
-  const [view, setView] = useQueryState("type", {
-    defaultValue: VIEW_TYPES.TOTAL_LISTINGS,
+const addProduct = () => {
+  modals.open({
+    modalId: MODALS.ADD_DETAILS,
+    title: "Add a New Product for Sale",
+    children: <AddProduct />,
   });
+};
+
+const handleProductDetail = (item: ProductData) => {
+  modals.open({
+    modalId: MODALS.PRODUCT_DETAIL,
+    children: <OccupantProductDetail {...item} />,
+    classNames: {
+      body: "p-0",
+      header: "right-8 top-6 absolute bg-transparent",
+    },
+  });
+};
+
+export default function MarketPlace() {
+  const initialProductList = useFakeProductList();
+  const pagination = useFlowPagination();
+  const estateId = toString(getCookie(APP.ESTATE_ID));
+
+  const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
+
+  const { data: products, isPlaceholderData } = useQuery({
+    queryKey: builder.products.get.$get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+    }),
+    queryFn: () =>
+      builder.$use.products.get({
+        page,
+        pageSize,
+        search,
+        sortBy,
+        sortOrder,
+        estateId,
+      }),
+    placeholderData: initialProductList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.filter((item) => item.status === "approved"),
+      };
+    },
+  });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(products?.page);
+    pagination.setTotal(products?.total);
+    pagination.setEntriesCount(products?.data.length);
+    pagination.setPageSize(products?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = products?.data.length === 0;
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Market Place'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
       <FlowContainer
         type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        className={clsx("lg:~px-1/8 lg:py-4 justify-between", {
+          "rounded-none lg:rounded-2xl bg-white lg:~m-1/8": noDataAvailable,
+        })}
       >
-        <FlowContentHorizontal
-          mah={{
-            base: "auto",
-            lg: 700,
-          }}
-          breakpoint='320'
-          gap={24}
-          className='p-3 lg:p-0'
-        >
-          {Array.from({ length: 18 }).map((_, i) => (
-            <Stack p={18} className='rounded-xl bg-white cursor-pointer'>
-              <Picture
-                src='https://via.placeholder.com/300'
-                h={150}
-                w='100%'
-                alt='product'
-                className='rounded-lg'
-                objectFit='cover'
+        {products?.data.length ? (
+          <FlowContentHorizontal
+            breakpoint='320'
+            className='p-3 lg:p-0 h-full'
+            gap={24}
+          >
+            {products?.data.map((item) => (
+              <ProductCard
+                key={item.id}
+                list={item}
+                onClick={() => handleProductDetail(item)}
+                viewId='viewer'
               />
-
-              <Stack gap={10}>
-                <Text fw={500}>Original Nike Sneakers</Text>
-                <Text fw={700} size='lg'>
-                  ₦20,000
-                </Text>
-                <StarRating className='!justify-start' />
-                <Text size='sm' color='violet'>
-                  House A10
-                </Text>
-                <Text
-                  c='blue.7'
-                  className='underline cursor-pointer'
-                  mt={15}
-                  fz={13}
-                >
-                  Contact seller
-                </Text>
-              </Stack>
-            </Stack>
-          ))}
-        </FlowContentHorizontal>
+            ))}
+          </FlowContentHorizontal>
+        ) : (
+          <EmptySlot
+            src='marketplace'
+            title='There are no products yet. Check back later for updates or add a new product to get started.'
+            withButton
+            text='Add New Product'
+            btnProps={{
+              leftSection: <AddIcon />,
+              onClick: addProduct,
+            }}
+          />
+        )}
         <FlowFooter
           className={clsx(
-            "flex bg-white justify-between sm:rounded-b-2xl mt-2",
-            {
-              hidden: false,
-            }
+            "flex bg-white justify-between lg:rounded-b-2xl mt-2",
+            { hidden: noDataAvailable || isPlaceholderData }
           )}
         >
           <FlowPagination />
           <FlowEntriesPerPage />
         </FlowFooter>
+
+        <FlowFloatingButtons
+          buttons={[
+            {
+              icon: "list",
+              label: "My Listings",
+              btnProps: {
+                component: "a",
+
+                href: makePath(
+                  PAGES.DASHBOARD,
+                  PAGES.MARKET_PLACE,
+                  PAGES.MY_LISTINGS
+                ),
+              },
+            },
+            {
+              icon: "filter",
+              filterData: filterOptions,
+              btnProps: {
+                hidden: noDataAvailable,
+              },
+            },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: addProduct,
+                hidden: noDataAvailable,
+              },
+            },
+          ]}
+        />
       </FlowContainer>
     </Fragment>
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />}>
+      <FlowSearch
+        title='Market Place'
+        placeholder='Search products...'
+        hidden={hidden}
+      />
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={addProduct}
+        hidden={hidden}
+      >
         Add Product
       </Button>
       <Button
@@ -146,7 +238,7 @@ function HeaderOptions() {
       >
         My Listings
       </Button>
-      <FilterDropdown label='Filter' data={filterOptions} />
+      <FilterDropdown label='Filter' data={filterOptions} hidden={hidden} />
     </Flex>
   );
 }

@@ -39,7 +39,7 @@ export function ServieRequestActions({
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().service_requests.id.remove,
+    mutationFn: builder.$use.service_requests.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -50,14 +50,14 @@ export function ServieRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
   });
 
   const { mutate: changeStatus } = useMutation({
-    mutationFn: builder.use().service_requests.id.change_status,
+    mutationFn: builder.$use.service_requests.id.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -68,7 +68,7 @@ export function ServieRequestActions({
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.service_requests.get.get(),
+        queryKey: builder.service_requests.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -79,10 +79,10 @@ export function ServieRequestActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this request?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this request?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -104,7 +104,7 @@ export function ServieRequestActions({
 
   return (
     <Fragment>
-      <FlowMenu withArrow={false} position='bottom-end'>
+      <FlowMenu withArrow={false} position="bottom-end">
         <FlowMenuTarget />
         <FlowMenuDropdown>
           {(status === STATUS.PENDING || status === STATUS.IN_PROGESS) && (
@@ -121,7 +121,7 @@ export function ServieRequestActions({
             </Menu.Item>
           )}
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >

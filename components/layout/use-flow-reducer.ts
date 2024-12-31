@@ -2,6 +2,7 @@ import { ceil, divide } from "mathjs";
 import { useReducer } from "react";
 
 export type FlowState = {
+  openedNav: boolean;
   page: number;
   entriesPerPage: number;
   totalEntryCount: number;
@@ -14,6 +15,7 @@ export type FlowState = {
 };
 
 export enum FlowActionType {
+  TOGGLE_NAV = "TOGGLE_NAV",
   SET_PAGE = "SET_PAGE",
   SET_ROWS_PER_PAGE = "SET_ROWS_PER_PAGE",
   SET_ENTRIES_PER_PAGE = "SET_ENTRIES_PER_PAGE",
@@ -25,6 +27,7 @@ export enum FlowActionType {
 }
 
 export type FlowAction =
+  | { type: FlowActionType.TOGGLE_NAV; payload: boolean }
   | { type: FlowActionType.SET_PAGE; payload: number }
   | { type: FlowActionType.SET_ENTRIES_PER_PAGE; payload: number }
   | { type: FlowActionType.SET_TOTAL_ENTRY_COUNT; payload: number }
@@ -40,6 +43,7 @@ export type FlowAction =
     };
 
 const initialState: FlowState = {
+  openedNav: false,
   page: 1,
   entriesPerPage: 10,
   totalEntryCount: 1,
@@ -57,6 +61,8 @@ function getNumberOfPages(totalEntryCount: number, pageSize: number) {
 
 function reducer(state: FlowState, action: FlowAction): FlowState {
   switch (action.type) {
+    case FlowActionType.TOGGLE_NAV:
+      return { ...state, openedNav: action.payload };
     case FlowActionType.SET_PAGE:
       return { ...state, page: action.payload };
     case FlowActionType.SET_PAGE_SIZE:

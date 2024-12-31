@@ -1,18 +1,16 @@
 import clsx from "clsx";
 import Link from "next/link";
 
-import { useMemo } from "react";
-import { toString } from "lodash";
-import { getCookie } from "cookies-next";
-import { User, LogoutCurve } from "iconsax-react";
-import { useSuspenseQuery } from "@tanstack/react-query";
-
-import { modals } from "@mantine/modals";
-import { Avatar, Flex, Menu, Stack } from "@mantine/core";
-
 import { builder } from "@/builders";
-import { formatUserType, useFakeUserData } from "@/builders/types/login";
+import { formatUserType } from "@/builders/types/login";
 import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { Avatar, Flex, Menu, Stack } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { LogoutCurve, User } from "iconsax-react";
+import { toString } from "lodash";
+import { useMemo } from "react";
 
 import { ArrowDownIcon } from "@/icons";
 import { ConfirmLogout } from "./interface/modals/logout";
@@ -20,20 +18,17 @@ import { ConfirmLogout } from "./interface/modals/logout";
 function handleLogout() {
   modals.open({
     children: <ConfirmLogout />,
-    withCloseButton: false,
     modalId: MODALS.CONFIRMATION,
   });
 }
 
 export function UserDetails() {
   const userId = toString(getCookie(APP.USER_ID));
-  const initialUser = useFakeUserData();
 
   const { data: user, isLoading } = useSuspenseQuery({
-    queryKey: builder.account.profile.get.get(userId),
-    queryFn: () => builder.use().account.profile.get(userId),
+    queryKey: builder.account.profile.get.$get(userId),
+    queryFn: () => builder.$use.account.profile.get(userId),
     select: (data) => data,
-    // placeholderData: initialUser,
   });
 
   const userDetails = useMemo(() => {
@@ -46,8 +41,8 @@ export function UserDetails() {
 
   return (
     <Menu
-      shadow='md'
-      position='bottom-end'
+      shadow="md"
+      position="bottom-end"
       styles={{
         item: {
           padding: "14px",
@@ -60,47 +55,47 @@ export function UserDetails() {
       disabled={isLoading}
     >
       <Menu.Target>
-        <Flex align='center' gap={8} className='cursor-pointer'>
+        <Flex align="center" gap={8} className="cursor-pointer">
           <Avatar
             src={userDetails?.picture}
             alt={userDetails.fullname}
-            className={clsx("w-9 h-9 sm:w-12 sm:h-12 rounded-full", {
+            className={clsx("w-10 h-10 lg:w-12 lg:h-12 rounded-full", {
               skeleton: isLoading,
             })}
           />
 
-          <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
+          <Flex gap={12} className={clsx("hidden sm:flex")} align="center">
             <Stack gap={1} className={clsx({ skeleton: isLoading })}>
               <p className={clsx("prose-sm/medium")}>{userDetails.fullname}</p>
               <p className={clsx("text-xs")}>{userDetails.userType}</p>
             </Stack>
 
-            <ArrowDownIcon className='cursor-pointer' />
+            <ArrowDownIcon className="cursor-pointer" />
           </Flex>
         </Flex>
       </Menu.Target>
 
       <Menu.Dropdown
         miw={230}
-        className='shadow-lg overflow-hidden'
-        variant='action'
+        className="shadow-lg overflow-hidden"
+        variant="action"
       >
         <Menu.Item
           classNames={{
             item: "hover:bg-transparent cursor-auto",
           }}
         >
-          <Flex align='center' gap={8}>
+          <Flex align="center" gap={8}>
             <Avatar
               src={userDetails?.picture}
               alt={userDetails.fullname}
               size={40}
             />
             <Stack gap={1}>
-              <p className='text-primary-text-body prose-sm/medium'>
+              <p className="text-primary-text-body prose-sm/medium">
                 {userDetails.fullname}
               </p>
-              <p className='text-xs'>{userDetails?.email}</p>
+              <p className="text-xs">{userDetails?.email}</p>
             </Stack>
           </Flex>
         </Menu.Item>
@@ -114,8 +109,8 @@ export function UserDetails() {
           My Profile
         </Menu.Item>
         <Menu.Item
-          bg='purple.4'
-          color='red'
+          bg="red.1"
+          color="red"
           leftSection={<LogoutCurve size={18} />}
           onClick={handleLogout}
         >

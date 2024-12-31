@@ -1,15 +1,15 @@
 "use client";
 
-import clsx from "clsx";
-import { toString } from "lodash";
-import dayjs, { ManipulateType } from "dayjs";
-import Countdown, { CountdownRendererFn } from "react-countdown";
 import { Button, Stack, StackProps, Text, Title } from "@mantine/core";
+import clsx from "clsx";
+import dayjs, { ManipulateType } from "dayjs";
+import { toString } from "lodash";
+import Countdown, { CountdownRendererFn } from "react-countdown";
 
-import { TimePad } from "./time-pad";
+import { HouseData } from "@/builders/types/houses";
 import { FlowContainer } from "@/components/layout";
 import { formatDate } from "@/packages/libraries";
-import { HouseData } from "@/builders/types/houses";
+import { TimePad } from "./time-pad";
 
 interface CountDownProps extends StackProps {
   house: HouseData | undefined;
@@ -26,10 +26,10 @@ function calculateDeadline(validityPeriod: string): Date {
     .add(duration, unit as ManipulateType)
     .startOf("day");
 
-  return new Date(deadline.format("MMMM DD, YYYY HH:mm:ss"));
+  return deadline.toDate();
 }
 
-const renderer: CountdownRendererFn = ({
+let renderer: CountdownRendererFn = ({
   days,
   hours,
   minutes,
@@ -84,8 +84,8 @@ const renderer: CountdownRendererFn = ({
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  const deadline = calculateDeadline(toString(house?.validityPeriod));
-  let millisecondsTillDeadline = Date.parse(toString(deadline));
+  let deadline = calculateDeadline(toString(house?.validityPeriod));
+  let millisecondsTillDeadline = deadline.getTime();
 
   return (
     <FlowContainer

@@ -32,12 +32,12 @@ export function EditModal({ view, content }: EditModalProps) {
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.edit,
+    mutationFn: builder.$use.messages.edit,
     onError: handleError(),
     onSuccess: () => {
       modals.close(MODALS.EDIT_MESSAGE);
       queryClient.invalidateQueries({
-        queryKey: builder.messages.get.id.get(),
+        queryKey: builder.messages.get.id.$get(),
       });
       handleSuccess({
         autoClose: 1000,
@@ -77,13 +77,13 @@ export function EditModal({ view, content }: EditModalProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
-        <div className='space-y-2'>
+        <div className="space-y-2">
           {view === MESSAGE_TYPE.OCCUPANT ? (
             <Title order={2} fz={16}>
               To: {content.house.houseNumber}
@@ -93,39 +93,39 @@ export function EditModal({ view, content }: EditModalProps) {
               To: All Houses
             </Title>
           )}
-          <Flex align='center' gap={4}>
+          <Flex align="center" gap={4}>
             <ClockIcon width={14} height={14} />
-            <Text className='text-gray-300 space-x-1' fz={12}>
+            <Text className="text-gray-300 space-x-1" fz={12}>
               <span>{content?.localDate}</span>
               <span>at</span>
-              <span className='uppercase'>{content?.localTime}</span>
+              <span className="uppercase">{content?.localTime}</span>
             </Text>
           </Flex>
         </div>
         <TextInput
-          label='Subject'
+          label="Subject"
           withAsterisk
           {...form.getInputProps("subject")}
         />
         <Textarea
           label={
-            <Flex align='center' justify='space-between'>
+            <Flex align="center" justify="space-between">
               <span>
-                Message <span className='text-red-5'>*</span>
+                Message <span className="text-red-5">*</span>
               </span>
               <UploadAttachments />
             </Flex>
           }
-          placeholder='Type something here...'
+          placeholder="Type something here..."
           rightSection={<Plane />}
           {...form.getInputProps("content")}
         />
 
-        <Flex justify='space-between' mt={10}>
+        <Flex justify="space-between" mt={10}>
           <Button
-            type='button'
-            color='red'
-            variant='outline'
+            type="button"
+            color="red"
+            variant="outline"
             leftSection={<TrashIcon />}
             onClick={() => modals.close(MODALS.EDIT_MESSAGE)}
             disabled={isPending}
@@ -133,7 +133,7 @@ export function EditModal({ view, content }: EditModalProps) {
             Discard
           </Button>
           <Button
-            type='submit'
+            type="submit"
             rightSection={<Plane />}
             disabled={isPending}
             loading={isPending}

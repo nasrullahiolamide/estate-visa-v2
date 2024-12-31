@@ -11,7 +11,7 @@ export const serviceRequestsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -45,9 +45,9 @@ export const serviceRequestsColumns = [
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text
-        ta='center'
+        ta="center"
         fz={14}
-        className='w-full'
+        className="w-full"
         children={formatDate(getValue(), DATE_FORMAT)}
       />
     ),
@@ -73,15 +73,15 @@ export const serviceRequestsColumns = [
       };
 
       return (
-        <Box ta='center'>
+        <Box ta="center">
           <Pill
-            ta='center'
-            tt='capitalize'
+            ta="center"
+            tt="capitalize"
             c={colors[value?.toLowerCase()]?.color || "gray"}
             bg={colors[value?.toLowerCase()]?.bg || "gray.1"}
             fw={500}
             children={value}
-            size='sm'
+            size="sm"
           />
         </Box>
       );
@@ -89,7 +89,7 @@ export const serviceRequestsColumns = [
   }),
   columnHelper.accessor("action", {
     header: "Actions",
-    cell: ({ renderValue }) => <Flex justify='center'>{renderValue()}</Flex>,
+    cell: ({ renderValue }) => <Flex justify="center">{renderValue()}</Flex>,
     enableSorting: false,
   }),
 ];

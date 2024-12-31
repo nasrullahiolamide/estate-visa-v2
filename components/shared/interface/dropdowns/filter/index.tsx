@@ -1,9 +1,9 @@
 import { Button, Menu, MenuProps, Tree, TreeNodeData } from "@mantine/core";
 
-import { Leaf } from "./leaf";
-import { ArrowDownIcon, FilterIcon, IconType } from "@/icons";
-import { ReactNode } from "react";
+import { ArrowDownIcon, FilterIcon } from "@/icons";
 import { Tooltip } from "@mantine/core";
+import { ReactNode } from "react";
+import { Leaf } from "./leaf";
 
 export type FilterData = TreeNodeData[];
 
@@ -33,13 +33,13 @@ export function FilterDropdown({
 }: FilterDropdownProps) {
   return (
     <div style={style}>
-      <Menu {...props} position='bottom-end'>
+      <Menu {...props} position="bottom-end">
         <Menu.Target>
           {showLabel ? (
             <Button
-              variant='outline'
-              fz='sm'
-              size='md'
+              variant="outline"
+              fz="sm"
+              size="md"
               leftSection={Icon}
               rightSection={<ArrowDownIcon />}
               hidden={props.hidden}
@@ -47,13 +47,13 @@ export function FilterDropdown({
               {label}
             </Button>
           ) : (
-            <Tooltip label={label} tt='capitalize'>
+            <Tooltip label={label} tt="capitalize">
               <Button
-                radius='md'
+                radius="md"
                 w={40}
                 h={40}
-                variant='outline'
-                bg='white'
+                variant="outline"
+                bg="white"
                 p={0}
                 hidden={props.hidden}
               >
@@ -63,8 +63,8 @@ export function FilterDropdown({
           )}
         </Menu.Target>
         <Menu.Dropdown
-          className='z-20 p-0 overflow-hidden'
-          variant='action'
+          className="z-20 p-0 overflow-hidden"
+          variant="action"
           hidden={props.hidden}
         >
           <Tree

@@ -76,9 +76,9 @@ export function OccupantMeetingTable({
   });
 
   return (
-    <FlowContainer type='plain' bg='white' h='100%'>
+    <FlowContainer type="plain" bg="white" h="100%">
       <FlowContentContainer>
-        <Stack mah={610} className='overflow-auto h-full'>
+        <Stack mah={610} className="overflow-auto h-full">
           {meetings?.data.length ? (
             view === "completed" ? (
               <FlowTable
@@ -96,7 +96,7 @@ export function OccupantMeetingTable({
           ) : (
             <EmptySlot
               title={` No meetings ${view} yet. Check back soon for updates!`}
-              src='meeting'
+              src="meeting"
             />
           )}
         </Stack>
@@ -106,7 +106,7 @@ export function OccupantMeetingTable({
             "flex justify-between bg-white border-t border-primary-border-light",
             {
               hidden: empty,
-            }
+            },
           )}
         >
           <FlowPagination />

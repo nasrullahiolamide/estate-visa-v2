@@ -24,9 +24,9 @@ export function ConfirmDelete({
       <ConfirmationModal
         withTwoButtons
         title={`Are you sure you want to delete this ${title.toLowerCase()}?`}
-        src='delete'
-        primaryBtnText='Yes, delete'
-        secondaryBtnText='No'
+        src="delete"
+        primaryBtnText="Yes, delete"
+        secondaryBtnText="No"
         primaryBtnProps={{
           color: "red",
           onClick: handleDelete,

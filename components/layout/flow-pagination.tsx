@@ -44,27 +44,27 @@ export function FlowPagination({
   };
   return (
     <Flex
-      size='sm'
+      size="sm"
       component={Pagination.Root}
       total={numberOfPages}
-      align='center'
+      align="center"
       gap={10}
       {...rootProps}
     >
       <Pagination.Previous
         onClick={handlePreviousClick}
         disabled={page <= 1}
-        className='disabled:cursor-not-allowed'
+        className="disabled:cursor-not-allowed"
         {...previousButtonProps}
       />
 
       <Flex
         gap={1}
         fw={500}
-        className='text-primary-text-subtle'
+        className="text-primary-text-subtle"
         {...innerProps}
       >
-        <Text span className='text-primary-text-body' {...pageProps}>
+        <Text span className="text-primary-text-body" {...pageProps}>
           {page}
         </Text>
         <Text span>/</Text>
@@ -76,7 +76,7 @@ export function FlowPagination({
       <Pagination.Next
         onClick={handleNextClick}
         disabled={page >= numberOfPages}
-        className='disabled:cursor-not-allowed'
+        className="disabled:cursor-not-allowed"
         {...nextButtonProps}
       />
     </Flex>

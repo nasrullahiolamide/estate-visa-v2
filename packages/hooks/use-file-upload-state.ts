@@ -11,7 +11,7 @@ export function useFileUploadState(key?: string[]) {
   const [state] = useMutationState<Upload>({
     filters: {
       status: "success",
-      mutationKey: builder.upload.get(key),
+      mutationKey: builder.upload.$get(key),
       exact: true,
     },
 

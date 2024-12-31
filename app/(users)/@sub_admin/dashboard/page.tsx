@@ -24,8 +24,8 @@ export default function Overview() {
   const isRestricted = flags.some((flag) => flag === PAGES.SERVICE_REQUESTS);
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.get.get(),
-    queryFn: () => builder.use().dashboard.admin.get(),
+    queryKey: builder.dashboard.admin.get.$get(),
+    queryFn: () => builder.$use.dashboard.admin.get(),
     placeholderData: initialAdminData,
     select: (data) => data,
   });
@@ -34,10 +34,10 @@ export default function Overview() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Overview' />
+      <AppShellHeader title="Overview" />
 
-      <AppShellMain layout='default'>
-        <Stack gap={35} w='100%'>
+      <AppShellMain layout="default">
+        <Stack gap={35} w="100%">
           <StatisticsOverview
             totalGates={data?.totalGates ?? 0}
             totalHouses={data?.totalHouses ?? 0}
@@ -45,7 +45,7 @@ export default function Overview() {
             totalSubOccupants={data?.totalSubOccupants ?? 0}
             skeleton={isPlaceholderData}
           />
-          <Flex gap={30} className='flex-col sm:flex-row'>
+          <Flex gap={30} className="flex-col sm:flex-row">
             <AccessRequests />
             {!isRestricted && <ServiceRequests />}
           </Flex>

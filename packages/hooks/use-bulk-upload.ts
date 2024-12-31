@@ -1,15 +1,15 @@
-import { FileWithPath } from "@mantine/dropzone";
-import { MutationFunction, useMutation } from "@tanstack/react-query";
-import { FormEvent, useState } from "react";
-
 import { builder } from "@/builders";
+import { Thumbnail } from "@/builders/types/shared";
 import { UploadData } from "@/builders/types/upload";
 import { pass } from "@/packages/libraries";
+import { FileWithPath } from "@mantine/dropzone";
+import { useMutation } from "@tanstack/react-query";
 
-import { useOnUploadProgress } from "./use-on-upload-progress";
-import { Thumbnail } from "@/builders/types/shared";
 import { AxiosError } from "axios";
+import { FormEvent, useState } from "react";
+
 import { handleMantineError } from "../notification/handle-error";
+import { useOnUploadProgress } from "./use-on-upload-progress";
 
 export type Upload = {
   data: UploadData;
@@ -99,8 +99,8 @@ export function useBulkUpload<FormValues extends Record<string, unknown>>({
 
   const { mutate, isPending, isIdle, isPaused } = useMutation({
     onSuccess,
-    mutationKey: builder.upload.get(key),
-    mutationFn: builder.use()[key]?.upload,
+    mutationKey: builder.upload.$get(key),
+    mutationFn: builder.$use[key]?.upload,
     onError(error: AxiosError) {
       handleMantineError()(error);
       setStatus("error");

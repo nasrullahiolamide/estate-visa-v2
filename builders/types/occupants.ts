@@ -96,7 +96,7 @@ export function useFakeOccupantsList(): OccupantList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeOccupantsData
+    useFakeOccupantsData,
   );
 
   return {

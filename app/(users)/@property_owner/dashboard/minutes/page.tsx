@@ -29,30 +29,30 @@ export default function MeetingMinutes() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Meetings Minutes'
+        title="Meetings Minutes"
         backHref={makePath(PAGES.DASHBOARD)}
         showLinks={false}
         options={<HeaderOptions />}
       />
       <FlowContainer
-        type='plain'
-        justify='space-between'
-        className='lg:~p-1/8 bg-primary-text-normal bg-opacity-45'
+        type="plain"
+        justify="space-between"
+        className="lg:~p-1/8 bg-primary-text-normal bg-opacity-45"
       >
         <Fragment>
-          <Stack className='overflow-auto h-full max-h-[720px] lg:max-h-[665px]'>
+          <Stack className="overflow-auto h-full max-h-[720px] lg:max-h-[665px]">
             {true ? (
-              <FlowContentHorizontal className='p-4 sm:p-0'>
+              <FlowContentHorizontal className="p-4 sm:p-0">
                 {Array.from({ length: 18 }).map((_, i) => (
                   <FlowContainer
                     p={24}
                     gap={30}
                     h={230}
-                    type='plain'
-                    bg='white'
-                    className='rounded-xl'
+                    type="plain"
+                    bg="white"
+                    className="rounded-xl"
                   >
-                    <Flex justify='space-between' align='center'>
+                    <Flex justify="space-between" align="center">
                       <Stack gap={6}>
                         <Title order={2} fw={500}>
                           Meeting Minutes
@@ -60,13 +60,13 @@ export default function MeetingMinutes() {
                         <Text fz={14}>21st of Aug., 2024 at 10:00 AM</Text>
                       </Stack>
                       <Flex
-                        justify='center'
-                        align='center'
+                        justify="center"
+                        align="center"
                         w={40}
                         h={40}
-                        className='rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50'
+                        className="rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50"
                       >
-                        <DownloadIcon color='var(--blue-7)' />
+                        <DownloadIcon color="var(--blue-7)" />
                       </Flex>
                     </Flex>
                     <Text lineClamp={3}>
@@ -74,8 +74,8 @@ export default function MeetingMinutes() {
                       practices within the estate.
                     </Text>
                     <Text
-                      c='blue.7'
-                      className='underline cursor-pointer'
+                      c="blue.7"
+                      className="underline cursor-pointer"
                       mt={10}
                       onClick={openDrawer}
                     >
@@ -86,13 +86,13 @@ export default function MeetingMinutes() {
               </FlowContentHorizontal>
             ) : (
               <EmptySlot
-                title='No meetings scheduled yet. Check back soon for upcoming events!'
-                src='meeting'
+                title="No meetings scheduled yet. Check back soon for upcoming events!"
+                src="meeting"
               />
             )}
           </Stack>
 
-          <FlowFooter className='lg:rounded-b-2xl bg-white justify-between sm:mt-2'>
+          <FlowFooter className="lg:rounded-b-2xl bg-white justify-between sm:mt-2">
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
@@ -108,8 +108,8 @@ export default function MeetingMinutes() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <FilterDropdown label='Filter' data={filterOptions} />
+    <Flex gap={14} wrap="wrap">
+      <FilterDropdown label="Filter" data={filterOptions} />
     </Flex>
   );
 }

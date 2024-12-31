@@ -14,10 +14,10 @@ export function Logo({ image, name, skeleton, ...props }: LogoProps) {
 
   return (
     <Flex
-      c='gray.12'
+      c="gray.12"
       hidden={noOrganizationInfo}
-      align='center'
-      justify='center'
+      align="center"
+      justify="center"
       gap={3}
       {...props}
     >

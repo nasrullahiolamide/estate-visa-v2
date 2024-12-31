@@ -65,7 +65,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Houses",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload type='houses' />,
+    children: <BulkUpload type="houses" />,
   });
 };
 
@@ -86,7 +86,7 @@ export default function Houses() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().houses.download,
+    mutationFn: builder.$use.houses.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.HOUSES], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -95,7 +95,7 @@ export default function Houses() {
   });
 
   const { data: houses, isPlaceholderData } = useQuery({
-    queryKey: builder.houses.list.table.get({
+    queryKey: builder.houses.list.table.$get({
       page,
       pageSize,
       search,
@@ -103,7 +103,7 @@ export default function Houses() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().houses.list.table({
+      builder.$use.houses.list.table({
         page,
         pageSize,
         search,
@@ -153,12 +153,7 @@ export default function Houses() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Houses'
-        withSearch
-        searchProps={{
-          title: "Houses",
-          placeholder: "Search houses...",
-        }}
+        title="Houses"
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -168,7 +163,7 @@ export default function Houses() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -186,11 +181,11 @@ export default function Houses() {
               />
             ) : (
               <EmptySlot
-                title='No houses added yet. Start by adding a house to manage!'
-                src='house'
+                title="No houses added yet. Start by adding a house to manage!"
+                src="house"
                 withDoubleButton
-                primaryText='Add New House'
-                secondaryText='Bulk Upload'
+                primaryText="Add New House"
+                secondaryText="Bulk Upload"
                 primaryBtnProps={{
                   onClick: () => handleHouseForm({ modalType: "add" }),
                 }}
@@ -253,11 +248,15 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
+<<<<<<< HEAD
     <Flex gap={14} wrap='wrap' hidden={hidden}>
       <FlowSearch title='Houses' placeholder='Search houses...' />
+=======
+    <Flex gap={14} wrap="wrap" hidden={hidden}>
+>>>>>>> 6b84a6ededa2eb59c5f27c9df754337c55186878
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handleHouseForm({ modalType: "add" })}
       >
@@ -265,18 +264,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

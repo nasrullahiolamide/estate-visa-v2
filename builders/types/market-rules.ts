@@ -10,11 +10,16 @@ export type MarketRulesList = {
 
 export type MarketRulesData = {
   id: string;
-  ruleTitle: string;
-  appliedTo: string;
-  date: string;
+  title: string;
+  content: string;
+  image: string;
+  date: Date;
+  estateId: string;
   status: string;
+  appliesTo: string;
 };
+
+export type UpdateMarketRulesData = Omit<MarketRulesData, "id"> & {};
 
 export function useFakeMarketRulesData(_?: any, index?: number) {
   faker.seed(index);
@@ -23,14 +28,17 @@ export function useFakeMarketRulesData(_?: any, index?: number) {
 
   return {
     id: id.toString(),
-    ruleTitle: faker.lorem.words(),
-    appliedTo: faker.helpers.arrayElement([
-      "Occupants",
-      "Sub-Occupants",
-      "All Users",
+    title: faker.lorem.sentence(),
+    content: faker.lorem.paragraph(),
+    image: faker.image.url(),
+    date: faker.date.recent(),
+    estateId: faker.lorem.sentence(),
+    appliesTo: faker.helpers.arrayElement([
+      "all",
+      "occupants",
+      "sub-occupants",
     ]),
-    date: faker.date.recent().toISOString(),
-    status: faker.helpers.arrayElement(["Active", "Inactive"]),
+    status: faker.helpers.arrayElement(["active", "inactive"]),
   };
 }
 

@@ -1,18 +1,17 @@
 "use client";
 
-import clsx from "clsx";
-import { Avatar, Button, Flex, Loader, Text } from "@mantine/core";
-import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
-
-import { useFileUpload } from "@/packages/hooks/use-file-upload";
-import { handleError } from "@/packages/notification";
-import { concat } from "lodash";
-import { UseFormReturnType } from "@mantine/form";
 import {
   FormValues,
   TransformFormValues,
 } from "@/components/admin/profile/form-context";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { Avatar, Button, Flex, Loader, Text } from "@mantine/core";
+import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
+import { UseFormReturnType } from "@mantine/form";
+import { concat } from "lodash";
+
 import vibrateDevice from "@/packages/libraries/vibrate-device";
+import clsx from "clsx";
 interface ProfileImageProps {
   url?: string;
   isFetching: boolean;
@@ -22,13 +21,13 @@ interface ProfileImageProps {
 export function ProfileImage({ form, isFetching }: ProfileImageProps) {
   const { picture } = form.getValues();
 
-  const { preview, handleUpload, isPending } = useFileUpload({
+  const { previews, handleUpload, isPending } = useFileUpload({
     key: "profile-pictures",
     onError: () => {
       vibrateDevice();
       form.setFieldError(
         "picture",
-        "This thumbnail didn't get uploaded, please try again"
+        "This thumbnail didn't get uploaded, please try again",
       );
     },
     onSuccess: ({ data }) => {
@@ -63,13 +62,13 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
           sm: 120,
         }}
         radius={9999}
-        className='bg-gray-2 cursor-pointer'
+        className="bg-gray-2 cursor-pointer"
         src={
           isPending || isFetching
             ? null
-            : picture || preview.url || "/vectors/image-plus.svg"
+            : picture || previews[0]?.url || "/vectors/image-plus.svg"
         }
-        alt={preview.name ?? "thumbnail"}
+        alt={previews[0]?.name ?? "thumbnail"}
         classNames={{
           image: clsx({
             "p-4": !picture,
@@ -77,29 +76,29 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
         }}
       >
         {(isPending || isFetching) && (
-          <Flex align='center' justify='center'>
-            <Loader size='sm' color='gray' />
+          <Flex align="center" justify="center">
+            <Loader size="sm" color="gray" />
           </Flex>
         )}
       </Avatar>
 
       <Button
-        variant='transparent'
-        size='sm'
+        variant="transparent"
+        size="sm"
         fw={500}
         p={0}
         disabled={isPending || isFetching}
-        className='disabled:bg-transparent'
+        className="disabled:bg-transparent"
       >
         Edit Profile Picture
       </Button>
       {isPending ? (
-        <Text ta='center' size='xs' c='gray'>
+        <Text ta="center" size="xs" c="gray">
           Uploading...
         </Text>
       ) : (
         form.errors.picture && (
-          <Text c='red' fz='sm'>
+          <Text c="red" fz="sm">
             {form.getInputProps("picture").error}
           </Text>
         )

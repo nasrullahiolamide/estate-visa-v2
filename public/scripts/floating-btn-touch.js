@@ -9,8 +9,6 @@ if (frame) {
   dragIcon.style.top = "0px";
   dragIcon.style.left = "0px";
 
-  console.log({ frame, dragIcon });
-
   if (frame.firstChild) {
     frame.insertBefore(dragIcon, frame.firstChild);
   } else {

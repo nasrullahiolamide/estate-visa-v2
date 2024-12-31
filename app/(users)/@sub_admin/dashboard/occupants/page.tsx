@@ -57,7 +57,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Occupants",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload type='occupants' />,
+    children: <BulkUpload type="occupants" />,
   });
 };
 
@@ -67,7 +67,7 @@ export default function Occupants() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().occupants.download,
+    mutationFn: builder.$use.occupants.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.OCCUPANTS], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -76,7 +76,7 @@ export default function Occupants() {
   });
 
   const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get({
+    queryKey: builder.occupants.get.$get({
       page,
       pageSize,
       search,
@@ -84,7 +84,7 @@ export default function Occupants() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().occupants.get({
+      builder.$use.occupants.get({
         page,
         pageSize,
         search,
@@ -133,12 +133,7 @@ export default function Occupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Occupants'
-        withSearch
-        searchProps={{
-          placeholder: "Search occupants...",
-          title: "Occupants",
-        }}
+        title="Occupants"
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -148,7 +143,7 @@ export default function Occupants() {
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -166,11 +161,11 @@ export default function Occupants() {
               />
             ) : (
               <EmptySlot
-                title='There are no occupants yet. Add one to get started!'
-                src='person-minus'
+                title="There are no occupants yet. Add one to get started!"
+                src="person-minus"
                 withDoubleButton
-                primaryText='Add New Occupant'
-                secondaryText='Bulk Upload'
+                primaryText="Add New Occupant"
+                secondaryText="Bulk Upload"
                 primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () => handleOccupantForm({ modalType: "add" }),
@@ -232,11 +227,15 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
+<<<<<<< HEAD
     <Flex gap={14} wrap='wrap' hidden={hidden}>
       <FlowSearch title='Occupants' placeholder='Search occupants...' />
+=======
+    <Flex gap={14} wrap="wrap" hidden={hidden}>
+>>>>>>> 6b84a6ededa2eb59c5f27c9df754337c55186878
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<Add />}
         onClick={() => handleOccupantForm({ modalType: "add" })}
       >
@@ -244,18 +243,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant='outline'
-        fz='sm'
-        size='md'
+        variant="outline"
+        fz="sm"
+        size="md"
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

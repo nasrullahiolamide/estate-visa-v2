@@ -17,7 +17,7 @@ import { ConfirmationModal } from "@/components/shared/interface";
 export const schema = object({
   full_name: requiredString,
   email_address: requiredString.email(
-    "Invalid email. Please enter a valid email address."
+    "Invalid email. Please enter a valid email address.",
   ),
   password: requiredString,
   phone_number: requiredString,
@@ -73,10 +73,10 @@ export function TalkToUsForm() {
     modals.open({
       children: (
         <ConfirmationModal
-          src='success'
-          title='Thank you!'
+          src="success"
+          title="Thank you!"
           description="Thank you for submitting your information! we'll be in touch soon."
-          btnText='Okay'
+          btnText="Okay"
           srcProps={{ ml: 0 }}
         />
       ),
@@ -88,70 +88,70 @@ export function TalkToUsForm() {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl '
-        justify='center'
+        className="rounded-2xl "
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <TextInput
-          label='Full Name'
-          placeholder='Enter your full name'
+          label="Full Name"
+          placeholder="Enter your full name"
           withAsterisk
           {...form.getInputProps("full_name")}
         />
         <TextInput
-          type='email'
-          label='Email Address'
-          placeholder='user@example.com'
+          type="email"
+          label="Email Address"
+          placeholder="user@example.com"
           withAsterisk
           {...form.getInputProps("email_address")}
         />
         <PasswordInput
-          label='Password'
-          placeholder='**********'
+          label="Password"
+          placeholder="**********"
           withAsterisk
           {...form.getInputProps("password")}
         />
         <FlowPhoneInput
-          label='Phone Number'
-          placeholder='Enter your phone number'
+          label="Phone Number"
+          placeholder="Enter your phone number"
           withAsterisk
           {...form.getInputProps("phone_number")}
         />
         <TextInput
-          label='Estate name'
-          placeholder='Enter the name of your estate'
+          label="Estate name"
+          placeholder="Enter the name of your estate"
           withAsterisk
           {...form.getInputProps("estate_name")}
         />
         <TextInput
-          label='Estate Location'
-          placeholder='Enter the location of your estate'
+          label="Estate Location"
+          placeholder="Enter the location of your estate"
           withAsterisk
           {...form.getInputProps("estate_location")}
         />
         <TextInput
-          type='number'
-          label='Number of houses'
-          placeholder='Enter the number of houses in your estate'
+          type="number"
+          label="Number of houses"
+          placeholder="Enter the number of houses in your estate"
           min={0}
           withAsterisk
           {...form.getInputProps("no_of_houses")}
         />
         <TextInput
-          type='number'
-          label='Number of Occupants'
-          placeholder='Enter the number of occupants in your estate'
+          type="number"
+          label="Number of Occupants"
+          placeholder="Enter the number of occupants in your estate"
           min={0}
           withAsterisk
           {...form.getInputProps("no_of_occupants")}
         />
         <MultiSelect
           data={SERVICE_TYPES}
-          label='Interests'
+          label="Interests"
           withAsterisk
-          placeholder='What are you interested in?'
+          placeholder="What are you interested in?"
           classNames={{
             pill: "text-sm bg-purple-3",
             pillsList: "text-sm",
@@ -160,7 +160,7 @@ export function TalkToUsForm() {
           {...form.getInputProps("interests")}
         />
 
-        <Button type='submit' mt={20}>
+        <Button type="submit" mt={20}>
           Submit
         </Button>
       </FlowContainer>

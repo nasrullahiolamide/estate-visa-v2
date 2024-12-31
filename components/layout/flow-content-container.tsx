@@ -10,8 +10,8 @@ export function FlowContentContainer({
     <Stack
       gap={0}
       flex={1}
-      pos='relative'
-      align='normal'
+      pos="relative"
+      align="normal"
       style={{
         overflow: "auto",
       }}

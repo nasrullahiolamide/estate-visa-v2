@@ -55,16 +55,16 @@ export function PieChart({
   return (
     <Fragment>
       <Box style={{ position: "relative" }} mt={30}>
-        <ResponsiveContainer width='100%' height={250}>
+        <ResponsiveContainer width="100%" height={250}>
           <RePieChart>
             <Pie
               data={data}
-              cx='50%'
-              cy='50%'
+              cx="50%"
+              cy="50%"
               height={300}
               innerRadius={75}
               outerRadius={110}
-              dataKey='value'
+              dataKey="value"
               startAngle={90}
               endAngle={-270}
             >
@@ -73,9 +73,9 @@ export function PieChart({
               ))}
 
               <LabelList
-                dataKey='label'
-                position='inside'
-                fill='white'
+                dataKey="label"
+                position="inside"
+                fill="white"
                 fontSize={12}
                 offset={-10}
               />
@@ -85,30 +85,30 @@ export function PieChart({
 
         <Stack
           gap={5}
-          pos='absolute'
-          top='50%'
-          left='50%'
-          align='center'
+          pos="absolute"
+          top="50%"
+          left="50%"
+          align="center"
           style={{
             transform: "translate(-50%, -50%)",
           }}
         >
-          {LabelIcon && <LabelIcon width={30} height={30} color='#D7D7D7' />}
-          <Text size='sm' c='dimmed'>
+          {LabelIcon && <LabelIcon width={30} height={30} color="#D7D7D7" />}
+          <Text size="sm" c="dimmed">
             {text}
           </Text>
-          <Text fw={700} size='xl'>
+          <Text fw={700} size="xl">
             {value}
           </Text>
         </Stack>
       </Box>
 
-      <Flex justify='space-between' align='center' mt='auto'>
-        <Group className='w-full'>
+      <Flex justify="space-between" align="center" mt="auto">
+        <Group className="w-full">
           {data.map((item, i) => {
             return (
               item.value > 0 && (
-                <Flex flex={1} key={i} align='center' justify='center' gap={10}>
+                <Flex flex={1} key={i} align="center" justify="center" gap={10}>
                   <Indicator color={item.color} />
                   <Text fz={14}>{item.name}</Text>
                 </Flex>

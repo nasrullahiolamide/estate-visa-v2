@@ -30,7 +30,7 @@ export function HeaderOptions({ data, view }: HeaderOptionsProps) {
   const { back } = useRouter();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().messages.remove,
+    mutationFn: builder.$use.messages.remove,
     onError: () => {
       handleError({
         message: `An error occurred while deleting ${
@@ -57,9 +57,9 @@ export function HeaderOptions({ data, view }: HeaderOptionsProps) {
           title={`Are you sure you want to delete this ${
             view === MESSAGE_TYPE.OCCUPANT ? "message" : "broadcast"
           }`}
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -80,30 +80,30 @@ export function HeaderOptions({ data, view }: HeaderOptionsProps) {
   };
 
   return (
-    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={!data}>
+    <Flex gap={14} wrap="wrap" align="center" justify="center" hidden={!data}>
       {view === MESSAGE_TYPE.OCCUPANT && (
         <Button
-          fz='sm'
-          size='md'
-          variant='outline'
+          fz="sm"
+          size="md"
+          variant="outline"
           onClick={() => replyMessage(data)}
         >
-          <Flex className='flex items-center gap-2'>
+          <Flex className="flex items-center gap-2">
             <CurlyBackArrrow />
-            <span className='hidden sm:inline'> Reply Message</span>
+            <span className="hidden sm:inline"> Reply Message</span>
           </Flex>
         </Button>
       )}
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         onClick={handleDelete}
-        color='#CC0404'
+        color="#CC0404"
       >
-        <Flex className='flex items-center gap-2'>
+        <Flex className="flex items-center gap-2">
           <TrashIcon width={18} />
-          <span className='hidden sm:inline'>
+          <span className="hidden sm:inline">
             Delete
             {view === MESSAGE_TYPE.OCCUPANT ? " Message" : " Broadcast"}
           </span>

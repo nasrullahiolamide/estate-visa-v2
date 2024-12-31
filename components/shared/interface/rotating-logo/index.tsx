@@ -56,10 +56,10 @@ export function RotatingLogo({
 
   return (
     <Flex
-      justify='center'
-      align='center'
-      c='blue.8'
-      className='circle'
+      justify="center"
+      align="center"
+      c="blue.8"
+      className="circle"
       {...props}
       style={{
         width: size,
@@ -74,11 +74,11 @@ export function RotatingLogo({
 
       <Flex
         ref={ref}
-        tt='capitalize'
+        tt="capitalize"
         fw={500}
-        justify='center'
-        align='center'
-        pos='absolute'
+        justify="center"
+        align="center"
+        pos="absolute"
         style={{ fontSize, visibility: "hidden", whiteSpace: "nowrap" }}
       >
         {base.map((character, index) => {
@@ -87,12 +87,12 @@ export function RotatingLogo({
       </Flex>
 
       <Box
-        w='100%'
-        pos='absolute'
-        tt='capitalize'
+        w="100%"
+        pos="absolute"
+        tt="capitalize"
         fw={500}
-        h='100%'
-        className='rotating'
+        h="100%"
+        className="rotating"
       >
         {base.map((character, index, { length }) => {
           const degree = divide(360, length);

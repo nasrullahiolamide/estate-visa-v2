@@ -1,8 +1,8 @@
-import clsx from "clsx";
-import { motion } from "framer-motion";
 import { usePrevious } from "@/packages/hooks/use-previous";
-
+import { motion } from "framer-motion";
 import { ClockFace } from "./clock-face";
+
+import clsx from "clsx";
 
 interface FlipProps {
   time: string;
@@ -24,11 +24,11 @@ export function Flip({ time }: FlipProps) {
         "text-jet text-white",
         "will-change-transform", // use to avoid layout shift
         "clump:rounded-[clamp(.4rem,2vw,.75rem)] rounded-xl",
-        "clump:w-[clamp(2rem,7rem,5rem)] w-16 font-bold"
+        "clump:w-[clamp(2rem,7rem,5rem)] w-16 font-bold",
       )}
     >
       <ClockFace
-        className='clump:rounded-t-[clamp(.4rem,2vw,.75rem)] rounded-t-xl'
+        className="clump:rounded-t-[clamp(.4rem,2vw,.75rem)] rounded-t-xl"
         style={{
           // borderBlockEnd: "1.5px solid #353535",
           transformOrigin: "center bottom",
@@ -38,7 +38,7 @@ export function Flip({ time }: FlipProps) {
         value={time}
       />
       <ClockFace
-        className='clump:rounded-t-[clamp(.4rem,2vw,.75rem)] rounded-t-xl'
+        className="clump:rounded-t-[clamp(.4rem,2vw,.75rem)] rounded-t-xl"
         animate={{
           rotateX: -90,
           transition: {
@@ -58,7 +58,7 @@ export function Flip({ time }: FlipProps) {
         value={previous}
       />
       <ClockFace
-        className='clump:rounded-b-[clamp(.4rem,2vw,.75rem)] rounded-b-xl'
+        className="clump:rounded-b-[clamp(.4rem,2vw,.75rem)] rounded-b-xl"
         style={{
           // borderBlockStart: "1.5px solid #353535",
           transformOrigin: "center top",
@@ -69,7 +69,7 @@ export function Flip({ time }: FlipProps) {
       />
 
       <ClockFace
-        className='clump:rounded-b-[clamp(.4rem,2vw,.75rem)] rounded-b-xl'
+        className="clump:rounded-b-[clamp(.4rem,2vw,.75rem)] rounded-b-xl"
         animate={{
           rotateX: 0,
           transition: {

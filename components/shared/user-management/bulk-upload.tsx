@@ -6,24 +6,22 @@ import { Box, Button, Flex, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { ResourceUpload } from "../uploads/resource";
 import { DownloadIcon } from "@/icons";
 
-import { FlowStateProvider } from "@/components/layout";
-import {
-  ImportCategory,
-  useBulkUpload,
-} from "@/packages/hooks/use-bulk-upload";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { APP } from "@/packages/libraries/enum";
-import { MODALS } from "@/packages/libraries";
-import { toString } from "lodash";
-import { getCookie } from "cookies-next";
 import { builder } from "@/builders";
 import { MIME_TYPE } from "@/builders/types/shared";
+import { FlowStateProvider } from "@/components/layout";
+import { ImportCategory } from "@/packages/hooks/use-bulk-upload";
 import { useFilename } from "@/packages/hooks/use-file-name";
-import fileDownload from "js-file-download";
+import { useFileUpload } from "@/packages/hooks/use-file-upload";
+import { MODALS } from "@/packages/libraries";
+import { APP } from "@/packages/libraries/enum";
+import { handleError, handleSuccess } from "@/packages/notification";
 import { handleMantineError } from "@/packages/notification/handle-error";
+import { getCookie } from "cookies-next";
+import fileDownload from "js-file-download";
+import { toString } from "lodash";
+import { ResourceUpload } from "../uploads/resource";
 
 type BulkUploadProps = {
   estateId?: string;
@@ -39,11 +37,11 @@ export function BulkUpload(props: BulkUploadProps) {
   }
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use()[props.type]?.template,
+    mutationFn: builder.$use[props.type]?.template,
     onSuccess: (data) => {
       const filename = useFilename(
         [props.type, "template"],
-        data.type as MIME_TYPE
+        data.type as MIME_TYPE,
       );
       fileDownload(data, filename);
     },
@@ -53,12 +51,12 @@ export function BulkUpload(props: BulkUploadProps) {
   const {
     status,
     handleDrop,
-    preview,
-    progress,
+    previews,
+    onDelete,
     isPending,
     handleUpload,
     handleSubmit,
-  } = useBulkUpload<BulkUploadProps>({
+  } = useFileUpload<BulkUploadProps>({
     key: props.type,
     form: { ...props, estateId },
     onError() {
@@ -71,7 +69,7 @@ export function BulkUpload(props: BulkUploadProps) {
         message: "CSV file uploaded successfully",
       });
       queryClient.invalidateQueries({
-        queryKey: builder[props.type].get(),
+        queryKey: builder[props.type].$get(),
       });
       handleClose();
     },
@@ -80,10 +78,10 @@ export function BulkUpload(props: BulkUploadProps) {
   const view: Record<PropertyKey, ReactNode> = {
     pending: (
       <Button
-        variant='outline'
-        color='gray'
+        variant="outline"
+        color="gray"
         my={15}
-        className='w-full'
+        className="w-full"
         classNames={{
           label:
             "flex items-center justify-between w-full text-primary-body text-sm",
@@ -93,7 +91,7 @@ export function BulkUpload(props: BulkUploadProps) {
         onClick={() => download()}
       >
         <Text>Download file format</Text>
-        <DownloadIcon color='var(--accent-7)' className='ml-auto' />
+        <DownloadIcon color="var(--accent-7)" className="ml-auto" />
       </Button>
     ),
 
@@ -105,41 +103,39 @@ export function BulkUpload(props: BulkUploadProps) {
 
   return (
     <FlowStateProvider>
-      <Box component='form' onSubmit={handleSubmit(handleUpload)}>
-        <Text className='text-primary-text-subtle' mb={15}>
+      <Box component="form" onSubmit={handleSubmit(handleUpload)}>
+        <Text className="text-primary-text-subtle" mb={15}>
           {view[status]}
         </Text>
         <ResourceUpload
+          previews={previews}
+          onDelete={onDelete}
           accepts={(mime) => [mime.csv, mime.xlsx, mime.xls]}
           onDrop={handleDrop}
-          name={preview.name}
-          size={preview.size}
-          completed={progress?.completed}
-          status={status}
           supports={["csv", "xlsx"]}
           multiple={false}
         />
 
-        <Flex gap={12} wrap='wrap' mt={30}>
+        <Flex gap={12} wrap="wrap" mt={30}>
           <Button
             flex={1}
-            fz='sm'
+            fz="sm"
             color={status === "pending" ? "gray" : "red"}
-            miw='fit-content'
-            variant='default'
+            miw="fit-content"
+            variant="default"
             onClick={handleClose}
           >
             Cancel
           </Button>
           <Button
             flex={1}
-            fz='sm'
-            miw='fit-content'
-            type='submit'
+            fz="sm"
+            miw="fit-content"
+            type="submit"
             disabled={isPending || status === "pending"}
             loading={isPending}
           >
-            Upload
+            {status === "pending" ? "Upload" : "Retry"}
           </Button>
         </Flex>
       </Box>

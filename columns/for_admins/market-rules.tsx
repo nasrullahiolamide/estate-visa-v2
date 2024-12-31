@@ -1,8 +1,8 @@
+import { MarketRulesData } from "@/builders/types/market-rules";
+import { Actionable } from "@/builders/types/table";
+import { formatDate } from "@/packages/libraries";
 import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Actionable } from "@/builders/types/table";
-import { MarketRulesData } from "@/builders/types/market-rules";
-import { formatDate } from "@/packages/libraries";
 
 const columnHelper = createColumnHelper<Actionable<MarketRulesData>>();
 
@@ -34,31 +34,18 @@ export const marketRuleColumns = [
     enableSorting: false,
   }),
 
-  columnHelper.accessor("ruleTitle", {
+  columnHelper.accessor("title", {
     header: "Rule Title",
     enableSorting: false,
   }),
 
-  columnHelper.accessor("appliedTo", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Applied To:'
-      />
-    ),
+  columnHelper.accessor("appliesTo", {
+    header: "Applies To",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
-    ),
   }),
 
   columnHelper.accessor("date", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Date' />
-    ),
+    header: "Date",
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text
@@ -70,9 +57,7 @@ export const marketRuleColumns = [
     ),
   }),
   columnHelper.accessor("status", {
-    header: () => (
-      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
-    ),
+    header: "Status",
     enableSorting: false,
     cell: ({ getValue }) => {
       const value = getValue();
@@ -93,15 +78,7 @@ export const marketRuleColumns = [
     },
   }),
   columnHelper.accessor("action", {
-    header: () => (
-      <Text
-        ta='center'
-        fw={600}
-        fz={14}
-        className='w-full'
-        children='Actions'
-      />
-    ),
+    header: "Actions",
     cell: ({ renderValue }) => renderValue(),
     enableSorting: false,
   }),

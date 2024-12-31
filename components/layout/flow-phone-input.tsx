@@ -25,13 +25,13 @@ export function FlowPhoneInput(props: FlowPhoneInputProps) {
       }}
     >
       <PhoneInput
-        defaultCountry='ng'
+        defaultCountry="ng"
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
         value={value}
         placeholder={placeholder}
-        inputClassName='w-full !py-6 !prose-sm/regular !rounded-tr-lg !rounded-br-lg'
+        inputClassName="w-full !py-6 !prose-sm/regular !rounded-tr-lg !rounded-br-lg"
         countrySelectorStyleProps={{
           buttonClassName: "py-6 px-3 !rounded-tl-lg !rounded-bl-lg",
         }}

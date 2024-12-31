@@ -21,8 +21,8 @@ export function AccessRequests() {
   });
 
   const { data, isPlaceholderData } = useQuery({
-    queryKey: builder.dashboard.admin.access_requests.get(period),
-    queryFn: () => builder.use().dashboard.admin.access_requests({ period }),
+    queryKey: builder.dashboard.admin.access_requests.$get(period),
+    queryFn: () => builder.$use.dashboard.admin.access_requests({ period }),
     placeholderData: initialAccessRequest,
     select: (data) => {
       const approvedPercentage = Math.floor(data.approvedPercentage);
@@ -54,15 +54,15 @@ export function AccessRequests() {
 
   return (
     <Stack
-      bg='white'
+      bg="white"
       className={clsx("rounded-lg backdrop-blur-sm w-full sm:w-[620px]", {
         skeleton: isPlaceholderData,
       })}
       p={20}
       gap={16}
     >
-      <Flex align='center'>
-        <Text fw={500} fz='lg'>
+      <Flex align="center">
+        <Text fw={500} fz="lg">
           Access Request
         </Text>
 
@@ -70,13 +70,13 @@ export function AccessRequests() {
           data={["weekly", "monthly", "yearly"]}
           value={period}
           onFilter={setPeriod}
-          ml='auto'
+          ml="auto"
         />
       </Flex>
       {data?.noData ? (
         <Stack gap={0} h={250}>
           <NoData />
-          <Text ta='center'>No Data Available</Text>
+          <Text ta="center">No Data Available</Text>
         </Stack>
       ) : (
         // </Stack>

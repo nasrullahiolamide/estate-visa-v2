@@ -19,21 +19,21 @@ export function PricingCard({
 }: PricingCardProps) {
   return (
     <Card
-      p='lg'
+      p="lg"
       py={40}
-      radius='lg'
+      radius="lg"
       bg={isPrimary ? "blue.8" : "purple.4"}
       c={isPrimary ? "white" : "gray.12"}
       mih={480}
-      component='article'
+      component="article"
     >
-      <Title order={2} className='prose-xl/semi-bold'>
+      <Title order={2} className="prose-xl/semi-bold">
         {title}
       </Title>
-      <Text mt='sm' fz='sm' c={isPrimary ? "white" : "gray.12"}>
+      <Text mt="sm" fz="sm" c={isPrimary ? "white" : "gray.12"}>
         {description}
       </Text>
-      <Title order={2} mt='lg' className='prose-3xl/bold'>
+      <Title order={2} mt="lg" className="prose-3xl/bold">
         {price}
         <Text span>/month</Text>
       </Title>
@@ -41,12 +41,12 @@ export function PricingCard({
       <Stack
         mt={20}
         pl={0}
-        component='ul'
+        component="ul"
         c={isPrimary ? "white" : "black"}
-        className='list-none'
+        className="list-none"
       >
         {features.map((feature, index) => (
-          <Flex component='li' key={index} gap={10} align='center'>
+          <Flex component="li" key={index} gap={10} align="center">
             <ListArrow />
             {feature}
           </Flex>

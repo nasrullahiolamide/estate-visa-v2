@@ -1,9 +1,0 @@
-{
-  "ignorePatterns": [".*.js", "packages/**", "node_modules/"],
-  "parser": "@typescript-eslint/parser",
-  "rules": {
-    "unused-imports/no-unused-imports": "error",
-    "react-hooks/rules-of-hooks": "off",
-    "react-hooks/exhaustive-deps": "warn"
-  }
-}

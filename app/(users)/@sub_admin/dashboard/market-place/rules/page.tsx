@@ -1,39 +1,42 @@
 "use client";
-import clsx from "clsx";
-
-import { Fragment } from "react";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useQuery } from "@tanstack/react-query";
 
 import { builder } from "@/builders";
 import { useFakeMarketRulesList } from "@/builders/types/market-rules";
 import { marketRuleColumns } from "@/columns/for_admins/market-rules";
-import { makePath, MODALS, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { AddIcon } from "@/icons";
+import { MarketRuleActions } from "@/components/admin/market-place/rules/actions";
+import {
+  MarketRuleForm,
+  MarketRuleFormProps,
+} from "@/components/admin/market-place/rules/add";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
+  FlowSearch,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { MarketRuleActions } from "@/components/admin/market-place/rules/actions";
-import { MarketRuleForm } from "@/components/admin/market-place/rules/add";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { AddIcon } from "@/icons";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
-  { label: "Date", value: "date" },
   {
     label: "Applied To:",
-    value: "applied-to",
+    value: "appliesTo",
     children: [
       {
         label: "Occupants",
@@ -45,7 +48,7 @@ const filterOptions = [
       },
       {
         label: "All Users",
-        value: "all-users",
+        value: "all",
       },
     ],
   },
@@ -59,38 +62,89 @@ const filterOptions = [
       },
       {
         label: "In Active",
-        value: "in-active",
+        value: "inactive",
       },
     ],
   },
 ];
 
-const handleMarketRuleForm = () => {
+const handleMarketRuleForm = (details: MarketRuleFormProps) => {
   modals.open({
     title: "Add New Rule",
-    modalId: MODALS.FORM_DETAILS,
-    children: <MarketRuleForm />,
+    modalId: MODALS.ADD_DETAILS,
+    children: <MarketRuleForm {...details} />,
   });
 };
 
 export default function MarketRules() {
   const initialMarketRulesList = useFakeMarketRulesList();
   const pagination = useFlowPagination();
-  const { page, pageSize, query: search, numberOfPages } = useFlowState();
+  const estateId = toString(getCookie(APP.ESTATE_ID));
+  const {
+    page,
+    pageSize,
+    query: search,
+    sortBy,
+    sortOrder,
+    status,
+  } = useFlowState();
 
-  const dataToDisplay = initialMarketRulesList.data.map((data) => ({
-    ...data,
-    action: (
-      <MarketRuleActions
-        id={data.id}
-        handlers={{
-          onAdd: () => handleMarketRuleForm(),
-          onView: () => {},
-          onEdit: () => {},
-        }}
-      />
-    ),
-  }));
+  const { data: marketRules, isPlaceholderData } = useQuery({
+    queryKey: builder.market_rules.get.$get({
+      page,
+      pageSize,
+      search,
+      sortBy,
+      sortOrder,
+      status,
+    }),
+    queryFn: () =>
+      builder.$use.market_rules.get({
+        page,
+        pageSize,
+        search,
+        sortBy,
+        sortOrder,
+        status,
+        estateId,
+      }),
+    placeholderData: initialMarketRulesList,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.map((list) => {
+          return {
+            ...list,
+            action: (
+              <MarketRuleActions
+                id={list.id}
+                handlers={{
+                  onAdd: () => handleMarketRuleForm({ viewId: "add" }),
+                  onView: () =>
+                    handleMarketRuleForm({ viewId: "view", ...list }),
+                  onEdit: () =>
+                    handleMarketRuleForm({ viewId: "edit", ...list }),
+                }}
+              />
+            ),
+          };
+        }),
+      };
+    },
+  });
+
+  useEffect(() => {
+    if (isPlaceholderData) return;
+
+    pagination.setPage(marketRules?.page);
+    pagination.setTotal(marketRules?.total);
+    pagination.setEntriesCount(marketRules?.data?.length);
+    pagination.setPageSize(marketRules?.pageSize);
+  }, [isPlaceholderData]);
+
+  const noDataAvailable = marketRules?.data.length === 0;
 
   return (
     <Fragment>
@@ -107,11 +161,14 @@ export default function MarketRules() {
           }}
         >
           <FlowPaper>
-            {dataToDisplay ? (
+            {marketRules?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={marketRules.data}
                 columns={marketRuleColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleMarketRuleForm({ viewId: "view", ...data })
+                }
               />
             ) : (
               <EmptySlot
@@ -121,31 +178,26 @@ export default function MarketRules() {
                 text='Add New Rule'
                 btnProps={{
                   leftSection: <AddIcon />,
+                  onClick: () => handleMarketRuleForm({ viewId: "add" }),
                 }}
               />
             )}
           </FlowPaper>
 
-          <FlowFooter
-            className={clsx("flex", {
-              // hidden: noDataAvailable
-              hidden: false,
-            })}
-          >
+          <FlowFooter visible={noDataAvailable || isPlaceholderData}>
             <FlowPagination />
             <FlowEntriesPerPage />
           </FlowFooter>
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          // hidden={noDataAvailable || isPlaceholderData}
-          hidden={false}
+          hidden={noDataAvailable || isPlaceholderData}
           buttons={[
             { icon: "filter", filterData: filterOptions },
             {
               icon: "add",
               btnProps: {
-                onClick: () => handleMarketRuleForm(),
+                onClick: () => handleMarketRuleForm({ viewId: "add" }),
               },
             },
           ]}
@@ -158,11 +210,12 @@ export default function MarketRules() {
 function HeaderOptions({ hidden }: { hidden?: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <FlowSearch title='Market Rules' />
       <Button
         fz='sm'
         size='md'
         leftSection={<AddIcon />}
-        onClick={handleMarketRuleForm}
+        onClick={() => handleMarketRuleForm({ viewId: "add" })}
       >
         Add New Rule
       </Button>

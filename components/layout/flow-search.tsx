@@ -1,16 +1,16 @@
 import {
   ActionIcon,
   FocusTrap,
+  Modal,
+  Text,
   TextInput,
   TextInputProps,
-  Text,
-  Modal,
 } from "@mantine/core";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { Form, useForm } from "@mantine/form";
+import { useClickOutside, useDisclosure } from "@mantine/hooks";
 
 import { SearchIcon } from "@/icons";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFlowDispatch } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
 
@@ -19,6 +19,7 @@ import clsx from "clsx";
 export type FlowSearchProps = TextInputProps & {
   isloading?: boolean;
   title: string;
+  hidden?: boolean;
 };
 
 export function FlowSearch(props: FlowSearchProps) {
@@ -90,6 +91,7 @@ export function FlowSearch(props: FlowSearchProps) {
     </Modal>
   ) : (
     <ActionIcon
+      hidden={props.hidden}
       variant='transparent'
       onClick={() => {
         setShowSearchField(!showSearchField);

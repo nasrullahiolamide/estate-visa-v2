@@ -12,33 +12,33 @@ export function OnboardingRates() {
   return (
     <Stack
       flex={1}
-      bg='white'
-      justify='space-between'
-      className='rounded-lg backdrop-blur-sm w-full'
+      bg="white"
+      justify="space-between"
+      className="rounded-lg backdrop-blur-sm w-full"
       p={20}
       gap={18}
     >
       <Group>
-        <Text fw={500} size='lg'>
+        <Text fw={500} size="lg">
           Onboarding Rates
         </Text>
         <FilterRequestsDropdown
           data={["Week", "Biannual", "Quarter"]}
           onFilter={setTimeFilter}
           value={timeFilter}
-          ml='auto'
+          ml="auto"
         />
       </Group>
 
       <AreaChart
         h={300}
         data={rates}
-        dataKey='date'
+        dataKey="date"
         series={[
           { name: "users", label: "Users", color: "green.9" },
           { name: "estateOwners", label: "Estate Owners", color: "gray.3" },
         ]}
-        curveType='monotone'
+        curveType="monotone"
         connectNulls
         areaProps={{
           dot: false,
@@ -47,12 +47,12 @@ export function OnboardingRates() {
         }}
       />
 
-      <Flex justify='space-between' align='center' mt='auto'>
-        <Group className='w-full' flex={1}>
-          <Indicator color='green.9' />
+      <Flex justify="space-between" align="center" mt="auto">
+        <Group className="w-full" flex={1}>
+          <Indicator color="green.9" />
           <Text fz={14}>Users</Text>
 
-          <Indicator color='gray.3' />
+          <Indicator color="gray.3" />
           <Text fz={14}>Estate Owners</Text>
         </Group>
       </Flex>

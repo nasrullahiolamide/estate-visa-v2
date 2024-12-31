@@ -18,8 +18,7 @@ import { getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { builder } from "@/builders";
-import { useFakeUserData } from "@/builders/types/login";
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { APP, PAGES } from "@/packages/libraries";
 import { EstateVisaLogo } from "@/icons/estate-visa-logo";
@@ -51,11 +50,11 @@ export function NavList({ close }: { close?: () => void }) {
         <Anchor
           key={index}
           href={link.href}
-          variant='hover'
+          variant="hover"
           className={clsx("text-primary-text-body py-2")}
           fz={18}
           fw={500}
-          w='fit-content'
+          w="fit-content"
           onClick={close}
           component={Link}
         >
@@ -74,8 +73,8 @@ export function WebsiteHeader() {
   const [isAdmin, setisAdmin] = useState(false);
 
   const { data: user, isLoading } = useQuery({
-    queryKey: builder.account.profile.get.get(userId),
-    queryFn: () => builder.use().account.profile.get(userId),
+    queryKey: builder.account.profile.get.$get(userId),
+    queryFn: () => builder.$use.account.profile.get(userId),
     select: (data) => data,
     enabled: !!userId,
   });
@@ -89,27 +88,27 @@ export function WebsiteHeader() {
   return (
     <Stack gap={0}>
       <Flex
-        justify='space-between'
-        align='center'
-        className='lg:px-16 md:px-8 px-4'
+        justify="space-between"
+        align="center"
+        className="lg:px-16 md:px-8 px-4"
       >
         <Flex
-          w='100%'
+          w="100%"
           maw={MAX_SCREEN_WIDTH}
-          component='header'
+          component="header"
           gap={16}
           py={10}
-          align='center'
-          className='justify-between'
-          mx='auto'
+          align="center"
+          className="justify-between"
+          mx="auto"
         >
-          <Box component='figure'>
+          <Box component="figure">
             <EstateVisaLogo width={62} height={62} />
           </Box>
           <Flex
             gap={32}
-            align='center'
-            visibleFrom='lg'
+            align="center"
+            visibleFrom="lg"
             style={{
               justifySelf: "center",
             }}
@@ -124,7 +123,7 @@ export function WebsiteHeader() {
           >
             <Button
               href={isAdmin ? PAGES.DASHBOARD : PAGES.LOGIN}
-              variant='outline'
+              variant="outline"
               component={Link}
               className={clsx({
                 "skeleton border-none miw-36": isLoading,
@@ -134,12 +133,12 @@ export function WebsiteHeader() {
             </Button>
 
             {pathname === PAGES.TALK_TO_US ? null : (
-              <TalkToUsButton className='hidden lg:block' />
+              <TalkToUsButton className="hidden lg:block" />
             )}
           </Flex>
 
           <Popover
-            radius='md'
+            radius="md"
             trapFocus={false}
             transitionProps={{
               transition: "pop-top-right",
@@ -155,23 +154,23 @@ export function WebsiteHeader() {
                 WebkitBackdropFilter: "blur(5px)",
               },
             }}
-            position='bottom-end'
+            position="bottom-end"
             withArrow={false}
           >
             <Popover.Target>
               <Burger
-                hiddenFrom='lg'
+                hiddenFrom="lg"
                 opened={opened}
                 onClick={() => toggle(!opened)}
-                aria-label='Toggle navigation'
+                aria-label="Toggle navigation"
                 transitionDuration={500}
-                className='relative'
-                size='md'
+                className="relative"
+                size="md"
               />
             </Popover.Target>
 
             <Popover.Dropdown
-              className='border rounded-lg shadow-2xl border-primary-border-light '
+              className="border rounded-lg shadow-2xl border-primary-border-light "
               miw={300}
             >
               <Stack gap={12} py={16} px={20}>

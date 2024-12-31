@@ -40,9 +40,9 @@ export default function MeetingMinutes() {
   const { page, pageSize, query: search } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get(),
+    queryKey: builder.meetings.get.table.$get(),
     queryFn: () =>
-      builder.use().meetings.get.table({
+      builder.$use.meetings.get.table({
         estateId,
         page,
         pageSize,
@@ -73,7 +73,7 @@ export default function MeetingMinutes() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Meetings Minutes'
+        title="Meetings Minutes"
         backHref={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
         showLinks={false}
         options={
@@ -81,14 +81,14 @@ export default function MeetingMinutes() {
         }
       />
       <FlowContainer
-        type='plain'
-        justify='center'
+        type="plain"
+        justify="center"
         className={"lg:~px-1/8 bg-white bg-opacity-60"}
         gap={0}
       >
-        <Stack className='overflow-auto h-full max-h-[680px] lg:max-h-[700px] ~px-1/8 lg:px-0 xl:pb-3'>
+        <Stack className="overflow-auto h-full max-h-[680px] lg:max-h-[700px] ~px-1/8 lg:px-0 xl:pb-3">
           {meetings?.data.length ? (
-            <FlowContentHorizontal className='p-4 sm:p-0' gap={18} flex='none'>
+            <FlowContentHorizontal className="p-4 sm:p-0" gap={18} flex="none">
               {meetings?.data.map((minute) => {
                 return (
                   <Fragment>
@@ -97,13 +97,13 @@ export default function MeetingMinutes() {
                       p={24}
                       gap={30}
                       h={230}
-                      type='plain'
-                      bg='white'
+                      type="plain"
+                      bg="white"
                       className={clsx("rounded-xl", {
                         skeleton: isPlaceholderData,
                       })}
                     >
-                      <Flex justify='space-between' align='center'>
+                      <Flex justify="space-between" align="center">
                         <Stack gap={6}>
                           <Title order={2} fw={500}>
                             {minute.title}
@@ -111,17 +111,17 @@ export default function MeetingMinutes() {
                           <Text fz={14}>
                             <span>{formatDate(minute.date, DATE_FORMAT)}</span>{" "}
                             <span>at</span>{" "}
-                            <span className='uppercase'>{minute.time}</span>
+                            <span className="uppercase">{minute.time}</span>
                           </Text>
                         </Stack>
                         <Flex
-                          justify='center'
-                          align='center'
+                          justify="center"
+                          align="center"
                           w={40}
                           h={40}
-                          className='rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50'
+                          className="rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50"
                         >
-                          <DownloadIcon color='var(--blue-7)' />
+                          <DownloadIcon color="var(--blue-7)" />
                         </Flex>
                       </Flex>
 
@@ -129,8 +129,8 @@ export default function MeetingMinutes() {
                         {minute.minutes.replace(/<[^>]*>/g, "").trim()}
                       </Text>
                       <Text
-                        c='blue.7'
-                        className='underline cursor-pointer'
+                        c="blue.7"
+                        className="underline cursor-pointer"
                         mt={10}
                         onClick={openDrawer}
                       >
@@ -148,8 +148,8 @@ export default function MeetingMinutes() {
             </FlowContentHorizontal>
           ) : (
             <EmptySlot
-              title='There are no meeting minutes yet. Check back for updates!'
-              src='meeting'
+              title="There are no meeting minutes yet. Check back for updates!"
+              src="meeting"
             />
           )}
         </Stack>
@@ -157,7 +157,7 @@ export default function MeetingMinutes() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />
@@ -174,8 +174,8 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <FilterDropdown label='Filter' data={filterOptions} />
+    <Flex gap={14} hidden={hidden} wrap="wrap">
+      <FilterDropdown label="Filter" data={filterOptions} />
     </Flex>
   );
 }

@@ -130,7 +130,7 @@ export function FlowTableActions<T extends ActionType[]>({
         <Menu.Divider />
         <Menu.Item
           {...ItemProps}
-          color='#CC0404'
+          color="#CC0404"
           leftSection={<TrashIcon width={15} />}
           key={ACTIONS_LABELS.DELETE}
           onClick={deleteProps?.onDelete}
@@ -186,10 +186,10 @@ export function FlowTableActions<T extends ActionType[]>({
       <Tooltip
         key={ACTIONS_LABELS.ADD}
         label={addProps?.label || "Add"}
-        className='hidden sm:block'
+        className="hidden sm:block"
       >
         <div onClick={addProps?.onAdd}>
-          <AddIcon color='var(--blue-8)' />
+          <AddIcon color="var(--blue-8)" />
         </div>
       </Tooltip>
     ),
@@ -198,10 +198,10 @@ export function FlowTableActions<T extends ActionType[]>({
       <Tooltip
         key={ACTIONS_LABELS.EDIT}
         label={editProps?.label || "Edit"}
-        className='hidden sm:block'
+        className="hidden sm:block"
       >
         <div onClick={editProps?.onEdit}>
-          <EditIcon color='var(--blue-8)' />
+          <EditIcon color="var(--blue-8)" />
         </div>
       </Tooltip>
     ),
@@ -210,10 +210,10 @@ export function FlowTableActions<T extends ActionType[]>({
       <Tooltip
         key={ACTIONS_LABELS.DELETE}
         label={deleteProps?.label || "Delete"}
-        className='hidden sm:block'
+        className="hidden sm:block"
       >
         <div onClick={deleteProps?.onDelete}>
-          <TrashIcon color='var(--red-8)' />
+          <TrashIcon color="var(--red-8)" />
         </div>
       </Tooltip>
     ),
@@ -222,10 +222,10 @@ export function FlowTableActions<T extends ActionType[]>({
       <Tooltip
         key={ACTIONS_LABELS.VIEW}
         label={viewProps?.label || "View"}
-        className='hidden sm:block'
+        className="hidden sm:block"
       >
         <div onClick={viewProps?.onView}>
-          <EyeIcon color='var(--blue-8)' />
+          <EyeIcon color="var(--blue-8)" />
         </div>
       </Tooltip>
     ),
@@ -238,7 +238,7 @@ export function FlowTableActions<T extends ActionType[]>({
             ? "Suspend"
             : "Activate"
         }
-        className='hidden sm:block'
+        className="hidden sm:block"
       >
         <div
           onClick={
@@ -248,9 +248,9 @@ export function FlowTableActions<T extends ActionType[]>({
           }
         >
           {activateSuspendProps?.isActive ? (
-            <DeactivateIcon color='var(--yellow-8)' />
+            <DeactivateIcon color="var(--yellow-8)" />
           ) : (
-            <ActivateIcon color='var(--green-8)' />
+            <ActivateIcon color="var(--green-8)" />
           )}
         </div>
       </Tooltip>
@@ -273,7 +273,7 @@ export function FlowTableActions<T extends ActionType[]>({
       </FlowMenu>
 
       {showDesktopView && (
-        <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <Flex className="hidden sm:flex justify-center items-center" gap={8}>
           {actions && actions.map((action) => mobileView[action])}
         </Flex>
       )}

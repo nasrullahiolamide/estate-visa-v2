@@ -33,19 +33,19 @@ export function FilterRequestsDropdown({
     <Menu position={position}>
       <Menu.Target>
         <Button
-          variant='outline'
-          size='sm'
-          fz='sm'
-          color='gray.10'
+          variant="outline"
+          size="sm"
+          fz="sm"
+          color="gray.10"
           rightSection={<ArrowDownIcon width={14} />}
-          className='capitalize'
+          className="capitalize"
           {...props}
         >
           {value || "All"}
         </Button>
       </Menu.Target>
 
-      <Menu.Dropdown miw={180} className='p-0' {...dropDownProps}>
+      <Menu.Dropdown miw={180} className="p-0" {...dropDownProps}>
         {data.length > 0 ? (
           data.map((item, i) => {
             const filterItem = typeof item === "string" ? item : item.value;
@@ -57,20 +57,20 @@ export function FilterRequestsDropdown({
                   onClick={() => onFilter(filterItem)}
                   className={clsx(
                     "hover:bg-purple-2 rounded-none p-3 capitalize",
-                    value === filterItem && "bg-purple-4"
+                    value === filterItem && "bg-purple-4",
                   )}
                   classNames={{
                     itemLabel: clsx(
                       "flex items-center gap-3",
-                      value === filterItem && "font-medium"
+                      value === filterItem && "font-medium",
                     ),
                   }}
                 >
                   {value === filterItem && <Mark width={10} height={10} />}
                   {typeof item === "string" ? (
-                    <Text fz='sm'>{item}</Text>
+                    <Text fz="sm">{item}</Text>
                   ) : (
-                    <Text fz='sm'>{item.label}</Text>
+                    <Text fz="sm">{item.label}</Text>
                   )}
                 </Menu.Item>
                 {i !== data.length - 1 && <Divider />}
@@ -78,7 +78,7 @@ export function FilterRequestsDropdown({
             );
           })
         ) : (
-          <Text className='p-4'>
+          <Text className="p-4">
             No recent requests found. Please check back later.
           </Text>
         )}

@@ -8,7 +8,7 @@ export function FlowMenuDropdown({
   ...props
 }: FlowMenuDropdownProps) {
   return (
-    <MenuDropdown variant='action' {...props}>
+    <MenuDropdown variant="action" {...props}>
       {children}
     </MenuDropdown>
   );

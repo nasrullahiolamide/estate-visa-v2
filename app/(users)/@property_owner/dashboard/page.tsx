@@ -1,17 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { Fragment, useEffect } from "react";
-import { useQueryState } from "nuqs";
-
-import { Button, CheckIcon, Flex, Tabs } from "@mantine/core";
-import { APP, makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import {
-  filterOptions,
-  OccupantMeetingTable,
-} from "@/components/occupant/meetings/table";
+import { builder } from "@/builders";
+import { useFakeMeetingsList } from "@/builders/types/meetings";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -20,13 +10,22 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-
+import {
+  filterOptions,
+  OccupantMeetingTable,
+} from "@/components/occupant/meetings/table";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { CancelCircleIcon, HourglassIcon, NotesIcon } from "@/icons";
-import { builder } from "@/builders";
-import { useFakeMeetingsList } from "@/builders/types/meetings";
+import { APP, makePath, PAGES } from "@/packages/libraries";
+import { Button, CheckIcon, Flex, Tabs } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
+import { useQueryState } from "nuqs";
+import { Fragment, useEffect } from "react";
+
+import Link from "next/link";
 
 export default function Minutes() {
   const [view, setView] = useQueryState("type", {
@@ -39,14 +38,14 @@ export default function Minutes() {
   const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.get({
+    queryKey: builder.meetings.get.table.$get({
       page,
       pageSize,
       search,
       status: view,
     }),
     queryFn: () =>
-      builder.use().meetings.get.table({
+      builder.$use.meetings.get.table({
         estateId,
         page,
         pageSize,

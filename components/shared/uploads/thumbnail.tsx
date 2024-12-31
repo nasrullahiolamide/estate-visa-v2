@@ -59,7 +59,7 @@ export function ThumbnailUpload({
             className={clsx(
               "border border-primary-border-light bg-primary-background-white",
               "prose-sm/regular text-primary-text-subtle",
-              "rounded-xl cursor-pointer"
+              "rounded-xl cursor-pointer",
             )}
             px={10}
             py={8}

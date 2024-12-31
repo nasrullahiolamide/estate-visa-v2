@@ -1,21 +1,10 @@
 "use client";
 
-import clsx from "clsx";
-import fileDownload from "js-file-download";
-import { Add } from "iconsax-react";
-import { Fragment, useEffect } from "react";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakeOccupantsList } from "@/builders/types/occupants";
-import { OccupantActions } from "@/components/admin/occupants/actions";
+import { MIME_TYPE } from "@/builders/types/shared";
 import { occupantsColumns } from "@/columns/for_admins/occupants";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/icons";
+import { OccupantActions } from "@/components/admin/occupants/actions";
 import {
   OccupantsForm,
   OccupantsFormProps,
@@ -24,20 +13,30 @@ import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
+  FlowSearch,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
-  FlowSearch,
 } from "@/components/layout";
-import { MIME_TYPE } from "@/builders/types/shared";
-import { useFilename } from "@/packages/hooks/use-file-name";
-import { handleError } from "@/packages/notification";
-import { FILE } from "@/packages/libraries/enum";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { DownloadIcon, UploadIcon } from "@/icons";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { MODALS } from "@/packages/libraries";
+import { FILE } from "@/packages/libraries/enum";
+import { handleError } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Add } from "iconsax-react";
+import fileDownload from "js-file-download";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -67,7 +66,7 @@ export default function Occupants() {
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
   const { mutate: download, isPending: isDownloading } = useMutation({
-    mutationFn: builder.use().occupants.download,
+    mutationFn: builder.$use.occupants.download,
     onSuccess: (data) => {
       const filename = useFilename([FILE.OCCUPANTS], data.type as MIME_TYPE);
       fileDownload(data, filename);
@@ -76,7 +75,7 @@ export default function Occupants() {
   });
 
   const { data: occupants, isPlaceholderData } = useQuery({
-    queryKey: builder.occupants.get.get({
+    queryKey: builder.occupants.get.$get({
       page,
       pageSize,
       search,
@@ -84,7 +83,7 @@ export default function Occupants() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.use().occupants.get({
+      builder.$use.occupants.get({
         page,
         pageSize,
         search,
@@ -134,11 +133,6 @@ export default function Occupants() {
     <Fragment>
       <AppShellHeader
         title='Occupants'
-        withSearch
-        searchProps={{
-          placeholder: "Search occupants...",
-          title: "Occupants",
-        }}
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}

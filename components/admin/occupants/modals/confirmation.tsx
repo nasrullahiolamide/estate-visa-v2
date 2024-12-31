@@ -12,10 +12,10 @@ export function ConfirmOccupant() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.post,
+    mutationFn: builder.$use.occupants.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -31,10 +31,10 @@ export function ConfirmOccupant() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=' Is this occupant a property owner?'
-      description='A property owner is the main owner of the apartment.'
-      primaryBtnText='Yes, proceed'
-      secondaryBtnText='No'
+      title=" Is this occupant a property owner?"
+      description="A property owner is the main owner of the apartment."
+      primaryBtnText="Yes, proceed"
+      secondaryBtnText="No"
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,
@@ -61,10 +61,10 @@ export function ConfirmPropertyOwner() {
   const form = useFormContext();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().occupants.post,
+    mutationFn: builder.$use.occupants.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.occupants.get.get(),
+        queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -80,10 +80,10 @@ export function ConfirmPropertyOwner() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=' Is this occupant a property owner?'
-      description='A property owner is the main owner of the apartment.'
-      primaryBtnText='Yes, proceed'
-      secondaryBtnText='No'
+      title=" Is this occupant a property owner?"
+      description="A property owner is the main owner of the apartment."
+      primaryBtnText="Yes, proceed"
+      secondaryBtnText="No"
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,

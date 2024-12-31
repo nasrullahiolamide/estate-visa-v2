@@ -20,4 +20,3 @@ export function CSVIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-

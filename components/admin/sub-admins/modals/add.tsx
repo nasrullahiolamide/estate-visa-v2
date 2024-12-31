@@ -1,34 +1,31 @@
 "use client";
 
-import { useState } from "react";
-import { Copy } from "iconsax-react";
-import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getCookie } from "cookies-next";
 import { Button, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
+import { getCookie } from "cookies-next";
 
 import { builder } from "@/builders";
 import { APP, cast, MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
+import { handleError, handleSuccess } from "@/packages/notification";
 
-import { schema } from "../schema";
 import { FlowContainer, FlowPhoneInput } from "@/components/layout";
+import { schema } from "../schema";
 
 export function AddSubAdmins() {
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().sub_admins.post,
+    mutationFn: builder.$use.sub_admins.post,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.sub_admins.get.get(),
+        queryKey: builder.sub_admins.get.$get(),
       });
 
-      modals.close(MODALS.ADD_SUB_ADMIN);
+      modals.close(MODALS.ADD_DETAILS);
       handleSuccess({
         message: "Sub-Admin Added Successfully",
         autoClose: 500,
@@ -64,29 +61,29 @@ export function AddSubAdmins() {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={18}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <TextInput
-          label='Full Name'
+          label="Full Name"
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label='Email Address'
+          label="Email Address"
           withAsterisk
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label='Phone Number'
+          label="Phone Number"
           withAsterisk
           {...form.getInputProps("phone")}
         />
 
-        <Button type='submit' mt={10} loading={isPending} disabled={isPending}>
+        <Button type="submit" mt={10} loading={isPending} disabled={isPending}>
           Add Sub Admin
         </Button>
       </FlowContainer>

@@ -11,7 +11,7 @@ export const serviceRequestsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify='center' className='w-full'>
+      <Flex justify="center" className="w-full">
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -61,7 +61,7 @@ export const serviceRequestsColumns = [
     header: "Service Type",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta='center' fz={14} className='w-full' children={getValue()} />
+      <Text ta="center" fz={14} className="w-full" children={getValue()} />
     ),
   }),
 
@@ -84,15 +84,15 @@ export const serviceRequestsColumns = [
       };
 
       return (
-        <Box ta='center'>
+        <Box ta="center">
           <Pill
-            ta='center'
-            tt='capitalize'
+            ta="center"
+            tt="capitalize"
             c={colors[value?.toLowerCase()]?.color || "gray"}
             bg={colors[value?.toLowerCase()]?.bg || "gray.1"}
             fw={500}
             children={value}
-            size='sm'
+            size="sm"
           />
         </Box>
       );
@@ -102,11 +102,11 @@ export const serviceRequestsColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta='center'
+        ta="center"
         fw={600}
         fz={14}
-        className='w-full'
-        children='Actions'
+        className="w-full"
+        children="Actions"
       />
     ),
     cell: ({ renderValue }) => renderValue(),

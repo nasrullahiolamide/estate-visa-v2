@@ -15,8 +15,8 @@ interface MessageContentProps {
 
 export function MessageContent({ view, skeleton, data }: MessageContentProps) {
   return (
-    <Stack className='w-full h-full p-5 sm:p-7'>
-      <div className='space-y-2'>
+    <Stack className="w-full h-full p-5 sm:p-7">
+      <div className="space-y-2">
         <Title
           order={2}
           fz={16}
@@ -34,17 +34,17 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
           </span>
         </Title>
         <Flex
-          align='center'
+          align="center"
           gap={4}
           className={clsx({
             skeleton,
           })}
         >
           <ClockIcon width={14} height={14} />
-          <Text className='text-gray-300 space-x-1' fz={12}>
+          <Text className="text-gray-300 space-x-1" fz={12}>
             <span>{data?.localDate}</span>
             <span>at</span>
-            <span className='uppercase'>{data?.localTime}</span>
+            <span className="uppercase">{data?.localTime}</span>
           </Text>
         </Flex>
       </div>
@@ -52,7 +52,7 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
       <Stack>
         <Title
           order={2}
-          c='plum.5'
+          c="plum.5"
           fz={20}
           fw={500}
           className={clsx({
@@ -74,7 +74,7 @@ export function MessageContent({ view, skeleton, data }: MessageContentProps) {
             skeleton,
           })}
         >
-          <Title order={2} c='plum.5' fz={20} fw={500}>
+          <Title order={2} c="plum.5" fz={20} fw={500}>
             Attachments
           </Title>
           <Attachments url={""} />

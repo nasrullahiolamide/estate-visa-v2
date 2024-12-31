@@ -39,7 +39,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='active' />,
+    children: <UpdateStatus id={id} status="active" />,
   });
 }
 
@@ -47,7 +47,7 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status='suspended' />,
+    children: <UpdateStatus id={id} status="suspended" />,
   });
 }
 
@@ -55,7 +55,7 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().houses.id.remove,
+    mutationFn: builder.$use.houses.id.remove,
     onError: (error: AxiosError) => {
       handleError(error)();
       modals.close(MODALS.CONFIRMATION);
@@ -66,7 +66,7 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
     },
@@ -77,10 +77,10 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title='Are you sure you want to delete this house?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
+          title="Are you sure you want to delete this house?"
+          src="delete"
+          primaryBtnText="Yes, delete"
+          secondaryBtnText="No"
           srcProps={{
             ml: 0,
           }}
@@ -111,7 +111,7 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
         <FlowMenuDropdown>
           {isActive ? (
             <Menu.Item
-              color='#969921'
+              color="#969921"
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -119,7 +119,7 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
             </Menu.Item>
           ) : (
             <Menu.Item
-              color='#11A506'
+              color="#11A506"
               leftSection={<ActivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >
@@ -140,7 +140,7 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color='#CC0404'
+            color="#CC0404"
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -149,15 +149,15 @@ export function HousesActions({ id, handlers, isActive }: HousesActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
-        <FlowToolTip icon='View' onClick={handlers.onView} />
+      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
+        <FlowToolTip icon="View" onClick={handlers.onView} />
         {isActive ? (
-          <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
+          <FlowToolTip icon="Suspend" onClick={() => suspendAccount(id)} />
         ) : (
-          <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
+          <FlowToolTip icon="Activate" onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
-        <FlowToolTip icon='Delete' onClick={handleDelete} />
+        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
+        <FlowToolTip icon="Delete" onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

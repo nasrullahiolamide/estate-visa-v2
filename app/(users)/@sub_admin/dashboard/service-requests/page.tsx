@@ -1,42 +1,35 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
 import { Flex } from "@mantine/core";
+import { Fragment, useEffect } from "react";
 
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { ProfileData } from "@/builders/types/profile";
+import { builder } from "@/builders";
 import {
   ServiceRequestsData,
   useFakeServiceRequestsList,
 } from "@/builders/types/service-requests";
+import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
+import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
+import { ViewServiceRequest } from "@/components/admin/service-requests/view";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
+  FlowSearch,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
-  FlowSearch,
 } from "@/components/layout";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { MODALS } from "@/packages/libraries";
 import { modals } from "@mantine/modals";
-import { ViewServiceRequest } from "@/components/admin/service-requests/view";
-import { APP, decryptUri, encode, MODALS, PAGES } from "@/packages/libraries";
-
-import { builder } from "@/builders";
 import { useQuery } from "@tanstack/react-query";
-import { ServiceRequestActions } from "@/components/admin/service-requests/actions";
-import { serviceRequestsColumns } from "@/columns/for_admins/service-requests";
-import { navigate } from "@/packages/actions";
-import { getCookie } from "cookies-next";
-
-import clsx from "clsx";
-import Swal from "sweetalert2";
 
 const filterOptions = [
   // { label: "Date", value: "date" },
@@ -99,7 +92,7 @@ export default function ServiceRequest() {
   } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.service_requests.get.get({
+    queryKey: builder.service_requests.get.$get({
       page,
       pageSize,
       search,
@@ -108,7 +101,7 @@ export default function ServiceRequest() {
       status,
     }),
     queryFn: () =>
-      builder.use().service_requests.get({
+      builder.$use.service_requests.get({
         page,
         pageSize,
         search,

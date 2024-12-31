@@ -39,7 +39,6 @@ const table = function (variables: {
   >;
 }) {
   const { estateId, params } = variables;
-  console.log(params);
   return api
     .get<MessagesList>(`/messages/estate/${estateId}`, { params })
     .then((data) => data.data);

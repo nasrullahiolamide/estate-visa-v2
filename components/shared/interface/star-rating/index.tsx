@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
 
 const containerStyle = {
   display: "flex",
@@ -14,21 +16,40 @@ const starContainerStyle = {
 interface StarRatingProps {
   maxRating?: number;
   color?: string;
-  tempRating?: number;
   rating?: number;
+  defaultRating?: number;
   size?: number;
+  messages?: string[];
+  onSetRating?: (rating: number) => void;
   className?: string;
+  hover?: boolean;
 }
 
 export function StarRating(props: StarRatingProps) {
   const {
     maxRating = 5,
     color = "#F89B10",
-    tempRating = 0,
-    rating = 4,
+    defaultRating = 0,
     size = 30,
+    messages = [],
     className = "",
+    onSetRating = () => {},
+    hover = false,
   } = props;
+
+  const [rating, setRating] = useState(defaultRating);
+  const [tempRating, setTempRating] = useState(0);
+
+  const textStyle = {
+    lineHeight: "1",
+    margin: "0",
+    color,
+    fontSize: `${size / 2.5}px`,
+  };
+  const handleRating = (r: number) => {
+    setRating(r);
+    onSetRating(r);
+  };
 
   return (
     <div style={containerStyle} className={className}>
@@ -37,13 +58,24 @@ export function StarRating(props: StarRatingProps) {
           return (
             <Star
               key={i + 1}
+              onRate={() => handleRating(i + 1)}
+              handleHoverIn={() => setTempRating(i + 1)}
+              handleHoverOut={() => setTempRating(0)}
               full={tempRating ? tempRating >= i + 1 : rating >= i + 1}
               color={color}
               size={size}
+              hover={hover}
             />
           );
         })}
       </div>
+      {hover && (
+        <p style={textStyle}>
+          {messages.length === maxRating
+            ? messages[tempRating ? tempRating - 1 : rating - 1]
+            : tempRating || rating || ""}
+        </p>
+      )}
     </div>
   );
 }
@@ -52,17 +84,36 @@ interface StarProps {
   full: boolean;
   color: string;
   size: number;
+  onRate: () => void;
+  handleHoverIn: () => void;
+  handleHoverOut: () => void;
+  hover: boolean;
 }
 
-function Star({ full, color, size }: StarProps) {
+function Star({
+  full,
+  color,
+  size,
+  onRate,
+  handleHoverIn,
+  handleHoverOut,
+  hover = false,
+}: StarProps) {
   const starStyle = {
     width: `${size / 1.5}px`,
     height: `${size / 1.5}px`,
     display: "block",
+    cursor: hover ? "pointer" : "default",
   };
 
   return (
-    <span style={starStyle}>
+    <span
+      role='button'
+      style={starStyle}
+      onClick={onRate}
+      onMouseEnter={hover ? handleHoverIn : undefined}
+      onMouseLeave={hover ? handleHoverOut : undefined}
+    >
       {full ? (
         <svg
           xmlns='http://www.w3.org/2000/svg'

@@ -7,6 +7,30 @@ export const SERVICE_TYPES = [
   "Service Request",
   "Market Place",
 ];
+
+export const PRODUCT_CATEGORIES = [
+  "Art & Handicrafts",
+  "Beauty & Personal Care",
+  "Books & Stationery",
+  "Cars & Bicycles",
+  "Clothing & Accessories",
+  "Electronics & Appliances",
+  "Furniture & Home Decor",
+  "Garden & Plants",
+  "Jewelry & Watches",
+  "Kitchen & Dining",
+  "Toys & Games",
+];
+
+export enum PRODUCT_VIEW {
+  ALL = "total",
+  PENDING_APPROVALS = "pending-approval",
+  ACTIVE = "active",
+  REPORTED = "reported",
+  SUSPENDED = "suspended",
+  REJECTED = "rejected",
+}
+
 export const PAID_FEATURES = [
   {
     name: "Market Place",

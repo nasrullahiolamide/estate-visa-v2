@@ -23,13 +23,13 @@ export function ViewGateRequest({ id, status, ...data }: ViewGateRequestProps) {
   const queryClient = useQueryClient();
 
   const { mutate: changeStatus, isPending } = useMutation({
-    mutationFn: builder.use().gates.requests.change_status,
+    mutationFn: builder.$use.gates.requests.change_status,
     onError: (error: AxiosError) => {
       handleError(error)();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.get(),
+        queryKey: builder.gates.requests.get.$get(),
       });
       handleSuccess({
         message: "Gate Request Approved Successfully",
@@ -42,50 +42,50 @@ export function ViewGateRequest({ id, status, ...data }: ViewGateRequestProps) {
   return (
     <Fragment>
       <FlowContainer
-        className='bg-primary-background-white overflow-scroll'
-        type='plain'
-        bg='white'
+        className="bg-primary-background-white overflow-scroll"
+        type="plain"
+        bg="white"
         gap={15}
       >
-        <TextInput label='Guest Name' disabled value={data?.guestName} />
-        <TextInput label='Guest Type' disabled value={data?.guestType} />
+        <TextInput label="Guest Name" disabled value={data?.guestName} />
+        <TextInput label="Guest Type" disabled value={data?.guestType} />
         <TextInput
-          label='Date'
+          label="Date"
           disabled
           value={formatDate(data?.createdAt, DATE_FORMAT) ?? ""}
         />
 
-        <TextInput label='Access Code' disabled value={data?.accessCode} />
+        <TextInput label="Access Code" disabled value={data?.accessCode} />
         <TextInput
-          className='capitalize'
-          label='Status'
+          className="capitalize"
+          label="Status"
           disabled
           value={status}
         />
       </FlowContainer>
       {status === "pending" ? (
-        <Flex mt={20} gap={20} className='flex-col sm:flex-row'>
+        <Flex mt={20} gap={20} className="flex-col sm:flex-row">
           <Button
-            color='red'
-            variant='outline'
-            className='sm:flex-1'
+            color="red"
+            variant="outline"
+            className="sm:flex-1"
             disabled={isPending}
-            children='Close'
+            children="Close"
             onClick={() => modals.close(MODALS.FORM_DETAILS)}
           />
           <Button
-            className='sm:flex-1'
+            className="sm:flex-1"
             onClick={() => changeStatus({ id, status: "approved" })}
             disabled={isPending}
-            children='Approve Request'
+            children="Approve Request"
           />
         </Flex>
       ) : (
         <Button
           mt={20}
-          w='100%'
+          w="100%"
           onClick={() => modals.close(MODALS.FORM_DETAILS)}
-          children='Close'
+          children="Close"
         />
       )}
     </Fragment>

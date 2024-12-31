@@ -11,12 +11,12 @@ export function FlowFooter({ children, visible, ...props }: FlowFooterProps) {
       px={20}
       py={20}
       gap={15}
-      wrap='wrap'
+      wrap="wrap"
       hidden={visible}
       className={clsx(
         "justify-between items-center",
         "border-t border-primary-border-light",
-        "rounded-b-4 bg-primary-background-white sm:px-12"
+        "rounded-b-4 bg-primary-background-white sm:px-12",
       )}
       {...props}
     >

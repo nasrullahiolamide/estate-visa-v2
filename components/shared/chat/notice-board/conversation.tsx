@@ -53,12 +53,12 @@ export function Announcements({
                 <Text fw={500} fz={14}>
                   {subject}
                 </Text>
-                <Flex align='center' gap={4}>
+                <Flex align="center" gap={4}>
                   <ClockIcon width={14} height={14} />
-                  <Text className='text-gray-300 space-x-1' fz={12}>
+                  <Text className="text-gray-300 space-x-1" fz={12}>
                     <span>{localDate}</span>
                     <span>at</span>
-                    <span className='uppercase'>{localTime}</span>
+                    <span className="uppercase">{localTime}</span>
                   </Text>
                 </Flex>
               </Stack>
@@ -73,13 +73,13 @@ export function Announcements({
                 <Text fw={500} fz={14}>
                   Content
                 </Text>
-                <Text lineClamp={2} fz={14} c='gray.8'>
+                <Text lineClamp={2} fz={14} c="gray.8">
                   {content}
                 </Text>
 
                 <Link
                   href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES, viewLink)}
-                  className='underline ml-auto text-blue-5 text-sm '
+                  className="underline ml-auto text-blue-5 text-sm "
                 >
                   View More
                 </Link>
@@ -90,14 +90,14 @@ export function Announcements({
       ) : !isAdmin ? (
         <Stack h={800}>
           <EmptySlot
-            src='no-talk'
+            src="no-talk"
             title={"You have no messages yet. Check back later for updates!"}
           />
         </Stack>
       ) : (
         <Stack h={760}>
           <EmptySlot
-            src='no-talk'
+            src="no-talk"
             title={
               "You have no messages yet. Start a conversation to stay connected!"
             }

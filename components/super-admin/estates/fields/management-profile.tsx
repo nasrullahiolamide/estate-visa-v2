@@ -16,12 +16,12 @@ export function ManagementProfile() {
 
   return (
     <Fragment>
-      <Title order={2} c='plum.5' fz={20} fw={500}>
+      <Title order={2} c="plum.5" fz={20} fw={500}>
         Estate Management Profile
       </Title>
 
       <SimpleGrid
-        w='100%'
+        w="100%"
         cols={{
           base: 1,
           xl: 2,
@@ -29,21 +29,21 @@ export function ManagementProfile() {
         spacing={20}
       >
         <TextInput
-          label='Estate Owner'
+          label="Estate Owner"
           placeholder="Enter the estate owner's name"
           withAsterisk
           disabled={form.getValues().action === "view"}
           {...form.getInputProps("owner")}
         />
         <TextInput
-          label='Estate Email Address'
+          label="Estate Email Address"
           placeholder="Enter the estate owner's email address"
           withAsterisk
           disabled={form.getValues().action === "view"}
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label='Estate Phone Number'
+          label="Estate Phone Number"
           placeholder="Enter the estate owner's phone number"
           withAsterisk
           disabled={form.getValues().action === "view"}

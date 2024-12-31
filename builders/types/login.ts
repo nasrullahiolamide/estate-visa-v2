@@ -62,6 +62,7 @@ export type User = {
   lastLogin: string;
   roles: Array<{ name: string }>;
   estate: Estate;
+  isOnboarded?: boolean;
 };
 
 export type House = {
@@ -83,6 +84,17 @@ export type Occupant = {
 
 export type LoginResponse = { data: LoginResponseData; message?: string };
 
+export const fakeEstateData = {
+  id: faker.number.int().toString(),
+  name: faker.company.name(),
+  location: faker.location.city(),
+  owner: faker.person.fullName(),
+  phone: faker.phone.number(),
+  interests: [faker.lorem.word()],
+  serviceRequestTypes: [faker.lorem.word()],
+  numberOfHouses: faker.number.int(),
+};
+
 export function useFakeUserData(_?: any, index?: number): User {
   faker.seed(index);
 
@@ -99,15 +111,6 @@ export function useFakeUserData(_?: any, index?: number): User {
     status: faker.lorem.word(),
     lastLogin: faker.date.past().toString(),
     roles: [{ name: faker.lorem.word() }],
-    estate: {
-      id: index?.toString() ?? faker.number.int({ max: 100 }).toString(),
-      name: faker.company.name(),
-      location: faker.location.city(),
-      owner: faker.person.fullName(),
-      phone: faker.internet.userName(),
-      interests: [faker.lorem.word()],
-      serviceRequestTypes: [faker.lorem.word()],
-      numberOfHouses: faker.number.int(),
-    },
+    estate: fakeEstateData,
   };
 }

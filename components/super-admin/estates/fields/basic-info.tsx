@@ -9,23 +9,23 @@ export function BasicInfo() {
   return (
     <Fragment>
       <TextInput
-        label='Estate Name'
-        placeholder='Enter the name of your estate'
+        label="Estate Name"
+        placeholder="Enter the name of your estate"
         withAsterisk
         disabled={form.getValues().action === "view"}
         {...form.getInputProps("name")}
       />
       <TextInput
-        label='Estate Location'
-        placeholder='Enter the location of your estate'
+        label="Estate Location"
+        placeholder="Enter the location of your estate"
         withAsterisk
         disabled={form.getValues().action === "view"}
         {...form.getInputProps("location")}
       />
       <TextInput
-        type='number'
-        label='Number of houses'
-        placeholder='Enter the number of houses in your estate'
+        type="number"
+        label="Number of houses"
+        placeholder="Enter the number of houses in your estate"
         min={0}
         withAsterisk
         disabled={form.getValues().action === "view"}

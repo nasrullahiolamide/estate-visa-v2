@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   ButtonProps,
-  Divider,
   DividerProps,
   Flex,
   FlexProps,
@@ -16,18 +15,6 @@ interface FormButtonsAttributes
 }
 
 type FormButtons = FormButtonsAttributes;
-
-// type FormSubmission =
-//   | {
-//       type: "submit";
-//       loading: boolean;
-//       disabled: boolean;
-//     }
-//   | {
-//       type?: "button" | "reset";
-//       loading?: boolean;
-//       disabled?: boolean;
-//     };
 
 interface FormButtonsProps {
   leftButton: FormButtons;
@@ -46,18 +33,18 @@ export function FormButtons({
 
   return (
     <Box>
-      <Flex gap={20} px={32} py={20} wrap='wrap' {...containerProps}>
+      <Flex gap={20} px={32} py={20} wrap="wrap" {...containerProps}>
         <Button
           flex={1}
-          type='button'
-          miw='fit-content'
-          variant='default'
+          type="button"
+          miw="fit-content"
+          variant="default"
           {...leftProps}
         >
           {leftLabel}
         </Button>
 
-        <Button type='submit' miw='fit-content' flex={1} {...rightProps}>
+        <Button type="submit" miw="fit-content" flex={1} {...rightProps}>
           {rightLabel}
         </Button>
       </Flex>

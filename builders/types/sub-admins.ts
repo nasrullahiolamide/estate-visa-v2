@@ -63,7 +63,7 @@ export function useFakeSubAdminList(): SubAdminList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeSubAdminListData
+    useFakeSubAdminListData,
   );
 
   return {

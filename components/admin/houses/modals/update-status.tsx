@@ -17,10 +17,10 @@ export function UpdateStatus({ id, status }: UpdateStatusProps) {
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: builder.use().houses.id.change_status,
+    mutationFn: builder.$use.houses.id.change_status,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: builder.houses.list.table.get(),
+        queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
       handleSuccess({
@@ -42,8 +42,8 @@ export function UpdateStatus({ id, status }: UpdateStatusProps) {
         title={`Are you sure you want to ${
           status === "active" ? "activate" : "disable"
         } this account?`}
-        primaryBtnText='Yes, proceed'
-        secondaryBtnText='No'
+        primaryBtnText="Yes, proceed"
+        secondaryBtnText="No"
         srcProps={{
           ml: 0,
           h: 90,

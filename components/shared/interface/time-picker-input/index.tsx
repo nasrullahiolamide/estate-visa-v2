@@ -27,7 +27,7 @@ export function TimePickerInput({
       onChange={(opened) => setShowTime(opened)}
       opened={showTime}
       closeOnClickOutside
-      position='bottom'
+      position="bottom"
       classNames={{
         dropdown: "bg-transparent border-none",
       }}
@@ -45,10 +45,10 @@ export function TimePickerInput({
           flex={1}
         >
           <Button
-            type='button'
-            variant='default'
-            className='w-full cursor-pointer uppercase'
-            fz='sm'
+            type="button"
+            variant="default"
+            className="w-full cursor-pointer uppercase"
+            fz="sm"
             rightSection={<ClockIcon />}
             style={{
               padding: "0 15px",
@@ -72,9 +72,9 @@ export function TimePickerInput({
           doneButton={(props) => (
             <Button
               p={0}
-              variant='transparent'
-              w='100%'
-              ta='center'
+              variant="transparent"
+              w="100%"
+              ta="center"
               {...props}
               onClick={() => {
                 setShowTime(false);

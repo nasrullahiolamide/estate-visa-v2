@@ -8,7 +8,7 @@ export const schema = object({
   owner: requiredString,
   username: requiredString,
   email: requiredString.email(
-    "Invalid email. Please enter a valid email address."
+    "Invalid email. Please enter a valid email address.",
   ),
   phone: requiredString,
   password: string()

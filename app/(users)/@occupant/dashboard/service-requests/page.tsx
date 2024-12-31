@@ -1,36 +1,34 @@
 "use client";
 
-import clsx from "clsx";
-import { Fragment, useEffect } from "react";
-import { Button, Flex } from "@mantine/core";
-
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
+import { builder } from "@/builders";
 import { useFakeServiceRequestsList } from "@/builders/types/service-requests";
 import { serviceRequestsColumns } from "@/columns/for_occupants/service-requests";
-import { AddIcon } from "@/icons";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { builder } from "@/builders";
-import { useQuery } from "@tanstack/react-query";
 import { ServieRequestActions } from "@/components/occupant/service-requests/actions";
 import {
   ServiceRequestForm,
   ServiceRequestFormProps,
 } from "@/components/occupant/service-requests/form";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { AddIcon } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
   { label: "Date", value: "date" },
@@ -96,7 +94,7 @@ export default function ServiceRequest() {
   } = useFlowState();
 
   const { data: serviceRequests, isPlaceholderData } = useQuery({
-    queryKey: builder.service_requests.get.get({
+    queryKey: builder.service_requests.get.$get({
       page,
       pageSize,
       search,
@@ -105,7 +103,7 @@ export default function ServiceRequest() {
       status,
     }),
     queryFn: () =>
-      builder.use().service_requests.get({
+      builder.$use.service_requests.get({
         page,
         pageSize,
         search,
@@ -151,13 +149,13 @@ export default function ServiceRequest() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Service Request'
+        title="Service Request"
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -175,10 +173,10 @@ export default function ServiceRequest() {
               />
             ) : (
               <EmptySlot
-                title='You have no service requests yet. Check back later for updates!'
-                src='question'
+                title="You have no service requests yet. Check back later for updates!"
+                src="question"
                 withButton
-                text='Send Request'
+                text="Send Request"
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () =>
@@ -206,10 +204,10 @@ export default function ServiceRequest() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<AddIcon />}
         onClick={() => handleRequestForm({ modalType: "add" })}
       >
