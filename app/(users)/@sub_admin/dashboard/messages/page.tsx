@@ -66,10 +66,10 @@ export default function Messages() {
     placeholderData: initialMeetingList,
     select: (data) => {
       const occupant_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.OCCUPANT
+        (message) => message.type === MESSAGE_TYPE.OCCUPANT,
       );
       const broadcast_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.BROADCAST
+        (message) => message.type === MESSAGE_TYPE.BROADCAST,
       );
       return { occupant_messages, broadcast_messages };
     },
@@ -84,7 +84,7 @@ export default function Messages() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Messages'
+        title="Messages"
         options={
           <HeaderOptions
             view={type}
@@ -93,7 +93,7 @@ export default function Messages() {
           />
         }
       />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -106,8 +106,8 @@ export default function Messages() {
               gap: 0,
             }}
           >
-            <Flex align='center'>
-              <Tabs.List className='w-full'>
+            <Flex align="center">
+              <Tabs.List className="w-full">
                 <Tabs.Tab
                   flex={1}
                   py={18}
@@ -164,7 +164,7 @@ export default function Messages() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />
@@ -194,18 +194,18 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ onClick, view, hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap="wrap">
       {view === MESSAGE_TYPE.OCCUPANT ? (
-        <Button fz='sm' size='md' leftSection={<Add />} onClick={onClick}>
+        <Button fz="sm" size="md" leftSection={<Add />} onClick={onClick}>
           Write a Message
         </Button>
       ) : (
-        <Button fz='sm' size='md' leftSection={<Add />} onClick={onClick}>
+        <Button fz="sm" size="md" leftSection={<Add />} onClick={onClick}>
           Send a Broadcast
         </Button>
       )}
       <FilterDropdown
-        label='All'
+        label="All"
         icon={<Inbox />}
         data={[
           { label: "All", value: "all" },
@@ -214,7 +214,7 @@ function HeaderOptions({ onClick, view, hidden }: HeaderOptionsProps) {
         ]}
       />
       <FilterDropdown
-        label='Filter'
+        label="Filter"
         data={[
           { label: "Recently Added", value: "recent" },
           { label: "Street Name(A-Z)", value: "a-z" },

@@ -25,10 +25,10 @@ export function ConfirmLogout() {
     <Fragment>
       <ConfirmationModal
         withTwoButtons
-        title='Are you sure you want to sign out of your account?'
-        src='exit'
-        primaryBtnText='Sign Out'
-        secondaryBtnText='Stay'
+        title="Are you sure you want to sign out of your account?"
+        src="exit"
+        primaryBtnText="Sign Out"
+        secondaryBtnText="Stay"
         srcProps={{
           ml: 0,
         }}

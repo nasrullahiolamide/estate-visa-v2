@@ -41,8 +41,8 @@ export function UserDetails() {
 
   return (
     <Menu
-      shadow='md'
-      position='bottom-end'
+      shadow="md"
+      position="bottom-end"
       styles={{
         item: {
           padding: "14px",
@@ -55,7 +55,7 @@ export function UserDetails() {
       disabled={isLoading}
     >
       <Menu.Target>
-        <Flex align='center' gap={8} className='cursor-pointer'>
+        <Flex align="center" gap={8} className="cursor-pointer">
           <Avatar
             src={userDetails?.picture}
             alt={userDetails.fullname}
@@ -64,38 +64,38 @@ export function UserDetails() {
             })}
           />
 
-          <Flex gap={12} className={clsx("hidden sm:flex")} align='center'>
+          <Flex gap={12} className={clsx("hidden sm:flex")} align="center">
             <Stack gap={1} className={clsx({ skeleton: isLoading })}>
               <p className={clsx("prose-sm/medium")}>{userDetails.fullname}</p>
               <p className={clsx("text-xs")}>{userDetails.userType}</p>
             </Stack>
 
-            <ArrowDownIcon className='cursor-pointer' />
+            <ArrowDownIcon className="cursor-pointer" />
           </Flex>
         </Flex>
       </Menu.Target>
 
       <Menu.Dropdown
         miw={230}
-        className='shadow-lg overflow-hidden'
-        variant='action'
+        className="shadow-lg overflow-hidden"
+        variant="action"
       >
         <Menu.Item
           classNames={{
             item: "hover:bg-transparent cursor-auto",
           }}
         >
-          <Flex align='center' gap={8}>
+          <Flex align="center" gap={8}>
             <Avatar
               src={userDetails?.picture}
               alt={userDetails.fullname}
               size={40}
             />
             <Stack gap={1}>
-              <p className='text-primary-text-body prose-sm/medium'>
+              <p className="text-primary-text-body prose-sm/medium">
                 {userDetails.fullname}
               </p>
-              <p className='text-xs'>{userDetails?.email}</p>
+              <p className="text-xs">{userDetails?.email}</p>
             </Stack>
           </Flex>
         </Menu.Item>
@@ -109,8 +109,8 @@ export function UserDetails() {
           My Profile
         </Menu.Item>
         <Menu.Item
-          bg='red.1'
-          color='red'
+          bg="red.1"
+          color="red"
           leftSection={<LogoutCurve size={18} />}
           onClick={handleLogout}
         >

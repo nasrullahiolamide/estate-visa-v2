@@ -106,52 +106,52 @@ export default function MarketPlace() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
       <FlowContainer
-        type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        type="plain"
+        className="lg:~px-1/8 lg:py-4 justify-between"
       >
         {products?.data.length ? (
           <FlowContentHorizontal
-            breakpoint='320'
-            className='p-3 lg:p-0 h-full'
+            breakpoint="320"
+            className="p-3 lg:p-0 h-full"
             gap={24}
           >
             {products?.data.map((item) => (
               <Stack
                 p={18}
-                className='rounded-xl bg-white cursor-pointer  h-fit'
+                className="rounded-xl bg-white cursor-pointer  h-fit"
               >
                 <Picture
                   src={item.image ?? "/images/placeholder.png"}
                   h={150}
-                  w='100%'
+                  w="100%"
                   alt={item.name ?? "product image"}
-                  className='rounded-lg'
-                  objectFit='cover'
+                  className="rounded-lg"
+                  objectFit="cover"
                 />
 
                 <Stack gap={10}>
                   <Text fw={500}>{item.name}</Text>
-                  <Text fw={700} size='lg'>
+                  <Text fw={700} size="lg">
                     {formatCurrency(+item.price, "NGN")}
                   </Text>
-                  <StarRating className='!justify-start' />
-                  <Text size='sm' c='violet'>
+                  <StarRating className="!justify-start" />
+                  <Text size="sm" c="violet">
                     House A10
                   </Text>
 
-                  <ContactSellerButton data={item} variant='subtle' />
+                  <ContactSellerButton data={item} variant="subtle" />
                 </Stack>
               </Stack>
             ))}
           </FlowContentHorizontal>
         ) : (
           <EmptySlot
-            src='marketplace'
-            title='There are no products yet. Check back later for updates or add a new product to get started.'
+            src="marketplace"
+            title="There are no products yet. Check back later for updates or add a new product to get started."
             withButton
-            text='Add New Product'
+            text="Add New Product"
             btnProps={{
               leftSection: <AddIcon />,
               onClick: addProduct,
@@ -161,7 +161,7 @@ export default function MarketPlace() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />
@@ -177,7 +177,7 @@ export default function MarketPlace() {
                 href: makePath(
                   PAGES.DASHBOARD,
                   PAGES.MARKET_PLACE,
-                  PAGES.MY_LISTINGS
+                  PAGES.MY_LISTINGS,
                 ),
               },
             },
@@ -197,15 +197,15 @@ export default function MarketPlace() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <FlowSearch title='Market Place' placeholder='Search products...' />
-      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
+    <Flex gap={14} wrap="wrap">
+      <FlowSearch title="Market Place" placeholder="Search products..." />
+      <Button fz="sm" size="md" leftSection={<AddIcon />} onClick={addProduct}>
         Add Product
       </Button>
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         leftSection={<ListIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MY_LISTINGS)}

@@ -23,13 +23,13 @@ export function OccupantProductDetail({ ...item }: ProductData) {
   return (
     <ProductDetail {...item}>
       <Stack component={Form}>
-        <Title order={2} c='plum.5' fz={14} fw={500}>
+        <Title order={2} c="plum.5" fz={14} fw={500}>
           Rate and Review
         </Title>
-        <StarRating className='!justify-start' />
+        <StarRating className="!justify-start" />
         <Textarea
           mih={60}
-          placeholder='Leave a review'
+          placeholder="Leave a review"
           {...form.getInputProps("review")}
         />
 

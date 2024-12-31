@@ -27,7 +27,7 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
       vibrateDevice();
       form.setFieldError(
         "picture",
-        "This thumbnail didn't get uploaded, please try again"
+        "This thumbnail didn't get uploaded, please try again",
       );
     },
     onSuccess: ({ data }) => {
@@ -62,7 +62,7 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
           sm: 120,
         }}
         radius={9999}
-        className='bg-gray-2 cursor-pointer'
+        className="bg-gray-2 cursor-pointer"
         src={
           isPending || isFetching
             ? null
@@ -76,29 +76,29 @@ export function ProfileImage({ form, isFetching }: ProfileImageProps) {
         }}
       >
         {(isPending || isFetching) && (
-          <Flex align='center' justify='center'>
-            <Loader size='sm' color='gray' />
+          <Flex align="center" justify="center">
+            <Loader size="sm" color="gray" />
           </Flex>
         )}
       </Avatar>
 
       <Button
-        variant='transparent'
-        size='sm'
+        variant="transparent"
+        size="sm"
         fw={500}
         p={0}
         disabled={isPending || isFetching}
-        className='disabled:bg-transparent'
+        className="disabled:bg-transparent"
       >
         Edit Profile Picture
       </Button>
       {isPending ? (
-        <Text ta='center' size='xs' c='gray'>
+        <Text ta="center" size="xs" c="gray">
           Uploading...
         </Text>
       ) : (
         form.errors.picture && (
-          <Text c='red' fz='sm'>
+          <Text c="red" fz="sm">
             {form.getInputProps("picture").error}
           </Text>
         )

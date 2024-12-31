@@ -60,7 +60,7 @@ export function AppShellHeader({
   };
 
   const heading = (
-    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0'>
+    <h1 className="text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0">
       {title}
     </h1>
   );
@@ -75,8 +75,8 @@ export function AppShellHeader({
     <Fragment>
       <AppShell.Section
         top={0}
-        pos='sticky'
-        component='header'
+        pos="sticky"
+        component="header"
         style={{
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
           zIndex: 120,
@@ -85,59 +85,59 @@ export function AppShellHeader({
       >
         <Stack
           maw={MAX_SCREEN_WIDTH}
-          mx='auto'
-          component='section'
-          justify='space-between'
+          mx="auto"
+          component="section"
+          justify="space-between"
           flex={1}
           gap={0}
         >
           <Flex
             gap={36}
-            align='center'
-            justify='space-between'
-            className='~px-1/8 py-2'
+            align="center"
+            justify="space-between"
+            className="~px-1/8 py-2"
           >
-            <Flex align='center' gap={6} hiddenFrom='lg'>
+            <Flex align="center" gap={6} hiddenFrom="lg">
               <Burger
                 opened={openedNav}
                 onClick={toggle}
-                hiddenFrom='lg'
-                size='sm'
+                hiddenFrom="lg"
+                size="sm"
               />
               <EstateVisaLogo height={45} width={45} />
               {user.estate && (
-                <Title fw={500} c='purple.10' order={2}>
+                <Title fw={500} c="purple.10" order={2}>
                   {user.estate.name} Estate
                 </Title>
               )}
             </Flex>
-            <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
+            <Flex className="flex-1 gap-2 justify-end lg:justify-between items-center">
               {withSearch && (
-                <Box hiddenFrom='lg' className='flex items-center'>
+                <Box hiddenFrom="lg" className="flex items-center">
                   <FlowSearch {...searchProps} />
                 </Box>
               )}
-              <Flex gap={12} align='center' className='lg:ml-auto'>
+              <Flex gap={12} align="center" className="lg:ml-auto">
                 <UserDetails />
               </Flex>
             </Flex>
           </Flex>
 
-          <Divider className='border-gray-2' />
+          <Divider className="border-gray-2" />
 
           <Flex
             gap={20}
             py={16}
-            align='center'
-            justify='space-between'
+            align="center"
+            justify="space-between"
             className={clsx("~px-1/8", { "hidden lg:flex": openedNav })}
           >
-            <Flex gap={3} align='center'>
+            <Flex gap={3} align="center">
               {pathname !== PAGES.DASHBOARD && (
                 <ActionIcon
                   onClick={back}
                   size={32}
-                  variant='app-shell'
+                  variant="app-shell"
                   __vars={{
                     "--ai-color": "var(--primary-text-body)",
                   }}
@@ -147,7 +147,7 @@ export function AppShellHeader({
               )}
               {heading}
             </Flex>
-            <Box className='hidden lg:block'>{options}</Box>
+            <Box className="hidden lg:block">{options}</Box>
           </Flex>
         </Stack>
       </AppShell.Section>

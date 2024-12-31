@@ -102,15 +102,15 @@ export function ServiceRequestForm({
   return (
     <Form form={form}>
       <FlowContainer
-        className='rounded-2xl bg-primary-background-white'
-        justify='center'
+        className="rounded-2xl bg-primary-background-white"
+        justify="center"
         gap={20}
-        type='plain'
-        bg='white'
+        type="plain"
+        bg="white"
       >
         <Select
-          label='Service Type'
-          placeholder='Select Service Type'
+          label="Service Type"
+          placeholder="Select Service Type"
           withAsterisk
           data={[
             { value: "cleaning", label: "Cleaning" },
@@ -120,8 +120,8 @@ export function ServiceRequestForm({
           {...form.getInputProps("serviceType")}
         />
         <Select
-          label='Preferred Time'
-          placeholder='Choose Preferred Time'
+          label="Preferred Time"
+          placeholder="Choose Preferred Time"
           withAsterisk
           data={[
             { value: "morning", label: "Morning" },
@@ -131,8 +131,8 @@ export function ServiceRequestForm({
           {...form.getInputProps("preferredTime")}
         />
         <Select
-          label='Urgency Level'
-          placeholder='Select Urgency Level'
+          label="Urgency Level"
+          placeholder="Select Urgency Level"
           withAsterisk
           data={[
             { value: "low", label: "Low" },
@@ -142,14 +142,14 @@ export function ServiceRequestForm({
           {...form.getInputProps("urgencyLevel")}
         />
         <Textarea
-          label='Brief Description'
-          placeholder='Type Something...'
+          label="Brief Description"
+          placeholder="Type Something..."
           disabled={isViewing}
           draggable={false}
           {...form.getInputProps("description")}
         />
         <ResourceUpload
-          label='Image (optional)'
+          label="Image (optional)"
           supports={["img(png, jpg, jpeg)"]}
           accepts={() => {
             return concat(IMAGE_MIME_TYPE);
@@ -163,7 +163,7 @@ export function ServiceRequestForm({
         {isViewing ? (
           <Button
             mt={10}
-            type='button'
+            type="button"
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit

@@ -16,7 +16,7 @@ export function ContactSellerButton({
   return (
     <Button
       fz={14}
-      size='sm'
+      size="sm"
       h={40}
       my={20}
       onClick={() =>
@@ -24,7 +24,7 @@ export function ContactSellerButton({
           title: "Contact Seller",
           modalId: MODALS.CONTACT_US,
           children: (
-            <Stack align='center' justify='center' ta='center' gap={20} py={20}>
+            <Stack align="center" justify="center" ta="center" gap={20} py={20}>
               <Text fz={18}>
                 Contact the seller to discuss further about the product
               </Text>
@@ -39,8 +39,8 @@ export function ContactSellerButton({
                   href={`https://api.whatsapp.com/send?phone=${
                     data.phone
                   }&text=${encodeURIComponent(shareText)}`}
-                  target='_blank'
-                  rel='noopener noreferrer'
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => modals.close(MODALS.CONTACT_US)}
                 >
                   <WhatsAppIcon />

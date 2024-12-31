@@ -106,13 +106,13 @@ export default function Messages() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
       <FlowContainer
-        type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        type="plain"
+        className="lg:~px-1/8 lg:py-4 justify-between"
       >
         {!noDataAvailable && (
-          <Title order={2} className='mb-4'>
+          <Title order={2} className="mb-4">
             My Product Lists ({products?.total ?? 0})
           </Title>
         )}
@@ -123,20 +123,20 @@ export default function Messages() {
               base: "auto",
               lg: 700,
             }}
-            breakpoint='320'
+            breakpoint="320"
             gap={24}
-            className='p-3 lg:p-0'
+            className="p-3 lg:p-0"
           >
             {products?.data.map((item) => (
-              <ProductCard key={item.id} list={item} viewId='occupant' />
+              <ProductCard key={item.id} list={item} viewId="occupant" />
             ))}
           </FlowContentHorizontal>
         ) : (
           <EmptySlot
             withButton
-            src='marketplace'
-            title='You do not have a product yet. Add a new product to get started.'
-            text='Add New Product'
+            src="marketplace"
+            title="You do not have a product yet. Add a new product to get started."
+            text="Add New Product"
             btnProps={{
               leftSection: <AddIcon />,
               onClick: addProduct,
@@ -146,7 +146,7 @@ export default function Messages() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />
@@ -171,21 +171,21 @@ export default function Messages() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />}>
+    <Flex gap={14} wrap="wrap">
+      <Button fz="sm" size="md" leftSection={<AddIcon />}>
         Add Product
       </Button>
       <Button
-        fz='sm'
-        size='md'
-        variant='outline'
+        fz="sm"
+        size="md"
+        variant="outline"
         leftSection={<ListIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MY_LISTINGS)}
       >
         My Listings
       </Button>
-      <FilterDropdown label='Filter' data={filterOptions} />
+      <FilterDropdown label="Filter" data={filterOptions} />
     </Flex>
   );
 }

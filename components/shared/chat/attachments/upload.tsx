@@ -18,7 +18,7 @@ export function UploadAttachments() {
   });
 
   return (
-    <span className='cursor-pointer'>
+    <span className="cursor-pointer">
       <FileButton multiple onChange={setFiles}>
         {(props) => <AttachFile width={20} {...props} />}
       </FileButton>

@@ -68,40 +68,40 @@ export function ProductCard({ list, onClick, viewId }: ProductCardProps) {
         "border border-gray-3",
         {
           skeleton,
-        }
+        },
       )}
     >
       <Picture
         src={list.image ?? "/images/placeholder.png"}
         h={150}
-        w='100%'
+        w="100%"
         alt={list.name ?? "product image"}
-        className='rounded-lg'
-        objectFit='cover'
+        className="rounded-lg"
+        objectFit="cover"
       />
 
-      <Stack gap='xs'>
-        <Flex justify='space-between' gap={10}>
-          <Text fw={500} size='lg'>
+      <Stack gap="xs">
+        <Flex justify="space-between" gap={10}>
+          <Text fw={500} size="lg">
             {list.name}
           </Text>
           <Pill
             c={configs[list.status].color}
             bg={configs[list.status].bg}
             ml={8}
-            radius='sm'
-            tt='capitalize'
+            radius="sm"
+            tt="capitalize"
           >
             {list.status.includes("pending") ? "pending" : list.status}
           </Pill>
         </Flex>
-        <Text fw={700} size='xl'>
+        <Text fw={700} size="xl">
           {formatCurrency(+list.price, "NGN")}
         </Text>
-        <Text size='sm' c='violet' mt={-5}>
+        <Text size="sm" c="violet" mt={-5}>
           House A10
         </Text>
-        <StarRating className='!justify-start' />
+        <StarRating className="!justify-start" />
       </Stack>
       {viewId === "admin"
         ? configs[list.status].buttons

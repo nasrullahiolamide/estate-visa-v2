@@ -103,21 +103,21 @@ export function AddProduct() {
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
         p={0}
-        className='bg-primary-background-white h-[600px] overflow-scroll'
+        className="bg-primary-background-white h-[600px] overflow-scroll"
         gap={18}
-        type='plain'
+        type="plain"
       >
         <TextInput
-          label='Product Name'
-          placeholder='Enter product name'
+          label="Product Name"
+          placeholder="Enter product name"
           withAsterisk
           {...form.getInputProps("name")}
         />
 
         <TextInput
-          label='Product  Price'
-          type='text'
-          placeholder='Enter product price'
+          label="Product  Price"
+          type="text"
+          placeholder="Enter product price"
           withAsterisk
           {...form.getInputProps("price")}
           value={formattedPrice}
@@ -127,9 +127,9 @@ export function AddProduct() {
         <Select
           searchable
           withAsterisk
-          label='Category'
-          placeholder='Select Category'
-          nothingFoundMessage='No category found'
+          label="Category"
+          placeholder="Select Category"
+          nothingFoundMessage="No category found"
           data={PRODUCT_CATEGORIES}
           {...form.getInputProps("category")}
         />
@@ -137,7 +137,7 @@ export function AddProduct() {
         <ResourceUpload
           multiple={false}
           withAsterisk
-          label='Upload Product Image'
+          label="Upload Product Image"
           supports={["img(png, jpeg)"]}
           previews={previews}
           onDrop={handleUpload}
@@ -149,24 +149,24 @@ export function AddProduct() {
           {...form.getInputProps("image")}
         />
         <Textarea
-          label='Product Description'
-          placeholder='Type Something...'
+          label="Product Description"
+          placeholder="Type Something..."
           withAsterisk
           {...form.getInputProps("description")}
         />
         <FlowPhoneInput
-          label='Phone Number'
-          placeholder='Enter phone number'
+          label="Phone Number"
+          placeholder="Enter phone number"
           withAsterisk
           {...form.getInputProps("phone")}
         />
       </FlowContainer>
       <Button
         mt={25}
-        type='submit'
+        type="submit"
         loading={isPending}
         disabled={isPending}
-        w='100%'
+        w="100%"
       >
         Add Product
       </Button>

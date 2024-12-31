@@ -108,8 +108,8 @@ export default function MarketPlace() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
-      <FlowContainer type='plain' className='lg:~p-1/8'>
+      <AppShellHeader title="Market Place" options={<HeaderOptions />} />
+      <FlowContainer type="plain" className="lg:~p-1/8">
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -121,12 +121,12 @@ export default function MarketPlace() {
             tabsContainerProps={{ gap: 0 }}
           >
             <Flex
-              align='center'
-              className='overflow-scroll w-full bg-white  sticky top-0 z-40'
+              align="center"
+              className="overflow-scroll w-full bg-white  sticky top-0 z-40"
             >
-              <Tabs.List className='w-full flex-nowrap'>
+              <Tabs.List className="w-full flex-nowrap">
                 {Object.values(PRODUCT_VIEW).map((type) => (
-                  <Tabs.Tab value={type} flex={1} py={20} tt='capitalize'>
+                  <Tabs.Tab value={type} flex={1} py={20} tt="capitalize">
                     {type === PRODUCT_VIEW.PENDING_APPROVALS
                       ? type.replace("-", " ")
                       : `${type} Listings `}
@@ -139,10 +139,10 @@ export default function MarketPlace() {
             <FlowTabsPanel value={view}>
               {noDataAvailable ? (
                 <EmptySlot
-                  src='marketplace'
+                  src="marketplace"
                   title={`There are no ${view.replace(
                     "-",
-                    " "
+                    " ",
                   )} products yet. Check back later for updates!`}
                 />
               ) : (
@@ -158,7 +158,7 @@ export default function MarketPlace() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />
@@ -171,11 +171,11 @@ export default function MarketPlace() {
 
 function HeaderOptions() {
   return (
-    <Flex gap={14} wrap='wrap'>
-      <FlowSearch title='Market Place' />
+    <Flex gap={14} wrap="wrap">
+      <FlowSearch title="Market Place" />
       <Button
-        fz='sm'
-        size='md'
+        fz="sm"
+        size="md"
         leftSection={<CarbonRule />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MARKET_RULES)}

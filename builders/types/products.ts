@@ -82,7 +82,7 @@ export function useFakeProductList(): ProductList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 20 }) },
-    useFakeProductData
+    useFakeProductData,
   );
 
   return {

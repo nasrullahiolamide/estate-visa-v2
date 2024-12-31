@@ -68,25 +68,25 @@ export function MarketRuleForm() {
     <Form form={form} onSubmit={() => {}}>
       <FlowContainer
         p={0}
-        className='bg-primary-background-white h-[600px] overflow-scroll'
+        className="bg-primary-background-white h-[600px] overflow-scroll"
         gap={18}
-        type='plain'
+        type="plain"
       >
         <TextInput
-          label='Rule Title'
-          placeholder='Enter the title of the rule'
+          label="Rule Title"
+          placeholder="Enter the title of the rule"
           withAsterisk
           {...form.getInputProps("ruleTitle")}
         />
         <FlowEditor
-          label='Content'
-          placeholder='Type something here...'
+          label="Content"
+          placeholder="Type something here..."
           withAsterisk
           {...form.getInputProps("content")}
         />
 
         <DatePickerInput
-          label='Date'
+          label="Date"
           rightSection={<CalenderIcon />}
           withAsterisk
           //   {...form.getInputProps("date")}
@@ -94,7 +94,7 @@ export function MarketRuleForm() {
 
         <ResourceUpload
           multiple
-          label='Upload File'
+          label="Upload File"
           supports={["pdf", "ppt", "doc"]}
           accepts={() => {
             return concat(PDF_MIME_TYPE, MS_EXCEL_MIME_TYPE, MS_WORD_MIME_TYPE);
@@ -106,7 +106,7 @@ export function MarketRuleForm() {
         />
 
         <Select
-          label='Applies To:'
+          label="Applies To:"
           //   disabled={isViewing}
           data={[
             {
@@ -125,7 +125,7 @@ export function MarketRuleForm() {
           {...form.getInputProps("applies_to")}
         />
         <Select
-          label='Status'
+          label="Status"
           //   disabled={isViewing}
           data={[
             {
@@ -140,7 +140,7 @@ export function MarketRuleForm() {
           {...form.getInputProps("status")}
         />
       </FlowContainer>
-      <Button mt={25} type='submit' onClick={handleSubmit} w='100%'>
+      <Button mt={25} type="submit" onClick={handleSubmit} w="100%">
         Save
       </Button>
     </Form>
