@@ -28,7 +28,7 @@ export function OccupantProductDetail({ ...item }: ProductData) {
       handleSuccess({
         message: "Product Reported Successfully",
       });
-      modals.close(MODALS.PRODUCT_DETAIL);
+      modals.close(MODALS.CONFIRMATION);
     },
     onError: handleError(),
   });
@@ -93,7 +93,11 @@ export function OccupantProductDetail({ ...item }: ProductData) {
             {
               label: "Report issue",
               color: "gray",
-              props: { onClick: handleReportIssue },
+              props: {
+                onClick: handleReportIssue,
+                disabled: isReporting || item.status === "reported",
+                loading: isReporting,
+              },
             },
             { label: "Submit Review", color: "blue" },
           ]}

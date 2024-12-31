@@ -1,3 +1,5 @@
+"use client";
+
 import { builder } from "@/builders";
 import { ProductStatus } from "@/builders/types/products";
 import { handleError, handleSuccess } from "@/packages/notification";

@@ -23,13 +23,13 @@ const handleProductDetail = (item: ProductData) => {
 
 export function Listings({ data, skeleton }: ListingsProps) {
   return (
-    <FlowContentHorizontal gap={24} breakpoint="315" className="p-3">
+    <FlowContentHorizontal gap={24} breakpoint='315' className='p-3'>
       {data?.map((list) => (
         <ProductCard
           key={list.id}
           list={list}
           onClick={() => handleProductDetail(list)}
-          viewId="admin"
+          viewId='admin'
         />
       ))}
     </FlowContentHorizontal>

@@ -22,7 +22,6 @@ export function ContactSellerButton({
       onClick={(e) => {
         e.stopPropagation();
         modals.open({
-          title: "Contact Seller",
           modalId: MODALS.CONTACT_US,
           children: (
             <Stack align='center' justify='center' ta='center' gap={20} py={20}>
