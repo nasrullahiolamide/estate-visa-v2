@@ -35,7 +35,7 @@ import { Fragment, useEffect } from "react";
 const filterOptions = [
   {
     label: "Applied To:",
-    value: "applies-to",
+    value: "appliesTo",
     children: [
       {
         label: "Occupants",
@@ -88,7 +88,7 @@ export default function MarketRules() {
     status,
   } = useFlowState();
 
-  const { data: serviceRequests, isPlaceholderData } = useQuery({
+  const { data: marketRules, isPlaceholderData } = useQuery({
     queryKey: builder.market_rules.get.$get({
       page,
       pageSize,
@@ -118,13 +118,13 @@ export default function MarketRules() {
             ...list,
             action: (
               <MarketRuleActions
-                id={data.id}
+                id={list.id}
                 handlers={{
                   onAdd: () => handleMarketRuleForm({ viewId: "add" }),
                   onView: () =>
-                    handleMarketRuleForm({ viewId: "view", ...data }),
+                    handleMarketRuleForm({ viewId: "view", ...list }),
                   onEdit: () =>
-                    handleMarketRuleForm({ viewId: "edit", ...data }),
+                    handleMarketRuleForm({ viewId: "edit", ...list }),
                 }}
               />
             ),
@@ -137,13 +137,13 @@ export default function MarketRules() {
   useEffect(() => {
     if (isPlaceholderData) return;
 
-    pagination.setPage(serviceRequests?.page);
-    pagination.setTotal(serviceRequests?.total);
-    pagination.setEntriesCount(serviceRequests?.data?.length);
-    pagination.setPageSize(serviceRequests?.pageSize);
+    pagination.setPage(marketRules?.page);
+    pagination.setTotal(marketRules?.total);
+    pagination.setEntriesCount(marketRules?.data?.length);
+    pagination.setPageSize(marketRules?.pageSize);
   }, [isPlaceholderData]);
 
-  const noDataAvailable = serviceRequests?.data.length === 0;
+  const noDataAvailable = marketRules?.data.length === 0;
 
   return (
     <Fragment>
@@ -160,11 +160,11 @@ export default function MarketRules() {
           }}
         >
           <FlowPaper>
-            {dataToDisplay ? (
+            {marketRules?.data.length ? (
               <FlowTable
-                data={dataToDisplay}
+                data={marketRules.data}
                 columns={marketRuleColumns}
-                skeleton={false}
+                skeleton={isPlaceholderData}
               />
             ) : (
               <EmptySlot
