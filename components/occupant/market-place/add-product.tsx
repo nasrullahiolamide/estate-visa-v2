@@ -5,12 +5,13 @@ import { UpdateProductData } from "@/builders/types/products";
 import { requiredString } from "@/builders/types/shared";
 import { FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { ConfirmationModal } from "@/components/shared/interface";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { APP, cast, MODALS } from "@/packages/libraries";
 import { formatCurrency } from "@/packages/libraries/formatters/currency";
-import { handleError, handleSuccess } from "@/packages/notification";
+import { handleError } from "@/packages/notification";
 import { Button, Select, Textarea, TextInput } from "@mantine/core";
 import { MIME_TYPES } from "@mantine/dropzone";
 import { Form, useForm, yupResolver } from "@mantine/form";
@@ -43,10 +44,22 @@ export function AddProduct() {
       queryClient.invalidateQueries({
         queryKey: builder.products.get.$get(),
       });
-      handleSuccess({
-        message: "Product Added Successfully",
+      modals.open({
+        modalId: MODALS.CONFIRMATION,
+        onClose: () => modals.closeAll(),
+        children: (
+          <ConfirmationModal
+            title='Product Added Successfully'
+            description="Your product is under review, our team will verify your listing within the next 48 hours, and you'll be notified once it's approved."
+            btnText='Got it'
+            src='hour-glass'
+            btnProps={{
+              onClick: () => modals.closeAll(),
+            }}
+            srcProps={{ ml: 0 }}
+          />
+        ),
       });
-      modals.close(MODALS.ADD_DETAILS);
     },
     onError: handleError(),
   });
@@ -103,21 +116,21 @@ export function AddProduct() {
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
         p={0}
-        className="bg-primary-background-white h-[600px] sm:h-full overflow-auto"
+        className='bg-primary-background-white h-[600px] sm:h-full overflow-auto'
         gap={18}
-        type="plain"
+        type='plain'
       >
         <TextInput
-          label="Product Name"
-          placeholder="Enter product name"
+          label='Product Name'
+          placeholder='Enter product name'
           withAsterisk
           {...form.getInputProps("name")}
         />
 
         <TextInput
-          label="Product  Price"
-          type="text"
-          placeholder="Enter product price"
+          label='Product  Price'
+          type='text'
+          placeholder='Enter product price'
           withAsterisk
           {...form.getInputProps("price")}
           value={formattedPrice}
@@ -127,9 +140,9 @@ export function AddProduct() {
         <Select
           searchable
           withAsterisk
-          label="Category"
-          placeholder="Select Category"
-          nothingFoundMessage="No category found"
+          label='Category'
+          placeholder='Select Category'
+          nothingFoundMessage='No category found'
           data={PRODUCT_CATEGORIES}
           {...form.getInputProps("category")}
         />
@@ -137,7 +150,7 @@ export function AddProduct() {
         <ResourceUpload
           multiple={false}
           withAsterisk
-          label="Upload Product Image"
+          label='Upload Product Image'
           supports={["img(png, jpeg)"]}
           previews={previews}
           onDrop={handleUpload}
@@ -149,24 +162,24 @@ export function AddProduct() {
           {...form.getInputProps("image")}
         />
         <Textarea
-          label="Product Description"
-          placeholder="Type Something..."
+          label='Product Description'
+          placeholder='Type Something...'
           withAsterisk
           {...form.getInputProps("description")}
         />
         <FlowPhoneInput
-          label="Phone Number"
-          placeholder="Enter phone number"
+          label='Phone Number'
+          placeholder='Enter phone number'
           withAsterisk
           {...form.getInputProps("phone")}
         />
       </FlowContainer>
       <Button
         mt={25}
-        type="submit"
+        type='submit'
         loading={isPending}
         disabled={isPending}
-        w="100%"
+        w='100%'
       >
         Add Product
       </Button>

@@ -15,19 +15,20 @@ import {
 import { FlowContainer } from "@/components/layout/flow-container";
 import { AddProduct } from "@/components/occupant/market-place/add-product";
 import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
-import { EmptySlot, Picture, StarRating } from "@/components/shared/interface";
+import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { ContactSellerButton } from "@/components/shared/market-place/contact-seller";
 import { AddIcon, ListIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
-import { formatCurrency } from "@/packages/libraries/formatters/currency";
-import { Button, Flex, Stack, Text } from "@mantine/core";
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { Fragment, useEffect } from "react";
+
+import { ProductCard } from "@/components/shared/interface/cards/product";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 
 import clsx from "clsx";
 import Link from "next/link";
@@ -118,10 +119,17 @@ export default function MarketPlace() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader
+        title='Market Place'
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
       <FlowContainer
         type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        className={clsx("lg:~px-1/8 lg:py-4 justify-between", {
+          "rounded-none lg:rounded-2xl bg-white lg:~m-1/8": noDataAvailable,
+        })}
       >
         {products?.data.length ? (
           <FlowContentHorizontal
@@ -130,47 +138,12 @@ export default function MarketPlace() {
             gap={24}
           >
             {products?.data.map((item) => (
-              <Stack
-                p={18}
-                className={clsx("rounded-xl bg-white cursor-pointer h-fit", {
-                  skeleton: isPlaceholderData,
-                })}
+              <ProductCard
                 key={item.id}
+                list={item}
                 onClick={() => handleProductDetail(item)}
-              >
-                <Picture
-                  src={item.image ?? "/images/placeholder.png"}
-                  h={150}
-                  w='100%'
-                  alt={item.name ?? "product image"}
-                  className='rounded-lg'
-                  objectFit='cover'
-                />
-
-                <Stack gap={10}>
-                  <Text fw={500}>{item.name}</Text>
-                  <Text fw={700} size='lg'>
-                    {formatCurrency(+item.price || 1000, "NGN")}
-                  </Text>
-                  <StarRating className='!justify-start' defaultRating={4} />
-                  <Text size='sm' c='violet'>
-                    House A10
-                  </Text>
-
-                  <Flex justify='space-between' gap={10}>
-                    <ContactSellerButton
-                      data={item}
-                      my={0}
-                      mt={10}
-                      variant='outline'
-                    />
-
-                    <Button fz={14} size='sm' mt={10} h={40}>
-                      View Details
-                    </Button>
-                  </Flex>
-                </Stack>
-              </Stack>
+                viewId='viewer'
+              />
             ))}
           </FlowContentHorizontal>
         ) : (
@@ -194,7 +167,9 @@ export default function MarketPlace() {
           <FlowPagination />
           <FlowEntriesPerPage />
         </FlowFooter>
+
         <FlowFloatingButtons
+          hidden={noDataAvailable}
           buttons={[
             {
               icon: "list",
@@ -208,7 +183,10 @@ export default function MarketPlace() {
                 ),
               },
             },
-            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "filter",
+              filterData: filterOptions,
+            },
             {
               icon: "add",
               btnProps: {
@@ -222,9 +200,9 @@ export default function MarketPlace() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} wrap='wrap' hidden={hidden}>
       <FlowSearch title='Market Place' placeholder='Search products...' />
       <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
         Add Product
@@ -239,7 +217,7 @@ function HeaderOptions() {
       >
         My Listings
       </Button>
-      {/* <FilterDropdown label='Filter' data={filterOptions} /> */}
+      <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
   );
 }

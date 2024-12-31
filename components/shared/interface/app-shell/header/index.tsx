@@ -21,9 +21,9 @@ import {
 } from "@mantine/core";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
+import { Fragment, useEffect } from "react";
 
 import clsx from "clsx";
-import { Fragment, useEffect } from "react";
 
 type AppShellHeaderProps = {
   title: string;
@@ -55,15 +55,15 @@ export function AppShellHeader({
   const dispatch = useFlowDispatch();
   const pathname = usePathname();
 
-  const toggle = () => {
-    dispatch({ type: FlowActionType.TOGGLE_NAV, payload: !openedNav });
-  };
-
   const heading = (
     <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0'>
       {title}
     </h1>
   );
+
+  function toggle() {
+    dispatch({ type: FlowActionType.TOGGLE_NAV, payload: !openedNav });
+  }
 
   useEffect(() => {
     if (openedNav) {

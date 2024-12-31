@@ -5,7 +5,7 @@ import { Divider, Flex, Pill, Stack, Text, Title } from "@mantine/core";
 import { Fragment, ReactNode } from "react";
 
 import { Picture, StarRating } from "../interface";
-import { configs } from "../interface/cards/product";
+import { productStatusColorConfig } from "../interface/cards/product";
 
 interface ProductDetailProps extends ProductData {
   children: ReactNode;
@@ -77,8 +77,8 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
                   Status:
                 </Text>
                 <Pill
-                  c={configs[item.status].color}
-                  bg={configs[item.status].bg}
+                  c={productStatusColorConfig[item.status].color}
+                  bg={productStatusColorConfig[item.status].bg}
                   ml={8}
                   radius='sm'
                   tt='capitalize'

@@ -45,10 +45,6 @@ export default function Template({ children }: TemplateProps) {
   const { openedNav } = useFlowState();
 
   useEffect(() => {
-    console.log("Template state:", openedNav);
-  }, [openedNav]);
-
-  useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
 
     if (isRestricted) {
@@ -76,11 +72,11 @@ export default function Template({ children }: TemplateProps) {
         collapsed: { mobile: !openedNav },
         breakpoint: "lg",
       }}
-      styles={{
-        navbar: {
-          zIndex: "100 !important",
-        },
-      }}
+      // styles={{
+      //   navbar: {
+      //     zIndex: "140 !important",
+      //   },
+      // }}
     >
       <AppShell.Navbar
         withBorder={false}

@@ -1,9 +1,11 @@
+import { builder } from "@/builders";
 import { ProductData } from "@/builders/types/products";
 import { formatCurrency } from "@/packages/libraries/formatters/currency";
-import { Flex, Pill, Stack, Text } from "@mantine/core";
-import { ReactNode } from "react";
-
-import { generateProductButtons } from "../../market-place/product-buttons";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Flex, Pill, Stack, Text } from "@mantine/core";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ContactSellerButton } from "../../market-place/contact-seller";
+import { ProductButtons } from "../../market-place/product-buttons";
 import { Picture } from "../picture";
 import { StarRating } from "../star-rating";
 
@@ -12,48 +14,32 @@ import clsx from "clsx";
 interface ProductCardProps {
   list: ProductData;
   onClick?: () => void;
-  viewId: "admin" | "occupant";
+  viewId: "admin" | "owner" | "viewer";
   skeleton?: boolean;
 }
 
-export const configs: Record<
+export const productStatusColorConfig: Record<
   PropertyKey,
-  { color: string; bg: string; buttons: ReactNode }
+  { color: string; bg: string }
 > = {
   "pending-approval": {
     color: "#969921",
     bg: "#feffd7",
-    buttons: generateProductButtons([
-      { label: "Reject", color: "gray" },
-      { label: "Approve", color: "blue" },
-    ]),
   },
 
   approved: {
     color: "white",
     bg: "green",
-    buttons: generateProductButtons([
-      { label: "Reactivate", color: "gray", props: { disabled: true } },
-      { label: "Suspend", color: "blue" },
-    ]),
   },
 
   suspended: {
     color: "gray.12",
     bg: "gray.1",
-    buttons: generateProductButtons([
-      { label: "Suspend", color: "gray", props: { disabled: true } },
-      { label: "Activate", color: "blue" },
-    ]),
   },
 
   reported: {
     color: "red",
     bg: "red.1",
-    buttons: generateProductButtons([
-      { label: "Reactivate", color: "gray", props: { disabled: true } },
-      { label: "Suspend", color: "blue" },
-    ]),
   },
 };
 
@@ -63,6 +49,21 @@ export function ProductCard({
   viewId,
   skeleton,
 }: ProductCardProps) {
+  const queryClient = useQueryClient();
+
+  const { mutate: remove, isPending: isRemoving } = useMutation({
+    mutationFn: builder.$use.products.remove,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.products.get.$get(),
+      });
+      handleSuccess({
+        message: "Product Deleted Successfully",
+      });
+    },
+    onError: handleError(),
+  });
+
   return (
     <Stack
       p={12}
@@ -91,8 +92,8 @@ export function ProductCard({
             {list.name}
           </Text>
           <Pill
-            c={configs[list.status].color}
-            bg={configs[list.status].bg}
+            c={productStatusColorConfig[list.status].color}
+            bg={productStatusColorConfig[list.status].bg}
             ml={8}
             radius='sm'
             tt='capitalize'
@@ -101,19 +102,39 @@ export function ProductCard({
           </Pill>
         </Flex>
         <Text fw={700} size='xl'>
-          {formatCurrency(+list.price || 1000, "NGN")}
+          {formatCurrency(+list.price, "NGN")}
         </Text>
         <Text size='sm' c='violet' mt={-5}>
           House A10
         </Text>
         <StarRating className='!justify-start' defaultRating={4} />
       </Stack>
-      {viewId === "admin"
-        ? configs[list.status].buttons
-        : generateProductButtons([
-            { label: "Remove", color: "gray" },
-            { label: "Edit", color: "blue" },
-          ])}
+
+      {viewId === "admin" ? (
+        <ProductButtons status={list.status} id={list.id} />
+      ) : viewId === "viewer" ? (
+        <Flex justify='space-between' gap={10}>
+          <ContactSellerButton data={list} my={0} mt={10} variant='outline' />
+          <Button fz={14} size='sm' mt={10} h={40}>
+            View Details
+          </Button>
+        </Flex>
+      ) : (
+        <ProductButtons
+          buttons={[
+            {
+              label: "Remove",
+              color: "gray",
+              props: {
+                onClick: () => remove(list.id),
+                loading: isRemoving,
+                disabled: isRemoving,
+              },
+            },
+            { label: "Edit", color: "blue", props: { disabled: isRemoving } },
+          ]}
+        />
+      )}
     </Stack>
   );
 }

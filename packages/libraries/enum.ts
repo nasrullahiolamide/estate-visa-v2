@@ -56,7 +56,7 @@ export enum PAGES {
   MINUTES = "/minutes",
   SERVICE_REQUESTS = "/service-requests",
   MARKET_PLACE = "/market-place",
-  MY_LISTINGS = "/my-listings",
+  MY_LISTINGS = "/listings",
   MARKET_RULES = "/rules",
   ESTATES = "/estates",
   ADD_NEW_ESTATE = "/add-new-estate",

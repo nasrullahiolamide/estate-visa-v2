@@ -20,7 +20,16 @@ type BtnProps<T extends ElementType = "a"> = ButtonProps & {
 } & PolymorphicComponentProps<T>;
 
 type ConfirmationModalProps = BoxProps & {
-  src?: "delete" | "success" | "disable" | "logout" | "share" | "exit" | "sad";
+  src?:
+    | "delete"
+    | "success"
+    | "disable"
+    | "logout"
+    | "share"
+    | "exit"
+    | "sad"
+    | "warning"
+    | "hour-glass";
   srcProps?: FlexProps;
   title: string;
   description?: string;
@@ -68,15 +77,15 @@ export function ConfirmationModal({
         )}
         {description ? (
           <>
-            <Text ta="center" className="prose-xl/medium">
+            <Text ta='center' className='prose-xl/medium'>
               {title}
             </Text>
-            <Text ta="center" className="prose-base/regular" component="p">
+            <Text ta='center' className='prose-base/regular' component='p'>
               {description}
             </Text>
           </>
         ) : (
-          <Text ta="center" className="prose-xl/regular sm:prose-2xl/regular">
+          <Text ta='center' className='prose-xl/regular sm:prose-2xl/regular'>
             {title}
           </Text>
         )}
@@ -90,19 +99,19 @@ export function ConfirmationModal({
             {btnText}
           </Button>
         ) : (
-          <Flex justify="center" gap={20} mt={20} wrap="wrap">
+          <Flex justify='center' gap={20} mt={20} wrap='wrap'>
             <Button
-              w="fit-content"
-              variant="outline"
-              className="sm:flex-1"
-              color="gray.12"
+              w='fit-content'
+              variant='outline'
+              className='sm:flex-1'
+              color='gray.12'
               onClick={secondaryBtnProps?.onClick || handleCancel}
               {...secondaryBtnProps}
             >
               {secondaryBtnText}
             </Button>
             <Button
-              w="fit-content"
+              w='fit-content'
               flex={1}
               onClick={primaryBtnProps?.onClick || handleCancel}
               {...primaryBtnProps}

@@ -17,16 +17,15 @@ import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { ProductCard } from "@/components/shared/interface/cards/product";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { AddIcon, ListIcon } from "@/icons";
+import { AddIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
-import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
-import { Button, Flex, Title } from "@mantine/core";
+import { APP, MODALS } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import Link from "next/link";
 import { Fragment, useEffect } from "react";
 
 const filterOptions = [
@@ -63,7 +62,7 @@ const addProduct = () => {
   });
 };
 
-export default function Messages() {
+export default function Listings() {
   const initialProductList = useFakeProductList();
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
@@ -103,17 +102,22 @@ export default function Messages() {
 
   return (
     <Fragment>
-      <AppShellHeader title='Market Place' options={<HeaderOptions />} />
+      <AppShellHeader
+        title={
+          !noDataAvailable
+            ? `My Product Lists (${products?.total})`
+            : "My Product Lists"
+        }
+        options={
+          <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
+        }
+      />
       <FlowContainer
         type='plain'
-        className='lg:~px-1/8 lg:py-4 justify-between'
+        className={clsx("lg:~px-1/8 lg:py-4 justify-between", {
+          "rounded-none lg:rounded-2xl bg-white lg:~m-1/8": noDataAvailable,
+        })}
       >
-        {!noDataAvailable && (
-          <Title order={2} fz={24} className='p-4'>
-            My Product Lists ({products?.total ?? 0})
-          </Title>
-        )}
-
         {products?.data.length ? (
           <FlowContentHorizontal
             mah={{
@@ -128,7 +132,7 @@ export default function Messages() {
               <ProductCard
                 key={item.id}
                 list={item}
-                viewId='occupant'
+                viewId='owner'
                 skeleton={isPlaceholderData}
               />
             ))}
@@ -156,8 +160,12 @@ export default function Messages() {
         </FlowFooter>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable}
           buttons={[
-            { icon: "filter", filterData: filterOptions },
+            {
+              icon: "filter",
+              filterData: filterOptions,
+            },
             {
               icon: "add",
               btnProps: {
@@ -171,21 +179,11 @@ export default function Messages() {
   );
 }
 
-function HeaderOptions() {
+function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap'>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button fz='sm' size='md' leftSection={<AddIcon />}>
         Add Product
-      </Button>
-      <Button
-        fz='sm'
-        size='md'
-        variant='outline'
-        leftSection={<ListIcon />}
-        component={Link}
-        href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MY_LISTINGS)}
-      >
-        My Listings
       </Button>
       <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
