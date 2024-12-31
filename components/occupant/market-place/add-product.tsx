@@ -103,7 +103,7 @@ export function AddProduct() {
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
         p={0}
-        className="bg-primary-background-white h-[600px] overflow-scroll"
+        className="bg-primary-background-white h-[600px] sm:h-full overflow-auto"
         gap={18}
         type="plain"
       >

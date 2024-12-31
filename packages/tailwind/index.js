@@ -8,7 +8,7 @@ export { gridset } from "./grid-set.js";
 export { animation, keyframes } from "./keyframes.js";
 export { typography } from "./prose.js";
 export { rotating } from "./rotating.js";
-export { container, screens } from "./screens.js";
+export { container } from "./screens.js";
 export { scrollbar } from "./scrollbar.js";
 export { skeleton } from "./skeleton.js";
 

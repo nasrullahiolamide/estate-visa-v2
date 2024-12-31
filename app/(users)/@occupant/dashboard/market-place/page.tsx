@@ -1,7 +1,7 @@
 "use client";
 
 import { builder } from "@/builders";
-import { useFakeProductList } from "@/builders/types/products";
+import { ProductData, useFakeProductList } from "@/builders/types/products";
 import {
   FlowContentHorizontal,
   FlowEntriesPerPage,
@@ -14,8 +14,10 @@ import {
 } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { AddProduct } from "@/components/occupant/market-place/add-product";
+import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
 import { EmptySlot, Picture, StarRating } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { ContactSellerButton } from "@/components/shared/market-place/contact-seller";
 import { AddIcon, ListIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
@@ -23,13 +25,11 @@ import { formatCurrency } from "@/packages/libraries/formatters/currency";
 import { Button, Flex, Stack, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
-
-import { ContactSellerButton } from "@/components/shared/market-place/contact-seller";
-import clsx from "clsx";
 import Link from "next/link";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
   { label: "Recent", value: "recent" },
@@ -64,6 +64,18 @@ const addProduct = () => {
     children: <AddProduct />,
   });
 };
+
+const handleProductDetail = (item: ProductData) => {
+  modals.open({
+    modalId: MODALS.PRODUCT_DETAIL,
+    children: <OccupantProductDetail {...item} />,
+    classNames: {
+      body: "p-0",
+      header: "right-8 top-6 absolute bg-transparent",
+    },
+  });
+};
+
 
 export default function MarketPlace() {
   const initialProductList = useFakeProductList();
@@ -120,7 +132,9 @@ export default function MarketPlace() {
             {products?.data.map((item) => (
               <Stack
                 p={18}
-                className="rounded-xl bg-white cursor-pointer  h-fit"
+                className="rounded-xl bg-white cursor-pointer h-fit"
+                key={ item.id }
+                onClick={() => handleProductDetail(item)}
               >
                 <Picture
                   src={item.image ?? "/images/placeholder.png"}
@@ -134,14 +148,14 @@ export default function MarketPlace() {
                 <Stack gap={10}>
                   <Text fw={500}>{item.name}</Text>
                   <Text fw={700} size="lg">
-                    {formatCurrency(+item.price, "NGN")}
+                    {formatCurrency(+item.price ||1000, "NGN")}
                   </Text>
                   <StarRating className="!justify-start" />
                   <Text size="sm" c="violet">
                     House A10
                   </Text>
 
-                  <ContactSellerButton data={item} variant="subtle" />
+                  <ContactSellerButton data={item} my={0 } mt={10} variant="outline"/>
                 </Stack>
               </Stack>
             ))}

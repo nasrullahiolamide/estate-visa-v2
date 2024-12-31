@@ -203,7 +203,7 @@ export function ResourceUpload({
           <Flex
             gap={10}
             mih={120}
-            className="overflow-scroll w-full h-full py-4"
+            className="overflow-auto w-full h-full py-4"
           >
             {previews.map(upload)}
           </Flex>
