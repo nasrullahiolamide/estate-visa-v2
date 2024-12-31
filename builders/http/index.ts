@@ -4,6 +4,7 @@ import { dashboard } from "./dashboard";
 import { estates } from "./estates";
 import { gates } from "./gates";
 import { houses } from "./houses";
+import { market_rules } from "./market-rules";
 import { meetings } from "./meetings";
 import { messages } from "./messages";
 import { occupants } from "./occupants";
@@ -32,4 +33,5 @@ export const http = {
   messages,
   templates,
   products,
+  market_rules,
 };

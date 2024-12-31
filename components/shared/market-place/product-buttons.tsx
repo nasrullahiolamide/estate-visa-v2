@@ -44,7 +44,7 @@ export function ProductButtons({
         color: "gray",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "reject" }),
+          onClick: () => mutate({ id, status: "rejected" }),
         },
       },
       {
@@ -52,7 +52,7 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "approve" }),
+          onClick: () => mutate({ id, status: "approved" }),
         },
       },
     ],
@@ -63,7 +63,7 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "suspend" }),
+          onClick: () => mutate({ id, status: "suspended" }),
         },
       },
     ],
@@ -83,7 +83,7 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "suspend" }),
+          onClick: () => mutate({ id, status: "suspended" }),
         },
       },
     ],

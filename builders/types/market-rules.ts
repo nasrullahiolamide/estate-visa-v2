@@ -19,6 +19,8 @@ export type MarketRulesData = {
   appliesTo: string;
 };
 
+export type UpdateMarketRulesData = Omit<MarketRulesData, "id"> & {};
+
 export function useFakeMarketRulesData(_?: any, index?: number) {
   faker.seed(index);
 
@@ -33,10 +35,10 @@ export function useFakeMarketRulesData(_?: any, index?: number) {
     estateId: faker.lorem.sentence(),
     appliesTo: faker.helpers.arrayElement([
       "all",
-      "Occupants",
-      "Sub-Occupants",
+      "occupants",
+      "sub-occupants",
     ]),
-    status: faker.helpers.arrayElement(["Active", "Inactive"]),
+    status: faker.helpers.arrayElement(["active", "inactive"]),
   };
 }
 

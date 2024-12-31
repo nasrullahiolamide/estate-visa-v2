@@ -103,7 +103,14 @@ export default function MarketPlace() {
         estateId,
       }),
     placeholderData: initialProductList,
-    select: (data) => data,
+    select({ total, page, data, pageSize }) {
+      return {
+        total,
+        page,
+        pageSize,
+        data: data.filter((item) => item.status === "approved"),
+      };
+    },
   });
 
   useEffect(() => {

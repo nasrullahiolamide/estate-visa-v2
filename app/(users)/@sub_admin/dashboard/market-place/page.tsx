@@ -122,7 +122,7 @@ export default function MarketPlace() {
           >
             <Flex
               align='center'
-              className='overflow-scroll w-full bg-white  sticky top-0 z-40'
+              className='overflow-scroll w-full sticky top-0 z-40'
             >
               <Tabs.List className='w-full flex-nowrap'>
                 {Object.values(PRODUCT_VIEW).map((type) => (
