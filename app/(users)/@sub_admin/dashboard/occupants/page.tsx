@@ -1,21 +1,10 @@
 "use client";
 
-import clsx from "clsx";
-import fileDownload from "js-file-download";
-import { Add } from "iconsax-react";
-import { Fragment, useEffect } from "react";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakeOccupantsList } from "@/builders/types/occupants";
-import { OccupantActions } from "@/components/admin/occupants/actions";
+import { MIME_TYPE } from "@/builders/types/shared";
 import { occupantsColumns } from "@/columns/for_admins/occupants";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/icons";
+import { OccupantActions } from "@/components/admin/occupants/actions";
 import {
   OccupantsForm,
   OccupantsFormProps,
@@ -24,20 +13,29 @@ import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
-  FlowSearch,
 } from "@/components/layout";
-import { MIME_TYPE } from "@/builders/types/shared";
-import { useFilename } from "@/packages/hooks/use-file-name";
-import { handleError } from "@/packages/notification";
-import { FILE } from "@/packages/libraries/enum";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { DownloadIcon, UploadIcon } from "@/icons";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { MODALS } from "@/packages/libraries";
+import { FILE } from "@/packages/libraries/enum";
+import { handleError } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Add } from "iconsax-react";
+import fileDownload from "js-file-download";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -57,7 +55,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Occupants",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload type="occupants" />,
+    children: <BulkUpload type='occupants' />,
   });
 };
 
@@ -133,7 +131,7 @@ export default function Occupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Occupants"
+        title='Occupants'
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -143,7 +141,7 @@ export default function Occupants() {
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -161,11 +159,11 @@ export default function Occupants() {
               />
             ) : (
               <EmptySlot
-                title="There are no occupants yet. Add one to get started!"
-                src="person-minus"
+                title='There are no occupants yet. Add one to get started!'
+                src='person-minus'
                 withDoubleButton
-                primaryText="Add New Occupant"
-                secondaryText="Bulk Upload"
+                primaryText='Add New Occupant'
+                secondaryText='Bulk Upload'
                 primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () => handleOccupantForm({ modalType: "add" }),
@@ -227,15 +225,10 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-<<<<<<< HEAD
     <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Occupants' placeholder='Search occupants...' />
-=======
-    <Flex gap={14} wrap="wrap" hidden={hidden}>
->>>>>>> 6b84a6ededa2eb59c5f27c9df754337c55186878
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={() => handleOccupantForm({ modalType: "add" })}
       >
@@ -243,18 +236,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

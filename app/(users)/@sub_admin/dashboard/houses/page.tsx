@@ -1,25 +1,14 @@
 "use client";
 
-import clsx from "clsx";
+import { Add } from "iconsax-react";
 import fileDownload from "js-file-download";
 import { Fragment, useEffect } from "react";
-import { Add } from "iconsax-react";
 
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
-import { MIME_TYPE } from "@/builders/types/shared";
 import { useFakeHousesList } from "@/builders/types/houses";
-import { APP, MODALS } from "@/packages/libraries";
-import { handleError } from "@/packages/notification";
-import { useFilename } from "@/packages/hooks/use-file-name";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { HousesActions } from "@/components/admin/houses/actions";
+import { MIME_TYPE } from "@/builders/types/shared";
 import { housesColumns } from "@/columns/for_admins/houses";
-import { DownloadIcon, UploadIcon } from "@/icons";
+import { HousesActions } from "@/components/admin/houses/actions";
 import {
   HouseForm,
   HouseFormProps,
@@ -28,18 +17,27 @@ import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
-  FlowSearch,
 } from "@/components/layout";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
-import { toString } from "lodash";
+import { DownloadIcon, UploadIcon } from "@/icons";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { APP, MODALS } from "@/packages/libraries";
 import { FILE } from "@/packages/libraries/enum";
+import { handleError } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toString } from "lodash";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -65,7 +63,7 @@ const bulkUpload = () => {
   modals.open({
     title: "Bulk Upload of Houses",
     modalId: MODALS.UPLOAD_RESOURCES,
-    children: <BulkUpload type="houses" />,
+    children: <BulkUpload type='houses' />,
   });
 };
 
@@ -153,7 +151,7 @@ export default function Houses() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Houses"
+        title='Houses'
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -163,7 +161,7 @@ export default function Houses() {
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -181,11 +179,11 @@ export default function Houses() {
               />
             ) : (
               <EmptySlot
-                title="No houses added yet. Start by adding a house to manage!"
-                src="house"
+                title='No houses added yet. Start by adding a house to manage!'
+                src='house'
                 withDoubleButton
-                primaryText="Add New House"
-                secondaryText="Bulk Upload"
+                primaryText='Add New House'
+                secondaryText='Bulk Upload'
                 primaryBtnProps={{
                   onClick: () => handleHouseForm({ modalType: "add" }),
                 }}
@@ -248,15 +246,10 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-<<<<<<< HEAD
     <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Houses' placeholder='Search houses...' />
-=======
-    <Flex gap={14} wrap="wrap" hidden={hidden}>
->>>>>>> 6b84a6ededa2eb59c5f27c9df754337c55186878
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={() => handleHouseForm({ modalType: "add" })}
       >
@@ -264,18 +257,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}
