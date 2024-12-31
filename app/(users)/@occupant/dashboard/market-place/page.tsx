@@ -134,7 +134,7 @@ export default function MarketPlace() {
                 <Stack gap={10}>
                   <Text fw={500}>{item.name}</Text>
                   <Text fw={700} size='lg'>
-                    {formatCurrency(+item.price || 200, "NGN")}
+                    {formatCurrency(+item.price, "NGN")}
                   </Text>
                   <StarRating className='!justify-start' />
                   <Text size='sm' c='violet'>
