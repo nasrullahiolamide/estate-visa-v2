@@ -1,37 +1,32 @@
 "use client";
 
 import { builder } from "@/builders";
-import { ProductData, useFakeProductList } from "@/builders/types/products";
+import { useFakeProductList } from "@/builders/types/products";
 import {
   FlowContentHorizontal,
   FlowEntriesPerPage,
   FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
-  FlowSearch,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { AddProduct } from "@/components/occupant/market-place/add-product";
-import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { AddIcon, ListIcon } from "@/icons";
+import { ProductCard } from "@/components/shared/interface/cards/product";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { AddIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
-import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
+import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { Fragment, useEffect } from "react";
-
-import { ProductCard } from "@/components/shared/interface/cards/product";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns";
-
-import clsx from "clsx";
-import Link from "next/link";
 
 const filterOptions = [
   { label: "Recent", value: "recent" },
@@ -67,24 +62,12 @@ const addProduct = () => {
   });
 };
 
-const handleProductDetail = (item: ProductData) => {
-  modals.open({
-    modalId: MODALS.PRODUCT_DETAIL,
-    children: <OccupantProductDetail {...item} />,
-    classNames: {
-      body: "p-0",
-      header: "right-8 top-6 absolute bg-transparent",
-    },
-  });
-};
-
-export default function MarketPlace() {
+export default function Listings() {
   const initialProductList = useFakeProductList();
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
-
   const { data: products, isPlaceholderData } = useQuery({
     queryKey: builder.products.get.$get({
       page,
@@ -103,14 +86,7 @@ export default function MarketPlace() {
         estateId,
       }),
     placeholderData: initialProductList,
-    select({ total, page, data, pageSize }) {
-      return {
-        total,
-        page,
-        pageSize,
-        data: data.filter((item) => item.status === "approved"),
-      };
-    },
+    select: (data) => data,
   });
 
   useEffect(() => {
@@ -127,7 +103,11 @@ export default function MarketPlace() {
   return (
     <Fragment>
       <AppShellHeader
-        title='Market Place'
+        title={
+          !noDataAvailable
+            ? `My Product Lists (${products?.total})`
+            : "My Product Lists"
+        }
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
@@ -140,24 +120,28 @@ export default function MarketPlace() {
       >
         {products?.data.length ? (
           <FlowContentHorizontal
+            mah={{
+              base: "auto",
+              lg: 700,
+            }}
             breakpoint='320'
-            className='p-3 lg:p-0 h-full'
             gap={24}
+            className='p-3 lg:p-0'
           >
             {products?.data.map((item) => (
               <ProductCard
                 key={item.id}
                 list={item}
-                onClick={() => handleProductDetail(item)}
-                viewId='viewer'
+                viewId='owner'
+                skeleton={isPlaceholderData}
               />
             ))}
           </FlowContentHorizontal>
         ) : (
           <EmptySlot
-            src='marketplace'
-            title='There are no products yet. Check back later for updates or add a new product to get started.'
             withButton
+            src='marketplace'
+            title='You do not have a product yet. Add a new product to get started.'
             text='Add New Product'
             btnProps={{
               leftSection: <AddIcon />,
@@ -179,18 +163,6 @@ export default function MarketPlace() {
           hidden={noDataAvailable}
           buttons={[
             {
-              icon: "list",
-              label: "My Listings",
-              btnProps: {
-                component: "a",
-                href: makePath(
-                  PAGES.DASHBOARD,
-                  PAGES.MARKET_PLACE,
-                  PAGES.MY_LISTINGS
-                ),
-              },
-            },
-            {
               icon: "filter",
               filterData: filterOptions,
             },
@@ -209,20 +181,9 @@ export default function MarketPlace() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Market Place' placeholder='Search products...' />
-      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <Button fz='sm' size='md' leftSection={<AddIcon />}>
         Add Product
-      </Button>
-      <Button
-        fz='sm'
-        size='md'
-        variant='outline'
-        leftSection={<ListIcon />}
-        component={Link}
-        href={makePath(PAGES.DASHBOARD, PAGES.MARKET_PLACE, PAGES.MY_LISTINGS)}
-      >
-        My Listings
       </Button>
       <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
