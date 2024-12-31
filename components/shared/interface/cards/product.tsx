@@ -1,6 +1,5 @@
 import { ProductData } from "@/builders/types/products";
 import { formatCurrency } from "@/packages/libraries/formatters/currency";
-import { skeleton } from "@/packages/tailwind";
 import { Flex, Pill, Stack, Text } from "@mantine/core";
 import { ReactNode } from "react";
 
@@ -14,6 +13,7 @@ interface ProductCardProps {
   list: ProductData;
   onClick?: () => void;
   viewId: "admin" | "occupant";
+  skeleton?: boolean;
 }
 
 export const configs: Record<
@@ -57,14 +57,19 @@ export const configs: Record<
   },
 };
 
-export function ProductCard({ list, onClick, viewId }: ProductCardProps) {
+export function ProductCard({
+  list,
+  onClick,
+  viewId,
+  skeleton,
+}: ProductCardProps) {
   return (
     <Stack
       p={12}
       key={list.id}
       onClick={onClick}
       className={clsx(
-        "rounded-xl bg-white cursor-pointer",
+        "rounded-xl bg-white cursor-pointer h-fit",
         "border border-gray-3",
         {
           skeleton,
@@ -96,7 +101,7 @@ export function ProductCard({ list, onClick, viewId }: ProductCardProps) {
           </Pill>
         </Flex>
         <Text fw={700} size='xl'>
-          {formatCurrency(+list.price, "NGN")}
+          {formatCurrency(+list.price || 1000, "NGN")}
         </Text>
         <Text size='sm' c='violet' mt={-5}>
           House A10
