@@ -47,7 +47,7 @@ export function MarketRuleForm({ viewId, ...data }: MarketRuleFormProps) {
   const {
     title = "",
     content = "",
-    date = "",
+    date = Date.now().toString(),
     appliesTo = "",
     status = "",
     image = "",
