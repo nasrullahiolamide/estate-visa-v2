@@ -109,7 +109,7 @@ export default function Messages() {
         className='lg:~px-1/8 lg:py-4 justify-between'
       >
         {!noDataAvailable && (
-          <Title order={2} className='p-4'>
+          <Title order={2} fz={24} className='p-4'>
             My Product Lists ({products?.total ?? 0})
           </Title>
         )}

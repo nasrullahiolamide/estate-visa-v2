@@ -1,17 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import { Fragment, useEffect } from "react";
-import { useQueryState } from "nuqs";
-
-import { Button, CheckIcon, Flex, Tabs } from "@mantine/core";
-import { APP, makePath, PAGES } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import {
-  filterOptions,
-  OccupantMeetingTable,
-} from "@/components/occupant/meetings/table";
+import { builder } from "@/builders";
+import { useFakeMeetingsList } from "@/builders/types/meetings";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -20,13 +10,22 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-
+import {
+  filterOptions,
+  OccupantMeetingTable,
+} from "@/components/occupant/meetings/table";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { CancelCircleIcon, HourglassIcon, NotesIcon } from "@/icons";
-import { builder } from "@/builders";
-import { useFakeMeetingsList } from "@/builders/types/meetings";
+import { APP, makePath, PAGES } from "@/packages/libraries";
+import { Button, CheckIcon, Flex, Tabs } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
+import { useQueryState } from "nuqs";
+import { Fragment, useEffect } from "react";
+
+import Link from "next/link";
 
 export default function Minutes() {
   const [view, setView] = useQueryState("type", {
@@ -71,12 +70,12 @@ export default function Minutes() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Meetings"
+        title='Meetings'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -87,10 +86,10 @@ export default function Minutes() {
             onChange={setView}
             tabsContainerProps={{ gap: 0 }}
           >
-            <Flex align="center">
-              <Tabs.List className="w-full">
+            <Flex align='center'>
+              <Tabs.List className='w-full'>
                 <Tabs.Tab
-                  value="scheduled"
+                  value='scheduled'
                   flex={1}
                   py={18}
                   leftSection={<HourglassIcon />}
@@ -98,7 +97,7 @@ export default function Minutes() {
                   Scheduled
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value="completed"
+                  value='completed'
                   flex={1}
                   py={18}
                   leftSection={<CheckIcon />}
@@ -106,7 +105,7 @@ export default function Minutes() {
                   Completed
                 </Tabs.Tab>
                 <Tabs.Tab
-                  value="cancelled"
+                  value='cancelled'
                   flex={1}
                   py={18}
                   leftSection={<CancelCircleIcon />}
@@ -116,25 +115,25 @@ export default function Minutes() {
               </Tabs.List>
             </Flex>
 
-            <FlowTabsPanel value="scheduled">
+            <FlowTabsPanel value='scheduled'>
               <OccupantMeetingTable
-                view="scheduled"
+                view='scheduled'
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
               />
             </FlowTabsPanel>
-            <FlowTabsPanel value="completed">
+            <FlowTabsPanel value='completed'>
               <OccupantMeetingTable
-                view="completed"
+                view='completed'
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
               />
             </FlowTabsPanel>
-            <FlowTabsPanel value="cancelled">
+            <FlowTabsPanel value='cancelled'>
               <OccupantMeetingTable
-                view="cancelled"
+                view='cancelled'
                 meetings={meetings}
                 isLoading={isPlaceholderData}
                 numberOfPages={numberOfPages}
@@ -153,11 +152,11 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
-      <FilterDropdown label="Filter" data={filterOptions} />
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <FilterDropdown label='Filter' data={filterOptions} />
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<NotesIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS, PAGES.MINUTES)}

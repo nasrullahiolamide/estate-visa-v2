@@ -25,11 +25,12 @@ import { formatCurrency } from "@/packages/libraries/formatters/currency";
 import { Button, Flex, Stack, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
-import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import Link from "next/link";
 import { Fragment, useEffect } from "react";
+
+import clsx from "clsx";
+import Link from "next/link";
 
 const filterOptions = [
   { label: "Recent", value: "recent" },

@@ -32,10 +32,10 @@ export default function Overview() {
 
   return (
     <Fragment>
-      <AppShellHeader title="Overview" />
+      <AppShellHeader title='Overview' />
 
-      <AppShellMain layout="default">
-        <Stack gap={35} w="100%">
+      <AppShellMain layout='default'>
+        <Stack gap={35} w='100%'>
           <StatisticsOverview
             totalGateRequests={data?.totalGateRequests ?? 0}
             totalMessages={data?.totalMessages ?? 0}

@@ -26,10 +26,10 @@ function calculateDeadline(validityPeriod: string): Date {
     .add(duration, unit as ManipulateType)
     .startOf("day");
 
-  return new Date(deadline.format("MMMM DD, YYYY HH:mm:ss"));
+  return deadline.toDate();
 }
 
-const renderer: CountdownRendererFn = ({
+let renderer: CountdownRendererFn = ({
   days,
   hours,
   minutes,
@@ -55,7 +55,7 @@ const renderer: CountdownRendererFn = ({
       <div
         className={clsx(
           "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
+          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
         )}
       >
         {years > 0 && (
@@ -72,7 +72,7 @@ const renderer: CountdownRendererFn = ({
     <div
       className={clsx(
         "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
+        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
       )}
     >
       <TimePad moment={days} period={days > 1 ? "Days" : "Day"} />
@@ -84,36 +84,36 @@ const renderer: CountdownRendererFn = ({
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  const deadline = calculateDeadline(toString(house?.validityPeriod));
-  let millisecondsTillDeadline = Date.parse(toString(deadline));
+  let deadline = calculateDeadline(toString(house?.validityPeriod));
+  let millisecondsTillDeadline = deadline.getTime();
 
   return (
     <FlowContainer
       py={84}
       px={16}
-      type="plain"
+      type='plain'
       gap={15}
-      bg="white"
+      bg='white'
       {...props}
       className={clsx({ skeleton })}
     >
       <Title
         order={2}
         fw={600}
-        ta="center"
+        ta='center'
         mb={24}
-        className="clump:text-[clamp(4rem,6vw,5rem)] text-2xl"
+        className='clump:text-[clamp(4rem,6vw,5rem)] text-2xl'
       >
         Subscription Validity
       </Title>
-      <Countdown renderer={renderer} date={deadline} autoStart />
-      <Stack mx="auto" mt={24} gap={24} ta="center" px={24}>
+      <Countdown renderer={renderer} date={millisecondsTillDeadline} />
+      <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>
         {millisecondsTillDeadline > Date.now() ? (
-          <Text c="gray.8">
+          <Text c='gray.8'>
             Renew subscription by {formatDate(deadline, "LL")}.
           </Text>
         ) : (
-          <Text c="red.8">
+          <Text c='red.8'>
             Your subscription has expired since {formatDate(deadline, "LL")}.
           </Text>
         )}
