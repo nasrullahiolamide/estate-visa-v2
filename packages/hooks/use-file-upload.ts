@@ -166,8 +166,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
         : builder.$use?.upload({ formData, onUploadProgress }),
     onError(error: unknown) {
       const axiosError = error as AxiosError;
-      handleMantineError()(axiosError);
-      onError?.();
+      isBulkUpload ? handleMantineError(axiosError) : onError?.();
     },
   });
 
