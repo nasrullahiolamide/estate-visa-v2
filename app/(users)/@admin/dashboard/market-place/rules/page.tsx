@@ -16,6 +16,7 @@ import {
   FlowFooter,
   FlowPagination,
   FlowPaper,
+  FlowSearch,
   FlowTable,
   useFlowPagination,
   useFlowState,
@@ -206,6 +207,7 @@ export default function MarketRules() {
 function HeaderOptions({ hidden }: { hidden?: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <FlowSearch title='Market Rules' />
       <Button
         fz='sm'
         size='md'
