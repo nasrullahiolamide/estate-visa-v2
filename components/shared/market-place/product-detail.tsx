@@ -19,29 +19,27 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
           sm: 30,
         }}
       >
-        <Stack
-          className="overflow-auto"
-        >
+        <Stack className='overflow-auto'>
           <Picture
             src={item.image ?? "/images/placeholder.png"}
             h={160}
-            w="100%"
+            w='100%'
             alt={item.name ?? "product image"}
-            className="rounded-lg"
-            objectFit="cover"
+            className='rounded-lg'
+            objectFit='cover'
           />
 
           <Stack mt={16}>
             <Stack gap={20}>
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Name:
                 </Text>
                 <Text fz={14}>{item.name}</Text>
               </Flex>
 
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Price:
                 </Text>
                 <Text fw={500} fz={18}>
@@ -49,41 +47,41 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
                 </Text>
               </Flex>
 
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Seller:
                 </Text>
                 <Text fz={14}>House A10</Text>
               </Flex>
 
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Phone No:
                 </Text>
-                <Text fz={14} fw={500} c="blue.4">
+                <Text fz={14} fw={500} c='blue.4'>
                   {item.phone}
                 </Text>
               </Flex>
 
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Rating:
                 </Text>
-                <Text fz={14} fw={500} c="blue.4">
-                  <StarRating className="!justify-start" />
+                <Text fz={14} fw={500} c='blue.4'>
+                  <StarRating className='!justify-start' defaultRating={4} />
                 </Text>
               </Flex>
 
-              <Flex align="center" gap={24}>
-                <Text fz={14} c="gray">
+              <Flex align='center' gap={24}>
+                <Text fz={14} c='gray'>
                   Status:
                 </Text>
                 <Pill
                   c={configs[item.status].color}
                   bg={configs[item.status].bg}
                   ml={8}
-                  radius="sm"
-                  tt="capitalize"
+                  radius='sm'
+                  tt='capitalize'
                 >
                   {item.status.includes("pending") ? "pending" : item.status}
                 </Pill>
@@ -95,15 +93,15 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
 
           <Divider />
           <Stack>
-            <Title order={2} c="plum.5" fz={14} fw={500}>
+            <Title order={2} c='plum.5' fz={14} fw={500}>
               Product Description
             </Title>
             <Text
               fz={14}
-              c="gray"
+              c='gray'
               p={10}
               mih={60}
-              className="border border-gray-3 rounded-md"
+              className='border border-gray-3 rounded-md'
             >
               {item.description}
             </Text>
@@ -112,23 +110,23 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
           <Divider my={15} />
 
           <Stack>
-            <Title order={2} c="plum.5" fz={14} fw={500}>
+            <Title order={2} c='plum.5' fz={14} fw={500}>
               Reviews and Ratings
             </Title>
-            <Flex align="center" gap={24}>
-              <Text fz={14} c="gray">
+            <Flex align='center' gap={24}>
+              <Text fz={14} c='gray'>
                 Buyer 1:
               </Text>
-              <Text fz={14} fw={500} c="blue.4">
-                <StarRating className="!justify-start" />
+              <Text fz={14} fw={500} c='blue.4'>
+                <StarRating className='!justify-start' defaultRating={4} />
               </Text>
             </Flex>
             <Text
               fz={14}
-              c="gray"
+              c='gray'
               p={10}
               mih={60}
-              className="border border-gray-3 rounded-md"
+              className='border border-gray-3 rounded-md'
             >
               {item.description}
             </Text>
