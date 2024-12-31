@@ -1,16 +1,16 @@
 import {
   ActionIcon,
   FocusTrap,
+  Modal,
+  Text,
   TextInput,
   TextInputProps,
-  Text,
-  Modal,
 } from "@mantine/core";
-import { useClickOutside, useDisclosure } from "@mantine/hooks";
 import { Form, useForm } from "@mantine/form";
+import { useClickOutside, useDisclosure } from "@mantine/hooks";
 
 import { SearchIcon } from "@/icons";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFlowDispatch } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
 
@@ -19,6 +19,7 @@ import clsx from "clsx";
 export type FlowSearchProps = TextInputProps & {
   isloading?: boolean;
   title: string;
+  hidden?: boolean;
 };
 
 export function FlowSearch(props: FlowSearchProps) {
@@ -60,8 +61,8 @@ export function FlowSearch(props: FlowSearchProps) {
       <Form form={form} onSubmit={handleSubmit}>
         <FocusTrap active>
           <TextInput
-            fz="sm"
-            placeholder="Search table"
+            fz='sm'
+            placeholder='Search table'
             miw={250}
             classNames={{
               input: "text-sm border border-blue-8 pr-8 pl-3 !py-5 ",
@@ -69,8 +70,8 @@ export function FlowSearch(props: FlowSearchProps) {
             }}
             rightSection={
               <ActionIcon
-                variant="transparent"
-                className="w-full h-full rounded-tr-none rounded-br-none"
+                variant='transparent'
+                className='w-full h-full rounded-tr-none rounded-br-none'
                 onClick={() => {
                   handleSubmit(form.values);
                   close();
@@ -90,7 +91,8 @@ export function FlowSearch(props: FlowSearchProps) {
     </Modal>
   ) : (
     <ActionIcon
-      variant="transparent"
+      hidden={props.hidden}
+      variant='transparent'
       onClick={() => {
         setShowSearchField(!showSearchField);
         open();
@@ -100,7 +102,7 @@ export function FlowSearch(props: FlowSearchProps) {
       <SearchIcon
         height={20}
         width={25}
-        className="lg:text-blue-8 text-primary-text-caption"
+        className='lg:text-blue-8 text-primary-text-caption'
       />
     </ActionIcon>
   );

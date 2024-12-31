@@ -41,6 +41,10 @@ export const productStatusColorConfig: Record<
     color: "red",
     bg: "red.1",
   },
+  rejected: {
+    color: "red",
+    bg: "red.1",
+  },
 };
 
 export function ProductCard({

@@ -176,13 +176,13 @@ export default function MarketPlace() {
         </FlowFooter>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable}
           buttons={[
             {
               icon: "list",
               label: "My Listings",
               btnProps: {
                 component: "a",
+
                 href: makePath(
                   PAGES.DASHBOARD,
                   PAGES.MARKET_PLACE,
@@ -193,11 +193,15 @@ export default function MarketPlace() {
             {
               icon: "filter",
               filterData: filterOptions,
+              btnProps: {
+                hidden: noDataAvailable,
+              },
             },
             {
               icon: "add",
               btnProps: {
                 onClick: addProduct,
+                hidden: noDataAvailable,
               },
             },
           ]}
@@ -209,9 +213,19 @@ export default function MarketPlace() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap='wrap' hidden={hidden}>
-      <FlowSearch title='Market Place' placeholder='Search products...' />
-      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
+    <Flex gap={14} wrap='wrap'>
+      <FlowSearch
+        title='Market Place'
+        placeholder='Search products...'
+        hidden={hidden}
+      />
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={addProduct}
+        hidden={hidden}
+      >
         Add Product
       </Button>
       <Button
@@ -224,7 +238,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       >
         My Listings
       </Button>
-      <FilterDropdown label='Filter' data={filterOptions} />
+      <FilterDropdown label='Filter' data={filterOptions} hidden={hidden} />
     </Flex>
   );
 }

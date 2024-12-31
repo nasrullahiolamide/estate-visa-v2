@@ -10,6 +10,7 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowEditor } from "@/components/layout/flow-editor";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
 import { CalenderIcon } from "@/icons";
+import { DATE_FORMAT } from "@/packages/constants/time";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { APP, MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -24,6 +25,7 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
+import dayjs from "dayjs";
 import { concat, toString } from "lodash";
 import { toast } from "react-toastify";
 import { object } from "yup";
@@ -47,7 +49,7 @@ export function MarketRuleForm({ viewId, ...data }: MarketRuleFormProps) {
   const {
     title = "",
     content = "",
-    date = "",
+    date = dayjs(data?.date, DATE_FORMAT).toDate() ?? new Date(),
     appliesTo = "",
     status = "",
     image = "",
@@ -79,6 +81,13 @@ export function MarketRuleForm({ viewId, ...data }: MarketRuleFormProps) {
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
+    transformValues: ({ date, ...values }) => {
+      return {
+        ...values,
+        estateId,
+        date: dayjs(date, DATE_FORMAT).toDate(),
+      };
+    },
   });
 
   const { previews, handleUpload, onDelete } = useFileUpload({

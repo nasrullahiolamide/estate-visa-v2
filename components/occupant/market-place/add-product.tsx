@@ -52,7 +52,7 @@ export function AddProduct() {
             title='Product Added Successfully'
             description="Your product is under review, our team will verify your listing within the next 48 hours, and you'll be notified once it's approved."
             btnText='Got it'
-            src='hour-glass'
+            src='success'
             btnProps={{
               onClick: () => modals.closeAll(),
             }}

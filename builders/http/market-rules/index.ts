@@ -14,6 +14,11 @@ const post = function (data: UpdateMarketRulesData) {
   return api.post("/products/market-rules", data);
 };
 
+const edit = function (variables: { id: string; data: UpdateMarketRulesData }) {
+  const { id, data } = variables;
+  return api.put(`/products/market-rules/${id}`, data);
+};
+
 const change_status = function ({
   id,
   status,
@@ -25,7 +30,7 @@ const change_status = function ({
 };
 
 const remove = function (id: string) {
-  return api.delete(`/market-rules/${id}`);
+  return api.delete(`/products/market-rules/${id}`);
 };
 
 export const market_rules = {

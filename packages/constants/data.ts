@@ -24,10 +24,11 @@ export const PRODUCT_CATEGORIES = [
 
 export enum PRODUCT_VIEW {
   ALL = "total",
-  PENDING_APPROVALS = "pending-approvals",
+  PENDING_APPROVALS = "pending-approval",
   ACTIVE = "active",
   REPORTED = "reported",
   SUSPENDED = "suspended",
+  REJECTED = "rejected",
 }
 
 export const PAID_FEATURES = [

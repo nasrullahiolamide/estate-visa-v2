@@ -10,7 +10,6 @@ import {
   GroupDiscussionIcon,
   HousesIcon,
   MarketPlaceIcon,
-  TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
 } from "@/icons";
@@ -99,7 +98,7 @@ export default function Template({ children }: TemplateProps) {
             </Center>
 
             {user.estate && (
-              <Title mt={10} ta="center" fw={700} c="purple.9">
+              <Title mt={10} ta='center' fw={700} c='purple.9'>
                 {user.estate.name} Estate
               </Title>
             )}
@@ -143,12 +142,12 @@ export default function Template({ children }: TemplateProps) {
                 label={"Gates"}
                 opened={opened}
               />
-              <AppShellButton
+              {/* <AppShellButton
                 leftSection={<TablerMessageIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
                 label={"Messages"}
                 opened={opened}
-              />
+              /> */}
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
@@ -169,8 +168,8 @@ export default function Template({ children }: TemplateProps) {
         </AppShell.Section>
       </AppShell.Navbar>
 
-      <AppShell.Main component={Flex} h="100dvh" className="overflow-auto">
-        <Stack gap={0} flex={1} className="bg-primary-text-normal">
+      <AppShell.Main component={Flex} h='100dvh' className='overflow-auto'>
+        <Stack gap={0} flex={1} className='bg-primary-text-normal'>
           {children}
         </Stack>
       </AppShell.Main>

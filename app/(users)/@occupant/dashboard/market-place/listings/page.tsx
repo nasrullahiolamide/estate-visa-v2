@@ -182,7 +182,7 @@ export default function Listings() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />}>
+      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
         Add Product
       </Button>
       <FilterDropdown label='Filter' data={filterOptions} />

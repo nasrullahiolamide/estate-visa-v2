@@ -13,7 +13,7 @@ export type MarketRulesData = {
   title: string;
   content: string;
   image: string;
-  date: string;
+  date: Date;
   estateId: string;
   status: string;
   appliesTo: string;
@@ -31,7 +31,7 @@ export function useFakeMarketRulesData(_?: any, index?: number) {
     title: faker.lorem.sentence(),
     content: faker.lorem.paragraph(),
     image: faker.image.url(),
-    date: faker.date.recent().toISOString(),
+    date: faker.date.recent(),
     estateId: faker.lorem.sentence(),
     appliesTo: faker.helpers.arrayElement([
       "all",

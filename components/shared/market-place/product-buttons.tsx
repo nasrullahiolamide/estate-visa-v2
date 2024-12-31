@@ -52,7 +52,7 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "approved" }),
+          onClick: () => mutate({ id, status: "approve" }),
         },
       },
     ],
@@ -63,6 +63,7 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
+          loading: isPending,
           onClick: () => mutate({ id, status: "suspended" }),
         },
       },
@@ -72,7 +73,8 @@ export function ProductButtons({
         label: "Activate",
         color: "blue",
         props: {
-          disabled: true,
+          disabled: isPending,
+          loading: isPending,
           onClick: () => mutate({ id, status: "active" }),
         },
       },
@@ -83,7 +85,19 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
+          loading: isPending,
           onClick: () => mutate({ id, status: "suspended" }),
+        },
+      },
+    ],
+    rejected: [
+      {
+        label: "Approve",
+        color: "blue",
+        props: {
+          disabled: isPending,
+          loading: isPending,
+          onClick: () => mutate({ id, status: "approve" }),
         },
       },
     ],
@@ -102,11 +116,11 @@ export function ProductButtons({
           h={40}
           fz={13}
           flex={1}
+          {...action.props}
           onClick={(e) => {
             e.stopPropagation();
             action.props?.onClick?.();
           }}
-          {...action.props}
         >
           {action.label}
         </Button>

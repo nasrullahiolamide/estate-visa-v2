@@ -71,7 +71,7 @@ const filterOptions = [
 const handleMarketRuleForm = (details: MarketRuleFormProps) => {
   modals.open({
     title: "Add New Rule",
-    modalId: MODALS.FORM_DETAILS,
+    modalId: MODALS.ADD_DETAILS,
     children: <MarketRuleForm {...details} />,
   });
 };
@@ -166,6 +166,9 @@ export default function MarketRules() {
                 data={marketRules.data}
                 columns={marketRuleColumns}
                 skeleton={isPlaceholderData}
+                onRowClick={(data) =>
+                  handleMarketRuleForm({ viewId: "view", ...data })
+                }
               />
             ) : (
               <EmptySlot
