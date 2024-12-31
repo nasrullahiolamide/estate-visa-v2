@@ -21,17 +21,22 @@ export function OccupantProductDetail({ ...item }: ProductData) {
     validateInputOnBlur: true,
   });
 
-
   return (
     <ProductDetail {...item}>
-      <Stack >
-        <Title order={2} c="plum.5" fz={14} fw={500}>
+      <Stack>
+        <Title order={2} c='plum.5' fz={14} fw={500}>
           Rate and Review
         </Title>
-        <StarRating className="!justify-start" />
+        <StarRating
+          hover
+          className='!justify-start'
+          defaultRating={0}
+          onSetRating={(rating) => form.setFieldValue("rating", rating)}
+          messages={["Poor", "Fair", "Good", "Very Good", "Excellent"]}
+        />
         <Textarea
           mih={60}
-          placeholder="Leave a review"
+          placeholder='Leave a review'
           {...form.getInputProps("review")}
         />
 
