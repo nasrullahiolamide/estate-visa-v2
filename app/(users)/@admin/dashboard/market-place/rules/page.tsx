@@ -71,7 +71,7 @@ const filterOptions = [
 const handleMarketRuleForm = (details: MarketRuleFormProps) => {
   modals.open({
     title: "Add New Rule",
-    modalId: MODALS.ADD_DETAILS,
+    modalId: MODALS.FORM_DETAILS,
     children: <MarketRuleForm {...details} />,
   });
 };

@@ -11,7 +11,7 @@ import { FlowEditor } from "@/components/layout/flow-editor";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
 import { CalenderIcon } from "@/icons";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
-import { APP } from "@/packages/libraries";
+import { APP, MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { Button, Select, TextInput } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -21,6 +21,7 @@ import {
   PDF_MIME_TYPE,
 } from "@mantine/dropzone";
 import { Form, useForm, yupResolver } from "@mantine/form";
+import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { concat, toString } from "lodash";
@@ -61,6 +62,7 @@ export function MarketRuleForm({ viewId, ...data }: MarketRuleFormProps) {
       handleSuccess({
         message: "Market Rule Added Successfully",
       });
+      modals.close(MODALS.FORM_DETAILS);
     },
     onError: handleError(),
   });
