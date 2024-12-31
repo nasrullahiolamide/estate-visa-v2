@@ -4,7 +4,7 @@ import { StarRating } from "@/components/shared/interface";
 import { generateProductButtons } from "@/components/shared/market-place/product-buttons";
 import { ProductDetail } from "@/components/shared/market-place/product-detail";
 import { Stack, Textarea, Title } from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
+import { useForm, yupResolver } from "@mantine/form";
 import { object } from "yup";
 
 const schema = object({
@@ -20,9 +20,11 @@ export function OccupantProductDetail({ ...item }: ProductData) {
     validate: yupResolver(schema),
     validateInputOnBlur: true,
   });
+
+
   return (
     <ProductDetail {...item}>
-      <Stack component={Form}>
+      <Stack >
         <Title order={2} c="plum.5" fz={14} fw={500}>
           Rate and Review
         </Title>

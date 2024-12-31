@@ -132,7 +132,9 @@ export default function MarketPlace() {
             {products?.data.map((item) => (
               <Stack
                 p={18}
-                className="rounded-xl bg-white cursor-pointer h-fit"
+                className={ clsx("rounded-xl bg-white cursor-pointer h-fit", {
+                  skeleton: isPlaceholderData,
+                })}
                 key={ item.id }
                 onClick={() => handleProductDetail(item)}
               >

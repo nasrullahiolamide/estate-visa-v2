@@ -20,11 +20,7 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
         }}
       >
         <Stack
-          h={{
-            base: "auto",
-            sm: 680,
-          }}
-          className="overflow-scroll"
+          className="overflow-auto"
         >
           <Picture
             src={item.image ?? "/images/placeholder.png"}
