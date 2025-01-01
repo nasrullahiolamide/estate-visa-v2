@@ -49,10 +49,8 @@ function attachEventListeners() {
     dragMouseDown(ev);
   };
 
-  dragIcon.addEventListener("mousedown", dragStartHandler);
   dragIcon.addEventListener("touchstart", dragStartHandler);
 
-  frame.addEventListener("mousedown", dragStartHandler, { passive: false });
   frame.addEventListener("touchstart", dragStartHandler, { passive: false });
 
   frame.addEventListener("click", (ev) => {
@@ -95,9 +93,6 @@ function dragMouseDown(ev) {
   horizontalPosition = ev.clientX;
   verticalPosition = ev.clientY;
 
-  document.addEventListener("mousemove", elementDrag, { passive: false });
-  document.addEventListener("mouseup", closeDragElement);
-
   document.addEventListener("touchmove", elementDrag, { passive: false });
   document.addEventListener("touchend", closeDragElement, { passive: false });
 }
@@ -120,9 +115,6 @@ function elementDrag(ev) {
 }
 
 function closeDragElement() {
-  document.removeEventListener("mouseup", closeDragElement);
-  document.removeEventListener("mousemove", elementDrag);
-
   document.removeEventListener("touchmove", elementDrag);
   document.removeEventListener("touchend", closeDragElement);
 
