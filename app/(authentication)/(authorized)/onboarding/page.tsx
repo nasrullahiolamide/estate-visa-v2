@@ -115,7 +115,7 @@ export default function Onboarding() {
                 className='text-primary-button-surface'
                 flex={1}
               >
-                Save new password
+                Save
               </Button>
             </Flex>
           </Stack>

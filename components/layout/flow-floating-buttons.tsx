@@ -73,10 +73,10 @@ export function FlowFloatingButtons({
 
   return (
     <Stack
-      id='fc_frame'
+      // id='fc_frame'
       style={{
         position: "absolute",
-        bottom: 85,
+        bottom: 80,
         right: 12,
         zIndex: 200,
         width: "fit-content",
@@ -127,6 +127,7 @@ export function FlowFloatingButtons({
       </Stack>
 
       <Button
+        // id='fc_frame'
         radius='xl'
         w={50}
         h={50}

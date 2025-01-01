@@ -8,48 +8,12 @@ const observer = new MutationObserver(() => {
   frame = document.getElementById("fc_frame");
 
   if (frame) {
-    dragIcon = document.createElement("img");
-    dragIcon.src = "/vectors/drag.svg";
-    dragIcon.style.cursor = "grab";
-    dragIcon.style.position = "absolute";
-    dragIcon.style.top = "0px";
-    dragIcon.style.left = "0px";
-    dragIcon.style.pointerEvents = "none";
+    setupDragIcon();
+    setupFrameStyles();
+    attachEventListeners();
+    observeFrameAttributes();
 
-    if (frame.firstChild) {
-      frame.insertBefore(dragIcon, frame.firstChild);
-    } else {
-      frame.appendChild(dragIcon);
-    }
-
-    dragIcon.addEventListener("mousedown", (ev) => {
-      ev.stopPropagation();
-      dragMouseDown(ev);
-    });
-
-    dragIcon.addEventListener("touchstart", (ev) => {
-      ev.stopPropagation();
-      dragMouseDown(ev);
-    });
-
-    frame.addEventListener("mousedown", dragMouseDown, { passive: false });
-    frame.addEventListener("touchstart", dragMouseDown, { passive: false });
-
-    const frameObserver = new MutationObserver((mutationsList) => {
-      for (let mutation of mutationsList) {
-        const { type, attributeName } = mutation;
-
-        if (type === "attributes" && attributeName === "class") {
-          if (frame.classList.contains("fc-open")) {
-            frame.style.top = "";
-          }
-        }
-      }
-    });
-
-    frameObserver.observe(frame, { attributes: true });
-
-    // Stop observing for the frame
+    // Stop observing once the frame is found and set up
     observer.disconnect();
   }
 });
@@ -57,14 +21,71 @@ const observer = new MutationObserver(() => {
 // Start observing the document body for changes
 observer.observe(document.body, { childList: true, subtree: true });
 
+function setupDragIcon() {
+  dragIcon = document.createElement("img");
+  dragIcon.src = "/vectors/drag.svg";
+  dragIcon.style.cursor = "grab";
+  dragIcon.style.position = "absolute";
+  dragIcon.style.top = "0px";
+  dragIcon.style.left = "0px";
+  dragIcon.style.pointerEvents = "none";
+
+  if (frame.firstChild) {
+    frame.insertBefore(dragIcon, frame.firstChild);
+  } else {
+    frame.appendChild(dragIcon);
+  }
+}
+
+function setupFrameStyles() {
+  frame.style.position = "fixed";
+  frame.style.zIndex = "9999";
+  frame.style.bottom = "10px";
+}
+
+function attachEventListeners() {
+  const dragStartHandler = (ev) => {
+    ev.stopPropagation();
+    dragMouseDown(ev);
+  };
+
+  dragIcon.addEventListener("mousedown", dragStartHandler);
+  dragIcon.addEventListener("touchstart", dragStartHandler);
+
+  frame.addEventListener("mousedown", dragStartHandler, { passive: false });
+  frame.addEventListener("touchstart", dragStartHandler, { passive: false });
+
+  frame.addEventListener("click", (ev) => {
+    console.log("Frame clicked!");
+
+    // Allow propagation for all children of frame
+    if (frame.contains(ev.target) && ev.target !== frame) {
+      ev.stopPropagation = () => {}; // Disable stopPropagation for children
+      console.log("Child clicked!");
+    }
+  });
+}
+
+function observeFrameAttributes() {
+  const frameObserver = new MutationObserver((mutationsList) => {
+    for (let mutation of mutationsList) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "class" &&
+        frame.classList.contains("fc-open")
+      ) {
+        frame.style.top = "";
+      }
+    }
+  });
+
+  frameObserver.observe(frame, { attributes: true });
+}
+
 function dragMouseDown(ev) {
   if (ev.type === "touchstart") {
     ev.preventDefault();
     ev = ev.touches[0];
-  }
-
-  if (ev.type === "mousedown") {
-    console.log("mousedown");
   }
 
   if (dragIcon) {
@@ -73,6 +94,7 @@ function dragMouseDown(ev) {
 
   horizontalPosition = ev.clientX;
   verticalPosition = ev.clientY;
+
   document.addEventListener("mousemove", elementDrag, { passive: false });
   document.addEventListener("mouseup", closeDragElement);
 
@@ -84,10 +106,6 @@ function elementDrag(ev) {
   if (ev.type === "touchmove") {
     ev.preventDefault();
     ev = ev.touches[0];
-  }
-
-  if (dragIcon) {
-    dragIcon.style.cursor = "grabbing";
   }
 
   xHorizontalPosition = horizontalPosition - ev.clientX;
@@ -102,21 +120,23 @@ function elementDrag(ev) {
 }
 
 function closeDragElement() {
+  document.removeEventListener("mouseup", closeDragElement);
+  document.removeEventListener("mousemove", elementDrag);
+
+  document.removeEventListener("touchmove", elementDrag);
+  document.removeEventListener("touchend", closeDragElement);
+
   if (dragIcon) {
-    document.removeEventListener("mouseup", closeDragElement);
-    document.removeEventListener("mousemove", elementDrag);
+    dragIcon.style.cursor = "grab";
+  }
 
-    document.removeEventListener("touchmove", elementDrag);
-    document.removeEventListener("touchend", closeDragElement);
+  if (frame) {
+    const { left, height, top } = frame.getBoundingClientRect();
+    const halved = window.innerWidth / 2;
 
-    if (frame) {
-      const { left, height, top } = frame.getBoundingClientRect();
+    frame.style.left = left >= halved ? "" : "15px";
 
-      const halved = window.innerWidth / 2;
-      frame.style.left = left >= halved ? "" : "15px";
-
-      if (top > window.innerHeight - height) frame.style.top = "";
-      if (top < 15) frame.style.top = "15px";
-    }
+    if (top > window.innerHeight - height) frame.style.top = "";
+    if (top < 15) frame.style.top = "15px";
   }
 }

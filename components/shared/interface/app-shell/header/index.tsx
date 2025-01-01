@@ -31,6 +31,7 @@ type AppShellHeaderProps = {
   options?: JSX.Element;
   showLinks?: boolean;
   withSearch?: boolean;
+  root?: boolean;
 } & (
   | {
       withSearch: true;
@@ -99,25 +100,27 @@ export function AppShellHeader({
             justify='space-between'
             className='~px-1/8 py-2'
           >
-            <Flex align='center' gap={6} hiddenFrom='lg'>
+            <Flex align='center' gap={12} hiddenFrom='lg'>
               <Burger
                 opened={openedNav}
                 onClick={toggle}
                 hiddenFrom='lg'
                 size='sm'
               />
-              <EstateVisaLogo
-                height={45}
-                width={45}
-                className={clsx({
-                  "hidden lg:flex": openedNav,
-                })}
-              />
-              {user.estate && (
-                <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
-                  {user.estate.name} Estate
-                </Title>
-              )}
+              <Flex gap={6} align='center'>
+                <EstateVisaLogo
+                  height={45}
+                  width={45}
+                  className={clsx({
+                    "hidden lg:flex": openedNav,
+                  })}
+                />
+                {user.estate && (
+                  <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
+                    {user.estate.name} Estate
+                  </Title>
+                )}
+              </Flex>
             </Flex>
             <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
               {withSearch && (

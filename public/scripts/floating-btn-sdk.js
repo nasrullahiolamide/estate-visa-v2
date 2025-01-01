@@ -18,11 +18,4 @@ function initFreshChat() {
   }
 }
 
-if (
-  document.readyState === "complete" ||
-  document.readyState === "interactive"
-) {
-  initFreshChat();
-} else {
-  window.addEventListener("load", initFreshChat);
-}
+initFreshChat();
