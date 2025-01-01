@@ -51,7 +51,7 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
                 <Text fz={14} c='gray'>
                   Seller:
                 </Text>
-                <Text fz={14}>House A10</Text>
+                <Text fz={14}>House {item.houseNumber}</Text>
               </Flex>
 
               <Flex align='center' gap={24}>
@@ -68,7 +68,10 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
                   Rating:
                 </Text>
                 <Text fz={14} fw={500} c='blue.4'>
-                  <StarRating className='!justify-start' defaultRating={4} />
+                  <StarRating
+                    className='!justify-start'
+                    defaultRating={item.averageRating}
+                  />
                 </Text>
               </Flex>
 
@@ -108,33 +111,45 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
           </Stack>
 
           <Divider my={15} />
+          {item.reviews.length > 0 && (
+            <Fragment>
+              <Stack>
+                <Title order={2} c='plum.5' fz={14} fw={500}>
+                  Reviews and Ratings ({item.reviews.length})
+                </Title>
+                <Stack className='overflow-auto h-52'>
+                  {item.reviews?.map((review, index) => (
+                    <Fragment key={review.comments}>
+                      <Flex align='center' gap={24}>
+                        <Text fz={14} c='gray'>
+                          Buyer ({index + 1}):
+                        </Text>
+                        <Text fz={14} fw={400} c='blue.4'>
+                          <StarRating
+                            className='!justify-start'
+                            defaultRating={review.rating}
+                          />
+                        </Text>
+                      </Flex>
+                      <Text
+                        fz={14}
+                        c='gray'
+                        p={10}
+                        mih={60}
+                        className='border border-gray-3 rounded-md'
+                      >
+                        {review.comments}
+                      </Text>
+                    </Fragment>
+                  ))}
+                </Stack>
+              </Stack>
 
-          <Stack>
-            <Title order={2} c='plum.5' fz={14} fw={500}>
-              Reviews and Ratings
-            </Title>
-            <Flex align='center' gap={24}>
-              <Text fz={14} c='gray'>
-                Buyer 1:
-              </Text>
-              <Text fz={14} fw={500} c='blue.4'>
-                <StarRating className='!justify-start' defaultRating={4} />
-              </Text>
-            </Flex>
-            <Text
-              fz={14}
-              c='gray'
-              p={10}
-              mih={60}
-              className='border border-gray-3 rounded-md'
-            >
-              {item.description}
-            </Text>
-          </Stack>
-
-          <Divider my={15} />
-          {children}
+              <Divider my={15} />
+            </Fragment>
+          )}
         </Stack>
+        {children}
       </Stack>
     </Fragment>
   );

@@ -10,18 +10,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  type Row,
+  type HeaderGroup,
   type PaginationState,
+  type Row,
   type SortingState,
   type VisibilityState,
-  type HeaderGroup,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
+import { cast, handleClickPropagation } from "@/packages/libraries";
 import clsx from "clsx";
 import { useFlowState } from "./flow-context";
 import { useFlowPagination } from "./use-flow-pagination";
-import { cast, handleClickPropagation } from "@/packages/libraries";
 interface FlowTableProps<T> {
   data?: T[];
   columns: ColumnDef<T, any>[];
@@ -103,13 +103,13 @@ export function FlowTable<T>({
     <>
       <Table
         stickyHeader
-        miw="max-content"
-        bg="white"
+        miw='max-content'
+        bg='white'
         className={clsx({
           "border-separate border-spacing-2": skeleton,
         })}
       >
-        <Table.Thead className="bg-primary-text-normal whitespace-nowrap z-10">
+        <Table.Thead className='bg-primary-text-normal whitespace-nowrap z-10'>
           {table.getHeaderGroups().map((headerGroup, i) => (
             <TableHeader
               key={headerGroup.id}
@@ -146,7 +146,7 @@ interface TableHeaderProps<T> {
 }
 
 const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
-  <Table.Tr key={headerGroup.id} ta="center">
+  <Table.Tr key={headerGroup.id} ta='center'>
     {headerGroup.headers.map((header) => (
       <Table.Th
         lh={2}
@@ -157,14 +157,14 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
           {
             skeleton,
             "sticky left-0 ": header.column.getIsPinned() === "left",
-          },
+          }
         )}
         colSpan={header.colSpan}
       >
         {header.isPlaceholder ? null : (
           <Flex
-            align="center"
-            justify="center"
+            align='center'
+            justify='center'
             className={
               header.column.getCanSort()
                 ? "cursor-pointer select-none"
@@ -176,8 +176,8 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
                 ? header.column.getNextSortingOrder() === "asc"
                   ? "Sort ascending"
                   : header.column.getNextSortingOrder() === "desc"
-                    ? "Sort descending"
-                    : "Clear sort"
+                  ? "Sort descending"
+                  : "Clear sort"
                 : undefined
             }
           >
@@ -211,17 +211,18 @@ const TableRow = <T,>({
       key={row.id}
       fz={13}
       className={clsx(
-        "hover:bg-blue-5 px-6 sm:py-4 cursor-pointer w-fit text-center capitalize group",
+        "hover:bg-blue-5 px-6 sm:py-4 cursor-pointer w-fit text-center capitalize group"
       )}
       onClick={() => onRowClick && onRowClick(row.original)}
     >
       {row.getVisibleCells().map((cell) => {
-        const isActionButtonCell = cell.column.id === "action";
+        const isActionButtonCell =
+          cell.column.id === "action" || cell.column.id === "accessCode";
         return (
           <Table.Td
             fz={13}
             key={cell.id}
-            pos="sticky"
+            pos='sticky'
             onClick={(e) =>
               isActionButtonCell ? handleClickPropagation(e) : null
             }
@@ -232,7 +233,7 @@ const TableRow = <T,>({
                 skeleton,
                 "fixed z-[4] left-0 shadow-xl":
                   cell.column.getIsPinned() === "left",
-              },
+              }
             )}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -246,18 +247,18 @@ const TableRow = <T,>({
 // Sort Icon Component
 const SortIcon = ({ isSorted }: { isSorted: "asc" | "desc" | false }) => (
   <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
+    width='16'
+    height='16'
+    viewBox='0 0 16 16'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
   >
     <path
-      d="M8.39043 2.48804C8.19027 2.23784 7.80973 2.23784 7.60957 2.48804L4.64988 6.18765C4.38797 6.51503 4.62106 7 5.04031 7H10.9597C11.3789 7 11.612 6.51503 11.3501 6.18765L8.39043 2.48804Z"
+      d='M8.39043 2.48804C8.19027 2.23784 7.80973 2.23784 7.60957 2.48804L4.64988 6.18765C4.38797 6.51503 4.62106 7 5.04031 7H10.9597C11.3789 7 11.612 6.51503 11.3501 6.18765L8.39043 2.48804Z'
       fill={isSorted === "asc" ? "var(--gray-12)" : "var(--gray-7)"}
     />
     <path
-      d="M8.39043 13.512C8.19027 13.7622 7.80973 13.7622 7.60957 13.512L4.64988 9.81235C4.38797 9.48497 4.62106 9 5.04031 9H10.9597C11.3789 9 11.612 9.48497 11.3501 9.81235L8.39043 13.512Z"
+      d='M8.39043 13.512C8.19027 13.7622 7.80973 13.7622 7.60957 13.512L4.64988 9.81235C4.38797 9.48497 4.62106 9 5.04031 9H10.9597C11.3789 9 11.612 9.48497 11.3501 9.81235L8.39043 13.512Z'
       fill={isSorted === "desc" ? "var(--gray-12)" : "var(--gray-7)"}
     />
   </svg>

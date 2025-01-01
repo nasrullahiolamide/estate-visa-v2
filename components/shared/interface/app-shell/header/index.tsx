@@ -78,10 +78,12 @@ export function AppShellHeader({
         pos='sticky'
         component='header'
         style={{
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+          boxShadow: !openedNav ? "0 4px 10px rgba(0, 0, 0, 0.1)" : "",
           zIndex: 120,
         }}
-        className={clsx("border-l border-gray-2 bg-primary-background-white")}
+        className={clsx("border-l border-gray-2", {
+          "bg-primary-background-white": !openedNav,
+        })}
       >
         <Stack
           maw={MAX_SCREEN_WIDTH}
@@ -104,9 +106,15 @@ export function AppShellHeader({
                 hiddenFrom='lg'
                 size='sm'
               />
-              <EstateVisaLogo height={45} width={45} />
+              <EstateVisaLogo
+                height={45}
+                width={45}
+                className={clsx({
+                  "hidden lg:flex": openedNav,
+                })}
+              />
               {user.estate && (
-                <Title fw={500} c='purple.10' order={2}>
+                <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
                   {user.estate.name} Estate
                 </Title>
               )}
@@ -117,13 +125,18 @@ export function AppShellHeader({
                   <FlowSearch {...searchProps} />
                 </Box>
               )}
-              <Flex gap={12} align='center' className='lg:ml-auto'>
+              <Flex
+                gap={12}
+                align='center'
+                className='lg:ml-auto'
+                hidden={openedNav}
+              >
                 <UserDetails />
               </Flex>
             </Flex>
           </Flex>
 
-          <Divider className='border-gray-2' />
+          <Divider className='border-gray-2' hidden={openedNav} />
 
           <Flex
             gap={20}

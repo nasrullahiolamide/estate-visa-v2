@@ -27,7 +27,7 @@ export const productStatusColorConfig: Record<
     bg: "#feffd7",
   },
 
-  approved: {
+  active: {
     color: "white",
     bg: "green",
   },
@@ -82,10 +82,10 @@ export function ProductCard({
       )}
     >
       <Picture
-        src={list.image ?? "/images/placeholder.png"}
+        src={list.image}
         h={150}
         w='100%'
-        alt={list.name ?? "product image"}
+        alt={list.name}
         className='rounded-lg'
         objectFit='cover'
       />
@@ -109,17 +109,20 @@ export function ProductCard({
           {formatCurrency(+list.price, "NGN")}
         </Text>
         <Text size='sm' c='violet' mt={-5}>
-          House A10
+          House {list.houseNumber}
         </Text>
-        <StarRating className='!justify-start' defaultRating={4} />
+        <StarRating
+          className='!justify-start'
+          defaultRating={list.averageRating}
+        />
       </Stack>
 
       {viewId === "admin" ? (
         <ProductButtons status={list.status} id={list.id} />
       ) : viewId === "viewer" ? (
         <Flex justify='space-between' gap={10}>
-          <ContactSellerButton data={list} my={0} mt={10} variant='outline' />
-          <Button fz={14} size='sm' mt={10} h={40}>
+          <ContactSellerButton data={list} my={0} variant='outline' />
+          <Button fz={14} size='sm' h={40}>
             View Details
           </Button>
         </Flex>

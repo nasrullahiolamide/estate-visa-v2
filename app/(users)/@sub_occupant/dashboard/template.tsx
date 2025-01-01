@@ -85,12 +85,7 @@ export default function Template({ children }: TemplateProps) {
         }}
       >
         <AppShell.Section>
-          <Stack
-            gap={0}
-            className={clsx({
-              "hidden lg:flex": openedNav,
-            })}
-          >
+          <Stack gap={0}>
             <Center>
               <EstateVisaLogo height={80} width={80} />
             </Center>
@@ -106,7 +101,7 @@ export default function Template({ children }: TemplateProps) {
           <AppShell.Section
             grow
             component={ScrollArea}
-            className={clsx("scrollbar-none ~pt-1/8", { "mt-12": openedNav })}
+            className={clsx("scrollbar-none ~pt-1/8")}
           >
             <Stack gap={8}>
               <AppShellButton

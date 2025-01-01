@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 type Config = {
   label: string;
   color: string;
-  props?: ButtonProps & { onClick?: () => void };
+  props?: ButtonProps & { onClick?: () => void; type?: "button" | "submit" };
 }[];
 
 interface ProductButtonsProps {
@@ -52,12 +52,12 @@ export function ProductButtons({
         color: "blue",
         props: {
           disabled: isPending,
-          onClick: () => mutate({ id, status: "approve" }),
+          onClick: () => mutate({ id, status: "active" }),
         },
       },
     ],
 
-    approved: [
+    active: [
       {
         label: "Suspend",
         color: "blue",
@@ -97,7 +97,7 @@ export function ProductButtons({
         props: {
           disabled: isPending,
           loading: isPending,
-          onClick: () => mutate({ id, status: "approve" }),
+          onClick: () => mutate({ id, status: "active" }),
         },
       },
     ],
@@ -109,7 +109,7 @@ export function ProductButtons({
     <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
       {Btns.map((action, index) => (
         <Button
-          key={index}
+          key={action.label}
           variant={action.color === "gray" ? "outline" : "filled"}
           color={action.color}
           size='sm'
