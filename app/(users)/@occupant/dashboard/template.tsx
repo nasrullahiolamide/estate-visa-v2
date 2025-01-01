@@ -103,7 +103,7 @@ export default function Template({ children }: TemplateProps) {
           <AppShell.Section
             grow
             component={ScrollArea}
-            className={clsx("scrollbar-none ~pt-1/8", { "mt-12": openedNav })}
+            className={clsx("scrollbar-none ~pt-1/8")}
           >
             <Stack gap={8}>
               <AppShellButton

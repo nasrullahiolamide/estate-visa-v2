@@ -109,7 +109,7 @@ export function ProductButtons({
     <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
       {Btns.map((action, index) => (
         <Button
-          key={index}
+          key={action.label}
           variant={action.color === "gray" ? "outline" : "filled"}
           color={action.color}
           size='sm'
