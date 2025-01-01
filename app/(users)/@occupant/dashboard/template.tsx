@@ -87,12 +87,7 @@ export default function Template({ children }: TemplateProps) {
         }}
       >
         <AppShell.Section>
-          <Stack
-            gap={0}
-            className={clsx({
-              "hidden lg:flex": openedNav,
-            })}
-          >
+          <Stack gap={0}>
             <Center>
               <EstateVisaLogo height={80} width={80} />
             </Center>

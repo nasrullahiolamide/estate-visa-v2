@@ -3,6 +3,7 @@ import { FilterParams } from "@/builders/types/filter-params";
 import {
   ProductList,
   ProductStatus,
+  ReviewProduct,
   UpdateProductData,
 } from "@/builders/types/products";
 
@@ -20,7 +21,7 @@ const change_status = function ({
   status,
 }: {
   id: string;
-  status: ProductStatus;
+  status: Omit<ProductStatus, "all">;
 }) {
   return api.put(`/products/change-status/${id}`, { status });
 };
@@ -29,9 +30,21 @@ const remove = function (id: string) {
   return api.delete(`/products/${id}`);
 };
 
+const listing = function (params: FilterParams) {
+  return api
+    .get<ProductList>("/products/by-owner", { params })
+    .then((data) => data.data);
+};
+
+const review = function (data: ReviewProduct) {
+  return api.post(`/products/review`, data);
+};
+
 export const products = {
   get,
   post,
   change_status,
   remove,
+  listing,
+  review,
 };

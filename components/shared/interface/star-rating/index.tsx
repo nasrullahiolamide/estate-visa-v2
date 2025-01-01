@@ -110,7 +110,7 @@ function Star({
     <span
       role='button'
       style={starStyle}
-      onClick={onRate}
+      onClick={hover ? onRate : undefined}
       onMouseEnter={hover ? handleHoverIn : undefined}
       onMouseLeave={hover ? handleHoverOut : undefined}
     >

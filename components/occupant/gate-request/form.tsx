@@ -1,10 +1,7 @@
 "use client";
 
 import { builder } from "@/builders";
-import {
-  GateRequestData,
-  UpdateGateRequestData,
-} from "@/builders/types/gate-requests";
+import { GateRequestData } from "@/builders/types/gate-requests";
 import { FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
@@ -90,25 +87,17 @@ export function GateRequestForm({
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
 
-  const handleSubmit = (values: Omit<UpdateGateRequestData, "modalType">) => {
-    if (isViewing) return;
-
-    isEditing
-      ? updateRequest({ id: requestId ?? "", data: values })
-      : addRequest(values);
-  };
-
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <Form form={form}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <TextInput
-          label="Guest Name"
+          label='Guest Name'
           placeholder="Enter guest's name"
           disabled={isViewing}
           withAsterisk
@@ -116,20 +105,20 @@ export function GateRequestForm({
         />
         <Select
           data={RELATIONSHIP_OPTIONS}
-          label="Guest Type"
+          label='Guest Type'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("guestType")}
         />
         <FlowPhoneInput
-          label="Phone Number"
+          label='Phone Number'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phoneNo")}
         />
 
         <DatePickerInput
-          label="Date of Visit"
+          label='Date of Visit'
           minDate={new Date()}
           disabled={isViewing}
           valueFormat={DATE_FORMAT}
@@ -137,14 +126,15 @@ export function GateRequestForm({
           {...form.getInputProps("visitDate")}
         />
         <TimePickerInput
-          label="Time of Visit"
+          label='Time of Visit'
           withAsterisk
+          disabled={isViewing}
           {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
           <Button
             mt={10}
-            type="button"
+            type='button'
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -152,18 +142,22 @@ export function GateRequestForm({
         ) : isEditing ? (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isUpdating}
             disabled={isUpdating}
+            onSubmit={() =>
+              updateRequest({ id: requestId ?? "", data: form.values })
+            }
           >
             Update Request
           </Button>
         ) : (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isPending}
             disabled={isPending}
+            onSubmit={() => addRequest(form.values)}
           >
             Generate Request
           </Button>

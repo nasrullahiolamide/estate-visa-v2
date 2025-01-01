@@ -3,7 +3,7 @@
 import { Input, Stack, TextInputProps } from "@mantine/core";
 import { GetInputPropsReturnType } from "@mantine/form/lib/types";
 
-import { PhoneInput, PhoneInputProps } from "react-international-phone";
+import { PhoneInput } from "react-international-phone";
 
 interface FlowPhoneInputProps
   extends GetInputPropsReturnType,
@@ -11,7 +11,8 @@ interface FlowPhoneInputProps
 
 export function FlowPhoneInput(props: FlowPhoneInputProps) {
   const { value, onChange, onFocus, onBlur, error, ...textInputProps } = props;
-  const { label, withAsterisk, placeholder, classNames } = textInputProps;
+  const { label, withAsterisk, placeholder, classNames, disabled } =
+    textInputProps;
 
   return (
     <Input.Wrapper
@@ -25,13 +26,14 @@ export function FlowPhoneInput(props: FlowPhoneInputProps) {
       }}
     >
       <PhoneInput
-        defaultCountry="ng"
+        defaultCountry='ng'
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
         value={value}
         placeholder={placeholder}
-        inputClassName="w-full !py-6 !prose-sm/regular !rounded-tr-lg !rounded-br-lg"
+        disabled={disabled}
+        inputClassName='w-full !py-6 !prose-sm/regular !rounded-tr-lg !rounded-br-lg'
         countrySelectorStyleProps={{
           buttonClassName: "py-6 px-3 !rounded-tl-lg !rounded-bl-lg",
         }}

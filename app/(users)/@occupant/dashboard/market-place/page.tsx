@@ -1,7 +1,11 @@
 "use client";
 
 import { builder } from "@/builders";
-import { ProductData, useFakeProductList } from "@/builders/types/products";
+import {
+  ProductData,
+  ProductStatus,
+  useFakeProductList,
+} from "@/builders/types/products";
 import {
   FlowContentHorizontal,
   FlowEntriesPerPage,
@@ -82,6 +86,7 @@ export default function MarketPlace() {
   const initialProductList = useFakeProductList();
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
+  const userId = toString(getCookie(APP.USER_ID));
 
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
@@ -104,11 +109,16 @@ export default function MarketPlace() {
       }),
     placeholderData: initialProductList,
     select({ total, page, data, pageSize }) {
+      const show = (status: ProductStatus) =>
+        status === "active" || status === "reported";
+
       return {
         total,
         page,
         pageSize,
-        data: data.filter((item) => item.status === "approved"),
+        data: data.filter(
+          (item) => show(item.status) || item.owner.id === userId
+        ),
       };
     },
   });
@@ -148,8 +158,13 @@ export default function MarketPlace() {
               <ProductCard
                 key={item.id}
                 list={item}
-                onClick={() => handleProductDetail(item)}
-                viewId='viewer'
+                onClick={
+                  item.owner.id === userId
+                    ? undefined
+                    : () => handleProductDetail(item)
+                }
+                viewId={item.owner.id === userId ? "owner" : "viewer"}
+                skeleton={isPlaceholderData}
               />
             ))}
           </FlowContentHorizontal>

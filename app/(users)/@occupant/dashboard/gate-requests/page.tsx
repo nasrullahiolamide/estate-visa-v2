@@ -1,38 +1,35 @@
 "use client";
 
-import clsx from "clsx";
-
-import { Fragment, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
 import { useFakeGateRequestList } from "@/builders/types/gate-requests";
-import { APP, MODALS } from "@/packages/libraries";
 import { gateRequestsColumns } from "@/columns/for_occupants/gate-requests";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { GateRequestActions } from "@/components/occupant/gate-request/actions";
-import { AddIcon, DownloadIcon } from "@/icons";
-import { Add } from "iconsax-react";
-import {
-  GateRequestForm,
-  GateRequestFormProps,
-} from "@/components/occupant/gate-request/form";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { GateRequestActions } from "@/components/occupant/gate-request/actions";
+import {
+  GateRequestForm,
+  GateRequestFormProps,
+} from "@/components/occupant/gate-request/form";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { AddIcon } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { Add } from "iconsax-react";
+import { Fragment, useEffect } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -148,13 +145,13 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Gate Request"
+        title='Gate Request'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -172,10 +169,10 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title="You have no gate requests yet. Create one to get started!"
-                src="question"
+                title='You have no gate requests yet. Create one to get started!'
+                src='question'
                 withButton
-                text="Send New Request"
+                text='Send New Request'
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () => handleGateRequestForm({ modalType: "add" }),
@@ -193,12 +190,12 @@ export default function Gates() {
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
-            {
-              icon: "download",
-              btnProps: {
-                onClick: () => {},
-              },
-            },
+            // {
+            //   icon: "download",
+            //   btnProps: {
+            //     onClick: () => {},
+            //   },
+            // },
             {
               icon: "add",
               btnProps: {
@@ -214,24 +211,24 @@ export default function Gates() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={() => handleGateRequestForm({ modalType: "add" })}
       >
         Send New Request
       </Button>
       <FilterDropdown data={filterOptions} />
-      <Button
+      {/* <Button
         variant="outline"
         fz="sm"
         size="md"
         leftSection={<DownloadIcon />}
       >
         Download Table
-      </Button>
+      </Button> */}
     </Flex>
   );
 }

@@ -1,14 +1,15 @@
 "use client";
 
-import Timekeeper, { TimeOutput } from "react-timekeeper";
-import { useRef, useState } from "react";
-import { GetInputPropsReturnType } from "@mantine/form/lib/types";
-import { InputWrapper, Button, Menu, Stack } from "@mantine/core";
 import { ClockIcon } from "@/icons";
+import { Button, InputWrapper, Menu, Stack } from "@mantine/core";
+import { GetInputPropsReturnType } from "@mantine/form/lib/types";
+import { useRef, useState } from "react";
+import Timekeeper from "react-timekeeper";
 
 interface TimePickerProps extends GetInputPropsReturnType {
   withAsterisk?: boolean;
   placeholder?: string;
+  disabled?: boolean;
   label: string;
 }
 
@@ -17,6 +18,7 @@ export function TimePickerInput({
   withAsterisk,
   value,
   onChange: handleFormChange,
+  disabled,
   placeholder = "--:--",
 }: TimePickerProps) {
   const timeRef = useRef<HTMLInputElement>(null);
@@ -27,7 +29,7 @@ export function TimePickerInput({
       onChange={(opened) => setShowTime(opened)}
       opened={showTime}
       closeOnClickOutside
-      position="bottom"
+      position='bottom'
       classNames={{
         dropdown: "bg-transparent border-none",
       }}
@@ -45,11 +47,12 @@ export function TimePickerInput({
           flex={1}
         >
           <Button
-            type="button"
-            variant="default"
-            className="w-full cursor-pointer uppercase"
-            fz="sm"
+            type='button'
+            variant='default'
+            className='w-full cursor-pointer uppercase'
+            fz='sm'
             rightSection={<ClockIcon />}
+            disabled={disabled}
             style={{
               padding: "0 15px",
               minHeight: "48px",
@@ -72,9 +75,9 @@ export function TimePickerInput({
           doneButton={(props) => (
             <Button
               p={0}
-              variant="transparent"
-              w="100%"
-              ta="center"
+              variant='transparent'
+              w='100%'
+              ta='center'
               {...props}
               onClick={() => {
                 setShowTime(false);

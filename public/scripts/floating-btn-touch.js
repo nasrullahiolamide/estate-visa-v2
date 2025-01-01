@@ -1,39 +1,61 @@
-const frame = document.getElementById("fc_frame");
-const dragIcon = document.createElement("img");
-
-if (frame) {
-  dragIcon.src = "/vectors/drag.svg";
-
-  dragIcon.style.cursor = "grab";
-  dragIcon.style.position = "absolute";
-  dragIcon.style.top = "0px";
-  dragIcon.style.left = "0px";
-
-  if (frame.firstChild) {
-    frame.insertBefore(dragIcon, frame.firstChild);
-  } else {
-    frame.appendChild(dragIcon);
-  }
-
-  frame.addEventListener("touchstart", dragMouseDown, { passive: false });
-
-  const observer = new MutationObserver((mutationsList) => {
-    for (let mutation of mutationsList) {
-      const { type, attributeName } = mutation;
-
-      if (type == "attributes" && attributeName == "class") {
-        if (frame.classList.contains("fc-open")) frame.style.top = "";
-      }
-    }
-  });
-
-  observer.observe(frame, { attributes: true });
-}
-
+let frame, dragIcon;
 let xHorizontalPosition = 0,
   yVerticalPosition = 0,
   horizontalPosition = 0,
   verticalPosition = 0;
+
+const observer = new MutationObserver(() => {
+  frame = document.getElementById("fc_frame");
+
+  if (frame) {
+    dragIcon = document.createElement("img");
+    dragIcon.src = "/vectors/drag.svg";
+    dragIcon.style.cursor = "grab";
+    dragIcon.style.position = "absolute";
+    dragIcon.style.top = "0px";
+    dragIcon.style.left = "0px";
+    dragIcon.style.pointerEvents = "none";
+
+    if (frame.firstChild) {
+      frame.insertBefore(dragIcon, frame.firstChild);
+    } else {
+      frame.appendChild(dragIcon);
+    }
+
+    dragIcon.addEventListener("mousedown", (ev) => {
+      ev.stopPropagation();
+      dragMouseDown(ev);
+    });
+
+    dragIcon.addEventListener("touchstart", (ev) => {
+      ev.stopPropagation();
+      dragMouseDown(ev);
+    });
+
+    frame.addEventListener("mousedown", dragMouseDown, { passive: false });
+    frame.addEventListener("touchstart", dragMouseDown, { passive: false });
+
+    const frameObserver = new MutationObserver((mutationsList) => {
+      for (let mutation of mutationsList) {
+        const { type, attributeName } = mutation;
+
+        if (type === "attributes" && attributeName === "class") {
+          if (frame.classList.contains("fc-open")) {
+            frame.style.top = "";
+          }
+        }
+      }
+    });
+
+    frameObserver.observe(frame, { attributes: true });
+
+    // Stop observing for the frame
+    observer.disconnect();
+  }
+});
+
+// Start observing the document body for changes
+observer.observe(document.body, { childList: true, subtree: true });
 
 function dragMouseDown(ev) {
   if (ev.type === "touchstart") {
@@ -41,13 +63,21 @@ function dragMouseDown(ev) {
     ev = ev.touches[0];
   }
 
-  dragIcon.style.cursor = "grabbing";
+  if (ev.type === "mousedown") {
+    console.log("mousedown");
+  }
+
+  if (dragIcon) {
+    dragIcon.style.cursor = "grabbing";
+  }
 
   horizontalPosition = ev.clientX;
   verticalPosition = ev.clientY;
+  document.addEventListener("mousemove", elementDrag, { passive: false });
+  document.addEventListener("mouseup", closeDragElement);
 
   document.addEventListener("touchmove", elementDrag, { passive: false });
-  document.addEventListener("touchend", closeDragElement);
+  document.addEventListener("touchend", closeDragElement, { passive: false });
 }
 
 function elementDrag(ev) {
@@ -56,7 +86,9 @@ function elementDrag(ev) {
     ev = ev.touches[0];
   }
 
-  dragIcon.style.cursor = "grabbing";
+  if (dragIcon) {
+    dragIcon.style.cursor = "grabbing";
+  }
 
   xHorizontalPosition = horizontalPosition - ev.clientX;
   yVerticalPosition = verticalPosition - ev.clientY;
@@ -70,15 +102,21 @@ function elementDrag(ev) {
 }
 
 function closeDragElement() {
-  dragIcon.style.cursor = "grab";
-  document.removeEventListener("touchend", closeDragElement);
-  document.removeEventListener("touchmove", elementDrag);
+  if (dragIcon) {
+    document.removeEventListener("mouseup", closeDragElement);
+    document.removeEventListener("mousemove", elementDrag);
 
-  const { left, height, top } = frame.getBoundingClientRect();
+    document.removeEventListener("touchmove", elementDrag);
+    document.removeEventListener("touchend", closeDragElement);
 
-  const halved = window.innerWidth / 2;
-  frame.style.left = left >= halved ? "" : "15px";
+    if (frame) {
+      const { left, height, top } = frame.getBoundingClientRect();
 
-  if (top > window.innerHeight - height) frame.style.top = "";
-  if (top < 15) frame.style.top = "15px";
+      const halved = window.innerWidth / 2;
+      frame.style.left = left >= halved ? "" : "15px";
+
+      if (top > window.innerHeight - height) frame.style.top = "";
+      if (top < 15) frame.style.top = "15px";
+    }
+  }
 }

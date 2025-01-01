@@ -21,11 +21,30 @@ export type ProductData = {
   createdAt: string;
   updatedAt: string;
   estate: Estate;
+  owner: {
+    id: string;
+    name: string;
+  };
+  reviews: {
+    id: string;
+    comments: string;
+    rating: number;
+  }[];
+  averageRating: number;
+  houseNumber: string;
 };
 
 export type UpdateProductData = Omit<
   ProductData,
-  "id" | "createdAt" | "updatedAt" | "estate" | "status"
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "estate"
+  | "status"
+  | "owner"
+  | "reviews"
+  | "averageRating"
+  | "houseNumber"
 > & {
   estateId: string;
 };
@@ -34,7 +53,6 @@ export type ProductStatus =
   | "active"
   | "suspended"
   | "pending-approval"
-  | "approved"
   | "suspended"
   | "reported"
   | "all"
@@ -58,7 +76,7 @@ export function useFakeProductData(_?: any, index?: number) {
   faker.seed(index);
 
   return {
-    id: Math.random().toString(36),
+    id: faker.lorem.slug(),
     name: faker.commerce.productName(),
     image: faker.image.url(),
     phone: faker.phone.number(),
@@ -67,22 +85,42 @@ export function useFakeProductData(_?: any, index?: number) {
     price: faker.commerce.price(),
     status: faker.helpers.arrayElement([
       "pending-approval",
-      "approved",
+      "active",
       "suspended",
       "reported",
     ]),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
     estate: fakeEstateData,
+    owner: {
+      id: faker.lorem.slug(),
+      name: faker.person.fullName(),
+    },
+    reviews: Array.from(
+      { length: faker.number.int({ min: 0, max: 10 }) },
+      () => ({
+        id: faker.lorem.slug(),
+        comments: faker.lorem.sentence(),
+        rating: faker.number.float({ min: 0, max: 5 }),
+      })
+    ),
+    averageRating: faker.number.float({ min: 0, max: 5 }),
+    houseNumber: faker.location.streetAddress(),
   };
 }
+
+export type ReviewProduct = {
+  comments: string;
+  rating: number;
+  productId: string;
+};
 
 export function useFakeProductList(): ProductList {
   faker.seed(dayjs().day());
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 20 }) },
-    useFakeProductData,
+    useFakeProductData
   );
 
   return {

@@ -77,13 +77,12 @@ export default function Listings() {
       sortOrder,
     }),
     queryFn: () =>
-      builder.$use.products.get({
+      builder.$use.products.listing({
         page,
         pageSize,
         search,
         sortBy,
         sortOrder,
-        estateId,
       }),
     placeholderData: initialProductList,
     select: (data) => data,
@@ -105,8 +104,8 @@ export default function Listings() {
       <AppShellHeader
         title={
           !noDataAvailable
-            ? `My Product Lists (${products?.total})`
-            : "My Product Lists"
+            ? `Product Lists (${products?.total})`
+            : "Product Lists"
         }
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
