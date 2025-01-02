@@ -2,9 +2,10 @@
 
 import { getCookie, getCookies } from "cookies-next";
 import { cookies } from "next/headers";
+import { NextRequest } from "next/server";
 import { APP, encode, makePath, PAGES, TOKEN, USER_TYPE } from "../libraries";
 
-export async function getAuthorizedUser() {
+export async function getAuthorizedUser(request?: NextRequest) {
   const allCookies = Object.keys(getCookies({ cookies }));
 
   const requiredCookies = [
@@ -24,11 +25,7 @@ export async function getAuthorizedUser() {
 
   const callbackUrl = isAuthorized
     ? PAGES.DASHBOARD
-    : makePath(
-        PAGES.LOGIN,
-        // `?session=expired&redirect=${request?.url ?? PAGES.DASHBOARD}`
-        `?session=expired`
-      );
+    : makePath(PAGES.LOGIN, `?session=expired&redirect=${request?.url}`);
 
   return { isAuthorized, userType, callbackUrl };
 }

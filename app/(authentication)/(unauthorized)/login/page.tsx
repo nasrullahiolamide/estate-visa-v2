@@ -32,6 +32,8 @@ const schema = object({
 
 export default function Page() {
   const sessionStatus = useSearchParams().get("session");
+  const callbackUrl = useSearchParams().get("redirect") || PAGES.DASHBOARD;
+
   const username = toString(getCookie(APP.USERNAME));
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export default function Page() {
           user_type,
           ...data,
         });
-        navigate(user.isOnboarded ? PAGES.DASHBOARD : PAGES.ONBOARDING);
+        navigate(user.isOnboarded ? callbackUrl : PAGES.ONBOARDING);
         // handleSuccess({ message: "You have successfully logged in." });
       }
 

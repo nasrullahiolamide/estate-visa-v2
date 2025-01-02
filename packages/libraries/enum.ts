@@ -20,6 +20,7 @@ export enum APP {
   HOUSE_ID = "hID",
   FEATURE_FLAG = "sFg",
   ONBOARDED = "oBd",
+  CALLBACK_URL = "cUrl",
 }
 
 export enum USER_TYPE {
