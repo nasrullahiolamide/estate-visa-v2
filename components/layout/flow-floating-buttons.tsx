@@ -76,16 +76,13 @@ export function FlowFloatingButtons({
       // id='fc_frame'
       style={{
         position: "absolute",
-        bottom: 80,
+        bottom: 85,
         right: 12,
         width: "fit-content",
         height: "fit-content",
       }}
       hiddenFrom='lg'
       hidden={hidden}
-      onClick={(ev) => {
-        setVisible((prev) => !prev);
-      }}
       {...containerProps}
     >
       <Stack justify='center' align='center'>

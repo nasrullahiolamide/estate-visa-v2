@@ -67,7 +67,8 @@ export function GateRequestForm({
       guestName: data?.guestName ?? "",
       guestType: data?.guestType ?? "Friend",
       phoneNo: data?.phoneNo ?? "",
-      visitDate: dayjs(data?.visitDate, DATE_FORMAT).toDate() ?? new Date(),
+      visitDate:
+        dayjs(data?.visitDate, DATE_FORMAT).toDate() ?? new Date().toString(),
       visitTime:
         data?.visitTime ?? formatDate(new Date().getTime(), TIME_FORMAT),
       modalType,
@@ -132,20 +133,15 @@ export function GateRequestForm({
           {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
-          <Button
-            mt={10}
-            type='button'
-            onClick={() => form.setValues({ modalType: "edit" })}
-          >
+          <Button mt={10} onClick={() => form.setValues({ modalType: "edit" })}>
             Edit
           </Button>
         ) : isEditing ? (
           <Button
             mt={10}
-            type='submit'
             loading={isUpdating}
             disabled={isUpdating}
-            onSubmit={() =>
+            onClick={() =>
               updateRequest({ id: requestId ?? "", data: form.values })
             }
           >
@@ -154,10 +150,9 @@ export function GateRequestForm({
         ) : (
           <Button
             mt={10}
-            type='submit'
             loading={isPending}
             disabled={isPending}
-            onSubmit={() => addRequest(form.values)}
+            onClick={() => addRequest(form.values)}
           >
             Generate Request
           </Button>

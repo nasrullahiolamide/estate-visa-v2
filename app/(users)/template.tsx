@@ -19,12 +19,9 @@ type TemplateProps = PropsWithChildren<{}>;
 export default function Template({ children }: TemplateProps) {
   const pathname = usePathname();
   const flags = getFeatureFlag();
-
   const isHomeRoute = GENERAL_ROUTES.includes(pathname);
 
   const { isNavOpened, toggleNav } = useFlowNavigation();
-
-  console.log({ isNavOpened });
 
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
