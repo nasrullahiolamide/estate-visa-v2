@@ -12,6 +12,7 @@ import "@mantine/spotlight/styles.layer.css";
 import "@mantine/tiptap/styles.css";
 
 import "react-international-phone/style.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import "@/packages/variables/index.css";
 import "@/styles/accent.scss";
