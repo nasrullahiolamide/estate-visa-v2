@@ -120,7 +120,7 @@ export function AppShellHeader({
                   })}
                 />
                 {user.estate && (
-                  <Title fw={400} c='purple.10' order={2} hidden={openedNav}>
+                  <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
                     {user.estate.name} Estate
                   </Title>
                 )}

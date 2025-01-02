@@ -101,7 +101,7 @@ export default function Template({ children }: TemplateProps) {
             </Center>
 
             {user.estate && (
-              <Title mt={10} ta='center' fw={400} order={2} c='purple.9'>
+              <Title mt={10} ta='center' fw={500} order={2} c='purple.9'>
                 {user.estate.name} Estate
               </Title>
             )}

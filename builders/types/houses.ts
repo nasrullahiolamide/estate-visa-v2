@@ -47,7 +47,7 @@ export function useFakeHouseData(_?: any, index?: number) {
     streetName: faker.location.street(),
     occupantName: faker.person.fullName(),
     noOfOccupants: faker.number.int({ min: 1, max: 10 }),
-    validityPeriod: faker.date.future().toISOString(),
+    validityPeriod: "4 months",
     houseType: {
       id: id.toString(),
       name: faker.helpers.arrayElement([
@@ -66,7 +66,7 @@ export function useFakeHousesList(): HousesList {
 
   const data = Array.from(
     { length: faker.number.int({ min: 3, max: 100 }) },
-    useFakeHouseData,
+    useFakeHouseData
   );
 
   return {
