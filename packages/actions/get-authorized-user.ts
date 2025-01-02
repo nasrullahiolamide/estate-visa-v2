@@ -1,11 +1,10 @@
 "use server";
 
-import { APP, encode, makePath, PAGES, TOKEN, USER_TYPE } from "../libraries";
 import { getCookie, getCookies } from "cookies-next";
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { APP, encode, makePath, PAGES, TOKEN, USER_TYPE } from "../libraries";
 
-export async function getAuthorizedUser(request?: NextRequest) {
+export async function getAuthorizedUser(route: string) {
   const allCookies = Object.keys(getCookies({ cookies }));
 
   const requiredCookies = [

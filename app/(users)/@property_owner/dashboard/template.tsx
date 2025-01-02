@@ -1,9 +1,7 @@
 "use client";
 
 import { ProfileData } from "@/builders/types/profile";
-import { useFlowState } from "@/components/layout";
-import { useFlowDispatch } from "@/components/layout/flow-context";
-import { FlowActionType } from "@/components/layout/use-flow-reducer";
+import { useFlowNavigation } from "@/components/layout/flow-context";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
@@ -19,8 +17,6 @@ import {
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -28,15 +24,8 @@ export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
-  const dispatch = useFlowDispatch();
-  const pathname = usePathname();
 
-  const { openedNav } = useFlowState();
-
-  useEffect(() => {
-    if (openedNav)
-      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
-  }, [pathname]);
+  const { isNavOpened } = useFlowNavigation();
 
   return (
     <AppShell
@@ -58,7 +47,7 @@ export default function Template({ children }: TemplateProps) {
           alignItems: opened ? "unset" : "center",
         }}
         className={clsx({
-          "hidden lg:flex": !openedNav,
+          "hidden lg:flex": !isNavOpened,
         })}
       >
         <AppShell.Section>

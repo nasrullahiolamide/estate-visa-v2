@@ -29,7 +29,7 @@ import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { Add } from "iconsax-react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -82,7 +82,7 @@ const handleGateRequestForm = ({ data, modalType }: GateRequestFormProps) => {
 };
 
 export default function Gates() {
-  const initialGateRequestList = useFakeGateRequestList();
+  const initialGateRequestList = useMemo(() => useFakeGateRequestList(), []);
   const pagination = useFlowPagination();
 
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();

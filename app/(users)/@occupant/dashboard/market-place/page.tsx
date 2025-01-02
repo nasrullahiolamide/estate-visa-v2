@@ -29,7 +29,7 @@ import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import { ProductCard } from "@/components/shared/interface/cards/product";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
@@ -83,7 +83,7 @@ const handleProductDetail = (item: ProductData) => {
 };
 
 export default function MarketPlace() {
-  const initialProductList = useFakeProductList();
+  const initialProductList = useMemo(() => useFakeProductList(), []);
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const userId = toString(getCookie(APP.USER_ID));

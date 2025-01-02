@@ -1,9 +1,7 @@
 "use client";
 
 import { ProfileData } from "@/builders/types/profile";
-import { useFlowState } from "@/components/layout";
-import { useFlowDispatch } from "@/components/layout/flow-context";
-import { FlowActionType } from "@/components/layout/use-flow-reducer";
+import { useFlowNavigation } from "@/components/layout/flow-context";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import {
   AdministratorIcon,
@@ -17,7 +15,6 @@ import {
   UserFriendsIcon,
   UserGroupIcon,
 } from "@/icons";
-import { navigate } from "@/packages/actions";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import { getFeatureFlag } from "@/packages/libraries/auth";
 import {
@@ -32,9 +29,6 @@ import {
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
-import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-import Swal from "sweetalert2";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -42,41 +36,16 @@ export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
-  const pathname = usePathname();
   const flags = getFeatureFlag();
-  const dispatch = useFlowDispatch();
 
-  const { openedNav } = useFlowState();
-
-  useEffect(() => {
-    const isRestricted = flags.some((url) => pathname.includes(url));
-
-    if (openedNav)
-      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
-
-    if (isRestricted) {
-      Swal.fire({
-        icon: "error",
-        title: "Permission Denied",
-        text: "You do not have access to this feature.",
-        confirmButtonColor: "var(--blue-8)",
-        confirmButtonText: "Go to Dashboard",
-        allowOutsideClick: false,
-        allowEnterKey: false,
-        allowEscapeKey: false,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate(PAGES.DASHBOARD);
-        }
-      });
-    }
-  }, [pathname]);
+  const { isNavOpened } = useFlowNavigation();
 
   return (
     <AppShell
       navbar={{
         width: opened ? 270 : 95,
         breakpoint: "lg",
+       
       }}
       styles={{
         navbar: {
@@ -92,7 +61,7 @@ export default function Template({ children }: TemplateProps) {
           alignItems: opened ? "unset" : "center",
         }}
         className={clsx({
-          "hidden lg:flex": !openedNav,
+          "hidden lg:flex": !isNavOpened,
         })}
       >
         <AppShell.Section>

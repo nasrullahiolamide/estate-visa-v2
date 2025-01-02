@@ -1,8 +1,6 @@
 "use client";
 
 import { ProfileData } from "@/builders/types/profile";
-import { useFlowState } from "@/components/layout";
-import { useFlowDispatch } from "@/components/layout/flow-context";
 import { FlowSearch, FlowSearchProps } from "@/components/layout/flow-search";
 import { UserDetails } from "@/components/shared/user";
 import { ArrowBack } from "@/icons";
@@ -22,7 +20,7 @@ import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment } from "react";
 
-import { FlowActionType } from "@/components/layout/use-flow-reducer";
+import { useFlowNavigation } from "@/components/layout/flow-context";
 import clsx from "clsx";
 
 type AppShellHeaderProps = {
@@ -50,10 +48,9 @@ export function AppShellHeader({
 }: AppShellHeaderProps) {
   const { options, showLinks = true, withSearch, searchProps } = props;
   const { back } = useRouter();
-  const { openedNav } = useFlowState();
+  const { isNavOpened, toggleNav } = useFlowNavigation();
 
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
-  const dispatch = useFlowDispatch();
   const pathname = usePathname();
 
   const heading = (
@@ -62,10 +59,6 @@ export function AppShellHeader({
     </h1>
   );
 
-  function toggle() {
-    dispatch({ type: FlowActionType.TOGGLE_NAV, payload: !openedNav });
-  }
-
   return (
     <Fragment>
       <AppShell.Section
@@ -73,11 +66,10 @@ export function AppShellHeader({
         pos='sticky'
         component='header'
         style={{
-          boxShadow: !openedNav ? "0 4px 10px rgba(0, 0, 0, 0.1)" : "",
           zIndex: 120,
         }}
         className={clsx("border-l border-gray-2", {
-          "bg-primary-background-white": !openedNav,
+          "bg-primary-background-white": !isNavOpened,
         })}
       >
         <Stack
@@ -96,31 +88,23 @@ export function AppShellHeader({
           >
             <Flex align='center' gap={12} hiddenFrom='lg'>
               <Burger
-                opened={openedNav}
-                onClick={toggle}
+                opened={isNavOpened}
+                onClick={toggleNav}
                 hiddenFrom='lg'
                 size='sm'
               />
               <Flex gap={6} align='center'>
-                {/* <EstateVisaLogo
-                  height={45}
-                  width={45}
-                  className={clsx({
-                    "hidden lg:block": openedNav,
-                  })}
-                /> */}
-
                 <img
                   src='/images/estate-visa-logo.png'
                   alt='estate-visa-logo'
                   height={45}
                   width={45}
                   className={clsx({
-                    "hidden lg:block": openedNav,
+                    "hidden lg:block": isNavOpened,
                   })}
                 />
                 {user.estate && (
-                  <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
+                  <Title fw={500} c='purple.10' order={2} hidden={isNavOpened}>
                     {user.estate.name} Estate
                   </Title>
                 )}
@@ -137,21 +121,21 @@ export function AppShellHeader({
                 gap={12}
                 align='center'
                 className='lg:ml-auto'
-                hidden={openedNav}
+                hidden={isNavOpened}
               >
                 <UserDetails />
               </Flex>
             </Flex>
           </Flex>
 
-          <Divider className='border-gray-2' hidden={openedNav} />
+          <Divider className='border-gray-2' hidden={isNavOpened} />
 
           <Flex
             gap={20}
             py={16}
             align='center'
             justify='space-between'
-            className={clsx("~px-1/8", { "hidden lg:flex": openedNav })}
+            className={clsx("~px-1/8", { "hidden lg:flex": isNavOpened })}
           >
             <Flex gap={3} align='center'>
               {pathname !== PAGES.DASHBOARD && (
