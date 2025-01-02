@@ -73,6 +73,7 @@ export function FlowFloatingButtons({
 
   return (
     <Stack
+      // id='fc_frame'
       style={{
         position: "absolute",
         bottom: 80,

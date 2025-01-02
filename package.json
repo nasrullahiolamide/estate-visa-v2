@@ -107,10 +107,10 @@
     "@typescript-eslint/parser": "^8.12.2",
     "@typescript-eslint/utils": "^8.12.2",
     "autoprefixer": "^10.4.19",
-    "husky": "^9.1.7",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "fluid-tailwind": "^1.0.2",
+    "husky": "^9.1.7",
     "postcss": "^8.4.38",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
@@ -119,6 +119,9 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,html}": ["biome lint --write", "biome format --write"]
+    "*.{js,jsx,ts,tsx,html}": [
+      "biome lint --write",
+      "biome format --write"
+    ]
   }
 }

@@ -1,8 +1,7 @@
+import { PAGES, USER_TYPE } from "@/packages/libraries";
 import { PropsWithChildren, ReactNode } from "react";
+
 import { getAuthorizedUser } from "@/packages/actions";
-import { USER_TYPE } from "@/packages/libraries";
-import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
 
 type LayoutProps = PropsWithChildren<{
   admin: ReactNode;
@@ -13,10 +12,9 @@ type LayoutProps = PropsWithChildren<{
   property_owner: ReactNode;
   gateman: ReactNode;
   guest: ReactNode;
-  request: NextRequest;
 }>;
 
-export default async function Layout({
+export default async function RootLayout({
   admin,
   sub_admin,
   super_admin,
@@ -24,16 +22,8 @@ export default async function Layout({
   sub_occupant,
   property_owner,
   gateman,
-  guest = (
-    <p>
-      You are not authorized to view this page. Please contact the
-      administrator.
-    </p>
-  ),
-  request,
 }: LayoutProps) {
-  const { isAuthorized, userType, nextRoute } =
-    await getAuthorizedUser(request);
+  const { isAuthorized, userType } = await getAuthorizedUser(PAGES.WEBSITE);
 
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
@@ -45,7 +35,5 @@ export default async function Layout({
     [USER_TYPE.GATEMAN]: gateman,
   };
 
-  if (!isAuthorized) redirect(nextRoute);
-
-  return isAuthorized ? view[userType] : guest;
+  return isAuthorized ? view[userType] : null;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProfileData } from "@/builders/types/profile";
-import { useFlowState } from "@/components/layout";
+import { useFlowNavigation } from "@/components/layout/flow-context";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
 import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
@@ -14,10 +14,9 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
+import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
-
-import clsx from "clsx";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -26,18 +25,17 @@ export default function Template({ children }: TemplateProps) {
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
 
-  const { openedNav } = useFlowState();
+  const { isNavOpened } = useFlowNavigation();
 
   return (
     <AppShell
       navbar={{
         width: opened ? 270 : 95,
-        collapsed: { mobile: !openedNav },
         breakpoint: "lg",
       }}
       styles={{
         navbar: {
-          zIndex: "100 !important",
+          zIndex: "100",
         },
       }}
     >
@@ -48,6 +46,9 @@ export default function Template({ children }: TemplateProps) {
         style={{
           alignItems: opened ? "unset" : "center",
         }}
+        className={clsx({
+          "hidden lg:flex": !isNavOpened,
+        })}
       >
         <AppShell.Section>
           <Stack gap={0}>
@@ -56,7 +57,7 @@ export default function Template({ children }: TemplateProps) {
             </Center>
 
             {user.estate && (
-              <Title mt={10} ta='center' fw={700} c='purple.9'>
+              <Title mt={10} ta='center' fw={500} order={2} c='purple.9'>
                 {user.estate.name} Estate
               </Title>
             )}

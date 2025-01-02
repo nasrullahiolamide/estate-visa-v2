@@ -24,11 +24,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
 import { Fragment, useEffect } from "react";
 
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { PRODUCT_CATEGORIES, PRODUCT_VIEW } from "@/packages/constants/data";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 
 const filterOptions = [
   { label: "Recent", value: "Recent" },
@@ -111,7 +111,9 @@ export default function MarketPlace() {
       <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
-            root: "rounded-none lg:rounded-2xl bg-white",
+            root: clsx("rounded-none lg:rounded-2xl", {
+              "bg-white": noDataAvailable || isPlaceholderData,
+            }),
           }}
         >
           <FlowTabs
@@ -121,7 +123,7 @@ export default function MarketPlace() {
           >
             <Flex
               align='center'
-              className='overflow-auto w-full sticky top-0 z-40'
+              className='overflow-auto w-full sticky top-0 z-40 bg-white'
             >
               <Tabs.List className='w-full flex-nowrap'>
                 {Object.values(PRODUCT_VIEW).map((type) => (
