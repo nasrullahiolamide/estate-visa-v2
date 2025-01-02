@@ -2,7 +2,7 @@
 
 import { Add } from "iconsax-react";
 import fileDownload from "js-file-download";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import { builder } from "@/builders";
 import { useFakeHousesList } from "@/builders/types/houses";
@@ -77,7 +77,7 @@ const handleHouseForm = ({ id, modalType = "add" }: HouseFormProps) => {
 };
 
 export default function Houses() {
-  const initialHousesList = useFakeHousesList();
+  const initialHousesList = useMemo(() => useFakeHousesList(), []);
   const pagination = useFlowPagination();
 
   const estateId = toString(APP.ESTATE_ID);
