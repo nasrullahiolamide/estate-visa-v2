@@ -23,7 +23,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { useQueryState } from "nuqs";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export default function Minutes() {
   });
 
   const estateId = toString(getCookie(APP.ESTATE_ID));
-  const initialMeetingList = useFakeMeetingsList();
+  const initialMeetingList = useMemo(() => useFakeMeetingsList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, numberOfPages } = useFlowState();
 

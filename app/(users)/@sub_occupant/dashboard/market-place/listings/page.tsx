@@ -26,7 +26,7 @@ import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recent", value: "recent" },
@@ -63,7 +63,7 @@ const addProduct = () => {
 };
 
 export default function Listings() {
-  const initialProductList = useFakeProductList();
+  const initialProductList = useMemo(() => useFakeProductList(), []);
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 

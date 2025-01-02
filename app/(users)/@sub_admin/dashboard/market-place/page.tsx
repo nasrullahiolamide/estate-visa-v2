@@ -22,7 +22,7 @@ import { Flex, Tabs } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 
 import { useQueryState } from "nuqs";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { PRODUCT_CATEGORIES, PRODUCT_VIEW } from "@/packages/constants/data";
@@ -57,7 +57,7 @@ const filterOptions = [
 ];
 
 export default function MarketPlace() {
-  const initialProductList = useFakeProductList();
+  const initialProductList = useMemo(() => useFakeProductList(), []);
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
 

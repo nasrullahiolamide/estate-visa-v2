@@ -28,7 +28,7 @@ import { MODALS } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Date", value: "date" },
@@ -82,7 +82,10 @@ const handleRequestForm = ({
 };
 
 export default function ServiceRequest() {
-  const initialServiceRequestList = useFakeServiceRequestsList();
+  const initialServiceRequestList = useMemo(
+    () => useFakeServiceRequestsList(),
+    []
+  );
   const pagination = useFlowPagination();
   const {
     page,
@@ -149,13 +152,13 @@ export default function ServiceRequest() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Service Request"
+        title='Service Request'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -173,10 +176,10 @@ export default function ServiceRequest() {
               />
             ) : (
               <EmptySlot
-                title="You have no service requests yet. Check back later for updates!"
-                src="question"
+                title='You have no service requests yet. Check back later for updates!'
+                src='question'
                 withButton
-                text="Send Request"
+                text='Send Request'
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () =>
@@ -204,10 +207,10 @@ export default function ServiceRequest() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<AddIcon />}
         onClick={() => handleRequestForm({ modalType: "add" })}
       >

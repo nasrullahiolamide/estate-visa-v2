@@ -1,11 +1,11 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
-import { Flex, Title, Stack, Text } from "@mantine/core";
+import { Flex, Stack, Text, Title } from "@mantine/core";
+import { Fragment, useEffect, useMemo } from "react";
 
-import { APP, formatDate, makePath, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared";
 import { EmptySlot } from "@/components/shared/interface";
+import { APP, formatDate, makePath, PAGES } from "@/packages/libraries";
 
 import {
   FlowContainer,
@@ -17,25 +17,25 @@ import {
   useFlowState,
 } from "@/components/layout";
 
+import { builder } from "@/builders";
+import { useFakeMeetingsList } from "@/builders/types/meetings";
+import { ViewMeeting } from "@/components/admin/meetings/modals/view";
 import { filterOptions } from "@/components/occupant/meetings/table";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns";
 import { DownloadIcon } from "@/icons";
+import { DATE_FORMAT } from "@/packages/constants/time";
 import { useDisclosure } from "@mantine/hooks";
-import { toString } from "lodash";
-import { builder } from "@/builders";
-import { useFakeMeetingsList } from "@/builders/types/meetings";
 import { useQuery } from "@tanstack/react-query";
-import { getCookie } from "cookies-next";
-import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
 import clsx from "clsx";
-import { ViewMeeting } from "@/components/admin/meetings/modals/view";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
 
 export default function MeetingMinutes() {
   const [opened, { open: openDrawer, close: closeDrawer }] =
     useDisclosure(false);
 
   const estateId = toString(getCookie(APP.ESTATE_ID));
-  const initialMeetingList = useFakeMeetingsList();
+  const initialMeetingList = useMemo(() => useFakeMeetingsList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search } = useFlowState();
 
@@ -73,7 +73,7 @@ export default function MeetingMinutes() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Meetings Minutes"
+        title='Meetings Minutes'
         backHref={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}
         showLinks={false}
         options={
@@ -81,14 +81,14 @@ export default function MeetingMinutes() {
         }
       />
       <FlowContainer
-        type="plain"
-        justify="center"
+        type='plain'
+        justify='center'
         className={"lg:~px-1/8 bg-white bg-opacity-60"}
         gap={0}
       >
-        <Stack className="overflow-auto h-full max-h-[680px] lg:max-h-[700px] ~px-1/8 lg:px-0 xl:pb-3">
+        <Stack className='overflow-auto h-full max-h-[680px] lg:max-h-[700px] ~px-1/8 lg:px-0 xl:pb-3'>
           {meetings?.data.length ? (
-            <FlowContentHorizontal className="p-4 sm:p-0" gap={18} flex="none">
+            <FlowContentHorizontal className='p-4 sm:p-0' gap={18} flex='none'>
               {meetings?.data.map((minute) => {
                 return (
                   <Fragment>
@@ -97,13 +97,13 @@ export default function MeetingMinutes() {
                       p={24}
                       gap={30}
                       h={230}
-                      type="plain"
-                      bg="white"
+                      type='plain'
+                      bg='white'
                       className={clsx("rounded-xl", {
                         skeleton: isPlaceholderData,
                       })}
                     >
-                      <Flex justify="space-between" align="center">
+                      <Flex justify='space-between' align='center'>
                         <Stack gap={6}>
                           <Title order={2} fw={500}>
                             {minute.title}
@@ -111,17 +111,17 @@ export default function MeetingMinutes() {
                           <Text fz={14}>
                             <span>{formatDate(minute.date, DATE_FORMAT)}</span>{" "}
                             <span>at</span>{" "}
-                            <span className="uppercase">{minute.time}</span>
+                            <span className='uppercase'>{minute.time}</span>
                           </Text>
                         </Stack>
                         <Flex
-                          justify="center"
-                          align="center"
+                          justify='center'
+                          align='center'
                           w={40}
                           h={40}
-                          className="rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50"
+                          className='rounded-full border border-blue-7 cursor-pointer hover:bg-blue-1 hover:bg-opacity-50'
                         >
-                          <DownloadIcon color="var(--blue-7)" />
+                          <DownloadIcon color='var(--blue-7)' />
                         </Flex>
                       </Flex>
 
@@ -129,8 +129,8 @@ export default function MeetingMinutes() {
                         {minute.minutes.replace(/<[^>]*>/g, "").trim()}
                       </Text>
                       <Text
-                        c="blue.7"
-                        className="underline cursor-pointer"
+                        c='blue.7'
+                        className='underline cursor-pointer'
                         mt={10}
                         onClick={openDrawer}
                       >
@@ -148,8 +148,8 @@ export default function MeetingMinutes() {
             </FlowContentHorizontal>
           ) : (
             <EmptySlot
-              title="There are no meeting minutes yet. Check back for updates!"
-              src="meeting"
+              title='There are no meeting minutes yet. Check back for updates!'
+              src='meeting'
             />
           )}
         </Stack>
@@ -157,7 +157,7 @@ export default function MeetingMinutes() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData },
+            { hidden: noDataAvailable || isPlaceholderData }
           )}
         >
           <FlowPagination />
@@ -174,8 +174,8 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
-      <FilterDropdown label="Filter" data={filterOptions} />
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
+      <FilterDropdown label='Filter' data={filterOptions} />
     </Flex>
   );
 }

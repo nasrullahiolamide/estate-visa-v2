@@ -31,7 +31,7 @@ import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   {
@@ -77,7 +77,7 @@ const handleMarketRuleForm = (details: MarketRuleFormProps) => {
 };
 
 export default function MarketRules() {
-  const initialMarketRulesList = useFakeMarketRulesList();
+  const initialMarketRulesList = useMemo(() => useFakeMarketRulesList(), []);
   const pagination = useFlowPagination();
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const {

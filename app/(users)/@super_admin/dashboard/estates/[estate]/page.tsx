@@ -2,28 +2,28 @@
 
 import clsx from "clsx";
 
-import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakeSingleEstateData } from "@/builders/types/estates";
-import { navigate } from "@/packages/actions";
-import { cast, makePath, PAGES, pass } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { useEstateValue } from "@/packages/hooks/use-estate-query";
-import { AddIcon } from "@/icons";
-import { FlowContainer, FlowContentContainer } from "@/components/layout";
 import { AppShellHeader } from "@/components/admin/shared";
+import { FlowContainer, FlowContentContainer } from "@/components/layout";
 import { EmptySlot } from "@/components/shared/interface";
-import { schema } from "@/components/super-admin/estates/schema";
-import { DesktopView } from "@/components/super-admin/estates/views/desktop";
-import { MobileView } from "@/components/super-admin/estates/views/mobile";
 import {
   FormProvider,
   FormValues,
   TransformFormValues,
 } from "@/components/super-admin/estates/form-context";
+import { schema } from "@/components/super-admin/estates/schema";
+import { DesktopView } from "@/components/super-admin/estates/views/desktop";
+import { MobileView } from "@/components/super-admin/estates/views/mobile";
+import { AddIcon } from "@/icons";
+import { navigate } from "@/packages/actions";
+import { useEstateValue } from "@/packages/hooks/use-estate-query";
+import { cast, makePath, PAGES, pass } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toString } from "lodash";
+import { Fragment, useEffect, useMemo } from "react";
 
 interface PageProps {
   params: {
@@ -33,7 +33,7 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const queryClient = useQueryClient();
-  const initialEstateData = useFakeSingleEstateData();
+  const initialEstateData = useMemo(() => useFakeSingleEstateData(), []);
   const {
     estate: { id: estateId, action: actionType },
   } = useEstateValue(params.estate);
@@ -98,7 +98,7 @@ export default function Page({ params }: PageProps) {
       interests: interests?.map((interest) => pass.string(interest)),
       phone: pass.string(phone),
       serviceRequestTypes: serviceRequestTypes?.map((type) =>
-        pass.string(type),
+        pass.string(type)
       ),
       houseTypes: houseTypes?.map((type) => pass.string(type.id)),
       email: pass.string(manager?.email),
@@ -131,10 +131,10 @@ export default function Page({ params }: PageProps) {
   return (
     <Fragment>
       <AppShellHeader
-        title="Estate Details"
+        title='Estate Details'
         backHref={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
       />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         {estates ? (
           <FormProvider form={form}>
             <FlowContentContainer
@@ -144,7 +144,7 @@ export default function Page({ params }: PageProps) {
                 }),
               }}
             >
-              <Form form={form} className="h-full flex">
+              <Form form={form} className='h-full flex'>
                 <DesktopView
                   onSubmit={handleSubmit}
                   isSubmitting={isUpdating}
@@ -160,17 +160,17 @@ export default function Page({ params }: PageProps) {
           </FormProvider>
         ) : (
           <EmptySlot
-            title="No Estate Found. Start by adding an estate to manage!"
-            src="house"
+            title='No Estate Found. Start by adding an estate to manage!'
+            src='house'
             withButton
-            text="Add Estate"
+            text='Add Estate'
             btnProps={{
               leftSection: <AddIcon />,
               component: "a",
               href: makePath(
                 PAGES.DASHBOARD,
                 PAGES.ESTATES,
-                PAGES.ADD_NEW_ESTATE,
+                PAGES.ADD_NEW_ESTATE
               ),
             }}
           />

@@ -1,7 +1,7 @@
 "use client";
 
 import { Flex } from "@mantine/core";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import { builder } from "@/builders";
 import {
@@ -80,7 +80,10 @@ function handleView(details: ServiceRequestsData) {
 }
 
 export default function ServiceRequest() {
-  const initialServiceRequests = useFakeServiceRequestsList();
+  const initialServiceRequests = useMemo(
+    () => useFakeServiceRequestsList(),
+    []
+  );
   const pagination = useFlowPagination();
   const {
     page,

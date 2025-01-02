@@ -32,7 +32,7 @@ import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "A-Z", value: "A-Z" },
@@ -64,7 +64,7 @@ const handleMinuteForm = ({ ...props }: MeetingMinutesFormProps) => {
 
 export default function Meetings() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
-  const initialMeetingList = useFakeMeetingsList();
+  const initialMeetingList = useMemo(() => useFakeMeetingsList(), []);
   const pagination = useFlowPagination();
 
   const { meetingProps, scheduleMeeting, editMeeting } =
@@ -135,7 +135,7 @@ export default function Meetings() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Meeting Overview"
+        title='Meeting Overview'
         options={
           <HeaderOptions
             scheduleMeeting={scheduleMeeting}
@@ -144,7 +144,7 @@ export default function Meetings() {
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -159,10 +159,10 @@ export default function Meetings() {
               />
             ) : (
               <EmptySlot
-                title="You have no meetings yet. Schedule one to get started!"
-                src="meeting"
+                title='You have no meetings yet. Schedule one to get started!'
+                src='meeting'
                 withButton
-                text="Schedule Meeting"
+                text='Schedule Meeting'
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: scheduleMeeting,
@@ -212,19 +212,19 @@ interface HeaderOptionsProps {
 
 function HeaderOptions({ scheduleMeeting, hidden }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<AddIcon />}
         onClick={scheduleMeeting}
       >
         Schedule Meeting
       </Button>
       <Button
-        fz="sm"
-        variant="outline"
-        size="md"
+        fz='sm'
+        variant='outline'
+        size='md'
         leftSection={<ClockIcon />}
         onClick={() => handleMinuteForm({ formType: "add" })}
       >

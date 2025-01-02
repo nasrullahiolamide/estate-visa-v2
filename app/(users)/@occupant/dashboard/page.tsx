@@ -14,11 +14,11 @@ import { Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 
 export default function Overview() {
   const userId = toString(getCookie(APP.OCCUPANT_ID));
-  const initialOccupantData = useFakeOccupantDashboard();
+  const initialOccupantData = useMemo(() => useFakeOccupantDashboard(), []);
 
   const { data, isPlaceholderData } = useQuery({
     queryKey: builder.dashboard.occupant.get.$get(),

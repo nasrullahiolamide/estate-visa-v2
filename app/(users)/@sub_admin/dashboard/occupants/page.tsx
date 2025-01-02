@@ -35,7 +35,7 @@ import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Add } from "iconsax-react";
 import fileDownload from "js-file-download";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -60,7 +60,7 @@ const bulkUpload = () => {
 };
 
 export default function Occupants() {
-  const initialOccupantsList = useFakeOccupantsList();
+  const initialOccupantsList = useMemo(() => useFakeOccupantsList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 

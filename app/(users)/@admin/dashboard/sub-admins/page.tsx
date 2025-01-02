@@ -1,27 +1,25 @@
 "use client";
 
-import clsx from "clsx";
-import { Fragment, useEffect } from "react";
 import { Add } from "iconsax-react";
+import { Fragment, useEffect, useMemo } from "react";
 
-import { getCookie } from "cookies-next";
-import { useQuery } from "@tanstack/react-query";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 
 import { builder } from "@/builders";
 import { ProfileData } from "@/builders/types/profile";
 import { APP, decryptUri, MODALS } from "@/packages/libraries";
 
 import { subAdminListColumns } from "@/columns/for_admins/sub-admins";
+import { SubAdminActions } from "@/components/admin/sub-admins/actions";
+import { AddSubAdmins } from "@/components/admin/sub-admins/modals/add";
+import { ViewSubAdmins } from "@/components/admin/sub-admins/modals/view-edit";
+import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { AddSubAdmins } from "@/components/admin/sub-admins/modals/add";
-import { EmptySlot } from "@/components/shared/interface";
-import { ViewSubAdmins } from "@/components/admin/sub-admins/modals/view-edit";
-import { SubAdminActions } from "@/components/admin/sub-admins/actions";
 
-import { DownloadIcon } from "@/icons";
 import {
   SubAdminListData,
   useFakeSubAdminList,
@@ -30,14 +28,15 @@ import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
-  useFlowState,
   useFlowPagination,
+  useFlowState,
 } from "@/components/layout";
+import { DownloadIcon } from "@/icons";
 
 const filterData = [
   { label: "Recently Added", value: "recent" },
@@ -62,7 +61,7 @@ const handleViewEdit = (details: SubAdminListData, edit: boolean = false) => {
 };
 
 export default function SubAdmins() {
-  const initialSubAdminList = useFakeSubAdminList();
+  const initialSubAdminList = useMemo(() => useFakeSubAdminList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
   const {
@@ -128,13 +127,13 @@ export default function SubAdmins() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Sub Admins"
+        title='Sub Admins'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -150,10 +149,10 @@ export default function SubAdmins() {
               />
             ) : (
               <EmptySlot
-                title="There are no sub-admins here yet. Add one to get started!"
-                src="person-minus"
+                title='There are no sub-admins here yet. Add one to get started!'
+                src='person-minus'
                 withButton
-                text="Add Sub-Admin"
+                text='Add Sub-Admin'
                 btnProps={{
                   leftSection: <Add />,
                   onClick: handleAddSubAdmin,
@@ -194,8 +193,8 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden}>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={handleAddSubAdmin}
       >
@@ -203,9 +202,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterData} />
       <Button
-        fz="sm"
-        size="md"
-        variant="outline"
+        fz='sm'
+        size='md'
+        variant='outline'
         leftSection={<DownloadIcon />}
       >
         Download Table

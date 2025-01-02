@@ -1,29 +1,26 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
+import { useFakeMeetingData } from "@/builders/types/meetings";
 import { FlowContainer } from "@/components/layout";
 import { Markdown } from "@/components/shared/markdown";
+import { DownloadIcon, FileIcon } from "@/icons";
+import { DATE_FORMAT } from "@/packages/constants/time";
+import { formatDate } from "@/packages/libraries";
+import { getDownloadableUrl } from "@/packages/libraries/formatters";
 import {
+  Center,
   Divider,
   Drawer,
   Flex,
   ScrollAreaAutosize,
   Stack,
-  Title,
   Text,
-  Center,
+  Title,
 } from "@mantine/core";
-import { Fragment } from "react";
-import { formatDate } from "@/packages/libraries";
-import { DATE_FORMAT } from "@/packages/constants/time";
-import { DownloadIcon, FileIcon } from "@/icons";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import {
-  useFakeMeetingData,
-  useFakeMeetingListData,
-} from "@/builders/types/meetings";
-import { getDownloadableUrl } from "@/packages/libraries/formatters";
+import { Fragment, useMemo } from "react";
 
 interface ViewMeetingProps {
   id: string;
@@ -31,7 +28,7 @@ interface ViewMeetingProps {
   close: () => void;
 }
 export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
-  const initialMeetingData = useFakeMeetingData();
+  const initialMeetingData = useMemo(() => useFakeMeetingData(), []);
 
   const { data, isPlaceholderData } = useQuery({
     queryKey: builder.meetings.get.id.$get(id),
@@ -44,22 +41,22 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
   return (
     <Drawer
       scrollAreaComponent={ScrollAreaAutosize}
-      title="Meeting Minutes"
+      title='Meeting Minutes'
       onClose={close}
       opened={open}
       classNames={{
         body: "my-4",
       }}
     >
-      <Stack gap="lg">
-        <Flex align="center" gap={24}>
-          <Title order={2} c="plum.5" fz={20} fw={500}>
+      <Stack gap='lg'>
+        <Flex align='center' gap={24}>
+          <Title order={2} c='plum.5' fz={20} fw={500}>
             Meeting Title
           </Title>
           <Text fw={500}>{data?.title}</Text>
         </Flex>
-        <Flex align="center" gap={24}>
-          <Title order={2} c="plum.5" fz={20} fw={500}>
+        <Flex align='center' gap={24}>
+          <Title order={2} c='plum.5' fz={20} fw={500}>
             Meeting Details
           </Title>
           <Text fw={500}>
@@ -75,10 +72,10 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
           "bg-primary-background-white sm:overflow-scroll h-full sm:h-[520px]",
           {
             skeleton: isPlaceholderData,
-          },
+          }
         )}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <Markdown
           children={data?.minutes}
@@ -94,8 +91,8 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
       {data?.file && (
         <Fragment>
           <Divider my={30} />
-          <Stack gap="lg" className={clsx({ skeleton: isPlaceholderData })}>
-            <Title order={2} c="plum.5" fz={20} fw={500}>
+          <Stack gap='lg' className={clsx({ skeleton: isPlaceholderData })}>
+            <Title order={2} c='plum.5' fz={20} fw={500}>
               Attachments
             </Title>
 
@@ -106,17 +103,17 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
                 skeleton: isPlaceholderData,
               })}
             >
-              <Flex gap={30} align="center" justify="space-between">
-                <Flex align="center" gap={8}>
+              <Flex gap={30} align='center' justify='space-between'>
+                <Flex align='center' gap={8}>
                   <Center
                     p={6}
-                    c="gray.12"
-                    className="border-4 rounded-full border-accent-2 size-8"
+                    c='gray.12'
+                    className='border-4 rounded-full border-accent-2 size-8'
                   >
                     <FileIcon />
                   </Center>
 
-                  <Text fz={14} className="text-primary-text-body">
+                  <Text fz={14} className='text-primary-text-body'>
                     Sanitation_Review.pdf
                   </Text>
                 </Flex>
@@ -124,7 +121,7 @@ export function ViewMeeting({ open, close, id }: ViewMeetingProps) {
                   href={!isPlaceholderData ? getDownloadableUrl(data.file) : ""}
                   download={true}
                 >
-                  <DownloadIcon width={20} className="cursor-pointer" />
+                  <DownloadIcon width={20} className='cursor-pointer' />
                 </a>
               </Flex>
             </Stack>

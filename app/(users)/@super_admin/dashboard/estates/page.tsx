@@ -1,35 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { Button, Flex } from "@mantine/core";
-import { makePath, PAGES } from "@/packages/libraries";
 import { useFlowState } from "@/components/layout";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { EstateActions } from "@/components/super-admin/estates/actions";
+import { makePath, PAGES } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
 
-import { AddIcon, DownloadIcon } from "@/icons";
+import { builder } from "@/builders";
+import { useFakeEstateList } from "@/builders/types/estates";
 import { estatesColumns } from "@/columns/for_super_admins/estates";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
 } from "@/components/layout";
+import { AddIcon, DownloadIcon } from "@/icons";
 import { navigate } from "@/packages/actions";
 import { useEstateValue } from "@/packages/hooks/use-estate-query";
-import { builder } from "@/builders";
-import { useFakeEstateList } from "@/builders/types/estates";
 
 const filterOptions = [
   { label: "A - Z", value: "A-Z" },
@@ -49,7 +49,7 @@ const AddNewEstates = () =>
   navigate(makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE));
 
 export default function Estates() {
-  const initialEstateList = useFakeEstateList();
+  const initialEstateList = useMemo(() => useFakeEstateList(), []);
   const pagination = useFlowPagination();
 
   const { setEstate } = useEstateValue();
@@ -113,8 +113,8 @@ export default function Estates() {
 
   return (
     <Fragment>
-      <AppShellHeader title="Estates" options={<HeaderOptions />} />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <AppShellHeader title='Estates' options={<HeaderOptions />} />
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -129,16 +129,16 @@ export default function Estates() {
               />
             ) : (
               <EmptySlot
-                title="No estate added yet. Start by adding an estate to manage!"
-                src="house"
+                title='No estate added yet. Start by adding an estate to manage!'
+                src='house'
                 withButton
-                text="Add Estate"
+                text='Add Estate'
                 btnProps={{
                   leftSection: <AddIcon />,
                   href: makePath(
                     PAGES.DASHBOARD,
                     PAGES.ESTATES,
-                    PAGES.ADD_NEW_ESTATE,
+                    PAGES.ADD_NEW_ESTATE
                   ),
                 }}
               />
@@ -179,8 +179,8 @@ function HeaderOptions() {
   return (
     <Flex gap={14}>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<AddIcon />}
         component={Link}
         href={makePath(PAGES.DASHBOARD, PAGES.ESTATES, PAGES.ADD_NEW_ESTATE)}
@@ -189,9 +189,9 @@ function HeaderOptions() {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        fz="sm"
-        size="md"
-        variant="outline"
+        fz='sm'
+        size='md'
+        variant='outline'
         leftSection={<DownloadIcon />}
       >
         Download Table

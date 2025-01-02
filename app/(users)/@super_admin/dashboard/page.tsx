@@ -1,27 +1,30 @@
 "use client";
 
-import { Fragment } from "react";
-import { useSearchParams } from "next/navigation";
 import { Stack } from "@mantine/core";
+import { useSearchParams } from "next/navigation";
+import { Fragment, useMemo } from "react";
 
 import { RecentActivities } from "@/components/admin/overview";
 import { FlowContentHorizontal } from "@/components/layout";
 import {
-  StatisticsOverview,
-  PercentageOfUsers,
-  OnboardingRates,
-} from "@/components/super-admin/overview";
-import {
   AppShellHeader,
   AppShellMain,
 } from "@/components/shared/interface/app-shell";
+import {
+  OnboardingRates,
+  PercentageOfUsers,
+  StatisticsOverview,
+} from "@/components/super-admin/overview";
 import { useQuery } from "@tanstack/react-query";
 
 import { builder } from "@/builders";
 import { useFakeSuperAdminDashboardData } from "@/builders/types/super-admin-dashboard";
 
 export default function Overview() {
-  const initialSuperAdminData = useFakeSuperAdminDashboardData();
+  const initialSuperAdminData = useMemo(
+    () => useFakeSuperAdminDashboardData(),
+    []
+  );
 
   const timeFilter = useSearchParams().get("time-filter") || "Week";
 
@@ -32,13 +35,13 @@ export default function Overview() {
     select: (data) => {
       const { userPercentage } = { ...data };
       const occupantsPercentage = Math.floor(
-        userPercentage.occupantsPercentage,
+        userPercentage.occupantsPercentage
       );
       const estateOwnersPercentage = Math.floor(
-        userPercentage.estateOwnersPercentage,
+        userPercentage.estateOwnersPercentage
       );
       const subOccupantsPercentage = Math.floor(
-        userPercentage.subOccupantsPercentage,
+        userPercentage.subOccupantsPercentage
       );
 
       return {
@@ -73,10 +76,10 @@ export default function Overview() {
 
   return (
     <Fragment>
-      <AppShellHeader title="Overview" />
+      <AppShellHeader title='Overview' />
 
-      <AppShellMain layout="default">
-        <Stack gap={35} w="100%">
+      <AppShellMain layout='default'>
+        <Stack gap={35} w='100%'>
           <StatisticsOverview
             totalEstates={data.totalEstates}
             totalEstateOwners={data.totalEstateOwners}

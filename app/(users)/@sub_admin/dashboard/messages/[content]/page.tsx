@@ -1,34 +1,33 @@
 "use client";
 
-import { Fragment, useEffect } from "react";
-import { Flex, Button } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { AppShellHeader } from "@/components/admin/shared";
 import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
 import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
+import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Fragment, useMemo } from "react";
 
+import { EditModal } from "@/components/admin/messages/edit";
+import { ReplyModal } from "@/components/admin/messages/reply";
+import { WriteModal } from "@/components/admin/messages/write";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowPaper,
 } from "@/components/layout";
+import { MessageContent } from "@/components/shared/chat/messages/content";
+import { MESSAGE_TYPE } from "@/components/shared/chat/types";
+import { TIME_FORMAT } from "@/packages/constants/time";
 import {
   MessagesValue,
   useMessagesValue,
 } from "@/packages/hooks/use-messages-value";
-import { WriteModal } from "@/components/admin/messages/write";
-import { EditModal } from "@/components/admin/messages/edit";
 import { useRouter } from "next/navigation";
-import { MESSAGE_TYPE } from "@/components/shared/chat/types";
-import { useListState } from "@mantine/hooks";
-import { MessageContent } from "@/components/shared/chat/messages/content";
-import { ReplyModal } from "@/components/admin/messages/reply";
-import { TIME_FORMAT } from "@/packages/constants/time";
 
 interface PageProps {
   params: {
@@ -54,7 +53,7 @@ const editMessage = (view: string, data: MessagesData) => {
 
 export default function Page({ params }: PageProps) {
   const { content } = useMessagesValue(params.content);
-  const initialMessageData = useFakeMessagesData();
+  const initialMessageData = useMemo(() => useFakeMessagesData(), []);
 
   const { data = [], isPlaceholderData } = useQuery({
     queryKey: builder.messages.get.id.$get(content.id),
@@ -75,15 +74,15 @@ export default function Page({ params }: PageProps) {
 
   const recipient =
     content.view === MESSAGE_TYPE.OCCUPANT
-      ? (data.at(0)?.parent?.house?.houseNumber ??
+      ? data.at(0)?.parent?.house?.houseNumber ??
         data.at(0)?.house?.houseNumber ??
-        "")
+        ""
       : "All houses";
 
   return (
     <Fragment>
       <AppShellHeader
-        title="Message Details"
+        title='Message Details'
         backHref={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
         showLinks={false}
         options={
@@ -94,7 +93,7 @@ export default function Page({ params }: PageProps) {
           />
         }
       />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -111,8 +110,8 @@ export default function Page({ params }: PageProps) {
               />
             ) : (
               <EmptySlot
-                title="Message not found. Start a conversation to stay connected!"
-                src="no-talk"
+                title='Message not found. Start a conversation to stay connected!'
+                src='no-talk'
                 withButton
                 text={
                   content.view === MESSAGE_TYPE.OCCUPANT
@@ -171,9 +170,9 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
           title={`Are you sure you want to delete this ${
             view === MESSAGE_TYPE.OCCUPANT ? "message" : "broadcast"
           }?`}
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -202,39 +201,39 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   };
 
   return (
-    <Flex gap={14} wrap="wrap" align="center" justify="center" hidden={hidden}>
+    <Flex gap={14} wrap='wrap' align='center' justify='center' hidden={hidden}>
       {view === MESSAGE_TYPE.OCCUPANT ||
       data?.responses.length ||
       data.parent ? (
-        <Button fz="sm" size="md" variant="outline" onClick={replyMessage}>
-          <Flex className="flex items-center gap-2">
+        <Button fz='sm' size='md' variant='outline' onClick={replyMessage}>
+          <Flex className='flex items-center gap-2'>
             <CurlyBackArrrow />
-            <span className="hidden sm:inline"> Reply Message</span>
+            <span className='hidden sm:inline'> Reply Message</span>
           </Flex>
         </Button>
       ) : (
         <Button
-          fz="sm"
-          size="md"
-          variant="outline"
+          fz='sm'
+          size='md'
+          variant='outline'
           onClick={() => editMessage(view, data)}
         >
-          <Flex className="flex items-center gap-2">
+          <Flex className='flex items-center gap-2'>
             <EditIcon width={18} />
-            <span className="hidden sm:inline"> Edit Message</span>
+            <span className='hidden sm:inline'> Edit Message</span>
           </Flex>
         </Button>
       )}
       <Button
-        fz="sm"
-        size="md"
-        variant="outline"
+        fz='sm'
+        size='md'
+        variant='outline'
         onClick={handleDelete}
-        color="#CC0404"
+        color='#CC0404'
       >
-        <Flex className="flex items-center gap-2">
+        <Flex className='flex items-center gap-2'>
           <TrashIcon width={18} />
-          <span className="hidden sm:inline">Delete</span>
+          <span className='hidden sm:inline'>Delete</span>
         </Flex>
       </Button>
     </Flex>

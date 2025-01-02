@@ -1,38 +1,37 @@
 "use client";
 
-import clsx from "clsx";
-import { Fragment, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Fragment, useEffect, useMemo } from "react";
 
-import { modals } from "@mantine/modals";
-import { Button, Flex } from "@mantine/core";
 import { builder } from "@/builders";
 import { useFakeSubOccupantsList } from "@/builders/types/sub-occupants";
 import { MODALS } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
 
+import { ActionSubOccupantsColumns } from "@/columns/for_occupants/sub-occupants";
+import { SubOccupantActions } from "@/components/occupant/sub-occupants/actions";
+import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { SubOccupantActions } from "@/components/occupant/sub-occupants/actions";
-import { ActionSubOccupantsColumns } from "@/columns/for_occupants/sub-occupants";
 
-import { AddIcon, DownloadIcon } from "@/icons";
-import {
-  SubOccupantsForm,
-  SubOccupantsFormProps,
-} from "@/components/occupant/sub-occupants/form";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import {
+  SubOccupantsForm,
+  SubOccupantsFormProps,
+} from "@/components/occupant/sub-occupants/form";
+import { AddIcon, DownloadIcon } from "@/icons";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -49,7 +48,7 @@ const handleSubOccupantForm = ({ data, modalType }: SubOccupantsFormProps) => {
 };
 
 export default function SubOccupants() {
-  const initialSubOccupantsList = useFakeSubOccupantsList();
+  const initialSubOccupantsList = useMemo(() => useFakeSubOccupantsList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
@@ -110,13 +109,13 @@ export default function SubOccupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Sub-Occupants"
+        title='Sub-Occupants'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -134,10 +133,10 @@ export default function SubOccupants() {
               />
             ) : (
               <EmptySlot
-                title="There are no sub-occupants yet. Add one to get started!"
-                src="person-minus"
+                title='There are no sub-occupants yet. Add one to get started!'
+                src='person-minus'
                 withButton
-                text="Add Sub-Occupant"
+                text='Add Sub-Occupant'
                 btnProps={{
                   leftSection: <AddIcon />,
                   onClick: () => handleSubOccupantForm({ modalType: "add" }),
@@ -176,10 +175,10 @@ export default function SubOccupants() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<AddIcon />}
         onClick={() => handleSubOccupantForm({ modalType: "add" })}
       >
@@ -187,9 +186,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
       >
         Download Table

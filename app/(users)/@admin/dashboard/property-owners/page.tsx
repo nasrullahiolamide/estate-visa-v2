@@ -2,45 +2,45 @@
 
 import fileDownload from "js-file-download";
 
-import { Add } from "iconsax-react";
-import { Fragment, useEffect } from "react";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { MODALS } from "@/packages/libraries";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { builder } from "@/builders";
 import { useFakePropertyOwnersList } from "@/builders/types/property-owners";
+import { MIME_TYPE } from "@/builders/types/shared";
 import { propertyOwnersColumns } from "@/columns/for_admins/property-owners";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon, UploadIcon } from "@/icons";
-import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
 import {
-  FlowContainer,
-  FlowContentContainer,
-  FlowEntriesPerPage,
-  FlowFooter,
-  FlowPagination,
-  FlowPaper,
-  FlowTable,
-  FlowFloatingButtons,
-  useFlowPagination,
-  useFlowState,
-} from "@/components/layout";
+  OccupantsForm,
+  OccupantsFormProps,
+} from "@/components/admin/occupants/modals/form";
+import { PropertyOwnerActions } from "@/components/admin/property-owners/actions";
 import {
   PropertyOwnerForm,
   PropertyOwnerFormProps,
 } from "@/components/admin/property-owners/modals/form";
 import {
-  OccupantsFormProps,
-  OccupantsForm,
-} from "@/components/admin/occupants/modals/form";
-import { MIME_TYPE } from "@/builders/types/shared";
-import { useFilename } from "@/packages/hooks/use-file-name";
-import { handleError } from "@/packages/notification";
+  FlowContainer,
+  FlowContentContainer,
+  FlowEntriesPerPage,
+  FlowFloatingButtons,
+  FlowFooter,
+  FlowPagination,
+  FlowPaper,
+  FlowTable,
+  useFlowPagination,
+  useFlowState,
+} from "@/components/layout";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { BulkUpload } from "@/components/shared/user-management/bulk-upload";
+import { DownloadIcon, UploadIcon } from "@/icons";
+import { useFilename } from "@/packages/hooks/use-file-name";
+import { MODALS } from "@/packages/libraries";
 import { FILE } from "@/packages/libraries/enum";
+import { handleError } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Add } from "iconsax-react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "Recent" },
@@ -76,7 +76,10 @@ const handlePropertyOwnerForm = ({
 };
 
 export default function PropertyOwners() {
-  const initialPropertyOwnersList = useFakePropertyOwnersList();
+  const initialPropertyOwnersList = useMemo(
+    () => useFakePropertyOwnersList(),
+    []
+  );
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
 
@@ -85,7 +88,7 @@ export default function PropertyOwners() {
     onSuccess: (data) => {
       const filename = useFilename(
         [FILE.PROPERTY_OWNERS],
-        data.type as MIME_TYPE,
+        data.type as MIME_TYPE
       );
       fileDownload(data, filename);
     },
@@ -153,7 +156,7 @@ export default function PropertyOwners() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Property Owners"
+        title='Property Owners'
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -163,7 +166,7 @@ export default function PropertyOwners() {
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -181,10 +184,10 @@ export default function PropertyOwners() {
               />
             ) : (
               <EmptySlot
-                title="There are no occupants yet. Add one to get started!"
-                src="person-minus"
+                title='There are no occupants yet. Add one to get started!'
+                src='person-minus'
                 withDoubleButton
-                primaryText="Add New Occupant"
+                primaryText='Add New Occupant'
                 primaryBtnProps={{
                   leftSection: <Add />,
                   onClick: () =>
@@ -193,7 +196,7 @@ export default function PropertyOwners() {
                       viewId: "property-owners",
                     }),
                 }}
-                secondaryText="Bulk Upload"
+                secondaryText='Bulk Upload'
                 secondaryBtnProps={{
                   onClick: bulkUpload,
                 }}
@@ -250,10 +253,10 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} wrap="wrap" hidden={hidden}>
+    <Flex gap={14} wrap='wrap' hidden={hidden}>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={() => handlePropertyOwnerForm({ modalType: "add" })}
       >
@@ -261,18 +264,18 @@ function HeaderOptions({
       </Button>
       <FilterDropdown data={filterOptions} hidden={hidden} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<UploadIcon />}
         onClick={bulkUpload}
       >
         Bulk Upload
       </Button>
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

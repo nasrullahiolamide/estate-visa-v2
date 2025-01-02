@@ -1,35 +1,33 @@
 "use client";
 
-import clsx from "clsx";
-
-import { Fragment, useEffect } from "react";
-import { Add } from "iconsax-react";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { APP, MODALS } from "@/packages/libraries";
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
-import { EmptySlot } from "@/components/shared/interface";
-import { DownloadIcon } from "@/icons";
+import { builder } from "@/builders";
 import { useFakeGatesList } from "@/builders/types/gates";
 import { gatesColumns } from "@/columns/for_admins/gates";
+import { GateActions } from "@/components/admin/gates/actions";
+import { GateForm, GatesFormProps } from "@/components/admin/gates/form";
 import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
+  FlowFloatingButtons,
   FlowFooter,
   FlowPagination,
   FlowPaper,
   FlowTable,
-  FlowFloatingButtons,
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
+import { EmptySlot } from "@/components/shared/interface";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { DownloadIcon } from "@/icons";
+import { APP, MODALS } from "@/packages/libraries";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
-import { builder } from "@/builders";
 import { getCookie } from "cookies-next";
-import { GateActions } from "@/components/admin/gates/actions";
-import { GateForm, GatesFormProps } from "@/components/admin/gates/form";
+import { Add } from "iconsax-react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -46,7 +44,7 @@ const handleGateForm = ({ data, modalType }: GatesFormProps) => {
 };
 
 export default function Gates() {
-  const initialGatesList = useFakeGatesList();
+  const initialGatesList = useMemo(() => useFakeGatesList(), []);
   const pagination = useFlowPagination();
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
 
@@ -99,13 +97,13 @@ export default function Gates() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Gates"
+        title='Gates'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -120,10 +118,10 @@ export default function Gates() {
               />
             ) : (
               <EmptySlot
-                title="No gates have been added yet. Add a gate to begin managing access!"
-                src="gate"
+                title='No gates have been added yet. Add a gate to begin managing access!'
+                src='gate'
                 withButton
-                text="Add New Gate"
+                text='Add New Gate'
                 btnProps={{
                   leftSection: <Add />,
                   onClick: () => handleGateForm({ modalType: "add" }),
@@ -164,10 +162,10 @@ export default function Gates() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        fz="sm"
-        size="md"
+        fz='sm'
+        size='md'
         leftSection={<Add />}
         onClick={() => handleGateForm({ modalType: "add" })}
       >
@@ -175,9 +173,9 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       </Button>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
       >
         Download Table

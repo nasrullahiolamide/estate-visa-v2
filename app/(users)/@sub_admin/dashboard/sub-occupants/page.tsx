@@ -32,7 +32,7 @@ import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import fileDownload from "js-file-download";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -44,12 +44,12 @@ const handleSubOccupantForm = (data: SubOccupantsData) => {
   modals.open({
     title: "Sub Occupant Details",
     modalId: MODALS.FORM_DETAILS,
-    children: <SubOccupantsForm data={data} modalType="view" />,
+    children: <SubOccupantsForm data={data} modalType='view' />,
   });
 };
 
 export default function SubOccupants() {
-  const initialSubOccupantsList = useFakeSubOccupantsList();
+  const initialSubOccupantsList = useMemo(() => useFakeSubOccupantsList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortOrder } = useFlowState();
 
@@ -100,7 +100,7 @@ export default function SubOccupants() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Sub-Occupants"
+        title='Sub-Occupants'
         options={
           <HeaderOptions
             hidden={noDataAvailable || isPlaceholderData}
@@ -110,7 +110,7 @@ export default function SubOccupants() {
         }
       />
 
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -126,8 +126,8 @@ export default function SubOccupants() {
               />
             ) : (
               <EmptySlot
-                title="There are no sub-occupants yet. Check back later for updates!"
-                src="person-minus"
+                title='There are no sub-occupants yet. Check back later for updates!'
+                src='person-minus'
               />
             )}
           </FlowPaper>
@@ -168,12 +168,12 @@ function HeaderOptions({
   isDownloading,
 }: HeaderOptionsProps) {
   return (
-    <Flex gap={14} hidden={hidden} wrap="wrap">
+    <Flex gap={14} hidden={hidden} wrap='wrap'>
       <FilterDropdown data={filterOptions} />
       <Button
-        variant="outline"
-        fz="sm"
-        size="md"
+        variant='outline'
+        fz='sm'
+        size='md'
         leftSection={<DownloadIcon />}
         onClick={onDownload}
         loading={isDownloading}

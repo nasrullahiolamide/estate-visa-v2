@@ -11,14 +11,14 @@ import { AppShellHeader, AppShellMain } from "@/components/admin/shared";
 import { PAGES } from "@/packages/libraries";
 import { getFeatureFlag } from "@/packages/libraries/auth";
 
-import { Stack, Flex } from "@mantine/core";
+import { Flex, Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 
 type FetureFlag = Record<string, string[]>;
 
 export default function Overview() {
-  const initialAdminData = useFakeAdminDashboardData();
+  const initialAdminData = useMemo(() => useFakeAdminDashboardData(), []);
 
   const flags = getFeatureFlag();
   const isRestricted = flags.some((flag) => flag === PAGES.SERVICE_REQUESTS);
@@ -34,10 +34,10 @@ export default function Overview() {
 
   return (
     <Fragment>
-      <AppShellHeader title="Overview" />
+      <AppShellHeader title='Overview' />
 
-      <AppShellMain layout="default">
-        <Stack gap={35} w="100%">
+      <AppShellMain layout='default'>
+        <Stack gap={35} w='100%'>
           <StatisticsOverview
             totalGates={data?.totalGates ?? 0}
             totalHouses={data?.totalHouses ?? 0}
@@ -45,7 +45,7 @@ export default function Overview() {
             totalSubOccupants={data?.totalSubOccupants ?? 0}
             skeleton={isPlaceholderData}
           />
-          <Flex gap={30} className="flex-col sm:flex-row">
+          <Flex gap={30} className='flex-col sm:flex-row'>
             <AccessRequests />
             {!isRestricted && <ServiceRequests />}
           </Flex>

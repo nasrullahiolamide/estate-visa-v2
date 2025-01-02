@@ -18,10 +18,10 @@ import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { Flex } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 export default function NoticeBoard() {
-  const initialMeetingList = useFakeMessagesList();
+  const initialMeetingList = useMemo(() => useFakeMessagesList(), []);
   const pagination = useFlowPagination();
   const { page, pageSize } = useFlowState();
 
@@ -37,7 +37,7 @@ export default function NoticeBoard() {
       return {
         ...data,
         messages: data?.messages?.filter(
-          (message) => message.type === MESSAGE_TYPE.BROADCAST,
+          (message) => message.type === MESSAGE_TYPE.BROADCAST
         ),
       };
     },
@@ -57,12 +57,12 @@ export default function NoticeBoard() {
   return (
     <Fragment>
       <AppShellHeader
-        title="Notice Board"
+        title='Notice Board'
         options={
           <HeaderOptions hidden={noDataAvailable || isPlaceholderData} />
         }
       />
-      <FlowContainer type="plain" className="lg:~p-1/8">
+      <FlowContainer type='plain' className='lg:~p-1/8'>
         <FlowContentContainer
           classNames={{
             root: "rounded-none lg:rounded-2xl bg-white",
@@ -73,7 +73,7 @@ export default function NoticeBoard() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData },
+            { hidden: noDataAvailable || isPlaceholderData }
           )}
         >
           <FlowPagination />
@@ -86,9 +86,9 @@ export default function NoticeBoard() {
 
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
-    <Flex gap={14} wrap="wrap" hidden={hidden} align="center">
+    <Flex gap={14} wrap='wrap' hidden={hidden} align='center'>
       <FilterDropdown
-        label="Filter"
+        label='Filter'
         data={[
           { label: "Recently Added", value: "recent" },
           { label: "Street Name(A-Z)", value: "a-z" },
