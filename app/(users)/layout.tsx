@@ -1,5 +1,6 @@
-import { getAuthorizedUser, navigate } from "@/packages/actions";
+import { getAuthorizedUser } from "@/packages/actions";
 import { USER_TYPE } from "@/packages/libraries";
+import { redirect } from "next/navigation";
 import { PropsWithChildren, ReactNode } from "react";
 
 type LayoutProps = PropsWithChildren<{
@@ -35,7 +36,7 @@ export default async function Layout({
     [USER_TYPE.GATEMAN]: gateman,
   };
 
-  if (!isAuthorized) navigate(callbackUrl);
+  if (!isAuthorized) redirect(callbackUrl);
 
   return isAuthorized ? view[userType] : guest;
 }
