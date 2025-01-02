@@ -22,7 +22,7 @@ export async function getAuthorizedUser() {
   const encodedUserType = getCookie(APP.USER_TYPE, { cookies });
   const userType = encodedUserType ? encode(encodedUserType) : USER_TYPE.GUEST;
 
-  const nextRoute = isAuthorized
+  const callbackUrl = isAuthorized
     ? PAGES.DASHBOARD
     : makePath(
         PAGES.LOGIN,
@@ -30,5 +30,5 @@ export async function getAuthorizedUser() {
         `?session=expired`
       );
 
-  return { isAuthorized, userType, nextRoute };
+  return { isAuthorized, userType, callbackUrl };
 }

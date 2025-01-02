@@ -1,7 +1,6 @@
+import { getAuthorizedUser, navigate } from "@/packages/actions";
 import { USER_TYPE } from "@/packages/libraries";
 import { PropsWithChildren, ReactNode } from "react";
-
-import { getAuthorizedUser } from "@/packages/actions";
 
 type LayoutProps = PropsWithChildren<{
   admin: ReactNode;
@@ -14,7 +13,7 @@ type LayoutProps = PropsWithChildren<{
   guest: ReactNode;
 }>;
 
-export default async function RootLayout({
+export default async function Layout({
   admin,
   sub_admin,
   super_admin,
@@ -22,8 +21,9 @@ export default async function RootLayout({
   sub_occupant,
   property_owner,
   gateman,
+  guest = null,
 }: LayoutProps) {
-  const { isAuthorized, userType } = await getAuthorizedUser();
+  const { isAuthorized, userType, callbackUrl } = await getAuthorizedUser();
 
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,
@@ -35,5 +35,7 @@ export default async function RootLayout({
     [USER_TYPE.GATEMAN]: gateman,
   };
 
-  return isAuthorized ? view[userType] : null;
+  if (!isAuthorized) navigate(callbackUrl);
+
+  return isAuthorized ? view[userType] : guest;
 }
