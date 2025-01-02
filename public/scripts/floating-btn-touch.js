@@ -15,10 +15,6 @@ const observer = new MutationObserver(() => {
     observeFrameAttributes();
     observer.disconnect();
   }
-
-  if (toggle) {
-    console.log("toggle", toggle);
-  }
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
@@ -40,15 +36,12 @@ function setupDragIcon() {
 }
 
 function setupFrameStyles() {
-  frame.style.zIndex = "9999 !important";
-  // frame.style.backgroundColor = "red";
+  frame.style.zIndex = "9999";
+  frame.style.backgroundColor = "red";
 }
 
 function attachEventListeners() {
-  const dragStartHandler = (ev) => {
-    ev.stopPropagation();
-    dragMouseDown(ev);
-  };
+  const dragStartHandler = (ev) => dragMouseDown(ev);
 
   dragIcon.addEventListener("touchstart", dragStartHandler);
   frame.addEventListener("touchstart", dragStartHandler, { passive: false });
@@ -65,15 +58,6 @@ function attachEventListeners() {
 function observeFrameAttributes() {
   const frameObserver = new MutationObserver((mutationsList) => {
     console.log(frame.target);
-    for (let mutation of mutationsList) {
-      if (
-        mutation.type === "attributes" &&
-        mutation.attributeName === "class" &&
-        frame.classList.contains("fc-open")
-      ) {
-        frame.style.top = "";
-      }
-    }
   });
 
   frameObserver.observe(frame, { attributes: true });

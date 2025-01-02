@@ -1,4 +1,4 @@
-import { PAGES, USER_TYPE } from "@/packages/libraries";
+import { USER_TYPE } from "@/packages/libraries";
 import { PropsWithChildren, ReactNode } from "react";
 
 import { getAuthorizedUser } from "@/packages/actions";
@@ -23,7 +23,7 @@ export default async function RootLayout({
   property_owner,
   gateman,
 }: LayoutProps) {
-  const { isAuthorized, userType } = await getAuthorizedUser(PAGES.WEBSITE);
+  const { isAuthorized, userType } = await getAuthorizedUser();
 
   const view: Record<PropertyKey, ReactNode> = {
     [USER_TYPE.ADMIN]: admin,

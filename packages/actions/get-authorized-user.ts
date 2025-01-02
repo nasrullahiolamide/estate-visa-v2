@@ -4,7 +4,7 @@ import { getCookie, getCookies } from "cookies-next";
 import { cookies } from "next/headers";
 import { APP, encode, makePath, PAGES, TOKEN, USER_TYPE } from "../libraries";
 
-export async function getAuthorizedUser(route: string) {
+export async function getAuthorizedUser() {
   const allCookies = Object.keys(getCookies({ cookies }));
 
   const requiredCookies = [
