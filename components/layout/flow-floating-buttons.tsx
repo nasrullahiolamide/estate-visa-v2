@@ -129,26 +129,17 @@ export function FlowFloatingButtons({
         ))}
       </Stack>
 
-      <div
-        style={{
-          height: 50,
-          width: 50,
-          backgroundColor: "red",
-        }}
+      <Button
+        // id='fc_frame'
+        radius='xl'
+        w={50}
+        h={50}
+        p={0}
+        className='shadow-lg z-10'
+        onClick={() => setVisible((prev) => !prev)}
       >
-        <Button
-          id='fc_frame'
-          radius='xl'
-          w={50}
-          h={50}
-          p={0}
-          className='shadow-lg z-10'
-
-          // onClick={() => setVisible((prev) => !prev)}
-        >
-          {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}
-        </Button>
-      </div>
+        {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}
+      </Button>
     </Stack>
   );
 }
