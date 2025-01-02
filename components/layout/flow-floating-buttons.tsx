@@ -73,16 +73,18 @@ export function FlowFloatingButtons({
 
   return (
     <Stack
-      id='fc_frame'
       style={{
         position: "absolute",
         bottom: 80,
         right: 12,
-        zIndex: 200,
         width: "fit-content",
+        height: "fit-content",
       }}
       hiddenFrom='lg'
       hidden={hidden}
+      onClick={(ev) => {
+        setVisible((prev) => !prev);
+      }}
       {...containerProps}
     >
       <Stack justify='center' align='center'>
@@ -126,17 +128,26 @@ export function FlowFloatingButtons({
         ))}
       </Stack>
 
-      <Button
-        // id='fc_frame'
-        radius='xl'
-        w={50}
-        h={50}
-        p={0}
-        className='shadow-lg'
-        onClick={() => setVisible((prev) => !prev)}
+      <div
+        style={{
+          height: 50,
+          width: 50,
+          backgroundColor: "red",
+        }}
       >
-        {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}
-      </Button>
+        <Button
+          id='fc_frame'
+          radius='xl'
+          w={50}
+          h={50}
+          p={0}
+          className='shadow-lg z-10'
+
+          // onClick={() => setVisible((prev) => !prev)}
+        >
+          {!visible ? <ArrowUp2 size={24} /> : <ArrowDown2 size={24} />}
+        </Button>
+      </div>
     </Stack>
   );
 }

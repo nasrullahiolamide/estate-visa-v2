@@ -1,4 +1,4 @@
-let frame, dragIcon;
+let frame, dragIcon, toggle;
 let xHorizontalPosition = 0,
   yVerticalPosition = 0,
   horizontalPosition = 0,
@@ -6,19 +6,21 @@ let xHorizontalPosition = 0,
 
 const observer = new MutationObserver(() => {
   frame = document.getElementById("fc_frame");
+  toggle = document.getElementById("fc_frame_btn");
 
   if (frame) {
     setupDragIcon();
     setupFrameStyles();
     attachEventListeners();
     observeFrameAttributes();
-
-    // Stop observing once the frame is found and set up
     observer.disconnect();
+  }
+
+  if (toggle) {
+    console.log("toggle", toggle);
   }
 });
 
-// Start observing the document body for changes
 observer.observe(document.body, { childList: true, subtree: true });
 
 function setupDragIcon() {
@@ -33,14 +35,13 @@ function setupDragIcon() {
   if (frame.firstChild) {
     frame.insertBefore(dragIcon, frame.firstChild);
   } else {
-    frame.appendChild(dragIcon);
+    frame.append(dragIcon);
   }
 }
 
 function setupFrameStyles() {
-  frame.style.position = "fixed";
-  frame.style.zIndex = "9999";
-  frame.style.bottom = "10px";
+  frame.style.zIndex = "9999 !important";
+  // frame.style.backgroundColor = "red";
 }
 
 function attachEventListeners() {
@@ -50,22 +51,20 @@ function attachEventListeners() {
   };
 
   dragIcon.addEventListener("touchstart", dragStartHandler);
-
   frame.addEventListener("touchstart", dragStartHandler, { passive: false });
 
   frame.addEventListener("click", (ev) => {
     console.log("Frame clicked!");
-
-    // Allow propagation for all children of frame
-    if (frame.contains(ev.target) && ev.target !== frame) {
-      ev.stopPropagation = () => {}; // Disable stopPropagation for children
-      console.log("Child clicked!");
+    if (ev.target !== frame) {
+      console.log("Child clicked:", ev.target);
+      // Perform child-specific actions here if needed
     }
   });
 }
 
 function observeFrameAttributes() {
   const frameObserver = new MutationObserver((mutationsList) => {
+    console.log(frame.target);
     for (let mutation of mutationsList) {
       if (
         mutation.type === "attributes" &&

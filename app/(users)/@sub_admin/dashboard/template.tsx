@@ -29,7 +29,7 @@ import clsx from "clsx";
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import Swal from "sweetalert2";
 
@@ -69,7 +69,7 @@ export default function Template({ children }: TemplateProps) {
     <AppShell
       navbar={{
         width: opened ? 270 : 95,
-        collapsed: { mobile: !openedNav },
+        collapsed: { mobile: useMemo(() => !openedNav, [openedNav]) },
         breakpoint: "lg",
       }}
       styles={{

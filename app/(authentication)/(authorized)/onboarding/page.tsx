@@ -89,6 +89,7 @@ export default function Onboarding() {
               id='password'
               label='New Password'
               type='password'
+              withAsterisk
               placeholder='Enter your new password'
               {...form.getInputProps("password")}
             />
@@ -96,6 +97,7 @@ export default function Onboarding() {
               id='confirm_password'
               label='Confirm Password'
               type='password'
+              withAsterisk
               placeholder='Re-enter your new password'
               {...form.getInputProps("confirm_password")}
             />
