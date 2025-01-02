@@ -29,6 +29,8 @@ import { boolean } from "mathjs";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
+import { useFlowDispatch } from "@/components/layout/flow-context";
+import { FlowActionType } from "@/components/layout/use-flow-reducer";
 import clsx from "clsx";
 import Swal from "sweetalert2";
 
@@ -41,11 +43,15 @@ export default function Template({ children }: TemplateProps) {
 
   const pathname = usePathname();
   const flags = getFeatureFlag();
+  const dispatch = useFlowDispatch();
 
   const { openedNav } = useFlowState();
 
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
+
+    if (openedNav)
+      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
 
     if (isRestricted) {
       Swal.fire({
@@ -68,15 +74,14 @@ export default function Template({ children }: TemplateProps) {
   return (
     <AppShell
       navbar={{
-        width: 270,
-        collapsed: { mobile: !openedNav },
+        width: opened ? 270 : 95,
         breakpoint: "lg",
       }}
-      // styles={{
-      //   navbar: {
-      //     zIndex: "140 !important",
-      //   },
-      // }}
+      styles={{
+        navbar: {
+          zIndex: "100",
+        },
+      }}
     >
       <AppShell.Navbar
         withBorder={false}
@@ -85,6 +90,9 @@ export default function Template({ children }: TemplateProps) {
         style={{
           alignItems: opened ? "unset" : "center",
         }}
+        className={clsx({
+          "hidden lg:flex": !openedNav,
+        })}
       >
         <AppShell.Section>
           <Stack gap={0}>
@@ -93,7 +101,7 @@ export default function Template({ children }: TemplateProps) {
             </Center>
 
             {user.estate && (
-              <Title mt={10} ta='center' fw={700} c='purple.9'>
+              <Title mt={10} ta='center' fw={400} order={2} c='purple.9'>
                 {user.estate.name} Estate
               </Title>
             )}

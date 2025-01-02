@@ -17,7 +17,11 @@ import {
 import { getCookie } from "cookies-next";
 import { boolean } from "mathjs";
 
+import { useFlowDispatch } from "@/components/layout/flow-context";
+import { FlowActionType } from "@/components/layout/use-flow-reducer";
 import clsx from "clsx";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 type TemplateProps = React.PropsWithChildren<{}>;
 
@@ -25,19 +29,25 @@ export default function Template({ children }: TemplateProps) {
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const collapsedNav = getCookie(APP.EXPANDED_NAVBAR);
   const opened = boolean(collapsedNav ?? true);
+  const dispatch = useFlowDispatch();
+  const pathname = usePathname();
 
   const { openedNav } = useFlowState();
+
+  useEffect(() => {
+    if (openedNav)
+      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
+  }, [pathname]);
 
   return (
     <AppShell
       navbar={{
         width: opened ? 270 : 95,
-        collapsed: { mobile: !openedNav },
         breakpoint: "lg",
       }}
       styles={{
         navbar: {
-          zIndex: "100 !important",
+          zIndex: "100",
         },
       }}
     >
@@ -48,6 +58,9 @@ export default function Template({ children }: TemplateProps) {
         style={{
           alignItems: opened ? "unset" : "center",
         }}
+        className={clsx({
+          "hidden lg:flex": !openedNav,
+        })}
       >
         <AppShell.Section>
           <Stack gap={0}>
@@ -56,7 +69,7 @@ export default function Template({ children }: TemplateProps) {
             </Center>
 
             {user.estate && (
-              <Title mt={10} ta='center' fw={700} c='purple.9'>
+              <Title mt={10} ta='center' fw={400} order={2} c='purple.9'>
                 {user.estate.name} Estate
               </Title>
             )}

@@ -4,9 +4,8 @@ import { ProfileData } from "@/builders/types/profile";
 import { useFlowState } from "@/components/layout";
 import { useFlowDispatch } from "@/components/layout/flow-context";
 import { FlowSearch, FlowSearchProps } from "@/components/layout/flow-search";
-import { FlowActionType } from "@/components/layout/use-flow-reducer";
 import { UserDetails } from "@/components/shared/user";
-import { ArrowBack, EstateVisaLogo } from "@/icons";
+import { ArrowBack } from "@/icons";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
 import { APP, decryptUri, PAGES } from "@/packages/libraries";
 import {
@@ -21,8 +20,9 @@ import {
 } from "@mantine/core";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 
+import { FlowActionType } from "@/components/layout/use-flow-reducer";
 import clsx from "clsx";
 
 type AppShellHeaderProps = {
@@ -66,12 +66,6 @@ export function AppShellHeader({
     dispatch({ type: FlowActionType.TOGGLE_NAV, payload: !openedNav });
   }
 
-  useEffect(() => {
-    if (openedNav) {
-      dispatch({ type: FlowActionType.TOGGLE_NAV, payload: false });
-    }
-  }, [pathname]);
-
   return (
     <Fragment>
       <AppShell.Section
@@ -108,20 +102,31 @@ export function AppShellHeader({
                 size='sm'
               />
               <Flex gap={6} align='center'>
-                <EstateVisaLogo
+                {/* <EstateVisaLogo
                   height={45}
                   width={45}
                   className={clsx({
-                    "hidden lg:flex": openedNav,
+                    "hidden lg:block": openedNav,
+                  })}
+                /> */}
+
+                <img
+                  src='/images/estate-visa-logo.png'
+                  alt='estate-visa-logo'
+                  height={45}
+                  width={45}
+                  className={clsx({
+                    "hidden lg:block": openedNav,
                   })}
                 />
                 {user.estate && (
-                  <Title fw={500} c='purple.10' order={2} hidden={openedNav}>
+                  <Title fw={400} c='purple.10' order={2} hidden={openedNav}>
                     {user.estate.name} Estate
                   </Title>
                 )}
               </Flex>
             </Flex>
+
             <Flex className='flex-1 gap-2 justify-end lg:justify-between items-center'>
               {withSearch && (
                 <Box hiddenFrom='lg' className='flex items-center'>
