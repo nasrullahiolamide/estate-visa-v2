@@ -25,7 +25,7 @@ export async function getAuthorizedUser(request?: NextRequest) {
 
   const callbackUrl = isAuthorized
     ? PAGES.DASHBOARD
-    : makePath(PAGES.LOGIN, `?session=expired&redirect=${request?.url}`);
+    : makePath(PAGES.LOGIN, `?session=expired`);
 
   return { isAuthorized, userType, callbackUrl };
 }
