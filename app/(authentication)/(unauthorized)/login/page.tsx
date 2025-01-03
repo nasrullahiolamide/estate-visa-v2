@@ -38,9 +38,7 @@ export default function Page() {
 
   useEffect(() => {
     if (sessionStatus === "expired") {
-      handleError({
-        message: "Your session has expired. Please sign in again.",
-      })();
+      handleError("Your session has expired. Please sign in again.")();
     }
   }, [sessionStatus]);
 
@@ -66,10 +64,10 @@ export default function Page() {
         const isDashboardAvailable = AvailableDashboards.includes(user_type);
 
         if (!isDashboardAvailable) {
-          handleError({
-            message:
-              "There's no dashboard currently for your userType, please contact your administrator.",
-          })();
+          handleError(
+            `There's no dashboard currently for your user type,
+             please contact your administrator.`
+          )();
           return;
         }
         handleLogin({
@@ -77,7 +75,6 @@ export default function Page() {
           ...data,
         });
         navigate(user.isOnboarded ? callbackUrl : PAGES.ONBOARDING);
-        // handleSuccess({ message: "You have successfully logged in." });
       }
 
       if (data) loginCallback(data);

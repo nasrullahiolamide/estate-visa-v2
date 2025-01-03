@@ -26,10 +26,7 @@ export function AddSubAdmins() {
       });
 
       modals.close(MODALS.ADD_DETAILS);
-      handleSuccess({
-        message: "Sub-Admin Added Successfully",
-        autoClose: 500,
-      });
+      handleSuccess("Sub Admin Added Successfully", { autoClose: 1200 });
     },
     onError: handleError(),
   });
@@ -61,29 +58,29 @@ export function AddSubAdmins() {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <TextInput
-          label="Full Name"
+          label='Full Name'
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label="Email Address"
+          label='Email Address'
           withAsterisk
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label="Phone Number"
+          label='Phone Number'
           withAsterisk
           {...form.getInputProps("phone")}
         />
 
-        <Button type="submit" mt={10} loading={isPending} disabled={isPending}>
+        <Button type='submit' mt={10} loading={isPending} disabled={isPending}>
           Add Sub Admin
         </Button>
       </FlowContainer>

@@ -77,8 +77,8 @@ const handleProductDetail = (item: ProductData) => {
     children: <OccupantProductDetail {...item} />,
     classNames: {
       body: "p-0",
-      header: "right-8 top-6 absolute bg-transparent",
     },
+    withCloseButton: false,
   });
 };
 
@@ -150,9 +150,9 @@ export default function MarketPlace() {
       >
         {products?.data.length ? (
           <FlowContentHorizontal
-            breakpoint='320'
+            breakpoint='240'
             className='p-3 lg:p-0 h-full'
-            gap={24}
+            gap={15}
           >
             {products?.data.map((item) => (
               <ProductCard

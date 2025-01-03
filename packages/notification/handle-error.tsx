@@ -1,7 +1,7 @@
+import { NotificationData, notifications } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import { ReactNode } from "react";
 import { toast, ToastOptions } from "react-toastify";
-import { NotificationData, notifications } from "@mantine/notifications";
 
 import { Branch } from "./branch";
 
@@ -12,7 +12,8 @@ interface HandleErrorProps extends Omit<ToastOptions, "message"> {
 }
 
 export function handleError(
-  { message, ...props }: HandleErrorProps = {
+  message?: string,
+  { ...props }: HandleErrorProps = {
     message:
       "An error occurred while processing your request. Please try again later.",
   }

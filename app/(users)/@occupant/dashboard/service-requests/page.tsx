@@ -198,7 +198,18 @@ export default function ServiceRequest() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          buttons={[{ icon: "filter", filterData: filterOptions }]}
+          buttons={[
+            {
+              icon: "filter",
+              filterData: filterOptions,
+            },
+            {
+              icon: "add",
+              btnProps: {
+                onClick: () => handleRequestForm({ modalType: "add" }),
+              },
+            },
+          ]}
         />
       </FlowContainer>
     </Fragment>

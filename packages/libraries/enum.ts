@@ -21,6 +21,7 @@ export enum APP {
   FEATURE_FLAG = "sFg",
   ONBOARDED = "oBd",
   CALLBACK_URL = "cUrl",
+  VALIDITY_PERIOD = "vPrd",
 }
 
 export enum USER_TYPE {

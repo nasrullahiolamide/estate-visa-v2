@@ -30,9 +30,7 @@ export function ProductButtons({
       queryClient.invalidateQueries({
         queryKey: builder.products.get.$get(),
       });
-      handleSuccess({
-        message: "Product Updated Successfully",
-      });
+      handleSuccess("Product Status Updated Successfully");
     },
     onError: handleError(),
   });
@@ -106,15 +104,15 @@ export function ProductButtons({
   const Btns = status ? actions[status] : buttons;
 
   return (
-    <Flex wrap='wrap' justify='space-between' mt='auto' gap={35}>
-      {Btns.map((action, index) => (
+    <Flex wrap='wrap' justify='space-between' mt='auto' gap={10}>
+      {Btns.map((action) => (
         <Button
           key={action.label}
           variant={action.color === "gray" ? "outline" : "filled"}
           color={action.color}
-          size='sm'
           h={40}
-          fz={13}
+          fz={12}
+          size='compact-sm'
           flex={1}
           {...action.props}
           onClick={(e) => {

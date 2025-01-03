@@ -1,21 +1,13 @@
 import clsx from "clsx";
 
-import { Fragment } from "react";
-import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Flex, Menu } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { ConfirmationModal } from "@/components/shared/interface";
 import {
   FlowMenu,
-  FlowMenuTarget,
   FlowMenuDropdown,
+  FlowMenuTarget,
   FlowToolTip,
 } from "@/components/layout";
+import { ConfirmationModal } from "@/components/shared/interface";
 import {
   ActivateIcon,
   DeactivateIcon,
@@ -23,6 +15,12 @@ import {
   EyeIcon,
   TrashIcon,
 } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Flex, Menu } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Fragment } from "react";
 import { UpdateStatus } from "../modals/update-status";
 
 interface OccupantActionsProps {
@@ -39,7 +37,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status="active" />,
+    children: <UpdateStatus id={id} status='active' />,
   });
 }
 
@@ -47,7 +45,7 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status="suspended" />,
+    children: <UpdateStatus id={id} status='suspended' />,
   });
 }
 
@@ -60,15 +58,12 @@ export function OccupantActions({
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.occupants.id.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError("An error occurred, please try again later")();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Occupant deleted successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Occupant deleted successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.occupants.get.$get(),
       });
@@ -81,10 +76,10 @@ export function OccupantActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this occupant?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this occupant?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -115,7 +110,7 @@ export function OccupantActions({
         <FlowMenuDropdown>
           {isActive ? (
             <Menu.Item
-              color="#969921"
+              color='#969921'
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -123,7 +118,7 @@ export function OccupantActions({
             </Menu.Item>
           ) : (
             <Menu.Item
-              color="#11A506"
+              color='#11A506'
               leftSection={<ActivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >
@@ -144,7 +139,7 @@ export function OccupantActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -153,15 +148,15 @@ export function OccupantActions({
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
-        <FlowToolTip icon="View" onClick={handlers.onView} />
+      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
         {isActive ? (
-          <FlowToolTip icon="Suspend" onClick={() => suspendAccount(id)} />
+          <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
         ) : (
-          <FlowToolTip icon="Activate" onClick={() => activateAccount(id)} />
+          <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
-        <FlowToolTip icon="Delete" onClick={handleDelete} />
+        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
+        <FlowToolTip icon='Delete' onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

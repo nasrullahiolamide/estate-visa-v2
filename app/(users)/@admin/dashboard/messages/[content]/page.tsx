@@ -2,19 +2,10 @@
 
 import { builder } from "@/builders";
 import { MessagesData, useFakeMessagesData } from "@/builders/types/messages";
-import { AppShellHeader } from "@/components/admin/shared";
-import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
-import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
-import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Fragment, useMemo } from "react";
-
 import { EditModal } from "@/components/admin/messages/edit";
 import { ReplyModal } from "@/components/admin/messages/reply";
 import { WriteModal } from "@/components/admin/messages/write";
+import { AppShellHeader } from "@/components/admin/shared";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -22,12 +13,20 @@ import {
 } from "@/components/layout";
 import { MessageContent } from "@/components/shared/chat/messages/content";
 import { MESSAGE_TYPE } from "@/components/shared/chat/types";
+import { ConfirmationModal, EmptySlot } from "@/components/shared/interface";
+import { AddIcon, CurlyBackArrrow, EditIcon, TrashIcon } from "@/icons";
 import { TIME_FORMAT } from "@/packages/constants/time";
 import {
   MessagesValue,
   useMessagesValue,
 } from "@/packages/hooks/use-messages-value";
+import { formatDate, makePath, MODALS, PAGES } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { Fragment, useMemo } from "react";
 
 interface PageProps {
   params: {
@@ -144,19 +143,18 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.messages.remove,
     onError: () => {
-      handleError({
-        message: "An error occurred while deleting message, please try again",
-      })();
+      handleError(
+        `An error occurred while deleting message,
+         please try again`
+      )();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        autoClose: 1200,
-        message:
-          view === MESSAGE_TYPE.OCCUPANT
-            ? "Message deleted successfully"
-            : "Broadcast deleted successfully",
-      });
+      handleSuccess(
+        view === MESSAGE_TYPE.OCCUPANT
+          ? "Message deleted successfully"
+          : "Broadcast deleted successfully"
+      );
       back();
       modals.close(MODALS.CONFIRMATION);
     },

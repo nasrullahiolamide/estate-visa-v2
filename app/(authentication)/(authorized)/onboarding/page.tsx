@@ -49,9 +49,7 @@ export default function Onboarding() {
     mutationFn: builder.$use.account.profile.change_password,
     onError: handleError(),
     onSuccess: () => {
-      handleSuccess({
-        message: "Password updated successfully",
-      });
+      handleSuccess("Password updated successfully");
       setCookie(APP.ONBOARDED, "true", {
         ...cookieOptions,
         sameSite: "lax",

@@ -23,12 +23,7 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
         queryKey: builder.sub_admins.get.$get(),
       });
       modals.close(MODALS.CONFIRMATION);
-      handleSuccess({
-        message:
-          status === "active"
-            ? "Account activated successfully"
-            : "Account disabled successfully",
-      });
+      handleSuccess("Account Updated Successfully", { autoClose: 1200 });
     },
     onError: handleError(),
   });
@@ -39,8 +34,8 @@ export function UpdateStatus({ id, status, title }: ConfirmOccupantProps) {
         withTwoButtons
         src={status === "active" ? "success" : "disable"}
         title={title}
-        primaryBtnText="Yes, proceed"
-        secondaryBtnText="No"
+        primaryBtnText='Yes, proceed'
+        secondaryBtnText='No'
         srcProps={{
           ml: 0,
           h: 90,

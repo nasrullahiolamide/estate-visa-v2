@@ -1,10 +1,10 @@
-import { AxiosError } from "axios";
-import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useFormContext } from "../context";
 
 export function ConfirmOccupant() {
@@ -18,9 +18,7 @@ export function ConfirmOccupant() {
         queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "Occupant Added Successfully",
-      });
+      handleSuccess("Occupant Added Successfully");
     },
     onError: (error: AxiosError) => {
       handleError()(error as AxiosError<{ message?: string }>);
@@ -31,10 +29,10 @@ export function ConfirmOccupant() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=" Is this occupant a property owner?"
-      description="A property owner is the main owner of the apartment."
-      primaryBtnText="Yes, proceed"
-      secondaryBtnText="No"
+      title=' Is this occupant a property owner?'
+      description='A property owner is the main owner of the apartment.'
+      primaryBtnText='Yes, proceed'
+      secondaryBtnText='No'
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,
@@ -67,12 +65,10 @@ export function ConfirmPropertyOwner() {
         queryKey: builder.occupants.get.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "Occupant Added Successfully",
-      });
+      handleSuccess("Occupant Added Successfully");
     },
-    onError: () => {
-      handleError();
+    onError: (error: AxiosError) => {
+      handleError()(error as AxiosError<{ message?: string }>);
       modals.close(MODALS.CONFIRMATION);
     },
   });
@@ -80,10 +76,10 @@ export function ConfirmPropertyOwner() {
   return (
     <ConfirmationModal
       withTwoButtons
-      title=" Is this occupant a property owner?"
-      description="A property owner is the main owner of the apartment."
-      primaryBtnText="Yes, proceed"
-      secondaryBtnText="No"
+      title=' Is this occupant a property owner?'
+      description='A property owner is the main owner of the apartment.'
+      primaryBtnText='Yes, proceed'
+      secondaryBtnText='No'
       primaryBtnProps={{
         loading: isPending,
         disabled: isPending,

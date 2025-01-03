@@ -16,19 +16,17 @@ export function ConfirmLogout() {
     navigate(PAGES.LOGIN);
     refresh();
     modals.close(MODALS.CONFIRMATION);
-    handleSuccess({
-      message: "You have been successfully logged out.",
-    });
+    handleSuccess("You have successfully signed out of your account");
   };
 
   return (
     <Fragment>
       <ConfirmationModal
         withTwoButtons
-        title="Are you sure you want to sign out of your account?"
-        src="exit"
-        primaryBtnText="Sign Out"
-        secondaryBtnText="Stay"
+        title='Are you sure you want to sign out of your account?'
+        src='exit'
+        primaryBtnText='Sign Out'
+        secondaryBtnText='Stay'
         srcProps={{
           ml: 0,
         }}

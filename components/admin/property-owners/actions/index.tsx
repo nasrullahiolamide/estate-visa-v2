@@ -1,21 +1,20 @@
 import clsx from "clsx";
 
-import { Fragment } from "react";
-import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Flex, Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Fragment } from "react";
 
 import { builder } from "@/builders";
+import { ConfirmationModal } from "@/components/shared/interface";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { ConfirmationModal } from "@/components/shared/interface";
 import { UpdateStatus } from "../modals/update-status";
 
 import {
   FlowMenu,
-  FlowMenuTarget,
   FlowMenuDropdown,
+  FlowMenuTarget,
   FlowToolTip,
 } from "@/components/layout";
 import {
@@ -40,7 +39,7 @@ export function activateAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status="active" />,
+    children: <UpdateStatus id={id} status='active' />,
   });
 }
 
@@ -48,7 +47,7 @@ export function suspendAccount(id: string) {
   modals.open({
     modalId: MODALS.CONFIRMATION,
     withCloseButton: false,
-    children: <UpdateStatus id={id} status="suspended" />,
+    children: <UpdateStatus id={id} status='suspended' />,
   });
 }
 
@@ -61,15 +60,15 @@ export function PropertyOwnerActions({
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.property_owners.id.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError(
+        `An error occurred while deleting property owner, 
+        please try again later`
+      )();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Property owner deleted successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Property Owner Deleted Successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.property_owners.get.$get(),
       });
@@ -82,10 +81,10 @@ export function PropertyOwnerActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this property owner?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this property owner?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -116,7 +115,7 @@ export function PropertyOwnerActions({
         <FlowMenuDropdown>
           {isActive ? (
             <Menu.Item
-              color="#969921"
+              color='#969921'
               leftSection={<DeactivateIcon width={13} />}
               onClick={() => suspendAccount(id)}
             >
@@ -124,7 +123,7 @@ export function PropertyOwnerActions({
             </Menu.Item>
           ) : (
             <Menu.Item
-              color="#11A506"
+              color='#11A506'
               leftSection={<ActivateIcon width={13} />}
               onClick={() => activateAccount(id)}
             >
@@ -145,7 +144,7 @@ export function PropertyOwnerActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -154,15 +153,15 @@ export function PropertyOwnerActions({
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
-        <FlowToolTip icon="View" onClick={handlers.onView} />
+      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
         {isActive ? (
-          <FlowToolTip icon="Suspend" onClick={() => suspendAccount(id)} />
+          <FlowToolTip icon='Suspend' onClick={() => suspendAccount(id)} />
         ) : (
-          <FlowToolTip icon="Activate" onClick={() => activateAccount(id)} />
+          <FlowToolTip icon='Activate' onClick={() => activateAccount(id)} />
         )}
-        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
-        <FlowToolTip icon="Delete" onClick={handleDelete} />
+        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
+        <FlowToolTip icon='Delete' onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

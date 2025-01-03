@@ -1,24 +1,23 @@
 "use client";
 
-import clsx from "clsx";
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
+import clsx from "clsx";
 
-import { getCookie } from "cookies-next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 
-import { APP, decryptUri } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
-import { ProfileData } from "@/builders/types/profile";
 import { PropertyOwnersData } from "@/builders/types/property-owners";
-import { FormButtons } from "@/components/shared/interface";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { FormButtons } from "@/components/shared/interface";
+import { APP } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 
+import { FlowPhoneInput } from "@/components/layout";
 import { schema } from "../../occupants/schema";
 import { activateAccount, suspendAccount } from "../actions";
-import { FlowPhoneInput } from "@/components/layout";
 
 export type PropertyOwnerFormProps = {
   data?: PropertyOwnersData;
@@ -38,9 +37,7 @@ export function PropertyOwnerForm({
         queryKey: builder.property_owners.get.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "Property Owner Added Successfully",
-      });
+      handleSuccess("Property Owner Added Successfully");
     },
     onError: handleError(),
   });
@@ -52,9 +49,7 @@ export function PropertyOwnerForm({
         queryKey: builder.property_owners.get.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "Property Owner Updated Successfully",
-      });
+      handleSuccess("Property Owner Updated Successfully");
     },
     onError: handleError(),
   });
@@ -106,36 +101,36 @@ export function PropertyOwnerForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <Select
           data={houseNumbers}
-          nothingFoundMessage="No house numbers found"
-          label="House Number"
-          placeholder="Select House Number"
+          nothingFoundMessage='No house numbers found'
+          label='House Number'
+          placeholder='Select House Number'
           disabled={isViewing}
           searchable
           withAsterisk
           {...form.getInputProps("houseId")}
         />
         <TextInput
-          label="Full Name"
+          label='Full Name'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <TextInput
-          label="Email Address"
+          label='Email Address'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("email")}
         />
         <FlowPhoneInput
-          label="Phone Number"
+          label='Phone Number'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("phone")}
@@ -151,7 +146,7 @@ export function PropertyOwnerForm({
               label: "Suspended",
             },
           ]}
-          label="Status"
+          label='Status'
           disabled={isViewing}
           {...form.getInputProps("status")}
         />
@@ -173,7 +168,7 @@ export function PropertyOwnerForm({
                 isActive
                   ? "hover:bg-red-1 border-red-4"
                   : "hover:bg-green-1 border-green-9",
-                "bg-opacity-9",
+                "bg-opacity-9"
               ),
             }}
             rightButton={{
@@ -186,7 +181,7 @@ export function PropertyOwnerForm({
         ) : isViewing ? (
           <Button
             mt={10}
-            type="button"
+            type='button'
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -194,7 +189,7 @@ export function PropertyOwnerForm({
         ) : (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isPending}
             disabled={isPending}
           >

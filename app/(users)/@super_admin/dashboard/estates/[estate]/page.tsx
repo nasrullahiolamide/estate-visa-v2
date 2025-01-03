@@ -1,7 +1,5 @@
 "use client";
 
-import clsx from "clsx";
-
 import { builder } from "@/builders";
 import { useFakeSingleEstateData } from "@/builders/types/estates";
 import { AppShellHeader } from "@/components/admin/shared";
@@ -25,6 +23,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toString } from "lodash";
 import { Fragment, useEffect, useMemo } from "react";
 
+import clsx from "clsx";
 interface PageProps {
   params: {
     estate: string;
@@ -52,9 +51,7 @@ export default function Page({ params }: PageProps) {
       queryClient.invalidateQueries({
         queryKey: builder.estates.get.$get(),
       });
-      handleSuccess({
-        message: "Estate Updated Successfully",
-      });
+      handleSuccess("Estate Updated Successfully");
     },
     onError: handleError(),
   });

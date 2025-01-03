@@ -46,7 +46,7 @@ export default function Template({ children }: TemplateProps) {
       }}
       styles={{
         navbar: {
-          zIndex: "100",
+          zIndex: "230",
         },
       }}
     >

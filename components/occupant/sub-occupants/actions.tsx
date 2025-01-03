@@ -2,22 +2,21 @@
 
 import clsx from "clsx";
 
-import { Fragment } from "react";
-import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Flex, Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Fragment } from "react";
 
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
 import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 
 import {
   FlowMenu,
-  FlowMenuTarget,
   FlowMenuDropdown,
+  FlowMenuTarget,
   FlowToolTip,
 } from "@/components/layout";
 
@@ -35,13 +34,12 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.occupants.id.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError()();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Occupant deleted successfully",
+      handleSuccess("Sub-Occupant Deleted Successfully", {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
@@ -56,10 +54,10 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this sub-occupant?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this sub-occupant?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -102,7 +100,7 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -111,10 +109,10 @@ export function SubOccupantActions({ id, handlers }: SubOccupantActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
-        <FlowToolTip icon="View" onClick={handlers.onView} />
-        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
-        <FlowToolTip icon="Delete" onClick={handleDelete} />
+      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
+        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
+        <FlowToolTip icon='Delete' onClick={handleDelete} />
       </Flex>
     </Fragment>
   );

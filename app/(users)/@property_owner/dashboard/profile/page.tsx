@@ -1,9 +1,20 @@
 "use client";
 
-import clsx from "clsx";
-import { toString } from "lodash";
-import { useEffect } from "react";
-import { getCookie } from "cookies-next";
+import { builder } from "@/builders";
+import {
+  FormProvider,
+  FormValues,
+} from "@/components/admin/profile/form-context";
+import {
+  passwordSchema,
+  profileDetailsSchema,
+} from "@/components/admin/profile/schema";
+import { FlowPhoneInput } from "@/components/layout";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { ProfileImage } from "@/components/shared/user-management/profile/image";
+import { APP, cast, pass } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import {
   Button,
   Divider,
@@ -13,23 +24,12 @@ import {
   Title,
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
-import { APP, cast, pass } from "@/packages/libraries";
-import { builder } from "@/builders";
-import { handleError, handleSuccess } from "@/packages/notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
+import { useEffect } from "react";
 
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import {
-  FormProvider,
-  FormValues,
-} from "@/components/admin/profile/form-context";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { ProfileImage } from "@/components/shared/user-management/profile/image";
-import {
-  passwordSchema,
-  profileDetailsSchema,
-} from "@/components/admin/profile/schema";
-import { FlowPhoneInput } from "@/components/layout";
+import clsx from "clsx";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -48,10 +48,7 @@ export default function Profile() {
         queryKey: builder.account.profile.get.$get(),
       });
       profileDetailsForm.resetDirty();
-      handleSuccess({
-        message: "Profile updated successfully",
-        autoClose: 1500,
-      });
+      handleSuccess("Profile updated successfully", { autoClose: 1500 });
     },
     onError: handleError(),
   });
@@ -61,13 +58,10 @@ export default function Profile() {
       mutationFn: builder.$use.account.profile.change_password,
       onSuccess: () => {
         passwordForm.reset();
-        handleSuccess({
-          message: "Password updated successfully",
-          autoClose: 1500,
-        });
+        handleSuccess("Password updated successfully", { autoClose: 1500 });
       },
       onError: handleError(),
-    },
+    }
   );
 
   const profileDetailsForm = useForm<FormValues>({
@@ -140,22 +134,22 @@ export default function Profile() {
 
   return (
     <FormProvider form={profileDetailsForm}>
-      <AppShellHeader title="My Profile" />
+      <AppShellHeader title='My Profile' />
 
-      <FlowContainer gap={32} className="p-5 sm:p-8">
+      <FlowContainer gap={32} className='p-5 sm:p-8'>
         <FlowContainer
           gap={0}
-          className="rounded-2xl bg-primary-background-white"
+          className='rounded-2xl bg-primary-background-white'
         >
           <Form form={profileDetailsForm} onSubmit={handleProfileSubmit}>
-            <FlowContainer justify="center" gap={24} className="p-6 md:p-14">
+            <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
               <ProfileImage form={profileDetailsForm} isFetching={isLoading} />
               <Divider />
-              <Title order={2} c="purple.9" fz={20} fw={500}>
+              <Title order={2} c='purple.9' fz={20} fw={500}>
                 Profile Details
               </Title>
               <SimpleGrid
-                w="100%"
+                w='100%'
                 cols={{
                   base: 1,
                   sm: 2,
@@ -163,14 +157,14 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label="Full Name"
+                  label='Full Name'
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
                   {...profileDetailsForm.getInputProps("fullname")}
                 />
                 <TextInput
-                  label="Username"
+                  label='Username'
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
@@ -178,7 +172,7 @@ export default function Profile() {
                 />
 
                 <TextInput
-                  label="Email Address"
+                  label='Email Address'
                   disabled
                   classNames={{
                     input: clsx("disabled:!bg-gray-2", { skeleton: isLoading }),
@@ -186,7 +180,7 @@ export default function Profile() {
                   {...profileDetailsForm.getInputProps("email")}
                 />
                 <FlowPhoneInput
-                  label="Phone Number"
+                  label='Phone Number'
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
                   }}
@@ -195,8 +189,8 @@ export default function Profile() {
               </SimpleGrid>
 
               <Button
-                type="submit"
-                className="sm:w-fit w-full ml-auto"
+                type='submit'
+                className='sm:w-fit w-full ml-auto'
                 disabled={!profileDetailsForm.isDirty() || isPending}
                 loading={isPending}
               >
@@ -207,12 +201,12 @@ export default function Profile() {
 
           <Divider />
           <Form form={passwordForm} onSubmit={handlePasswordSubmit}>
-            <FlowContainer justify="center" gap={24} className="p-6 md:px-14">
-              <Title order={2} c="purple.9" fz={20} fw={500}>
+            <FlowContainer justify='center' gap={24} className='p-6 md:px-14'>
+              <Title order={2} c='purple.9' fz={20} fw={500}>
                 Change Password
               </Title>
               <SimpleGrid
-                w="100%"
+                w='100%'
                 cols={{
                   base: 1,
                   sm: 2,
@@ -220,24 +214,24 @@ export default function Profile() {
                 spacing={20}
               >
                 <PasswordInput
-                  label="Current Password"
-                  placeholder="**********"
+                  label='Current Password'
+                  placeholder='**********'
                   {...passwordForm.getInputProps("oldPassword")}
                 />
                 <PasswordInput
-                  label="New Password"
-                  placeholder="**********"
+                  label='New Password'
+                  placeholder='**********'
                   {...passwordForm.getInputProps("password")}
                 />
                 <PasswordInput
-                  label="Confirm Password"
-                  placeholder="**********"
+                  label='Confirm Password'
+                  placeholder='**********'
                   {...passwordForm.getInputProps("confirm_password")}
                 />
               </SimpleGrid>
               <Button
-                type="submit"
-                className="sm:w-fit w-full ml-auto"
+                type='submit'
+                className='sm:w-fit w-full ml-auto'
                 loading={isPasswordUpdating}
                 disabled={!passwordForm.isDirty() || isPasswordUpdating}
               >

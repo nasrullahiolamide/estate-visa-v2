@@ -61,9 +61,7 @@ export function ProductCard({
       queryClient.invalidateQueries({
         queryKey: builder.products.get.$get(),
       });
-      handleSuccess({
-        message: "Product Deleted Successfully",
-      });
+      handleSuccess("Product Deleted Successfully", { autoClose: 1200 });
     },
     onError: handleError(),
   });
@@ -90,7 +88,7 @@ export function ProductCard({
         objectFit='cover'
       />
 
-      <Stack gap='xs'>
+      <Stack gap={6}>
         <Flex justify='space-between' gap={10}>
           <Text fw={500} size='lg'>
             {list.name}
@@ -120,9 +118,9 @@ export function ProductCard({
       {viewId === "admin" ? (
         <ProductButtons status={list.status} id={list.id} />
       ) : viewId === "viewer" ? (
-        <Flex justify='space-between' gap={10}>
-          <ContactSellerButton data={list} my={0} variant='outline' />
-          <Button fz={14} size='sm' h={40}>
+        <Flex gap={10}>
+          <ContactSellerButton data={list} my={0} variant='outline' flex={1} />
+          <Button fz={12} size='compact-sm' flex={1} h={40}>
             View Details
           </Button>
         </Flex>

@@ -6,10 +6,10 @@ import { Bounce, ToastContainer } from "react-toastify";
 import AOS from "aos";
 import NextTopLoader from "nextjs-toploader";
 
+import { NavigationProvider } from "@/components/layout/flow-context";
 import { FavIcon } from "./favicon";
 import { CustomMantineProvider } from "./mantine";
 import { ReactQueryProvider } from "./tanstack/react-query";
-import { NavigationProvider } from "@/components/layout/flow-context";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -39,6 +39,7 @@ export function Providers({ children }: ProvidersProps) {
         theme='colored'
         transition={Bounce}
         className='z-[999] min-w-96'
+        autoClose={2000}
       />
     </ReactQueryProvider>
   );

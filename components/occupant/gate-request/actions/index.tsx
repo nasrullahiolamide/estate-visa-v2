@@ -1,28 +1,26 @@
-import { ReactNode } from "react";
-import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Flex, Menu, Stack, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
-import { formatDate, MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
+import { GateRequestData } from "@/builders/types/gate-requests";
+import {
+  FlowMenu,
+  FlowMenuDropdown,
+  FlowMenuTarget,
+} from "@/components/layout";
+import { ConfirmationModal } from "@/components/shared/interface";
 import {
   CancelCircleIcon,
   EditIcon,
   ShareIcon,
-  TrashIcon,
   SMSIcon,
+  TrashIcon,
   WhatsAppIcon,
 } from "@/icons";
-import { ConfirmationModal } from "@/components/shared/interface";
-import {
-  FlowMenu,
-  FlowMenuTarget,
-  FlowMenuDropdown,
-} from "@/components/layout";
-import { GateRequestData } from "@/builders/types/gate-requests";
 import { DATE_FORMAT } from "@/packages/constants/time";
+import { formatDate, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Flex, Menu, Stack, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ReactNode } from "react";
 
 interface GateRequestActionsProps {
   id: string;
@@ -45,15 +43,12 @@ export function GateRequestActions({
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.gates.requests.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError()();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Gate Request deleted successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Gate Request Deleted Successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.gates.requests.get.$get(),
       });
@@ -63,13 +58,12 @@ export function GateRequestActions({
 
   const { mutate: changeStatus } = useMutation({
     mutationFn: builder.$use.gates.requests.change_status,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError()();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Gate Request Status Updated Successfully",
+      handleSuccess("Gate Request Status Updated Successfully", {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
@@ -84,10 +78,10 @@ export function GateRequestActions({
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this gate request?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this gate request?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -132,7 +126,7 @@ export function GateRequestActions({
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -147,7 +141,7 @@ export function GateRequestActions({
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -161,7 +155,7 @@ export function GateRequestActions({
         <FlowMenuTarget />
         <FlowMenuDropdown>
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -189,10 +183,10 @@ export const handleShare = (data: GateRequestData) => {
     modalId: MODALS.CONFIRMATION,
     children: (
       <ConfirmationModal
-        title="Gate Request Generated!"
-        description="Share the generated code to your guest immediately via SMS or WhatsApp."
-        src="share"
-        btnText="Share Now"
+        title='Gate Request Generated!'
+        description='Share the generated code to your guest immediately via SMS or WhatsApp.'
+        src='share'
+        btnText='Share Now'
         srcProps={{
           ml: 0,
           h: 130,
@@ -206,9 +200,9 @@ export const handleShare = (data: GateRequestData) => {
               modalId: MODALS.SHARE,
               children: (
                 <Stack
-                  align="center"
-                  justify="center"
-                  ta="center"
+                  align='center'
+                  justify='center'
+                  ta='center'
                   gap={20}
                   py={20}
                 >
@@ -224,8 +218,8 @@ export const handleShare = (data: GateRequestData) => {
                       href={`https://api.whatsapp.com/send?phone=${
                         data.phoneNo
                       }&text=${encodeURIComponent(shareText)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target='_blank'
+                      rel='noopener noreferrer'
                       onClick={() => modals.close(MODALS.SHARE)}
                     >
                       <WhatsAppIcon />

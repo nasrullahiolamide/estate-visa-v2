@@ -42,10 +42,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.id.$get(),
       });
-      handleSuccess({
-        autoClose: 1000,
-        message: "Message sent successfully",
-      });
+      handleSuccess("Message sent successfully", { autoClose: 1200 });
     },
   });
 
@@ -77,52 +74,52 @@ export function ReplyModal({ content }: ReplyModalProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
-        <div className="space-y-2">
+        <div className='space-y-2'>
           <Title order={2} fz={16}>
             To:{" "}
             {content.house?.houseNumber || content.parent?.house.houseNumber}
           </Title>
-          <Flex align="center" gap={4}>
+          <Flex align='center' gap={4}>
             <ClockIcon width={14} height={14} />
-            <Text className="text-gray-300 space-x-1" fz={12}>
+            <Text className='text-gray-300 space-x-1' fz={12}>
               <span>{content?.localDate}</span>
               <span>at</span>
-              <span className="uppercase">{content?.localTime}</span>
+              <span className='uppercase'>{content?.localTime}</span>
             </Text>
           </Flex>
         </div>
         <TextInput
-          label="Subject"
+          label='Subject'
           disabled
           withAsterisk
           {...form.getInputProps("subject")}
         />
         <FlowEditor
           label={
-            <Flex align="center" justify="space-between">
+            <Flex align='center' justify='space-between'>
               <span>
-                Message <span className="text-red-5">*</span>
+                Message <span className='text-red-5'>*</span>
               </span>
               <UploadAttachments />
             </Flex>
           }
-          placeholder="Type something here..."
+          placeholder='Type something here...'
           rightSection={<Plane />}
           {...form.getInputProps("content")}
         />
 
-        <Flex mt={10} gap="md">
+        <Flex mt={10} gap='md'>
           <Button
             flex={1}
-            type="button"
-            color="red"
-            variant="outline"
+            type='button'
+            color='red'
+            variant='outline'
             leftSection={<TrashIcon />}
             onClick={() => modals.close(MODALS.REPLY_MESSAGE)}
             disabled={isPending}
@@ -131,7 +128,7 @@ export function ReplyModal({ content }: ReplyModalProps) {
           </Button>
           <Button
             flex={1}
-            type="submit"
+            type='submit'
             rightSection={<Plane />}
             disabled={isPending}
             loading={isPending}

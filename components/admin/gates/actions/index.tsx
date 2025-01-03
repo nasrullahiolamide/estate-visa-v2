@@ -1,25 +1,23 @@
 import clsx from "clsx";
 
-import { Fragment } from "react";
-import { MdOutlinePassword } from "react-icons/md";
-import { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Flex, Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Fragment } from "react";
+import { MdOutlinePassword } from "react-icons/md";
 
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { ConfirmationModal } from "@/components/shared/interface";
 import {
   FlowMenu,
-  FlowMenuTarget,
   FlowMenuDropdown,
+  FlowMenuTarget,
   FlowToolTip,
 } from "@/components/layout";
+import { ConfirmationModal } from "@/components/shared/interface";
 import { EditIcon, EyeIcon, TrashIcon } from "@/icons";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import { ChangePassword } from "../form/change-password";
-import { GatesData } from "@/builders/types/gates";
 
 interface GateActionsProps {
   id: string;
@@ -35,15 +33,12 @@ export function GateActions({ id, handlers }: GateActionsProps) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.gates.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError("An error occurred, please try again later")();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Gate deleted successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Gate deleted successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.gates.get.table.$get(),
       });
@@ -56,10 +51,10 @@ export function GateActions({ id, handlers }: GateActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this gate?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this gate?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -116,7 +111,7 @@ export function GateActions({ id, handlers }: GateActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -125,14 +120,14 @@ export function GateActions({ id, handlers }: GateActionsProps) {
         </FlowMenuDropdown>
       </FlowMenu>
 
-      <Flex className="hidden sm:flex justify-center items-center" gap={8}>
-        <FlowToolTip icon="View" onClick={handlers.onView} />
-        <FlowToolTip icon="Edit" onClick={handlers.onEdit} />
-        <FlowToolTip icon="Delete" onClick={handleDelete} />
+      <Flex className='hidden sm:flex justify-center items-center' gap={8}>
+        <FlowToolTip icon='View' onClick={handlers.onView} />
+        <FlowToolTip icon='Edit' onClick={handlers.onEdit} />
+        <FlowToolTip icon='Delete' onClick={handleDelete} />
         <FlowToolTip
-          icon="Password"
+          icon='Password'
           onClick={handleResetPassword}
-          label="Reset Password"
+          label='Reset Password'
         />
       </Flex>
     </Fragment>

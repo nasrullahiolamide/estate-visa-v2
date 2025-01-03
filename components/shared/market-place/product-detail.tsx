@@ -4,6 +4,9 @@ import { formatCurrency } from "@/packages/libraries/formatters/currency";
 import { Divider, Flex, Pill, Stack, Text, Title } from "@mantine/core";
 import { Fragment, ReactNode } from "react";
 
+import { MODALS } from "@/packages/libraries";
+import { modals } from "@mantine/modals";
+import { CloseCircle } from "iconsax-react";
 import { Picture, StarRating } from "../interface";
 import { productStatusColorConfig } from "../interface/cards/product";
 
@@ -13,13 +16,28 @@ interface ProductDetailProps extends ProductData {
 export function ProductDetail({ children, ...item }: ProductDetailProps) {
   return (
     <Fragment>
+      <Flex
+        bg='white'
+        pos='absolute'
+        component='button'
+        top={25}
+        right={30}
+        className='z-10 w-fit ml-auto shadow-xl rounded-full'
+        p={8}
+      >
+        <CloseCircle
+          className='ml-auto cursor-pointer'
+          onClick={() => modals.close(MODALS.PRODUCT_DETAIL)}
+        />
+      </Flex>
+
       <Stack
         p={{
           base: 20,
           sm: 30,
         }}
       >
-        <Stack className='overflow-auto'>
+        <Stack>
           <Picture
             src={item.image ?? "/images/placeholder.png"}
             h={160}
@@ -29,8 +47,8 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
             objectFit='cover'
           />
 
-          <Stack mt={16}>
-            <Stack gap={20}>
+          <Stack mt={16} gap={5}>
+            <Stack gap={15}>
               <Flex align='center' gap={24}>
                 <Text fz={14} c='gray'>
                   Name:
@@ -91,7 +109,7 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
               </Flex>
             </Stack>
 
-            <ContactSellerButton data={item} />
+            <ContactSellerButton data={item} fz={14} mb={10} />
           </Stack>
 
           <Divider />

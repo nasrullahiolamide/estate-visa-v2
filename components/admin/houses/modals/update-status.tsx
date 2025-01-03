@@ -2,11 +2,11 @@ import { Fragment } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { modals } from "@mantine/modals";
 import { builder } from "@/builders";
-import { MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { ConfirmationModal } from "@/components/shared/interface";
+import { MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { modals } from "@mantine/modals";
 
 interface UpdateStatusProps {
   id: string;
@@ -23,13 +23,10 @@ export function UpdateStatus({ id, status }: UpdateStatusProps) {
         queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        autoClose: 1200,
-        message:
-          status === "active"
-            ? "Account activated successfully"
-            : "Account disabled successfully",
-      });
+      handleSuccess(
+        `House ${status === "active" ? "activated" : "suspended"} successfully`,
+        { autoClose: 1200 }
+      );
     },
     onError: handleError(),
   });
@@ -42,8 +39,8 @@ export function UpdateStatus({ id, status }: UpdateStatusProps) {
         title={`Are you sure you want to ${
           status === "active" ? "activate" : "disable"
         } this account?`}
-        primaryBtnText="Yes, proceed"
-        secondaryBtnText="No"
+        primaryBtnText='Yes, proceed'
+        secondaryBtnText='No'
         srcProps={{
           ml: 0,
           h: 90,

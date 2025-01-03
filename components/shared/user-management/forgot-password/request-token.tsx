@@ -5,10 +5,10 @@ import Link from "next/link";
 import { Form } from "@mantine/form";
 import { useFormContext } from "./form-context";
 
-import { PAGES } from "@/packages/libraries";
-import { Box, Button, Stack, TextInput } from "@mantine/core";
 import { builder } from "@/builders";
+import { PAGES } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
+import { Box, Button, Stack, TextInput } from "@mantine/core";
 import { useMutation } from "@tanstack/react-query";
 
 export function RequestTOKEN() {
@@ -18,9 +18,9 @@ export function RequestTOKEN() {
     mutationFn: builder.$use.auth.password.forgot,
     onError: handleError(),
     onSuccess: ({ data }) => {
-      handleSuccess({
-        message: "A password reset link has been sent to your email address.",
-      });
+      handleSuccess(
+        "A password reset link has been sent to your email address"
+      );
       form.reset();
     },
   });
@@ -30,10 +30,10 @@ export function RequestTOKEN() {
   }
 
   return (
-    <Stack data-aos="fade-left" gap={8}>
-      <Stack gap={8} className="text-primary-text-body text-center">
-        <h2 className="font-medium text-2xl">Forgot Password?</h2>
-        <p className="text-sm sm:text-base">
+    <Stack data-aos='fade-left' gap={8}>
+      <Stack gap={8} className='text-primary-text-body text-center'>
+        <h2 className='font-medium text-2xl'>Forgot Password?</h2>
+        <p className='text-sm sm:text-base'>
           Enter your email address and we'll send you a link to reset your
           password.
         </p>
@@ -42,32 +42,32 @@ export function RequestTOKEN() {
         component={Form}
         form={form}
         onSubmit={handleSubmit}
-        w="100%"
+        w='100%'
         mt={15}
       >
         <Stack gap={25}>
           <TextInput
-            label="Email address"
-            type="email"
-            placeholder="user@example.com"
+            label='Email address'
+            type='email'
+            placeholder='user@example.com'
             {...form.getInputProps("email")}
           />
           <Button
             mt={20}
-            type="submit"
+            type='submit'
             loading={isPending}
             disabled={isPending}
-            className="text-primary-button-surface"
+            className='text-primary-button-surface'
           >
             Email password reset link
           </Button>
         </Stack>
       </Box>
 
-      <Stack gap={8} className="text-primary-text-body text-center">
-        <p className="text-sm sm:text-base">
+      <Stack gap={8} className='text-primary-text-body text-center'>
+        <p className='text-sm sm:text-base'>
           Remember your password?{" "}
-          <Link href={PAGES.LOGIN} className="text-accent-10">
+          <Link href={PAGES.LOGIN} className='text-accent-10'>
             Sign in
           </Link>
         </p>

@@ -66,7 +66,7 @@ export function AppShellHeader({
         pos='sticky'
         component='header'
         style={{
-          zIndex: 120,
+          zIndex: isNavOpened ? 240 : 120,
         }}
         className={clsx("border-l border-gray-2", {
           "bg-primary-background-white": !isNavOpened,
@@ -154,6 +154,7 @@ export function AppShellHeader({
             </Flex>
             <Box className='hidden lg:block'>{options}</Box>
           </Flex>
+          <Divider className='border-gray-2' hidden={isNavOpened} />
         </Stack>
       </AppShell.Section>
     </Fragment>

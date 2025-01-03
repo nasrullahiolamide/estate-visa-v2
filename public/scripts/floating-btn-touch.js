@@ -115,3 +115,4 @@ function closeDragElement() {
     if (top < 15) frame.style.top = "15px";
   }
 }
+mouseup;

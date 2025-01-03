@@ -1,28 +1,21 @@
 "use client";
 
+import { builder } from "@/builders";
+import { APP, pass } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Divider, SimpleGrid, TextInput } from "@mantine/core";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
+import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { useEffect } from "react";
-import { getCookie } from "cookies-next";
-import {
-  Button,
-  Divider,
-  PasswordInput,
-  SimpleGrid,
-  TextInput,
-  Title,
-} from "@mantine/core";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { APP, pass } from "@/packages/libraries";
-import { builder } from "@/builders";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FormProvider } from "@/components/admin/profile/form-context";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { ProfileImage } from "@/components/shared/user-management/profile/image";
 import { profileDetailsSchema } from "@/components/admin/profile/schema";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { ProfileImage } from "@/components/shared/user-management/profile/image";
 
 export default function Profile() {
   const queryClient = useQueryClient();
@@ -41,10 +34,7 @@ export default function Profile() {
         queryKey: builder.account.profile.get.$get(),
       });
       profileDetailsForm.resetDirty();
-      handleSuccess({
-        message: "Profile updated successfully",
-        autoClose: 1500,
-      });
+      handleSuccess("Profile updated successfully", { autoClose: 1500 });
     },
     onError: handleError(),
   });
@@ -84,24 +74,24 @@ export default function Profile() {
 
   return (
     <FormProvider form={profileDetailsForm}>
-      <AppShellHeader title="My Profile" />
+      <AppShellHeader title='My Profile' />
 
-      <FlowContainer gap={32} className="p-5 sm:p-8">
+      <FlowContainer gap={32} className='p-5 sm:p-8'>
         <FlowContainer
           gap={0}
-          className="rounded-2xl bg-primary-background-white"
+          className='rounded-2xl bg-primary-background-white'
         >
           <Form
             form={profileDetailsForm}
             onSubmit={handleProfileSubmit}
-            className="h-full"
+            className='h-full'
           >
-            <FlowContainer justify="center" gap={24} className="p-6 md:p-14">
+            <FlowContainer justify='center' gap={24} className='p-6 md:p-14'>
               <ProfileImage form={profileDetailsForm} isFetching={isLoading} />
               <Divider />
               <SimpleGrid
-                w="100%"
-                h="100%"
+                w='100%'
+                h='100%'
                 cols={{
                   base: 1,
                   sm: 2,
@@ -109,7 +99,7 @@ export default function Profile() {
                 spacing={20}
               >
                 <TextInput
-                  label="Gate Name"
+                  label='Gate Name'
                   disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
@@ -118,7 +108,7 @@ export default function Profile() {
                 />
 
                 <TextInput
-                  label="Gate Username"
+                  label='Gate Username'
                   disabled
                   classNames={{
                     input: clsx({ skeleton: isLoading }),
@@ -129,7 +119,7 @@ export default function Profile() {
 
               <Button
                 mt={20}
-                type="submit"
+                type='submit'
                 disabled={!profileDetailsForm.isDirty() || isPending}
                 loading={isPending}
               >

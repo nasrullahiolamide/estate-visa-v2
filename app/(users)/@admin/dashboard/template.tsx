@@ -45,11 +45,10 @@ export default function Template({ children }: TemplateProps) {
       navbar={{
         width: opened ? 270 : 95,
         breakpoint: "lg",
-       
       }}
       styles={{
         navbar: {
-          zIndex: "100 ",
+          zIndex: "230 ",
         },
       }}
     >

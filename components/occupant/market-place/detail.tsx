@@ -25,9 +25,7 @@ export function OccupantProductDetail({ ...item }: ProductData) {
       queryClient.invalidateQueries({
         queryKey: builder.products.get.$get(),
       });
-      handleSuccess({
-        message: "Review Submitted Successfully",
-      });
+      handleSuccess("Product Reviewed Successfully");
     },
     onError: handleError(),
   });
@@ -38,9 +36,7 @@ export function OccupantProductDetail({ ...item }: ProductData) {
       queryClient.invalidateQueries({
         queryKey: builder.products.get.$get(),
       });
-      handleSuccess({
-        message: "Product Reported Successfully",
-      });
+      handleSuccess("Product Reported Successfully");
       modals.closeAll();
     },
     onError: handleError(),

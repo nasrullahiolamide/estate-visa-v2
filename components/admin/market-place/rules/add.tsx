@@ -61,9 +61,7 @@ export function MarketRuleForm({ viewId, ...data }: MarketRuleFormProps) {
       queryClient.invalidateQueries({
         queryKey: builder.market_rules.get.$get(),
       });
-      handleSuccess({
-        message: "Market Rule Added Successfully",
-      });
+      handleSuccess("Market Rule Added Successfully");
       modals.close(MODALS.FORM_DETAILS);
     },
     onError: handleError(),

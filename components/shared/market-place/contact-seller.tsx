@@ -15,8 +15,8 @@ export function ContactSellerButton({
   const shareText = `Hi! I saw your listing on Estate Visa and I'm interested in it. Can we discuss further?`;
   return (
     <Button
-      fz={14}
-      size='sm'
+      fz={12}
+      size='compact-sm'
       h={40}
       my={20}
       onClick={(e) => {
@@ -31,7 +31,7 @@ export function ContactSellerButton({
               <Flex gap={14}>
                 <a
                   href={`sms:${data.phone}?&body=${shareText}`}
-                  onClick={() => modals.close(MODALS.CONTACT_US)}
+                  onClick={() => modals.closeAll()}
                 >
                   <SMSIcon />
                 </a>
@@ -41,7 +41,7 @@ export function ContactSellerButton({
                   }&text=${encodeURIComponent(shareText)}`}
                   target='_blank'
                   rel='noopener noreferrer'
-                  onClick={() => modals.close(MODALS.CONTACT_US)}
+                  onClick={() => modals.closeAll()}
                 >
                   <WhatsAppIcon />
                 </a>

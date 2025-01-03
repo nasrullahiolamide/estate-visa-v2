@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 
 import { Providers } from "@/components/shared";
 import { PropsWithChildren } from "react";
@@ -33,12 +32,6 @@ export default async function RootLayout({ children }: LayoutProps) {
         <main className='scrollbar-none'>
           <Providers>{children}</Providers>
         </main>
-        <Script
-          id='floating-btn_sdk'
-          src='/scripts/floating-btn-sdk.js'
-          strategy='afterInteractive'
-          async
-        />
       </body>
     </html>
   );

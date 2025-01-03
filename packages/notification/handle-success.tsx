@@ -5,10 +5,10 @@ interface HandleSuccessProps extends Omit<ToastOptions, "message"> {
   message?: string | ReactNode;
 }
 
-export function handleSuccess({
-  message = null,
-  ...props
-}: HandleSuccessProps = {}) {
+export function handleSuccess(
+  message: string | ReactNode,
+  { ...props }: HandleSuccessProps = {}
+) {
   toast.success(message, {
     ...props,
   });

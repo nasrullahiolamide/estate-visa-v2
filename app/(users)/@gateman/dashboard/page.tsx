@@ -3,7 +3,6 @@
 import dayjs from "dayjs";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { Fragment, useEffect, useMemo } from "react";
 
 import { Button, Flex } from "@mantine/core";
@@ -99,17 +98,12 @@ export default function Gates() {
 
   const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: builder.$use.gates.requests.change_status,
-    onError: (error: AxiosError) => {
-      handleError(error)();
-    },
+    onError: handleError(),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.gates.requests.get.$get(),
       });
-      handleSuccess({
-        message: "Gate Request Approved Successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Gate Request Approved Successfully", { autoClose: 1200 });
       modals.close(MODALS.CONFIRMATION);
     },
   });

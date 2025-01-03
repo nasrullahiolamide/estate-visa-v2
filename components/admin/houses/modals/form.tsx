@@ -48,9 +48,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "House Added Successfully",
-      });
+      handleSuccess("House Added Successfully");
     },
     onError: handleError(),
   });
@@ -63,9 +61,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         queryKey: builder.houses.list.table.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "House Updated Successfully",
-      });
+      handleSuccess("House Updated Successfully");
     },
     onError: handleError(),
   });

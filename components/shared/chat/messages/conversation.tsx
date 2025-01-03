@@ -61,18 +61,13 @@ export function Conversations({
     mutationFn: builder.$use.messages.remove,
     onError: () => {
       modals.close(MODALS.CONFIRMATION);
-      handleError({
-        message: "An error occurred while deleting message, please try again",
-      })();
+      handleError()();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.user.$get(),
       });
-      handleSuccess({
-        autoClose: 1200,
-        message: "Message deleted successfully",
-      });
+      handleSuccess("Message Deleted Successfully", { autoClose: 1200 });
       modals.close(MODALS.CONFIRMATION);
     },
   });
@@ -83,9 +78,9 @@ export function Conversations({
         <ConfirmationModal
           withTwoButtons
           title={`Are you sure you want to delete this message`}
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -118,16 +113,16 @@ export function Conversations({
           return (
             <Flex
               key={i}
-              align="center"
+              align='center'
               className={clsx(
                 "flex items-center border-b border-b-gray-3 p-4 lg:px-8 gap-2",
-                { "lg:!px-4": loading },
+                { "lg:!px-4": loading }
               )}
               h={130}
             >
               <Flex
                 gap={12}
-                align="center"
+                align='center'
                 miw={110}
                 w={{
                   lg: 350,
@@ -136,38 +131,38 @@ export function Conversations({
                   "skeleton my-3": loading,
                 })}
               >
-                <Checkbox size="xs" />
+                <Checkbox size='xs' />
                 {tag === "sent" ? <SentIcon /> : <ReceivedIcon />}
-                <Text className="prose-base/bold sm:prose-lg/semi-bold capitalize">
+                <Text className='prose-base/bold sm:prose-lg/semi-bold capitalize'>
                   {isAdmin ? message.house?.houseNumber : "Admin"}
                 </Text>
               </Flex>
 
               <Flex
                 gap={12}
-                align="center"
+                align='center'
                 className={clsx("h-full w-full", {
                   "skeleton my-3": loading,
                 })}
               >
                 <Stack flex={1}>
                   <Text lineClamp={2} fz={14}>
-                    <span className="font-bold mr-1">{subject}</span>
-                    <span className="text-gray-800">
+                    <span className='font-bold mr-1'>{subject}</span>
+                    <span className='text-gray-800'>
                       {content.replace(/<[^>]*>/g, "").trim()}
                     </span>
                   </Text>
-                  <Flex align="center" gap={4}>
+                  <Flex align='center' gap={4}>
                     <ClockIcon width={14} height={14} />
-                    <Text className="text-gray-300 space-x-1" fz={12}>
+                    <Text className='text-gray-300 space-x-1' fz={12}>
                       <span>{localDate}</span>
                       <span>at</span>
-                      <span className="uppercase">{localTime}</span>
+                      <span className='uppercase'>{localTime}</span>
                     </Text>
                   </Flex>
                 </Stack>
 
-                <FlowMenu position="bottom-end" withArrow={false}>
+                <FlowMenu position='bottom-end' withArrow={false}>
                   <FlowMenuTarget />
                   <FlowMenuDropdown>
                     <Menu.Item
@@ -184,7 +179,7 @@ export function Conversations({
                     )} */}
                     <Menu.Divider />
                     <Menu.Item
-                      color="#CC0404"
+                      color='#CC0404'
                       leftSection={<TrashIcon width={15} />}
                       onClick={() => handleDelete(id)}
                     >
@@ -199,14 +194,14 @@ export function Conversations({
       ) : !isAdmin ? (
         <Stack h={760}>
           <EmptySlot
-            src="no-talk"
+            src='no-talk'
             title={"You have no messages yet. Check back later for updates!"}
           />
         </Stack>
       ) : (
         <Stack h={760}>
           <EmptySlot
-            src="no-talk"
+            src='no-talk'
             title={
               emptyProps?.title ||
               "You have no messages yet. Start a conversation to stay connected!"

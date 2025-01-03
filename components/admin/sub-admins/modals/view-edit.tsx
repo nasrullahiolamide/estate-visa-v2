@@ -41,9 +41,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
         queryKey: builder.sub_admins.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
-      handleSuccess({
-        message: "Sub-Admin Edited Successfully",
-      });
+      handleSuccess("Sub Admin Updated Successfully", { autoClose: 1200 });
     },
     onError: handleError(),
   });
@@ -89,20 +87,20 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <TextInput
-          label="Full Name"
+          label='Full Name'
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("fullname")}
         />
         <FlowPhoneInput
-          label="Phone Number"
+          label='Phone Number'
           disabled={!form.getValues().edit_details}
           withAsterisk
           {...form.getInputProps("phone")}
@@ -120,7 +118,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
             },
           ]}
           disabled={!isEditing}
-          label="Account Status"
+          label='Account Status'
           {...form.getInputProps("status")}
         />
 
@@ -143,7 +141,7 @@ export function ViewSubAdmins({ edit, ...data }: ViewSubAdminsProps) {
               isActive
                 ? "hover:bg-red-1 border-red-4"
                 : "hover:bg-green-1 border-green-9",
-              "bg-opacity-9",
+              "bg-opacity-9"
             ),
           }}
           rightButton={{

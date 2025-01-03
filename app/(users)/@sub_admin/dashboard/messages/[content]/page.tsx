@@ -144,19 +144,19 @@ function HeaderOptions({ content, data, hidden }: HeaderOptionsProps) {
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.messages.remove,
     onError: () => {
-      handleError({
-        message: "An error occurred while deleting message, please try again",
-      })();
+      handleError(
+        `An error occurred while deleting message, 
+        please try again`
+      )();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        autoClose: 1200,
-        message:
-          view === MESSAGE_TYPE.OCCUPANT
-            ? "Message deleted successfully"
-            : "Broadcast deleted successfully",
-      });
+      handleSuccess(
+        view === MESSAGE_TYPE.OCCUPANT
+          ? "Message deleted successfully"
+          : "Broadcast deleted successfully",
+        { autoClose: 1200 }
+      );
       back();
       modals.close(MODALS.CONFIRMATION);
     },

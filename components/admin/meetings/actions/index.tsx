@@ -1,23 +1,21 @@
-import { AxiosError } from "axios";
-import { Fragment, ReactNode } from "react";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { modals } from "@mantine/modals";
-import { Menu, Text } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { builder } from "@/builders";
-import { APP, MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-import { AddIcon, EditIcon, EyeIcon, TrashIcon } from "@/icons";
-import { ConfirmationModal } from "@/components/shared/interface";
-import { ViewMeeting } from "../modals/view";
 import {
-  FlowMenuDropdown,
   FlowMenu,
+  FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
-import { toString } from "lodash";
+import { ConfirmationModal } from "@/components/shared/interface";
+import { AddIcon, EditIcon, EyeIcon, TrashIcon } from "@/icons";
+import { APP, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Menu, Text } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { modals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { toast } from "react-toastify";
+import { toString } from "lodash";
+import { Fragment, ReactNode } from "react";
+import { ViewMeeting } from "../modals/view";
 
 interface MeetingActionsProps {
   id: string;
@@ -41,15 +39,12 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
   // Delete Meeting
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.meetings.remove,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError("An error occured. Please try again later")();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Meeting deleted successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Meeting deleted successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.meetings.get.table.$get(),
       });
@@ -60,15 +55,12 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
   // Change Meeting Status
   const { mutate: changeStatus } = useMutation({
     mutationFn: builder.$use.meetings.change_status,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError("An error occured. Please try again later")();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Meeting status changed successfully",
-        autoClose: 1200,
-      });
+      handleSuccess("Meeting status changed successfully", { autoClose: 1200 });
       queryClient.invalidateQueries({
         queryKey: builder.meetings.get.table.$get(),
       });
@@ -81,10 +73,10 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
       children: (
         <ConfirmationModal
           withTwoButtons
-          title="Are you sure you want to delete this meeting?"
-          src="delete"
-          primaryBtnText="Yes, delete"
-          secondaryBtnText="No"
+          title='Are you sure you want to delete this meeting?'
+          src='delete'
+          primaryBtnText='Yes, delete'
+          secondaryBtnText='No'
           srcProps={{
             ml: 0,
           }}
@@ -123,7 +115,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -157,7 +149,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           )}
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >
@@ -181,13 +173,13 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
             closeMenuOnClick={false}
             leftSection={<EditIcon width={14} />}
           >
-            <FlowMenu position="right-start" withArrow={false} offset={45}>
+            <FlowMenu position='right-start' withArrow={false} offset={45}>
               <Menu.Target>
-                <Text fz={14} w="100%">
+                <Text fz={14} w='100%'>
                   Edit Status
                 </Text>
               </Menu.Target>
-              <FlowMenuDropdown variant="action">
+              <FlowMenuDropdown variant='action'>
                 <Menu.Item
                   onClick={() => changeStatus({ id, status: "completed" })}
                 >
@@ -204,7 +196,7 @@ export function MeetingActions({ ...props }: MeetingActionsProps) {
           </Menu.Item>
           <Menu.Divider />
           <Menu.Item
-            color="#CC0404"
+            color='#CC0404'
             leftSection={<TrashIcon width={15} />}
             onClick={handleDelete}
           >

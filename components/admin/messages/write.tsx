@@ -1,21 +1,21 @@
 "use client";
 
-import { array, object, string } from "yup";
-import { toString } from "lodash";
-import { getCookie } from "cookies-next";
-import { modals } from "@mantine/modals";
-import { Form, useForm, yupResolver } from "@mantine/form";
-import { Button, Flex, Select, Textarea, TextInput } from "@mantine/core";
-import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
 import { builder } from "@/builders";
 import { requiredString } from "@/builders/types/shared";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { FlowEditor } from "@/components/layout/flow-editor";
 import { Plane, TrashIcon } from "@/icons";
+import { APP, cast, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Flex, Select, TextInput } from "@mantine/core";
+import { Form, useForm, yupResolver } from "@mantine/form";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
+import { object } from "yup";
 import { UploadAttachments } from "../../shared/chat/attachments/upload";
 import { MESSAGE_TYPE } from "../../shared/chat/types";
-import { FlowEditor } from "@/components/layout/flow-editor";
 
 export const schema = object({
   houseIds: requiredString,
@@ -52,12 +52,11 @@ export function WriteModal({ view }: WriteModalProps) {
       queryClient.invalidateQueries({
         queryKey: builder.messages.get.table.$get(),
       });
-      handleSuccess({
-        message:
-          view === MESSAGE_TYPE.OCCUPANT
-            ? "Message sent to occupants"
-            : "Broadcast sent to all houses",
-      });
+      handleSuccess(
+        view === MESSAGE_TYPE.OCCUPANT
+          ? "Message sent to occupants"
+          : "Broadcast sent to all houses"
+      );
     },
   });
 
@@ -90,54 +89,54 @@ export function WriteModal({ view }: WriteModalProps) {
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         {view === MESSAGE_TYPE.OCCUPANT ? (
           <Select
-            label="To:"
+            label='To:'
             withAsterisk
-            placeholder="Recipients(Houses)"
+            placeholder='Recipients(Houses)'
             data={houseNumbers}
             {...form.getInputProps("houseIds")}
           />
         ) : (
           <Select
-            label="To:"
+            label='To:'
             withAsterisk
-            placeholder="Recipients"
+            placeholder='Recipients'
             data={["All Houses"]}
             {...form.getInputProps("houseIds")}
           />
         )}
         <TextInput
-          label="Subject"
+          label='Subject'
           withAsterisk
           {...form.getInputProps("title")}
         />
         <FlowEditor
           label={
-            <Flex align="center" justify="space-between">
+            <Flex align='center' justify='space-between'>
               <span>
-                Message <span className="text-red-5">*</span>
+                Message <span className='text-red-5'>*</span>
               </span>
               <UploadAttachments />
             </Flex>
           }
-          placeholder="Type something here..."
+          placeholder='Type something here...'
           rightSection={<Plane />}
           {...form.getInputProps("content")}
         />
 
-        <Flex gap="md" mt={10}>
+        <Flex gap='md' mt={10}>
           <Button
             flex={1}
-            type="button"
-            color="red"
-            variant="outline"
+            type='button'
+            color='red'
+            variant='outline'
             leftSection={<TrashIcon />}
             onClick={() => modals.close(MODALS.WRTIE_MESSAGE)}
             disabled={isPending}
@@ -146,7 +145,7 @@ export function WriteModal({ view }: WriteModalProps) {
           </Button>
           <Button
             flex={1}
-            type="submit"
+            type='submit'
             rightSection={<Plane />}
             disabled={isPending}
             loading={isPending}

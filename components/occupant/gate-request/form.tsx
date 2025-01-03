@@ -30,17 +30,22 @@ export function GateRequestForm({
   modalType = "view",
 }: GateRequestFormProps) {
   const occupantId = getCookie(APP.OCCUPANT_ID) ?? "";
-  const requestId = data?.id;
   const queryClient = useQueryClient();
+
+  const {
+    id = "",
+    guestName = "",
+    guestType = "Friend",
+    phoneNo = "",
+    visitDate = dayjs().toDate(),
+    visitTime = formatDate(dayjs().toDate().getTime(), TIME_FORMAT),
+  } = { ...data };
 
   const { mutate: addRequest, isPending } = useMutation({
     mutationFn: builder.$use.gates.requests.post,
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: builder.gates.requests.get.$get(),
-      });
-      handleSuccess({
-        message: "Gate Request Added Successfully",
       });
       modals.close(MODALS.FORM_DETAILS);
       handleShare(data);
@@ -55,31 +60,26 @@ export function GateRequestForm({
         queryKey: builder.gates.requests.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
-      handleSuccess({
-        message: "Gate Request Updated Successfully",
-      });
+      handleSuccess("Gate Request Updated Successfully");
     },
     onError: handleError(),
   });
 
   const form = useForm({
     initialValues: {
-      guestName: data?.guestName ?? "",
-      guestType: data?.guestType ?? "Friend",
-      phoneNo: data?.phoneNo ?? "",
-      visitDate:
-        dayjs(data?.visitDate, DATE_FORMAT).toDate() ?? new Date().toString(),
-      visitTime:
-        data?.visitTime ?? formatDate(new Date().getTime(), TIME_FORMAT),
+      guestName,
+      guestType,
+      phoneNo,
+      visitDate: dayjs(visitDate, DATE_FORMAT).toDate(),
+      visitTime,
       modalType,
       occupantId,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
-    transformValues: ({ visitDate, visitTime, ...values }) => {
+    transformValues: ({ visitTime, ...values }) => {
       return {
         ...values,
-        visitDate: dayjs(visitDate, DATE_FORMAT).toDate(),
         visitTime: cast.string(visitTime),
       };
     },
@@ -120,7 +120,7 @@ export function GateRequestForm({
 
         <DatePickerInput
           label='Date of Visit'
-          minDate={new Date()}
+          minDate={dayjs().toDate()}
           disabled={isViewing}
           valueFormat={DATE_FORMAT}
           withAsterisk
@@ -142,7 +142,7 @@ export function GateRequestForm({
             loading={isUpdating}
             disabled={isUpdating}
             onClick={() =>
-              updateRequest({ id: requestId ?? "", data: form.values })
+              updateRequest({ id, data: form.getTransformedValues() })
             }
           >
             Update Request
@@ -152,7 +152,7 @@ export function GateRequestForm({
             mt={10}
             loading={isPending}
             disabled={isPending}
-            onClick={() => addRequest(form.values)}
+            onClick={() => addRequest(form.getTransformedValues())}
           >
             Generate Request
           </Button>

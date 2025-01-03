@@ -1,3 +1,9 @@
+import { GateRequestData } from "@/builders/types/gate-requests";
+import { Actionable } from "@/builders/types/table";
+import { CopyIcon } from "@/icons";
+import { DATE_FORMAT } from "@/packages/constants/time";
+import { cast, formatDate } from "@/packages/libraries";
+import { handleSuccess } from "@/packages/notification";
 import {
   Box,
   Checkbox,
@@ -8,12 +14,6 @@ import {
   Text,
 } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Actionable } from "@/builders/types/table";
-import { GateRequestData } from "@/builders/types/gate-requests";
-import { cast, formatDate } from "@/packages/libraries";
-import { DATE_FORMAT } from "@/packages/constants/time";
-import { CopyIcon } from "@/icons";
-import { handleSuccess } from "@/packages/notification";
 
 const columnHelper = createColumnHelper<Actionable<GateRequestData>>();
 
@@ -21,7 +21,7 @@ export const gateRequestsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify="center" className="w-full">
+      <Flex justify='center' className='w-full'>
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -49,7 +49,7 @@ export const gateRequestsColumns = [
     header: "Guest Name",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta="center" fz={14} className="w-full" children={getValue()} />
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
     ),
   }),
 
@@ -57,7 +57,7 @@ export const gateRequestsColumns = [
     header: "Guest Type",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta="center" fz={14} className="w-full" children={getValue()} />
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
     ),
   }),
 
@@ -66,9 +66,9 @@ export const gateRequestsColumns = [
     enableSorting: false,
     cell: ({ getValue }) => (
       <Text
-        ta="center"
+        ta='center'
         fz={14}
-        className="w-full"
+        className='w-full'
         children={formatDate(getValue(), DATE_FORMAT)}
       />
     ),
@@ -78,7 +78,7 @@ export const gateRequestsColumns = [
     header: "Phone No",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta="center" fz={14} className="w-full" children={getValue()} />
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
     ),
   }),
 
@@ -86,15 +86,14 @@ export const gateRequestsColumns = [
     header: "Access Code",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Flex justify="center" align="center" className="w-full" gap={8}>
-        <Text ta="center" fz={14} c="blue.8" children={getValue()} />
+      <Flex justify='center' align='center' className='w-full' gap={8}>
+        <Text ta='center' fz={14} c='blue.8' children={getValue()} />
         <CopyButton value={cast.string(getValue())}>
           {({ copy }) => (
             <CopyIcon
               onClick={() => {
                 copy();
-                handleSuccess({
-                  message: "Access code copied successfully",
+                handleSuccess("Access code copied successfully", {
                   autoClose: 1200,
                 });
               }}
@@ -119,15 +118,15 @@ export const gateRequestsColumns = [
       };
 
       return (
-        <Box ta="center">
+        <Box ta='center'>
           <Pill
-            ta="center"
+            ta='center'
             c={colors[value]?.color}
             bg={colors[value]?.bg}
             fw={500}
             children={value}
-            className="capitalize"
-            size="sm"
+            className='capitalize'
+            size='sm'
           />
         </Box>
       );
@@ -136,7 +135,7 @@ export const gateRequestsColumns = [
   columnHelper.accessor("action", {
     header: "Actions",
     cell: ({ renderValue }) => (
-      <Stack gap={5} ta="center" justify="center">
+      <Stack gap={5} ta='center' justify='center'>
         {renderValue()}
       </Stack>
     ),

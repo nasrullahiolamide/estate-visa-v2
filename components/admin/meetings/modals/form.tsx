@@ -61,11 +61,9 @@ export function MeetingMinutesForm({
       queryClient.invalidateQueries({
         queryKey: builder.meetings.get.table.$get(),
       });
-      handleSuccess({
-        message: isEditing
-          ? "Minute Updated Successfully"
-          : "Minute Added Successfully",
-      });
+      handleSuccess(
+        `Meeting minutes ${isEditing ? "updated" : "added"} successfully!`
+      );
       modals.closeAll();
     },
     onError: handleError(),
@@ -121,35 +119,35 @@ export function MeetingMinutesForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="bg-primary-background-white max-h-[650px] overflow-y-scroll sm:scrollbar-none"
+        className='bg-primary-background-white max-h-[650px] overflow-y-scroll sm:scrollbar-none'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <Select
-          label="Meeting Title"
+          label='Meeting Title'
           data={meetings}
-          placeholder="Select a meeting title"
+          placeholder='Select a meeting title'
           disabled={isLoading}
-          nothingFoundMessage="No meetings available, please create one first."
+          nothingFoundMessage='No meetings available, please create one first.'
           withAsterisk
           {...form.getInputProps("title_id")}
         />
         <TextInput
-          type="number"
-          label="Number of Attendees"
-          placeholder="Enter the number of attendees"
+          type='number'
+          label='Number of Attendees'
+          placeholder='Enter the number of attendees'
           withAsterisk
           {...form.getInputProps("noOfAttendees")}
         />
         <FlowEditor
-          label="Write Meeting Minutes"
-          placeholder="Type something here..."
+          label='Write Meeting Minutes'
+          placeholder='Type something here...'
           {...form.getInputProps("minutes")}
         />
 
         <ResourceUpload
-          label="Upload File"
+          label='Upload File'
           supports={["pdf", "doc"]}
           previews={previews}
           onDrop={handleUpload}
@@ -163,8 +161,8 @@ export function MeetingMinutesForm({
       </FlowContainer>
       <Button
         mt={20}
-        w="100%"
-        type="submit"
+        w='100%'
+        type='submit'
         disabled={isPending || isUploading}
         loading={isPending}
       >

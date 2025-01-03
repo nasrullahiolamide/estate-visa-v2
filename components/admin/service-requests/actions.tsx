@@ -1,19 +1,18 @@
 "use client";
 
-import { Fragment, ReactNode } from "react";
-import { Menu } from "@mantine/core";
+import { builder } from "@/builders";
 import {
   FlowMenu,
   FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
 import { DoubleMarkIcon, EyeIcon } from "@/icons";
-import { builder } from "@/builders";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
+import { Menu } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { Fragment, ReactNode } from "react";
 
 interface ServiceRequestActionsProps {
   id: string;
@@ -28,13 +27,12 @@ export function ServiceRequestActions({
 
   const { mutate } = useMutation({
     mutationFn: builder.$use.service_requests.id.change_status,
-    onError: (error: AxiosError) => {
-      handleError(error)();
+    onError: () => {
+      handleError()();
       modals.close(MODALS.CONFIRMATION);
     },
     onSuccess: () => {
-      handleSuccess({
-        message: "Service Request status changed successfully",
+      handleSuccess("Service Request Updated Successfully", {
         autoClose: 1200,
       });
       queryClient.invalidateQueries({
@@ -48,7 +46,7 @@ export function ServiceRequestActions({
     pending: (
       <Fragment>
         <Menu.Item
-          color="green.7"
+          color='green.7'
           leftSection={<DoubleMarkIcon width={14} />}
           onClick={() => mutate({ id, status: "completed" })}
         >
@@ -56,7 +54,7 @@ export function ServiceRequestActions({
         </Menu.Item>
 
         <Menu.Item
-          color="blue.7"
+          color='blue.7'
           leftSection={<DoubleMarkIcon width={14} />}
           onClick={() => mutate({ id, status: "in-progress" })}
         >

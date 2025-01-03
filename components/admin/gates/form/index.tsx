@@ -1,23 +1,23 @@
 "use client";
 
+import { builder } from "@/builders";
+import { GatesData } from "@/builders/types/gates";
+import { ProfileData } from "@/builders/types/profile";
+import { FlowContainer } from "@/components/layout/flow-container";
+import { APP, decryptUri, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import {
   Button,
   PasswordInput,
   Select,
   Stack,
-  TextInput,
   Text,
+  TextInput,
 } from "@mantine/core";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
-import { getCookie } from "cookies-next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { APP, decryptUri, MODALS } from "@/packages/libraries";
-import { handleSuccess, handleError } from "@/packages/notification";
-import { builder } from "@/builders";
-import { GatesData } from "@/builders/types/gates";
-import { ProfileData } from "@/builders/types/profile";
-import { FlowContainer } from "@/components/layout/flow-container";
+import { getCookie } from "cookies-next";
 
 import { schema } from "../../market-place/schema";
 
@@ -33,6 +33,13 @@ export function GateForm({
   const {
     estate: { id: estateId, name: estateName },
   }: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const {
+    id = "",
+    name = "open",
+    location = "",
+    status = "",
+    password = "",
+  } = { ...data };
 
   // Add gate mutation
   const { mutate: addGate, isPending } = useMutation({
@@ -42,13 +49,11 @@ export function GateForm({
         queryKey: builder.gates.get.table.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
-      handleSuccess({
-        message: (
-          <p>
-            Gate <strong>{username}</strong> added successfully!
-          </p>
-        ),
-      });
+      handleSuccess(
+        <p>
+          Gate <strong>{username}</strong> added successfully!
+        </p>
+      );
     },
     onError: handleError(),
   });
@@ -61,19 +66,17 @@ export function GateForm({
         queryKey: builder.gates.get.table.$get(),
       });
       modals.closeAll();
-      handleSuccess({
-        message: "Gate Updated Successfully",
-      });
+      handleSuccess("Gate Updated Successfully");
     },
     onError: handleError(),
   });
 
   const form = useForm({
     initialValues: {
-      name: data?.name ?? "",
-      location: data?.location ?? "",
-      status: data?.status ?? "open",
-      password: data?.password ?? "",
+      name,
+      location,
+      status,
+      password,
       modalType: formType,
     },
     validate: yupResolver(schema),
@@ -94,8 +97,8 @@ export function GateForm({
       : addGate(updatedData);
   };
 
-  const { name, modalType } = form.getValues();
-  const formattedName = name.replace(/\s+/g, "-");
+  const { modalType, ...values } = form.getValues();
+  const formattedName = values.name.replace(/\s+/g, "-");
   const formattedEstateName = estateName.replace(/\s+/g, "-");
   const gateUsername = `${formattedName}-${formattedEstateName}`.toLowerCase();
 
@@ -106,15 +109,15 @@ export function GateForm({
   return (
     <Form form={form} onSubmit={handleSubmit}>
       <FlowContainer
-        className="rounded-2xl bg-primary-background-white"
-        justify="center"
+        className='rounded-2xl bg-primary-background-white'
+        justify='center'
         gap={18}
-        type="plain"
-        bg="white"
+        type='plain'
+        bg='white'
       >
         <Stack gap={0}>
           <TextInput
-            label="Gate Name"
+            label='Gate Name'
             placeholder="Enter the gate's name"
             disabled={isViewing}
             withAsterisk
@@ -124,7 +127,7 @@ export function GateForm({
             {...form.getInputProps("name")}
           />
           {name && (
-            <Text fz={14} c="yellow.8" mt={5}>
+            <Text fz={14} c='yellow.8' mt={5}>
               Gate username {isViewing ? "is" : "will be"}{" "}
               <strong>{gateUsername}</strong>
             </Text>
@@ -133,21 +136,21 @@ export function GateForm({
         {isAdding && (
           <Stack gap={0}>
             <PasswordInput
-              label="Gate Password"
-              placeholder="********"
+              label='Gate Password'
+              placeholder='********'
               disabled={isViewing}
               withAsterisk
               {...form.getInputProps("password")}
             />
             {!form.errors.password && (
-              <Text fz={14} c="yellow.8" mt={5}>
+              <Text fz={14} c='yellow.8' mt={5}>
                 This is the password required to approve gate requests
               </Text>
             )}
           </Stack>
         )}
         <TextInput
-          label="Gate Location"
+          label='Gate Location'
           placeholder="Enter the gate's location"
           disabled={isViewing}
           withAsterisk
@@ -164,7 +167,7 @@ export function GateForm({
               label: "Closed",
             },
           ]}
-          label="Gate Status"
+          label='Gate Status'
           disabled={isViewing}
           withAsterisk
           {...form.getInputProps("status")}
@@ -172,7 +175,7 @@ export function GateForm({
         {isViewing ? (
           <Button
             mt={10}
-            type="button"
+            type='button'
             onClick={() => form.setValues({ modalType: "edit" })}
           >
             Edit
@@ -180,7 +183,7 @@ export function GateForm({
         ) : isEditing ? (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isUpdating}
             disabled={isUpdating}
           >
@@ -189,7 +192,7 @@ export function GateForm({
         ) : (
           <Button
             mt={10}
-            type="submit"
+            type='submit'
             loading={isPending}
             disabled={isPending}
           >

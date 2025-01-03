@@ -117,7 +117,7 @@ export function CountDown({ house, skeleton, ...props }: CountDownProps) {
             Your subscription has expired since {formatDate(deadline, "LL")}.
           </Text>
         )}
-        <Button disabled={millisecondsTillDeadline > Date.now()}>Renew</Button>
+        <Button>Renew now</Button>
       </Stack>
     </FlowContainer>
   );

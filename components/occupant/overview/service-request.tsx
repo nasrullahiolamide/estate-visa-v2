@@ -27,19 +27,19 @@ export function ServiceRequest({}: ServiceRequestProps) {
   return (
     <Stack
       flex={1}
-      bg="white"
+      bg='white'
       className={clsx("rounded-lg backdrop-blur-sm w-full", {
         skeleton: isLoading,
       })}
       p={20}
       gap={16}
     >
-      <Flex justify="space-between" wrap="wrap" gap={12}>
+      <Flex justify='space-between' wrap='wrap' gap={12}>
         <Stack gap={10}>
-          <Title order={3} className="prose-xl/medium text-primary-text-body">
+          <Title order={3} className='prose-xl/medium text-primary-text-body'>
             Service Request
           </Title>
-          <Text fz={14} c="gray">
+          <Text fz={14} c='gray'>
             List of services you requested for this week
           </Text>
         </Stack>
@@ -59,14 +59,14 @@ export function ServiceRequest({}: ServiceRequestProps) {
               value: "completed",
             },
           ]}
-          size="sm"
+          size='sm'
           value={status}
           onFilter={setStatus}
         />
       </Flex>
       {data?.length ? (
         <Fragment>
-          <Stack mah={400} className="overflow-auto" gap={0}>
+          <Stack mah={400} className='overflow-auto' gap={0}>
             {data?.map((r) => {
               const color: Record<PropertyKey, string> = {
                 completed: "#11A506",
@@ -78,28 +78,28 @@ export function ServiceRequest({}: ServiceRequestProps) {
                 <Flex
                   key={r.id}
                   gap={18}
-                  wrap="nowrap"
-                  align="center"
-                  justify="space-between"
-                  className="border-t border-gray-2"
+                  wrap='nowrap'
+                  align='center'
+                  justify='space-between'
+                  className='border-t border-gray-2'
                   py={16}
                 >
                   <Stack gap={10}>
                     <Text fz={14}>
                       You requested for{" "}
-                      <span className="capitalize">{r.serviceType}</span>{" "}
+                      <span className='capitalize'>{r.serviceType}</span>{" "}
                       service
                     </Text>
-                    <Text fz={12} c="gray">
+                    <Text fz={12} c='gray'>
                       {fromNow(r.updatedAt)}
                     </Text>
                   </Stack>
 
                   <Button
                     bg={color[r.status]}
-                    className="capitalize"
+                    className='capitalize'
                     miw={130}
-                    size="sm"
+                    size='sm'
                   >
                     {r.status}
                   </Button>
@@ -111,7 +111,7 @@ export function ServiceRequest({}: ServiceRequestProps) {
       ) : (
         <Stack gap={0} h={250}>
           <NoData />
-          <Text ta="center">No Data Available</Text>
+          <Text ta='center'>No Data Available</Text>
         </Stack>
       )}
     </Stack>
