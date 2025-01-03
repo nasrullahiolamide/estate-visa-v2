@@ -5,7 +5,6 @@ import {
   useFlowNavigation,
 } from "@/components/layout/flow-context";
 import { SuspenseOverlay } from "@/components/shared";
-import { navigate } from "@/packages/actions";
 import { GENERAL_ROUTES } from "@/packages/constants/routes";
 import { APP, encode, PAGES } from "@/packages/libraries";
 import { getFeatureFlag } from "@/packages/libraries/auth";
@@ -22,10 +21,11 @@ type TemplateProps = PropsWithChildren<{}>;
 const swalConfig: SweetAlertOptions = {
   icon: "error",
   confirmButtonColor: "var(--blue-8)",
-  confirmButtonText: "Go to Dashboard",
+  confirmButtonText: `<a href="${PAGES.DASHBOARD}" style="text-decoration: none; color: inherit;">Go to Dashboard</a>`,
   allowOutsideClick: false,
   allowEnterKey: false,
   allowEscapeKey: false,
+  showLoaderOnConfirm: true,
 };
 
 export default function Template({ children }: TemplateProps) {
@@ -41,26 +41,25 @@ export default function Template({ children }: TemplateProps) {
     const isRestricted = flags.some((url) => pathname.includes(url));
 
     if (isNavOpened) toggleNav();
-    if (pathname !== PAGES.DASHBOARD && !isValidUser) {
-      Swal.fire({
-        title: "Suscription Expired",
-        text: "Please renew your subscription to continue using the app.",
-        ...swalConfig,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate(PAGES.DASHBOARD);
-        }
-      });
-    }
     if (isRestricted) {
       Swal.fire({
         title: "Permission Denied",
         text: "You do not have access to this feature.",
         ...swalConfig,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate(PAGES.DASHBOARD);
-        }
+        preConfirm: () => {
+          if (pathname === PAGES.DASHBOARD) Swal.close();
+          else return false;
+        },
+      });
+    } else if (pathname !== PAGES.DASHBOARD && !isValidUser) {
+      Swal.fire({
+        title: "Suscription Expired",
+        text: "Please renew your subscription to continue using the app.",
+        ...swalConfig,
+        preConfirm: () => {
+          if (pathname === PAGES.DASHBOARD) Swal.close();
+          else return false;
+        },
       });
     }
   }, [pathname]);
