@@ -2,31 +2,17 @@
 
 import { Button, Stack, StackProps, Text, Title } from "@mantine/core";
 import clsx from "clsx";
-import dayjs, { ManipulateType } from "dayjs";
-import { toString } from "lodash";
+import dayjs from "dayjs";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 
 import { HouseData } from "@/builders/types/houses";
 import { FlowContainer } from "@/components/layout";
-import { formatDate } from "@/packages/libraries";
+import { calculateDeadline, formatDate } from "@/packages/libraries";
 import { TimePad } from "./time-pad";
 
 interface CountDownProps extends StackProps {
   house: HouseData | undefined;
   skeleton?: boolean;
-}
-
-function calculateDeadline(validityPeriod: string): Date {
-  const [value, unit] = validityPeriod.split(" ");
-  const duration = parseInt(value, 10);
-
-  if (isNaN(duration)) throw new Error("Invalid validity period format.");
-
-  const deadline = dayjs()
-    .add(duration, unit as ManipulateType)
-    .startOf("day");
-
-  return deadline.toDate();
 }
 
 let renderer: CountdownRendererFn = ({
@@ -84,7 +70,8 @@ let renderer: CountdownRendererFn = ({
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  let deadline = calculateDeadline(toString(house?.validityPeriod));
+  const { validityPeriod = "", updatedAt = "" } = { ...house };
+  let deadline = calculateDeadline({ validityPeriod, dayCreated: updatedAt });
   let millisecondsTillDeadline = deadline.getTime();
 
   return (

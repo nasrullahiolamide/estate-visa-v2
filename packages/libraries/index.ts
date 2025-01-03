@@ -9,8 +9,13 @@ export {
   type URI,
 } from "./encryption";
 
-export { APP, MODALS, PAGES, TOKEN, USER_TYPE } from "./enum";
-export { handleLogout, handleLogin, handleClickPropagation } from "./handlers";
-export { makePath } from "./make-path";
-export { cast, partial, pass, formatDate } from "./formatters";
 export { createTree } from "./create-tree";
+export { APP, MODALS, PAGES, TOKEN, USER_TYPE } from "./enum";
+export { cast, formatDate, partial, pass } from "./formatters";
+export {
+  calculateDeadline,
+  handleClickPropagation,
+  handleLogin,
+  handleLogout,
+} from "./handlers";
+export { makePath } from "./make-path";

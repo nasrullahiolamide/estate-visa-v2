@@ -2,8 +2,14 @@
 
 import { builder } from "@/builders";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { DATE_FORMAT } from "@/packages/constants/time";
-import { APP, cast, pass } from "@/packages/libraries";
+import {
+  APP,
+  calculateDeadline,
+  cast,
+  formatDate,
+  pass,
+} from "@/packages/libraries";
+import { fromNow } from "@/packages/libraries/formatters";
 import { handleError, handleSuccess } from "@/packages/notification";
 import {
   Button,
@@ -112,12 +118,16 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
-  const eligibilityPeriod = dayjs()
-    .add(
-      form.getTransformedValues().duration,
-      form.getValues().durationType as ManipulateType
-    )
-    .format(DATE_FORMAT);
+
+  const eligibilityPeriod = isViewing
+    ? calculateDeadline({
+        validityPeriod: data?.validityPeriod || "4 months",
+        dayCreated: data?.createdAt || "",
+      })
+    : dayjs().add(
+        form.getTransformedValues().duration,
+        form.getValues().durationType as ManipulateType
+      );
 
   function handleSubmit() {
     const {
@@ -255,9 +265,18 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
           {form.getValues().duration && !form.errors.duration && (
             <Text
               fz={14}
-              c='yellow.8'
-              children={`Eligibility ends on ${eligibilityPeriod}`}
-            />
+              c={dayjs().isAfter(eligibilityPeriod) ? "red.8" : "yellow.8"}
+            >
+              {dayjs().isAfter(eligibilityPeriod)
+                ? `Subscription has expired since ${formatDate(
+                    eligibilityPeriod,
+                    "ll"
+                  )}`
+                : `Subscription will expire in ${formatDate(
+                    eligibilityPeriod,
+                    "ll"
+                  )} (${fromNow(eligibilityPeriod)})`}
+            </Text>
           )}
         </Stack>
 

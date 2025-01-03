@@ -4,12 +4,19 @@ import { OptionsType } from "cookies-next/lib/types";
 import { LoginResponseData } from "@/builders/types/login";
 import { PAID_FEATURES } from "@/packages/constants/data";
 import { encode, encryptUri } from "../encryption";
-import { APP, TOKEN } from "../enum";
+import { APP, TOKEN, USER_TYPE, VALIDITY } from "../enum";
+import { calculateDeadline } from "./validity-period";
 
 interface HandleLogin extends LoginResponseData {
   access_token: string;
   user_type: string;
 }
+
+const admins = [
+  USER_TYPE.ADMIN,
+  USER_TYPE.SUPER_ADMIN,
+  USER_TYPE.SUB_ADMIN,
+] as Array<string>;
 
 export const cookieOptions = {
   secure: true,
@@ -26,7 +33,6 @@ export function handleLogin({
 }: HandleLogin) {
   const encryptedUser = encryptUri(user);
   const { firstname, id: uid, email, estate, isOnboarded } = { ...user };
-
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
     payload: string,
@@ -34,20 +40,29 @@ export function handleLogin({
   ];
 
   setCookie(APP.USER_DATA, encryptedUser, cookieOptions);
+  setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
+  setCookie(APP.USERNAME, email);
 
   setCookie(TOKEN.HEADER, header, cookieOptions);
   setCookie(TOKEN.PAYLOAD, payload, cookieOptions);
   setCookie(TOKEN.SIGNATURE, signature, cookieOptions);
 
-  setCookie(APP.EXPANDED_NAVBAR, "true", cookieOptions);
-  setCookie(APP.USERNAME, email);
-
   if (user_type) {
+    const isAdmin = admins.includes(user_type);
+
     setCookie(APP.USER_TYPE, user_type, {
       ...cookieOptions,
       sameSite: "lax",
       encode,
     });
+
+    if (isAdmin) {
+      setCookie(APP.EVISA_ACCOUNT, VALIDITY.VALID, {
+        ...cookieOptions,
+        sameSite: "lax",
+        encode,
+      });
+    }
   }
 
   if (isOnboarded) {
@@ -95,6 +110,12 @@ export function handleLogin({
   }
 
   if (occupant) {
+    const isValidUser =
+      calculateDeadline({
+        validityPeriod: occupant.house.validityPeriod,
+        dayCreated: occupant.house.updatedAt,
+      }).getTime() > Date.now();
+
     setCookie(APP.OCCUPANT_ID, occupant.id, {
       ...cookieOptions,
       sameSite: "lax",
@@ -104,7 +125,15 @@ export function handleLogin({
       ...cookieOptions,
       sameSite: "lax",
     });
+
+    setCookie(
+      APP.EVISA_ACCOUNT,
+      !isValidUser ? VALIDITY.EXPIRED : VALIDITY.VALID,
+      {
+        ...cookieOptions,
+        sameSite: "lax",
+        encode,
+      }
+    );
   }
 }
-
-// const full_name = `${firstname} ${lastname ? `${lastname}` : ""}`;

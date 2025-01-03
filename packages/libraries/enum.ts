@@ -7,6 +7,11 @@ export enum TOKEN {
   SIGNATURE = "vSg",
 }
 
+export enum VALIDITY {
+  VALID = "valid",
+  EXPIRED = "expired",
+}
+
 export enum APP {
   TOKEN = "tKn",
   USER_TYPE = "uType",
@@ -21,7 +26,7 @@ export enum APP {
   FEATURE_FLAG = "sFg",
   ONBOARDED = "oBd",
   CALLBACK_URL = "cUrl",
-  VALIDITY_PERIOD = "vPrd",
+  EVISA_ACCOUNT = "eVsa",
 }
 
 export enum USER_TYPE {
