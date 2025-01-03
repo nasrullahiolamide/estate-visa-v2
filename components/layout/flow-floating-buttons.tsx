@@ -171,6 +171,7 @@ export function FlowFloatingButtons({
         cursor: dragging ? "grabbing" : "grab", // Update cursor based on dragging state
       }}
       hidden={hidden}
+      className='lg:hidden'
       {...containerProps}
     >
       <Stack justify='center' align='center'>
