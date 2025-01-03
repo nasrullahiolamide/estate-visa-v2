@@ -229,7 +229,7 @@ export default function Gates() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable}
+          hidden={noDataAvailable || isPlaceholderData}
           buttons={[
             {
               icon: "download",

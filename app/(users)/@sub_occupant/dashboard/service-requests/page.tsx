@@ -199,6 +199,7 @@ export default function ServiceRequest() {
         </FlowContentContainer>
 
         <FlowFloatingButtons
+          hidden={noDataAvailable || isPlaceholderData}
           buttons={[{ icon: "filter", filterData: filterOptions }]}
         />
       </FlowContainer>

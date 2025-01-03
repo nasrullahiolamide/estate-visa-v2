@@ -159,7 +159,7 @@ export default function Listings() {
         </FlowFooter>
 
         <FlowFloatingButtons
-          hidden={noDataAvailable}
+          hidden={noDataAvailable || isPlaceholderData}
           buttons={[
             {
               icon: "filter",
