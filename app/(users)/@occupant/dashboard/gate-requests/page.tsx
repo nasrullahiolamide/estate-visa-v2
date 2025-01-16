@@ -222,6 +222,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
+        id='#add-gate-request'
         fz='sm'
         size='md'
         leftSection={<Add />}
