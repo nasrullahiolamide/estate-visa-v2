@@ -102,7 +102,7 @@ export function ConfirmationModal({
           <Flex justify='center' gap={20} mt={20} wrap='wrap'>
             <Button
               variant='outline'
-              h={40}
+              h={45}
               fz={14}
               size='compact-sm'
               flex={1}
@@ -113,7 +113,7 @@ export function ConfirmationModal({
               {secondaryBtnText}
             </Button>
             <Button
-              h={40}
+              h={45}
               fz={14}
               size='compact-sm'
               flex={1}
