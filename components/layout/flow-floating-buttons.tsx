@@ -101,8 +101,8 @@ export function FlowFloatingButtons({
       setDragging(true);
 
       if (frame && !dragging) {
-        frame.style.bottom = "auto";
-        frame.style.right = "auto";
+        frame.style.bottom = "45px";
+        frame.style.right = "12px";
       }
 
       if (ev instanceof MouseEvent) {

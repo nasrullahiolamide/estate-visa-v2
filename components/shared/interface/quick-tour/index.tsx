@@ -21,15 +21,7 @@ export function QuickTour({
 
     const driverObj = driver({
       showProgress: true,
-      steps: [
-        {
-          element: "overview",
-          popover: {
-            title: "Welcome to Estate Visa",
-            description: "This is a quick tour of the platform.",
-          },
-        },
-      ],
+      steps,
       onDestroyed: () => {
         localStorage.setItem(storageKey, "true");
         if (onComplete) onComplete();
