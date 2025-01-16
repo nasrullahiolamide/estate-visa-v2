@@ -158,6 +158,11 @@ export default function Gates() {
                 </Button>
               ),
             };
+          })
+          .sort((a, b) => {
+            if (a.status === "approved" && b.status !== "approved") return 1;
+            if (a.status !== "approved" && b.status === "approved") return -1;
+            return 0;
           }),
       };
     },
