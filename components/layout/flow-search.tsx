@@ -20,6 +20,7 @@ export type FlowSearchProps = TextInputProps & {
   isloading?: boolean;
   title: string;
   hidden?: boolean;
+  id?: string;
 };
 
 export function FlowSearch(props: FlowSearchProps) {
@@ -91,6 +92,7 @@ export function FlowSearch(props: FlowSearchProps) {
     </Modal>
   ) : (
     <ActionIcon
+      id={props.id}
       hidden={props.hidden}
       variant='transparent'
       onClick={() => {

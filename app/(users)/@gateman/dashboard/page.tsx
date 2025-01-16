@@ -1,24 +1,11 @@
 "use client";
 
-import dayjs from "dayjs";
-
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Fragment, useEffect, useMemo } from "react";
-
-import { Button, Flex } from "@mantine/core";
-import { modals } from "@mantine/modals";
-
 import { builder } from "@/builders";
 import {
   GateRequestData,
   useFakeGateRequestList,
 } from "@/builders/types/gate-requests";
-import { cast, MODALS } from "@/packages/libraries";
-import { handleError, handleSuccess } from "@/packages/notification";
-
 import { gateRequestsColumns } from "@/columns/for_gateman/gate-requests";
-import { DownloadIcon } from "@/icons";
-
 import { ViewGateRequest } from "@/components/gateman";
 import {
   FlowContainer,
@@ -35,6 +22,15 @@ import {
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { QuickTour } from "@/components/shared/interface/quick-tour";
+import { DownloadIcon } from "@/icons";
+import { cast, MODALS } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Button, Flex } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -249,6 +245,24 @@ export default function Gates() {
           ]}
         />
       </FlowContainer>
+      <QuickTour
+        steps={[
+          {
+            element: "#gate-request-search",
+            popover: {
+              title: "Search for gate requests",
+              description: "Search for gate requests by their code",
+            },
+          },
+          {
+            element: ".flow-row",
+            popover: {
+              title: "Gate Request",
+              description: "Click on a row to view the gate request",
+            },
+          },
+        ]}
+      />
     </Fragment>
   );
 }
@@ -264,6 +278,7 @@ function HeaderOptions({
   return (
     <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
       <FlowSearch
+        id='gate-request-search'
         isloading={cast.string(isLoading)}
         placeholder="Search by code, e.g. '1234'"
         type='number'

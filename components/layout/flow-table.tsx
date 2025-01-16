@@ -208,6 +208,7 @@ const TableRow = <T,>({
 }: TableRowProps<T>) => {
   return (
     <Table.Tr
+      id='flow-row'
       key={row.id}
       fz={13}
       className={clsx(
