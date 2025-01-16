@@ -17,8 +17,16 @@ import {
 } from "@mantine/core";
 import { Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
 import { max, min } from "mathjs";
-import { ElementType, ReactNode, useEffect, useRef, useState } from "react";
+import {
+  ElementType,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { FilterData, FilterDropdown } from "../shared/interface/dropdowns";
+import document from "next/document";
 
 enum IconType {
   FILTER = "filter",
@@ -157,6 +165,14 @@ export function FlowFloatingButtons({
       document.removeEventListener("touchend", closeDragElement);
     };
   }, [dragging]);
+
+  useLayoutEffect(() => {
+    const frame = frameRef.current;
+    if (frame) {
+      frame.style.bottom = "45px";
+      frame.style.right = "12px";
+    }
+  }, []);
 
   return (
     <Stack
