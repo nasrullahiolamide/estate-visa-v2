@@ -183,8 +183,6 @@ export function FlowFloatingButtons({
       ref={frameRef}
       style={{
         position: "absolute",
-        bottom: 45,
-        right: 12,
         width: "fit-content",
         height: "fit-content",
         zIndex: 200,
