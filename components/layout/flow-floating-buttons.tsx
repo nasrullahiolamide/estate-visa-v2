@@ -26,7 +26,6 @@ import {
   useState,
 } from "react";
 import { FilterData, FilterDropdown } from "../shared/interface/dropdowns";
-import document from "next/document";
 
 enum IconType {
   FILTER = "filter",
@@ -81,6 +80,14 @@ export function FlowFloatingButtons({
     [IconType.LIST]: <ListIcon width={20} height={20} />,
   };
 
+  useLayoutEffect(() => {
+    const frame = frameRef.current;
+    if (frame) {
+      frame.style.bottom = "45px";
+      frame.style.right = "12px";
+    }
+  }, []);
+
   // Dragging logic
   useEffect(() => {
     const frame = frameRef.current;
@@ -92,6 +99,11 @@ export function FlowFloatingButtons({
 
     const onMouseDown = (ev: MouseEvent | TouchEvent) => {
       setDragging(true);
+
+      if (frame && !dragging) {
+        frame.style.bottom = "auto";
+        frame.style.right = "auto";
+      }
 
       if (ev instanceof MouseEvent) {
         offsetX = ev.clientX - frame.offsetLeft;
@@ -165,14 +177,6 @@ export function FlowFloatingButtons({
       document.removeEventListener("touchend", closeDragElement);
     };
   }, [dragging]);
-
-  useLayoutEffect(() => {
-    const frame = frameRef.current;
-    if (frame) {
-      frame.style.bottom = "45px";
-      frame.style.right = "12px";
-    }
-  }, []);
 
   return (
     <Stack
