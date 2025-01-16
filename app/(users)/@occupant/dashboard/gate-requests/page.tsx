@@ -23,6 +23,7 @@ import {
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { QuickTour } from "@/components/shared/interface/quick-tour";
 import { AddIcon } from "@/icons";
 import { MODALS } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
@@ -190,21 +191,28 @@ export default function Gates() {
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
-            // {
-            //   icon: "download",
-            //   btnProps: {
-            //     onClick: () => {},
-            //   },
-            // },
             {
               icon: "add",
               btnProps: {
+                id: "add-gate-request",
                 onClick: () => handleGateRequestForm({ modalType: "add" }),
               },
             },
           ]}
         />
       </FlowContainer>
+      <QuickTour
+        steps={[
+          {
+            element: "#add-gate-request",
+            popover: {
+              title: "Schedule a Guest Visit",
+              description:
+                "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
+            },
+          },
+        ]}
+      />
     </Fragment>
   );
 }

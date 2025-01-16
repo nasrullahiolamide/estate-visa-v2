@@ -101,9 +101,11 @@ export function ConfirmationModal({
         ) : (
           <Flex justify='center' gap={20} mt={20} wrap='wrap'>
             <Button
-              w='fit-content'
               variant='outline'
-              className='sm:flex-1'
+              h={40}
+              fz={14}
+              size='compact-sm'
+              flex={1}
               color='gray.12'
               onClick={secondaryBtnProps?.onClick || handleCancel}
               {...secondaryBtnProps}
@@ -111,7 +113,9 @@ export function ConfirmationModal({
               {secondaryBtnText}
             </Button>
             <Button
-              w='fit-content'
+              h={40}
+              fz={14}
+              size='compact-sm'
               flex={1}
               onClick={primaryBtnProps?.onClick || handleCancel}
               {...primaryBtnProps}

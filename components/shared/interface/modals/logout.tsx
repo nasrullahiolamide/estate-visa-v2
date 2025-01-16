@@ -26,7 +26,7 @@ export function ConfirmLogout() {
         title='Are you sure you want to sign out of your account?'
         src='exit'
         primaryBtnText='Sign Out'
-        secondaryBtnText='Stay'
+        secondaryBtnText='Stay logged in'
         srcProps={{
           ml: 0,
         }}
