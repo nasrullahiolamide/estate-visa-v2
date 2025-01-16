@@ -185,6 +185,7 @@ export default function Gates() {
           placeholder: "Search by code, e.g. '1234'",
           title: "Gate Request",
           type: "number",
+          id: "gate-request-search",
         }}
         options={
           <HeaderOptions
@@ -250,15 +251,17 @@ export default function Gates() {
           {
             element: "#gate-request-search",
             popover: {
-              title: "Search for gate requests",
-              description: "Search for gate requests by their code",
+              title: "Find gate requests easily",
+              description:
+                "Search for gate requests by their code to quickly locate them.",
             },
           },
           {
-            element: ".flow-row",
+            element: "#flow-row",
             popover: {
-              title: "Gate Request",
-              description: "Click on a row to view the gate request",
+              title: "View gate request details",
+              description:
+                "Click on a row to view all the details of the selected gate request and approve.",
             },
           },
         ]}

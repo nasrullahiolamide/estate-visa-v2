@@ -92,7 +92,6 @@ export function FlowSearch(props: FlowSearchProps) {
     </Modal>
   ) : (
     <ActionIcon
-      id={props.id}
       hidden={props.hidden}
       variant='transparent'
       onClick={() => {
@@ -102,6 +101,7 @@ export function FlowSearch(props: FlowSearchProps) {
       className={clsx("lg-border lg:border-blue-8 lg:w-12 lg:h-[42px]")}
     >
       <SearchIcon
+        id={props.id}
         height={20}
         width={25}
         className='lg:text-blue-8 text-primary-text-caption'
