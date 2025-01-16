@@ -202,6 +202,7 @@ export default function Gates() {
         />
       </FlowContainer>
       <QuickTour
+        storageKey='oQtr'
         steps={[
           {
             element: "#add-gate-request",
