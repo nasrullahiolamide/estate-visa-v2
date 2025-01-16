@@ -54,7 +54,7 @@ export function AppShellHeader({
   const pathname = usePathname();
 
   const heading = (
-    <h1 className='text-lg sm:text-2xl text-primary-text-body font-bold pl-2 lg:pl-0'>
+    <h1 className='text-lg sm:text-2xl text-primary-text-body font-medium pl-2 lg:pl-0'>
       {title}
     </h1>
   );
