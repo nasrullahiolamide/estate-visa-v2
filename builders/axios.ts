@@ -1,4 +1,9 @@
-import axios, { InternalAxiosRequestConfig } from "axios";
+import { PAGES } from "@/packages/libraries";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { getCookies } from "cookies-next";
 import qs from "query-string";
 
@@ -30,4 +35,18 @@ function handleRequest(config: InternalAxiosRequestConfig<any>) {
   return config;
 }
 
+function handleResponse(error: AxiosError) {
+  console.error(error);
+  if (error?.response?.status == 401)
+    window.location.href = PAGES.LOGIN + "?session=expired";
+
+  return Promise.reject(error);
+}
+
 api.interceptors.request.use(handleRequest);
+api.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  handleResponse
+);
+
+// api.interceptors.request.use(handleRequest);

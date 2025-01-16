@@ -18,6 +18,7 @@ import "@/styles/accent.scss";
 import "@/styles/index.css";
 
 import "aos/dist/aos.css";
+import "driver.js/dist/driver.css";
 
 export const metadata: Metadata = {
   title: "Estate Visa",

@@ -4,8 +4,8 @@ import { builder } from "@/builders";
 import { AvailableDashboards, LoginResponseData } from "@/builders/types/login";
 import { requiredString } from "@/builders/types/shared";
 import { navigate } from "@/packages/actions";
-import { APP, handleLogin, PAGES } from "@/packages/libraries";
-import { handleError } from "@/packages/notification";
+import { APP, handleLogin, PAGES, USER_TYPE } from "@/packages/libraries";
+import { handleError, handleSuccess } from "@/packages/notification";
 import {
   Box,
   Button,
@@ -18,11 +18,10 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect } from "react";
 import { boolean, object } from "yup";
-
-import Link from "next/link";
 
 const schema = object({
   username: requiredString,
@@ -74,7 +73,12 @@ export default function Page() {
           user_type,
           ...data,
         });
-        navigate(user.isOnboarded ? callbackUrl : PAGES.ONBOARDING);
+
+        handleSuccess("Login successful");
+
+        user_type === USER_TYPE.GATEMAN
+          ? navigate(callbackUrl)
+          : navigate(user.isOnboarded ? callbackUrl : PAGES.ONBOARDING);
       }
 
       if (data) loginCallback(data);

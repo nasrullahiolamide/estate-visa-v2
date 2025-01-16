@@ -92,9 +92,7 @@ export function GateForm({
       status,
       estateId,
     };
-    isEditing
-      ? updateGate({ id: data?.id ?? "", data: updatedData })
-      : addGate(updatedData);
+    isEditing ? updateGate({ id, data: updatedData }) : addGate(updatedData);
   };
 
   const { modalType, ...values } = form.getValues();

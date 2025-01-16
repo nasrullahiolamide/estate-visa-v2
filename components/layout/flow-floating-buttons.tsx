@@ -58,7 +58,7 @@ export function FlowFloatingButtons({
   hidden,
   ...containerProps
 }: FlowFloatingButtonsProps) {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const dragIconRef = useRef<HTMLButtonElement | null>(null);
 

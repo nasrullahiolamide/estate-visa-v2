@@ -84,12 +84,14 @@ export default function Template({ children }: TemplateProps) {
                 leftSection={<DashboardIcon />}
                 href={PAGES.DASHBOARD}
                 label={"Overview"}
+                id='overview'
                 opened={opened}
               />
               <AppShellButton
                 leftSection={<AirlineManageGateIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS)}
                 label={"Gate Requests"}
+                id='gate-requests'
                 opened={opened}
               />
               <AppShellButton

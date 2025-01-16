@@ -4,14 +4,12 @@ import { builder } from "@/builders";
 import { useFakeAdminDashboardData } from "@/builders/types/admin-dashboard";
 import {
   AccessRequests,
-  // RecentActivities,
   ServiceRequests,
   StatisticsOverview,
 } from "@/components/admin/overview";
 import { AppShellHeader, AppShellMain } from "@/components/admin/shared";
 import { PAGES } from "@/packages/libraries";
 import { getFeatureFlag } from "@/packages/libraries/auth";
-
 import { Flex, Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { Fragment, useMemo } from "react";

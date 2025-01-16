@@ -27,6 +27,7 @@ export enum APP {
   ONBOARDED = "oBd",
   CALLBACK_URL = "cUrl",
   EVISA_ACCOUNT = "eVsa",
+  HAS_COMPLETED_TOUR = "hCTr",
 }
 
 export enum USER_TYPE {
