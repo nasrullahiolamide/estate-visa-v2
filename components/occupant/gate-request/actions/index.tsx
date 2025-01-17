@@ -41,21 +41,6 @@ export function GateRequestActions({
 }: GateRequestActionsProps) {
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: builder.$use.gates.requests.remove,
-    onError: () => {
-      handleError()();
-      modals.close(MODALS.CONFIRMATION);
-    },
-    onSuccess: () => {
-      handleSuccess("Gate Request Deleted Successfully", { autoClose: 1200 });
-      queryClient.invalidateQueries({
-        queryKey: builder.gates.requests.get.$get(),
-      });
-      modals.close(MODALS.CONFIRMATION);
-    },
-  });
-
   const { mutate: changeStatus } = useMutation({
     mutationFn: builder.$use.gates.requests.change_status,
     onError: () => {
@@ -72,34 +57,6 @@ export function GateRequestActions({
       modals.close(MODALS.CONFIRMATION);
     },
   });
-
-  const handleDelete = () => {
-    modals.open({
-      children: (
-        <ConfirmationModal
-          withTwoButtons
-          title='Are you sure you want to delete this gate request?'
-          src='delete'
-          primaryBtnText='Yes, delete'
-          secondaryBtnText='No'
-          srcProps={{
-            ml: 0,
-          }}
-          secondaryBtnProps={{
-            disabled: isPending,
-          }}
-          primaryBtnProps={{
-            color: "red",
-            loading: isPending,
-            disabled: isPending,
-            onClick: () => mutate(id),
-          }}
-        />
-      ),
-      withCloseButton: false,
-      modalId: MODALS.CONFIRMATION,
-    });
-  };
 
   const Actions: Record<PropertyKey, ReactNode> = {
     pending: (
@@ -128,7 +85,7 @@ export function GateRequestActions({
           <Menu.Item
             color='#CC0404'
             leftSection={<TrashIcon width={15} />}
-            onClick={handleDelete}
+            onClick={() => handleDelete(id)}
           >
             Delete
           </Menu.Item>
@@ -143,7 +100,7 @@ export function GateRequestActions({
           <Menu.Item
             color='#CC0404'
             leftSection={<TrashIcon width={15} />}
-            onClick={handleDelete}
+            onClick={() => handleDelete(id)}
           >
             Delete
           </Menu.Item>
@@ -157,7 +114,7 @@ export function GateRequestActions({
           <Menu.Item
             color='#CC0404'
             leftSection={<TrashIcon width={15} />}
-            onClick={handleDelete}
+            onClick={() => handleDelete(id)}
           >
             Delete
           </Menu.Item>
@@ -233,4 +190,51 @@ export const handleShare = (data: GateRequestData) => {
       />
     ),
   });
+};
+
+export const handleDelete = (id: string) => {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: builder.$use.gates.requests.remove,
+    onError: () => {
+      handleError()();
+      modals.close(MODALS.CONFIRMATION);
+    },
+    onSuccess: () => {
+      handleSuccess("Gate Request Deleted Successfully", { autoClose: 1200 });
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.$get(),
+      });
+      modals.close(MODALS.CONFIRMATION);
+    },
+  });
+
+  modals.open({
+    children: (
+      <ConfirmationModal
+        withTwoButtons
+        title='Are you sure you want to delete this gate request?'
+        src='delete'
+        primaryBtnText='Yes, delete'
+        secondaryBtnText='No'
+        srcProps={{
+          ml: 0,
+        }}
+        secondaryBtnProps={{
+          disabled: isPending,
+        }}
+        primaryBtnProps={{
+          color: "red",
+          loading: isPending,
+          disabled: isPending,
+          onClick: () => mutate(id),
+        }}
+      />
+    ),
+    withCloseButton: false,
+    modalId: MODALS.CONFIRMATION,
+  });
+
+  return null;
 };

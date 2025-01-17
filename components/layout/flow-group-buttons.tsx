@@ -1,28 +1,26 @@
 import { Button, ButtonProps, Divider, Flex, Menu, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { ArrowDown2 } from "iconsax-react";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ArrowDown2, Icon } from "iconsax-react";
+import { ButtonHTMLAttributes } from "react";
 
 interface FlowGroupButtonsAttributes
   extends ButtonProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps> {
-  children: ReactNode;
+  label: string;
+  onClick?: () => void;
+  icon: Icon;
+  default?: boolean;
 }
 
 type FlowFormButtons = FlowGroupButtonsAttributes;
 
 interface FlowGroupButtons {
   label?: string;
-  buttons: {
-    name: string;
-    icon: any;
-    type: string;
-    onClick?: () => void;
-    default?: boolean;
-  }[];
+  isLoading?: boolean;
+  buttons: FlowGroupButtonsAttributes[];
 }
 
-export function FlowGroupButtons({ buttons }: FlowGroupButtons) {
+export function FlowGroupButtons({ buttons, isLoading }: FlowGroupButtons) {
   const hover = useForm({
     initialValues: { hovered: false, iconIndex: null as number | null },
   });
@@ -39,13 +37,14 @@ export function FlowGroupButtons({ buttons }: FlowGroupButtons) {
         fz={14}
         flex={1}
         fw={500}
+        loading={isLoading}
+        disabled={isLoading}
         onClick={defaultButton?.onClick}
-        leftSection={defaultButton?.icon}
       >
-        {defaultButton?.name}
+        {defaultButton?.label}
       </Button>
       <Divider orientation='vertical' color='#F5F5F6' />
-      <Menu position='bottom-end'>
+      <Menu position='bottom-end' disabled={buttons.length === 1}>
         <Menu.Target>
           <Button px='sm'>
             <ArrowDown2 size='16' />
@@ -55,11 +54,11 @@ export function FlowGroupButtons({ buttons }: FlowGroupButtons) {
           {buttons.map((option, i) => {
             if (option.default) return null;
             return (
-              <Menu.Item key={option.name} p={0}>
+              <Menu.Item key={option.label} p={0}>
                 <Flex
                   wrap='wrap'
                   gap='sm'
-                  key={option.name}
+                  key={option.label}
                   className='p-3 cursor-pointer hover:bg-purple-7 hover:bg-opacity-30 w-full'
                   onClick={option.onClick}
                   onMouseEnter={() =>
@@ -77,16 +76,16 @@ export function FlowGroupButtons({ buttons }: FlowGroupButtons) {
                     }))
                   }
                 >
-                  {/* <option.icon
-                  width='16'
-                  color='blue'
-                  // variant={
-                  //   hover.values.hovered && hover.values.iconIndex === i
-                  //     ? "Bold"
-                  //     : "Outline"
-                  // }
-                /> */}
-                  <Text className='text-sm'> {option.name}</Text>
+                  <option.icon
+                    width='16'
+                    color='blue'
+                    variant={
+                      hover.values.hovered && hover.values.iconIndex === i
+                        ? "Bold"
+                        : "Outline"
+                    }
+                  />
+                  <Text className='text-sm'> {option.label}</Text>
                 </Flex>
               </Menu.Item>
             );

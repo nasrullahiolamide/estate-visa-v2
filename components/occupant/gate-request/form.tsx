@@ -5,7 +5,7 @@ import { GateRequestData } from "@/builders/types/gate-requests";
 import { FlowGroupButtons, FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
-import { EditIcon, ShareIcon, TrashIcon } from "@/icons";
+import { CancelCircleIcon, EditIcon, ShareIcon, TrashIcon } from "@/icons";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
 import { APP, cast, formatDate, MODALS } from "@/packages/libraries";
@@ -16,8 +16,7 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { CancelCircleIcon } from "hugeicons-react";
-import { handleShare } from "./actions";
+import { handleDelete, handleShare } from "./actions";
 import { schema } from "./schema";
 
 import dayjs from "dayjs";
@@ -90,29 +89,20 @@ export function GateRequestForm({
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
 
-  const btnOptions = [
+  const defaultActions = [
     {
-      name: "Edit Request",
-      type: "edit",
-      icon: EditIcon,
-      default: true,
-      onClick: () => form.setValues({ modalType: "edit" }),
-    },
-    {
-      name: "Share Request",
-      type: "share",
+      label: "Share Request",
       icon: ShareIcon,
       onClick: () => handleShare(data as GateRequestData),
     },
     {
-      name: "Cancel Request",
-      type: "cancel",
+      label: "Cancel Request",
       icon: CancelCircleIcon,
     },
     {
-      name: "Delete",
-      type: "delete",
+      label: "Delete",
       icon: TrashIcon,
+      onClick: () => handleDelete(id),
     },
   ];
 
@@ -161,18 +151,52 @@ export function GateRequestForm({
           {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
-          <FlowGroupButtons buttons={btnOptions} />
-        ) : isEditing ? (
-          <Button
-            mt={10}
-            loading={isUpdating}
-            disabled={isUpdating}
-            onClick={() =>
-              updateRequest({ id, data: form.getTransformedValues() })
+          <FlowGroupButtons
+            buttons={
+              data?.status === "Pending"
+                ? [
+                    {
+                      label: "Edit Request",
+                      icon: EditIcon,
+                      default: true,
+                      onClick: () => form.setValues({ modalType: "edit" }),
+                    },
+                    ...defaultActions,
+                  ]
+                : [
+                    {
+                      label: "Delete",
+                      icon: TrashIcon,
+                    },
+                  ]
             }
-          >
-            Update Request
-          </Button>
+          />
+        ) : isEditing ? (
+          <FlowGroupButtons
+            isLoading={isUpdating || isPending}
+            buttons={
+              data?.status === "Pending"
+                ? [
+                    {
+                      label: "Update Request",
+                      icon: EditIcon,
+                      default: true,
+                      onClick: () =>
+                        updateRequest({
+                          id,
+                          data: form.getTransformedValues(),
+                        }),
+                    },
+                    ...defaultActions,
+                  ]
+                : [
+                    {
+                      label: "Delete",
+                      icon: TrashIcon,
+                    },
+                  ]
+            }
+          />
         ) : (
           <Button
             mt={10}
