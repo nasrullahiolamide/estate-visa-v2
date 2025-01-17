@@ -175,7 +175,7 @@ export function GateRequestForm({
           <FlowGroupButtons
             isLoading={isUpdating || isPending}
             buttons={
-              data?.status === "Pending"
+              data?.status === "pending"
                 ? [
                     {
                       label: "Update Request",
