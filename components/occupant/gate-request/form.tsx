@@ -153,7 +153,7 @@ export function GateRequestForm({
         {isViewing ? (
           <FlowGroupButtons
             buttons={
-              data?.status === "Pending"
+              data?.status === "pending"
                 ? [
                     {
                       label: "Edit Request",
