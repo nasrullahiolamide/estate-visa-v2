@@ -47,6 +47,7 @@ type Icon =
   | "list";
 
 type Button = {
+  id: string;
   icon: Icon;
   filterData?: FilterData;
   btnProps?: BtnProps;
@@ -193,7 +194,7 @@ export function FlowFloatingButtons({
       {...containerProps}
     >
       <Stack justify='center' align='center'>
-        {buttons?.map(({ icon, btnProps, filterData, label }, index) => (
+        {buttons?.map(({ icon, btnProps, filterData, label, id }, index) => (
           <Transition
             key={icon}
             mounted={visible}
@@ -213,6 +214,7 @@ export function FlowFloatingButtons({
                   />
                 ) : (
                   <Button
+                    id={id}
                     radius='md'
                     w={40}
                     h={40}

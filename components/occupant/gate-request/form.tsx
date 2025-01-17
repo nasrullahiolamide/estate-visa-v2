@@ -2,9 +2,10 @@
 
 import { builder } from "@/builders";
 import { GateRequestData } from "@/builders/types/gate-requests";
-import { FlowPhoneInput } from "@/components/layout";
+import { FlowGroupButtons, FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { TimePickerInput } from "@/components/shared/interface";
+import { EditIcon, ShareIcon, TrashIcon } from "@/icons";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { DATE_FORMAT, TIME_FORMAT } from "@/packages/constants/time";
 import { APP, cast, formatDate, MODALS } from "@/packages/libraries";
@@ -15,6 +16,7 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
+import { CancelCircleIcon } from "hugeicons-react";
 import { handleShare } from "./actions";
 import { schema } from "./schema";
 
@@ -88,6 +90,32 @@ export function GateRequestForm({
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
 
+  const btnOptions = [
+    {
+      name: "Edit Request",
+      type: "edit",
+      icon: EditIcon,
+      default: true,
+      onClick: () => form.setValues({ modalType: "edit" }),
+    },
+    {
+      name: "Share Request",
+      type: "share",
+      icon: ShareIcon,
+      onClick: () => handleShare(data as GateRequestData),
+    },
+    {
+      name: "Cancel Request",
+      type: "cancel",
+      icon: CancelCircleIcon,
+    },
+    {
+      name: "Delete",
+      type: "delete",
+      icon: TrashIcon,
+    },
+  ];
+
   return (
     <Form form={form}>
       <FlowContainer
@@ -133,9 +161,7 @@ export function GateRequestForm({
           {...form.getInputProps("visitTime")}
         />
         {isViewing ? (
-          <Button mt={10} onClick={() => form.setValues({ modalType: "edit" })}>
-            Edit
-          </Button>
+          <FlowGroupButtons buttons={btnOptions} />
         ) : isEditing ? (
           <Button
             mt={10}
