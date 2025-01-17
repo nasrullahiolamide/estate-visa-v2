@@ -47,7 +47,7 @@ type Icon =
   | "list";
 
 type Button = {
-  id: string;
+  id?: string;
   icon: Icon;
   filterData?: FilterData;
   btnProps?: BtnProps;
