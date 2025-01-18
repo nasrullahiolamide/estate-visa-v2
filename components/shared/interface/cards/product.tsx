@@ -14,6 +14,7 @@ import clsx from "clsx";
 interface ProductCardProps {
   list: ProductData;
   onClick?: () => void;
+  onEdit?: () => void;
   viewId: "admin" | "owner" | "viewer";
   skeleton?: boolean;
 }
@@ -50,6 +51,7 @@ export const productStatusColorConfig: Record<
 export function ProductCard({
   list,
   onClick,
+  onEdit,
   viewId,
   skeleton,
 }: ProductCardProps) {
@@ -136,7 +138,14 @@ export function ProductCard({
                 disabled: isRemoving,
               },
             },
-            { label: "Edit", color: "blue", props: { disabled: isRemoving } },
+            {
+              label: "Edit",
+              color: "blue",
+              props: {
+                disabled: isRemoving,
+                onClick: onEdit,
+              },
+            },
           ]}
         />
       )}

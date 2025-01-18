@@ -26,6 +26,10 @@ const change_status = function ({
   return api.put(`/products/change-status/${id}`, { status });
 };
 
+const edit = function ({ id, data }: { id: string; data: UpdateProductData }) {
+  return api.put(`/products/${id}`, { data });
+};
+
 const remove = function (id: string) {
   return api.delete(`/products/${id}`);
 };
@@ -43,6 +47,7 @@ const review = function (data: ReviewProduct) {
 export const products = {
   get,
   post,
+  edit,
   change_status,
   remove,
   listing,

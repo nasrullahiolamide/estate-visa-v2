@@ -17,8 +17,8 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { AddProduct } from "@/components/occupant/market-place/add-product";
 import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
+import { ViewProduct } from "@/components/occupant/market-place/owner-product";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { AddIcon, ListIcon } from "@/icons";
@@ -65,9 +65,9 @@ const filterOptions = [
 
 const addProduct = () => {
   modals.open({
-    modalId: MODALS.ADD_DETAILS,
+    modalId: MODALS.FORM_DETAILS,
     title: "Add a New Product for Sale",
-    children: <AddProduct />,
+    children: <ViewProduct modalType='add' />,
   });
 };
 

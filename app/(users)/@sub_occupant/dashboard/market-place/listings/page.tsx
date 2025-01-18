@@ -12,7 +12,10 @@ import {
   useFlowState,
 } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { AddProduct } from "@/components/occupant/market-place/add-product";
+import {
+  ViewProduct,
+  ViewProductProps,
+} from "@/components/occupant/market-place/owner-product";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { ProductCard } from "@/components/shared/interface/cards/product";
@@ -54,11 +57,11 @@ const filterOptions = [
   },
 ];
 
-const addProduct = () => {
+const handleProduct = ({ data, modalType }: ViewProductProps) => {
   modals.open({
-    modalId: MODALS.ADD_DETAILS,
-    title: "Add a New Product for Sale",
-    children: <AddProduct />,
+    modalId: MODALS.FORM_DETAILS,
+    title: modalType === "add" ? "Add a new product for sale" : "Edit Product",
+    children: <ViewProduct data={data} modalType={modalType} />,
   });
 };
 
@@ -133,6 +136,7 @@ export default function Listings() {
                 list={item}
                 viewId='owner'
                 skeleton={isPlaceholderData}
+                onEdit={() => handleProduct({ data: item, modalType: "edit" })}
               />
             ))}
           </FlowContentHorizontal>
@@ -144,7 +148,7 @@ export default function Listings() {
             text='Add New Product'
             btnProps={{
               leftSection: <AddIcon />,
-              onClick: addProduct,
+              onClick: () => handleProduct({ modalType: "add" }),
             }}
           />
         )}
@@ -168,7 +172,7 @@ export default function Listings() {
             {
               icon: "add",
               btnProps: {
-                onClick: addProduct,
+                onClick: () => handleProduct({ modalType: "add" }),
               },
             },
           ]}
@@ -181,7 +185,12 @@ export default function Listings() {
 function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
-      <Button fz='sm' size='md' leftSection={<AddIcon />} onClick={addProduct}>
+      <Button
+        fz='sm'
+        size='md'
+        leftSection={<AddIcon />}
+        onClick={() => handleProduct({ modalType: "add" })}
+      >
         Add Product
       </Button>
       <FilterDropdown label='Filter' data={filterOptions} />

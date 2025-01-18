@@ -1,18 +1,19 @@
 "use client";
 
 import { builder } from "@/builders";
-import { UpdateProductData } from "@/builders/types/products";
+import { ProductData, UpdateProductData } from "@/builders/types/products";
 import { requiredString } from "@/builders/types/shared";
-import { FlowPhoneInput } from "@/components/layout";
+import { FlowGroupButtons, FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ConfirmationModal } from "@/components/shared/interface";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
+import { AddIcon, EditIcon, TrashIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { APP, cast, MODALS } from "@/packages/libraries";
 import { formatCurrency } from "@/packages/libraries/formatters/currency";
-import { handleError } from "@/packages/notification";
-import { Button, Select, Textarea, TextInput } from "@mantine/core";
+import { handleError, handleSuccess } from "@/packages/notification";
+import { Select, Textarea, TextInput } from "@mantine/core";
 import { MIME_TYPES } from "@mantine/dropzone";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
@@ -32,9 +33,24 @@ const schema = object({
   phone: requiredString,
 });
 
-export function AddProduct() {
+export interface ViewProductProps {
+  data?: ProductData;
+  modalType: "add" | "edit" | "view";
+}
+
+export function ViewProduct({ data, modalType = "view" }: ViewProductProps) {
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const queryClient = useQueryClient();
+
+  const {
+    id = "",
+    name = "",
+    description = "",
+    price = "",
+    category = "",
+    image = "",
+    phone = "",
+  } = { ...data };
 
   const [formattedPrice, setFormattedPrice] = useState("");
 
@@ -64,14 +80,41 @@ export function AddProduct() {
     onError: handleError(),
   });
 
+  const { mutate: updateProduct, isPending: isUpdating } = useMutation({
+    mutationFn: builder.$use.products.edit,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: builder.products.get.$get(),
+      });
+      modals.close(MODALS.FORM_DETAILS);
+      handleSuccess("Product updated successfully");
+    },
+    onError: handleError(),
+  });
+
+  const { mutate: deleteProduct, isPending: isDeleting } = useMutation({
+    mutationFn: builder.$use.products.remove,
+    onError: () => {
+      handleError()();
+      modals.close(MODALS.FORM_DETAILS);
+    },
+    onSuccess: () => {
+      handleSuccess("Product deleted successfully");
+      queryClient.invalidateQueries({
+        queryKey: builder.products.get.$get(),
+      });
+      modals.close(MODALS.FORM_DETAILS);
+    },
+  });
+
   const form = useForm<UpdateProductData>({
     initialValues: {
-      name: "",
-      description: "",
-      price: "",
-      category: "",
-      image: "",
-      phone: "",
+      name,
+      description,
+      price,
+      category,
+      image,
+      phone,
       estateId,
     },
     validate: yupResolver(schema),
@@ -174,15 +217,42 @@ export function AddProduct() {
           {...form.getInputProps("phone")}
         />
       </FlowContainer>
-      <Button
-        mt={25}
-        type='submit'
-        loading={isPending}
-        disabled={isPending}
-        w='100%'
-      >
-        Add Product
-      </Button>
+
+      {modalType === "add" ? (
+        <FlowGroupButtons
+          isLoading={isPending || isUpdating || isDeleting}
+          buttons={[
+            {
+              label: "Add Product",
+              icon: AddIcon,
+              default: true,
+              onClick: () => handleSubmit(form.values),
+            },
+            {
+              label: "Delete",
+              icon: TrashIcon,
+              onClick: () => deleteProduct(id),
+            },
+          ]}
+        />
+      ) : (
+        <FlowGroupButtons
+          isLoading={isPending || isUpdating || isDeleting}
+          buttons={[
+            {
+              label: "Edit Product",
+              icon: EditIcon,
+              default: true,
+              onClick: () => updateProduct({ id, data: form.values }),
+            },
+            {
+              label: "Delete",
+              icon: TrashIcon,
+              onClick: () => deleteProduct(id),
+            },
+          ]}
+        />
+      )}
     </Form>
   );
 }
