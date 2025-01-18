@@ -150,7 +150,7 @@ const TableHeader = <T,>({ headerGroup, skeleton }: TableHeaderProps<T>) => (
     {headerGroup.headers.map((header) => (
       <Table.Th
         lh={2}
-        fw={500}
+        fw={600}
         key={header.id}
         className={clsx(
           "text-primary-text-body px-6 py-4 sm:py-6 bg-white text-center",
