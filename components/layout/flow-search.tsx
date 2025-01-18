@@ -15,6 +15,7 @@ import { useFlowDispatch } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
 
 import clsx from "clsx";
+import { useQueryState } from "nuqs";
 
 export type FlowSearchProps = TextInputProps & {
   isloading?: boolean;
@@ -26,7 +27,9 @@ export type FlowSearchProps = TextInputProps & {
 export function FlowSearch(props: FlowSearchProps) {
   const [showSearchField, setShowSearchField] = useState(false);
   const [opened, { open, close }] = useDisclosure(showSearchField);
-
+  const [query, setQuery] = useQueryState("q", {
+    defaultValue: "",
+  });
   const dispatch = useFlowDispatch();
 
   const ref = useClickOutside(() => {
@@ -36,6 +39,8 @@ export function FlowSearch(props: FlowSearchProps) {
   const handleSubmit = ({ query }: typeof form.values) => {
     if (query === "") return;
 
+    setQuery(query);
+
     dispatch({
       type: FlowActionType.SET_SEARCH_QUERY,
       payload: query,
@@ -44,12 +49,13 @@ export function FlowSearch(props: FlowSearchProps) {
 
   const form = useForm({
     initialValues: {
-      query: "",
+      query,
     },
   });
 
   useEffect(() => {
     if (form.values.query === "") {
+      setQuery("");
       dispatch({
         type: FlowActionType.SET_SEARCH_QUERY,
         payload: "",

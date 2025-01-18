@@ -61,9 +61,41 @@ export function GateRequestForm({
         queryKey: builder.gates.requests.get.$get(),
       });
       modals.close(MODALS.FORM_DETAILS);
-      handleSuccess("Gate Request Updated Successfully");
+      handleSuccess("Gate Request updated successfully");
     },
     onError: handleError(),
+  });
+
+  const { mutate: changeStatus, isPending: isChanging } = useMutation({
+    mutationFn: builder.$use.gates.requests.change_status,
+    onError: () => {
+      handleError()();
+      modals.close(MODALS.FORM_DETAILS);
+    },
+    onSuccess: () => {
+      handleSuccess("Gate Request status updated successfully", {
+        autoClose: 1200,
+      });
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.$get(),
+      });
+      modals.close(MODALS.FORM_DETAILS);
+    },
+  });
+
+  const { mutate: deleteRequest, isPending: isDeleting } = useMutation({
+    mutationFn: builder.$use.gates.requests.remove,
+    onError: () => {
+      handleError()();
+      modals.closeAll();
+    },
+    onSuccess: () => {
+      handleSuccess("Gate Request deleted successfully", { autoClose: 1200 });
+      queryClient.invalidateQueries({
+        queryKey: builder.gates.requests.get.$get(),
+      });
+      modals.closeAll();
+    },
   });
 
   const form = useForm({
@@ -98,11 +130,13 @@ export function GateRequestForm({
     {
       label: "Cancel Request",
       icon: CancelCircleIcon,
+      onClick: () => changeStatus({ id, status: "cancelled" }),
     },
     {
       label: "Delete",
       icon: TrashIcon,
-      onClick: () => handleDelete(id),
+      onClick: () =>
+        handleDelete({ id, mutate: deleteRequest, isPending: isDeleting }),
     },
   ];
 
@@ -152,6 +186,7 @@ export function GateRequestForm({
         />
         {isViewing ? (
           <FlowGroupButtons
+            isLoading={isUpdating || isPending || isChanging}
             buttons={
               data?.status === "pending"
                 ? [
@@ -166,14 +201,21 @@ export function GateRequestForm({
                 : [
                     {
                       label: "Delete",
+                      default: true,
                       icon: TrashIcon,
+                      onClick: () =>
+                        handleDelete({
+                          id,
+                          mutate: deleteRequest,
+                          isPending: isDeleting,
+                        }),
                     },
                   ]
             }
           />
         ) : isEditing ? (
           <FlowGroupButtons
-            isLoading={isUpdating || isPending}
+            isLoading={isUpdating || isPending || isChanging}
             buttons={
               data?.status === "pending"
                 ? [
@@ -192,7 +234,14 @@ export function GateRequestForm({
                 : [
                     {
                       label: "Delete",
+                      default: true,
                       icon: TrashIcon,
+                      onClick: () =>
+                        handleDelete({
+                          id,
+                          mutate: deleteRequest,
+                          isPending: isDeleting,
+                        }),
                     },
                   ]
             }

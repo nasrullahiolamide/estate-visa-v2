@@ -25,7 +25,7 @@ import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { QuickTour } from "@/components/shared/interface/quick-tour";
 import { AddIcon } from "@/icons";
-import { MODALS } from "@/packages/libraries";
+import { MODALS, USER_TYPE } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
@@ -204,7 +204,8 @@ export default function Gates() {
       </FlowContainer>
       {!noDataAvailable && !isPlaceholderData && (
         <QuickTour
-          storageKey='oQtr'
+          profile={USER_TYPE.OCCUPANT}
+          feature='gate-requests'
           steps={[
             {
               element: "#step-1",

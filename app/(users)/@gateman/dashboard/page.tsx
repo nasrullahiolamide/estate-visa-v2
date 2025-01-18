@@ -24,7 +24,7 @@ import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { QuickTour } from "@/components/shared/interface/quick-tour";
 import { DownloadIcon } from "@/icons";
-import { cast, MODALS } from "@/packages/libraries";
+import { cast, MODALS, USER_TYPE } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
@@ -185,7 +185,7 @@ export default function Gates() {
           placeholder: "Search by code, e.g. '1234'",
           title: "Gate Request",
           type: "number",
-          id: "gate-request-search",
+          id: "search",
         }}
         options={
           <HeaderOptions
@@ -247,9 +247,11 @@ export default function Gates() {
         />
       </FlowContainer>
       <QuickTour
+        profile={USER_TYPE.GATEMAN}
+        feature='gate-request'
         steps={[
           {
-            element: "#gate-request-search",
+            element: "#search",
             popover: {
               title: "Find gate requests easily",
               description:
@@ -281,12 +283,12 @@ function HeaderOptions({
   return (
     <Flex gap={14} wrap='wrap' align='center' hidden={!query && isLoading}>
       <FlowSearch
-        id='gate-request-search'
+        id='search'
         isloading={cast.string(isLoading)}
         placeholder="Search by code, e.g. '1234'"
         type='number'
         title='Gate Request'
-        hidden={hidden}
+        hidden={!query && hidden}
       />
       <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
