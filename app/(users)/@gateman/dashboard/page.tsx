@@ -21,16 +21,14 @@ import {
 } from "@/components/layout";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { QuickTour } from "@/components/shared/interface/quick-tour";
-import { DownloadIcon } from "@/icons";
 import { cast, MODALS, USER_TYPE } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { Fragment, useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -74,6 +72,7 @@ export default function Gates() {
   const queryClient = useQueryClient();
   const initialGateRequestList = useMemo(() => useFakeGateRequestList(), []);
   const pagination = useFlowPagination();
+  const [startTour, setStartTour] = useState(false);
 
   const {
     page,
@@ -234,14 +233,11 @@ export default function Gates() {
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
             {
-              icon: "download",
+              icon: "help",
+              label: "Show Quick Tour",
               btnProps: {
-                onClick: () => {},
+                onClick: () => setStartTour(!startTour),
               },
-            },
-            {
-              icon: "filter",
-              filterData: filterOptions,
             },
           ]}
         />
@@ -249,6 +245,7 @@ export default function Gates() {
       <QuickTour
         profile={USER_TYPE.GATEMAN}
         feature='gate-request'
+        restart={startTour}
         steps={[
           {
             element: "#search",
@@ -290,7 +287,7 @@ function HeaderOptions({
         title='Gate Request'
         hidden={!query && hidden}
       />
-      <Flex hidden={hidden || isLoading} gap={14}>
+      {/* <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
         <Button
           variant='outline'
@@ -300,7 +297,7 @@ function HeaderOptions({
         >
           Download Table
         </Button>
-      </Flex>
+      </Flex> */}
     </Flex>
   );
 }

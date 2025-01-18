@@ -1,10 +1,14 @@
+"use client";
+
 import { APP, USER_TYPE } from "@/packages/libraries";
 import { Config, driver, DriveStep } from "driver.js";
 import { useEffect } from "react";
 
 interface QuickTourProps extends Config {
   steps: DriveStep[];
+  feature: string;
   onComplete?: () => void;
+  restart?: boolean;
   profile:
     | USER_TYPE.ADMIN
     | USER_TYPE.GATEMAN
@@ -13,7 +17,6 @@ interface QuickTourProps extends Config {
     | USER_TYPE.SUB_OCCUPANT
     | USER_TYPE.SUB_ADMIN
     | USER_TYPE.SUPER_ADMIN;
-  feature: string;
 }
 
 export function QuickTour({
@@ -21,40 +24,39 @@ export function QuickTour({
   onComplete,
   profile,
   feature,
+  restart,
   ...props
 }: QuickTourProps) {
+  const storageKey = APP.HAS_COMPLETED_TOUR;
+  const storedData = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+  const driverObj = driver({
+    showProgress: true,
+    steps,
+    onDestroyed: () => {
+      const updatedData = {
+        ...storedData,
+        [profile]: {
+          ...storedData[profile],
+          [feature]: "true",
+        },
+      };
+
+      localStorage.setItem(storageKey, JSON.stringify(updatedData));
+
+      if (onComplete) onComplete();
+    },
+    ...props,
+  });
+
   useEffect(() => {
-    const storageKey = APP.HAS_COMPLETED_TOUR;
-
-    const storedData = JSON.parse(localStorage.getItem(storageKey) || "{}");
-
     if (storedData[profile]?.[feature]) return;
+    else driverObj.drive();
+  }, []);
 
-    const driverObj = driver({
-      showProgress: true,
-      steps,
-      onDestroyed: () => {
-        const updatedData = {
-          ...storedData,
-          [profile]: {
-            ...storedData[profile],
-            [feature]: "true",
-          },
-        };
-
-        localStorage.setItem(storageKey, JSON.stringify(updatedData));
-
-        if (onComplete) onComplete();
-      },
-      ...props,
-    });
-
+  useEffect(() => {
     driverObj.drive();
-
-    return () => {
-      driverObj.refresh();
-    };
-  }, [steps, onComplete, profile, feature, props]);
+  }, [restart]);
 
   return null;
 }

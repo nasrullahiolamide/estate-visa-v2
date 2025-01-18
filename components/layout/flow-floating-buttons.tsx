@@ -25,6 +25,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { MdQuestionMark } from "react-icons/md";
 import { FilterData, FilterDropdown } from "../shared/interface/dropdowns";
 
 enum IconType {
@@ -35,6 +36,7 @@ enum IconType {
   NOTES = "notes",
   CLOCK = "clock",
   LIST = "list",
+  HELP = "help",
 }
 
 type Icon =
@@ -44,7 +46,8 @@ type Icon =
   | "notes"
   | "clock"
   | "filter"
-  | "list";
+  | "list"
+  | "help";
 
 type Button = {
   id?: string;
@@ -79,6 +82,7 @@ export function FlowFloatingButtons({
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,
     [IconType.CLOCK]: <ClockIcon width={20} height={20} />,
     [IconType.LIST]: <ListIcon width={20} height={20} />,
+    [IconType.HELP]: <MdQuestionMark width={20} height={20} />,
   };
 
   useLayoutEffect(() => {
