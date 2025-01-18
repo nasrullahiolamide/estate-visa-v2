@@ -7,6 +7,7 @@ import {
   useFakeSubOccupantsList,
 } from "@/builders/types/sub-occupants";
 import { subOccupantsColumns } from "@/columns/for_admins/sub-occupants";
+import { SubOccupantsForm } from "@/components/admin/sub-occupants/form";
 import {
   FlowContainer,
   FlowContentContainer,
@@ -19,7 +20,6 @@ import {
   useFlowPagination,
   useFlowState,
 } from "@/components/layout";
-import { SubOccupantsForm } from "@/components/occupant/sub-occupants/form";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
@@ -31,8 +31,9 @@ import { handleError } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import fileDownload from "js-file-download";
 import { Fragment, useEffect, useMemo } from "react";
+
+import fileDownload from "js-file-download";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },

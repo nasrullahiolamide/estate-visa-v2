@@ -22,7 +22,7 @@ export interface SubOccupantsFormProps {
 }
 
 export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
-  const subOccupantId = data?.id;
+  const subOccupantId = data?.id ?? "";
   const houseId = toString(getCookie(APP.HOUSE_ID));
   const queryClient = useQueryClient();
 
@@ -89,14 +89,14 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
 
-  const handleSubmit = (values: Omit<typeof form.values, "modalType">) => {
-    isEditing
-      ? updateSubOccupant({ id: subOccupantId ?? "", data: values })
-      : addSubOccupant(values);
-  };
+  // const handleSubmit = (values: Omit<typeof form.values, "modalType">) => {
+  //   isEditing
+  //     ? updateSubOccupant({ id: subOccupantId ?? "", data: values })
+  //     : addSubOccupant(values);
+  // };
 
   return (
-    <Form form={form} onSubmit={handleSubmit}>
+    <Form form={form}>
       <FlowContainer
         className='rounded-2xl bg-primary-background-white'
         justify='center'
@@ -139,16 +139,18 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
         ) : isEditing ? (
           <Button
             mt={10}
-            type='submit'
             loading={isUpdating}
             disabled={isUpdating}
+            onClick={() =>
+              updateSubOccupant({ id: subOccupantId, data: form.values })
+            }
           >
             Save Changes
           </Button>
         ) : (
           <Button
             mt={10}
-            type='submit'
+            onClick={() => addSubOccupant(form.values)}
             loading={isPending}
             disabled={isPending}
           >
