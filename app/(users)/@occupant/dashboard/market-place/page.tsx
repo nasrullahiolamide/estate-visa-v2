@@ -18,7 +18,10 @@ import {
 } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { OccupantProductDetail } from "@/components/occupant/market-place/detail";
-import { ViewProduct } from "@/components/occupant/market-place/owner-product";
+import {
+  ViewProduct,
+  ViewProductProps,
+} from "@/components/occupant/market-place/owner-product";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { AddIcon, ListIcon } from "@/icons";
@@ -64,11 +67,11 @@ const filterOptions = [
   },
 ];
 
-const addProduct = () => {
+const addProduct = ({ data, modalType = "add" }: ViewProductProps) => {
   modals.open({
     modalId: MODALS.FORM_DETAILS,
     title: "Add a New Product for Sale",
-    children: <ViewProduct modalType='add' />,
+    children: <ViewProduct modalType={modalType} data={data} />,
   });
 };
 
@@ -169,6 +172,7 @@ export default function MarketPlace() {
                     ? undefined
                     : () => handleProductDetail(item)
                 }
+                onEdit={() => addProduct({ modalType: "edit", data: item })}
                 viewId={item.owner.id === userId ? "owner" : "viewer"}
                 skeleton={isPlaceholderData}
               />
@@ -182,7 +186,7 @@ export default function MarketPlace() {
             text='Add New Product'
             btnProps={{
               leftSection: <AddIcon />,
-              onClick: addProduct,
+              onClick: () => addProduct({ modalType: "add" }),
             }}
           />
         )}
@@ -225,7 +229,8 @@ export default function MarketPlace() {
               icon: "add",
               id: "step-3",
               btnProps: {
-                onClick: addProduct,
+                onClick: () => addProduct({ modalType: "add" }),
+
                 id: "step-3",
                 hidden: noDataAvailable,
               },
@@ -288,7 +293,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         fz='sm'
         size='md'
         leftSection={<AddIcon />}
-        onClick={addProduct}
+        onClick={() => addProduct({ modalType: "add" })}
         hidden={hidden}
       >
         Add Product
