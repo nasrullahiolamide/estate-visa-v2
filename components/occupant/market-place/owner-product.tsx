@@ -229,7 +229,7 @@ export function ViewProduct({ data, modalType = "view" }: ViewProductProps) {
           Add Product
         </Button>
       ) : (
-        <Box mt={10}>
+        <Box mt={20}>
           <FlowGroupButtons
             isLoading={isPending || isUpdating || isDeleting}
             buttons={[

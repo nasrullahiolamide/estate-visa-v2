@@ -59,6 +59,7 @@ export function FlowGroupButtons({ buttons, isLoading }: FlowGroupButtons) {
                   wrap='wrap'
                   gap='sm'
                   key={option.label}
+                  miw={200}
                   className='p-3 cursor-pointer hover:bg-purple-7 hover:bg-opacity-30 w-full'
                   onClick={option.onClick}
                   onMouseEnter={() =>
