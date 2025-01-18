@@ -54,12 +54,11 @@ export function FlowGroupButtons({ buttons, isLoading }: FlowGroupButtons) {
           {buttons.map((option, i) => {
             if (option.default) return null;
             return (
-              <Menu.Item key={option.label} p={0}>
+              <Menu.Item key={option.label} miw={120} p={0}>
                 <Flex
                   wrap='wrap'
                   gap='sm'
                   key={option.label}
-                  miw={200}
                   className='p-3 cursor-pointer hover:bg-purple-7 hover:bg-opacity-30 w-full'
                   onClick={option.onClick}
                   onMouseEnter={() =>
