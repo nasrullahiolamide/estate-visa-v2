@@ -11,7 +11,6 @@ import {
   FlowContainer,
   FlowContentContainer,
   FlowEntriesPerPage,
-  FlowFloatingButtons,
   FlowFooter,
   FlowPaper,
   FlowSearch,
@@ -229,7 +228,7 @@ export default function Gates() {
           </FlowFooter>
         </FlowContentContainer>
 
-        <FlowFloatingButtons
+        {/* <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
             {
@@ -240,7 +239,7 @@ export default function Gates() {
               },
             },
           ]}
-        />
+        /> */}
       </FlowContainer>
       <QuickTour
         profile={USER_TYPE.GATEMAN}

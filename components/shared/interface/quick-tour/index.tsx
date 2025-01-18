@@ -54,9 +54,9 @@ export function QuickTour({
     else driverObj.drive();
   }, []);
 
-  useEffect(() => {
-    driverObj.drive();
-  }, [restart]);
+  // useEffect(() => {
+  //   driverObj.drive();
+  // }, [restart]);
 
   return null;
 }
