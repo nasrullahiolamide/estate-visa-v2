@@ -260,36 +260,6 @@ export default function MarketPlace() {
                 description: "Filter products by category or seller status.",
               },
             },
-            {
-              element: "#step-3",
-              popover: {
-                title: "Add Product",
-                description: "Add a new product to the market place.",
-              },
-            },
-
-            {
-              element: "#step-1-desktop",
-              popover: {
-                title: "My Listings",
-                description:
-                  "View all products you have listed on the market place.",
-              },
-            },
-            {
-              element: "#step-2-desktop",
-              popover: {
-                title: "Filter",
-                description: "Filter products by category or seller status.",
-              },
-            },
-            {
-              element: "#step-3-desktop",
-              popover: {
-                title: "Add Product",
-                description: "Add a new product to the market place.",
-              },
-            },
           ]}
         />
       )}
@@ -307,7 +277,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         hidden={hidden}
       />
       <Button
-        id='step-3-desktop'
+        id='step-3'
         fz='sm'
         size='md'
         leftSection={<AddIcon />}
@@ -317,7 +287,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         Add Product
       </Button>
       <Button
-        id='step-1-desktop'
+        id='step-1'
         fz='sm'
         size='md'
         variant='outline'
@@ -331,7 +301,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
         label='Filter'
         data={filterOptions}
         hidden={hidden}
-        id='step-2-desktop'
+        id='step-2'
       />
     </Flex>
   );
