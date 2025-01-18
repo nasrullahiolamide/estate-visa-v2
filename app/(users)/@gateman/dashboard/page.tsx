@@ -27,7 +27,7 @@ import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
   { label: "Recently Added", value: "recent" },
@@ -71,7 +71,6 @@ export default function Gates() {
   const queryClient = useQueryClient();
   const initialGateRequestList = useMemo(() => useFakeGateRequestList(), []);
   const pagination = useFlowPagination();
-  const [startTour, setStartTour] = useState(false);
 
   const {
     page,
@@ -244,7 +243,6 @@ export default function Gates() {
       <QuickTour
         profile={USER_TYPE.GATEMAN}
         feature='gate-request'
-        restart={startTour}
         steps={[
           {
             element: "#search",
