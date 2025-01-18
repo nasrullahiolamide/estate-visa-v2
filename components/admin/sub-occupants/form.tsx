@@ -2,7 +2,7 @@
 
 import { SubOccupantsData } from "@/builders/types/sub-occupants";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, MODALS } from "@/packages/libraries";
+import { APP, cast, MODALS } from "@/packages/libraries";
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
@@ -41,7 +41,30 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
       modalType,
     },
     validateInputOnBlur: true,
+    transformValues: (values) => {
+      const {
+        email,
+        fullname,
+        phone,
+        relationshipToMain,
+        houseId,
+        isMain,
+        isPropertyOwner,
+      } = values;
+
+      return {
+        isMain,
+        isPropertyOwner,
+        email: cast.string(email),
+        fullname: cast.string(fullname),
+        phone: cast.string(phone),
+        relationshipToMain: cast.string(relationshipToMain),
+        houseId: cast.string(houseId),
+      };
+    },
   });
+
+  const isViewing = form.getValues().modalType === "view";
 
   return (
     <Form form={form}>
