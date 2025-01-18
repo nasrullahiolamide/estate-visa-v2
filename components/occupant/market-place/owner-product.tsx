@@ -234,7 +234,7 @@ export function ViewProduct({ data, modalType = "view" }: ViewProductProps) {
             isLoading={isPending || isUpdating || isDeleting}
             buttons={[
               {
-                label: "Edit Product",
+                label: "Update Product",
                 icon: EditIcon,
                 default: true,
                 onClick: () => updateProduct({ id, data: form.values }),
