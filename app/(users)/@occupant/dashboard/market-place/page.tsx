@@ -70,8 +70,8 @@ const filterOptions = [
 const addProduct = ({ data, modalType = "add" }: ViewProductProps) => {
   modals.open({
     modalId: MODALS.FORM_DETAILS,
-    title: "Add a New Product for Sale",
-    children: <ViewProduct modalType={modalType} data={data} />,
+    title: modalType === "add" ? "Add a new product for sale" : "Edit Product",
+    children: <ViewProduct data={data} modalType={modalType} />,
   });
 };
 
