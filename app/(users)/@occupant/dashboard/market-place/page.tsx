@@ -260,6 +260,13 @@ export default function MarketPlace() {
                 description: "Filter products by category or seller status.",
               },
             },
+            {
+              element: "#step-3",
+              popover: {
+                title: "Add Product",
+                description: "Add a new product to the market place.",
+              },
+            },
           ]}
         />
       )}
