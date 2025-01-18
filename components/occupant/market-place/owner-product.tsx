@@ -7,13 +7,13 @@ import { FlowGroupButtons, FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { ConfirmationModal } from "@/components/shared/interface";
 import { ResourceUpload } from "@/components/shared/uploads/resource";
-import { AddIcon, EditIcon, TrashIcon } from "@/icons";
+import { EditIcon, TrashIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { useFileUpload } from "@/packages/hooks/use-file-upload";
 import { APP, cast, MODALS } from "@/packages/libraries";
 import { formatCurrency } from "@/packages/libraries/formatters/currency";
 import { handleError, handleSuccess } from "@/packages/notification";
-import { Select, Textarea, TextInput } from "@mantine/core";
+import { Box, Button, Select, Textarea, TextInput } from "@mantine/core";
 import { MIME_TYPES } from "@mantine/dropzone";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
@@ -219,39 +219,34 @@ export function ViewProduct({ data, modalType = "view" }: ViewProductProps) {
       </FlowContainer>
 
       {modalType === "add" ? (
-        <FlowGroupButtons
-          isLoading={isPending || isUpdating || isDeleting}
-          buttons={[
-            {
-              label: "Add Product",
-              icon: AddIcon,
-              default: true,
-              onClick: () => handleSubmit(form.values),
-            },
-            {
-              label: "Delete",
-              icon: TrashIcon,
-              onClick: () => deleteProduct(id),
-            },
-          ]}
-        />
+        <Button
+          mt={10}
+          type='submit'
+          fullWidth
+          disabled={isPending}
+          loading={isPending}
+        >
+          Add Product
+        </Button>
       ) : (
-        <FlowGroupButtons
-          isLoading={isPending || isUpdating || isDeleting}
-          buttons={[
-            {
-              label: "Edit Product",
-              icon: EditIcon,
-              default: true,
-              onClick: () => updateProduct({ id, data: form.values }),
-            },
-            {
-              label: "Delete",
-              icon: TrashIcon,
-              onClick: () => deleteProduct(id),
-            },
-          ]}
-        />
+        <Box mt={10}>
+          <FlowGroupButtons
+            isLoading={isPending || isUpdating || isDeleting}
+            buttons={[
+              {
+                label: "Edit Product",
+                icon: EditIcon,
+                default: true,
+                onClick: () => updateProduct({ id, data: form.values }),
+              },
+              {
+                label: "Delete",
+                icon: TrashIcon,
+                onClick: () => deleteProduct(id),
+              },
+            ]}
+          />
+        </Box>
       )}
     </Form>
   );

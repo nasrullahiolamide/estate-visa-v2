@@ -19,7 +19,6 @@ import {
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { ProductCard } from "@/components/shared/interface/cards/product";
-import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
 import { AddIcon } from "@/icons";
 import { PRODUCT_CATEGORIES } from "@/packages/constants/data";
 import { APP, MODALS } from "@/packages/libraries";
@@ -165,10 +164,10 @@ export default function Listings() {
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
-            {
-              icon: "filter",
-              filterData: filterOptions,
-            },
+            // {
+            //   icon: "filter",
+            //   filterData: filterOptions,
+            // },
             {
               icon: "add",
               btnProps: {
@@ -193,7 +192,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
       >
         Add Product
       </Button>
-      <FilterDropdown label='Filter' data={filterOptions} />
+      {/* <FilterDropdown label='Filter' data={filterOptions} /> */}
     </Flex>
   );
 }

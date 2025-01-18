@@ -204,7 +204,7 @@ export default function Gates() {
       </FlowContainer>
       {!noDataAvailable && !isPlaceholderData && (
         <QuickTour
-          profile={USER_TYPE.OCCUPANT}
+          profile={USER_TYPE.SUB_OCCUPANT}
           feature='gate-requests'
           steps={[
             {
