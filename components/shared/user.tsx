@@ -4,7 +4,7 @@ import Link from "next/link";
 import { builder } from "@/builders";
 import { formatUserType } from "@/builders/types/login";
 import { ArrowDownIcon } from "@/icons";
-import { APP, makePath, MODALS, PAGES, USER_TYPE } from "@/packages/libraries";
+import { APP, makePath, MODALS, PAGES } from "@/packages/libraries";
 import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -37,6 +37,8 @@ export function UserDetails() {
       ...user,
     };
   }, [user]);
+
+  console.log(userDetails);
 
   return (
     <Menu
@@ -100,15 +102,13 @@ export function UserDetails() {
         </Menu.Item>
         <Menu.Divider />
 
-        {userDetails.userType !== USER_TYPE.GATEMAN && (
-          <Menu.Item
-            leftSection={<User size={18} />}
-            component={Link}
-            href={makePath(PAGES.DASHBOARD, PAGES.PROFILE)}
-          >
-            My Profile
-          </Menu.Item>
-        )}
+        <Menu.Item
+          leftSection={<User size={18} />}
+          component={Link}
+          href={makePath(PAGES.DASHBOARD, PAGES.PROFILE)}
+        >
+          My Profile
+        </Menu.Item>
         <Menu.Item
           bg='purple.7'
           color='red'
