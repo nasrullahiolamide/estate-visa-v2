@@ -193,9 +193,9 @@ export default function Gates() {
           buttons={[
             {
               icon: "add",
-              id: "step-1",
+              id: "step-1-mobile",
               btnProps: {
-                id: "step-1",
+                id: "step-1-mobile",
                 onClick: () => handleGateRequestForm({ modalType: "add" }),
               },
             },
@@ -208,7 +208,15 @@ export default function Gates() {
           feature='gate-requests'
           steps={[
             {
-              element: "#step-1",
+              element: "#step-1-desktop",
+              popover: {
+                title: "Schedule a Guest Visit",
+                description:
+                  "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
+              },
+            },
+            {
+              element: "#step-1-mobile",
               popover: {
                 title: "Schedule a Guest Visit",
                 description:
@@ -234,6 +242,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
+        id='step-1-desktop'
         fz='sm'
         size='md'
         leftSection={<Add />}

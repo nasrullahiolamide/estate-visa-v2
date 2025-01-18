@@ -23,8 +23,9 @@ import {
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
 import { FilterDropdown } from "@/components/shared/interface/dropdowns/filter";
+import { QuickTour } from "@/components/shared/interface/quick-tour";
 import { AddIcon } from "@/icons";
-import { MODALS } from "@/packages/libraries";
+import { MODALS, USER_TYPE } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
@@ -190,21 +191,49 @@ export default function Gates() {
         <FlowFloatingButtons
           hidden={noDataAvailable || isPlaceholderData}
           buttons={[
-            // {
-            //   icon: "download",
-            //   btnProps: {
-            //     onClick: () => {},
-            //   },
-            // },
             {
               icon: "add",
+              id: "step-1-mobile",
               btnProps: {
+                id: "step-1-mobile",
                 onClick: () => handleGateRequestForm({ modalType: "add" }),
               },
             },
           ]}
         />
       </FlowContainer>
+      {!noDataAvailable && !isPlaceholderData && (
+        <QuickTour
+          profile={USER_TYPE.OCCUPANT}
+          feature='gate-requests'
+          steps={[
+            {
+              element: "#step-1-desktop",
+              popover: {
+                title: "Schedule a Guest Visit",
+                description:
+                  "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
+              },
+            },
+            {
+              element: "#step-1-mobile",
+              popover: {
+                title: "Schedule a Guest Visit",
+                description:
+                  "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
+              },
+            },
+            {
+              element: "#flow-row",
+              popover: {
+                title: "View Details",
+                description:
+                  "Click on any row to view the details of the gate request.",
+              },
+            },
+          ]}
+        />
+      )}
     </Fragment>
   );
 }
@@ -213,6 +242,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
+        id='step-1-desktop'
         fz='sm'
         size='md'
         leftSection={<Add />}
