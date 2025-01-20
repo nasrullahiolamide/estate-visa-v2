@@ -27,7 +27,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "components/shared/user.tsx",
-    "builders/types/profile.tss"
+    "builders/types/profile.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -11,6 +11,7 @@ import { FlowPhoneInput } from "@/components/layout";
 import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
+import { useEffect } from "react";
 
 export interface SubOccupantsFormProps {
   data?: SubOccupantsData;
@@ -19,7 +20,6 @@ export interface SubOccupantsFormProps {
 
 export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
   const houseId = toString(getCookie(APP.HOUSE_ID));
-
   const {
     email = "",
     fullname = "",
@@ -64,7 +64,18 @@ export function SubOccupantsForm({ data, modalType }: SubOccupantsFormProps) {
     },
   });
 
-  const isViewing = form.getValues().modalType === "view";
+  useEffect(() => {
+    form.initialize({
+      email,
+      fullname,
+      phone,
+      relationshipToMain,
+      isMain,
+      isPropertyOwner,
+      houseId,
+      modalType,
+    });
+  }, [data]);
 
   return (
     <Form form={form}>

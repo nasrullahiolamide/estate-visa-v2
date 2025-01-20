@@ -55,4 +55,3 @@ export function UpdateStatus({ id, status }: ConfirmOccupantProps) {
     </Fragment>
   );
 }
-// ;

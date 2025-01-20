@@ -13,12 +13,12 @@ import "@mantine/tiptap/styles.css";
 import "react-international-phone/style.css";
 import "react-toastify/dist/ReactToastify.css";
 
+import "aos/dist/aos.css";
+import "driver.js/dist/driver.css";
+
 import "@/packages/variables/index.css";
 import "@/styles/accent.scss";
 import "@/styles/index.css";
-
-import "aos/dist/aos.css";
-import "driver.js/dist/driver.css";
 
 export const metadata: Metadata = {
   title: "Estate Visa",
