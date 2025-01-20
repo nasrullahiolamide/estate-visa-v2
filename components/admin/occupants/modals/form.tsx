@@ -33,30 +33,18 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
   const queryClient = useQueryClient();
 
   const { data, modalType = "add", viewId = "occupants" } = props;
-  const {
-    id = "",
-    houseId = "",
-    fullname = "",
-    email = "",
-    phone = "",
-    status = "active",
-    noOfSubOccupants = "",
-    relationshipToMain = "",
-    isMain = true,
-    isPropertyOwner = false,
-  } = { ...data };
 
   const form = useForm({
     initialValues: {
-      houseId,
-      fullname,
-      email,
-      phone,
-      status,
-      noOfSubOccupants: pass.string(noOfSubOccupants),
-      relationshipToMain,
-      isMain,
-      isPropertyOwner,
+      houseId: pass.string(data?.house.id),
+      fullname: pass.string(data?.user.firstname),
+      email: pass.string(data?.user.email),
+      phone: pass.string(data?.user.phone),
+      status: pass.string(data?.status),
+      noOfSubOccupants: pass.string(data?.noOfSubOccupants),
+      relationshipToMain: pass.string(data?.relationshipToMain),
+      isMain: pass.boolean(data?.isMain),
+      isPropertyOwner: pass.boolean(data?.isPropertyOwner),
       modalType,
     },
     validate: yupResolver(schema),
@@ -132,7 +120,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
             color: "red",
             loading: isDeleting,
             disabled: isDeleting,
-            onClick: () => deleteOccupant(id),
+            onClick: () => deleteOccupant(toString(data?.id)),
           }}
         />
       ),
@@ -173,13 +161,13 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
       ? {
           icon: DeactivateIcon,
           label: "Disable Account",
-          onClick: () => suspendAccount(id),
+          onClick: () => suspendAccount(data.id),
           color: "#969921",
         }
       : {
           icon: ActivateIcon,
           label: "Activate Account",
-          onClick: () => activateAccount(id),
+          onClick: () => activateAccount(data?.id ?? ""),
           color: "green",
         },
 
