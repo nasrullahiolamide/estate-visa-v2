@@ -193,9 +193,9 @@ export default function Gates() {
           buttons={[
             {
               icon: "add",
-              id: "step-1-mobile",
+              id: "step-1",
               btnProps: {
-                id: "step-1-mobile",
+                id: "step-1",
                 onClick: () => handleGateRequestForm({ modalType: "add" }),
               },
             },
@@ -204,25 +204,18 @@ export default function Gates() {
       </FlowContainer>
       {!noDataAvailable && !isPlaceholderData && (
         <QuickTour
-          profile={USER_TYPE.SUB_OCCUPANT}
+          profile={USER_TYPE.OCCUPANT}
           feature='gate-requests'
           steps={[
             {
-              element: "#step-1-desktop",
+              element: "#step-1",
               popover: {
                 title: "Schedule a Guest Visit",
                 description:
                   "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
               },
             },
-            {
-              element: "#step-1-mobile",
-              popover: {
-                title: "Schedule a Guest Visit",
-                description:
-                  "Click here to start scheduling a visit for your guest. You'll then generate an access code and share it with them for entry.",
-              },
-            },
+
             {
               element: "#flow-row",
               popover: {
@@ -242,7 +235,7 @@ function HeaderOptions({ hidden }: { hidden: boolean }) {
   return (
     <Flex gap={14} hidden={hidden} wrap='wrap'>
       <Button
-        id='step-1-desktop'
+        id='step-1'
         fz='sm'
         size='md'
         leftSection={<Add />}
