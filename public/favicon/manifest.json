@@ -2,7 +2,7 @@
   "name": "Estate Visa",
   "short_name": "EstateVisa",
   "description": "Simplifying Estate Management for Owners and Residents",
-  "start_url": "/",
+  "start_url": "/login",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
