@@ -1,14 +1,13 @@
 "use client";
 
 import { SubOccupantsData } from "@/builders/types/sub-occupants";
+import { FlowPhoneInput } from "@/components/layout";
 import { FlowContainer } from "@/components/layout/flow-container";
+import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { APP, MODALS, pass } from "@/packages/libraries";
 import { Button, Select, TextInput } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
-
-import { FlowPhoneInput } from "@/components/layout";
-import { RELATIONSHIP_OPTIONS } from "@/packages/constants/data";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 

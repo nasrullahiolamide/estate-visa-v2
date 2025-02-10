@@ -161,7 +161,7 @@ export function GateRequestActions({
 
 export const handleShare = (data: GateRequestData) => {
   const shareText = `Hi! I have scheduled your visit to house '${
-    data?.occupant
+    data?.occupant.house.houseNumber
   }' on ${formatDate(data?.visitDate, DATE_FORMAT)} at ${
     data?.visitTime
   }. Here's your gate access code: ${

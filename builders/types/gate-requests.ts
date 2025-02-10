@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
+import { HouseData, useFakeHouseData } from "./houses";
 import { useFakeOccupantsData } from "./occupants";
 
 export type GateRequestList = {
@@ -38,6 +39,7 @@ type Occupant = {
   isMain: boolean;
   isPropertyOwner: boolean;
   relationshipToMain: string;
+  house: HouseData;
 };
 
 export function useFakeGateRequestsData(_?: any, index?: number) {
@@ -50,6 +52,11 @@ export function useFakeGateRequestsData(_?: any, index?: number) {
     useFakeOccupantsData
   );
 
+  const house = Array.from(
+    { length: faker.number.int({ min: 3, max: 100 }) },
+    useFakeHouseData
+  );
+
   return {
     id: id.toString(),
     guestName: faker.person.fullName(),
@@ -60,6 +67,7 @@ export function useFakeGateRequestsData(_?: any, index?: number) {
     accessCode: faker.number.int({ min: 1000, max: 9999 }),
     status: faker.helpers.arrayElement(["pending", "approved", "declined"]),
     occupant: occupant[0],
+    house: house[0],
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
   };
