@@ -1,9 +1,9 @@
+import { ServiceRequestsData } from "@/builders/types/service-requests";
+import { Actionable } from "@/builders/types/table";
+import { DATE_FORMAT } from "@/packages/constants/time";
+import { formatDate } from "@/packages/libraries";
 import { Box, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Actionable } from "@/builders/types/table";
-import { ServiceRequestsData } from "@/builders/types/service-requests";
-import { formatDate } from "@/packages/libraries";
-import { DATE_FORMAT } from "@/packages/constants/time";
 
 const columnHelper = createColumnHelper<Actionable<ServiceRequestsData>>();
 
@@ -11,7 +11,7 @@ export const serviceRequestsColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify="center" className="w-full">
+      <Flex justify='center' className='w-full'>
         <Checkbox
           checked={table.getIsAllPageRowsSelected()} // Select all rows on page
           indeterminate={table.getIsSomePageRowsSelected()}
@@ -61,7 +61,7 @@ export const serviceRequestsColumns = [
     header: "Service Type",
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta="center" fz={14} className="w-full" children={getValue()} />
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
     ),
   }),
 
@@ -79,20 +79,20 @@ export const serviceRequestsColumns = [
 
       const colors: Record<PropertyKey, { color: string; bg: string }> = {
         pending: { color: "#969921", bg: "#feffd7" },
-        "in-progress": { color: "red", bg: "red.1" },
+        "in-progress": { color: "blue", bg: "blue.1" },
         completed: { color: "green", bg: "green.1" },
       };
 
       return (
-        <Box ta="center">
+        <Box ta='center'>
           <Pill
-            ta="center"
-            tt="capitalize"
+            ta='center'
+            tt='capitalize'
             c={colors[value?.toLowerCase()]?.color || "gray"}
             bg={colors[value?.toLowerCase()]?.bg || "gray.1"}
             fw={500}
             children={value}
-            size="sm"
+            size='sm'
           />
         </Box>
       );
@@ -102,11 +102,11 @@ export const serviceRequestsColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta="center"
+        ta='center'
         fw={600}
         fz={14}
-        className="w-full"
-        children="Actions"
+        className='w-full'
+        children='Actions'
       />
     ),
     cell: ({ renderValue }) => renderValue(),
