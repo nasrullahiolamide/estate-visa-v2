@@ -146,7 +146,6 @@ export default function Template({ children }: TemplateProps) {
                   opened={opened}
                 />
               )}
-
               {!flags.includes(PAGES.MARKET_PLACE) && (
                 <AppShellButton
                   leftSection={<MarketPlaceIcon />}

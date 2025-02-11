@@ -30,7 +30,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
     select: (data) => data,
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: changeStatus, isPending } = useMutation({
     mutationFn: builder.$use.service_requests.id.change_status,
     onError: () => {
       handleError("An error occurred, please try again")();
@@ -53,7 +53,7 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
   return (
     <Fragment>
       <FlowContainer
-        className='bg-primary-background-white overflow-scroll'
+        className='bg-primary-background-white overflow-y-scroll'
         type='plain'
         bg='white'
         gap={15}
@@ -153,20 +153,28 @@ export function ViewServiceRequest({ id, status }: ViewServiceRequestProps) {
       {status === "pending" ? (
         <Flex mt={20} gap={10} className='flex-col sm:flex-row'>
           <Button
-            color='red'
+            color='#969921'
             variant='outline'
             className='sm:flex-1'
             disabled={isPending}
-            children='Decline Request'
-            onClick={() => mutate({ id, status: "declined" })}
+            children='Set as In Progress'
+            onClick={() => changeStatus({ id, status: "in-progress" })}
           />
           <Button
             className='sm:flex-1'
-            onClick={() => mutate({ id, status: "approved" })}
+            onClick={() => changeStatus({ id, status: "completed" })}
             disabled={isPending}
-            children='Approve Request'
+            children='Set as Completed'
           />
         </Flex>
+      ) : data?.status === "in-progress" ? (
+        <Button
+          mt={20}
+          w='100%'
+          onClick={() => changeStatus({ id, status: "completed" })}
+          disabled={isPending}
+          children='Set as Completed'
+        />
       ) : (
         <Button
           mt={20}
