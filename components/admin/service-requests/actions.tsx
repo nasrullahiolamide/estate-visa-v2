@@ -6,7 +6,7 @@ import {
   FlowMenuDropdown,
   FlowMenuTarget,
 } from "@/components/layout";
-import { DoubleMarkIcon, EyeIcon } from "@/icons";
+import { DoubleMarkIcon } from "@/icons";
 import { MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
 import { Menu } from "@mantine/core";
@@ -46,7 +46,7 @@ export function ServiceRequestActions({
     pending: (
       <Fragment>
         <Menu.Item
-          color='green.7'
+          color='green.9'
           leftSection={<DoubleMarkIcon width={14} />}
           onClick={() => mutate({ id, status: "completed" })}
         >
@@ -65,19 +65,19 @@ export function ServiceRequestActions({
 
     "in-progress": (
       <Fragment>
-        <Menu.Item leftSection={<EyeIcon width={14} />}>View Details</Menu.Item>
-      </Fragment>
-    ),
-
-    completed: (
-      <Fragment>
-        <Menu.Item leftSection={<EyeIcon width={14} />}>View Details</Menu.Item>
+        <Menu.Item
+          color='green.9'
+          leftSection={<DoubleMarkIcon width={14} />}
+          onClick={() => mutate({ id, status: "completed" })}
+        >
+          Set as Completed
+        </Menu.Item>
       </Fragment>
     ),
   };
 
   return (
-    <FlowMenu>
+    <FlowMenu disabled={status === "completed"}>
       <FlowMenuTarget />
       <FlowMenuDropdown>{render[status]}</FlowMenuDropdown>
     </FlowMenu>
