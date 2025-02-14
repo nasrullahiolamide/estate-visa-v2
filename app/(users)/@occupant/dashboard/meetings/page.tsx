@@ -63,7 +63,7 @@ export default function Minutes() {
     pagination.setTotal(meetings?.total);
     pagination.setEntriesCount(meetings?.data?.length);
     pagination.setPageSize(meetings?.pageSize);
-  }, [isPlaceholderData, view]);
+  }, [isPlaceholderData]);
 
   return (
     <Fragment>
