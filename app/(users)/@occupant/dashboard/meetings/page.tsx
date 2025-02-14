@@ -39,9 +39,7 @@ export default function Minutes() {
   const { page, pageSize, query: search, numberOfPages } = useFlowState();
 
   const { data: meetings, isPlaceholderData } = useQuery({
-    queryKey: builder.meetings.get.table.$get({
-      status: view,
-    }),
+    queryKey: builder.meetings.get.table.$get(),
     queryFn: () =>
       builder.$use.meetings.get.table({
         estateId,
@@ -84,34 +82,35 @@ export default function Minutes() {
             onChange={setView}
             tabsContainerProps={{ gap: 0 }}
           >
-            <Flex align='center'>
-              <Tabs.List className='w-full'>
-                <Tabs.Tab
-                  value='scheduled'
-                  flex={1}
-                  py={18}
-                  leftSection={<HourglassIcon />}
-                >
-                  Scheduled
-                </Tabs.Tab>
-                <Tabs.Tab
-                  value='completed'
-                  flex={1}
-                  py={18}
-                  leftSection={<CheckIcon />}
-                >
-                  Completed
-                </Tabs.Tab>
-                <Tabs.Tab
-                  value='cancelled'
-                  flex={1}
-                  py={18}
-                  leftSection={<CancelCircleIcon />}
-                >
-                  Cancelled
-                </Tabs.Tab>
-              </Tabs.List>
-            </Flex>
+            <Tabs.List className='!w-full'>
+              <Tabs.Tab
+                value='scheduled'
+                flex={1}
+                className='w-full'
+                py={18}
+                leftSection={<HourglassIcon />}
+              >
+                Scheduled
+              </Tabs.Tab>
+              <Tabs.Tab
+                value='completed'
+                flex={1}
+                className='w-full'
+                py={18}
+                leftSection={<CheckIcon />}
+              >
+                Completed
+              </Tabs.Tab>
+              <Tabs.Tab
+                value='cancelled'
+                flex={1}
+                className='w-full'
+                py={18}
+                leftSection={<CancelCircleIcon />}
+              >
+                Cancelled
+              </Tabs.Tab>
+            </Tabs.List>
 
             <FlowTabsPanel value='scheduled'>
               <OccupantMeetingTable
