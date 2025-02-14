@@ -43,7 +43,7 @@ export function OccupantsForm({ ...props }: OccupantsFormProps) {
       status: pass.string(data?.status),
       noOfSubOccupants: pass.string(data?.noOfSubOccupants),
       relationshipToMain: pass.string(data?.relationshipToMain),
-      isMain: pass.boolean(data?.isMain),
+      isMain: true,
       isPropertyOwner: pass.boolean(data?.isPropertyOwner),
       modalType,
     },
