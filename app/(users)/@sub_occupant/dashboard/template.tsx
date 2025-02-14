@@ -9,6 +9,7 @@ import {
   EstateVisaLogo,
   GroupDiscussionIcon,
   MarketPlaceIcon,
+  NoticeBoardIcon,
   ServiceRequestIcon,
 } from "@/icons";
 import { navigate } from "@/packages/actions";
@@ -117,12 +118,12 @@ export default function Template({ children }: TemplateProps) {
                 opened={opened}
               />
 
-              {/* <AppShellButton
+              <AppShellButton
                 leftSection={<NoticeBoardIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
                 label={"Notice Board"}
                 opened={opened}
-              /> */}
+              />
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}

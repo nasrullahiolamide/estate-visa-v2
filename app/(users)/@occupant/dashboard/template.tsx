@@ -9,7 +9,9 @@ import {
   EstateVisaLogo,
   GroupDiscussionIcon,
   MarketPlaceIcon,
+  NoticeBoardIcon,
   ServiceRequestIcon,
+  TablerMessageIcon,
   UserGroupIcon,
 } from "@/icons";
 import { navigate } from "@/packages/actions";
@@ -116,6 +118,18 @@ export default function Template({ children }: TemplateProps) {
                 leftSection={<AirlineManageGateIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.GATE_REQUESTS)}
                 label={"Gate Requests"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<TablerMessageIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.MESSAGES)}
+                label={"Messages"}
+                opened={opened}
+              />
+              <AppShellButton
+                leftSection={<NoticeBoardIcon />}
+                href={makePath(PAGES.DASHBOARD, PAGES.NOTICE_BOARD)}
+                label={"Notice Board"}
                 opened={opened}
               />
               <AppShellButton
