@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
 });
 
 const handleXLSXDownload = ({ data, filename }: IDownloadProps) => {
-  const worksheet = XLSX.utils.json_to_sheet(data);
+  const filteredData = data.map(({ id, ...rest }) => rest);
+  const worksheet = XLSX.utils.json_to_sheet(filteredData);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Access Request History");
   XLSX.writeFile(workbook, `${filename}.xlsx`);
@@ -137,7 +138,6 @@ const handlePDFDownload = async ({ data, filename }: IDownloadProps) => {
 function DownloadHistoryForm() {
   const estateId = toString(getCookie(APP.ESTATE_ID));
   const [dateRange, setDateRange] = useState<IDateRange>([past3Days, today]);
-  const [data, setData] = useState<GateRequestData[]>([]);
 
   const filename = useMemo(() => {
     return `access_request_history_from_${formatDate(
