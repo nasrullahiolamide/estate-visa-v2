@@ -165,13 +165,12 @@ function DownloadHistoryForm() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: builder.$use.gates.requests.download,
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
       if (data.length === 0) {
         handleError("No data found for the selected date range")();
       } else {
         handleSuccess("Access request history downloaded successfully");
-        setData(data);
-        handleDownload();
+        handleDownload(data);
         modals.close(MODALS.DOWNLOAD_HISTORY);
       }
     },
@@ -185,7 +184,7 @@ function DownloadHistoryForm() {
     mutate(values);
   };
 
-  const handleDownload = () => {
+  const handleDownload = (data: GateRequestData[]) => {
     const { downloadFormat } = form.getTransformedValues();
     if (downloadFormat === "pdf") {
       handlePDFDownload({ data, filename });

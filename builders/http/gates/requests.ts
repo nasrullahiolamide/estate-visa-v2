@@ -46,7 +46,7 @@ const download = function (params: {
 }) {
   return api
     .get<GateRequestData[]>(`/gate-requests/download`, { params })
-    .then((data) => data.data);
+    .then((data) => data);
 };
 
 export const requests = {
