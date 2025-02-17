@@ -37,16 +37,37 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
           base: 20,
           sm: 30,
         }}
+        pt={0}
       >
         <Stack>
-          <Picture
-            src={item.image ?? "/images/placeholder.png"}
-            h={160}
-            w='100%'
-            alt={item.name ?? "product image"}
-            className='rounded-lg'
-            objectFit='cover'
-          />
+          <Carousel
+            withIndicators
+            height={200}
+            slideSize='100%'
+            slideGap='md'
+            align='start'
+            styles={{
+              indicators: {
+                bottom: -20,
+                gap: 8,
+              },
+              slide: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            }}
+          >
+            <Carousel.Slide>
+              <Picture
+                src={item.image ?? "/images/placeholder.png"}
+                w='100%'
+                alt={item.name ?? "product image"}
+                className='rounded-lg'
+                objectFit='cover'
+              />
+            </Carousel.Slide>
+          </Carousel>
 
           <Stack mt={16} gap={5}>
             <Stack gap={15}>
