@@ -1,0 +1,35 @@
+.root {
+  .indicators {
+    bottom: -20px;
+    gap: 8px;
+  }
+  .indicator {
+    width: 8px;
+    height: 8px;
+    background-color: var(--gray-3);
+    transition: width 250ms ease;
+    &[data-active="true"] {
+      width: 16px;
+      background-color: var(--accent-6);
+    }
+  }
+
+  .control {
+    background-color: var(--accent-8);
+    border: 1px solid var(--accent-6);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 30px;
+    height: 30px;
+    color: white;
+    &[data-inactive="true"] {
+      opacity: 0.1;
+      cursor: not-allowed;
+    }
+    &:hover {
+      background-color: var(--accent-6);
+    }
+  }
+  .control:hover {
+    background-color: var(--accent-6);
+  }
+}

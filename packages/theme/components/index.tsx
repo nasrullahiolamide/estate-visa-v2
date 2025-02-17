@@ -1,5 +1,4 @@
 import {
-  Accordion,
   ActionIcon,
   Anchor,
   AppShell,
@@ -18,7 +17,6 @@ import {
   RadioCard,
   Select,
   Stack,
-  Stepper,
   Tabs,
   TextInput,
   Textarea,
@@ -26,10 +24,17 @@ import {
 } from "@mantine/core";
 import { DateInput, DateTimePicker, TimeInput } from "@mantine/dates";
 
+import {
+  ArrowDownIcon,
+  CalenderIcon,
+  CancelCircleIcon,
+  ClockIcon,
+} from "@/icons";
 import actionIcon from "./action-icon.module.css";
-import appShell from "./app-shell.module.css";
 import anchor from "./anchor.module.css";
+import appShell from "./app-shell.module.css";
 import button from "./button.module.css";
+import carousel from "./carousel.module.css";
 import dateInput from "./date-input.module.css";
 import datePickerInput from "./date-picker-input.module.css";
 import dateTimePicker from "./date-time-picker.module.css";
@@ -49,16 +54,15 @@ import tabs from "./tabs.module.css";
 import textInput from "./text-input.module.css";
 import textarea from "./textarea.module.css";
 import timeInput from "./time-input.module.css";
-import {
-  ArrowDownIcon,
-  CalenderIcon,
-  CancelCircleIcon,
-  ClockIcon,
-} from "@/icons";
+import { Carousel } from "@mantine/carousel";
 
 export const components: MantineThemeComponents = {
   InputWrapper: InputWrapper.extend({
     classNames: inputWrapper,
+  }),
+
+  Carousel: Carousel.extend({
+    classNames: carousel,
   }),
 
   DateTimePicker: DateTimePicker.extend({

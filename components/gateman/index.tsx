@@ -43,6 +43,11 @@ export function ViewGateRequest({ id, status, ...data }: ViewGateRequestProps) {
         bg='white'
         gap={15}
       >
+        <TextInput
+          label='House Number'
+          disabled
+          value={data?.occupant.house.houseNumber}
+        />
         <TextInput label='Guest Name' disabled value={data?.guestName} />
         <TextInput label='Guest Type' disabled value={data?.guestType} />
         <TextInput

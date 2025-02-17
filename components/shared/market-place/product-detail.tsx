@@ -5,6 +5,7 @@ import { Divider, Flex, Pill, Stack, Text, Title } from "@mantine/core";
 import { Fragment, ReactNode } from "react";
 
 import { MODALS } from "@/packages/libraries";
+import { Carousel } from "@mantine/carousel";
 import { modals } from "@mantine/modals";
 import { CloseCircle } from "iconsax-react";
 import { Picture, StarRating } from "../interface";
@@ -18,7 +19,7 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
     <Fragment>
       <Flex
         bg='white'
-        pos='absolute'
+        pos='sticky'
         component='button'
         top={25}
         right={30}
@@ -135,34 +136,52 @@ export function ProductDetail({ children, ...item }: ProductDetailProps) {
                 <Title order={2} c='plum.5' fz={14} fw={500}>
                   Reviews and Ratings ({item.reviews.length})
                 </Title>
-                <Stack className='overflow-auto h-52'>
+                <Carousel
+                  withIndicators
+                  height={120}
+                  slideSize='100%'
+                  slideGap='md'
+                  align='start'
+                  styles={{
+                    indicators: {
+                      bottom: -20,
+                      gap: 8,
+                    },
+                    controls: {
+                      top: -5,
+                      justifyContent: "flex-end",
+                      gap: 20,
+                    },
+                  }}
+                >
                   {item.reviews?.map((review, index) => (
-                    <Fragment key={review.comments}>
-                      <Flex align='center' gap={24}>
-                        <Text fz={14} c='gray'>
-                          Buyer ({index + 1}):
+                    <Carousel.Slide key={review.id}>
+                      <Stack>
+                        <Flex align='center' gap={24}>
+                          <Text fz={14} c='gray'>
+                            Buyer ({index + 1}):
+                          </Text>
+                          <Text fz={14} fw={400} c='blue.4'>
+                            <StarRating
+                              className='!justify-start'
+                              defaultRating={review.rating}
+                            />
+                          </Text>
+                        </Flex>
+                        <Text
+                          fz={14}
+                          c='gray'
+                          p={10}
+                          mih={80}
+                          className='border border-gray-3 rounded-md'
+                        >
+                          {review.comments}
                         </Text>
-                        <Text fz={14} fw={400} c='blue.4'>
-                          <StarRating
-                            className='!justify-start'
-                            defaultRating={review.rating}
-                          />
-                        </Text>
-                      </Flex>
-                      <Text
-                        fz={14}
-                        c='gray'
-                        p={10}
-                        mih={60}
-                        className='border border-gray-3 rounded-md'
-                      >
-                        {review.comments}
-                      </Text>
-                    </Fragment>
+                      </Stack>
+                    </Carousel.Slide>
                   ))}
-                </Stack>
+                </Carousel>
               </Stack>
-
               <Divider my={15} />
             </Fragment>
           )}
