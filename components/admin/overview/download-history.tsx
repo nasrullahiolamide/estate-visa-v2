@@ -172,6 +172,7 @@ function DownloadHistoryForm() {
         handleSuccess("Access request history downloaded successfully");
         setData(data);
         handleDownload();
+        modals.close(MODALS.DOWNLOAD_HISTORY);
       }
     },
     onError: () => {
@@ -191,7 +192,6 @@ function DownloadHistoryForm() {
     } else if (downloadFormat === "xlsx") {
       handleXLSXDownload({ data, filename });
     }
-    setData([]);
   };
 
   return (
