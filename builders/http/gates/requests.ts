@@ -44,7 +44,9 @@ const download = function (params: {
   startDate?: string;
   endDate?: string;
 }) {
-  return api.get(`/gate-requests/download`, { params });
+  return api
+    .get<GateRequestData[]>(`/gate-requests/download`, { params })
+    .then((data) => data.data);
 };
 
 export const requests = {
