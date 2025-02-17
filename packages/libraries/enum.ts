@@ -85,6 +85,7 @@ export enum MODALS {
   CHANGE_PASSWORD = "change-password",
   SHARE = "share",
   CONTACT_US = "contact-us",
+  DOWNLOAD_HISTORY = "download-history",
 }
 
 export enum FILE {

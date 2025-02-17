@@ -45,6 +45,11 @@ export const gateRequestsColumns = [
     enableSorting: false,
   }),
 
+  columnHelper.accessor("occupant.house.houseNumber", {
+    header: "House Number",
+    enableSorting: false,
+  }),
+
   columnHelper.accessor("guestName", {
     header: "Guest Name",
     enableSorting: false,

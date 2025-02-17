@@ -3,6 +3,7 @@
 import { builder } from "@/builders";
 import { GatesData } from "@/builders/types/gates";
 import { ProfileData } from "@/builders/types/profile";
+import { requiredString } from "@/builders/types/shared";
 import { FlowContainer } from "@/components/layout/flow-container";
 import { APP, decryptUri, MODALS } from "@/packages/libraries";
 import { handleError, handleSuccess } from "@/packages/notification";
@@ -18,8 +19,14 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
+import { object } from "yup";
 
-import { schema } from "../../market-place/schema";
+const schema = object({
+  name: requiredString,
+  password: requiredString,
+  location: requiredString,
+  status: requiredString,
+});
 
 export type GatesFormProps = {
   data?: GatesData;

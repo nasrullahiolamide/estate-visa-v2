@@ -19,7 +19,7 @@ export const formatUserType: Record<PropertyKey, string> = {
   [USER_TYPE.GATEMAN]: "Gateman",
 };
 
-export const AvailableDashboards = [
+export const AvailableDashboards: string[] = [
   SuperAdmin,
   Admin,
   SubAdmin,
@@ -27,7 +27,7 @@ export const AvailableDashboards = [
   SubOccupant,
   PropertyOwner,
   Gateman,
-] as Array<string>;
+];
 
 export type LoginResponseData = {
   access_token: string;

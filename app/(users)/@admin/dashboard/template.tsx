@@ -131,6 +131,7 @@ export default function Template({ children }: TemplateProps) {
                 label={"Messages"}
                 opened={opened}
               /> */}
+
               <AppShellButton
                 leftSection={<GroupDiscussionIcon />}
                 href={makePath(PAGES.DASHBOARD, PAGES.MEETINGS)}

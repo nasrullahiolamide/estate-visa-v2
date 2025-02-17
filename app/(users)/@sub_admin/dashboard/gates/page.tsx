@@ -68,7 +68,7 @@ export default function Gates() {
             ...list,
             action: (
               <GateActions
-                id={list.id}
+                id={list.user.id}
                 handlers={{
                   onAdd: () => handleGateForm({ modalType: "add" }),
                   onView: () =>

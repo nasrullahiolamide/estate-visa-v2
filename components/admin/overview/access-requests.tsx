@@ -10,8 +10,11 @@ import { cast } from "@/packages/libraries";
 import { Flex, Stack, Text } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-import { FilterRequestsDropdown } from "./requests-dropdown";
 import { useMemo } from "react";
+
+import { floor } from "lodash";
+import { DownloadHistory } from "./download-history";
+import { FilterRequestsDropdown } from "./requests-dropdown";
 
 export function AccessRequests() {
   const initialAccessRequest = useMemo(() => useFakeAccessRequestData(), []);
@@ -25,9 +28,9 @@ export function AccessRequests() {
     queryFn: () => builder.$use.dashboard.admin.access_requests({ period }),
     placeholderData: initialAccessRequest,
     select: (data) => {
-      const approvedPercentage = Math.floor(data.approvedPercentage);
-      const pendingPercentage = Math.floor(data.pendingPercentage);
-      const totalRequests = Math.floor(data.totalRequests);
+      const approvedPercentage = floor(data.approvedPercentage);
+      const pendingPercentage = floor(data.pendingPercentage);
+      const totalRequests = floor(data.totalRequests);
 
       const noData = approvedPercentage === 0 && pendingPercentage === 0;
 
@@ -61,18 +64,21 @@ export function AccessRequests() {
       p={20}
       gap={16}
     >
-      <Flex align='center'>
-        <Text fw={500} fz='lg'>
-          Access Request
-        </Text>
+      <Stack gap={4}>
+        <Flex align='center'>
+          <Text fw={500} fz='lg'>
+            Access Request
+          </Text>
 
-        <FilterRequestsDropdown
-          data={["weekly", "monthly", "yearly"]}
-          value={period}
-          onFilter={setPeriod}
-          ml='auto'
-        />
-      </Flex>
+          <FilterRequestsDropdown
+            data={["weekly", "monthly", "yearly"]}
+            value={period}
+            onFilter={setPeriod}
+            ml='auto'
+          />
+        </Flex>
+        <DownloadHistory />
+      </Stack>
       {data?.noData ? (
         <Stack gap={0} h={250}>
           <NoData />

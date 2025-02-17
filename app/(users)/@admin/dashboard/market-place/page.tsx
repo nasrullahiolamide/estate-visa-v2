@@ -17,18 +17,17 @@ import { FlowContainer } from "@/components/layout/flow-container";
 import { FlowContentContainer } from "@/components/layout/flow-content-container";
 import { EmptySlot } from "@/components/shared/interface";
 import { AppShellHeader } from "@/components/shared/interface/app-shell";
+import { FilterDropdown } from "@/components/shared/interface/dropdowns";
+import { PRODUCT_CATEGORIES, PRODUCT_VIEW } from "@/packages/constants/data";
 import { APP } from "@/packages/libraries";
 import { Flex, Tabs } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
-
+import { getCookie } from "cookies-next";
+import { toString } from "lodash";
 import { useQueryState } from "nuqs";
 import { Fragment, useEffect, useMemo } from "react";
 
-import { FilterDropdown } from "@/components/shared/interface/dropdowns";
-import { PRODUCT_CATEGORIES, PRODUCT_VIEW } from "@/packages/constants/data";
 import clsx from "clsx";
-import { getCookie } from "cookies-next";
-import { toString } from "lodash";
 
 const filterOptions = [
   { label: "Recent", value: "Recent" },
@@ -125,9 +124,19 @@ export default function MarketPlace() {
               align='center'
               className='overflow-auto w-full sticky top-0 z-40'
             >
-              <Tabs.List className='w-full flex-nowrap'>
+              <Tabs.List
+                style={{
+                  width: "100% !important",
+                }}
+              >
                 {Object.values(PRODUCT_VIEW).map((type) => (
-                  <Tabs.Tab value={type} flex={1} py={20} tt='capitalize'>
+                  <Tabs.Tab
+                    value={type}
+                    flex={1}
+                    py={20}
+                    tt='capitalize'
+                    w='100%'
+                  >
                     {type === PRODUCT_VIEW.PENDING_APPROVALS
                       ? type.replace("-", " ")
                       : `${type} Listings `}

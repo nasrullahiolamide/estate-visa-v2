@@ -82,9 +82,19 @@ export function ProductButtons({
         label: "Suspend",
         color: "blue",
         props: {
+          variant: "outline",
+          disabled: isPending,
+          onClick: () => mutate({ id, status: "suspended" }),
+        },
+      },
+      {
+        label: "Activate",
+        color: "blue",
+
+        props: {
           disabled: isPending,
           loading: isPending,
-          onClick: () => mutate({ id, status: "suspended" }),
+          onClick: () => mutate({ id, status: "active" }),
         },
       },
     ],

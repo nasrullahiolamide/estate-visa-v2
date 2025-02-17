@@ -18,10 +18,11 @@ import { Form, useForm, yupResolver } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useEffect } from "react";
 import { boolean, object } from "yup";
+
+import Link from "next/link";
 
 const schema = object({
   username: requiredString,

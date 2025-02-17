@@ -38,6 +38,15 @@ const remove = function (id: string) {
   return api.delete(`/gate-requests/${id}`);
 };
 
+const download = function (params: {
+  estateId: string;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
+}) {
+  return api.get(`/gate-requests/download`, { params });
+};
+
 export const requests = {
   get,
   id,
@@ -45,4 +54,5 @@ export const requests = {
   change_status,
   post,
   remove,
+  download,
 };
