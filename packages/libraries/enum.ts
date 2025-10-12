@@ -68,6 +68,7 @@ export enum PAGES {
   MARKET_RULES = "/rules",
   ESTATES = "/estates",
   ADD_NEW_ESTATE = "/add-new-estate",
+  HOUSE_VALIDATION = "/house-validation",
   NOT_FOUND = "/404",
   ONBOARDING = "/onboarding",
 }

@@ -20,7 +20,6 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { handleMantineError } from "@/packages/notification/handle-error";
 import { getCookie } from "cookies-next";
 import fileDownload from "js-file-download";
-import { toString } from "lodash";
 import { ResourceUpload } from "../uploads/resource";
 
 type BulkUploadProps = {
@@ -29,7 +28,7 @@ type BulkUploadProps = {
 };
 
 export function BulkUpload(props: BulkUploadProps) {
-  const estateId = toString(getCookie(APP.ESTATE_ID));
+  const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
   function handleClose() {

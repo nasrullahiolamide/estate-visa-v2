@@ -3,7 +3,7 @@
 import { ProfileData } from "@/builders/types/profile";
 import { useFlowNavigation } from "@/components/layout/flow-context";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
+import { EstateVisaLogo, GroupDiscussionIcon, HousesIcon } from "@/icons";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
   AppShell,
@@ -75,6 +75,12 @@ export default function Template({ children }: TemplateProps) {
               leftSection={<GroupDiscussionIcon />}
               href={makePath(PAGES.DASHBOARD)}
               label={"Gate Requests"}
+              opened={opened}
+            />
+            <AppShellButton
+              leftSection={<HousesIcon />}
+              href={makePath(PAGES.DASHBOARD, PAGES.HOUSE_VALIDATION)}
+              label={"House Validation"}
               opened={opened}
             />
           </Stack>

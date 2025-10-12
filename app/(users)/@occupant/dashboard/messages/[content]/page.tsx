@@ -16,15 +16,16 @@ import { useMessagesValue } from "@/packages/hooks/use-messages-value";
 import { formatDate, makePath, PAGES } from "@/packages/libraries";
 import { useListState } from "@mantine/hooks";
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, use } from "react";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     content: string;
-  };
+  }>;
 }
 
-export default function Page({ params }: PageProps) {
+export default function Page(props: PageProps) {
+  const params = use(props.params);
   const {
     content: { view, id },
   } = useMessagesValue(params.content);

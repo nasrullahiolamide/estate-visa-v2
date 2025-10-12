@@ -64,7 +64,7 @@ export function NavigationLinks() {
     const activeIndex = links.findIndex((item) =>
       item.href === PAGES.DASHBOARD
         ? pathname === PAGES.DASHBOARD
-        : pathname.startsWith(toString(item.href)),
+        : pathname.startsWith(toString(item.href))
     );
 
     if (activeIndex !== -1 && activeLinkRefs.current[activeIndex]) {
@@ -78,13 +78,13 @@ export function NavigationLinks() {
 
   return (
     <Flex
-      align="center"
-      justify="space-between"
+      align='center'
+      justify='space-between'
       gap={20}
       className={clsx("lg:~px-1/8 overflow-x-auto scrollbar-none", {
         skeleton: isLoading,
       })}
-      hiddenFrom="lg"
+      hiddenFrom='lg'
     >
       {links.map((item, index) => {
         const isActive =
@@ -102,12 +102,12 @@ export function NavigationLinks() {
               activeLinkRefs.current[index] = el;
             }}
             active={isActive}
-            variant="admin-app-shell-mobile"
+            variant='admin-app-shell-mobile'
             component={Link}
             href={item.href}
             flex={1}
             label={
-              <Flex gap={5} align="center" justify="center">
+              <Flex gap={5} align='center' justify='center'>
                 <item.icon width={20} />
                 <Box>{item.title}</Box>
               </Flex>

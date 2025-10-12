@@ -10,7 +10,7 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Fragment, useMemo } from "react";
+import { Fragment, useMemo, use } from "react";
 
 import { EditModal } from "@/components/admin/messages/edit";
 import { ReplyModal } from "@/components/admin/messages/reply";
@@ -30,9 +30,9 @@ import {
 import { useRouter } from "next/navigation";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     content: string;
-  };
+  }>;
 }
 
 const writeMessage = (view: string) => {
@@ -51,7 +51,8 @@ const editMessage = (view: string, data: MessagesData) => {
   });
 };
 
-export default function Page({ params }: PageProps) {
+export default function Page(props: PageProps) {
+  const params = use(props.params);
   const { content } = useMessagesValue(params.content);
   const initialMessageData = useMemo(() => useFakeMessagesData(), []);
 

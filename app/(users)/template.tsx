@@ -7,7 +7,7 @@ import {
 import { SuspenseOverlay } from "@/components/shared";
 import { GENERAL_ROUTES } from "@/packages/constants/routes";
 import { APP, encode, PAGES } from "@/packages/libraries";
-import { getFeatureFlag } from "@/packages/libraries/auth";
+import { getFeatureFlag, isGateMan } from "@/packages/libraries/auth";
 import { VALIDITY } from "@/packages/libraries/enum";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
@@ -31,6 +31,7 @@ const swalConfig: SweetAlertOptions = {
 export default function Template({ children }: TemplateProps) {
   const pathname = usePathname();
   const flags = getFeatureFlag();
+  const userType = encode(getCookie(APP.USER_TYPE) ?? "");
   const isHomeRoute = GENERAL_ROUTES.includes(pathname);
   const isValidUser =
     encode(toString(getCookie(APP.EVISA_ACCOUNT))) === VALIDITY.VALID;
@@ -40,6 +41,7 @@ export default function Template({ children }: TemplateProps) {
   useEffect(() => {
     const isRestricted = flags.some((url) => pathname.includes(url));
 
+    if (isGateMan(userType)) return;
     if (isNavOpened) toggleNav();
     if (isRestricted) {
       Swal.fire({

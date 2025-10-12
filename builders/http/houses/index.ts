@@ -47,12 +47,19 @@ const template = function () {
     .then((data) => data.data);
 };
 
+const validate = function (data: { houseCode: string }) {
+  return api
+    .post<HouseData>("/houses/validate", data)
+    .then((data) => data.data);
+};
+
 export const houses = {
   id,
   post,
   download,
   upload,
   template,
+  validate,
   list: {
     table,
     all,

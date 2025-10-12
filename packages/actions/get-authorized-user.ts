@@ -1,12 +1,12 @@
 "use server";
 
-import { getCookie, getCookies } from "cookies-next";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { APP, encode, makePath, PAGES, TOKEN, USER_TYPE } from "../libraries";
 
 export async function getAuthorizedUser(request?: NextRequest) {
-  const allCookies = Object.keys(getCookies({ cookies }));
+  const cookieStore = await cookies();
+  const allCookies = cookieStore.getAll();
 
   const requiredCookies = [
     TOKEN.HEADER,
@@ -16,11 +16,15 @@ export async function getAuthorizedUser(request?: NextRequest) {
     APP.USER_ID,
   ];
 
+  const cookieNames = allCookies.map((cookie) => cookie.name);
   const isAuthorized = requiredCookies.every((cookie) =>
-    allCookies.includes(cookie)
+    cookieNames.includes(cookie)
   );
 
-  const encodedUserType = getCookie(APP.USER_TYPE, { cookies });
+  const userTypeCookie = allCookies.find(
+    (cookie) => cookie.name === APP.USER_TYPE
+  );
+  const encodedUserType = userTypeCookie?.value;
   const userType = encodedUserType ? encode(encodedUserType) : USER_TYPE.GUEST;
 
   const callbackUrl = isAuthorized

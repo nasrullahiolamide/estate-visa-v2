@@ -5,7 +5,7 @@ import { FlowSearch, FlowSearchProps } from "@/components/layout/flow-search";
 import { UserDetails } from "@/components/shared/user";
 import { ArrowBack } from "@/icons";
 import { MAX_SCREEN_WIDTH } from "@/packages/constants/size";
-import { APP, decryptUri, PAGES } from "@/packages/libraries";
+import { APP, decryptUri, encode, makePath, PAGES } from "@/packages/libraries";
 import {
   ActionIcon,
   AppShell,
@@ -14,14 +14,22 @@ import {
   Divider,
   Flex,
   Stack,
+  Text,
   Title,
 } from "@mantine/core";
 import { getCookie } from "cookies-next";
 import { usePathname, useRouter } from "next/navigation";
-import { Fragment } from "react";
+import { Fragment, JSX } from "react";
 
 import { useFlowNavigation } from "@/components/layout/flow-context";
+import { HouseCodeDisplay } from "@/components/shared";
+import {
+  isGateMan,
+  isOccupant,
+  isSubOccupant,
+} from "@/packages/libraries/auth";
 import clsx from "clsx";
+import Link from "next/link";
 
 type AppShellHeaderProps = {
   title: string;
@@ -51,6 +59,11 @@ export function AppShellHeader({
   const { isNavOpened, toggleNav } = useFlowNavigation();
 
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
+  const userType = encode(getCookie(APP.USER_TYPE) ?? "");
+
+  const isGateman = isGateMan(userType);
+  const isValidOccupant = isOccupant(userType) || isSubOccupant(userType);
+  const isActive = user.status === "active";
   const pathname = usePathname();
 
   const heading = (
@@ -117,12 +130,22 @@ export function AppShellHeader({
                   <FlowSearch {...searchProps} />
                 </Box>
               )}
+
               <Flex
                 gap={12}
                 align='center'
                 className='lg:ml-auto'
                 hidden={isNavOpened}
               >
+                <Box className='flex justify-end' visibleFrom='lg'>
+                  {user && isValidOccupant && (
+                    <HouseCodeDisplay
+                      house={null}
+                      size='sm'
+                      isActive={isActive}
+                    />
+                  )}
+                </Box>
                 <UserDetails />
               </Flex>
             </Flex>
@@ -135,7 +158,7 @@ export function AppShellHeader({
             py={16}
             align='center'
             justify='space-between'
-            className={clsx("~px-1/8", { "hidden lg:flex": isNavOpened })}
+            className={clsx("px-2", { "hidden lg:flex": isNavOpened })}
           >
             <Flex gap={3} align='center'>
               {pathname !== PAGES.DASHBOARD && (
@@ -152,7 +175,34 @@ export function AppShellHeader({
               )}
               {heading}
             </Flex>
-            <Box className='hidden lg:block'>{options}</Box>
+            <Flex gap={12} align='center'>
+              <Box className='hidden lg:block'>{options}</Box>
+              {isGateman &&
+                pathname !==
+                  makePath(PAGES.DASHBOARD, PAGES.HOUSE_VALIDATION) && (
+                  <Text
+                    hiddenFrom='lg'
+                    component={Link}
+                    href={makePath(PAGES.DASHBOARD, PAGES.HOUSE_VALIDATION)}
+                    fz='sm'
+                    fw={600}
+                    size='sm'
+                    c='purple'
+                    className='underline font-mono'
+                  >
+                    Validate House Code
+                  </Text>
+                )}
+              <Box className='flex justify-end lg:hidden'>
+                {user && isValidOccupant && (
+                  <HouseCodeDisplay
+                    house={null}
+                    size='sm'
+                    isActive={isActive}
+                  />
+                )}
+              </Box>
+            </Flex>
           </Flex>
           <Divider className='border-gray-2' hidden={isNavOpened} />
         </Stack>

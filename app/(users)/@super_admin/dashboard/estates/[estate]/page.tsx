@@ -21,16 +21,17 @@ import { handleError, handleSuccess } from "@/packages/notification";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toString } from "lodash";
-import { Fragment, useEffect, useMemo } from "react";
+import { Fragment, useEffect, useMemo, use } from "react";
 
 import clsx from "clsx";
 interface PageProps {
-  params: {
+  params: Promise<{
     estate: string;
-  };
+  }>;
 }
 
-export default function Page({ params }: PageProps) {
+export default function Page(props: PageProps) {
+  const params = use(props.params);
   const queryClient = useQueryClient();
   const initialEstateData = useMemo(() => useFakeSingleEstateData(), []);
   const {

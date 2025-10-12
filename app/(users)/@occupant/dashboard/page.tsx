@@ -14,6 +14,7 @@ import { VALIDITY } from "@/packages/libraries/enum";
 import { cookieOptions } from "@/packages/libraries/handlers/handle-login";
 import { Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
+
 import { getCookie, setCookie } from "cookies-next";
 import { toString } from "lodash";
 import { Fragment, useEffect, useMemo } from "react";
@@ -41,8 +42,6 @@ export default function Overview() {
         dayCreated: data.house.updatedAt as string,
       }).getTime() > Date.now();
 
-    console.log({ isValidUser });
-
     setCookie(
       APP.EVISA_ACCOUNT,
       !isValidUser ? VALIDITY.EXPIRED : VALIDITY.VALID,
@@ -67,6 +66,7 @@ export default function Overview() {
             totalServiceRequests={data?.totalServiceRequests ?? 0}
             skeleton={isPlaceholderData}
           />
+
           <CountDown house={data?.house} skeleton={isPlaceholderData} />
           {!isRestricted && <ServiceRequest />}
         </Stack>

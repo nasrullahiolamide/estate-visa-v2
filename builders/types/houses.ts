@@ -20,6 +20,7 @@ export type HouseData = {
     name: string;
   };
   status: string;
+  houseCode?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -60,6 +61,7 @@ export function useFakeHouseData(_?: any, index?: number) {
       ]),
     },
     status: faker.helpers.arrayElement(["active", "suspended"]),
+    houseCode: faker.string.alphanumeric({ length: 8 }).toUpperCase(),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
   };
