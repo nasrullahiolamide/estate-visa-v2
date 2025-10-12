@@ -3,7 +3,7 @@
 import { ProfileData } from "@/builders/types/profile";
 import { useFlowNavigation } from "@/components/layout/flow-context";
 import { AppShellButton } from "@/components/shared/interface/app-shell/button";
-import { EstateVisaLogo, GroupDiscussionIcon, HousesIcon } from "@/icons";
+import { EstateVisaLogo, GroupDiscussionIcon } from "@/icons";
 import { APP, decryptUri, makePath, PAGES } from "@/packages/libraries";
 import {
   AppShell,
@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
+import { ValidationApprovalIcon } from "hugeicons-react";
 import { boolean } from "mathjs";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -78,7 +79,7 @@ export default function Template({ children }: TemplateProps) {
               opened={opened}
             />
             <AppShellButton
-              leftSection={<HousesIcon />}
+              leftSection={<ValidationApprovalIcon />}
               href={makePath(PAGES.DASHBOARD, PAGES.HOUSE_VALIDATION)}
               label={"House Validation"}
               opened={opened}
