@@ -2,7 +2,13 @@
 
 import { builder } from "@/builders";
 import { FlowContainer } from "@/components/layout/flow-container";
-import { APP, cast, formatDate, pass } from "@/packages/libraries";
+import {
+  APP,
+  calculateDeadline,
+  cast,
+  formatDate,
+  pass,
+} from "@/packages/libraries";
 import { fromNow } from "@/packages/libraries/formatters";
 import { handleError, handleSuccess } from "@/packages/notification";
 import {
@@ -114,7 +120,10 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   const isViewing = form.getValues().modalType === "view";
 
   const eligibilityPeriod = isViewing
-    ? data?.validTill
+    ? calculateDeadline({
+        validityPeriod: data?.validityPeriod || "",
+        dayCreated: data?.updatedAt || "",
+      })
     : dayjs().add(
         form.getTransformedValues().duration,
         form.getValues().durationType as ManipulateType
