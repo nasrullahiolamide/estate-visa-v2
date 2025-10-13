@@ -121,7 +121,7 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   const eligibilityPeriod = isViewing
     ? calculateDeadline({
-        validityPeriod: data?.validityPeriod || "",
+        validityPeriod: data?.validityPeriod || "4 months",
         dayCreated: data?.updatedAt || "",
       })
     : dayjs().add(
