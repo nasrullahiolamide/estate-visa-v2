@@ -1,16 +1,7 @@
 "use client";
 
-import { HouseData } from "@/builders/types/houses";
 import { PAGES } from "@/packages/libraries";
-import {
-  ActionIcon,
-  Box,
-  CopyButton,
-  Stack,
-  Text,
-  Tooltip,
-} from "@mantine/core";
-import { notifications } from "@mantine/notifications";
+import { ActionIcon, Box, Stack, Text } from "@mantine/core";
 import { Eye, EyeSlash } from "iconsax-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -44,7 +35,7 @@ if (
 
 interface HouseCodeDisplayProps {
   isActive: boolean;
-  house: HouseData | null;
+  code: string;
   size?: "sm" | "md" | "lg";
 }
 
@@ -52,28 +43,13 @@ const MASKED_CODE = "•••• ••••";
 
 export function HouseCodeDisplay({
   isActive,
-  house,
+  code,
   size = "md",
 }: HouseCodeDisplayProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const houseCode = house?.houseCode || MASKED_CODE;
 
-  const formatHouseCode = (code: string) => {
-    if (code === MASKED_CODE) return code;
-    // Format as XXXX-XXXX for better readability
-    return code.replace(/(.{4})/g, "$1-").replace(/-$/, "");
-  };
-
-  const displayCode = isVisible ? formatHouseCode(houseCode) : "3333-3333";
-
-  const handleCopySuccess = () => {
-    notifications.show({
-      title: "✅ Success!",
-      message: `House code "${formatHouseCode(houseCode)}" copied to clipboard`,
-      color: "green",
-      autoClose: 3000,
-    });
-  };
+  const houseCode = code ?? MASKED_CODE;
+  const displayCode = isVisible ? houseCode : MASKED_CODE;
 
   const getSizeConfig = () => {
     switch (size) {
@@ -149,99 +125,73 @@ export function HouseCodeDisplay({
   };
 
   return (
-    <CopyButton
-      value={houseCode !== MASKED_CODE ? houseCode : ""}
-      timeout={2000}
-    >
-      {({ copied, copy }) => (
-        <Tooltip
-          label={
-            houseCode !== MASKED_CODE
-              ? copied
-                ? "Copied!"
-                : "Click to copy house code"
-              : "No house code available"
-          }
-          disabled={houseCode === MASKED_CODE}
+    <Box style={containerStyle} onClick={() => setIsVisible(!isVisible)}>
+      {/* Eye icon for toggle visibility */}
+      <ActionIcon
+        size={sizeConfig.iconSize}
+        variant='transparent'
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsVisible(!isVisible);
+        }}
+        style={{
+          flexShrink: 0,
+          opacity: 0.7,
+        }}
+      >
+        {isVisible ? (
+          <Eye color={isActive ? "green" : "red"} />
+        ) : (
+          <EyeSlash color={isActive ? "green" : "red"} />
+        )}
+      </ActionIcon>
+
+      {/* Content */}
+      <Stack style={{ flex: 1, minWidth: 0 }} gap={3}>
+        <Text
+          size={sizeConfig.labelFontSize}
+          fw={600}
+          c='dimmed'
+          style={{
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+            lineHeight: 1.2,
+            marginBottom: "2px",
+          }}
         >
-          <Box
-            style={containerStyle}
-            onClick={() => {
-              if (houseCode !== MASKED_CODE) {
-                copy();
-                handleCopySuccess();
-              }
-            }}
+          House Code
+        </Text>
+        <Text
+          size={sizeConfig.fontSize}
+          fw={700}
+          ff='monospace'
+          c={isActive ? "green.9" : "red.8"}
+          style={{
+            letterSpacing: "1.5px",
+            userSelect: "none",
+            lineHeight: 1.2,
+            fontSize: sizeConfig.fontSize,
+          }}
+        >
+          {isActive ? displayCode : "Expired"}
+        </Text>
+        {!isActive && (
+          <Text
+            span
+            size={sizeConfig.labelFontSize}
+            fw={600}
+            c='red.8'
+            component={Link}
+            href={PAGES.DASHBOARD}
+            className='underline'
           >
-            {/* Eye icon for toggle visibility */}
-            <ActionIcon
-              size={sizeConfig.iconSize}
-              variant='transparent'
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsVisible(!isVisible);
-              }}
-              style={{
-                flexShrink: 0,
-                opacity: 0.7,
-              }}
-            >
-              {isVisible ? (
-                <Eye color={isActive ? "green" : "red"} />
-              ) : (
-                <EyeSlash color={isActive ? "green" : "red"} />
-              )}
-            </ActionIcon>
+            Renew Subscription
+          </Text>
+        )}
+      </Stack>
 
-            {/* Content */}
-            <Stack style={{ flex: 1, minWidth: 0 }} gap={3}>
-              <Text
-                size={sizeConfig.labelFontSize}
-                fw={600}
-                c='dimmed'
-                style={{
-                  textTransform: "uppercase",
-                  letterSpacing: "0.5px",
-                  lineHeight: 1.2,
-                  marginBottom: "2px",
-                }}
-              >
-                House Code
-              </Text>
-              <Text
-                size={sizeConfig.fontSize}
-                fw={700}
-                ff='monospace'
-                c={isActive ? "green.9" : "red.8"}
-                style={{
-                  letterSpacing: "1.5px",
-                  userSelect: "none",
-                  lineHeight: 1.2,
-                  fontSize: sizeConfig.fontSize,
-                }}
-              >
-                {isActive ? displayCode : "Expired"}
-              </Text>
-              {!isActive && (
-                <Text
-                  span
-                  size={sizeConfig.labelFontSize}
-                  fw={600}
-                  c='red.8'
-                  component={Link}
-                  href={PAGES.DASHBOARD}
-                  className='underline'
-                >
-                  Renew Subscription
-                </Text>
-              )}
-            </Stack>
-
-            {/* Status Indicator */}
-            <Box style={statusIndicatorStyle} />
-          </Box>
-        </Tooltip>
-      )}
-    </CopyButton>
+      {/* Status Indicator */}
+      <Box style={statusIndicatorStyle} />
+    </Box>
   );
 }

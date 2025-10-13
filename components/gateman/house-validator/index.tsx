@@ -1,7 +1,6 @@
 "use client";
 
 import { builder } from "@/builders";
-import { HouseData } from "@/builders/types/houses";
 import { handleError } from "@/packages/notification";
 import {
   Box,
@@ -19,7 +18,7 @@ import { Form, useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import clsx from "clsx";
 import { ValidationApprovalIcon } from "hugeicons-react";
-import { showHouseDetailsAlert } from "./notification";
+import { toast } from "react-toastify";
 
 interface HouseCodeValidatorProps {
   onValidate?: (houseCode: string, isValid: boolean) => void;
@@ -43,33 +42,18 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
 
   const { mutate: validateHouseCode, isPending: isValidating } = useMutation({
     mutationFn: builder.$use.houses.validate,
-    onSuccess: (data: HouseData) => {
-      showHouseDetailsAlert(data, onCloseAlert);
-      onValidate?.(form.values.houseCode, true);
+    onSuccess: (data) => {
+      console.log({ data });
+      toast.success(data.message);
+      onCloseAlert();
+      // showHouseDetailsAlert(data, onCloseAlert);
+      // onValidate?.(form.values.houseCode, true);
     },
     onError: handleError(),
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    // validateHouseCode({ houseCode: values.houseCode.toUpperCase() });
-
-    showHouseDetailsAlert(
-      {
-        id: "1",
-        houseCode: "234234",
-        houseNumber: "B29",
-        streetName: "Maiyegun Street",
-        occupantName: "Adeola Olaiya",
-        status: "Active",
-        houseType: {
-          id: "1",
-          name: "Duplex",
-        },
-        noOfOccupants: 1,
-        validityPeriod: "1 month",
-      },
-      onCloseAlert
-    );
+    validateHouseCode({ code: values.houseCode });
   };
 
   return (
@@ -122,6 +106,7 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
             {/* Form Section */}
             <Stack gap={20}>
               <TextInput
+                __clearable
                 label={
                   <Group gap={2}>
                     <Text size='sm' fw={600} c='dark.7'>

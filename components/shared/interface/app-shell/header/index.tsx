@@ -28,6 +28,7 @@ import {
   isOccupant,
   isSubOccupant,
 } from "@/packages/libraries/auth";
+import { VALIDITY } from "@/packages/libraries/enum";
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -60,10 +61,12 @@ export function AppShellHeader({
 
   const user: ProfileData = decryptUri(getCookie(APP.USER_DATA));
   const userType = encode(getCookie(APP.USER_TYPE) ?? "");
+  const houseCode = getCookie(APP.HOUSE_CODE) ?? "";
 
+  const isActive =
+    encode(getCookie(APP.EVISA_ACCOUNT) ?? "") === VALIDITY.VALID;
   const isGateman = isGateMan(userType);
   const isValidOccupant = isOccupant(userType) || isSubOccupant(userType);
-  const isActive = user.status === "active";
   const pathname = usePathname();
 
   const heading = (
@@ -140,7 +143,7 @@ export function AppShellHeader({
                 <Box className='flex justify-end' visibleFrom='lg'>
                   {user && isValidOccupant && (
                     <HouseCodeDisplay
-                      house={null}
+                      code={houseCode}
                       size='sm'
                       isActive={isActive}
                     />
@@ -196,7 +199,7 @@ export function AppShellHeader({
               <Box className='flex justify-end lg:hidden'>
                 {user && isValidOccupant && (
                   <HouseCodeDisplay
-                    house={null}
+                    code={houseCode}
                     size='sm'
                     isActive={isActive}
                   />

@@ -47,9 +47,9 @@ const template = function () {
     .then((data) => data.data);
 };
 
-const validate = function (data: { houseCode: string }) {
+const validate = function (data: { code: string }) {
   return api
-    .post<HouseData>("/houses/validate", data)
+    .post<{ message: string }>("/houses/verify-code", data)
     .then((data) => data.data);
 };
 

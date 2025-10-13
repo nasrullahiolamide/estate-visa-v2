@@ -15,14 +15,15 @@ export type HouseData = {
   occupantName: string;
   noOfOccupants: number;
   validityPeriod: string;
+  validTill: string;
   houseType: {
     id: string;
     name: string;
   };
   status: string;
-  houseCode?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  uniqueCode: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateHouseData = {
@@ -61,7 +62,8 @@ export function useFakeHouseData(_?: any, index?: number) {
       ]),
     },
     status: faker.helpers.arrayElement(["active", "suspended"]),
-    houseCode: faker.string.alphanumeric({ length: 8 }).toUpperCase(),
+    uniqueCode: faker.string.alphanumeric({ length: 8 }).toUpperCase(),
+    validTill: faker.date.recent().toISOString(),
     createdAt: faker.date.recent().toISOString(),
     updatedAt: faker.date.recent().toISOString(),
   };

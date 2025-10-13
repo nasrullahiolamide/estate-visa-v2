@@ -28,6 +28,7 @@ export enum APP {
   CALLBACK_URL = "cUrl",
   EVISA_ACCOUNT = "eVsa",
   HAS_COMPLETED_TOUR = "hCTr",
+  HOUSE_CODE = "hCd",
 }
 
 export enum USER_TYPE {

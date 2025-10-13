@@ -5,7 +5,8 @@ import { LoginResponseData } from "@/builders/types/login";
 import { PAID_FEATURES } from "@/packages/constants/data";
 import { encode, encryptUri } from "../encryption";
 import { APP, TOKEN, USER_TYPE, VALIDITY } from "../enum";
-import { calculateDeadline } from "./validity-period";
+
+import dayjs from "dayjs";
 
 interface HandleLogin extends LoginResponseData {
   access_token: string;
@@ -110,11 +111,7 @@ export function handleLogin({
   }
 
   if (occupant) {
-    const isValidUser =
-      calculateDeadline({
-        validityPeriod: occupant.house.validityPeriod,
-        dayCreated: occupant.house.updatedAt,
-      }).getTime() > Date.now();
+    const isValidUser = dayjs(occupant.house.validTill).isAfter(dayjs());
 
     setCookie(APP.OCCUPANT_ID, occupant.id, {
       ...cookieOptions,
@@ -122,6 +119,11 @@ export function handleLogin({
     });
 
     setCookie(APP.HOUSE_ID, occupant.house.id, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+
+    setCookie(APP.HOUSE_CODE, occupant.house.uniqueCode, {
       ...cookieOptions,
       sameSite: "lax",
     });
