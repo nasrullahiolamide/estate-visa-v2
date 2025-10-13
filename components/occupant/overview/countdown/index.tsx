@@ -7,7 +7,7 @@ import Countdown, { CountdownRendererFn } from "react-countdown";
 
 import { HouseData } from "@/builders/types/houses";
 import { FlowContainer } from "@/components/layout";
-import { formatDate } from "@/packages/libraries";
+import { calculateDeadline, formatDate } from "@/packages/libraries";
 import { TimePad } from "./time-pad";
 
 interface CountDownProps extends StackProps {
@@ -70,9 +70,9 @@ let renderer: CountdownRendererFn = ({
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  const { validTill = "" } = { ...house };
-  const deadline = dayjs(validTill);
-  const targetTimestamp = deadline.valueOf();
+  const { validityPeriod = "", updatedAt = "" } = { ...house };
+  let deadline = calculateDeadline({ validityPeriod, dayCreated: updatedAt });
+  let millisecondsTillDeadline = deadline.getTime();
 
   return (
     <FlowContainer
@@ -93,9 +93,9 @@ export function CountDown({ house, skeleton, ...props }: CountDownProps) {
       >
         Subscription Validity
       </Title>
-      <Countdown renderer={renderer} date={targetTimestamp} />
+      <Countdown renderer={renderer} date={millisecondsTillDeadline} />
       <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>
-        {deadline.isAfter(dayjs()) ? (
+        {millisecondsTillDeadline > Date.now() ? (
           <Text c='gray.8'>
             Renew subscription by {formatDate(deadline, "LL")}.
           </Text>

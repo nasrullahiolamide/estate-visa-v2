@@ -8,7 +8,7 @@ import {
   ServiceRequest,
   StatisticsOverview,
 } from "@/components/occupant/overview";
-import { APP, encode, PAGES } from "@/packages/libraries";
+import { APP, calculateDeadline, encode, PAGES } from "@/packages/libraries";
 import { getFeatureFlag } from "@/packages/libraries/auth";
 import { VALIDITY } from "@/packages/libraries/enum";
 import { cookieOptions } from "@/packages/libraries/handlers/handle-login";
@@ -16,7 +16,6 @@ import { cookieOptions } from "@/packages/libraries/handlers/handle-login";
 import { Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie, setCookie } from "cookies-next";
-import dayjs from "dayjs";
 import { toString } from "lodash";
 import { Fragment, useEffect, useMemo } from "react";
 
@@ -37,7 +36,10 @@ export default function Overview() {
   useEffect(() => {
     if (!data) return;
 
-    const isValidUser = dayjs(data.house.validTill).isAfter(dayjs());
+    const isValidUser = calculateDeadline({
+      validityPeriod: data?.house.validityPeriod || "",
+      dayCreated: data?.house.updatedAt || "",
+    });
 
     setCookie(
       APP.EVISA_ACCOUNT,
