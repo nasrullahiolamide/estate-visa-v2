@@ -17,7 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
 import { toString } from "lodash";
 import { usePathname } from "next/navigation";
-import { SVGProps, useEffect, useRef, useState } from "react";
+import { JSX, SVGProps, useEffect, useRef, useState } from "react";
 
 import clsx from "clsx";
 import Link from "next/link";
