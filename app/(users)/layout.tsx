@@ -11,7 +11,7 @@ type LayoutProps = PropsWithChildren<{
   sub_occupant: ReactNode;
   property_owner: ReactNode;
   gateman: ReactNode;
-  guest: ReactNode;
+  guest?: ReactNode;
 }>;
 
 export default async function Layout({
