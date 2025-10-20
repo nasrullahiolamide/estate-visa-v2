@@ -1,8 +1,12 @@
 "use client";
 
+import clsx from "clsx";
+
 import { builder } from "@/builders";
+import { APP } from "@/packages/libraries";
 import { handleError } from "@/packages/notification";
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -10,14 +14,14 @@ import {
   Group,
   Stack,
   Text,
-  TextInput,
   ThemeIcon,
   Title,
 } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { useMutation } from "@tanstack/react-query";
-import clsx from "clsx";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getCookie } from "cookies-next";
 import { ValidationApprovalIcon } from "hugeicons-react";
+import { toString } from "lodash";
 import { toast } from "react-toastify";
 
 interface HouseCodeValidatorProps {
@@ -25,6 +29,8 @@ interface HouseCodeValidatorProps {
 }
 
 export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
+  const estateId = toString(getCookie(APP.ESTATE_ID));
+
   const form = useForm({
     initialValues: {
       houseCode: "",
@@ -40,10 +46,24 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
 
   const onCloseAlert = () => form.reset();
 
+  const { data: houseCodes } = useQuery({
+    queryKey: builder.houses.list.all.$get(),
+    queryFn: () => builder.$use.houses.list.all(estateId),
+    select: (houses) => {
+      return houses.map(({ id, code }) => {
+        const fullCode = code.startsWith("HS-") ? code : `HS-${code}`;
+        return fullCode;
+      });
+    },
+  });
+
   const { mutate: validateHouseCode, isPending: isValidating } = useMutation({
     mutationFn: builder.$use.houses.validate,
     onSuccess: (data) => {
-      console.log({ data });
+      if (!data.valid) {
+        toast.error("Access denied. Subscription expired.");
+        return;
+      }
       toast.success(data.message);
       onCloseAlert();
       // showHouseDetailsAlert(data, onCloseAlert);
@@ -53,7 +73,8 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
   });
 
   const handleSubmit = (values: typeof form.values) => {
-    validateHouseCode({ code: values.houseCode });
+    const prefixedHouseCode = `HS-${values.houseCode}`;
+    validateHouseCode({ code: prefixedHouseCode });
   };
 
   return (
@@ -105,8 +126,13 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
 
             {/* Form Section */}
             <Stack gap={20}>
-              <TextInput
-                __clearable
+              <Autocomplete
+                data={houseCodes || []}
+                leftSection={
+                  <Text size='sm' className='font-mono tracking-wider ml-2'>
+                    HS-
+                  </Text>
+                }
                 label={
                   <Group gap={2}>
                     <Text size='sm' fw={600} c='dark.7'>
@@ -118,18 +144,26 @@ export function HouseCodeValidator({ onValidate }: HouseCodeValidatorProps) {
                   </Group>
                 }
                 description={
-                  <Text size='xs' c='dimmed'>
-                    Minimum 6 characters required
+                  <Text size='xs' c='dimmed' mb={8} lh={1.3}>
+                    Search and select from available house codes or enter a
+                    minimum 6-character code
                   </Text>
                 }
                 size='lg'
                 radius='md'
-                placeholder='* * * * * *'
+                placeholder='******'
                 classNames={{
-                  input: "font-mono tracking-wider",
+                  dropdown: "font-mono tracking-wider text-sm",
+                  input: "font-mono tracking-wider text-sm",
+                  option: "font-mono tracking-wider text-sm",
                   error: "text-xs",
                 }}
-                {...form.getInputProps("houseCode")}
+                value={form.values.houseCode}
+                onChange={(value) => {
+                  const cleanValue = value ? value.replace(/^HS-/, "") : "";
+                  form.setFieldValue("houseCode", cleanValue);
+                }}
+                error={form.errors.houseCode}
               />
 
               <Button

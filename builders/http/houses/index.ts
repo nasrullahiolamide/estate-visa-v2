@@ -49,7 +49,7 @@ const template = function () {
 
 const validate = function (data: { code: string }) {
   return api
-    .post<{ message: string }>("/houses/verify-code", data)
+    .post<{ valid: boolean; message: string }>("/houses/verify-code", data)
     .then((data) => data.data);
 };
 

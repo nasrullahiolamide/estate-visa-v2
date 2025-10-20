@@ -1,7 +1,7 @@
+import { HouseData } from "@/builders/types/houses";
+import { Actionable } from "@/builders/types/table";
 import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Actionable } from "@/builders/types/table";
-import { HouseData } from "@/builders/types/houses";
 
 const columnHelper = createColumnHelper<Actionable<HouseData>>();
 
@@ -9,11 +9,11 @@ export const housesColumns = [
   columnHelper.display({
     id: "select",
     header: ({ table }) => (
-      <Flex justify="center" className="w-full">
+      <Flex justify='center' className='w-full'>
         <Checkbox
-          checked={table.getIsAllPageRowsSelected()} // Select all rows on page
+          checked={table.getIsAllPageRowsSelected()}
           indeterminate={table.getIsSomePageRowsSelected()}
-          onChange={table.getToggleAllPageRowsSelectedHandler()} // Toggles the selection for all rows
+          onChange={table.getToggleAllPageRowsSelectedHandler()}
           classNames={{
             root: "justify-center",
           }}
@@ -25,9 +25,9 @@ export const housesColumns = [
         classNames={{
           body: "justify-center",
         }}
-        checked={row.getIsSelected()} // Check if the row is selected
-        disabled={!row.getCanSelect()} // Disable if row selection is not allowed
-        onChange={row.getToggleSelectedHandler()} // Toggles selection for individual row
+        checked={row.getIsSelected()}
+        disabled={!row.getCanSelect()}
+        onChange={row.getToggleSelectedHandler()}
       />
     ),
     enableSorting: false,
@@ -37,6 +37,25 @@ export const housesColumns = [
     header: "House No",
     enableSorting: false,
   }),
+
+  // columnHelper.accessor("validTill", {
+  //   header: "Expiry Date",
+  //   enableSorting: false,
+  //   cell: ({ getValue, row }) => (
+  //     <Text
+  //       ta='center'
+  //       fz={14}
+  //       className='w-full'
+  //       children={formatDate(
+  //         calculateDeadline({
+  //           validityPeriod: row.original.validityPeriod,
+  //           dayCreated: row.original.updatedAt,
+  //         }),
+  //         DATE_FORMAT
+  //       )}
+  //     />
+  //   ),
+  // }),
   columnHelper.accessor("streetName", {
     header: "Street Name",
     enableSorting: false,
@@ -49,24 +68,25 @@ export const housesColumns = [
       return <Text fz={14}>{value ?? "--"}</Text>;
     },
   }),
+
   columnHelper.accessor("noOfOccupants", {
     header: () => (
       <Text
-        ta="center"
+        ta='center'
         fw={600}
         fz={14}
-        className="w-full"
-        children="Sub Occupant"
+        className='w-full'
+        children='Sub Occupant'
       />
     ),
     enableSorting: false,
     cell: ({ getValue }) => (
-      <Text ta="center" fz={14} className="w-full" children={getValue()} />
+      <Text ta='center' fz={14} className='w-full' children={getValue()} />
     ),
   }),
   columnHelper.accessor("status", {
     header: () => (
-      <Text ta="center" fw={600} fz={14} className="w-full" children="Status" />
+      <Text ta='center' fw={600} fz={14} className='w-full' children='Status' />
     ),
     enableSorting: false,
     cell: ({ getValue }) => {
@@ -79,9 +99,9 @@ export const housesColumns = [
             c={isActive ? "green" : "red"}
             bg={isActive ? "green.1" : "red.1"}
             fw={500}
-            className="capitalize"
+            className='capitalize'
             children={value}
-            size="sm"
+            size='sm'
           />
         </Center>
       );
@@ -90,11 +110,11 @@ export const housesColumns = [
   columnHelper.accessor("action", {
     header: () => (
       <Text
-        ta="center"
+        ta='center'
         fw={600}
         fz={14}
-        className="w-full"
-        children="Actions"
+        className='w-full'
+        children='Actions'
       />
     ),
     cell: ({ renderValue }) => renderValue(),
