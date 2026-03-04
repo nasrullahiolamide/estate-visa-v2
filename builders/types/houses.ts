@@ -31,7 +31,7 @@ export type UpdateHouseData = {
   streetName: string;
   houseNumber: string;
   houseTypeId: string;
-  validityPeriod: string;
+  validTill: string;
   status: string;
 };
 

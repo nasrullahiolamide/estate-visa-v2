@@ -77,7 +77,7 @@ export function AccessRequests() {
             ml='auto'
           />
         </Flex>
-        <DownloadHistory />
+        {data?.noData ? null : <DownloadHistory />}
       </Stack>
       {data?.noData ? (
         <Stack gap={0} h={250}>

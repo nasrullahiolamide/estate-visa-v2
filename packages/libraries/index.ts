@@ -14,6 +14,7 @@ export { APP, MODALS, PAGES, TOKEN, USER_TYPE } from "./enum";
 export { cast, formatDate, partial, pass } from "./formatters";
 export {
   calculateDeadline,
+  deadlineFromValidTill,
   handleClickPropagation,
   handleLogin,
   handleLogout,

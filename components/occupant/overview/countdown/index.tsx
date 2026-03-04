@@ -7,7 +7,7 @@ import Countdown, { CountdownRendererFn } from "react-countdown";
 
 import { HouseData } from "@/builders/types/houses";
 import { FlowContainer } from "@/components/layout";
-import { calculateDeadline, formatDate } from "@/packages/libraries";
+import { deadlineFromValidTill, formatDate } from "@/packages/libraries";
 import { TimePad } from "./time-pad";
 
 interface CountDownProps extends StackProps {
@@ -41,7 +41,7 @@ let renderer: CountdownRendererFn = ({
       <div
         className={clsx(
           "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
+          "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
         )}
       >
         {years > 0 && (
@@ -58,7 +58,7 @@ let renderer: CountdownRendererFn = ({
     <div
       className={clsx(
         "flex flex-wrap items-center justify-center gap-3 sm:gap-5 ",
-        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl"
+        "clump:text-[clamp(4rem,6vw,5rem)] text-6xl",
       )}
     >
       <TimePad moment={days} period={days > 1 ? "Days" : "Day"} />
@@ -70,8 +70,9 @@ let renderer: CountdownRendererFn = ({
 };
 
 export function CountDown({ house, skeleton, ...props }: CountDownProps) {
-  const { validityPeriod = "", updatedAt = "" } = { ...house };
-  let deadline = calculateDeadline({ validityPeriod, dayCreated: updatedAt });
+  const { validTill } = { ...house };
+
+  let deadline = deadlineFromValidTill(validTill ?? "");
   let millisecondsTillDeadline = deadline.getTime();
 
   return (
@@ -93,7 +94,11 @@ export function CountDown({ house, skeleton, ...props }: CountDownProps) {
       >
         Subscription Validity
       </Title>
-      <Countdown renderer={renderer} date={millisecondsTillDeadline} />
+      <Countdown
+        key={millisecondsTillDeadline}
+        renderer={renderer}
+        date={millisecondsTillDeadline}
+      />
       <Stack mx='auto' mt={24} gap={24} ta='center' px={24}>
         {millisecondsTillDeadline > Date.now() ? (
           <Text c='gray.8'>

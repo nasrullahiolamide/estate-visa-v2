@@ -1,5 +1,7 @@
 import { HouseData } from "@/builders/types/houses";
 import { Actionable } from "@/builders/types/table";
+import { DATE_FORMAT } from "@/packages/constants/time";
+import { formatDate } from "@/packages/libraries";
 import { Center, Checkbox, Flex, Pill, Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 
@@ -38,24 +40,18 @@ export const housesColumns = [
     enableSorting: false,
   }),
 
-  // columnHelper.accessor("validTill", {
-  //   header: "Expiry Date",
-  //   enableSorting: false,
-  //   cell: ({ getValue, row }) => (
-  //     <Text
-  //       ta='center'
-  //       fz={14}
-  //       className='w-full'
-  //       children={formatDate(
-  //         calculateDeadline({
-  //           validityPeriod: row.original.validityPeriod,
-  //           dayCreated: row.original.updatedAt,
-  //         }),
-  //         DATE_FORMAT
-  //       )}
-  //     />
-  //   ),
-  // }),
+  columnHelper.accessor("validTill", {
+    header: "Expiry Date",
+    enableSorting: false,
+    cell: ({ getValue, row }) => (
+      <Text
+        ta='center'
+        fz={14}
+        className='w-full'
+        children={getValue() ? formatDate(getValue(), DATE_FORMAT) : "--"}
+      />
+    ),
+  }),
   columnHelper.accessor("streetName", {
     header: "Street Name",
     enableSorting: false,
