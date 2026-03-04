@@ -17,6 +17,7 @@ export type UpdateGateRequestData = {
   visitDate: Date;
   visitTime: string;
   occupantId: string;
+  houseCode?: string;
 };
 
 export type GateRequestData = {

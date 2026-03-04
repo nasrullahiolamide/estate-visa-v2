@@ -284,6 +284,7 @@ function HeaderOptions({
         title='Gate Request'
         hidden={!query && hidden}
       />
+
       {/* <Flex hidden={hidden || isLoading} gap={14}>
         <FilterDropdown data={filterOptions} />
         <Button

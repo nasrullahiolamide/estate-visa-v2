@@ -1,5 +1,6 @@
 import { USER_TYPE } from "@/packages/libraries";
 import { faker } from "@faker-js/faker";
+import { HouseData } from "./houses";
 
 export const SuperAdmin = USER_TYPE.SUPER_ADMIN;
 export const Admin = USER_TYPE.ADMIN;
@@ -73,6 +74,7 @@ export type House = {
   status: string;
   createdAt: string;
   updatedAt: string;
+  validTill: string;
 };
 
 export type Occupant = {
@@ -81,7 +83,7 @@ export type Occupant = {
   isMain: boolean;
   isPropertyOwner: boolean;
   relationshipToMain: string;
-  house: House;
+  house: HouseData;
 };
 
 export type LoginResponse = { data: LoginResponseData; message?: string };

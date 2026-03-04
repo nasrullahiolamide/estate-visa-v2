@@ -2,30 +2,17 @@
 
 import { builder } from "@/builders";
 import { FlowContainer } from "@/components/layout/flow-container";
-import {
-  APP,
-  calculateDeadline,
-  cast,
-  formatDate,
-  pass,
-} from "@/packages/libraries";
+import { APP, cast, formatDate, pass } from "@/packages/libraries";
 import { fromNow } from "@/packages/libraries/formatters";
 import { handleError, handleSuccess } from "@/packages/notification";
-import {
-  Button,
-  Group,
-  Radio,
-  Select,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { Button, Select, Stack, Text, TextInput } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { Form, useForm, yupResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
-import dayjs, { ManipulateType } from "dayjs";
+import dayjs from "dayjs";
 import { toString } from "lodash";
 import { useEffect } from "react";
 import { schema } from "../schema";
@@ -66,6 +53,9 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
       queryClient.invalidateQueries({
         queryKey: builder.houses.list.table.$get(),
       });
+      queryClient.invalidateQueries({
+        queryKey: builder.houses.id.get.$get(toString(data?.id)),
+      });
       modals.closeAll();
       handleSuccess("House Updated Successfully");
     },
@@ -90,28 +80,20 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
       houseTypeId: "",
       streetName: "",
       status: "active",
-      duration: "",
-      durationType: "months",
+      validTill: "",
       modalType,
     },
     validate: yupResolver(schema),
     validateInputOnBlur: true,
     transformValues: (values) => {
-      const {
-        streetName,
-        houseNumber,
-        houseTypeId,
-        status,
-        durationType,
-        duration,
-      } = values;
+      const { streetName, houseNumber, houseTypeId, status, validTill } =
+        values;
       return {
         houseNumber: cast.string(houseNumber),
         streetName: cast.string(streetName),
         houseTypeId: cast.string(houseTypeId),
-        duration: cast.number(duration),
-        durationType: cast.string(durationType),
         status: cast.string(status),
+        validTill: cast.string(validTill),
       };
     },
   });
@@ -119,33 +101,21 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
   const isEditing = form.getValues().modalType === "edit";
   const isViewing = form.getValues().modalType === "view";
 
-  const eligibilityPeriod = isViewing
-    ? calculateDeadline({
-        validityPeriod: data?.validityPeriod || "4 months",
-        dayCreated: data?.createdAt || "",
-      })
-    : dayjs().add(
-        form.getTransformedValues().duration,
-        form.getValues().durationType as ManipulateType
-      );
+  const eligibilityPeriod = dayjs(
+    isViewing ? data?.validTill : form.getValues().validTill,
+  );
 
   function handleSubmit() {
-    const {
-      streetName,
-      houseNumber,
-      houseTypeId,
-      status,
-      durationType,
-      duration,
-    } = form.getValues();
+    const { streetName, houseNumber, houseTypeId, status, validTill } =
+      form.getTransformedValues();
 
     const houseData = {
       streetName,
       houseNumber,
       houseTypeId,
-      validityPeriod: `${duration} ${durationType}`,
+      validTill,
       status,
-    };
+    } as const;
 
     const payload = {
       houses: [houseData],
@@ -159,15 +129,14 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
 
   useEffect(() => {
     if (!data) return;
-    const { houseNumber, houseType, streetName, status, validityPeriod } = data;
+    const { houseNumber, houseType, streetName, status, validTill } = data;
 
     form.initialize({
       houseNumber: pass.string(houseNumber),
       houseTypeId: pass.string(houseType?.id),
       streetName: pass.string(streetName),
       status: pass.string(status),
-      duration: pass.string(validityPeriod.split(" ")[0]),
-      durationType: "months",
+      validTill: pass.string(validTill),
       modalType,
     });
   }, [data]);
@@ -226,43 +195,29 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
         />
 
         <Stack gap={12}>
-          <Radio.Group
-            name='duration'
-            label='House Validity Period'
-            description='Select the validity period for the house'
+          <DateInput
+            label='House Expiry Date'
+            description='Select the date this house subscription will expire'
             withAsterisk
-            {...form.getInputProps("durationType")}
-          >
-            <Group mt='xs'>
-              <Radio
-                value='months'
-                label='Month'
-                variant='outline'
-                disabled={isViewing}
-              />
-              <Radio
-                value='years'
-                label='Year'
-                variant='outline'
-                disabled={isViewing}
-              />
-            </Group>
-          </Radio.Group>
-          <TextInput
-            type='number'
             disabled={isViewing}
-            withAsterisk
-            min={1}
-            placeholder={`Enter the validity period in ${
-              form.getValues().durationType
-            }`}
+            minDate={dayjs().toDate()}
+            value={
+              form.getValues().validTill
+                ? dayjs(form.getValues().validTill).toDate()
+                : null
+            }
+            onChange={(value) =>
+              form.setFieldValue(
+                "validTill",
+                value ? dayjs(value).toISOString() : "",
+              )
+            }
             classNames={{
               input: clsx({ skeleton: modalType !== "add" && isLoading }),
             }}
-            {...form.getInputProps("duration")}
           />
 
-          {form.getValues().duration && !form.errors.duration && (
+          {form.getValues().validTill && !form.errors.validTill && (
             <Text
               fz={14}
               c={dayjs().isAfter(eligibilityPeriod) ? "red.8" : "yellow.8"}
@@ -270,11 +225,11 @@ export function HouseForm({ modalType = "add", id = "" }: HouseFormProps) {
               {dayjs().isAfter(eligibilityPeriod)
                 ? `Subscription has expired since ${formatDate(
                     eligibilityPeriod,
-                    "ll"
+                    "ll",
                   )}`
                 : `Subscription will expire in ${formatDate(
                     eligibilityPeriod,
-                    "ll"
+                    "ll",
                   )} (${fromNow(eligibilityPeriod)})`}
             </Text>
           )}

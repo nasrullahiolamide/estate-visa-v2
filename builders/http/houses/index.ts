@@ -47,12 +47,19 @@ const template = function () {
     .then((data) => data.data);
 };
 
+const validate = function (data: { code: string }) {
+  return api
+    .post<{ valid: boolean; message: string }>("/houses/verify-code", data)
+    .then((data) => data.data);
+};
+
 export const houses = {
   id,
   post,
   download,
   upload,
   template,
+  validate,
   list: {
     table,
     all,

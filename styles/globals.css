@@ -4,3 +4,33 @@
 @layer mantine {
   @tailwind base;
 }
+
+/* Custom SweetAlert2 Styles for House Validation */
+.swal2-popup-custom {
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.swal2-title-custom {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.swal2-html-container-custom {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Enhance button styling */
+.swal2-confirm {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  padding: 12px 24px !important;
+  font-size: 14px !important;
+  transition: all 0.2s ease !important;
+}
+
+.swal2-confirm:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+}

@@ -16,6 +16,7 @@ import {
 } from "@mantine/core";
 import clsx from "clsx";
 import { getCookie } from "cookies-next";
+import { ValidationApprovalIcon } from "hugeicons-react";
 import { boolean } from "mathjs";
 
 type TemplateProps = React.PropsWithChildren<{}>;
@@ -75,6 +76,12 @@ export default function Template({ children }: TemplateProps) {
               leftSection={<GroupDiscussionIcon />}
               href={makePath(PAGES.DASHBOARD)}
               label={"Gate Requests"}
+              opened={opened}
+            />
+            <AppShellButton
+              leftSection={<ValidationApprovalIcon />}
+              href={makePath(PAGES.DASHBOARD, PAGES.HOUSE_VALIDATION)}
+              label={"House Validation"}
               opened={opened}
             />
           </Stack>

@@ -1,19 +1,17 @@
-import { makePath, PAGES } from "@/packages/libraries";
-import { SVGProps } from "react";
 import {
   AdministratorIcon,
+  AirlineManageGateIcon,
   DashboardIcon,
   EstateIcon,
   GateIcon,
   GroupDiscussionIcon,
   HousesIcon,
   ServiceRequestIcon,
-  TablerMessageIcon,
   UserFriendsIcon,
   UserGroupIcon,
-  AirlineManageGateIcon,
-  NoticeBoardIcon,
 } from "@/icons";
+import { makePath, PAGES } from "@/packages/libraries";
+import { JSX, SVGProps } from "react";
 
 export const GENERAL_ROUTES = [
   PAGES.WEBSITE,

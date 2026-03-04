@@ -20,3 +20,7 @@ export function calculateDeadline({
 
   return deadline.toDate();
 }
+
+export function deadlineFromValidTill(validTill: string): Date {
+  return dayjs(validTill).toDate();
+}

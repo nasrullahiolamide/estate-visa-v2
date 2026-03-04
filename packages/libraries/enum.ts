@@ -28,6 +28,7 @@ export enum APP {
   CALLBACK_URL = "cUrl",
   EVISA_ACCOUNT = "eVsa",
   HAS_COMPLETED_TOUR = "hCTr",
+  HOUSE_CODE = "hCd",
 }
 
 export enum USER_TYPE {
@@ -68,6 +69,7 @@ export enum PAGES {
   MARKET_RULES = "/rules",
   ESTATES = "/estates",
   ADD_NEW_ESTATE = "/add-new-estate",
+  HOUSE_VALIDATION = "/house-validation",
   NOT_FOUND = "/404",
   ONBOARDING = "/onboarding",
 }

@@ -3,9 +3,9 @@ import { OptionsType } from "cookies-next/lib/types";
 
 import { LoginResponseData } from "@/builders/types/login";
 import { PAID_FEATURES } from "@/packages/constants/data";
+import dayjs from "dayjs";
 import { encode, encryptUri } from "../encryption";
 import { APP, TOKEN, USER_TYPE, VALIDITY } from "../enum";
-import { calculateDeadline } from "./validity-period";
 
 interface HandleLogin extends LoginResponseData {
   access_token: string;
@@ -36,7 +36,7 @@ export function handleLogin({
   const [header, payload, signature] = access_token.split(".") as [
     header: string,
     payload: string,
-    signature: string
+    signature: string,
   ];
 
   setCookie(APP.USER_DATA, encryptedUser, cookieOptions);
@@ -94,7 +94,7 @@ export function handleLogin({
 
     const userInterests = user.estate.interests;
     const featureFlags = PAID_FEATURES.filter(
-      (feature) => !userInterests.includes(feature.name)
+      (feature) => !userInterests.includes(feature.name),
     ).map((feature) => feature.href);
 
     try {
@@ -110,11 +110,7 @@ export function handleLogin({
   }
 
   if (occupant) {
-    const isValidUser =
-      calculateDeadline({
-        validityPeriod: occupant.house.validityPeriod,
-        dayCreated: occupant.house.updatedAt,
-      }).getTime() > Date.now();
+    const isValidUser = dayjs(occupant.house.validTill).isBefore(dayjs());
 
     setCookie(APP.OCCUPANT_ID, occupant.id, {
       ...cookieOptions,
@@ -126,6 +122,11 @@ export function handleLogin({
       sameSite: "lax",
     });
 
+    setCookie(APP.HOUSE_CODE, occupant.house.uniqueCode, {
+      ...cookieOptions,
+      sameSite: "lax",
+    });
+
     setCookie(
       APP.EVISA_ACCOUNT,
       !isValidUser ? VALIDITY.EXPIRED : VALIDITY.VALID,
@@ -133,7 +134,7 @@ export function handleLogin({
         ...cookieOptions,
         sameSite: "lax",
         encode,
-      }
+      },
     );
   }
 }
