@@ -36,6 +36,10 @@ export default function Template({ children }: TemplateProps) {
   const isValidUser =
     encode(toString(getCookie(APP.EVISA_ACCOUNT))) === VALIDITY.VALID;
 
+  console.log(isValidUser);
+  console.log(encode(toString(getCookie(APP.EVISA_ACCOUNT))));
+  console.log(VALIDITY.VALID);
+
   const { isNavOpened, toggleNav } = useFlowNavigation();
 
   useEffect(() => {
