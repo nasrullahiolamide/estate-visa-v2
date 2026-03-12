@@ -38,7 +38,8 @@ export default function Overview() {
   useEffect(() => {
     if (!data) return;
 
-    const isValidUser = dayjs(data?.house.validTill).isBefore(dayjs());
+    const isValidUser = dayjs(data?.house.validTill).isAfter(dayjs());
+    console.log(isValidUser, "from occupant dashboard");
 
     setCookie(
       APP.EVISA_ACCOUNT,

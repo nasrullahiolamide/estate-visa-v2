@@ -110,7 +110,8 @@ export function handleLogin({
   }
 
   if (occupant) {
-    const isValidUser = dayjs(occupant.house.validTill).isBefore(dayjs());
+    const isValidUser = dayjs(occupant.house.validTill).isAfter(dayjs());
+    console.log(isValidUser, "from handle login");
 
     setCookie(APP.OCCUPANT_ID, occupant.id, {
       ...cookieOptions,
