@@ -7,7 +7,7 @@ import { Fragment, ReactNode } from "react";
 import { MODALS } from "@/packages/libraries";
 import { Carousel } from "@mantine/carousel";
 import { modals } from "@mantine/modals";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle } from "iconsax-reactjs";
 import { Picture, StarRating } from "../interface";
 import { productStatusColorConfig } from "../interface/cards/product";
 

@@ -1,5 +1,5 @@
 import { Box, Group, RenderTreeNodePayload } from "@mantine/core";
-import { ArrowDown3, ArrowRight3, Settings } from "iconsax-react";
+import { ArrowDown3, ArrowRight3, Settings } from "iconsax-reactjs";
 
 interface FileIconProps {
   name?: string;
@@ -9,9 +9,9 @@ interface FileIconProps {
 function FileIcon({ name, expanded }: FileIconProps) {
   if (name) {
     return expanded ? (
-      <ArrowDown3 color="currentColor" size="16" />
+      <ArrowDown3 color='currentColor' size='16' />
     ) : (
-      <ArrowRight3 color="currentColor" size="16" />
+      <ArrowRight3 color='currentColor' size='16' />
     );
   }
 
@@ -25,12 +25,12 @@ export function Leaf({
   elementProps,
 }: RenderTreeNodePayload) {
   return (
-    <Group wrap="nowrap" gap={4} align="start" {...elementProps}>
+    <Group wrap='nowrap' gap={4} align='start' {...elementProps}>
       <Box py={2}>
         {hasChildren ? (
           <FileIcon name={node.value} expanded={expanded} />
         ) : (
-          <Settings size="16" />
+          <Settings size='16' />
         )}
       </Box>
       <span>{node.label}</span>

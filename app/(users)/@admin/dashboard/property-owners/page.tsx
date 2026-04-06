@@ -39,7 +39,7 @@ import { handleError } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [
@@ -78,7 +78,7 @@ const handlePropertyOwnerForm = ({
 export default function PropertyOwners() {
   const initialPropertyOwnersList = useMemo(
     () => useFakePropertyOwnersList(),
-    []
+    [],
   );
   const pagination = useFlowPagination();
   const { page, pageSize, query: search, sortBy, sortOrder } = useFlowState();
@@ -88,7 +88,7 @@ export default function PropertyOwners() {
     onSuccess: (data) => {
       const filename = useFilename(
         [FILE.PROPERTY_OWNERS],
-        data.type as MIME_TYPE
+        data.type as MIME_TYPE,
       );
       fileDownload(data, filename);
     },

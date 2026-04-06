@@ -1,10 +1,11 @@
 import { Button, ButtonProps, Divider, Flex, Menu, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { ArrowDown2, Icon } from "iconsax-react";
+import { ArrowDown2, Icon } from "iconsax-reactjs";
 import { ButtonHTMLAttributes } from "react";
 
 interface FlowGroupButtonsAttributes
-  extends ButtonProps,
+  extends
+    ButtonProps,
     Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonProps> {
   label: string;
   onClick?: () => void;

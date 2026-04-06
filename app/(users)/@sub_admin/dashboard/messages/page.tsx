@@ -25,7 +25,7 @@ import { Button, Flex, Tabs } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import { toString } from "lodash";
 import { useQueryState } from "nuqs";
 import { Fragment, useMemo } from "react";
@@ -66,10 +66,10 @@ export default function Messages() {
     placeholderData: initialMeetingList,
     select: (data) => {
       const occupant_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.OCCUPANT
+        (message) => message.type === MESSAGE_TYPE.OCCUPANT,
       );
       const broadcast_messages = data?.messages?.filter(
-        (message) => message.type === MESSAGE_TYPE.BROADCAST
+        (message) => message.type === MESSAGE_TYPE.BROADCAST,
       );
       return { occupant_messages, broadcast_messages };
     },
@@ -164,7 +164,7 @@ export default function Messages() {
         <FlowFooter
           className={clsx(
             "flex bg-white justify-between lg:rounded-b-2xl mt-2",
-            { hidden: noDataAvailable || isPlaceholderData }
+            { hidden: noDataAvailable || isPlaceholderData },
           )}
         >
           <FlowPagination />

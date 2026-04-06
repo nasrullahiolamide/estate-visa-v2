@@ -1,6 +1,6 @@
 "use client";
 
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import fileDownload from "js-file-download";
 import { Fragment, useEffect } from "react";
 

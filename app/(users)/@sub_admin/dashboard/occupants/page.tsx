@@ -33,7 +33,7 @@ import { handleError } from "@/packages/notification";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import fileDownload from "js-file-download";
 import { Fragment, useEffect, useMemo } from "react";
 

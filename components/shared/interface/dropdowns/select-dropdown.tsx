@@ -1,18 +1,17 @@
 "use client";
 
+import { Mark } from "@/icons";
 import {
-  Menu,
-  Divider,
   Button,
   ButtonProps,
-  MenuDropdownProps,
-  Text,
+  Divider,
   FloatingPosition,
+  Menu,
+  MenuDropdownProps,
 } from "@mantine/core";
-import { useState, Fragment } from "react";
-import { ArrowDown2 } from "iconsax-react";
-import { Mark } from "@/icons";
 import clsx from "clsx";
+import { ArrowDown2 } from "iconsax-reactjs";
+import { Fragment, useState } from "react";
 
 interface SelectProps extends ButtonProps {
   data: string[];
@@ -27,9 +26,9 @@ export function Select({ data, dropDownProps, ...props }: SelectProps) {
     <Menu>
       <Menu.Target>
         <Button
-          variant="outline"
-          size="md"
-          color="gray.10"
+          variant='outline'
+          size='md'
+          color='gray.10'
           rightSection={<ArrowDown2 size={14} />}
           {...props}
         >
@@ -37,7 +36,7 @@ export function Select({ data, dropDownProps, ...props }: SelectProps) {
         </Button>
       </Menu.Target>
 
-      <Menu.Dropdown miw={180} className="p-0" {...dropDownProps}>
+      <Menu.Dropdown miw={180} className='p-0' {...dropDownProps}>
         {data.map((item, i) => (
           <Fragment key={item}>
             <Menu.Item

@@ -9,7 +9,7 @@ import { Avatar, Flex, Menu, Stack } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";
-import { LogoutCurve, User } from "iconsax-react";
+import { LogoutCurve, User } from "iconsax-reactjs";
 import { toString } from "lodash";
 import { useMemo } from "react";
 import { ConfirmLogout } from "./interface/modals/logout";

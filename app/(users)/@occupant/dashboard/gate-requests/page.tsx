@@ -29,7 +29,7 @@ import { MODALS, USER_TYPE } from "@/packages/libraries";
 import { Button, Flex } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import { Fragment, useEffect, useMemo } from "react";
 
 const filterOptions = [

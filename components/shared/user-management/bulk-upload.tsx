@@ -31,6 +31,8 @@ export function BulkUpload(props: BulkUploadProps) {
   const estateId = getCookie(APP.ESTATE_ID) ?? "";
   const queryClient = useQueryClient();
 
+  console.log({ estateId });
+
   function handleClose() {
     modals.close(MODALS.UPLOAD_RESOURCES);
   }
@@ -40,7 +42,7 @@ export function BulkUpload(props: BulkUploadProps) {
     onSuccess: (data) => {
       const filename = useFilename(
         [props.type, "template"],
-        data.type as MIME_TYPE
+        data.type as MIME_TYPE,
       );
       fileDownload(data, filename);
     },

@@ -1,4 +1,5 @@
 import {
+  AddIcon,
   ClockIcon,
   DownloadIcon,
   ListIcon,
@@ -15,7 +16,7 @@ import {
   Tooltip,
   Transition,
 } from "@mantine/core";
-import { Add, ArrowDown2, ArrowUp2 } from "iconsax-react";
+import { ArrowDown2, ArrowUp2 } from "iconsax-reactjs";
 import { max, min } from "mathjs";
 import {
   ElementType,
@@ -76,7 +77,7 @@ export function FlowFloatingButtons({
   const [dragging, setDragging] = useState(false);
 
   const view: Record<PropertyKey, ReactNode> = {
-    [IconType.ADD]: <Add size={24} />,
+    [IconType.ADD]: <AddIcon width={24} height={15} />,
     [IconType.DOWNLOAD]: <DownloadIcon width={16} height={16} />,
     [IconType.UPLOAD]: <UploadIcon width={15} height={15} />,
     [IconType.NOTES]: <NotesIcon width={20} height={20} />,

@@ -1,22 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import {
   FlowContainer,
   FlowProgress,
   FlowStepContent,
 } from "@/components/layout";
-import { ArrowLeft, ArrowRight } from "iconsax-react";
+import { TrashIcon } from "@/icons";
 import { StepContent, useStepper } from "@/packages/hooks/use-stepper";
+import { makePath, PAGES } from "@/packages/libraries";
 import { Button, Flex, Stack, Stepper } from "@mantine/core";
-import { FormValues, useFormContext } from "../form-context";
-import { ManagementProfile } from "../fields/management-profile";
+import { ArrowLeft, ArrowRight } from "iconsax-reactjs";
+import Link from "next/link";
+import { ViewProps } from ".";
 import { BasicInfo } from "../fields/basic-info";
 import { HouseTypes } from "../fields/house-types";
+import { ManagementProfile } from "../fields/management-profile";
 import { Services } from "../fields/services";
-import { ViewProps } from ".";
-import { makePath, PAGES } from "@/packages/libraries";
-import { TrashIcon } from "@/icons";
+import { FormValues, useFormContext } from "../form-context";
 
 const content: StepContent<FormValues> = {
   0: ["name", "location", "numberOfHouses", "interests", "serviceRequestTypes"],
@@ -35,10 +35,10 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
   });
 
   return (
-    <FlowContainer hiddenFrom="lg" type="plain" className="scrollbar-none">
+    <FlowContainer hiddenFrom='lg' type='plain' className='scrollbar-none'>
       <FlowProgress active={active} total={max} />
       <Stepper
-        variant="default"
+        variant='default'
         active={active}
         allowNextStepsSelect={false}
         classNames={{
@@ -51,23 +51,23 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
           <FlowStepContent gap={18}>
             <BasicInfo />
             <Services />
-            <Flex gap={20} wrap="wrap" mt="auto">
+            <Flex gap={20} wrap='wrap' mt='auto'>
               <Button
-                variant="outline"
+                variant='outline'
                 flex={1}
-                type="button"
-                w="fit-content"
-                color="red"
+                type='button'
+                w='fit-content'
+                color='red'
                 component={Link}
-                leftSection={<TrashIcon width="18px" />}
+                leftSection={<TrashIcon width='18px' />}
                 href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
               >
                 Discard
               </Button>
               <Button
-                w="fit-content"
+                w='fit-content'
                 flex={1}
-                type="button"
+                type='button'
                 onClick={next}
                 rightSection={<ArrowRight size={20} />}
               >
@@ -80,25 +80,25 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
         <Stepper.Step withIcon={false}>
           <FlowStepContent gap={18}>
             <HouseTypes />
-            <Stack mt="auto">
-              <Flex gap={20} wrap="wrap">
+            <Stack mt='auto'>
+              <Flex gap={20} wrap='wrap'>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   flex={1}
-                  type="button"
-                  w="fit-content"
-                  color="red"
+                  type='button'
+                  w='fit-content'
+                  color='red'
                   component={Link}
-                  leftSection={<TrashIcon width="18px" />}
+                  leftSection={<TrashIcon width='18px' />}
                   href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
                 >
                   Discard
                 </Button>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   flex={1}
-                  w="fit-content"
-                  type="button"
+                  w='fit-content'
+                  type='button'
                   onClick={previous}
                   leftSection={<ArrowLeft size={20} />}
                 >
@@ -106,8 +106,8 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
                 </Button>
               </Flex>
               <Button
-                w="100%"
-                type="button"
+                w='100%'
+                type='button'
                 onClick={next}
                 rightSection={<ArrowRight size={20} />}
               >
@@ -120,26 +120,26 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
         <Stepper.Step withIcon={false}>
           <FlowStepContent gap={18}>
             <ManagementProfile />
-            <Stack mt="auto">
-              <Flex gap={20} wrap="wrap">
+            <Stack mt='auto'>
+              <Flex gap={20} wrap='wrap'>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   flex={1}
-                  type="button"
-                  w="fit-content"
-                  color="red"
+                  type='button'
+                  w='fit-content'
+                  color='red'
                   disabled={isSubmitting}
                   component={Link}
-                  leftSection={<TrashIcon width="18px" />}
+                  leftSection={<TrashIcon width='18px' />}
                   href={makePath(PAGES.DASHBOARD, PAGES.ESTATES)}
                 >
                   Discard
                 </Button>
                 <Button
-                  variant="outline"
+                  variant='outline'
                   flex={1}
-                  w="fit-content"
-                  type="button"
+                  w='fit-content'
+                  type='button'
                   onClick={previous}
                   disabled={isSubmitting}
                   leftSection={<ArrowLeft size={20} />}
@@ -148,8 +148,8 @@ export function MobileView({ onSubmit, isSubmitting, btnText }: MobileProps) {
                 </Button>
               </Flex>
               <Button
-                w="100%"
-                type="button"
+                w='100%'
+                type='button'
                 loading={isSubmitting}
                 disabled={isSubmitting}
                 onClick={onSubmit}

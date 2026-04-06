@@ -2,7 +2,7 @@
 
 import { PAGES } from "@/packages/libraries";
 import { ActionIcon, Box, Stack, Text } from "@mantine/core";
-import { Eye, EyeSlash } from "iconsax-react";
+import { Eye, EyeSlash } from "iconsax-reactjs";
 import Link from "next/link";
 import { useState } from "react";
 

@@ -118,7 +118,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
 
   const { progress, onUploadProgress } = useOnUploadProgress();
   const [status, setStatus] = useState<Status>(
-    thumbnail ? "uploaded" : "pending"
+    thumbnail ? "uploaded" : "pending",
   );
 
   /**
@@ -150,7 +150,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
             type: file_type,
           },
         ]
-      : []
+      : [],
   );
 
   const { mutateAsync, isPending, isIdle, isPaused } = useMutation<
@@ -231,7 +231,7 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
 
   const updatePreviewStatus = (url: string, status: Status) => {
     setPreviews((prev) =>
-      prev.map((p) => (p.url === url ? { ...p, status } : p))
+      prev.map((p) => (p.url === url ? { ...p, status } : p)),
     );
     setStatus(status);
   };
@@ -257,13 +257,12 @@ export function useFileUpload<FormValues extends Record<string, unknown>>({
 
     const formData = new FormData();
     formData.append("file", file);
-    form?.estateId
-      ? formData.append("estateId", pass.string(form?.estateId))
-      : formData.append("type", key);
+    formData.append("type", key);
 
     Object.entries({ ...form }).forEach(([key, value]) => {
       formData.append(key, pass.string(value));
     });
+
     return formData;
   };
 

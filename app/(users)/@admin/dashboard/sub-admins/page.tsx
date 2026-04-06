@@ -1,6 +1,6 @@
 "use client";
 
-import { Add } from "iconsax-react";
+import { Add } from "iconsax-reactjs";
 import { Fragment, useEffect, useMemo } from "react";
 
 import { Button, Flex } from "@mantine/core";

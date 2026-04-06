@@ -1,8 +1,8 @@
-import { Flex, FlexProps, Text, TextProps, Select } from "@mantine/core";
+import { cast } from "@/packages/libraries";
+import { Flex, FlexProps, Select, Text, TextProps } from "@mantine/core";
+import { ArrowDown2 } from "iconsax-reactjs";
 import { useFlowDispatch, useFlowState } from "./flow-context";
 import { FlowActionType } from "./use-flow-reducer";
-import { cast } from "@/packages/libraries";
-import { ArrowDown2 } from "iconsax-react";
 
 type FlowEntriesPerPageProps = {
   rootProps?: FlexProps;
@@ -22,15 +22,15 @@ export function FlowEntriesPerPage({
   return (
     <Flex
       gap={10}
-      wrap="wrap"
-      align="center"
-      className="prose-sm/medium"
+      wrap='wrap'
+      align='center'
+      className='prose-sm/medium'
       // lg:flex
       {...rootProps}
     >
       <Text fz={14}>Show</Text>
       <Select
-        size="sm"
+        size='sm'
         searchable={false}
         clearable={false}
         rightSection={<ArrowDown2 size={14} />}
